@@ -17,10 +17,31 @@ class OPLookupException(OPSigninException):
 
 
 class OP:
+    """
+    Class for logging into and querying a 1Password account via the 'op' cli command.
+    """
     OP_PATH = "/usr/local/bin/op"
 
     def __init__(self, op_path=OP_PATH, signin_address=None, email_address=None,
                  secret_key=None, password=None, logger=None):
+        """
+        Create an OP object. The 1Password sign-in happens during object instantiation.
+        If 'password' is not provided, the 'op' command will prompt on the console for a password.
+
+        If all components of a 1Password account are provided, an initial sign-in is performed,
+        otherwise, a normal sign-in is performed. See `op --help` for further explanation.
+
+        Arguments:
+            - 'op_path': optional path to the `op` command, if it's not at the default location
+            - 'signin_address': Fully qualified address of the 1Password account.
+                                E.g., 'my-account.1password.com'
+            - 'email_address': Email of the address for the user of the account
+            - 'secret_key': Secret key for the account
+            - 'password': The user's master password
+            - 'logger': A logging object. If not provided a basic logger is created and used.
+
+        Raises: OPSigninException if 1Password sign-in fails for any reason.
+        """
         self.op_path = op_path
         if not logger:
             logging.basicConfig(format="%(message)s", level=logging.DEBUG)
@@ -80,6 +101,15 @@ class OP:
         return output
 
     def lookup(self, item_name_or_uuid, field_designation="password"):
+        """
+        Look up an item in a 1Password vault by name or UUID.
+
+        Arguments:
+            - 'item_name_or_uuid': The item to look up
+            - 'field_designation': The name of the field for which a value will be returned
+        Raises:
+            OPLookupException if the lookup fails for any reason
+        """
         lookup_argv = [self.op_path, "get", "item", item_name_or_uuid]
         output = self._run_lookup(lookup_argv, self.token, decode="utf-8")
         item = json.loads(output)

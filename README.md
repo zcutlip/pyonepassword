@@ -45,6 +45,7 @@ def do_initial_signin():
 if __name__ == "__main__":
     op = do_initial_signin()
     # op is ready to use and call lookup() on
+    print("Signed in.")
 ```
 
 ```Console
@@ -52,6 +53,7 @@ $ python3 ./example.py
 1Password secret key:
 1Password master password:
 Performing initial 1Password sign-in to my-1p-account.1password.com as my-1p-email@email.com
+Signed in.
 ```
 
 ### Subsequent sign-in and lookup
@@ -106,11 +108,11 @@ doth-parrot-hid-tussock-veldt
 ## Notes
 
 - This has been lightly tested, and only on my Mac. I don't know if it works on other systems.
-- This has been tested with `op` version 0.5.6
+- This has been tested with `op` version 0.5.6.
 - You need the `op` 1Password command-line tool. You on a Mac with homebrew, you can do `brew install 1password-cli`.
 
 ## TODO
 
 - Detect if `op` is/is not installed, and be helpful
 - API to get complete or partial JSON for a vault item, not just a specific field's value
-- Maybe one day 1Password.com will have an API and this module won't have to use `op`.
+- Maybe one day 1Password.com will have an API and this module won't have to use `op`

@@ -109,7 +109,7 @@ doth-parrot-hid-tussock-veldt
 
 - This has been lightly tested, and only on my Mac. I don't know if it works on other systems.
 - This has been tested with `op` version 0.5.6.
-- You need the `op` 1Password command-line tool. You on a Mac with homebrew, you can do `brew install 1password-cli`.
+- You need the `op` 1Password command-line tool. On a Mac with homebrew, you can do `brew install 1password-cli`.
 
 ## TODO
 

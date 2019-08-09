@@ -17,7 +17,7 @@ from pyonepassword import (
 
 
 def do_initial_signin():
-    my_signin_address = input("1Password sign-in address:")
+    my_signin_address = input("1Password sign-in address:\n")
     my_email_address = input("1Password email address:\n")
     my_secret_key = getpass.getpass(prompt="1Password secret key:\n")
     my_password = getpass.getpass(prompt="1Password master password:\n")
@@ -33,4 +33,5 @@ def do_initial_signin():
 
 
 if __name__ == "__main__":
-    do_initial_signin()
+    op = do_initial_signin()
+    print("Signed in.")

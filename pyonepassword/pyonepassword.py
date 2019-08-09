@@ -93,7 +93,7 @@ class OP:
             if capture_stdout:
                 output = _ran.stdout.decode(decode) if decode else _ran.stdout
         except subprocess.CalledProcessError:
-            stderr_output = _ran.stderr.rstrip()
+            stderr_output = _ran.stderr.decode("utf-8").rstrip()
             returncode = _ran.returncode
             msg = op_exception_class.MSG
             raise op_exception_class(msg, stderr_output, returncode)

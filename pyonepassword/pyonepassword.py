@@ -75,9 +75,10 @@ class OP:
         return self._run(argv, OPSigninException, capture_stdout=True, input_string=password)
 
     def _run_lookup(self, argv, input_string, decode=None):
-        return self._run(argv, OPLookupException, capture_stdout=True, input_string=input_string, decode=None)
+        return self._run(argv, OPLookupException, capture_stdout=True, input_string=input_string, decode=decode)
 
-    def _run(self, argv, op_exception_class, capture_stdout=False, input_string=None, decode=None):
+    @staticmethod
+    def _run(argv, op_exception_class, capture_stdout=False, input_string=None, decode=None):
         _ran = None
         stdout = subprocess.PIPE if capture_stdout else None
         if input_string:

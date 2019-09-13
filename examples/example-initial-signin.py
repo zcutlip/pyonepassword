@@ -26,6 +26,7 @@ def do_initial_signin():
                 email_address=my_email_address,
                 secret_key=my_secret_key,
                 password=my_password)
+        return op
     except OPSigninException as ope:
         print("1Password initial signin failed: {}".format(ope))
         print(ope.err_output)

@@ -21,11 +21,11 @@ def do_signin():
     my_password = getpass.getpass(prompt="1Password master password:\n")
     try:
         op = OP(password=my_password)
+        return op
     except OPSigninException as ope:
         print("1Password initial signin failed: {}".format(ope))
         print(ope.err_output)
         exit(1)
-    return op
 
 
 if __name__ == "__main__":

@@ -1,6 +1,9 @@
 import subprocess
 import json
 import logging
+from pathlib import Path
+import os
+from shutil import which
 
 
 class OPSigninException(Exception):
@@ -42,7 +45,7 @@ class OP:
 
         Raises: OPSigninException if 1Password sign-in fails for any reason.
         """
-        self.op_path = op_path
+        self.op_path = self._def_op_cli(op_path)
         if not logger:
             logging.basicConfig(format="%(message)s", level=logging.DEBUG)
             logger = logging.getLogger()
@@ -55,6 +58,44 @@ class OP:
             self.token = self._do_initial_signin(*initial_signin_args)
         else:
             self.token = self._do_normal_signin(password)
+
+    @staticmethod
+    def _def_op_cli(op_path):
+        def validate_cli(op_path):
+            if not isinstance(op_path, str):
+                return False
+
+            # Check if op_path exists
+            if not Path(op_path).exists():
+                return False
+            else:
+                op_cli = Path(op_path).resolve()
+
+            # Check if existing op_path is an executable file
+            if not op_cli.is_file() and os.access(op_cli.absolute(), os.X_OK):
+                return False
+
+            # Check if existing and executable file op_path is the 1Password cli
+            result = subprocess.run([op_cli.absolute(), "--help"], capture_output=True)
+            if result.returncode != 0:
+                return False
+            for line in result.stdout.decode().split('\n'):
+                if '1Password' in line:
+                    return True
+
+            return False
+
+        if validate_cli(op_path):
+            return op_path
+        else:
+            if validate_cli(which('op')):
+                return which('op')
+            else:
+                raise EnvironmentError("Could not find a valid 1Password cli executable in your PATH. If it is "
+                                       "installed, please instantiate the OC class with op_path set to point to a "
+                                       "valid location of the op binary or refer to "
+                                       "https://support.1password.com/command-line-getting-started/ for info about how "
+                                       "to install one.")
 
     def _do_normal_signin(self, password):
         self.logger.info("Doing normal (non-initial) 1Password sign-in")

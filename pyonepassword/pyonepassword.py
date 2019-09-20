@@ -117,6 +117,8 @@ class OP:
         fields = details['fields']
         value = None
         for field in fields:
+            if 'designation' not in field.keys():
+                continue
             if field['designation'] == field_designation:
                 value = field['value']
 

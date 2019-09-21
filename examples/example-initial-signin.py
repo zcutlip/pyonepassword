@@ -31,6 +31,8 @@ def do_initial_signin():
         print(ope.err_output)
         exit(1)
 
+    return op
+
 
 if __name__ == "__main__":
     op = do_initial_signin()

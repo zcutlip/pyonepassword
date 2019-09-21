@@ -7,7 +7,8 @@ from .__about__ import (
 from .pyonepassword import (
     OP,
     OPLookupException,
-    OPSigninException
+    OPSigninException,
+    OPNotFoundException
 )
 
 __all__ = [
@@ -16,5 +17,6 @@ __all__ = [
     "__summary__",
     OP,
     OPLookupException,
-    OPSigninException
+    OPSigninException,
+    OPNotFoundException
 ]

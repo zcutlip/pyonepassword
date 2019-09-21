@@ -20,10 +20,9 @@ class OP:
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
-    OP_PATH = "/usr/local/bin/op"
 
-    def __init__(self, op_path=OP_PATH, signin_address=None, email_address=None,
-                 secret_key=None, password=None, logger=None):
+    def __init__(self, signin_address=None, email_address=None,
+                 secret_key=None, password=None, logger=None, op_path='op'):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
         If 'password' is not provided, the 'op' command will prompt on the console for a password.
@@ -83,9 +82,7 @@ class OP:
         if input_string:
             if isinstance(input_string, str):
                 input_string = input_string.encode("utf-8")
-            _ran = subprocess.run(argv, input=input_string, stderr=subprocess.PIPE, stdout=stdout)
-        else:
-            _ran = subprocess.run(argv, stderr=subprocess.PIPE, stdout=stdout)
+        _ran = subprocess.run(argv, input=input_string, stderr=subprocess.PIPE, stdout=stdout)
 
         output = None
         try:

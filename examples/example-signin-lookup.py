@@ -9,9 +9,11 @@ parent_path = os.path.dirname(
 if parent_path not in sys.path:
     sys.path.append(parent_path)
 
-from pyonepassword import (
+from pyonepassword import (  # noqa: E402
     OP,
-    OPSigninException
+    OPSigninException,
+    OPLookupException,
+    OPNotFoundException
 )
 
 
@@ -19,22 +21,35 @@ def do_signin():
     # If you've already signed in at least once, you don't need to provide all
     # account details on future sign-ins. Just master password
     my_password = getpass.getpass(prompt="1Password master password:\n")
-    try:
-        op = OP(password=my_password)
-    except OPSigninException as ope:
-        print("1Password initial signin failed: {}".format(ope))
-        print(ope.err_output)
-        exit(1)
-    return op
+    return OP(password=my_password)
 
 
 if __name__ == "__main__":
-    op = do_signin()
+    try:
+        op = do_signin()
+    except OPSigninException as opse:
+        print("1Password sign-in failed.")
+        print(opse.err_output)
+        exit(opse.returncode)
+    except OPNotFoundException as opnf:
+        print("Uh oh. Couldn't find 'op'")
+        print(opnf)
+        exit(opnf.errno)
+
     print("Signed in.")
     print("Looking up \"Example Login\"...")
-    print(op.lookup("Example Login"))
-    print("")
-    print("\"Example Login\" can also be looked up by its uuid")
-    print("")
-    print("Looking up uuid \"ykhsbhhv2vf6hn2u4qwblfrmg4\"...")
-    print(op.lookup("ykhsbhhv2vf6hn2u4qwblfrmg4"))
+    try:
+        print(op.lookup("Example Login"))
+        print("")
+        print("\"Example Login\" can also be looked up by its uuid")
+        print("")
+        print("Looking up uuid \"ykhsbhhv2vf6hn2u4qwblfrmg4\"...")
+        print(op.lookup("ykhsbhhv2vf6hn2u4qwblfrmg4"))
+    except OPLookupException as ople:
+        print("1Password lookup failed: {}".format(ople))
+        print(ople.err_output)
+        exit(ople.returncode)
+    except OPNotFoundException as opnf:
+        print("Uh oh. Couldn't find 'op'")
+        print(opnf)
+        exit(opnf.errno)

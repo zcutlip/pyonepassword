@@ -1,19 +1,39 @@
 import subprocess
 import json
 import logging
+from abc import ABCMeta, abstractmethod
 
 
-class OPSigninException(Exception):
-    MSG = "1Password sign-in failed."
+class _OPAbstractException(Exception, metaclass=ABCMeta):
 
-    def __init__(self, msg, stderr_out, returncode):
+    @abstractmethod
+    def __init__(self, stderr_out, returncode, msg):
         super().__init__(msg)
         self.err_output = stderr_out
         self.returncode = returncode
 
 
-class OPLookupException(OPSigninException):
+class OPSigninException(_OPAbstractException):
+    MSG = "1Password sign-in failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode, self.MSG)
+
+
+class OPLookupException(_OPAbstractException):
     MSG = "1Password lookup failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode, self.MSG)
+
+
+class OPNotFoundException(Exception):
+    MSG = "1Password cli command not found at path: %s"
+
+    def __init__(self, op_path, errno):
+        msg = self.MSG % op_path
+        self.errno = errno
+        super().__init__(msg)
 
 
 class OP:
@@ -39,7 +59,9 @@ class OP:
             - 'password': The user's master password
             - 'logger': A logging object. If not provided a basic logger is created and used.
 
-        Raises: OPSigninException if 1Password sign-in fails for any reason.
+        Raises:
+            - OPSigninException if 1Password sign-in fails for any reason.
+            - OPNotFoundException if the 1Password command can't be found.
         """
         self.op_path = op_path
         if not logger:
@@ -82,18 +104,25 @@ class OP:
         if input_string:
             if isinstance(input_string, str):
                 input_string = input_string.encode("utf-8")
-        _ran = subprocess.run(argv, input=input_string, stderr=subprocess.PIPE, stdout=stdout)
+        try:
+            _ran = subprocess.run(argv, input=input_string, stderr=subprocess.PIPE, stdout=stdout)
+        except FileNotFoundError as err:
+            self.logger.error("1Password 'op' command not found at: {}".format(argv[0]))
+            self.logger.error(
+                "See https://support.1password.com/command-line-getting-started/ for more information,")
+            self.logger.error(
+                "or install from Homebrew with: 'brew install 1password-cli")
+            raise OPNotFoundException(argv[0], err.errno) from err
 
         output = None
         try:
             _ran.check_returncode()
             if capture_stdout:
                 output = _ran.stdout.decode(decode) if decode else _ran.stdout
-        except subprocess.CalledProcessError:
+        except subprocess.CalledProcessError as err:
             stderr_output = _ran.stderr.decode("utf-8").rstrip()
             returncode = _ran.returncode
-            msg = op_exception_class.MSG
-            raise op_exception_class(msg, stderr_output, returncode)
+            raise op_exception_class(stderr_output, returncode) from err
 
         return output
 
@@ -105,7 +134,8 @@ class OP:
             - 'item_name_or_uuid': The item to look up
             - 'field_designation': The name of the field for which a value will be returned
         Raises:
-            OPLookupException if the lookup fails for any reason
+            - OPLookupException if the lookup fails for any reason.
+            - OPNotFoundException if the 1Password command can't be found.
         """
         lookup_argv = [self.op_path, "get", "item", item_name_or_uuid]
         output = self._run_lookup(lookup_argv, self.token, decode="utf-8")

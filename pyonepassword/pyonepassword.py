@@ -131,6 +131,19 @@ class OP:
 
         return output
 
+    def get_item(self, item_name_or_uuid):
+        lookup_argv = [self.op_path, "get", "item", item_name_or_uuid]
+        output = self._run_lookup(lookup_argv, self.token, decode="utf-8")
+        item_dict = json.loads(output)
+        op_item = OPItemFactory.op_item_from_item_dict(item_dict)
+        return op_item
+
+    def get_item_password(self, item_name_or_uuid):
+        item: OPLoginItem
+        item = self.get_item(item_name_or_uuid)
+        password = item.password
+        return password
+
     def lookup(self, item_name_or_uuid, field_designation="password"):
         """
         Look up an item in a 1Password vault by name or UUID.

@@ -87,6 +87,8 @@ if __name__ == "__main__":
     print("")
     print("Looking up uuid \"ykhsbhhv2vf6hn2u4qwblfrmg4\"...")
     print(op.lookup("ykhsbhhv2vf6hn2u4qwblfrmg4"))
+    print("Downloading file \"ehhvhlcsakrp28lefy7hsr7lqy\"...")
+    print(op.download("ehhvhlcsakrp28lefy7hsr7lqy"))
 ```
 
 ```console

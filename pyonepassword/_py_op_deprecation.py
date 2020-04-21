@@ -15,9 +15,9 @@ class deprecated:
 
     def __call__(self, obj):
         if isinstance(obj, type):
-            pass
+            return self._decorate_class(obj)
         else:
-            pass
+            return self._decorate_fun(obj)
 
     def _decorate_class(self, cls):
         msg = "Class {} is deprecated".format(cls.__name__)

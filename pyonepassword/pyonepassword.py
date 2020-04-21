@@ -169,6 +169,21 @@ class OP:
         password = item.password
         return password
 
+    def get_item_filename(self, item_name_or_uuid):
+        item = self.get_item(item_name_or_uuid)
+        # Will raise AttributeError if item isn't a OPDocumentItem
+        file_name = item.file_name
+
+        return file_name
+
+    def get_document(self, document_name_or_uuid):
+        file_name = self.get_item_filename(document_name_or_uuid)
+        get_document_argv = [self.op_path,
+                             "get", "document", document_name_or_uuid]
+        document_bytes = self._run_get_document(get_document_argv, self.token)
+
+        return (file_name, document_bytes)
+
     @deprecated("use get_item() or get_item_password()")
     def lookup(self, item_name_or_uuid, field_designation="password"):
         """

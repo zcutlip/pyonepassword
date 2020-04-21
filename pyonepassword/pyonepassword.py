@@ -26,6 +26,7 @@ class OPSigninException(_OPAbstractException):
         super().__init__(stderr_out, returncode, self.MSG)
 
 
+@deprecated()
 class OPLookupException(_OPAbstractException):
     MSG = "1Password lookup failed."
 
@@ -217,6 +218,7 @@ class OP:
             value = item.get_item_field_value(field_designation)
         return value
 
+    @deprecated("use get_document()")
     def download(self, item_name_or_uuid):
         """
         Look up an item in a 1Password vault by name or UUID.

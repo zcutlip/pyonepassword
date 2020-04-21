@@ -7,6 +7,7 @@ from ._py_op_items import (
     OPAbstractItem,
     OPLoginItem
 )
+from ._py_op_deprecation import deprecated
 
 
 class _OPAbstractException(Exception, metaclass=ABCMeta):
@@ -154,6 +155,7 @@ class OP:
         password = item.password
         return password
 
+    @deprecated("se get_item() or get_item_password()")
     def lookup(self, item_name_or_uuid, field_designation="password"):
         """
         Look up an item in a 1Password vault by name or UUID.

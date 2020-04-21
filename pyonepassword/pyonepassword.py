@@ -5,7 +5,7 @@ from abc import ABCMeta, abstractmethod
 from ._py_op_items import (
     OPItemFactory,
     OPAbstractItem,
-    OPLoginItem
+    OPLoginItem,
 )
 from ._py_op_deprecation import deprecated
 
@@ -97,7 +97,8 @@ class OP:
             logger = logging.getLogger()
 
         self.logger = logger
-        initial_signin_args = [signin_address, email_address, secret_key, password]
+        initial_signin_args = [signin_address,
+                               email_address, secret_key, password]
         initial_signin = (None not in initial_signin_args)
 
         if initial_signin:
@@ -113,8 +114,10 @@ class OP:
         return token
 
     def _do_initial_signin(self, signin_address, email_address, secret_key, password):
-        self.logger.info("Performing initial 1Password sign-in to {} as {}".format(signin_address, email_address))
-        signin_argv = [self.op_path, "signin", signin_address, email_address, secret_key, "--output=raw"]
+        self.logger.info(
+            "Performing initial 1Password sign-in to {} as {}".format(signin_address, email_address))
+        signin_argv = [self.op_path, "signin", signin_address,
+                       email_address, secret_key, "--output=raw"]
         print("")
         token = self._run_signin(signin_argv, password=password).rstrip()
 
@@ -136,9 +139,11 @@ class OP:
             if isinstance(input_string, str):
                 input_string = input_string.encode("utf-8")
         try:
-            _ran = subprocess.run(argv, input=input_string, stderr=subprocess.PIPE, stdout=stdout)
+            _ran = subprocess.run(argv, input=input_string,
+                                  stderr=subprocess.PIPE, stdout=stdout)
         except FileNotFoundError as err:
-            self.logger.error("1Password 'op' command not found at: {}".format(argv[0]))
+            self.logger.error(
+                "1Password 'op' command not found at: {}".format(argv[0]))
             self.logger.error(
                 "See https://support.1password.com/command-line-getting-started/ for more information,")
             self.logger.error(

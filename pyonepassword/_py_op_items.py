@@ -93,6 +93,7 @@ class OPDocumentItem(OPAbstractItem):
     def __init__(self, item_dict):
         super().__init__(item_dict)
 
+    @property
     def file_name(self):
         details = self._item_dict["details"]
         document_attributes = details["documentAttributes"]

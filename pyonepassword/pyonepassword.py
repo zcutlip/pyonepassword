@@ -33,11 +33,25 @@ class OPLookupException(_OPAbstractException):
         super().__init__(stderr_out, returncode, self.MSG)
 
 
-class OPDownloadException(_OPAbstractException):
-    MSG = "1Password download failed."
+class OPGetItemException(OPLookupException):
+    MSG = "1Password 'get item' failed."
 
     def __init__(self, stderr_out, returncode):
         super().__init__(stderr_out, returncode, self.MSG)
+
+
+class OPGetDocumentException(_OPAbstractException):
+    MSG = "1Password 'get document' failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode, self.MSG)
+
+
+# class OPDownloadException(_OPAbstractException):
+#     MSG = "1Password download failed."
+
+#     def __init__(self, stderr_out, returncode):
+#         super().__init__(stderr_out, returncode, self.MSG)
 
 
 class OPNotFoundException(Exception):
@@ -111,9 +125,9 @@ class OP:
     def _run_lookup(self, argv, input_string, decode=None):
         return self._run(argv, OPLookupException, capture_stdout=True, input_string=input_string, decode=decode)
 
-    def _run_download(self, argv, input_string, decode=None):
-        return self._run(argv, OPDownloadException, capture_stdout=True, input_string=input_string, decode=decode)   
-    
+    def _run_get_document(self, argv, input_string, decode=None):
+        return self._run(argv, OPGetDocumentException, capture_stdout=True, input_string=input_string, decode=decode)
+
     def _run(self, argv, op_exception_class, capture_stdout=False, input_string=None, decode=None):
         _ran = None
         stdout = subprocess.PIPE if capture_stdout else None
@@ -196,12 +210,12 @@ class OP:
             - 'item_name_or_uuid': The item to look up
             - 'field_designation': The name of the field for which a value will be returned
         Raises:
-            - OPDownloadException if the lookup fails for any reason.
+            - OPGetDocumentException if the lookup fails for any reason.
             - OPNotFoundException if the 1Password command can't be found.
         Returns:
             - Bytes of the specified document
         """
         lookup_argv = [self.op_path, "get", "document", item_name_or_uuid]
-        output = self._run_download(lookup_argv, self.token)
+        output = self._run_get_document(lookup_argv, self.token)
 
         return output

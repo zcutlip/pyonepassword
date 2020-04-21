@@ -39,12 +39,14 @@ if __name__ == "__main__":
     print("Signed in.")
     print("Looking up \"Example Login\"...")
     try:
-        print(op.lookup("Example Login"))
+        item_password = op.get_item_password("Example Login")
+        print(item_password)
         print("")
         print("\"Example Login\" can also be looked up by its uuid")
         print("")
         print("Looking up uuid \"ykhsbhhv2vf6hn2u4qwblfrmg4\"...")
-        print(op.lookup("ykhsbhhv2vf6hn2u4qwblfrmg4"))
+        item_password = op.get_item_password("ykhsbhhv2vf6hn2u4qwblfrmg4")
+        print(item_password)
     except OPLookupException as ople:
         print("1Password lookup failed: {}".format(ople))
         print(ople.err_output)

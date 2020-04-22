@@ -262,11 +262,10 @@ class OP:
     @deprecated("use get_document()")
     def download(self, item_name_or_uuid):
         """
-        Look up an item in a 1Password vault by name or UUID.
+        Download a document object from a 1Password vault by name or UUID.
 
         Arguments:
             - 'item_name_or_uuid': The item to look up
-            - 'field_designation': The name of the field for which a value will be returned
         Raises:
             - OPGetDocumentException if the lookup fails for any reason.
             - OPNotFoundException if the 1Password command can't be found.

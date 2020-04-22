@@ -4,11 +4,14 @@ from .__about__ import (
     __summary__
 )
 
-from .pyonepassword import (
+from .pyonepassword import (   # noqa: F401
     OP,
     OPLookupException,
     OPSigninException,
-    OPNotFoundException
+    OPNotFoundException,
+    OPGetItemException,
+    OPGetDocumentException,
+    OPInvalidDocumentException
 )
 
 __all__ = [

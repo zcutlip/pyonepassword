@@ -2,6 +2,7 @@ from pyonepassword import (
     OP,
     OPSigninException,
     OPGetDocumentException,
+    OPInvalidDocumentException,
     OPNotFoundException
 )
 import getpass
@@ -57,9 +58,14 @@ if __name__ == "__main__":
         print("Writing downloaded document to {}".format(file_name))
         open(file_name, "wb").write(document_bytes)
     except OPGetDocumentException as ope:
+        # Couldn't find your document in 1Password
         print("1Password lookup failed: {}".format(ope))
         print(ope.err_output)
         exit(ope.returncode)
+    except OPInvalidDocumentException as ope:
+        # Found an item by name or UUID, but doesn't appear to represent a document object
+        print("1Password item is not a valid document: {}".format(ope))
+        exit(-1)
     except OPNotFoundException as opnf:
         print("Uh oh. Couldn't find 'op'")
         print(opnf)

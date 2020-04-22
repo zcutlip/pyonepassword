@@ -1,7 +1,7 @@
 from pyonepassword import (
     OP,
     OPSigninException,
-    OPLookupException,
+    OPGetItemException,
     OPNotFoundException
 )
 import getpass
@@ -30,10 +30,10 @@ if __name__ == "__main__":
         print("1Password sign-in failed.")
         print(opse.err_output)
         exit(opse.returncode)
-    except OPNotFoundException as opnf:
+    except OPNotFoundException as ope:
         print("Uh oh. Couldn't find 'op'")
-        print(opnf)
-        exit(opnf.errno)
+        print(ope)
+        exit(ope.errno)
 
     print("Signed in.")
     print("Looking up \"Example Login\"...")
@@ -46,11 +46,11 @@ if __name__ == "__main__":
         print("Looking up uuid \"ykhsbhhv2vf6hn2u4qwblfrmg4\"...")
         item_password = op.get_item_password("ykhsbhhv2vf6hn2u4qwblfrmg4")
         print(item_password)
-    except OPLookupException as ople:
-        print("1Password lookup failed: {}".format(ople))
-        print(ople.err_output)
-        exit(ople.returncode)
-    except OPNotFoundException as opnf:
+    except OPGetItemException as ope:
+        print("1Password lookup failed: {}".format(ope))
+        print(ope.err_output)
+        exit(ope.returncode)
+    except OPNotFoundException as ope:
         print("Uh oh. Couldn't find 'op'")
-        print(opnf)
-        exit(opnf.errno)
+        print(ope)
+        exit(ope.errno)

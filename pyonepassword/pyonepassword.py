@@ -235,7 +235,7 @@ class OP:
             - 'item_name_or_uuid': The item to look up
             - 'field_designation': The name of the field for which a value will be returned
         Raises:
-            - OPLookupException if the lookup fails for any reason.
+            - OPGetItemException if the lookup fails for any reason.
             - OPNotFoundException if the 1Password command can't be found.
         Returns:
             - Value of the specified field to lookup

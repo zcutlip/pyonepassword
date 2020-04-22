@@ -26,7 +26,10 @@ class OPSigninException(_OPAbstractException):
         super().__init__(stderr_out, returncode, self.MSG)
 
 
-@deprecated()
+# Keep this exception class around for a bit
+# so any code handling this exception instead of OPGetItemException
+# can still work
+@deprecated("handle OPGetItemException instead")
 class OPLookupException(_OPAbstractException):
     MSG = "1Password lookup failed."
 
@@ -34,6 +37,10 @@ class OPLookupException(_OPAbstractException):
         super().__init__(stderr_out, returncode, self.MSG)
 
 
+# For now have this class extend OPLookupException
+# so code can handle that exception or this one
+# TODO: remove OPLookupException, have this class extend
+# _OPAbstractException
 class OPGetItemException(OPLookupException):
     MSG = "1Password 'get item' failed."
 

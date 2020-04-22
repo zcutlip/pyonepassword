@@ -36,28 +36,30 @@ if __name__ == "__main__":
         exit(opnf.errno)
 
     print("Signed in.")
-    print("Looking up \"Document\"...")
+    print("Getting document \"Example Login - 1Password Logo\"...")
     try:
         # the document item often has a different 'fileName' attribute than
         # the document's name, so get_document() returns 1Password's fileName attribute
         # even though you already know the document name
-        file_name, document_bytes = op.get_document("kessel - Shellcode.png")
-        print(file_name)
-        print("{} bytes".format(len(document_bytes)))
-        print("")
-        print("\"Document\" can also be looked up by its uuid")
-        print("")
-        print("Looking up uuid \"mzq5peufffhlhh6dn4hkj2twvm\"...")
         file_name, document_bytes = op.get_document(
-            "mzq5peufffhlhh6dn4hkj2twvm")
+            "Example Login - 1Password Logo")
+        print("The original file name and the document title in 1Password are often different.")
+        print("File name: {}".format(file_name))
+        print("Size: {} bytes".format(len(document_bytes)))
+        print("")
+        print("\"Example Login - 1Password Logo\" can also be looked up by its uuid")
+        print("")
+        print("Looking up uuid \"bmxpvuthureo7e52uqmvqcr4dy\"...")
+        file_name, document_bytes = op.get_document(
+            "bmxpvuthureo7e52uqmvqcr4dy")
         print(file_name)
         print("{} bytes".format(len(document_bytes)))
         print("Writing downloaded document to {}".format(file_name))
         open(file_name, "wb").write(document_bytes)
-    except OPLookupException as ople:
-        print("1Password lookup failed: {}".format(ople))
-        print(ople.err_output)
-        exit(ople.returncode)
+    except OPGetDocumentException as ope:
+        print("1Password lookup failed: {}".format(ope))
+        print(ope.err_output)
+        exit(ope.returncode)
     except OPNotFoundException as opnf:
         print("Uh oh. Couldn't find 'op'")
         print(opnf)

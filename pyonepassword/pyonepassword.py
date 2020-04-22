@@ -48,11 +48,11 @@ class OPGetDocumentException(_OPAbstractException):
         super().__init__(stderr_out, returncode, self.MSG)
 
 
-# class OPDownloadException(_OPAbstractException):
-#     MSG = "1Password download failed."
+class OPInvalidDocumentException(OPGetDocumentException):
 
-#     def __init__(self, stderr_out, returncode):
-#         super().__init__(stderr_out, returncode, self.MSG)
+    def __init__(self, msg):
+        msg = "{}: {}".format(self.MSG, msg)
+        super().__init__("", 0, msg)
 
 
 class OPNotFoundException(Exception):

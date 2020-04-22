@@ -183,7 +183,11 @@ class OP:
         return file_name
 
     def get_document(self, document_name_or_uuid):
-        file_name = self.get_item_filename(document_name_or_uuid)
+        try:
+            file_name = self.get_item_filename(document_name_or_uuid)
+        except AttributeError as ae:
+            raise OPInvalidDocumentException(
+                "Item has no 'fileName' attribute") from ae
         get_document_argv = [self.op_path,
                              "get", "document", document_name_or_uuid]
         document_bytes = self._run_get_document(get_document_argv, self.token)

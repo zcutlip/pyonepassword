@@ -176,6 +176,18 @@ class OP:
         return password
 
     def get_item_filename(self, item_name_or_uuid):
+        """
+        Get the fileName attribute a document item from a 1Password vault by name or UUID.
+
+        Arguments:
+            - 'item_name_or_uuid': The item to look up
+        Raises:
+            - AttributeError if the item doesn't have a 'fileName' attribute.
+            - OPGetItemException if the lookup fails for any reason.
+            - OPNotFoundException if the 1Password command can't be found.
+        Returns:
+            - value of the item's 'fileName' attribute
+        """
         item = self.get_item(item_name_or_uuid)
         # Will raise AttributeError if item isn't a OPDocumentItem
         file_name = item.file_name
@@ -183,6 +195,19 @@ class OP:
         return file_name
 
     def get_document(self, document_name_or_uuid):
+        """
+        Download a document object from a 1Password vault by name or UUID.
+
+        Arguments:
+            - 'item_name_or_uuid': The item to look up
+        Raises:
+            - OPInvalidDocumentException if the retrieved item isn't a document
+              object or lacks a documents expected attributes.
+            - OPGetDocumentException if the lookup fails for any reason.
+            - OPNotFoundException if the 1Password command can't be found.
+        Returns:
+            - Tuple: (filename string, bytes of the specified document)
+        """
         try:
             file_name = self.get_item_filename(document_name_or_uuid)
         except AttributeError as ae:

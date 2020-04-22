@@ -1,9 +1,3 @@
-from pyonepassword import (
-    OP,
-    OPSigninException,
-    OPGetItemException,
-    OPNotFoundException
-)
 import getpass
 import os
 import sys
@@ -14,6 +8,13 @@ parent_path = os.path.dirname(
 )
 if parent_path not in sys.path:
     sys.path.append(parent_path)
+
+from pyonepassword import (  # noqa: E401
+    OP,
+    OPSigninException,
+    OPGetItemException,
+    OPNotFoundException
+)
 
 
 def do_signin():

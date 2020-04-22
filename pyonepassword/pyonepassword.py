@@ -126,7 +126,7 @@ class OP:
     def _run_signin(self, argv, password=None):
         return self._run(argv, OPSigninException, capture_stdout=True, input_string=password)
 
-    def _run_lookup(self, argv, input_string, decode=None):
+    def _run_get_item(self, argv, input_string, decode=None):
         return self._run(argv, OPLookupException, capture_stdout=True, input_string=input_string, decode=decode)
 
     def _run_get_document(self, argv, input_string, decode=None):
@@ -164,7 +164,7 @@ class OP:
 
     def get_item(self, item_name_or_uuid):
         lookup_argv = [self.op_path, "get", "item", item_name_or_uuid]
-        output = self._run_lookup(lookup_argv, self.token, decode="utf-8")
+        output = self._run_get_item(lookup_argv, self.token, decode="utf-8")
         item_dict = json.loads(output)
         op_item = OPItemFactory.op_item_from_item_dict(item_dict)
         return op_item

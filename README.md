@@ -56,7 +56,7 @@ Performing initial 1Password sign-in to my-1p-account.1password.com as my-1p-ema
 Signed in.
 ```
 
-### Subsequent sign-in and lookup
+### Subsequent sign-in and item retrieval
 
 ```Python
 import getpass
@@ -79,20 +79,18 @@ def do_signin():
 
 if __name__ == "__main__":
     op = do_signin()
-    print("Signed in.")
-    print("Looking up \"Example Login\"...")
-    print(op.lookup("Example Login"))
+    item_password = op.get_item_password("Example Login")
+    print(item_password)
     print("")
     print("\"Example Login\" can also be looked up by its uuid")
     print("")
     print("Looking up uuid \"ykhsbhhv2vf6hn2u4qwblfrmg4\"...")
-    print(op.lookup("ykhsbhhv2vf6hn2u4qwblfrmg4"))
-    print("Downloading file \"ehhvhlcsakrp28lefy7hsr7lqy\"...")
-    print(op.download("ehhvhlcsakrp28lefy7hsr7lqy"))
+    item_password = op.get_item_password("ykhsbhhv2vf6hn2u4qwblfrmg4")
+    print(item_password)
 ```
 
-```console
-$ python3 ./examples/example-signin-lookup.py
+```Console
+$ python3 ./examples/example-signin-get-item.py
 1Password master password:
 
 Doing normal (non-initial) 1Password sign-in
@@ -105,6 +103,47 @@ doth-parrot-hid-tussock-veldt
 
 Looking up uuid "ykhsbhhv2vf6hn2u4qwblfrmg4"...
 doth-parrot-hid-tussock-veldt
+```
+
+### Document retrieval
+
+```Python
+op = do_signin()
+    file_name, document_bytes = op.get_document(
+    "Example Login - 1Password Logo")
+print("The original file name and the document title in 1Password are often different.")
+print("File name: {}".format(file_name))
+print("Size: {} bytes".format(len(document_bytes)))
+print("")
+print("\"Example Login - 1Password Logo\" can also be looked up by its uuid")
+print("")
+print("Looking up uuid \"bmxpvuthureo7e52uqmvqcr4dy\"...")
+file_name, document_bytes = op.get_document(
+    "bmxpvuthureo7e52uqmvqcr4dy")
+print(file_name)
+print("{} bytes".format(len(document_bytes)))
+print("Writing downloaded document to {}".format(file_name))
+open(file_name, "wb").write(document_bytes)
+```
+
+```Console
+$ python3 ./examples/example-signin-get-document.py
+1Password master password:
+
+Doing normal (non-initial) 1Password sign-in
+
+Signed in.
+Getting document "Example Login - 1Password Logo"...
+The original file name and the document title in 1Password are often different.
+File name: logo-v1.svg
+Size: 2737 bytes
+
+"Example Login - 1Password Logo" can also be looked up by its uuid
+
+Looking up uuid "bmxpvuthureo7e52uqmvqcr4dy"...
+logo-v1.svg
+2737 bytes
+Writing downloaded document to logo-v1.svg
 ```
 
 ## Notes

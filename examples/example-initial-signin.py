@@ -11,7 +11,7 @@ parent_path = os.path.dirname(
 if parent_path not in sys.path:
     sys.path.append(parent_path)
 
-from pyonepassword import (  # noqa: E401
+from pyonepassword import (  # noqa: E402
     OP,
     OPSigninException,
     OPNotFoundException

@@ -87,13 +87,17 @@ class OP:
         otherwise, a normal sign-in is performed. See `op --help` for further explanation.
 
         Arguments:
-            - 'op_path': optional path to the `op` command, if it's not at the default location
+            - 'account_shorthand': The shorthand name for the account on this device.
+                                   You may choose this during initial signin, otherwise
+                                   1Password converts it from your account address.
+                                   See 'op signin --help' for more information.
             - 'signin_address': Fully qualified address of the 1Password account.
                                 E.g., 'my-account.1password.com'
             - 'email_address': Email of the address for the user of the account
             - 'secret_key': Secret key for the account
             - 'password': The user's master password
             - 'logger': A logging object. If not provided a basic logger is created and used.
+            - 'op_path': optional path to the `op` command, if it's not at the default location
 
         Raises:
             - OPSigninException if 1Password sign-in fails for any reason.

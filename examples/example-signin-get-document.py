@@ -19,10 +19,11 @@ from pyonepassword import (  # noqa: E401
 
 
 def do_signin():
+    account_shorthand = "arbitrary_account_shorthand"
     # If you've already signed in at least once, you don't need to provide all
     # account details on future sign-ins. Just master password
     my_password = getpass.getpass(prompt="1Password master password:\n")
-    return OP(password=my_password)
+    return OP(account_shorthand, password=my_password)
 
 
 if __name__ == "__main__":

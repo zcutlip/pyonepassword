@@ -21,10 +21,11 @@ from pyonepassword import (  # noqa: E401
 def do_initial_signin():
     my_signin_address = input("1Password sign-in address:\n")
     my_email_address = input("1Password email address:\n")
+    my_account_shorthand = input("Chosen shorthand for this account:\n")
     my_secret_key = getpass.getpass(prompt="1Password secret key:\n")
     my_password = getpass.getpass(prompt="1Password master password:\n")
 
-    return OP(signin_address=my_signin_address,
+    return OP(my_account_shorthand, signin_address=my_signin_address,
               email_address=my_email_address,
               secret_key=my_secret_key,
               password=my_password)

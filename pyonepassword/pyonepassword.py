@@ -77,7 +77,7 @@ class OP:
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
 
-    def __init__(self, signin_address=None, email_address=None,
+    def __init__(self, account_shorthand, signin_address=None, email_address=None,
                  secret_key=None, password=None, logger=None, op_path='op'):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
@@ -99,14 +99,18 @@ class OP:
             - OPSigninException if 1Password sign-in fails for any reason.
             - OPNotFoundException if the 1Password command can't be found.
         """
+        self.account_shorthand = account_shorthand
         self.op_path = op_path
         if not logger:
             logging.basicConfig(format="%(message)s", level=logging.DEBUG)
             logger = logging.getLogger()
 
         self.logger = logger
-        initial_signin_args = [signin_address,
-                               email_address, secret_key, password]
+        initial_signin_args = [account_shorthand,
+                               signin_address,
+                               email_address,
+                               secret_key,
+                               password]
         initial_signin = (None not in initial_signin_args)
 
         if initial_signin:
@@ -123,7 +127,7 @@ class OP:
         token = self._run_signin(signin_argv, password=password).rstrip()
         return token
 
-    def _do_initial_signin(self, signin_address, email_address, secret_key, password):
+    def _do_initial_signin(self, account_shorthand, signin_address, email_address, secret_key, password):
         self.logger.info(
             "Performing initial 1Password sign-in to {} as {}".format(signin_address, email_address))
         signin_argv = [self.op_path, "signin", signin_address,

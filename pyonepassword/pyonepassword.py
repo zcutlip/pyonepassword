@@ -116,9 +116,11 @@ class OP:
         if initial_signin:
             self.token = self._do_initial_signin(*initial_signin_args)
             # export OP_SESSION_<signin_address>
-            env['OP_SESSION_{}'.format(signin_address.split('.')[0])] = self.token.decode()
         else:
             self.token = self._do_normal_signin(password)
+        sess_var_name = 'OP_SESSION_{}'.format(self.account_shorthand)
+        # TODO: return alread-decoded token from sign-in
+        env[sess_var_name] = self.token.decode()
 
     def _do_normal_signin(self, password):
         self.logger.info("Doing normal (non-initial) 1Password sign-in")

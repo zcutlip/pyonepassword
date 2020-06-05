@@ -27,10 +27,14 @@ from pyonepassword.pyonepassword import (
 def do_initial_signin():
     my_signin_address = "my-1p-account.1password.com"
     my_email_address = "my-1p-email@email.com"
+    # an abitrary nickname for this account on this device:
+    my_account_shorthand = "something_easy"
     my_secret_key = getpass.getpass(prompt="1Password secret key:\n")
     my_password = getpass.getpass(prompt="1Password master password:\n")
+
     try:
-        op = OP(signin_address=my_signin_address,
+        op = OP(my_account_shorthand,
+                signin_address=my_signin_address,
                 email_address=my_email_address,
                 secret_key=my_secret_key,
                 password=my_password)
@@ -67,9 +71,11 @@ from pyonepassword import (
 def do_signin():
     # If you've already signed in at least once, you don't need to provide all
     # account details on future sign-ins. Just master password
+    my_account_shorthand = "something_easy"
     my_password = getpass.getpass(prompt="1Password master password:\n")
     try:
-        op = OP(password=my_password)
+        op = OP(my_account_shorthand,
+                password=my_password)
     except OPSigninException as ope:
         print("1Password initial signin failed: {}".format(ope))
         print(ope.err_output)

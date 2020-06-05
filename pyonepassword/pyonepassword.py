@@ -2,6 +2,7 @@ import subprocess
 import json
 import logging
 from abc import ABCMeta, abstractmethod
+from os import environ as env
 from ._py_op_items import (
     OPItemFactory,
     OPAbstractItem,
@@ -110,6 +111,8 @@ class OP:
 
         if initial_signin:
             self.token = self._do_initial_signin(*initial_signin_args)
+            # export OP_SESSION_<signin_address>
+            env['OP_SESSION_{}'.format(signin_address.split('.')[0])] = self.token.decode()
         else:
             self.token = self._do_normal_signin(password)
 
@@ -133,10 +136,10 @@ class OP:
     def _run_signin(self, argv, password=None):
         return self._run(argv, OPSigninException, capture_stdout=True, input_string=password)
 
-    def _run_get_item(self, argv, input_string, decode=None):
+    def _run_get_item(self, argv, input_string=None, decode=None):
         return self._run(argv, OPLookupException, capture_stdout=True, input_string=input_string, decode=decode)
 
-    def _run_get_document(self, argv, input_string, decode=None):
+    def _run_get_document(self, argv, input_string=None, decode=None):
         return self._run(argv, OPGetDocumentException, capture_stdout=True, input_string=input_string, decode=decode)
 
     def _run(self, argv, op_exception_class, capture_stdout=False, input_string=None, decode=None):
@@ -147,7 +150,7 @@ class OP:
                 input_string = input_string.encode("utf-8")
         try:
             _ran = subprocess.run(argv, input=input_string,
-                                  stderr=subprocess.PIPE, stdout=stdout)
+                                  stderr=subprocess.PIPE, stdout=stdout, env=env)
         except FileNotFoundError as err:
             self.logger.error(
                 "1Password 'op' command not found at: {}".format(argv[0]))
@@ -171,7 +174,7 @@ class OP:
 
     def get_item(self, item_name_or_uuid):
         lookup_argv = [self.op_path, "get", "item", item_name_or_uuid]
-        output = self._run_get_item(lookup_argv, self.token, decode="utf-8")
+        output = self._run_get_item(lookup_argv, decode="utf-8")
         item_dict = json.loads(output)
         op_item = OPItemFactory.op_item_from_item_dict(item_dict)
         return op_item
@@ -222,7 +225,7 @@ class OP:
                 "Item has no 'fileName' attribute") from ae
         get_document_argv = [self.op_path,
                              "get", "document", document_name_or_uuid]
-        document_bytes = self._run_get_document(get_document_argv, self.token)
+        document_bytes = self._run_get_document(get_document_argv)
 
         return (file_name, document_bytes)
 
@@ -273,6 +276,6 @@ class OP:
             - Bytes of the specified document
         """
         lookup_argv = [self.op_path, "get", "document", item_name_or_uuid]
-        output = self._run_get_document(lookup_argv, self.token)
+        output = self._run_get_document(lookup_argv)
 
         return output

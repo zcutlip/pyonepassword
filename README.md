@@ -71,16 +71,28 @@ from pyonepassword import (
 def do_signin():
     # If you've already signed in at least once, you don't need to provide all
     # account details on future sign-ins. Just master password
-    my_account_shorthand = "something_easy"
+    # If you've already signed in at least once, you don't need to provide all
+    # account details on future sign-ins. Just master password
     my_password = getpass.getpass(prompt="1Password master password:\n")
+    # You may optionally provide an account shorthand if you used a custom one during initial sign-in
+    # shorthand = "arbitrary_account_shorthand"
+    # return OP(account_shorthand=shorthand, password=my_password)
+    # Or we'll try to look up account shorthand from your latest sign-in in op's config file
     try:
-        op = OP(my_account_shorthand,
-                password=my_password)
-    except OPSigninException as ope:
-        print("1Password initial signin failed: {}".format(ope))
-        print(ope.err_output)
+        # no shorthand provided, we'll try to look it up
+        op = OP(password=my_password)
+    except OPSigninException as opse:
+        print("1Password sign-in failed.")
+        print(opse.err_output)
+        exit(opse.returncode)
+    except OPNotFoundException as opnf:
+        print("Uh oh. Couldn't find 'op'")
+        print(opnf)
+        exit(opnf.errno)
+    except OPConfigNotFoundException as ope:
+        print("Didn't provide an account shorthand, and we couldn't locate 'op' config to look it up.")
+        print(ope)
         exit(1)
-    return op
 
 
 if __name__ == "__main__":
@@ -155,7 +167,7 @@ Writing downloaded document to logo-v1.svg
 ## Notes
 
 - This has been lightly tested, and only on my Mac. I don't know if it works on other systems.
-- This has been tested with `op` version 0.10.0
+- This has been tested with `op` version 1.1.0
 - You need the `op` 1Password command-line tool. On a Mac with homebrew, you can do `brew install 1password-cli`.
 
 ## TODO

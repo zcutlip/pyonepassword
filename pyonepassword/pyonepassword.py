@@ -8,6 +8,7 @@ from ._py_op_items import (
     OPAbstractItem,
     OPLoginItem,
 )
+from ._py_op_cli import OPCLIConfig
 from ._py_op_deprecation import deprecated
 
 
@@ -34,8 +35,10 @@ class OPSigninException(_OPAbstractException):
 class OPLookupException(_OPAbstractException):
     MSG = "1Password lookup failed."
 
-    def __init__(self, stderr_out, returncode):
-        super().__init__(stderr_out, returncode, self.MSG)
+    def __init__(self, stderr_out, returncode, msg=None):
+        if msg is None:
+            msg = self.MSG
+        super().__init__(stderr_out, returncode, msg)
 
 
 # For now have this class extend OPLookupException
@@ -77,7 +80,7 @@ class OP:
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
 
-    def __init__(self, account_shorthand, signin_address=None, email_address=None,
+    def __init__(self, account_shorthand=None, signin_address=None, email_address=None,
                  secret_key=None, password=None, logger=None, op_path='op'):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
@@ -103,13 +106,27 @@ class OP:
             - OPSigninException if 1Password sign-in fails for any reason.
             - OPNotFoundException if the 1Password command can't be found.
         """
-        self.account_shorthand = account_shorthand
-        self.op_path = op_path
         if not logger:
             logging.basicConfig(format="%(message)s", level=logging.DEBUG)
             logger = logging.getLogger()
-
         self.logger = logger
+
+        if account_shorthand is None:
+            config = OPCLIConfig()
+            try:
+                account_shorthand = config['latest_signin']
+                self.logger.debug(
+                    "Using account shorthand found in op config: {}".format(account_shorthand))
+            except KeyError:
+                account_shorthand = None
+
+        if account_shorthand is None:
+            raise OPSigninException(
+                "Account shorthand not provided and not found in 'op' config")
+
+        self.account_shorthand = account_shorthand
+        self.op_path = op_path
+
         initial_signin_args = [account_shorthand,
                                signin_address,
                                email_address,
@@ -147,7 +164,7 @@ class OP:
         return self._run(argv, OPSigninException, capture_stdout=True, input_string=password)
 
     def _run_get_item(self, argv, input_string=None, decode=None):
-        return self._run(argv, OPLookupException, capture_stdout=True, input_string=input_string, decode=decode)
+        return self._run(argv, OPGetItemException, capture_stdout=True, input_string=input_string, decode=decode)
 
     def _run_get_document(self, argv, input_string=None, decode=None):
         return self._run(argv, OPGetDocumentException, capture_stdout=True, input_string=input_string, decode=decode)

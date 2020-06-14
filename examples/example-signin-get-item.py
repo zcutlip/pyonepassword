@@ -13,16 +13,17 @@ from pyonepassword import (  # noqa: E402
     OP,
     OPSigninException,
     OPGetItemException,
-    OPNotFoundException
+    OPNotFoundException,
+    OPConfigNotFoundException
 )
 
 
 def do_signin():
-    account_shorthand = "arbitrary_account_shorthand"
+    # account_shorthand = "arbitrary_account_shorthand"
     # If you've already signed in at least once, you don't need to provide all
     # account details on future sign-ins. Just master password
     my_password = getpass.getpass(prompt="1Password master password:\n")
-    return OP(account_shorthand, password=my_password)
+    return OP(password=my_password)
 
 
 if __name__ == "__main__":
@@ -36,6 +37,10 @@ if __name__ == "__main__":
         print("Uh oh. Couldn't find 'op'")
         print(ope)
         exit(ope.errno)
+    except OPConfigNotFoundException as ope:
+        print("Didn't provide an account shorthand, and we couldn't locate 'op' config to look it up.")
+        print(ope)
+        exit(1)
 
     print("Signed in.")
     print("Looking up \"Example Login\"...")

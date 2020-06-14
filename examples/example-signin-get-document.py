@@ -14,16 +14,20 @@ from pyonepassword import (  # noqa: E402
     OPSigninException,
     OPGetDocumentException,
     OPInvalidDocumentException,
-    OPNotFoundException
+    OPNotFoundException,
+    OPConfigNotFoundException
 )
 
 
 def do_signin():
-    account_shorthand = "arbitrary_account_shorthand"
     # If you've already signed in at least once, you don't need to provide all
     # account details on future sign-ins. Just master password
     my_password = getpass.getpass(prompt="1Password master password:\n")
-    return OP(account_shorthand, password=my_password)
+    # You may optionally provide an account shorthand if you used a custom one during initial sign-in
+    # shorthand = "arbitrary_account_shorthand"
+    # return OP(account_shorthand=shorthand, password=my_password)
+    # Or we'll try to look up account shorthand from your latest sign-in in op's config file
+    return OP(password=my_password)
 
 
 if __name__ == "__main__":
@@ -37,6 +41,10 @@ if __name__ == "__main__":
         print("Uh oh. Couldn't find 'op'")
         print(opnf)
         exit(opnf.errno)
+    except OPConfigNotFoundException as ope:
+        print("Didn't provide an account shorthand, and we couldn't locate 'op' config to look it up.")
+        print(ope)
+        exit(1)
 
     print("Signed in.")
     print("Getting document \"Example Login - 1Password Logo\"...")

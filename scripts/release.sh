@@ -1,11 +1,11 @@
 #!/bin/sh -x
-DIRNAME="$(dirname $0)"
+DIRNAME="$(dirname "$0")"
 
 # set PROJECT_NAME variable
-source "$DIRNAME"/projectname.sh
+. "$DIRNAME"/projectname.sh
 
 # utility functions
-source "$DIRNAME"/functions.sh
+. "$DIRNAME"/functions.sh
 
 if ! branch_is_master;
 then
@@ -35,10 +35,10 @@ version=$(current_version);
 
 generate_dist;
 echo "About to post the following distribution files to pypi.org."
-ls -1 dist/"$PROJECT_NAME"-$version.* || quit "No distribution files found." 1
+ls -1 dist/"$PROJECT_NAME"-"$version".* || quit "No distribution files found." 1
 
 if prompt_yes_no;
 then
-    python3 -m twine upload dist/"$PROJECT_NAME"-$version*
+    python3 -m twine upload dist/"$PROJECT_NAME"-"$version"*
 fi
 

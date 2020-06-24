@@ -18,11 +18,8 @@ class OPCLIConfig(dict):
     def __init__(self, configpath=None):
         super().__init__()
         if configpath is None:
-            configpath = self._get_env_config_path()
+            configpath = self._get_config_path()
 
-        if configpath is None:
-            configpath = os.path.join(
-                pathlib.Path.home(), self.OP_CONFIG_RELPATH)
         if configpath is None:
             raise OPConfigNotFoundException("No op configuration found")
 
@@ -42,11 +39,15 @@ class OPCLIConfig(dict):
             raise OPConfigNotFoundException(
                 "Unable to json decode config at path: {}".format(configpath)) from e
 
-    def _get_env_config_path(self):
+    def _get_config_path(self):
         try:
             xdg_path = os.environ['XDG_CONFIG_HOME']
             configpath = os.path.join(xdg_path, self.OP_CONFIG_RELPATH)
         except KeyError:
             configpath = None
+
+        if configpath is None:
+            configpath = os.path.join(
+                pathlib.Path.home(), self.OP_CONFIG_RELPATH)
 
         return configpath

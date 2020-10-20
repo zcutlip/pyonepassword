@@ -1,9 +1,17 @@
 import os
 import pathlib
 import json
+import logging
 from json.decoder import JSONDecodeError
+import subprocess
+from os import environ as env
 
-from .py_op_exceptions import OPConfigNotFoundException
+from .py_op_exceptions import (
+    OPConfigNotFoundException,
+    OPSigninException,
+    OPNotFoundException
+
+)
 
 """
 Module to hold stuff that interacts directly with 'op' or its config
@@ -51,3 +59,123 @@ class OPCLIConfig(dict):
                 pathlib.Path.home(), self.OP_CONFIG_RELPATH)
 
         return configpath
+
+
+class _OPCLIExecute:
+
+    """
+    Class for logging into and querying a 1Password account via the 'op' cli command.
+    """
+
+    def __init__(self, account_shorthand=None, signin_address=None, email_address=None,
+                 secret_key=None, password=None, logger=None, op_path='op'):
+        """
+        Create an OP object. The 1Password sign-in happens during object instantiation.
+        If 'password' is not provided, the 'op' command will prompt on the console for a password.
+
+        If all components of a 1Password account are provided, an initial sign-in is performed,
+        otherwise, a normal sign-in is performed. See `op --help` for further explanation.
+
+        Arguments:
+            - 'account_shorthand': The shorthand name for the account on this device.
+                                   You may choose this during initial signin, otherwise
+                                   1Password converts it from your account address.
+                                   See 'op signin --help' for more information.
+            - 'signin_address': Fully qualified address of the 1Password account.
+                                E.g., 'my-account.1password.com'
+            - 'email_address': Email of the address for the user of the account
+            - 'secret_key': Secret key for the account
+            - 'password': The user's master password
+            - 'logger': A logging object. If not provided a basic logger is created and used.
+            - 'op_path': optional path to the `op` command, if it's not at the default location
+
+        Raises:
+            - OPSigninException if 1Password sign-in fails for any reason.
+            - OPNotFoundException if the 1Password command can't be found.
+        """
+        if not logger:
+            logging.basicConfig(format="%(message)s", level=logging.DEBUG)
+            logger = logging.getLogger()
+        self.logger = logger
+
+        if account_shorthand is None:
+            config = OPCLIConfig()
+            try:
+                account_shorthand = config['latest_signin']
+                self.logger.debug(
+                    "Using account shorthand found in op config: {}".format(account_shorthand))
+            except KeyError:
+                account_shorthand = None
+
+        if account_shorthand is None:
+            raise OPSigninException(
+                "Account shorthand not provided and not found in 'op' config")
+
+        self.account_shorthand = account_shorthand
+        self.op_path = op_path
+
+        initial_signin_args = [account_shorthand,
+                               signin_address,
+                               email_address,
+                               secret_key,
+                               password]
+        initial_signin = (None not in initial_signin_args)
+
+        if initial_signin:
+            self.token = self._do_initial_signin(*initial_signin_args)
+            # export OP_SESSION_<signin_address>
+        else:
+            self.token = self._do_normal_signin(password)
+        sess_var_name = 'OP_SESSION_{}'.format(self.account_shorthand)
+        # TODO: return alread-decoded token from sign-in
+        env[sess_var_name] = self.token.decode()
+
+    def _do_normal_signin(self, password):
+        self.logger.info("Doing normal (non-initial) 1Password sign-in")
+        signin_argv = [self.op_path, "signin", "--output=raw"]
+        print("")
+        token = self._run_signin(signin_argv, password=password).rstrip()
+        return token
+
+    def _do_initial_signin(self, account_shorthand, signin_address, email_address, secret_key, password):
+        self.logger.info(
+            "Performing initial 1Password sign-in to {} as {}".format(signin_address, email_address))
+        signin_argv = [self.op_path, "signin", signin_address,
+                       email_address, secret_key, "--output=raw"]
+        print("")
+        token = self._run_signin(signin_argv, password=password).rstrip()
+
+        return token
+
+    def _run_signin(self, argv, password=None):
+        return self._run(argv, OPSigninException, capture_stdout=True, input_string=password)
+
+    def _run(self, argv, op_exception_class, capture_stdout=False, input_string=None, decode=None):
+        _ran = None
+        stdout = subprocess.PIPE if capture_stdout else None
+        if input_string:
+            if isinstance(input_string, str):
+                input_string = input_string.encode("utf-8")
+        try:
+            _ran = subprocess.run(argv, input=input_string,
+                                  stderr=subprocess.PIPE, stdout=stdout, env=env)
+        except FileNotFoundError as err:
+            self.logger.error(
+                "1Password 'op' command not found at: {}".format(argv[0]))
+            self.logger.error(
+                "See https://support.1password.com/command-line-getting-started/ for more information,")
+            self.logger.error(
+                "or install from Homebrew with: 'brew install 1password-cli")
+            raise OPNotFoundException(argv[0], err.errno) from err
+
+        output = None
+        try:
+            _ran.check_returncode()
+            if capture_stdout:
+                output = _ran.stdout.decode(decode) if decode else _ran.stdout
+        except subprocess.CalledProcessError as err:
+            stderr_output = _ran.stderr.decode("utf-8").rstrip()
+            returncode = _ran.returncode
+            raise op_exception_class(stderr_output, returncode) from err
+
+        return output

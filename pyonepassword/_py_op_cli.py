@@ -12,6 +12,7 @@ from .py_op_exceptions import (
     OPNotFoundException
 
 )
+from ._py_op_deprecation import deprecated
 
 """
 Module to hold stuff that interacts directly with 'op' or its config
@@ -140,6 +141,7 @@ class _OPCLIExecute:
         token = self._run_signin(signin_argv, password=password).rstrip()
         return token
 
+    @deprecated("Initial sign-in soon to be deprecated due to incompatibility with multi-factor authentication")
     def _do_initial_signin(self, account_shorthand, signin_address, email_address, secret_key, password):
         self.logger.info(
             "Performing initial 1Password sign-in to {} as {}".format(signin_address, email_address))

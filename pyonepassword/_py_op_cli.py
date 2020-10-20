@@ -125,15 +125,18 @@ class _OPCLIExecute:
             self.token = self._do_initial_signin(*initial_signin_args)
             # export OP_SESSION_<signin_address>
         else:
-            self.token = self._do_normal_signin(password)
+            self.token = self._do_normal_signin(account_shorthand, password)
         sess_var_name = 'OP_SESSION_{}'.format(self.account_shorthand)
         # TODO: return alread-decoded token from sign-in
         env[sess_var_name] = self.token.decode()
 
-    def _do_normal_signin(self, password):
+    def _do_normal_signin(self, account_shorthand, password):
         self.logger.info("Doing normal (non-initial) 1Password sign-in")
         signin_argv = [self.op_path, "signin", "--output=raw"]
-        print("")
+
+        if account_shorthand:
+            signin_argv.extend(["--account", account_shorthand])
+
         token = self._run_signin(signin_argv, password=password).rstrip()
         return token
 
@@ -142,7 +145,9 @@ class _OPCLIExecute:
             "Performing initial 1Password sign-in to {} as {}".format(signin_address, email_address))
         signin_argv = [self.op_path, "signin", signin_address,
                        email_address, secret_key, "--output=raw"]
-        print("")
+        if account_shorthand:
+            signin_argv.extend(["--shorthand", account_shorthand])
+
         token = self._run_signin(signin_argv, password=password).rstrip()
 
         return token

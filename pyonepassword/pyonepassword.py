@@ -61,20 +61,29 @@ class OP(_OPCLIExecute):
     def _run_get_document(self, argv, input_string=None, decode=None):
         return self._run(argv, OPGetDocumentException, capture_stdout=True, input_string=input_string, decode=decode)
 
-    def get_item(self, item_name_or_uuid):
+    def get_item(self, item_name_or_uuid, vault=None):
+        vault_argv = []
+        if vault:
+            vault_argv = ["--vault", vault]
+        elif self.vault:
+            vault_argv = ["--vault", self.vault]
+
         lookup_argv = [self.op_path, "get", "item", item_name_or_uuid]
+        if vault_argv:
+            lookup_argv.extend(vault_argv)
+
         output = self._run_get_item(lookup_argv, decode="utf-8")
         item_dict = json.loads(output)
         op_item = OPItemFactory.op_item_from_item_dict(item_dict)
         return op_item
 
-    def get_item_password(self, item_name_or_uuid):
+    def get_item_password(self, item_name_or_uuid, vault=None):
         item: OPLoginItem
-        item = self.get_item(item_name_or_uuid)
+        item = self.get_item(item_name_or_uuid, vault=vault)
         password = item.password
         return password
 
-    def get_item_filename(self, item_name_or_uuid):
+    def get_item_filename(self, item_name_or_uuid, vault=None):
         """
         Get the fileName attribute a document item from a 1Password vault by name or UUID.
 
@@ -87,13 +96,13 @@ class OP(_OPCLIExecute):
         Returns:
             - value of the item's 'fileName' attribute
         """
-        item = self.get_item(item_name_or_uuid)
+        item = self.get_item(item_name_or_uuid, vault=vault)
         # Will raise AttributeError if item isn't a OPDocumentItem
         file_name = item.file_name
 
         return file_name
 
-    def get_document(self, document_name_or_uuid):
+    def get_document(self, document_name_or_uuid, vault=None):
         """
         Download a document object from a 1Password vault by name or UUID.
 
@@ -108,12 +117,21 @@ class OP(_OPCLIExecute):
             - Tuple: (filename string, bytes of the specified document)
         """
         try:
-            file_name = self.get_item_filename(document_name_or_uuid)
+            file_name = self.get_item_filename(
+                document_name_or_uuid, vault=vault)
         except AttributeError as ae:
             raise OPInvalidDocumentException(
                 "Item has no 'fileName' attribute") from ae
+        vault_argv = []
+        if vault:
+            vault_argv = ["--vault", vault]
+        elif self.vault:
+            vault_argv = ["--vault", self.vault]
         get_document_argv = [self.op_path,
                              "get", "document", document_name_or_uuid]
+        if vault_argv:
+            get_document_argv.extend(vault_argv)
+
         document_bytes = self._run_get_document(get_document_argv)
 
         return (file_name, document_bytes)

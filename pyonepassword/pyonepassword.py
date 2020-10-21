@@ -20,7 +20,7 @@ class OP(_OPCLIExecute):
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
 
-    def __init__(self, account_shorthand=None, signin_address=None, email_address=None,
+    def __init__(self, vault=None, account_shorthand=None, signin_address=None, email_address=None,
                  secret_key=None, password=None, logger=None, op_path='op'):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
@@ -30,6 +30,8 @@ class OP(_OPCLIExecute):
         otherwise, a normal sign-in is performed. See `op --help` for further explanation.
 
         Arguments:
+            - 'vault': If set, this becomes the default argument to the --vault flag
+                       for future queries.
             - 'account_shorthand': The shorthand name for the account on this device.
                                    You may choose this during initial signin, otherwise
                                    1Password converts it from your account address.
@@ -52,8 +54,8 @@ class OP(_OPCLIExecute):
                          secret_key=secret_key,
                          password=password,
                          logger=logger,
-                         op_path=op_path
-                         )
+                         op_path=op_path)
+        self.vault = vault
 
     def _run_get_item(self, argv, input_string=None, decode=None):
         return self._run(argv, OPGetItemException, capture_stdout=True, input_string=input_string, decode=decode)

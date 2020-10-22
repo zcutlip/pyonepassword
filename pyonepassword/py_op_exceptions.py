@@ -10,55 +10,66 @@ from ._py_op_deprecation import deprecated
 class _OPAbstractException(Exception, metaclass=ABCMeta):
 
     @abstractmethod
-    def __init__(self, stderr_out, returncode, msg):
+    def __init__(self, msg):
         super().__init__(msg)
+
+
+class OPCmdFailedException(_OPAbstractException):
+    """
+    Generic Exception class for when an `op` command fails.
+
+    Description:
+    Raised from subprocess call-site when `op` executable returns non-zero
+
+    Caller should handle this exception and raise a more descriptive exception reflecting
+    the action that failed:
+
+    Example:
+    try:
+        self._run(argv, capture_stdout=True, input_string=password)
+    except OPCmdFailedException as ocfe:
+        raise OPSigninException.from_opexception(ocfe) from ocfe
+    """
+    MSG = "'op' command failed"
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(self.MSG)
         self.err_output = stderr_out
         self.returncode = returncode
 
+    @classmethod
+    def from_opexception(cls, ope):
+        return cls(ope.err_output, ope.returncode)
 
-class OPSigninException(_OPAbstractException):
+
+class OPSigninException(OPCmdFailedException):
     MSG = "1Password sign-in failed."
-
-    def __init__(self, stderr_out, returncode):
-        super().__init__(stderr_out, returncode, self.MSG)
 
 
 # Keep this exception class around for a bit
 # so any code handling this exception instead of OPGetItemException
 # can still work
 @deprecated("handle OPGetItemException instead")
-class OPLookupException(_OPAbstractException):
+class OPLookupException(OPCmdFailedException):
     MSG = "1Password lookup failed."
-
-    def __init__(self, stderr_out, returncode, msg=None):
-        if msg is None:
-            msg = self.MSG
-        super().__init__(stderr_out, returncode, msg)
 
 
 # For now have this class extend OPLookupException
 # so code can handle that exception or this one
 # TODO: remove OPLookupException, have this class extend
 # _OPAbstractException
-class OPGetItemException(OPLookupException):
+class OPGetItemException(OPCmdFailedException):
     MSG = "1Password 'get item' failed."
 
-    def __init__(self, stderr_out, returncode):
-        super().__init__(stderr_out, returncode, self.MSG)
 
-
-class OPGetDocumentException(_OPAbstractException):
+class OPGetDocumentException(OPCmdFailedException):
     MSG = "1Password 'get document' failed."
 
-    def __init__(self, stderr_out, returncode):
-        super().__init__(stderr_out, returncode, self.MSG)
 
-
-class OPInvalidDocumentException(OPGetDocumentException):
+class OPInvalidDocumentException(_OPAbstractException):
 
     def __init__(self, msg):
-        msg = "{}: {}".format(self.MSG, msg)
-        super().__init__("", 0, msg)
+        super().__init__(msg)
 
 
 class OPNotFoundException(Exception):

@@ -11,7 +11,8 @@ from ._py_op_deprecation import deprecated
 from .py_op_exceptions import (
     OPGetItemException,
     OPGetDocumentException,
-    OPInvalidDocumentException
+    OPInvalidDocumentException,
+    OPCmdFailedException
 )
 
 
@@ -57,12 +58,6 @@ class OP(_OPCLIExecute):
                          op_path=op_path)
         self.vault = vault
 
-    def _run_get_item(self, argv, input_string=None, decode=None):
-        return self._run(argv, OPGetItemException, capture_stdout=True, input_string=input_string, decode=decode)
-
-    def _run_get_document(self, argv, input_string=None, decode=None):
-        return self._run(argv, OPGetDocumentException, capture_stdout=True, input_string=input_string, decode=decode)
-
     def get_item(self, item_name_or_uuid, vault=None):
         vault_argv = []
         if vault:
@@ -74,7 +69,12 @@ class OP(_OPCLIExecute):
         if vault_argv:
             lookup_argv.extend(vault_argv)
 
-        output = self._run_get_item(lookup_argv, decode="utf-8")
+        try:
+            output = self._run(
+                lookup_argv, capture_stdout=True, decode="utf-8")
+        except OPCmdFailedException as ocfe:
+            raise OPGetItemException.from_opexception(ocfe) from ocfe
+
         item_dict = json.loads(output)
         op_item = OPItemFactory.op_item_from_item_dict(item_dict)
         return op_item
@@ -134,7 +134,10 @@ class OP(_OPCLIExecute):
         if vault_argv:
             get_document_argv.extend(vault_argv)
 
-        document_bytes = self._run_get_document(get_document_argv)
+        try:
+            document_bytes = self._run(get_document_argv, capture_stdout=True)
+        except OPCmdFailedException as ocfe:
+            raise OPGetDocumentException.from_opexception(ocfe) from ocfe
 
         return (file_name, document_bytes)
 
@@ -185,6 +188,9 @@ class OP(_OPCLIExecute):
             - Bytes of the specified document
         """
         lookup_argv = [self.op_path, "get", "document", item_name_or_uuid]
-        output = self._run_get_document(lookup_argv)
+        try:
+            output = self._run(lookup_argv, capture_stdout=True)
+        except OPCmdFailedException as ocfe:
+            raise OPGetDocumentException.from_opexception(ocfe) from ocfe
 
         return output

@@ -9,7 +9,8 @@ from os import environ as env
 from .py_op_exceptions import (
     OPConfigNotFoundException,
     OPSigninException,
-    OPNotFoundException
+    OPNotFoundException,
+    OPCmdFailedException
 
 )
 from ._py_op_deprecation import deprecated
@@ -155,9 +156,15 @@ class _OPCLIExecute:
         return token
 
     def _run_signin(self, argv, password=None):
-        return self._run(argv, OPSigninException, capture_stdout=True, input_string=password)
+        try:
+            output = self._run(argv, capture_stdout=True,
+                               input_string=password)
+        except OPCmdFailedException as opfe:
+            raise OPSigninException.from_opexception(opfe) from opfe
 
-    def _run(self, argv, op_exception_class, capture_stdout=False, input_string=None, decode=None):
+        return output
+
+    def _run(self, argv, capture_stdout=False, input_string=None, decode=None):
         _ran = None
         stdout = subprocess.PIPE if capture_stdout else None
         if input_string:
@@ -183,6 +190,6 @@ class _OPCLIExecute:
         except subprocess.CalledProcessError as err:
             stderr_output = _ran.stderr.decode("utf-8").rstrip()
             returncode = _ran.returncode
-            raise op_exception_class(stderr_output, returncode) from err
+            raise OPCmdFailedException(stderr_output, returncode) from err
 
         return output

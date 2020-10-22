@@ -1,5 +1,5 @@
 import json
-
+from os import environ as env
 from ._py_op_items import (
     OPItemFactory,
     OPAbstractItem,
@@ -12,7 +12,8 @@ from .py_op_exceptions import (
     OPGetItemException,
     OPGetDocumentException,
     OPInvalidDocumentException,
-    OPCmdFailedException
+    OPCmdFailedException,
+    OPSignoutException,
 )
 
 

@@ -12,7 +12,8 @@ from .py_op_exceptions import (  # noqa: F401
     OPNotFoundException,
     OPGetItemException,
     OPGetDocumentException,
-    OPInvalidDocumentException
+    OPInvalidDocumentException,
+    OPSignoutException
 )
 
 from .py_op_exceptions import OPConfigNotFoundException  # noqa: F401

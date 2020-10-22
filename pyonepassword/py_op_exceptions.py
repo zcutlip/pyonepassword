@@ -46,6 +46,10 @@ class OPSigninException(OPCmdFailedException):
     MSG = "1Password sign-in failed."
 
 
+class OPSignoutException(OPCmdFailedException):
+    MSG = "1Password signout failed."
+
+
 # Keep this exception class around for a bit
 # so any code handling this exception instead of OPGetItemException
 # can still work

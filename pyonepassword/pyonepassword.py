@@ -141,6 +141,28 @@ class OP(_OPCLIExecute):
 
         return (file_name, document_bytes)
 
+    def signout(self, forget=False):
+        account = self.account_shorthand
+        token = self.token
+        global_flags = ["--session", token, "--account", account]
+        signout_argv = [self.op_path, "signout"]
+        if forget:
+            signout_argv.append("--forget")
+        signout_argv.extend(global_flags)
+        try:
+            self._run(signout_argv)
+        except OPCmdFailedException as ocfe:
+            raise OPSignoutException.from_opexception(ocfe) from ocfe
+        self._sanitize()
+
+    def _sanitize(self):
+        self.token = None
+        sess_var_name = 'OP_SESSION_{}'.format(self.account_shorthand)
+        try:
+            env.pop(sess_var_name)
+        except KeyError:
+            pass
+
     @deprecated("use get_item() or get_item_password()")
     def lookup(self, item_name_or_uuid, field_designation="password"):
         """

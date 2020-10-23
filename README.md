@@ -14,63 +14,30 @@ A Python API to sign into and query a 1Password account using the `op` command.
 
 ## Example usage
 
-### Intitial sign-in
-
-```Python
-import getpass
-from pyonepassword.pyonepassword import (
-    OP,
-    OPSigninException
-)
-
-
-def do_initial_signin():
-    my_signin_address = "my-1p-account.1password.com"
-    my_email_address = "my-1p-email@email.com"
-    # an abitrary nickname for this account on this device:
-    my_account_shorthand = "something_easy"
-    my_secret_key = getpass.getpass(prompt="1Password secret key:\n")
-    my_password = getpass.getpass(prompt="1Password master password:\n")
-
-    try:
-        op = OP(my_account_shorthand,
-                signin_address=my_signin_address,
-                email_address=my_email_address,
-                secret_key=my_secret_key,
-                password=my_password)
-    except OPSigninException as ope:
-        print("1Password initial signin failed: {}".format(ope))
-        print(ope.err_output)
-        exit(1)
-    print("1Password is signed in and ready for lookups")
-    return op
-
-
-if __name__ == "__main__":
-    op = do_initial_signin()
-    # op is ready to use and call lookup() on
-    print("Signed in.")
-```
-
-```Console
-$ python3 ./example.py
-1Password secret key:
-1Password master password:
-Performing initial 1Password sign-in to my-1p-account.1password.com as my-1p-email@email.com
-Signed in.
-```
+> Note: It is recommended to perform initial sign-in manually on the command line before using `pyonepassword`. Initial sign-in is supported but deprecated. Multi-factor-authenticaiton is not supported.
 
 ### Subsequent sign-in and item retrieval
 
+Below is an example demonstrating:
+
+- Subsequant sign-in
+- Specifying a default vault for queries
+- Retrieving an item from 1Password by name or by UUID
+- Overriding the default vault to retrieve a subsequent item from 1Password
+
 ```Python
 import getpass
-from pyonepassword import (
+
+from pyonepassword import (  # noqa: E402
     OP,
-    OPSigninException
+    OPSigninException,
+    OPGetItemException,
+    OPNotFoundException,
+    OPConfigNotFoundException
 )
+
+
 def do_signin():
-    # If you've already signed in at least once, you don't need to provide all
-    # account details on future sign-ins. Just master password
     # If you've already signed in at least once, you don't need to provide all
     # account details on future sign-ins. Just master password
     my_password = getpass.getpass(prompt="1Password master password:\n")
@@ -78,41 +45,55 @@ def do_signin():
     # shorthand = "arbitrary_account_shorthand"
     # return OP(account_shorthand=shorthand, password=my_password)
     # Or we'll try to look up account shorthand from your latest sign-in in op's config file
+    return OP(vault="Archive", password=my_password)
+
+
+if __name__ == "__main__":
     try:
-        # no shorthand provided, we'll try to look it up
-        op = OP(password=my_password)
+        op = do_signin()
     except OPSigninException as opse:
         print("1Password sign-in failed.")
         print(opse.err_output)
         exit(opse.returncode)
-    except OPNotFoundException as opnf:
+    except OPNotFoundException as ope:
         print("Uh oh. Couldn't find 'op'")
-        print(opnf)
-        exit(opnf.errno)
+        print(ope)
+        exit(ope.errno)
     except OPConfigNotFoundException as ope:
         print("Didn't provide an account shorthand, and we couldn't locate 'op' config to look it up.")
         print(ope)
         exit(1)
 
+    print("Signed in.")
+    print("Looking up \"Example Login\"...")
+    try:
+        item_password = op.get_item_password("Example Login")
+        print(item_password)
+        print("")
+        print("\"Example Login\" can also be looked up by its uuid")
+        print("")
+        print("Looking up uuid \"ykhsbhhv2vf6hn2u4qwblfrmg4\"...")
+        print("Overriding \"Archive\" vault, and look in \"Private\" instead")
+        item_password = op.get_item_password(
+            "ykhsbhhv2vf6hn2u4qwblfrmg4", vault="Private")
+        print(item_password)
+    except OPGetItemException as ope:
+        print("1Password lookup failed: {}".format(ope))
+        print(ope.err_output)
+        exit(ope.returncode)
+    except OPNotFoundException as ope:
+        print("Uh oh. Couldn't find 'op'")
+        print(ope)
+        exit(ope.errno)
 
-if __name__ == "__main__":
-    op = do_signin()
-    item_password = op.get_item_password("Example Login")
-    print(item_password)
-    print("")
-    print("\"Example Login\" can also be looked up by its uuid")
-    print("")
-    print("Looking up uuid \"ykhsbhhv2vf6hn2u4qwblfrmg4\"...")
-    item_password = op.get_item_password("ykhsbhhv2vf6hn2u4qwblfrmg4")
-    print(item_password)
 ```
 
 ```Console
 $ python3 ./examples/example-signin-get-item.py
 1Password master password:
 
+Using account shorthand found in op config: my_1p_account
 Doing normal (non-initial) 1Password sign-in
-
 Signed in.
 Looking up "Example Login"...
 doth-parrot-hid-tussock-veldt
@@ -120,10 +101,16 @@ doth-parrot-hid-tussock-veldt
 "Example Login" can also be looked up by its uuid
 
 Looking up uuid "ykhsbhhv2vf6hn2u4qwblfrmg4"...
+Overriding "Archive" vault, and look in "Private" instead
 doth-parrot-hid-tussock-veldt
 ```
 
 ### Document retrieval
+
+Below is an example demonstrating:
+
+- Retrieving a document and its file name from 1Password, based on item name
+- Retrieving a document & file name from 1Password, based on UUID
 
 ```Python
 op = do_signin()
@@ -164,6 +151,102 @@ logo-v1.svg
 Writing downloaded document to logo-v1.svg
 ```
 
+### Signing out of 1Password
+
+Below is an example demonstrating:
+
+- Signing in, then signing out of 1Password
+- Signing out and also forgetting a 1Password account
+
+> Note: Currently `pyonepassword`'s sign-out & forget support requires a signed-in session. It is not yet possible to forget an arbitrary account.
+
+```Python
+def do_lookup():
+    try:
+        print(op.get_item_password("Example Login"))
+    except OPGetItemException as opge:
+        print("Get item failed.")
+        print(opge.err_output)
+        return opge.returncode
+
+
+if __name__ == "__main__":
+    try:
+        op = do_signin()
+    except OPSigninException as opse:
+        print("1Password sign-in failed.")
+        print(opse.err_output)
+        exit(opse.returncode)
+
+    print("Doing signout.")
+    try:
+        op.signout()
+    except OPSignoutException as e:
+        print("Signout failed.")
+        print(e.err_output)
+        exit(e.returncode)
+
+    print("Trying to get item")
+    do_lookup()
+
+    print("Trying 'op forget'")
+    try:
+        op = do_signin()
+    except OPSigninException as opse:
+        print("1Password sign-in failed.")
+        print(opse.err_output)
+        exit(opse.returncode)
+
+    print("Doing forget.")
+    try:
+        op.signout(forget=True)
+    except OPSignoutException as e:
+        print(e.err_output)
+        exit(e.returncode)
+    print("Done.")
+
+    print("Trying to get item")
+    ret = do_lookup()
+
+    print("Trying to re-signin")
+    try:
+        do_signin()
+    except OPSigninException as opse:
+        print("1Password sign-in failed.")
+        print(opse.err_output)
+```
+
+```console
+$ python3 ./examples/example-signin-signout.py
+1Password master password:
+
+Using account shorthand found in op config: my_1p_account
+Doing normal (non-initial) 1Password sign-in
+Doing signout.
+Trying to get item
+Get item failed.
+[ERROR] 2020/10/23 11:32:55 You are not currently signed in. Please run `op signin --help` for instructions
+Trying 'op forget'
+1Password master password:
+
+Using account shorthand found in op config: my_1p_account
+Doing normal (non-initial) 1Password sign-in
+Doing forget.
+Done.
+Trying to get item
+Get item failed.
+[ERROR] 2020/10/23 11:33:04 The account details you entered aren't saved on this device. Use `op signin` to sign in to an account.
+Trying to re-signin
+1Password master password:
+
+Using account shorthand found in op config:
+Doing normal (non-initial) 1Password sign-in
+1Password sign-in failed.
+[ERROR] 2020/10/23 11:33:11 No account found on this device.
+
+To sign in to an account: op signin --help
+```
+
 ## Notes
 
 - This has been lightly tested, and only on my Mac. I don't know if it works on other systems.
@@ -172,6 +255,7 @@ Writing downloaded document to logo-v1.svg
 
 ## TODO
 
-- Detect if `op` is/is not installed, and be helpful
-- API to get complete or partial JSON for a vault item, not just a specific field's value
-- Maybe one day 1Password.com will have an API and this module won't have to use `op`
+- Ability for forget arbitrary accounts, not just the one currently signed in
+- API mapping on to all of `op`'s various commands and subcommands
+- API to get complete or partial JSON for an item
+- Unit testing

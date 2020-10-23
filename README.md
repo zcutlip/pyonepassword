@@ -250,7 +250,7 @@ To sign in to an account: op signin --help
 ## Notes
 
 - This has been lightly tested, and only on my Mac. I don't know if it works on other systems.
-- This has been tested with `op` version 1.1.0
+- This has been tested with `op` version 1.7.0
 - You need the `op` 1Password command-line tool. On a Mac with homebrew, you can do `brew install 1password-cli`.
 
 ## TODO

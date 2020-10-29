@@ -64,7 +64,8 @@ class OPCLIConfig(dict):
 
 
 class _OPCLIExecute:
-
+    logging.basicConfig(format="%(message)s", level=logging.DEBUG)
+    logger = logging.getLogger()
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
@@ -95,10 +96,8 @@ class _OPCLIExecute:
             - OPSigninException if 1Password sign-in fails for any reason.
             - OPNotFoundException if the 1Password command can't be found.
         """
-        if not logger:
-            logging.basicConfig(format="%(message)s", level=logging.DEBUG)
-            logger = logging.getLogger()
-        self.logger = logger
+        if logger:
+            self.logger = logger
 
         if account_shorthand is None:
             config = OPCLIConfig()

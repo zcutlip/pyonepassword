@@ -163,7 +163,8 @@ class _OPCLIExecute:
 
         return output
 
-    def _run(self, argv, capture_stdout=False, input_string=None, decode=None):
+    @classmethod
+    def _run(cls, argv, capture_stdout=False, input_string=None, decode=None):
         _ran = None
         stdout = subprocess.PIPE if capture_stdout else None
         if input_string:
@@ -173,11 +174,11 @@ class _OPCLIExecute:
             _ran = subprocess.run(argv, input=input_string,
                                   stderr=subprocess.PIPE, stdout=stdout, env=env)
         except FileNotFoundError as err:
-            self.logger.error(
+            cls.logger.error(
                 "1Password 'op' command not found at: {}".format(argv[0]))
-            self.logger.error(
+            cls.logger.error(
                 "See https://support.1password.com/command-line-getting-started/ for more information,")
-            self.logger.error(
+            cls.logger.error(
                 "or install from Homebrew with: 'brew install 1password-cli")
             raise OPNotFoundException(argv[0], err.errno) from err
 

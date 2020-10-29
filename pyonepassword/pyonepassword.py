@@ -14,6 +14,7 @@ from .py_op_exceptions import (
     OPInvalidDocumentException,
     OPCmdFailedException,
     OPSignoutException,
+    OPForgetException
 )
 
 
@@ -155,6 +156,16 @@ class OP(_OPCLIExecute):
         except OPCmdFailedException as ocfe:
             raise OPSignoutException.from_opexception(ocfe) from ocfe
         self._sanitize()
+
+    @classmethod
+    def forget(cls, account, op_path=None):
+        if op_path is None:
+            op_path = cls.OP_PATH
+        forget_argv = [op_path, "forget", account]
+        try:
+            cls._run(forget_argv)
+        except OPCmdFailedException as ocfe:
+            raise OPForgetException.from_opexception(ocfe) from ocfe
 
     def _sanitize(self):
         self.token = None

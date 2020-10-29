@@ -69,6 +69,7 @@ class _OPCLIExecute:
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
+    OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
     def __init__(self, account_shorthand=None, signin_address=None, email_address=None,
                  secret_key=None, password=None, logger=None, op_path='op'):

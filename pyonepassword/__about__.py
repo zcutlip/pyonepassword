@@ -22,9 +22,10 @@ FINAL
 ...
 
 PRE_RELEASES
-
-X.YaN   # Alpha release
-X.YbN   # Beta release
-X.YrcN  # Release Candidate
-X.Y     # Final release
+X.Y.dev0 # development release 0
+x.y.dev1 # development release 1
+X.YaN    # Alpha release
+X.YbN    # Beta release
+X.YrcN   # Release Candidate
+X.Y      # Final release
 """

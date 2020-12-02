@@ -80,6 +80,46 @@ class OP(_OPCLIExecute):
         op_item = OPItemFactory.op_item_from_item_dict(item_dict)
         return op_item
 
+    def get_user(self, user_name_or_uuid):
+        lookup_argv = [self.op_path, "get", "user", user_name_or_uuid]
+
+        try:
+            output = self._run(
+                lookup_argv, capture_stdout=True, decode="utf-8")
+        except OPCmdFailedException as ocfe:
+            raise OPGetUserException.from_opexception(ocfe) from ocfe
+
+        item_dict = json.loads(output)
+        return item_dict
+
+    def list_events(self, eventid=None, older=False):
+        """
+        Returns the 100 most recent events by default.
+        The Activity Log is only available for 1Password Business accounts.
+
+        :param eventid: start listing from event with ID eid
+        :param older: list events from before the specified event
+        :return: Raw JSON list of events
+        """
+        event_argv = []
+        if eventid:
+            event_argv = ["--eventid", eventid]
+            if older:
+                event_argv = ["--older", "--eventid", eventid]
+
+        lookup_argv = [self.op_path, "list", "events"]
+        if event_argv:
+            lookup_argv.extend(event_argv)
+
+        try:
+            output = self._run(
+                lookup_argv, capture_stdout=True, decode="utf-8")
+        except OPCmdFailedException as ocfe:
+            raise OPGetItemException.from_opexception(ocfe) from ocfe
+
+        item_dict = json.loads(output)
+        return item_dict
+
     def get_item_password(self, item_name_or_uuid, vault=None):
         item: OPLoginItem
         item = self.get_item(item_name_or_uuid, vault=vault)

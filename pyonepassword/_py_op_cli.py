@@ -64,10 +64,12 @@ class OPCLIConfig(dict):
 
 
 class _OPCLIExecute:
-
+    logging.basicConfig(format="%(message)s", level=logging.DEBUG)
+    logger = logging.getLogger()
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
+    OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
     def __init__(self, account_shorthand=None, signin_address=None, email_address=None,
                  secret_key=None, password=None, logger=None, op_path='op'):
@@ -95,10 +97,8 @@ class _OPCLIExecute:
             - OPSigninException if 1Password sign-in fails for any reason.
             - OPNotFoundException if the 1Password command can't be found.
         """
-        if not logger:
-            logging.basicConfig(format="%(message)s", level=logging.DEBUG)
-            logger = logging.getLogger()
-        self.logger = logger
+        if logger:
+            self.logger = logger
 
         if account_shorthand is None:
             config = OPCLIConfig()
@@ -164,7 +164,8 @@ class _OPCLIExecute:
 
         return output
 
-    def _run(self, argv, capture_stdout=False, input_string=None, decode=None):
+    @classmethod
+    def _run(cls, argv, capture_stdout=False, input_string=None, decode=None):
         _ran = None
         stdout = subprocess.PIPE if capture_stdout else None
         if input_string:
@@ -174,11 +175,11 @@ class _OPCLIExecute:
             _ran = subprocess.run(argv, input=input_string,
                                   stderr=subprocess.PIPE, stdout=stdout, env=env)
         except FileNotFoundError as err:
-            self.logger.error(
+            cls.logger.error(
                 "1Password 'op' command not found at: {}".format(argv[0]))
-            self.logger.error(
+            cls.logger.error(
                 "See https://support.1password.com/command-line-getting-started/ for more information,")
-            self.logger.error(
+            cls.logger.error(
                 "or install from Homebrew with: 'brew install 1password-cli")
             raise OPNotFoundException(argv[0], err.errno) from err
 

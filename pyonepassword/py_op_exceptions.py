@@ -50,9 +50,14 @@ class OPSignoutException(OPCmdFailedException):
     MSG = "1Password signout failed."
 
 
+class OPForgetException(OPCmdFailedException):
+    MSG = "1Password forget failed."
+
 # Keep this exception class around for a bit
 # so any code handling this exception instead of OPGetItemException
 # can still work
+
+
 @deprecated("handle OPGetItemException instead")
 class OPLookupException(OPCmdFailedException):
     MSG = "1Password lookup failed."

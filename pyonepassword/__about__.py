@@ -1,5 +1,5 @@
 __title__ = "pyonepassword"
-__version__ = "1.7.0"
+__version__ = "1.7.1"
 __summary__ = "A python API to query a 1Password account using the 'op' command-line tool"
 
 """
@@ -22,9 +22,10 @@ FINAL
 ...
 
 PRE_RELEASES
-
-X.YaN   # Alpha release
-X.YbN   # Beta release
-X.YrcN  # Release Candidate
-X.Y     # Final release
+X.Y.dev0 # development release 0
+x.y.dev1 # development release 1
+X.YaN    # Alpha release
+X.YbN    # Beta release
+X.YrcN   # Release Candidate
+X.Y      # Final release
 """

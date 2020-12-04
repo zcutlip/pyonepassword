@@ -1,4 +1,5 @@
 import json
+from json import JSONDecodeError
 from os import environ as env
 from ._py_op_items import (
     OPItemFactory,
@@ -15,7 +16,9 @@ from .py_op_exceptions import (
     OPCmdFailedException,
     OPSignoutException,
     OPForgetException,
-    OPGetUserException
+    OPGetUserException,
+    OPGetVaultException,
+    OPGetGroupException
 )
 
 
@@ -70,7 +73,11 @@ class OP(_OPCLIExecute):
         except OPCmdFailedException as ocfe:
             raise exception_on_err.from_opexception(ocfe) from ocfe
 
-        item_dict = json.loads(output)
+        try:
+            item_dict = json.loads(output)
+        except JSONDecodeError as jdce:
+            raise exception_on_err.from_opexception(jdce) from jdce
+
         return item_dict
 
     def get_item(self, item_name_or_uuid, vault=None):

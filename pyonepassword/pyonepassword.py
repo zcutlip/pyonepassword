@@ -14,7 +14,8 @@ from .py_op_exceptions import (
     OPInvalidDocumentException,
     OPCmdFailedException,
     OPSignoutException,
-    OPForgetException
+    OPForgetException,
+    OPGetUserException
 )
 
 

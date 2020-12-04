@@ -61,6 +61,18 @@ class OP(_OPCLIExecute):
                          op_path=op_path)
         self.vault = vault
 
+    def _get_abstract(self, abstract_obj_type: str, abs_name_or_uuid: str, exception_on_err: Exception):
+        lookup_argv = [self.op_path, "get", abstract_obj_type, abs_name_or_uuid]
+
+        try:
+            output = self._run(
+                lookup_argv, capture_stdout=True, decode="utf-8")
+        except OPCmdFailedException as ocfe:
+            raise exception_on_err.from_opexception(ocfe) from ocfe
+
+        item_dict = json.loads(output)
+        return item_dict
+
     def get_item(self, item_name_or_uuid, vault=None):
         vault_argv = []
         if vault:
@@ -83,16 +95,7 @@ class OP(_OPCLIExecute):
         return op_item
 
     def get_user(self, user_name_or_uuid):
-        lookup_argv = [self.op_path, "get", "user", user_name_or_uuid]
-
-        try:
-            output = self._run(
-                lookup_argv, capture_stdout=True, decode="utf-8")
-        except OPCmdFailedException as ocfe:
-            raise OPGetUserException.from_opexception(ocfe) from ocfe
-
-        item_dict = json.loads(output)
-        return item_dict
+        return self._get_abstract('user', user_name_or_uuid, OPGetUserException)
 
     def list_events(self, eventid=None, older=False):
         """

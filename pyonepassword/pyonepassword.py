@@ -94,8 +94,14 @@ class OP(_OPCLIExecute):
         op_item = OPItemFactory.op_item_from_item_dict(item_dict)
         return op_item
 
-    def get_user(self, user_name_or_uuid):
+    def get_user(self, user_name_or_uuid: str):
         return self._get_abstract('user', user_name_or_uuid, OPGetUserException)
+
+    def get_vault(self, vault_name_or_uuid: str):
+        return self._get_abstract('vault', vault_name_or_uuid, OPGetVaultException)
+
+    def get_group(self, group_name_or_uuid: str):
+        return self._get_abstract('group', group_name_or_uuid, OPGetGroupException)
 
     def list_events(self, eventid=None, older=False):
         """

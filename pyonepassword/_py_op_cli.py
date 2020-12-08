@@ -198,29 +198,61 @@ class _OPCLIExecute:
 
 
 class _OPArgv(list):
-    def __init__(self, op_exe: str, command: str, args: List, subcommand: str = None):
+    def __init__(self, op_exe: str, command: str, args: List, subcommand: str = None, args_to_serialize=[]):
         argv = [op_exe, command]
+        self.command = command
+        self.subcommand = None
+        self.args_to_serialalize = args_to_serialize
         if subcommand:
+            self.subcommand = subcommand
             argv.extend([subcommand])
         argv.extend(args)
         super().__init__(argv)
-        self.command = None
-        self.subcommand = None
+
+    def query_dict(self):
+        qdict = {}
+
+        cmd = self.command
+        subcmd = self.subcommand
+
+        arg_str = ""
+        for item, val in self.args_to_serilalize:
+            if val is not None:
+                arg_str += "{}:{},".format(item, val)
+            else:
+                arg_str += item
+        arg_str.rstrip(",")
+        qdict = {
+            "command": cmd,
+            "subcommand": None,
+            "args": None
+        }
+        if subcmd:
+            qdict["subcommand"] = subcmd
+
+        if arg_str:
+            qdict["args"] = arg_str
+        return qdict
 
     @classmethod
     def get_item_argv(cls, op_exe, item_name_or_uuid, vault=None, fields=None):
         argv = [item_name_or_uuid]
+        args_to_serialize = []
         if vault:
+            args_to_serialize.append(("--vault", vault))
             argv.extend(["--vault", vault])
 
         if fields:
+            args_to_serialize.append(("--fields", fields))
             argv.extend(["--fields", fields])
-        return cls(op_exe, "get", argv, subcommand="item")
+        return cls(op_exe, "get", argv, subcommand="item", args_to_serialize=args_to_serialize)
 
     @classmethod
     def get_document_argv(cls, op_exe, document_name_or_uuid, vault=None):
         argv = [document_name_or_uuid]
+        args_to_serialize = []
         if vault:
+            args_to_serialize.extend(("--vault", vault))
             argv.extend(["--vault", vault])
 
-        return cls(op_exe, "get", argv, subcommand="document")
+        return cls(op_exe, "get", argv, subcommand="document", args_to_serialize=args_to_serialize)

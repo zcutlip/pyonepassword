@@ -6,7 +6,7 @@ from ._py_op_items import (
     OPLoginItem,
 )
 
-from ._py_op_cli import _OPCLIExecute
+from ._py_op_commands import _OPCommandInterface
 from ._py_op_deprecation import deprecated
 from .py_op_exceptions import (
     OPGetItemException,
@@ -18,7 +18,7 @@ from .py_op_exceptions import (
 )
 
 
-class OP(_OPCLIExecute):
+class OP(_OPCommandInterface):
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
@@ -51,29 +51,18 @@ class OP(_OPCLIExecute):
             - OPSigninException if 1Password sign-in fails for any reason.
             - OPNotFoundException if the 1Password command can't be found.
         """
-        super().__init__(account_shorthand=account_shorthand,
+        super().__init__(vault=vault,
+                         account_shorthand=account_shorthand,
                          signin_address=signin_address,
                          email_address=email_address,
                          secret_key=secret_key,
                          password=password,
                          logger=logger,
                          op_path=op_path)
-        self.vault = vault
 
     def get_item(self, item_name_or_uuid, vault=None):
-        vault_argv = []
-        if vault:
-            vault_argv = ["--vault", vault]
-        elif self.vault:
-            vault_argv = ["--vault", self.vault]
-
-        lookup_argv = [self.op_path, "get", "item", item_name_or_uuid]
-        if vault_argv:
-            lookup_argv.extend(vault_argv)
-
         try:
-            output = self._run(
-                lookup_argv, capture_stdout=True, decode="utf-8")
+            output = super().get_item(item_name_or_uuid, vault=vault, decode="utf-8")
         except OPCmdFailedException as ocfe:
             raise OPGetItemException.from_opexception(ocfe) from ocfe
 
@@ -126,18 +115,9 @@ class OP(_OPCLIExecute):
         except AttributeError as ae:
             raise OPInvalidDocumentException(
                 "Item has no 'fileName' attribute") from ae
-        vault_argv = []
-        if vault:
-            vault_argv = ["--vault", vault]
-        elif self.vault:
-            vault_argv = ["--vault", self.vault]
-        get_document_argv = [self.op_path,
-                             "get", "document", document_name_or_uuid]
-        if vault_argv:
-            get_document_argv.extend(vault_argv)
 
         try:
-            document_bytes = self._run(get_document_argv, capture_stdout=True)
+            document_bytes = super().get_document(document_name_or_uuid, vault=vault)
         except OPCmdFailedException as ocfe:
             raise OPGetDocumentException.from_opexception(ocfe) from ocfe
 
@@ -221,10 +201,6 @@ class OP(_OPCLIExecute):
         Returns:
             - Bytes of the specified document
         """
-        lookup_argv = [self.op_path, "get", "document", item_name_or_uuid]
-        try:
-            output = self._run(lookup_argv, capture_stdout=True)
-        except OPCmdFailedException as ocfe:
-            raise OPGetDocumentException.from_opexception(ocfe) from ocfe
+        output = super().get_document(item_name_or_uuid)
 
         return output

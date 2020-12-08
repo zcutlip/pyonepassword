@@ -39,6 +39,14 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, item_name_or_uuid, vault=vault_arg)
         return lookup_argv
 
+    def _get_document_argv(self, document_name_or_uuid: str, vault: str = None):
+        vault_arg = vault if vault else self.vault
+
+        get_document_argv = _OPArgv.get_document_argv(
+            self.op_path, document_name_or_uuid, vault=vault_arg)
+
+        return get_document_argv
+
     def get_item(self, item_name_or_uuid, vault=None, decode="utf-8"):
         get_item_argv = self._get_item_argv(item_name_or_uuid, vault=vault)
         try:
@@ -61,13 +69,9 @@ class _OPCommandInterface(_OPCLIExecute):
         Returns:
             - Bytes: document bytes
         """
-        vault_argv = []
-        vault_arg = vault if vault else self.vault
 
-        get_document_argv = _OPArgv.get_document_argv(
-            self.op_path, document_name_or_uuid, vault=vault_arg)
-        if vault_argv:
-            get_document_argv.extend(vault_argv)
+        get_document_argv = self._get_document_argv(
+            document_name_or_uuid, vault=vault)
 
         try:
             document_bytes = self._run(get_document_argv, capture_stdout=True)

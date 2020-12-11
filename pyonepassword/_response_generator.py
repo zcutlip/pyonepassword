@@ -53,7 +53,7 @@ class OPResponseGenerator(_OPCommandInterface):
 
         return resp_dict
 
-    def get_document(self, document_name_or_uuid: str, vault: str):
+    def get_document_generate_response(self, document_name_or_uuid: str, vault: str = None):
         get_doc_argv: _OPArgv = self._get_document_argv(
             document_name_or_uuid, vault=vault)
         output = super().get_document(document_name_or_uuid, vault=vault)

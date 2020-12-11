@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from ._py_op_commands import _OPCommandInterface
 from ._py_op_cli import _OPArgv
@@ -25,7 +26,7 @@ class OPQueryResponse:
             "query": self.query_dict,
             "response": {
                 "binary": self.binary,
-                "response-file": str(resp_path)
+                "response_file": os.path.basename(resp_path)
             }
         }
 

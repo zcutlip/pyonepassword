@@ -1,5 +1,35 @@
+from pathlib import Path
 from ._py_op_commands import _OPCommandInterface
 from ._py_op_cli import _OPArgv
+
+
+class OPQueryResponse:
+    def __init__(self, query_dict, response_obj, binary=False):
+        self.query_dict = query_dict
+        self.binary = binary
+        self.response = response_obj
+
+    def record_response(self, response_file_path):
+        resp_path: Path
+        if isinstance(response_file_path, str):
+            resp_path = Path(response_file_path)
+        else:
+            resp_path = response_file_path
+
+        resp_path.parent.mkdir(parents=True, exist_ok=True)
+        if self.binary:
+            resp_path.write_bytes(self.response)
+        else:
+            resp_path.write_text(self.response)
+        response_dict = {
+            "query": self.query_dict,
+            "response": {
+                "binary": self.binary,
+                "response-file": str(resp_path)
+            }
+        }
+
+        return response_dict
 
 
 class OPResponseGenerator(_OPCommandInterface):

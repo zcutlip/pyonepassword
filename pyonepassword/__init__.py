@@ -14,7 +14,11 @@ from .py_op_exceptions import (  # noqa: F401
     OPGetDocumentException,
     OPInvalidDocumentException,
     OPSignoutException,
-    OPForgetException
+    OPForgetException,
+    OPConfigNotFoundException
 )
 
-from .py_op_exceptions import OPConfigNotFoundException  # noqa: F401
+from ._response_generator import (  # noqa: F401
+    OPResponseGenerator,
+    OPQueryResponse
+)

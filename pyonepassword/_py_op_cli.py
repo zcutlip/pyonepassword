@@ -198,10 +198,18 @@ class _OPCLIExecute:
 
 
 class _OPArgv(list):
-    def __init__(self, op_exe: str, command: str, args: List, subcommand: str = None, args_to_serialize=[]):
+    def __init__(self, op_exe: str, command: str, args: List, subcommand: str = None, has_obj_id=False, args_to_serialize=[]):
+        # TODO: Refactor this
+        # constructor is getting too many specialized kwargs tied to
+        # specific commands/subcommands
+        # maybe instead of an "args" array plus a bunch of named kwargs,
+        # send in a dict that gets passed through tree of argv building logic?
         argv = [op_exe, command]
         self.command = command
         self.subcommand = None
+        self.object_identifier = None
+        if has_obj_id:
+            self.object_identifier = args[0]
         self.args_to_serialalize = args_to_serialize
         if subcommand:
             self.subcommand = subcommand
@@ -213,22 +221,22 @@ class _OPArgv(list):
         qdict = {}
 
         cmd = self.command
-        subcmd = self.subcommand
 
         arg_str = ""
-        for item, val in self.args_to_serilalize:
-            if val is not None:
-                arg_str += "{}:{},".format(item, val)
+        for opt, arg in self.args_to_serialalize:
+            opt = opt.lstrip("--")
+            if arg is not None:
+                arg_str += "{}:{},".format(opt, arg)
             else:
-                arg_str += item
-        arg_str.rstrip(",")
+                arg_str += "{},".format(opt)
+
+        arg_str = arg_str.rstrip(",")
         qdict = {
             "command": cmd,
-            "subcommand": None,
+            "subcommand": self.subcommand,
+            "object_identifier": self.object_identifier,
             "args": None
         }
-        if subcmd:
-            qdict["subcommand"] = subcmd
 
         if arg_str:
             qdict["args"] = arg_str
@@ -239,20 +247,20 @@ class _OPArgv(list):
         argv = [item_name_or_uuid]
         args_to_serialize = []
         if vault:
-            args_to_serialize.append(("--vault", vault))
+            args_to_serialize.append(("vault", vault))
             argv.extend(["--vault", vault])
 
         if fields:
-            args_to_serialize.append(("--fields", fields))
+            args_to_serialize.append(("fields", fields))
             argv.extend(["--fields", fields])
-        return cls(op_exe, "get", argv, subcommand="item", args_to_serialize=args_to_serialize)
+        return cls(op_exe, "get", argv, subcommand="item", has_obj_id=True, args_to_serialize=args_to_serialize)
 
     @classmethod
     def get_document_argv(cls, op_exe, document_name_or_uuid, vault=None):
         argv = [document_name_or_uuid]
         args_to_serialize = []
         if vault:
-            args_to_serialize.extend(("--vault", vault))
+            args_to_serialize.extend(("vault", vault))
             argv.extend(["--vault", vault])
 
-        return cls(op_exe, "get", argv, subcommand="document", args_to_serialize=args_to_serialize)
+        return cls(op_exe, "get", argv, subcommand="document", has_obj_id=True, args_to_serialize=args_to_serialize)

@@ -40,12 +40,9 @@ class OPResponseGenerator(_OPCommandInterface):
         else:
             binary = True
         query_dict = argv_obj.query_dict()
+        query_response = OPQueryResponse(query_dict, output, binary=binary)
 
-        resp_dict = {
-            "response": output,
-            "binary": binary
-        }
-        query_dict["response"] = resp_dict
+        return query_response
 
         return resp_dict
 

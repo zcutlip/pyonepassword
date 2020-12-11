@@ -32,11 +32,11 @@ class _OPCommandInterface(_OPCLIExecute):
                          op_path=op_path)
         self.vault = vault
 
-    def _get_item_argv(self, item_name_or_uuid, vault=None):
+    def _get_item_argv(self, item_name_or_uuid, vault=None, fields=None):
         vault_arg = vault if vault else self.vault
 
         lookup_argv = _OPArgv.get_item_argv(
-            self.op_path, item_name_or_uuid, vault=vault_arg)
+            self.op_path, item_name_or_uuid, vault=vault_arg, fields=fields)
         return lookup_argv
 
     def _get_document_argv(self, document_name_or_uuid: str, vault: str = None):
@@ -47,8 +47,9 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return get_document_argv
 
-    def get_item(self, item_name_or_uuid, vault=None, decode="utf-8"):
-        get_item_argv = self._get_item_argv(item_name_or_uuid, vault=vault)
+    def get_item(self, item_name_or_uuid, vault=None, fields=None, decode="utf-8"):
+        get_item_argv = self._get_item_argv(
+            item_name_or_uuid, vault=vault, fields=fields)
         try:
             output = self._run(
                 get_item_argv, capture_stdout=True, decode=decode)

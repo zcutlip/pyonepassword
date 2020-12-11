@@ -44,12 +44,10 @@ class OPResponseGenerator(_OPCommandInterface):
 
         return query_response
 
-        return resp_dict
-
-    def get_item_generate_response(self, item_name_or_uuid, vault=None, decode="utf-8"):
+    def get_item_generate_response(self, item_name_or_uuid, vault=None, fields=None, decode="utf-8"):
         get_item_argv: _OPArgv = self._get_item_argv(
-            item_name_or_uuid, vault=vault)
-        output = super().get_item(item_name_or_uuid, vault=vault, decode=decode)
+            item_name_or_uuid, vault=vault, fields=fields)
+        output = super().get_item(item_name_or_uuid, vault=vault, fields=fields, decode=decode)
         resp_dict = self._generate_response_dict(
             get_item_argv, output, decode=decode)
 

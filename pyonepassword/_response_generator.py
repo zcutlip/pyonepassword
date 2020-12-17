@@ -5,28 +5,44 @@ from ._py_op_cli import _OPArgv
 
 
 class OPQueryResponse:
-    def __init__(self, query_dict, response_obj, binary=False):
+    def __init__(self, query_dict, output, error_output, returncode, encoding="utf-8"):
         self.query_dict = query_dict
-        self.binary = binary
-        self.response = response_obj
+        self.encoding = encoding
+        self.output = output
+        self.error_output = error_output
+        self.returncode = returncode
 
-    def record_response(self, response_file_path):
+    def record_response(self, response_dir):
         resp_path: Path
-        if isinstance(response_file_path, str):
-            resp_path = Path(response_file_path)
+        if isinstance(response_dir, str):
+            resp_path = Path(response_dir)
         else:
-            resp_path = response_file_path
+            resp_path = response_dir
 
-        resp_path.parent.mkdir(parents=True, exist_ok=True)
-        if self.binary:
-            resp_path.write_bytes(self.response)
+        resp_path.mkdir(parents=True, exist_ok=True)
+        if self.encoding == "binary":
+            binary = True
+            output_ext = ".bin"
         else:
-            resp_path.write_text(self.response)
+            binary = False
+            output_ext = ".txt"
+
+        output_path = Path(resp_path, f"output.{output_ext}")
+        error_output_path = Path(resp_path, f"error_output.{output_ext}")
+
+        if binary:
+            output_path.write_bytes(self.output)
+            error_output_path.write_bytes(self.error_output)
+        else:
+            output_path.write_text(self.output)
+            error_output_path.write_text(self.error_output)
         response_dict = {
             "query": self.query_dict,
             "response": {
-                "binary": self.binary,
-                "response_file": os.path.basename(resp_path)
+                "encoding": self.encoding,
+                "response_dir": os.path.basename(resp_path),
+                "stdout": os.path.basename(output_path),
+                "stderr": os.path.basename(error_output_path)
             }
         }
 

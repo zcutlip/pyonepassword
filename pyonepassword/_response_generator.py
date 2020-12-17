@@ -51,13 +51,14 @@ class OPQueryResponse:
 
 class OPResponseGenerator(_OPCommandInterface):
 
-    def _generate_response_dict(self, argv_obj, output, decode=None):
+    def _generate_response_dict(self, argv_obj: _OPArgv, stdout, stderr, returncode, decode=None):
         if decode:
             binary = False
         else:
             binary = True
         query_dict = argv_obj.query_dict()
-        query_response = OPQueryResponse(query_dict, output, binary=binary)
+        query_response = OPQueryResponse(
+            query_dict, stdout, stderr, returncode, binary=binary)
 
         return query_response
 
@@ -73,7 +74,9 @@ class OPResponseGenerator(_OPCommandInterface):
     def get_document_generate_response(self, document_name_or_uuid: str, vault: str = None):
         get_doc_argv: _OPArgv = self._get_document_argv(
             document_name_or_uuid, vault=vault)
-        output = super().get_document(document_name_or_uuid, vault=vault)
-        resp_dict = self._generate_response_dict(get_doc_argv, output)
+        stdout, stderr, returncode = self._run_raw(
+            get_doc_argv, capture_stdout=True, ignore_error=True)
+        resp_dict = self._generate_response_dict(
+            get_doc_argv, stdout, stderr, returncode)
 
         return resp_dict

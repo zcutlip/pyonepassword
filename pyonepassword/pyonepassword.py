@@ -1,4 +1,5 @@
 import json
+from json import JSONDecodeError
 from os import environ as env
 from ._py_op_items import (
     OPItemFactory,
@@ -14,7 +15,10 @@ from .py_op_exceptions import (
     OPInvalidDocumentException,
     OPCmdFailedException,
     OPSignoutException,
-    OPForgetException
+    OPForgetException,
+    OPGetUserException,
+    OPGetVaultException,
+    OPGetGroupException
 )
 
 
@@ -60,6 +64,22 @@ class OP(_OPCommandInterface):
                          logger=logger,
                          op_path=op_path)
 
+    def _get_abstract(self, abstract_obj_type: str, abs_name_or_uuid: str, exception_on_err: Exception):
+        lookup_argv = [self.op_path, "get", abstract_obj_type, abs_name_or_uuid]
+
+        try:
+            output = self._run(
+                lookup_argv, capture_stdout=True, decode="utf-8")
+        except OPCmdFailedException as ocfe:
+            raise exception_on_err.from_opexception(ocfe) from ocfe
+
+        try:
+            item_dict = json.loads(output)
+        except JSONDecodeError as jdce:
+            raise exception_on_err.from_opexception(jdce) from jdce
+
+        return item_dict
+
     def get_item(self, item_name_or_uuid, vault=None):
         try:
             output = super().get_item(item_name_or_uuid, vault=vault, decode="utf-8")
@@ -69,6 +89,43 @@ class OP(_OPCommandInterface):
         item_dict = json.loads(output)
         op_item = OPItemFactory.op_item_from_item_dict(item_dict)
         return op_item
+
+    def get_user(self, user_name_or_uuid: str):
+        return self._get_abstract('user', user_name_or_uuid, OPGetUserException)
+
+    def get_vault(self, vault_name_or_uuid: str):
+        return self._get_abstract('vault', vault_name_or_uuid, OPGetVaultException)
+
+    def get_group(self, group_name_or_uuid: str):
+        return self._get_abstract('group', group_name_or_uuid, OPGetGroupException)
+
+    def list_events(self, eventid=None, older=False):
+        """
+        Returns the 100 most recent events by default.
+        The Activity Log is only available for 1Password Business accounts.
+
+        :param eventid: start listing from event with ID eid
+        :param older: list events from before the specified event
+        :return: Raw JSON list of events
+        """
+        event_argv = []
+        if eventid:
+            event_argv = ["--eventid", eventid]
+            if older:
+                event_argv = ["--older", "--eventid", eventid]
+
+        lookup_argv = [self.op_path, "list", "events"]
+        if event_argv:
+            lookup_argv.extend(event_argv)
+
+        try:
+            output = self._run(
+                lookup_argv, capture_stdout=True, decode="utf-8")
+        except OPCmdFailedException as ocfe:
+            raise OPGetItemException.from_opexception(ocfe) from ocfe
+
+        item_dict = json.loads(output)
+        return item_dict
 
     def get_item_password(self, item_name_or_uuid, vault=None):
         item: OPLoginItem

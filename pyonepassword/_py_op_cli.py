@@ -166,15 +166,36 @@ class _OPCLIExecute:
         return output
 
     @classmethod
-    def _run(cls, argv, capture_stdout=False, input_string=None, decode=None):
-        _ran = None
+    def _run_raw(cls, argv, input_string=None, capture_stdout=False, ignore_error=False):
         stdout = subprocess.PIPE if capture_stdout else None
         if input_string:
             if isinstance(input_string, str):
                 input_string = input_string.encode("utf-8")
+
+        _ran = subprocess.run(
+            argv, input=input_string, stderr=subprocess.PIPE, stdout=stdout, env=env)
+
+        stdout = _ran.stdout
+        stderr = _ran.stderr
+        returncode = _ran.returncode
+
+        if not ignore_error:
+            try:
+                _ran.check_returncode()
+            except subprocess.CalledProcessError as err:
+                stderr_output = stderr.decode("utf-8").rstrip()
+                raise OPCmdFailedException(stderr_output, returncode) from err
+
+        return (stdout, stderr, returncode)
+
+    @classmethod
+    def _run(cls, argv, capture_stdout=False, input_string=None, decode=None):
+        output = None
         try:
-            _ran = subprocess.run(argv, input=input_string,
-                                  stderr=subprocess.PIPE, stdout=stdout, env=env)
+            output, _, _ = cls._run_raw(
+                argv, input_string=input_string, capture_stdout=capture_stdout)
+            if decode:
+                output = output.decode(decode)
         except FileNotFoundError as err:
             cls.logger.error(
                 "1Password 'op' command not found at: {}".format(argv[0]))
@@ -183,16 +204,6 @@ class _OPCLIExecute:
             cls.logger.error(
                 "or install from Homebrew with: 'brew install 1password-cli")
             raise OPNotFoundException(argv[0], err.errno) from err
-
-        output = None
-        try:
-            _ran.check_returncode()
-            if capture_stdout:
-                output = _ran.stdout.decode(decode) if decode else _ran.stdout
-        except subprocess.CalledProcessError as err:
-            stderr_output = _ran.stderr.decode("utf-8").rstrip()
-            returncode = _ran.returncode
-            raise OPCmdFailedException(stderr_output, returncode) from err
 
         return output
 

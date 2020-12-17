@@ -75,6 +75,18 @@ class OPGetDocumentException(OPCmdFailedException):
     MSG = "1Password 'get document' failed."
 
 
+class OPGetUserException(OPCmdFailedException):
+    MSG = "1Password 'get user' failed."
+
+
+class OPGetVaultException(OPCmdFailedException):
+    MSG = "1Password 'get vault' failed."
+
+
+class OPGetGroupException(OPCmdFailedException):
+    MSG = "1Password 'get group' failed."
+
+
 class OPInvalidDocumentException(_OPAbstractException):
 
     def __init__(self, msg):

@@ -28,7 +28,7 @@ class OP(_OPCLIExecute):
     """
 
     def __init__(self, vault=None, account_shorthand=None, signin_address=None, email_address=None,
-                 secret_key=None, password=None, logger=None, op_path='op'):
+                 secret_key=None, password=None, mfa_code=None, logger=None, op_path='op'):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
         If 'password' is not provided, the 'op' command will prompt on the console for a password.
@@ -48,6 +48,7 @@ class OP(_OPCLIExecute):
             - 'email_address': Email of the address for the user of the account
             - 'secret_key': Secret key for the account
             - 'password': The user's master password
+            - 'mfa_code': 6-digit MFA code
             - 'logger': A logging object. If not provided a basic logger is created and used.
             - 'op_path': optional path to the `op` command, if it's not at the default location
 
@@ -60,6 +61,7 @@ class OP(_OPCLIExecute):
                          email_address=email_address,
                          secret_key=secret_key,
                          password=password,
+                         mfa_code=mfa_code,
                          logger=logger,
                          op_path=op_path)
         self.vault = vault

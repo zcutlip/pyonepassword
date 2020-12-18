@@ -4,6 +4,8 @@ import json
 import logging
 from json.decoder import JSONDecodeError
 import subprocess
+import select
+import pty
 from os import environ as env
 
 from .py_op_exceptions import (
@@ -72,7 +74,7 @@ class _OPCLIExecute:
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
     def __init__(self, account_shorthand=None, signin_address=None, email_address=None,
-                 secret_key=None, password=None, logger=None, op_path='op'):
+                 secret_key=None, password=None, mfa_code=None, logger=None, op_path='op'):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
         If 'password' is not provided, the 'op' command will prompt on the console for a password.
@@ -90,6 +92,7 @@ class _OPCLIExecute:
             - 'email_address': Email of the address for the user of the account
             - 'secret_key': Secret key for the account
             - 'password': The user's master password
+            - 'mfa_code': 6-digit MFA code
             - 'logger': A logging object. If not provided a basic logger is created and used.
             - 'op_path': optional path to the `op` command, if it's not at the default location
 
@@ -121,16 +124,18 @@ class _OPCLIExecute:
                                email_address,
                                secret_key,
                                password]
+
+        # Only do initial signin if all credentials are passed; MFA code is still optional
         initial_signin = (None not in initial_signin_args)
 
         if initial_signin:
-            self.token = self._do_initial_signin(*initial_signin_args)
+            self.token = self._do_initial_signin(*initial_signin_args, mfa_code)
             # export OP_SESSION_<signin_address>
         else:
             self.token = self._do_normal_signin(account_shorthand, password)
         sess_var_name = 'OP_SESSION_{}'.format(self.account_shorthand)
-        # TODO: return alread-decoded token from sign-in
-        env[sess_var_name] = self.token.decode()
+        # TODO: return already-decoded token from sign-in
+        env[sess_var_name] = self.token
 
     def _do_normal_signin(self, account_shorthand, password):
         self.logger.info("Doing normal (non-initial) 1Password sign-in")
@@ -143,7 +148,7 @@ class _OPCLIExecute:
         return token
 
     @deprecated("Initial sign-in soon to be deprecated due to incompatibility with multi-factor authentication")
-    def _do_initial_signin(self, account_shorthand, signin_address, email_address, secret_key, password):
+    def _do_initial_signin(self, account_shorthand, signin_address, email_address, secret_key, password, mfa_code=None):
         self.logger.info(
             "Performing initial 1Password sign-in to {} as {}".format(signin_address, email_address))
         signin_argv = [self.op_path, "signin", signin_address,
@@ -151,18 +156,9 @@ class _OPCLIExecute:
         if account_shorthand:
             signin_argv.extend(["--shorthand", account_shorthand])
 
-        token = self._run_signin(signin_argv, password=password).rstrip()
+        token = self._run_signin(signin_argv, password=password, mfa_code=mfa_code).rstrip()
 
         return token
-
-    def _run_signin(self, argv, password=None):
-        try:
-            output = self._run(argv, capture_stdout=True,
-                               input_string=password)
-        except OPCmdFailedException as opfe:
-            raise OPSigninException.from_opexception(opfe) from opfe
-
-        return output
 
     @classmethod
     def _run(cls, argv, capture_stdout=False, input_string=None, decode=None):
@@ -194,3 +190,119 @@ class _OPCLIExecute:
             raise OPCmdFailedException(stderr_output, returncode) from err
 
         return output
+
+    @classmethod
+    def _run_signin(cls, argv, password=None, mfa_code=None):
+
+        if password:
+            if isinstance(password, str):
+                password = password.encode("utf-8")
+        else:
+            raise ValueError("Cannot run signin with empty password")
+
+        if mfa_code:
+            if isinstance(mfa_code, str):
+                mfa_code = mfa_code.encode("utf-8")
+
+        try:
+            # Create psuedo TTY to bypass isatty checks
+            inp = pty.openpty()
+            # Launch process with ptty
+            proc = subprocess.Popen(argv, stdin=inp[1], stdout=inp[1], stderr=inp[1])
+
+        except FileNotFoundError as err:
+            cls.logger.error(
+                "1Password 'op' command not found at: {}".format(argv[0]))
+            cls.logger.error(
+                "See https://support.1password.com/command-line-getting-started/ for more information,")
+            cls.logger.error(
+                "or install from Homebrew with: 'brew install 1password-cli")
+            raise OPNotFoundException(argv[0], err.errno) from err
+
+        try:
+
+            # Read password prompt
+            r, w, e = select.select([inp[0]], [], [], 0)
+            if inp[0] in r:
+                prompt = os.read(inp[0], 1024).decode("utf-8")
+
+                if "ERROR" in prompt:
+                    proc.terminate()
+                    raise OPSigninException(f'Error on signin: {prompt}', proc.returncode)
+                elif "Enter the password" not in prompt:
+                    proc.terminate()
+                    raise OPSigninException(f'Unexpected signin output: {prompt}', proc.returncode)
+            else:
+                proc.terminate()
+                raise OPSigninException(f'Expected password prompt', proc.returncode)
+
+            # Write password
+            r, w, e = select.select([inp[0]], [inp[0]], [], 0)
+            if inp[0] in w:
+                os.write(inp[0], password + b'\n')
+            else:
+                proc.terminate()
+                raise OPSigninException(f'Expected op to read password', proc.returncode)
+
+            # Check for MFA prompt or token
+            r, w, e = select.select([inp[0]], [inp[0]], [], 0)
+            if inp[0] in r:
+                prompt = os.read(inp[0], 1024).decode("utf-8")
+
+                # Check for MFA prompt
+                if "Enter your six-digit" in prompt:
+
+                    # Write MFA code
+                    r, w, e = select.select([inp[0]], [inp[0]], [], 0)
+                    if inp[0] in w:
+                        os.write(inp[0], mfa_code + b'\n')
+
+                        # Check for token
+                        r, w, e = select.select([inp[0]], [inp[0]], [], 0)
+                        if inp[0] in r:
+                            token = os.read(inp[0], 1024).decode("utf-8")
+
+                            if "ERROR" in token:
+                                proc.terminate()
+                                raise OPSigninException(f'Error on token output: {prompt}', proc.returncode)
+
+                            # Successfully authenticated with MFA. Output is token
+                            else:
+                                # 6 digit MFA code followed by \r\n is prepended to token, must be stripped
+                                return token[8:].strip()
+
+                        # ptty unreadable after taking MFA code
+                        else:
+                            proc.terminate()
+                            raise OPSigninException(f'Expected op to write token', proc.returncode)
+
+                # Check for errors (e.g. incorrect password)
+                elif "ERROR" in prompt:
+                    proc.terminate()
+                    raise OPSigninException(f'Unexpected signin output: {prompt}', proc.returncode)
+
+
+                # MFA is disabled, output is token
+                else:
+                    return prompt.strip()
+
+            # ptty is unreadable
+            else:
+                proc.terminate()
+                raise OPSigninException(f'Expected either MFA prompt or token', proc.returncode)
+
+        except (KeyboardInterrupt, OPCmdFailedException) as e:
+            raise OPSigninException('Unexpected error', proc.returncode) from e
+
+
+"""
+    def _run_signin(self, argv, password=None, mfa_code=None):
+        try:
+            output = self._run(argv,
+                               capture_stdout=True,
+                               input_string=password if not mfa_code else password + '\n' + mfa_code)
+        except OPCmdFailedException as opfe:
+            raise OPSigninException.from_opexception(opfe) from opfe
+    
+        return output
+"""

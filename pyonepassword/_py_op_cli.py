@@ -222,74 +222,64 @@ class _OPCLIExecute:
         try:
 
             # Read password prompt
-            r, w, e = select.select([inp[0]], [], [], 0)
-            if inp[0] in r:
-                prompt = os.read(inp[0], 1024).decode("utf-8")
+            prompt = os.read(inp[0], 1024).decode("utf-8")
 
-                if "ERROR" in prompt:
-                    proc.terminate()
-                    raise OPSigninException(f'Error on signin: {prompt}', proc.returncode)
-                elif "Enter the password" not in prompt:
-                    proc.terminate()
-                    raise OPSigninException(f'Unexpected signin output: {prompt}', proc.returncode)
-            else:
+            if "ERROR" in prompt:
+                proc.terminate()
+                raise OPSigninException(f'Error on signin: {prompt}', proc.returncode)
+            elif "Enter the password" not in prompt:
+                proc.terminate()
+                raise OPSigninException(f'Unexpected signin output: {prompt}', proc.returncode)
+            elif prompt == '':
                 proc.terminate()
                 raise OPSigninException(f'Expected password prompt', proc.returncode)
 
             # Write password
-            r, w, e = select.select([inp[0]], [inp[0]], [], 0)
-            if inp[0] in w:
-                os.write(inp[0], password + b'\n')
-            else:
+            written = os.write(inp[0], password + b'\n')
+
+            if written < len(password + b'\n'):
                 proc.terminate()
-                raise OPSigninException(f'Expected op to read password', proc.returncode)
+                raise OPSigninException(f'Failed to write password', proc.returncode)
 
             # Check for MFA prompt or token
-            r, w, e = select.select([inp[0]], [inp[0]], [], 0)
-            if inp[0] in r:
-                prompt = os.read(inp[0], 1024).decode("utf-8")
+            prompt = os.read(inp[0], 1024).decode("utf-8")
 
-                # Check for MFA prompt
-                if "Enter your six-digit" in prompt:
+            # Check for errors (e.g. incorrect password)
+            if "ERROR" in prompt:
+                proc.terminate()
+                raise OPSigninException(f'Unexpected signin output: {prompt}', proc.returncode)
 
-                    # Write MFA code
-                    r, w, e = select.select([inp[0]], [inp[0]], [], 0)
-                    if inp[0] in w:
-                        os.write(inp[0], mfa_code + b'\n')
-
-                        # Check for token
-                        r, w, e = select.select([inp[0]], [inp[0]], [], 0)
-                        if inp[0] in r:
-                            token = os.read(inp[0], 1024).decode("utf-8")
-
-                            if "ERROR" in token:
-                                proc.terminate()
-                                raise OPSigninException(f'Error on token output: {prompt}', proc.returncode)
-
-                            # Successfully authenticated with MFA. Output is token
-                            else:
-                                # 6 digit MFA code followed by \r\n is prepended to token, must be stripped
-                                return token[8:].strip()
-
-                        # ptty unreadable after taking MFA code
-                        else:
-                            proc.terminate()
-                            raise OPSigninException(f'Expected op to write token', proc.returncode)
-
-                # Check for errors (e.g. incorrect password)
-                elif "ERROR" in prompt:
-                    proc.terminate()
-                    raise OPSigninException(f'Unexpected signin output: {prompt}', proc.returncode)
-
-
-                # MFA is disabled, output is token
-                else:
-                    return prompt.strip()
-
-            # ptty is unreadable
-            else:
+            elif prompt == '':
                 proc.terminate()
                 raise OPSigninException(f'Expected either MFA prompt or token', proc.returncode)
+
+            # Check for MFA prompt
+            elif "Enter your six-digit" in prompt:
+
+                # Write MFA code
+                written = os.write(inp[0], mfa_code + b'\n')
+                if written < len(mfa_code + b'\n'):
+                    proc.terminate()
+                    raise OPSigninException(f'Failed to write MFA code', proc.returncode)
+
+                # Check for token
+                token = os.read(inp[0], 1024).decode("utf-8")
+
+                if "ERROR" in token:
+                    proc.terminate()
+                    raise OPSigninException(f'Error on token output: {prompt}', proc.returncode)
+
+                elif token == '':
+                    proc.terminate()
+                    raise OPSigninException(f'Expected token', proc.returncode)
+
+                # Successfully authenticated with MFA. Output is token
+                # 6 digit MFA code followed by \r\n is prepended to token, must be stripped
+                return token[8:].strip()
+
+            # MFA is disabled, output is token
+            else:
+                return prompt.strip()
 
         except (KeyboardInterrupt, OPCmdFailedException) as e:
             raise OPSigninException('Unexpected error', proc.returncode) from e

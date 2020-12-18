@@ -40,7 +40,7 @@ if __name__ == "__main__":
         print("")
         print("Looking up uuid \"QBXCWKNZZNGL8I3KSZOH5ERLHI\"...")
         user_dict_2 = op.get_user("QBXCWKNZZNGL8I3KSZOH5ERLHI")
-        print("user dictionaries match? {}".format(user_dict == user_dict_2))
+        print("User dictionaries match? {}".format(user_dict == user_dict_2))
     except OPGetUserException as ope:
         print("1Password lookup failed: {}".format(ope))
         print(ope.err_output)

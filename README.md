@@ -247,6 +247,42 @@ Doing normal (non-initial) 1Password sign-in
 To sign in to an account: op signin --help
 ```
 
+### Getting Details for a User
+
+```Python
+op = OP(password=my_password)
+
+# User's name:
+user_dict = op.get_user("Firstname Lastname")
+
+# or the user's UUID
+user_dict = op.get_user(user_uuid)
+```
+
+### Getting Details for a Group
+
+```Python
+op = OP(password=my_password)
+
+# Group name:
+group_dict = op.get_group("Team Members")
+
+# or the group's UUID
+group_dict_ = op.get_group("yhdg6ovhkjcfhn3u25cp2bnl6e")
+```
+
+### Getting Details for a Vault
+
+```Python
+op = OP(password=my_password)
+
+# Group name:
+vault_dict = op.get_vault("Test Data")
+
+# or the group's UUID
+vault_dict = op.get_vault("yhdg6ovhkjcfhn3u25cp2bnl6e")
+```
+
 ## Notes
 
 - This has been lightly tested, and only on my Mac. I don't know if it works on other systems.

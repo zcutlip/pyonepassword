@@ -4,8 +4,7 @@ import json
 import logging
 from json.decoder import JSONDecodeError
 import subprocess
-import select
-import pty
+import pexpect
 from os import environ as env
 
 from .py_op_exceptions import (
@@ -134,7 +133,6 @@ class _OPCLIExecute:
         else:
             self.token = self._do_normal_signin(account_shorthand, password)
         sess_var_name = 'OP_SESSION_{}'.format(self.account_shorthand)
-        # TODO: return already-decoded token from sign-in
         env[sess_var_name] = self.token
 
     def _do_normal_signin(self, account_shorthand, password):
@@ -205,10 +203,8 @@ class _OPCLIExecute:
                 mfa_code = mfa_code.encode("utf-8")
 
         try:
-            # Create psuedo TTY to bypass isatty checks
-            inp = pty.openpty()
-            # Launch process with ptty
-            proc = subprocess.Popen(argv, stdin=inp[1], stdout=inp[1], stderr=inp[1])
+            # Launch pexpect child
+            proc = pexpect.spawn(' '.join(argv))
 
         except FileNotFoundError as err:
             cls.logger.error(
@@ -220,79 +216,77 @@ class _OPCLIExecute:
             raise OPNotFoundException(argv[0], err.errno) from err
 
         try:
-
             # Read password prompt
-            prompt = os.read(inp[0], 1024).decode("utf-8")
-
-            if "ERROR" in prompt:
-                proc.terminate()
-                raise OPSigninException(f'Error on signin: {prompt}', proc.returncode)
-            elif "Enter the password" not in prompt:
-                proc.terminate()
-                raise OPSigninException(f'Unexpected signin output: {prompt}', proc.returncode)
-            elif prompt == '':
-                proc.terminate()
-                raise OPSigninException(f'Expected password prompt', proc.returncode)
+            prompt = proc.expect(['Enter the password', 'ERROR', pexpect.EOF, pexpect.TIMEOUT])
+            if prompt == 0:
+                pass
+            elif prompt == 1:
+                proc.close()
+                raise OPSigninException(f'Error on signin: {prompt}', proc.exitstatus)
+            elif prompt == 2:
+                proc.close()
+                raise OPSigninException(f'Expected password prompt', proc.exitstatus)
+            elif prompt == 3:
+                proc.close()
+                raise OPSigninException(f'Expected password prompt, got TIMEOUT', proc.exitstatus)
+            else:
+                proc.close()
+                raise OPSigninException(f'Unexpected signin output: {prompt}', proc.exitstatus)
 
             # Write password
-            written = os.write(inp[0], password + b'\n')
-
-            if written < len(password + b'\n'):
-                proc.terminate()
-                raise OPSigninException(f'Failed to write password', proc.returncode)
+            proc.write(password + b'\n')
+            proc.flush()
 
             # Check for MFA prompt or token
-            prompt = os.read(inp[0], 1024).decode("utf-8")
-
-            # Check for errors (e.g. incorrect password)
-            if "ERROR" in prompt:
-                proc.terminate()
-                raise OPSigninException(f'Unexpected signin output: {prompt}', proc.returncode)
-
-            elif prompt == '':
-                proc.terminate()
-                raise OPSigninException(f'Expected either MFA prompt or token', proc.returncode)
-
-            # Check for MFA prompt
-            elif "Enter your six-digit" in prompt:
-
-                # Write MFA code
-                written = os.write(inp[0], mfa_code + b'\n')
-                if written < len(mfa_code + b'\n'):
-                    proc.terminate()
-                    raise OPSigninException(f'Failed to write MFA code', proc.returncode)
-
-                # Check for token
-                token = os.read(inp[0], 1024).decode("utf-8")
-
-                if "ERROR" in token:
-                    proc.terminate()
-                    raise OPSigninException(f'Error on token output: {prompt}', proc.returncode)
-
-                elif token == '':
-                    proc.terminate()
-                    raise OPSigninException(f'Expected token', proc.returncode)
-
-                # Successfully authenticated with MFA. Output is token
-                # 6 digit MFA code followed by \r\n is prepended to token, must be stripped
-                return token[8:].strip()
-
-            # MFA is disabled, output is token
+            prompt = proc.expect(['Enter your six-digit', 'ERROR', pexpect.EOF, pexpect.TIMEOUT])
+            if prompt == 0:
+                pass
+            elif prompt == 1:
+                proc.close()
+                raise OPSigninException(f'Error on signin: {prompt}', proc.exitstatus)
+            elif prompt == 2:
+                # Account already signed in with the shorthand
+                # Probably the actual result, or a completely malformed string which will raise exception on signin
+                token = proc.before.decode('utf-8').split('\r\n')[1]
+                return token
+            elif prompt == 3:
+                proc.close()
+                raise OPSigninException(f'Expected password prompt, got TIMEOUT', proc.exitstatus)
             else:
-                return prompt.strip()
+                # Probably the actual result
+                return proc.before
 
-        except (KeyboardInterrupt, OPCmdFailedException) as e:
-            raise OPSigninException('Unexpected error', proc.returncode) from e
+            # Write mfa code
+            proc.write(mfa_code + b'\n')
+            proc.flush()
+            prompt = proc.expect(['ERROR', pexpect.EOF, pexpect.TIMEOUT])
+            if prompt == 0:
+                proc.close()
+                raise OPSigninException(f'Error on signin: '
+                                        f'{proc.before.decode().strip()} {proc.buffer.decode().strip()}',
+                                        proc.exitstatus)
+            elif prompt == 1:
+                # Token was written to before buffer
+                # Probably the actual result, or a completely malformed string which will raise exception on signin
+                token = proc.before.decode('utf-8').split('\r\n')[1]
+                return token
+            elif prompt == 2:
+                proc.close()
+                raise OPSigninException(f'Expected token, got TIMEOUT', proc.exitstatus)
+            else:
+                # Probably the actual result, or a completely malformed string which will raise exception on signin
+                token = proc.before.decode('utf-8').split('\r\n')[1]
+                return token
 
+            # Probably the actual result, or a completely malformed string which will raise exception on signin
+            token = proc.before.decode('utf-8').split('\r\n')[1]
+            return token
 
-"""
-    def _run_signin(self, argv, password=None, mfa_code=None):
-        try:
-            output = self._run(argv,
-                               capture_stdout=True,
-                               input_string=password if not mfa_code else password + '\n' + mfa_code)
-        except OPCmdFailedException as opfe:
-            raise OPSigninException.from_opexception(opfe) from opfe
-    
-        return output
-"""
+        except OPSigninException as e:
+            raise e # Pass rather than re-wrap
+
+        except OPCmdFailedException as e:
+            raise OPSigninException(f'CMD Failed on signin: {e.err_output}', e.returncode) from e
+
+        except KeyboardInterrupt as e:
+            raise OPSigninException('Unexpected error', proc.exitstatus) from e

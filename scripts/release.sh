@@ -41,4 +41,3 @@ if prompt_yes_no;
 then
     python3 -m twine upload dist/"$PROJECT_NAME"-"$version"*
 fi
-

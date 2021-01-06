@@ -88,7 +88,7 @@ class OPGetGroupException(OPCmdFailedException):
 
 
 class OPListEventsException(OPCmdFailedException):
-    MSG = "1Password 'list events' failed."
+    MSG = "1Passworm 'list events' failed."
 
 
 class OPInvalidDocumentException(_OPAbstractException):

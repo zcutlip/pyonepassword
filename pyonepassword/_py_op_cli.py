@@ -6,6 +6,7 @@ from json.decoder import JSONDecodeError
 import subprocess
 import pexpect
 from os import environ as env
+from typing import List
 
 from .py_op_exceptions import (
     OPConfigNotFoundException,
@@ -290,3 +291,32 @@ class _OPCLIExecute:
 
         except KeyboardInterrupt as e:
             raise OPSigninException('Unexpected error', proc.exitstatus) from e
+
+
+class _OPArgv(list):
+    def __init__(self, op_exe: str, command: str, args: List, subcommand: str = None):
+        argv = [op_exe, command]
+        if subcommand:
+            argv.extend([subcommand])
+        argv.extend(args)
+        super().__init__(argv)
+        self.command = None
+        self.subcommand = None
+
+    @classmethod
+    def get_item_argv(cls, op_exe, item_name_or_uuid, vault=None, fields=None):
+        argv = [item_name_or_uuid]
+        if vault:
+            argv.extend(["--vault", vault])
+
+        if fields:
+            argv.extend(["--fields", fields])
+        return cls(op_exe, "get", argv, subcommand="item")
+
+    @classmethod
+    def get_document_argv(cls, op_exe, document_name_or_uuid, vault=None):
+        argv = [document_name_or_uuid]
+        if vault:
+            argv.extend(["--vault", vault])
+
+        return cls(op_exe, "get", argv, subcommand="document")

@@ -20,13 +20,16 @@ python3 -m pip install pyonepassword
 
 ## Example usage
 
-> Note: It is recommended to perform initial sign-in manually on the command line before using `pyonepassword`. Initial sign-in is supported but deprecated. Multi-factor-authenticaiton is not supported.
+> Note: It is recommended to perform initial sign-in manually on the command line before using `pyonepassword`. 
+> MFA is supported *on Unix systems*, but requires some configuration in the client application (e.g. storing a TOTP 
+> shared secret in order to automatically generate an MFA token) depending on the type of MFA device. MFA also utilizes 
+> unix ptys via the `pexpect` library, and as such is less stable than standard POSIX pipes.  
 
 ### Subsequent sign-in and item retrieval
 
 Below is an example demonstrating:
 
-- Subsequant sign-in
+- Subsequent sign-in
 - Specifying a default vault for queries
 - Retrieving an item from 1Password by name or by UUID
 - Overriding the default vault to retrieve a subsequent item from 1Password

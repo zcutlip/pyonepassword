@@ -136,17 +136,20 @@ class _OPCLIExecute:
         sess_var_name = 'OP_SESSION_{}'.format(self.account_shorthand)
         env[sess_var_name] = self.token
 
-    def _do_normal_signin(self, account_shorthand, password):
+    def _do_normal_signin(self, account_shorthand, password, mfa_code=None):
         self.logger.info("Doing normal (non-initial) 1Password sign-in")
         signin_argv = [self.op_path, "signin", "--output=raw"]
 
         if account_shorthand:
             signin_argv.extend(["--account", account_shorthand])
 
-        token = self._run_signin(signin_argv, password=password).rstrip()
+        # Do not use pexpect if not needed
+        if mfa_code:
+            token = self._run_signin_pexpect(signin_argv, password=password, mfa_code=mfa_code).rstrip()
+        else:
+            token = self._run_signin(signin_argv, password=password).rstrip()
         return token
 
-    @deprecated("Initial sign-in soon to be deprecated due to incompatibility with multi-factor authentication")
     def _do_initial_signin(self, account_shorthand, signin_address, email_address, secret_key, password, mfa_code=None):
         self.logger.info(
             "Performing initial 1Password sign-in to {} as {}".format(signin_address, email_address))
@@ -155,7 +158,11 @@ class _OPCLIExecute:
         if account_shorthand:
             signin_argv.extend(["--shorthand", account_shorthand])
 
-        token = self._run_signin(signin_argv, password=password, mfa_code=mfa_code).rstrip()
+        # Do not use pexpect if not needed
+        if mfa_code:
+            token = self._run_signin_pexpect(signin_argv, password=password, mfa_code=mfa_code).rstrip()
+        else:
+            token = self._run_signin(signin_argv, password=password).rstrip()
 
         return token
 
@@ -190,8 +197,17 @@ class _OPCLIExecute:
 
         return output
 
+    def _run_signin(self, argv, password=None):
+        try:
+            output = self._run(argv, capture_stdout=True,
+                               input_string=password)
+        except OPCmdFailedException as opfe:
+            raise OPSigninException.from_opexception(opfe) from opfe
+
+        return output
+
     @classmethod
-    def _run_signin(cls, argv, password=None, mfa_code=None):
+    def _run_signin_pexpect(cls, argv, password=None, mfa_code=None):
 
         if password:
             if isinstance(password, str):

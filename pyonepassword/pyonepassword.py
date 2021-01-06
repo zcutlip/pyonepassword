@@ -18,7 +18,8 @@ from .py_op_exceptions import (
     OPForgetException,
     OPGetUserException,
     OPGetVaultException,
-    OPGetGroupException
+    OPGetGroupException,
+    OPListEventsException
 )
 
 
@@ -135,7 +136,7 @@ class OP(_OPCLIExecute):
             output = self._run(
                 lookup_argv, capture_stdout=True, decode="utf-8")
         except OPCmdFailedException as ocfe:
-            raise OPGetItemException.from_opexception(ocfe) from ocfe
+            raise OPListEventsException.from_opexception(ocfe) from ocfe
 
         item_dict = json.loads(output)
         return item_dict

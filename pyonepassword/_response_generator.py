@@ -53,6 +53,25 @@ class OPQueryResponse:
         return response_dict
 
 
+class OPQueryDict(dict):
+    def __init__(self, response_dir):
+        _dict = {
+            "response_dir": response_dir,
+            "queries": []}
+        super().__init__(_dict)
+
+    def add_query(self, query: OPQueryResponse, query_name: str):
+        response_dict = query.record_response(self.response_dir, query_name)
+        self.queries.append(response_dict)
+
+    @property
+    def queries(self):
+        return self["queries"]
+
+    @property
+    def response_dir(self):
+        return self["response_dir"]
+
 class OPResponseGenerator(_OPCommandInterface):
 
     def _generate_response_dict(self, argv_obj: _OPArgv, stdout, stderr, returncode, stdout_encoding, stderr_encoding):

@@ -1,9 +1,7 @@
-# noqa: E402
 import getpass
 import os
 import sys
 import json
-from pathlib import Path
 parent_path = os.path.dirname(
     os.path.dirname(
         os.path.abspath(__file__)
@@ -12,7 +10,10 @@ parent_path = os.path.dirname(
 if parent_path not in sys.path:
     sys.path.append(parent_path)
 
-from pyonepassword import OPResponseGenerator, OPQueryResponse  # noqa: E402
+from pyonepassword import (  # noqa: E402
+    OPResponseGenerator,
+    OPQueryResponse,
+    OPQueryDict)
 
 
 def do_signin():
@@ -26,64 +27,54 @@ def do_signin():
     return OPResponseGenerator(password=my_password)
 
 
-def do_get_item_1(op):
-    response: OPQueryResponse = op.get_item_generate_response(
+def do_get_item_1(op: OPResponseGenerator, qd: OPQueryDict):
+    query_response: OPQueryResponse = op.get_item_generate_response(
         "Example Login 1", vault="Test Data")
-
-    response_path = Path(
-        "responses", "get-item-[example-login-1]-[vault-test-data].json")
-    response_dict = response.record_response(response_path)
-    return response_dict
+    qd.add_query(query_response,
+                 "get-item-[example-login-1]-[vault-test-data]")
 
 
-def do_get_item_2(op: OPResponseGenerator):
+def do_get_item_2(op: OPResponseGenerator, qd: OPQueryDict):
     item_uuid = "nok7367v4vbsfgg2fczwu4ei44"
-    response: OPQueryResponse = op.get_item_generate_response(item_uuid)
+    query_response: OPQueryResponse = op.get_item_generate_response(item_uuid)
 
-    response_path = Path(
-        "responses", "get-item-[example-login-2].json")
-    response_dict = response.record_response(response_path)
-    return response_dict
+    query_name = "get-item-[example-login-2]"
+    qd.add_query(query_response, query_name)
 
 
-def do_get_item_3(op: OPResponseGenerator):
+def do_get_item_3(op: OPResponseGenerator, qd: OPQueryDict):
     item_uuid = "nok7367v4vbsfgg2fczwu4ei44"
-    response: OPQueryResponse = op.get_item_generate_response(
+    query_response: OPQueryResponse = op.get_item_generate_response(
         item_uuid, fields="username,password")
 
-    response_path = Path(
-        "responses", "get-item-[example-login-2]-[fields-username-password].json")
-    response_dict = response.record_response(response_path)
-    return response_dict
+    query_name = "get-item-[example-login-2]-[fields-username-password]"
+    qd.add_query(query_response, query_name)
 
 
-def do_get_document(op: OPResponseGenerator):
+def do_get_document(op: OPResponseGenerator, qd: OPQueryDict):
     document_name = "Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp"
     response: OPQueryResponse = op.get_document_generate_response(
         document_name)
-    response_path = Path("responses", "get-document-[spongebob image].webp")
-    response_dict = response.record_response(response_path)
+    qd.add_query(response, "get-document-[spongebob image]")
 
-    return response_dict
+
+def do_get_invalid_item(op: OPResponseGenerator, qd: OPQueryDict):
+    item_name = "Invalid Item"
+    query_name = "get-item-[invalid-item]"
+    query_response: OPQueryResponse = op.get_item_generate_response(item_name)
+    qd.add_query(query_response, query_name)
 
 
 if __name__ == "__main__":
     op = do_signin()
 
-    query_list = []
-    response_dict = do_get_item_1(op)
-    query_list.append(response_dict)
+    query_dict = OPQueryDict("responses")
+    do_get_item_3(op, query_dict)
 
-    response_dict = do_get_item_2(op)
-    query_list.append(response_dict)
+    do_get_item_2(op, query_dict)
 
-    response_dict = do_get_item_3(op)
-    query_list.append(response_dict)
+    do_get_item_3(op, query_dict)
 
-    response_dict = do_get_document(op)
-    query_list.append(response_dict)
-
-    query_dict = {
-        "queries": query_list
-    }
+    do_get_document(op, query_dict)
+    do_get_invalid_item(op, query_dict)
     json.dump(query_dict, open("op_queries.json", "w"), indent=2)

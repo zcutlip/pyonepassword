@@ -20,5 +20,6 @@ from .py_op_exceptions import (  # noqa: F401
 
 from ._response_generator import (  # noqa: F401
     OPResponseGenerator,
-    OPQueryResponse
+    OPQueryResponse,
+    OPQueryDict
 )

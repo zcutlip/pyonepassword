@@ -13,12 +13,12 @@ class OPQueryResponse:
         self.error_output = error_output
         self.returncode = returncode
 
-    def record_response(self, response_dir):
+    def record_response(self, response_dir, response_name):
         resp_path: Path
-        if isinstance(response_dir, str):
-            resp_path = Path(response_dir)
-        else:
-            resp_path = response_dir
+        if isinstance(response_name, str):
+            response_name = Path(response_name)
+
+        resp_path = Path(response_dir, response_name)
 
         resp_path.mkdir(parents=True, exist_ok=True)
         # TODO: stderr binary output doesn't really make sense
@@ -44,7 +44,7 @@ class OPQueryResponse:
                 "stdout_encoding": self.stdout_encoding,
                 "stderr_encoding": self.stderr_encoding,
                 "exit_status": self.returncode,
-                "response_dir": str(resp_path),
+                "response_name": str(response_name),
                 "stdout": os.path.basename(output_path),
                 "stderr": os.path.basename(error_output_path)
             }

@@ -228,16 +228,9 @@ class _OPArgv(list):
         argv.extend(args)
         super().__init__(argv)
 
-    def query_dict(self):
-        qdict = {}
-
-        qdict = {
-            "command": self.command,
-            "subcommand": self.subcommand,
-            "args": self.args_to_command
-        }
-
-        return qdict
+    def query_args(self):
+        args = list(self[1:])
+        return args
 
     @classmethod
     def get_item_argv(cls, op_exe, item_name_or_uuid, vault=None, fields=None):

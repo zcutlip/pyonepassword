@@ -18,7 +18,8 @@ from .py_op_exceptions import (
     OPForgetException,
     OPGetUserException,
     OPGetVaultException,
-    OPGetGroupException
+    OPGetGroupException,
+    OPListEventsException
 )
 
 
@@ -64,8 +65,9 @@ class OP(_OPCommandInterface):
                          logger=logger,
                          op_path=op_path)
 
-    def _get_abstract(self, abstract_obj_type: str, abs_name_or_uuid: str, exception_on_err: Exception):
-        lookup_argv = [self.op_path, "get", abstract_obj_type, abs_name_or_uuid]
+    def _get_abstract(self, abstract_obj_type: str, abs_name_or_uuid: str, exception_on_err: OPCmdFailedException):
+        lookup_argv = [self.op_path, "get",
+                       abstract_obj_type, abs_name_or_uuid]
 
         try:
             output = self._run(
@@ -122,7 +124,7 @@ class OP(_OPCommandInterface):
             output = self._run(
                 lookup_argv, capture_stdout=True, decode="utf-8")
         except OPCmdFailedException as ocfe:
-            raise OPGetItemException.from_opexception(ocfe) from ocfe
+            raise OPListEventsException.from_opexception(ocfe) from ocfe
 
         item_dict = json.loads(output)
         return item_dict

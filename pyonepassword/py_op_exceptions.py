@@ -87,6 +87,10 @@ class OPGetGroupException(OPCmdFailedException):
     MSG = "1Password 'get group' failed."
 
 
+class OPListEventsException(OPCmdFailedException):
+    MSG = "1Passworm 'list events' failed."
+
+
 class OPInvalidDocumentException(_OPAbstractException):
 
     def __init__(self, msg):

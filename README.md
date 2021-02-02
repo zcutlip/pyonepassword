@@ -12,6 +12,12 @@ A Python API to sign into and query a 1Password account using the `op` command.
 - Internet connectivity to 1Password.com
   - The `op` command queries your online account, not your local vault
 
+## Installation
+
+```shell
+python3 -m pip install pyonepassword
+```
+
 ## Example usage
 
 > Note: It is recommended to perform initial sign-in manually on the command line before using `pyonepassword`. Initial sign-in is supported but deprecated. Multi-factor-authenticaiton is not supported.
@@ -245,6 +251,42 @@ Doing normal (non-initial) 1Password sign-in
 [ERROR] 2020/10/23 11:33:11 No account found on this device.
 
 To sign in to an account: op signin --help
+```
+
+### Getting Details for a User
+
+```Python
+op = OP(password=my_password)
+
+# User's name:
+user_dict = op.get_user("Firstname Lastname")
+
+# or the user's UUID
+user_dict = op.get_user(user_uuid)
+```
+
+### Getting Details for a Group
+
+```Python
+op = OP(password=my_password)
+
+# Group name:
+group_dict = op.get_group("Team Members")
+
+# or the group's UUID
+group_dict_ = op.get_group("yhdg6ovhkjcfhn3u25cp2bnl6e")
+```
+
+### Getting Details for a Vault
+
+```Python
+op = OP(password=my_password)
+
+# Group name:
+vault_dict = op.get_vault("Test Data")
+
+# or the group's UUID
+vault_dict = op.get_vault("yhdg6ovhkjcfhn3u25cp2bnl6e")
 ```
 
 ## Notes

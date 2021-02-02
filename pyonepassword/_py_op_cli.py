@@ -24,7 +24,10 @@ TODO: Move other code that closely touches 'op' here
 
 
 class OPCLIConfig(dict):
-    OP_CONFIG_RELPATH = os.path.join(".op", "config")
+    OP_CONFIG_PATHS = [
+        pathlib.Path(".config", "op", "config"),
+        pathlib.Path(".op", "config")
+    ]
 
     def __init__(self, configpath=None):
         super().__init__()
@@ -51,15 +54,18 @@ class OPCLIConfig(dict):
                 "Unable to json decode config at path: {}".format(configpath)) from e
 
     def _get_config_path(self):
+        configpath = None
+        config_home = None
         try:
-            xdg_path = os.environ['XDG_CONFIG_HOME']
-            configpath = os.path.join(xdg_path, self.OP_CONFIG_RELPATH)
+            config_home = os.environ['XDG_CONFIG_HOME']
         except KeyError:
-            configpath = None
+            config_home = pathlib.Path.home()
 
-        if configpath is None:
-            configpath = os.path.join(
-                pathlib.Path.home(), self.OP_CONFIG_RELPATH)
+        for subpath in self.OP_CONFIG_PATHS:
+            _configpath = pathlib.Path(config_home, subpath)
+            if os.path.exists(_configpath):
+                configpath = _configpath
+                break
 
         return configpath
 

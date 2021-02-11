@@ -151,7 +151,7 @@ class _OPCLIExecute:
         self.logger.info(
             "Performing initial 1Password sign-in to {} as {}".format(signin_address, email_address))
         signin_argv = [self.op_path, "signin", signin_address,
-                       email_address, secret_key, "--output=raw"]
+                       email_address, secret_key, "--raw"]
         if account_shorthand:
             signin_argv.extend(["--shorthand", account_shorthand])
 

@@ -1,0 +1,12 @@
+{
+    "items":{
+        "Example Login 1":{
+            "username":"johndoe1999",
+            "password":"W9bZ@ZwGpRXCqnWt"
+        },
+        "nok7367v4vbsfgg2fczwu4ei44": {
+            "username": "janedoe123",
+            "password": "weak password"
+        }
+    }
+}

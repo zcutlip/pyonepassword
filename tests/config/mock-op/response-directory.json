@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "response_dir": "~/.config/mock-op/responses"
+  },
+  "commands": {
+    "get|item|Example Login 1|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-item-[example-login-1]-[vault-test-data]"
+    },
+    "get|item|nok7367v4vbsfgg2fczwu4ei44": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-item-by-uuid[example-login-2]"
+    },
+    "get|item|nok7367v4vbsfgg2fczwu4ei44|--fields|username,password": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-item-by-uuid[example-login-2]-[fields-username-password]"
+    },
+    "get|item|Example Login|--vault|Archive": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-item-[example-login]-[vault-archive]"
+    },
+    "get|item|ykhsbhhv2vf6hn2u4qwblfrmg4|--vault|Private": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-item-by-uuid[example-login]-[vault-private]"
+    },
+    "get|document|Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-document-[spongebob image]"
+    },
+    "get|item|Invalid Item": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-item-[invalid-item]"
+    }
+  }
+}

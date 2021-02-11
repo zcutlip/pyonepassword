@@ -141,10 +141,7 @@ class _OPCLIExecute:
 
     def _do_normal_signin(self, account_shorthand, password):
         self.logger.info("Doing normal (non-initial) 1Password sign-in")
-        signin_argv = [self.op_path, "signin", "--output=raw"]
-
-        if account_shorthand:
-            signin_argv.extend(["--account", account_shorthand])
+        signin_argv = _OPArgv.get_normal_signin_argv(self.op_path, account_shorthand=account_shorthand)
 
         token = self._run_signin(signin_argv, password=password).rstrip()
         return token
@@ -215,13 +212,16 @@ class _OPCLIExecute:
 
 
 class _OPArgv(list):
-    def __init__(self, op_exe: str, command: str, args: List, subcommand: str = None):
+    def __init__(self, op_exe: str, command: str, args: List, subcommand: str = None, global_args=[]):
         # TODO: Refactor this
         # constructor is getting too many specialized kwargs tied to
         # specific commands/subcommands
         # maybe instead of an "args" array plus a bunch of named kwargs,
         # send in a dict that gets passed through tree of argv building logic?
-        argv = [op_exe, command]
+        argv = [op_exe]
+        for arg in global_args:
+            argv.append(arg)
+        argv.append(command)
         self.command = command
         self.subcommand = None
 
@@ -256,3 +256,11 @@ class _OPArgv(list):
             argv.extend(["--vault", vault])
 
         return cls(op_exe, "get", argv, subcommand="document")
+
+    @classmethod
+    def get_normal_signin_argv(cls, op_exe, account_shorthand=None):
+        global_args = []
+        if account_shorthand:
+            global_args = ["--account", account_shorthand]
+        argv = [account_shorthand, "--raw"]
+        return cls(op_exe, "signin", argv, global_args=global_args)

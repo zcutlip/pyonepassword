@@ -1,5 +1,6 @@
 from typing import Dict
 from pyonepassword import OP, OPGetItemException
+from pyonepassword import OPLoginItem
 from tests.fixtures.expected_data import ExpectedData
 
 
@@ -22,6 +23,16 @@ def test_get_item_02(signed_in_op: OP, expected_data):
     item_uuid = "nok7367v4vbsfgg2fczwu4ei44"
     expected = _lookup_item_data(expected_data, item_uuid)
     result = signed_in_op.get_item(item_uuid)
+    assert result.username == expected["username"]
+    assert result.password == expected["password"]
+
+
+def test_get_item_03(signed_in_op: OP, expected_data):
+    # get item "Example Login" --vault Archive
+    item_name = "Example Login"
+    vault = "Archive"
+    expected = _lookup_item_data(expected_data, item_name)
+    result: OPLoginItem = signed_in_op.get_item(item_name, vault=vault)
     assert result.username == expected["username"]
     assert result.password == expected["password"]
 

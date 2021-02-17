@@ -9,7 +9,7 @@ def _lookup_item_data(data: ExpectedData, item_id: str) -> Dict:
 
 
 def test_get_item_01(signed_in_op: OP, expected_data):
-
+    # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     vault = "Test Data"
     expected = _lookup_item_data(expected_data, item_name)
@@ -18,7 +18,7 @@ def test_get_item_01(signed_in_op: OP, expected_data):
     assert result.password == expected["password"]
 
 def test_get_item_02(signed_in_op: OP, expected_data):
-
+    # get item nok7367v4vbsfgg2fczwu4ei44
     item_uuid = "nok7367v4vbsfgg2fczwu4ei44"
     expected = _lookup_item_data(expected_data, item_uuid)
     result = signed_in_op.get_item(item_uuid)

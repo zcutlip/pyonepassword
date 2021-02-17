@@ -1,5 +1,5 @@
 from typing import Dict
-from pyonepassword import OP
+from pyonepassword import OP, OPGetItemException
 from tests.fixtures.expected_data import ExpectedData
 
 

@@ -44,4 +44,3 @@ def test_get_invalid_item_01(signed_in_op: OP, expected_data):
         assert False, "We should have caught an exception"
     except OPGetItemException as e:
         print(e)
-

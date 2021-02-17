@@ -15,12 +15,6 @@
       "stderr": "error_output",
       "name": "get-item-by-uuid[example-login-2]"
     },
-    "get|item|nok7367v4vbsfgg2fczwu4ei44|--fields|username,password": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-item-by-uuid[example-login-2]-[fields-username-password]"
-    },
     "get|item|Example Login|--vault|Archive": {
       "exit_status": 0,
       "stdout": "output",

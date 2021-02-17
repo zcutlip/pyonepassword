@@ -3,4 +3,7 @@ flake8
 autopep8
 pycodestyle
 bpython
+pytest
+mock-op
+-e .
 -r requirements.txt

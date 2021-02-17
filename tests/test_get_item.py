@@ -24,3 +24,13 @@ def test_get_item_02(signed_in_op: OP, expected_data):
     result = signed_in_op.get_item(item_uuid)
     assert result.username == expected["username"]
     assert result.password == expected["password"]
+
+
+def test_get_invalid_item_01(signed_in_op: OP, expected_data):
+    item_name = "Invalid Item"
+    try:
+        _ = signed_in_op.get_item(item_name)
+        assert False, "We should have caught an exception"
+    except OPGetItemException as e:
+        print(e)
+

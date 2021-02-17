@@ -1,6 +1,6 @@
 {
   "meta": {
-    "response_dir": "~/.config/mock-op/responses"
+    "response_dir": "tests/config/mock-op/responses"
   },
   "commands": {
     "get|item|Example Login 1|--vault|Test Data": {

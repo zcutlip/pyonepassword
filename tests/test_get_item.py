@@ -39,8 +39,10 @@ def test_get_item_03(signed_in_op: OP, expected_data):
 
 def test_get_invalid_item_01(signed_in_op: OP, expected_data):
     item_name = "Invalid Item"
+    expected = _lookup_item_data(expected_data, item_name)
     try:
         _ = signed_in_op.get_item(item_name)
         assert False, "We should have caught an exception"
     except OPGetItemException as e:
         print(e)
+        assert e.returncode == expected["returncode"]

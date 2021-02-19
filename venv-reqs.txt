@@ -4,6 +4,6 @@ autopep8
 pycodestyle
 bpython
 pytest
-mock-op
+git+https://github.com/zcutlip/mock-op
 -e .
 -r requirements.txt

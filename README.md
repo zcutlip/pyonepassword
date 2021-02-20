@@ -26,7 +26,7 @@ python3 -m pip install pyonepassword
 
 Below is an example demonstrating:
 
-- Subsequant sign-in
+- Subsequent sign-in
 - Specifying a default vault for queries
 - Retrieving an item from 1Password by name or by UUID
 - Overriding the default vault to retrieve a subsequent item from 1Password

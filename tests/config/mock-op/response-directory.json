@@ -27,6 +27,12 @@
       "stderr": "error_output",
       "name": "get-item-invalid-item"
     },
+    "get|item|Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-document-spongebob-image-filename"
+    },
     "get|document|Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp|--vault|Test Data": {
       "exit_status": 0,
       "stdout": "output",

@@ -13,9 +13,18 @@ class ExpectedData:
         item = item_data[item_id]
         return item
 
+    def lookup_document(self, document_id):
+        document_data = self.document_data
+        doc_dict = document_data[document_id]
+        return doc_dict
+
     @property
     def item_data(self) -> Dict[str, Dict]:
         return self._data["items"]
+
+    @property
+    def document_data(self) -> Dict[str, Dict]:
+        return self._data["documents"]
 
 
 @fixture

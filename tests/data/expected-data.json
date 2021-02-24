@@ -1,8 +1,8 @@
 {
-    "items":{
-        "Example Login 1":{
-            "username":"johndoe1999",
-            "password":"W9bZ@ZwGpRXCqnWt",
+    "items": {
+        "Example Login 1": {
+            "username": "johndoe1999",
+            "password": "W9bZ@ZwGpRXCqnWt",
             "returncode": 0
         },
         "nok7367v4vbsfgg2fczwu4ei44": {
@@ -10,12 +10,12 @@
             "password": "weak password",
             "returncode": 0
         },
-        "Example Login":{
+        "Example Login": {
             "username": "zcutlip",
             "password": "doth-parrot-hid-tussock-veldt",
             "returncode": 0
         },
-        "Invalid Item":{
+        "Invalid Item": {
             "returncode": 1
         }
     },

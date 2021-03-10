@@ -33,7 +33,7 @@ class OPCLIConfig(dict):
         super().__init__()
         if configpath is None:
             configpath = self._get_config_path()
-
+        self.configpath = configpath
         if configpath is None:
             raise OPConfigNotFoundException("No op configuration found")
 

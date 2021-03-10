@@ -1,3 +1,4 @@
+from importlib.metadata import entry_points
 from setuptools import setup
 about = {}
 
@@ -20,6 +21,8 @@ setup(
     python_requires='>=3.7',
     install_requires=[],
     package_data={'pyonepassword': ['config/*']},
+    entry_points={"console_scripts":
+                  ["opconfig=pyonepassword.opconfig_main:main"]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

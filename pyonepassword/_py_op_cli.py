@@ -69,6 +69,22 @@ class OPCLIConfig(dict):
 
         return configpath
 
+    def get_config(self, shorthand=None):
+        if shorthand is None:
+            shorthand = self.get("latest_signin")
+        if shorthand is None:
+            raise OPConfigNotFoundException("No shorthand provided, no sign-ins found.")
+        accounts: List = self["accounts"]
+        config = None
+        for acct in accounts:
+            if acct["shorthand"] == shorthand:
+                config = acct
+
+        if config is None:
+            raise OPConfigNotFoundException(f"No config found for shorthand {shorthand}")
+
+        return config
+
 
 class _OPCLIExecute:
     logging.basicConfig(format="%(message)s", level=logging.DEBUG)

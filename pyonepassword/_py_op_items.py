@@ -88,6 +88,26 @@ class OPLoginItem(OPAbstractItem):
 
 
 @op_register_item_type
+class OPPasswordItem(OPAbstractItem):
+    TEMPLATE_ID = "005"
+
+    def __init__(self, item_dict):
+        super().__init__(item_dict)
+
+    def get_item_field_value(self, field_designation):
+        field_value = None
+        details = self._item_dict["details"]
+        field_value = details[field_designation]
+
+        return field_value
+
+    @property
+    def password(self):
+        password = self.get_item_field_value("password")
+        return password
+
+
+@op_register_item_type
 class OPDocumentItem(OPAbstractItem):
     TEMPLATE_ID = "006"
 

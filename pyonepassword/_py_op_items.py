@@ -31,6 +31,38 @@ def op_register_item_type(item_class):
     item_type = item_class.TEMPLATE_ID
     OPItemFactory.register_op_item_type(item_type, item_class)
 
+class OPSectionField(dict):
+    def __init__(self, field_dict):
+        super().__init__(field_dict)
+
+    @property
+    def label(self) -> str:
+        """
+        Returns the field label as assigned and seen in the 1Password UI
+        """
+        return self["t"]
+
+    @property
+    def value(self) -> str:
+        """
+        Returns the field's value (password, URL, etc.) as assigned and seen in the 1Password UI
+        """
+        return self["v"]
+
+    @property
+    def field_type(self) -> str:
+        """
+        Returns the field's type, which affects how the field's value is rendered in 1Password
+        """
+        return self["k"]
+
+    @property
+    def uuid(self) -> str:
+        """
+        Returns the field's unique identifier, which is not visible in the 1Password UI
+        """
+        return self["n"]
+
 
 class OPAbstractItem(ABC):
     TEMPLATE_ID = None

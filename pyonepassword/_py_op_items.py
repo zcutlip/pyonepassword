@@ -63,6 +63,50 @@ class OPSectionField(dict):
         """
         return self["n"]
 
+class OPSection(dict):
+    def __init__(self, section_dict):
+        super().__init__(section_dict)
+
+    @property
+    def name(self) -> str:
+        """
+        Returns the actual section name which may or may not be related to
+        the user-visible title.
+        It may be a lower-case transformation, like 'additional passwords'
+        Or it may be something completely opaque, like
+        'Section_967FEBAC931841BCBD2DD7CFE0B8DC82'
+        """
+        return self["name"]
+
+    @property
+    def title(self) -> str:
+        """
+        Returns the 'name' of the section as seen in the 1Password UI
+        """
+        return self["title"]
+
+    @property
+    def fields(self) -> List[OPSectionField]:
+        _fields = self.get("fields")
+        field_list = []
+
+        if _fields:
+            for field_dict in _fields:
+                f = OPSectionField(field_dict)
+                field_list.append(f)
+        return field_list
+
+    def fields_by_label(self, label) -> List[OPSectionField]:
+        """
+        Returns all fields in a section matching the given label.
+        Fields are not required to have unique labels, so there may be more than one match.
+        """
+        matching_fields = []
+        f: OPSectionField
+        for f in self.fields:
+            if f.label == label:
+                matching_fields.append(f)
+        return matching_fields
 
 class OPAbstractItem(ABC):
     TEMPLATE_ID = None

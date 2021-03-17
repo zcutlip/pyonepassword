@@ -116,11 +116,11 @@ class OPAbstractItem(ABC):
         self._item_dict = item_dict
 
     @property
-    def uuid(self):
+    def uuid(self) -> str:
         return self._item_dict["uuid"]
 
     @property
-    def title(self):
+    def title(self) -> str:
         overview = self._item_dict["overview"]
         title = overview["title"]
         return title

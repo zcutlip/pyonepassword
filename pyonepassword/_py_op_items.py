@@ -125,6 +125,29 @@ class OPAbstractItem(ABC):
         title = overview["title"]
         return title
 
+    @property
+    def sections(self) -> List[OPSection]:
+        section_list = []
+        _sections = self._item_dict['details'].get("sections")
+        if _sections:
+            for section_dict in _sections:
+                s = OPSection(section_dict)
+                section_list.append(s)
+        return section_list
+
+    def sections_by_title(self, title) -> List[OPSection]:
+        """
+        Returns a list of zero or more sections matching the given title.
+        Sections are not required to have unique titles, so there may be more than one match.
+        """
+        matching_sections = []
+        sect: OPSection
+        for sect in self.sections:
+            if sect.title == title:
+                matching_sections.append(sect)
+
+        return sect
+
     def get_item_field_value(self, field_designation):
         return None
 

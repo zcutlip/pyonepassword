@@ -142,6 +142,14 @@ class OPAbstractItem(ABC):
                 section_list.append(s)
         return section_list
 
+    @property
+    def first_section(self) -> OPSection:
+        first = None
+        if self.sections:
+            first = self.sections[0]
+            first = OPSection(first)
+        return first
+
     def sections_by_title(self, title) -> List[OPSection]:
         """
         Returns a list of zero or more sections matching the given title.

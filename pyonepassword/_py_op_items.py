@@ -45,9 +45,11 @@ class OPSectionField(dict):
     @property
     def value(self) -> str:
         """
-        Returns the field's value (password, URL, etc.) as assigned and seen in the 1Password UI
+        Returns the field's value (password, URL, etc.) as assigned and seen in the 1Password UI,
+        or None if the field lacks a value
         """
-        return self["v"]
+        v = self.get("v")
+        return v
 
     @property
     def field_type(self) -> str:

@@ -65,6 +65,11 @@ class OPSectionField(dict):
         """
         return self["n"]
 
+    @property
+    def attributes(self) -> Dict[str, str]:
+        attr_dict = self.get("a")
+        return attr_dict
+
 class OPSection(dict):
     def __init__(self, section_dict):
         super().__init__(section_dict)

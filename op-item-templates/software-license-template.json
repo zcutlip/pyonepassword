@@ -1,0 +1,108 @@
+{
+  "notesPlain": "",
+  "passwordHistory": [],
+  "sections": [
+    {
+      "fields": [
+        {
+          "k": "string",
+          "n": "product_version",
+          "t": "version",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "reg_code",
+          "t": "license key",
+          "v": ""
+        }
+      ],
+      "name": "",
+      "title": ""
+    },
+    {
+      "fields": [
+        {
+          "k": "string",
+          "n": "reg_name",
+          "t": "licensed to",
+          "v": ""
+        },
+        {
+          "k": "email",
+          "n": "reg_email",
+          "t": "registered email",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "company",
+          "t": "company",
+          "v": ""
+        }
+      ],
+      "name": "customer",
+      "title": "Customer"
+    },
+    {
+      "fields": [
+        {
+          "k": "URL",
+          "n": "download_link",
+          "t": "download page",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "publisher_name",
+          "t": "publisher",
+          "v": ""
+        },
+        {
+          "k": "URL",
+          "n": "publisher_website",
+          "t": "website",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "retail_price",
+          "t": "retail price",
+          "v": ""
+        },
+        {
+          "k": "email",
+          "n": "support_email",
+          "t": "support email",
+          "v": ""
+        }
+      ],
+      "name": "publisher",
+      "title": "Publisher"
+    },
+    {
+      "fields": [
+        {
+          "k": "date",
+          "n": "order_date",
+          "t": "purchase date",
+          "v": 0
+        },
+        {
+          "k": "string",
+          "n": "order_number",
+          "t": "order number",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "order_total",
+          "t": "order total",
+          "v": ""
+        }
+      ],
+      "name": "order",
+      "title": "Order"
+    }
+  ]
+}

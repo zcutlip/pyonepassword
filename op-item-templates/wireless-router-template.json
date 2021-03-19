@@ -1,0 +1,60 @@
+{
+  "notesPlain": "",
+  "passwordHistory": [],
+  "sections": [
+    {
+      "fields": [
+        {
+          "k": "string",
+          "n": "name",
+          "t": "base station name",
+          "v": ""
+        },
+        {
+          "k": "concealed",
+          "n": "password",
+          "t": "base station password",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "server",
+          "t": "server / IP address",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "airport_id",
+          "t": "AirPort ID",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "network_name",
+          "t": "network name",
+          "v": ""
+        },
+        {
+          "k": "menu",
+          "n": "wireless_security",
+          "t": "wireless security",
+          "v": ""
+        },
+        {
+          "k": "concealed",
+          "n": "wireless_password",
+          "t": "wireless network password",
+          "v": ""
+        },
+        {
+          "k": "concealed",
+          "n": "disk_password",
+          "t": "attached storage password",
+          "v": ""
+        }
+      ],
+      "name": "",
+      "title": ""
+    }
+  ]
+}

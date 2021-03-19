@@ -1,0 +1,78 @@
+{
+  "notesPlain": "",
+  "passwordHistory": [],
+  "sections": [
+    {
+      "fields": [
+        {
+          "k": "string",
+          "n": "type",
+          "t": "type",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "issuing_country",
+          "t": "issuing country",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "number",
+          "t": "number",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "fullname",
+          "t": "full name",
+          "v": ""
+        },
+        {
+          "k": "gender",
+          "n": "sex",
+          "t": "sex",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "nationality",
+          "t": "nationality",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "issuing_authority",
+          "t": "issuing authority",
+          "v": ""
+        },
+        {
+          "k": "date",
+          "n": "birthdate",
+          "t": "date of birth",
+          "v": 0
+        },
+        {
+          "k": "string",
+          "n": "birthplace",
+          "t": "place of birth",
+          "v": ""
+        },
+        {
+          "k": "date",
+          "n": "issue_date",
+          "t": "issued on",
+          "v": 0
+        },
+        {
+          "k": "date",
+          "n": "expiry_date",
+          "t": "expiry date",
+          "v": 0
+        }
+      ],
+      "name": "",
+      "title": ""
+    }
+  ]
+}

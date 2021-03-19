@@ -1,0 +1,72 @@
+{
+  "notesPlain": "",
+  "passwordHistory": [],
+  "sections": [
+    {
+      "fields": [
+        {
+          "k": "string",
+          "n": "company_name",
+          "t": "company name",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "member_name",
+          "t": "member name",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "membership_no",
+          "t": "member ID",
+          "v": ""
+        },
+        {
+          "k": "concealed",
+          "n": "pin",
+          "t": "PIN",
+          "v": ""
+        }
+      ],
+      "name": "",
+      "title": ""
+    },
+    {
+      "fields": [
+        {
+          "k": "string",
+          "n": "additional_no",
+          "t": "member ID (additional)",
+          "v": ""
+        },
+        {
+          "k": "monthYear",
+          "n": "member_since",
+          "t": "member since",
+          "v": 0
+        },
+        {
+          "k": "phone",
+          "n": "customer_service_phone",
+          "t": "customer service phone",
+          "v": ""
+        },
+        {
+          "k": "phone",
+          "n": "reservations_phone",
+          "t": "phone for reservations",
+          "v": ""
+        },
+        {
+          "k": "URL",
+          "n": "website",
+          "t": "website",
+          "v": ""
+        }
+      ],
+      "name": "extra",
+      "title": "More Information"
+    }
+  ]
+}

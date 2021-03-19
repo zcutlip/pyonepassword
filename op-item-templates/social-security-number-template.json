@@ -1,0 +1,24 @@
+{
+  "notesPlain": "",
+  "passwordHistory": [],
+  "sections": [
+    {
+      "fields": [
+        {
+          "k": "string",
+          "n": "name",
+          "t": "name",
+          "v": ""
+        },
+        {
+          "k": "concealed",
+          "n": "number",
+          "t": "number",
+          "v": ""
+        }
+      ],
+      "name": "",
+      "title": ""
+    }
+  ]
+}

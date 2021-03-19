@@ -1,0 +1,78 @@
+{
+  "notesPlain": "",
+  "passwordHistory": [],
+  "sections": [
+    {
+      "fields": [
+        {
+          "k": "string",
+          "n": "fullname",
+          "t": "full name",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "address",
+          "t": "address",
+          "v": ""
+        },
+        {
+          "k": "date",
+          "n": "birthdate",
+          "t": "date of birth",
+          "v": 0
+        },
+        {
+          "k": "gender",
+          "n": "sex",
+          "t": "sex",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "height",
+          "t": "height",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "number",
+          "t": "number",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "class",
+          "t": "license class",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "conditions",
+          "t": "conditions / restrictions",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "state",
+          "t": "state",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "country",
+          "t": "country",
+          "v": ""
+        },
+        {
+          "k": "monthYear",
+          "n": "expiry_date",
+          "t": "expiry date",
+          "v": 0
+        }
+      ],
+      "name": "",
+      "title": ""
+    }
+  ]
+}

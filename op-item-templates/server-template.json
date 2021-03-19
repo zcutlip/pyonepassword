@@ -1,0 +1,84 @@
+{
+  "notesPlain": "",
+  "passwordHistory": [],
+  "sections": [
+    {
+      "fields": [
+        {
+          "k": "string",
+          "n": "url",
+          "t": "URL",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "username",
+          "t": "username",
+          "v": ""
+        },
+        {
+          "k": "concealed",
+          "n": "password",
+          "t": "password",
+          "v": ""
+        }
+      ],
+      "name": "",
+      "title": ""
+    },
+    {
+      "fields": [
+        {
+          "k": "string",
+          "n": "admin_console_url",
+          "t": "admin console URL",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "admin_console_username",
+          "t": "admin console username",
+          "v": ""
+        },
+        {
+          "k": "concealed",
+          "n": "admin_console_password",
+          "t": "console password",
+          "v": ""
+        }
+      ],
+      "name": "admin_console",
+      "title": "Admin Console"
+    },
+    {
+      "fields": [
+        {
+          "k": "string",
+          "n": "name",
+          "t": "name",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "website",
+          "t": "website",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "support_contact_url",
+          "t": "support URL",
+          "v": ""
+        },
+        {
+          "k": "string",
+          "n": "support_contact_phone",
+          "t": "support phone",
+          "v": ""
+        }
+      ],
+      "name": "hosting_provider_details",
+      "title": "Hosting Provider"
+    }
+  ]
+}

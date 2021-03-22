@@ -168,6 +168,12 @@ class OPAbstractItem(ABC):
 
         return matching_sections
 
+    def first_section_by_title(self, title) -> OPSection:
+        # TODO: handle case of no matching section titles
+        sections = self.sections_by_title(title)
+        section = sections[0]
+        return section
+
     def get_item_field_value(self, field_designation):
         field_value = None
         details = self._item_dict["details"]

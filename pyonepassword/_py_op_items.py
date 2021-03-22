@@ -166,7 +166,7 @@ class OPAbstractItem(ABC):
             if sect.title == title:
                 matching_sections.append(sect)
 
-        return sect
+        return matching_sections
 
     def get_item_field_value(self, field_designation):
         field_value = None

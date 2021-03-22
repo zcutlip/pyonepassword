@@ -181,6 +181,16 @@ class OPAbstractItem(ABC):
 
         return field_value
 
+    def field_value_by_section_title(self, section_title: str, field_label: str):
+        section = self.first_section_by_title(section_title)
+        value = self._field_value_from_section(section, field_label)
+        return value
+
+    def _field_value_from_section(self, section: OPSection, field_label: str):
+        section_field: OPSectionField = section.fields_by_label(field_label)[0]
+        value = section_field.value
+        return value
+
 
 @op_register_item_type
 class OPLoginItem(OPAbstractItem):

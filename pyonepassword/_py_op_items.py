@@ -122,6 +122,11 @@ class OPAbstractItem(ABC):
     def __init__(self, item_dict):
         self._item_dict = item_dict
 
+    def primary_section_field_value(self, field_label):
+        first_sect = self.first_section
+        field_value = self._field_value_from_section(first_sect, field_label)
+        return field_value
+
     @property
     def uuid(self) -> str:
         return self._item_dict["uuid"]

@@ -7,7 +7,8 @@ from .__about__ import (  # noqa: F401
 from ._py_op_items import (  # noqa: F401
     OPLoginItem,
     OPDocumentItem,
-    OPPasswordItem
+    OPPasswordItem,
+    OPServerItem
 )
 
 from .pyonepassword import OP  # noqa: F401

@@ -108,6 +108,7 @@ git push -d $remote "$to_delete"
 ret1=$?
 git branch -d "$to_delete"
 ret2=$?
-
-[ $ret1 -eq 0 ] || [ $ret2 eq 0 ]
+set -x
+[ $ret1 -eq 0 ] && [ $ret2 -eq 0 ]
 quit $?
+set +x

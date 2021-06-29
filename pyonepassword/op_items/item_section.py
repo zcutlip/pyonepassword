@@ -28,7 +28,7 @@ class OPSectionField(dict):
         return self["k"]
 
     @property
-    def uuid(self) -> str:
+    def field_name(self) -> str:
         """
         Returns the field's unique identifier, which is not visible in the 1Password UI
         """

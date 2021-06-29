@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 about = {}
 
 with open("pyonepassword/__about__.py") as fp:
@@ -16,7 +16,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/zcutlip/pyonepassword",
-    packages=['pyonepassword'],
+    packages=find_packages(),
     python_requires='>=3.7',
     install_requires=[],
     package_data={'pyonepassword': ['config/*']},

@@ -1,7 +1,7 @@
 from typing import Dict
 from pyonepassword import OP, OPGetItemException
 from pyonepassword import OPLoginItem
-from tests.fixtures.expected_data import ExpectedData
+from .fixtures.expected_data import ExpectedData
 
 
 def _lookup_item_data(data: ExpectedData, item_id: str) -> Dict:
@@ -9,7 +9,7 @@ def _lookup_item_data(data: ExpectedData, item_id: str) -> Dict:
     return item
 
 
-def test_get_item_01(signed_in_op: OP, expected_data):
+def test_get_item_login_01(signed_in_op: OP, expected_data):
     # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     vault = "Test Data"
@@ -18,7 +18,7 @@ def test_get_item_01(signed_in_op: OP, expected_data):
     assert result.username == expected["username"]
     assert result.password == expected["password"]
 
-def test_get_item_02(signed_in_op: OP, expected_data):
+def test_get_item_login_02(signed_in_op: OP, expected_data):
     # get item nok7367v4vbsfgg2fczwu4ei44
     item_uuid = "nok7367v4vbsfgg2fczwu4ei44"
     expected = _lookup_item_data(expected_data, item_uuid)
@@ -27,17 +27,17 @@ def test_get_item_02(signed_in_op: OP, expected_data):
     assert result.password == expected["password"]
 
 
-def test_get_item_03(signed_in_op: OP, expected_data):
+def test_get_item_login_03(signed_in_op: OP, expected_data):
     # get item "Example Login" --vault Archive
     item_name = "Example Login"
-    vault = "Archive"
+    vault = "Test Data 2"
     expected = _lookup_item_data(expected_data, item_name)
     result: OPLoginItem = signed_in_op.get_item(item_name, vault=vault)
     assert result.username == expected["username"]
     assert result.password == expected["password"]
 
 
-def test_get_invalid_item_01(signed_in_op: OP, expected_data):
+def test_get_invalid_item_login_01(signed_in_op: OP, expected_data):
     item_name = "Invalid Item"
     expected = _lookup_item_data(expected_data, item_name)
     try:

@@ -15,12 +15,6 @@
       "stderr": "error_output",
       "name": "get-item-by-uuid-example-login-2"
     },
-    "get|item|Example Login|--vault|Archive": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-item-example-login-vault-archive"
-    },
     "get|item|Invalid Item": {
       "exit_status": 1,
       "stdout": "output",
@@ -38,6 +32,18 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "get-document-spongebob-image"
+    },
+    "get|item|Example Server|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-server-example-server"
+    },
+    "get|item|Example Login|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-item-example-login-vault-test-data-2"
     }
   }
 }

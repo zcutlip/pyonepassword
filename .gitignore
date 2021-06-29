@@ -155,4 +155,4 @@ Temporary Items
 .apdisk
 
 # Ignore working example/test data
-./working_data
+/working_data

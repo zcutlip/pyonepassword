@@ -91,10 +91,13 @@ class OPListEventsException(OPCmdFailedException):
     MSG = "1Passworm 'list events' failed."
 
 
-class OPInvalidDocumentException(_OPAbstractException):
-
+class OPInvalidItemException(_OPAbstractException):
     def __init__(self, msg):
         super().__init__(msg)
+
+
+class OPInvalidDocumentException(OPInvalidItemException):
+    pass
 
 
 class OPNotFoundException(Exception):

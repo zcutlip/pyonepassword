@@ -1,12 +1,10 @@
 import json
 from json import JSONDecodeError
 from os import environ as env
-from ._py_op_items import (
-    OPItemFactory,
-    OPAbstractItem,
-    OPLoginItem,
-)
 
+from .op_items._op_items_base import OPAbstractItem
+from .op_items._op_item_type_registry import OPItemFactory
+from .op_items.login import OPLoginItem
 from ._py_op_commands import _OPCommandInterface
 from ._py_op_deprecation import deprecated
 from .py_op_exceptions import (

@@ -26,7 +26,7 @@ def do_signin():
     # shorthand = "arbitrary_account_shorthand"
     # return OP(account_shorthand=shorthand, password=my_password)
     # Or we'll try to look up account shorthand from your latest sign-in in op's config file
-    return OP(vault="Archive", password=my_password)
+    return OP(vault="Test Data", password=my_password)
 
 
 def do_lookup():

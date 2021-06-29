@@ -28,7 +28,7 @@ def test_get_item_login_02(signed_in_op: OP, expected_data):
 
 
 def test_get_item_login_03(signed_in_op: OP, expected_data):
-    # get item "Example Login" --vault Archive
+    # get item "Example Login" --vault "Test Data 2"
     item_name = "Example Login"
     vault = "Test Data 2"
     expected = _lookup_item_data(expected_data, item_name)

@@ -26,7 +26,7 @@ def do_signin():
     # shorthand = "arbitrary_account_shorthand"
     # return OP(account_shorthand=shorthand, password=my_password)
     # Or we'll try to look up account shorthand from your latest sign-in in op's config file
-    return OP(vault="Archive", password=my_password)
+    return OP(vault="Test Data", password=my_password)
 
 
 if __name__ == "__main__":
@@ -54,7 +54,7 @@ if __name__ == "__main__":
         print("\"Example Login\" can also be looked up by its uuid")
         print("")
         print("Looking up uuid \"ykhsbhhv2vf6hn2u4qwblfrmg4\"...")
-        print("Overriding \"Archive\" vault, and look in \"Private\" instead")
+        print("Overriding \"Test Data\" vault, and look in \"Private\" instead")
         item_password = op.get_item_password(
             "ykhsbhhv2vf6hn2u4qwblfrmg4", vault="Private")
         print(item_password)

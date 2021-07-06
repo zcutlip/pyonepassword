@@ -1,5 +1,6 @@
 import copy
 
+from typing import Dict, List, Any
 
 class OPSectionField(dict):
     def __init__(self, field_dict, deep_copy=True):
@@ -18,7 +19,7 @@ class OPSectionField(dict):
         return self["t"]
 
     @property
-    def value(self) -> str:
+    def value(self) -> Any:
         """
         Returns the field's value (password, URL, etc.) as assigned and seen in the 1Password UI,
         or None if the field lacks a value

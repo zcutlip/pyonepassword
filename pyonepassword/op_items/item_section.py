@@ -1,8 +1,14 @@
-from typing import Dict, List
+import copy
+
 
 class OPSectionField(dict):
-    def __init__(self, field_dict):
-        super().__init__(field_dict)
+    def __init__(self, field_dict, deep_copy=True):
+        # Let's make a copy so we don't modify the original
+        if deep_copy:
+            _dict = copy.deepcopy(field_dict)
+        else:
+            _dict = field_dict
+        super().__init__(_dict)
 
     @property
     def label(self) -> str:
@@ -41,8 +47,12 @@ class OPSectionField(dict):
 
 
 class OPSection(dict):
-    def __init__(self, section_dict):
-        super().__init__(section_dict)
+    def __init__(self, section_dict, deep_copy=True):
+        if deep_copy:
+            _dict = copy.deepcopy(section_dict)
+        else:
+            _dict = section_dict
+        super().__init__(_dict)
 
     @property
     def name(self) -> str:

@@ -54,6 +54,7 @@ class OPSection(dict):
         else:
             _dict = section_dict
         super().__init__(_dict)
+        self._parse_fields()
 
     @property
     def name(self) -> str:
@@ -75,13 +76,7 @@ class OPSection(dict):
 
     @property
     def fields(self) -> List[OPSectionField]:
-        _fields = self.get("fields")
-        field_list = []
-
-        if _fields:
-            for field_dict in _fields:
-                f = OPSectionField(field_dict)
-                field_list.append(f)
+        field_list = self.get("fields", default=[])
         return field_list
 
     def fields_by_label(self, label) -> List[OPSectionField]:
@@ -95,3 +90,12 @@ class OPSection(dict):
             if f.label == label:
                 matching_fields.append(f)
         return matching_fields
+
+    def _parse_fields(self):
+        _fields = self.get("fields")
+        if _fields:
+            field_list = []
+            for field_dict in _fields:
+                f = OPSectionField(field_dict, deep_copy=False)
+                field_list.append(f)
+            self["fields"] = field_list

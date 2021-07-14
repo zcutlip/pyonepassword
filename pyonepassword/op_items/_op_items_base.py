@@ -1,7 +1,7 @@
-from abc import ABC, abstractmethod
+from abc import ABC, abstractclassmethod, abstractmethod
 from typing import List
 from .item_section import OPSection, OPSectionField
-
+from .templates import TemplateDirectory
 
 class OPAbstractItem(ABC):
     TEMPLATE_ID = None
@@ -9,6 +9,16 @@ class OPAbstractItem(ABC):
     @abstractmethod
     def __init__(self, item_dict):
         self._item_dict = item_dict
+
+    @abstractclassmethod
+    def from_template(cls):
+        t = TemplateDirectory()
+        template_dict = t.template(cls.TEMPLATE_ID)
+        item_dict = {
+            "details": template_dict
+        }
+        obj = cls(item_dict)
+        return obj
 
     def primary_section_field_value(self, field_label):
         first_sect = self.first_section

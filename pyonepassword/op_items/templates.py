@@ -49,5 +49,5 @@ class TemplateDirectory:
 
     def _normalize_name(self, name: str):
         name = name.lower()
-        name = re.sub(r"\w+", "-", name)
+        name = re.sub(r"\W+", "-", name)
         return name

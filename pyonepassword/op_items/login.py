@@ -26,14 +26,7 @@ class OPLoginItem(OPAbstractItem):
 
     @property
     def username(self):
-        username = None
-        details = self._item_dict["details"]
-        fields = details["fields"]
-        for f in fields:
-            if f["designation"] == "username":
-                username = f["value"]
-                break
-
+        username = self.get_item_field_value("username")
         return username
 
     @property

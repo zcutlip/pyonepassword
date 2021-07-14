@@ -8,14 +8,20 @@ class OPLoginItem(OPAbstractItem):
     def __init__(self, item_dict):
         super().__init__(item_dict)
 
-    def get_item_field_value(self, field_designation):
-        field_value = None
+    def get_item_field(self, field_designation):
         details = self._item_dict["details"]
         fields = details["fields"]
+        field = None
         for f in fields:
             if f["designation"] == field_designation:
-                field_value = f["value"]
+                field = f
                 break
+        return field
+
+    def get_item_field_value(self, field_designation):
+        field_value = None
+        field = self.get_item_field(field_designation)
+        field_value = field["value"]
         return field_value
 
     @property

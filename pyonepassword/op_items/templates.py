@@ -3,7 +3,7 @@ import re
 
 from importlib import resources
 
-from . import data
+from .. import data
 
 class TemplateNotFoundException(Exception):
     def __init__(self, template_id):
@@ -13,7 +13,7 @@ class TemplateNotFoundException(Exception):
 
 
 class TemplateDirectory:
-    TEMPLATE_LIST = "template_list.json"
+    TEMPLATE_LIST = "template-list.json"
 
     def __init__(self):
         self._templates = self._template_index()

@@ -27,3 +27,4 @@ class OPItemFactory:
 def op_register_item_type(item_class):
     item_type = item_class.TEMPLATE_ID
     OPItemFactory.register_op_item_type(item_type, item_class)
+    return item_class

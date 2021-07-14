@@ -29,7 +29,17 @@ class OPLoginItem(OPAbstractItem):
         username = self.get_item_field_value("username")
         return username
 
+    @username.setter
+    def username(self, username: str):
+        username_field = self.get_item_field("username")
+        username_field["value"] = username
+
     @property
     def password(self):
         password = self.get_item_field_value("password")
         return password
+
+    @password.setter
+    def password(self, password: str):
+        password_field = self.get_item_field("password")
+        password_field["value"] = password

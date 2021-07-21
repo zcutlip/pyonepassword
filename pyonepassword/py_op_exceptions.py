@@ -87,6 +87,9 @@ class OPGetGroupException(OPCmdFailedException):
     MSG = "1Password 'get group' failed."
 
 
+class OPCreateItemException(OPCmdFailedException):
+    MSG = "1Password 'create item' failed."
+
 class OPListEventsException(OPCmdFailedException):
     MSG = "1Passworm 'list events' failed."
 

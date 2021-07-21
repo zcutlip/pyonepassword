@@ -159,7 +159,7 @@ class _OPCLIExecute:
 
     def _do_normal_signin(self, account_shorthand, password):
         self.logger.info("Doing normal (non-initial) 1Password sign-in")
-        signin_argv = _OPArgv.get_normal_signin_argv(self.op_path, account_shorthand=account_shorthand)
+        signin_argv = _OPArgv.normal_signin_argv(self.op_path, account_shorthand=account_shorthand)
 
         token = self._run_signin(signin_argv, password=password).rstrip()
         return token
@@ -276,7 +276,7 @@ class _OPArgv(list):
         return cls(op_exe, "get", argv, subcommand="document")
 
     @classmethod
-    def get_normal_signin_argv(cls, op_exe, account_shorthand=None):
+    def normal_signin_argv(cls, op_exe, account_shorthand=None):
         global_args = []
         if account_shorthand:
             global_args = ["--account", account_shorthand]

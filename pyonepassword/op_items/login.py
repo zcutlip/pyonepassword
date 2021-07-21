@@ -6,8 +6,8 @@ class OPLoginItem(OPAbstractItem):
     TEMPLATE_ID = "001"
     ITEM_CATEGORY = "Login"
 
-    def __init__(self, item_dict):
-        super().__init__(item_dict)
+    def __init__(self, item_dict, **kwargs):
+        super().__init__(item_dict, **kwargs)
 
     @classmethod
     def from_template(cls, username, password):

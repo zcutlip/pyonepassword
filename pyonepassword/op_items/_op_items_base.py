@@ -10,16 +10,6 @@ class OPAbstractItem(ABC):
     def __init__(self, item_dict):
         self._item_dict = item_dict
 
-    @abstractclassmethod
-    def from_template(cls):
-        t = TemplateDirectory()
-        template_dict = t.template(cls.TEMPLATE_ID)
-        item_dict = {
-            "details": template_dict
-        }
-        obj = cls(item_dict)
-        return obj
-
     def primary_section_field_value(self, field_label):
         first_sect = self.first_section
         field_value = self._field_value_from_section(first_sect, field_label)

@@ -8,9 +8,12 @@ from ._py_op_cli import (
 )
 from .py_op_exceptions import (
     OPCmdFailedException,
+    OPCreateItemException,
     OPGetItemException,
     OPGetDocumentException
 )
+
+from .op_items._op_items_base import OPAbstractItem
 
 
 class _OPCommandInterface(_OPCLIExecute):
@@ -80,3 +83,21 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPGetDocumentException.from_opexception(ocfe) from ocfe
 
         return document_bytes
+
+    def create_item(self, item: OPAbstractItem, item_name, vault=None):
+        argv = self._create_item_argv(item, item_name, vault)
+        try:
+            output = self._run(
+                argv, capture_stdout=True, decode="utf-8"
+            )
+        except OPCmdFailedException as ocfe:
+            raise OPCreateItemException.from_opexception(ocfe)
+
+        return output
+
+    def _create_item_argv(self, item, item_name, vault):
+        vault_arg = vault if vault else self.vault
+        create_item_argv = _OPArgv.create_item_argv(
+            self.op_path, item, item_name, vault=vault_arg
+        )
+        return create_item_argv

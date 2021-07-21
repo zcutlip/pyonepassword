@@ -17,7 +17,8 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/zcutlip/pyonepassword",
     packages=find_packages(),
-    python_requires='>=3.7',
+    # We need python3.9 in order to use importlib.resources.files in templates.py
+    python_requires='>=3.9',
     install_requires=[],
     package_data={'pyonepassword': ['config/*']},
     entry_points={"console_scripts":

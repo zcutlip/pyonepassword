@@ -1,5 +1,5 @@
 from ._op_item_type_registry import op_register_item_type
-from ._op_items_base import OPAbstractItem
+from ._op_items_base import OPAbstractItem, OPMetaItemTemplate
 
 @op_register_item_type
 class OPLoginItem(OPAbstractItem):
@@ -51,3 +51,9 @@ class OPLoginItem(OPAbstractItem):
     def password(self, password: str):
         password_field = self.get_item_field("password")
         password_field["value"] = password
+
+class OPLoginItemTemplate(OPLoginItem, metaclass=OPMetaItemTemplate):
+    def __init__(self, username, password, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.username = username
+        self.password = password

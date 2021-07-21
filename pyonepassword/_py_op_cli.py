@@ -7,12 +7,14 @@ import subprocess
 from os import environ as env
 from typing import List
 
+from .op_items._op_items_base import OPAbstractItem
+
 from .py_op_exceptions import (
     OPConfigNotFoundException,
     OPSigninException,
     OPNotFoundException,
-    OPCmdFailedException
-
+    OPCmdFailedException,
+    OPInvalidItemException
 )
 from ._py_op_deprecation import deprecated
 
@@ -280,3 +282,17 @@ class _OPArgv(list):
             global_args = ["--account", account_shorthand]
         argv = [account_shorthand, "--raw"]
         return cls(op_exe, "signin", argv, global_args=global_args)
+
+    @classmethod
+    def create_item_argv(cls, op_exe, item: OPAbstractItem, item_name: str, vault: str = None, encoding="utf-8"):
+        if not item.is_from_template:
+            raise OPInvalidItemException(f"Attempting to create item using object not from a template: {item_name}")
+        encoded = item.b64_encoded_details(encoding)
+
+        category = item.category
+
+        argv = [category, encoded, "--title", item_name]
+        if vault:
+            argv.extend(["--vault", vault])
+
+        return cls(op_exe, "create", argv, subcommand="item")

@@ -1,3 +1,6 @@
+import base64
+import json
+
 from abc import ABC, ABCMeta, abstractmethod
 from typing import List
 from .item_section import OPSection, OPSectionField
@@ -62,6 +65,20 @@ class OPAbstractItem(ABC):
             first = self.sections[0]
             first = OPSection(first)
         return first
+
+    @property
+    def details(self):
+        return self._item_dict["details"]
+
+    @property
+    def is_from_template(self):
+        return self._from_template
+
+    @property
+    def category(self):
+        if not self.ITEM_CATEGORY:
+            raise NotImplementedError(f"item category is not set for {self._class__.__name__}")
+        return self.ITEM_CATEGORY
 
     def sections_by_title(self, title) -> List[OPSection]:
         """

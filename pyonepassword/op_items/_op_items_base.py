@@ -1,7 +1,25 @@
-from abc import ABC, abstractclassmethod, abstractmethod
+from abc import ABC, ABCMeta, abstractmethod
 from typing import List
 from .item_section import OPSection, OPSectionField
 from .templates import TemplateDirectory
+
+
+class _MetaItemTemplate(type):
+    def __call__(cls, *args, **kwargs):
+        t = TemplateDirectory()
+        template_dict = t.template(cls.TEMPLATE_ID)
+        item_dict = {
+            "details": template_dict
+        }
+        obj = super(_MetaItemTemplate, cls).__call__(
+            *args, item_dict, **kwargs)
+        obj._from_template = True
+        return obj
+
+
+OPMetaItemTemplate = type('OPMetaItemTemplate',
+                          (ABCMeta, _MetaItemTemplate), {})
+
 
 class OPAbstractItem(ABC):
     TEMPLATE_ID = None

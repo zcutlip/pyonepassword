@@ -180,6 +180,12 @@ class OP(_OPCommandInterface):
 
         return (file_name, document_bytes)
 
+    def create_item(self, item: OPAbstractItem, item_name: str, vault: str = None):
+        result = super().create_item(item, item_name, vault=vault)
+        # TODO: turn result into something useful
+        # TODO: query 1P for the newly create item, fetch it, and return that
+        return result
+
     def signout(self, forget=False):
         account = self.account_shorthand
         token = self.token

@@ -5,9 +5,11 @@ from .templates import TemplateDirectory
 
 class OPAbstractItem(ABC):
     TEMPLATE_ID = None
+    ITEM_CATEGORY = None
 
     @abstractmethod
     def __init__(self, item_dict):
+        self._from_template = False
         self._item_dict = item_dict
 
     def primary_section_field_value(self, field_label):

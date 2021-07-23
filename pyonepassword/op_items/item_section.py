@@ -1,5 +1,7 @@
 import copy
 
+from typing import Dict, List, Any, Union
+
 class OPSectionFieldCollisionException(Exception):
     pass
 
@@ -70,6 +72,16 @@ class OPSection(dict):
             _dict = section_dict
         super().__init__(_dict)
         self._parse_fields()
+
+    @classmethod
+    def new_section(cls, name: str, title: str, fields: Union[List[OPSectionField], None]):
+        section_dict = {
+            "name": name,
+            "title": title,
+            "fields": fields
+        }
+        obj = cls(section_dict)
+        return obj
 
     @property
     def name(self) -> str:

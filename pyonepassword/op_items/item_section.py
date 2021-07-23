@@ -110,6 +110,18 @@ class OPSection(dict):
     def fields(self, fields: List[OPSectionField]):
         self["fields"] = fields
 
+    def add_field(self, name: str, value: Union[str, int, Dict, List], field_type, label: str):
+        # TODO: Validate field type against list of valid types
+
+        for f in self.fields:
+            if f.field_name == name:
+                raise OPSectionFieldCollisionException(f"Field with name {name} already exists in section {self.name}")
+        new_field = OPSectionField.new_field(name, value, field_type, label)
+        fields = self.fields
+        fields.append(new_field)
+        self.fields = fields
+        return new_field
+
     def fields_by_label(self, label) -> List[OPSectionField]:
         """
         Returns all fields in a section matching the given label.

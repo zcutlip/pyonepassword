@@ -58,6 +58,10 @@ class OPAbstractItem(ABC):
                 section_list.append(s)
         return section_list
 
+    @sections.setter
+    def sections(self, sections: List[OPSection]):
+        self._item_dict['details']['sections'] = sections
+
     @property
     def first_section(self) -> OPSection:
         first = None

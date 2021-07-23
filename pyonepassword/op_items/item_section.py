@@ -15,6 +15,17 @@ class OPSectionField(dict):
             _dict = field_dict
         super().__init__(_dict)
 
+    @classmethod
+    def new_field(cls, name, value, field_type, label):
+        field_dict = {
+            "t": label,
+            "v": value,
+            "k": field_type,
+            "n": name
+        }
+        obj = cls(field_dict)
+        return obj
+
     @property
     def label(self) -> str:
         """

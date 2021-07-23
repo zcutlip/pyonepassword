@@ -106,6 +106,10 @@ class OPSection(dict):
         field_list = self.get("fields", default=[])
         return field_list
 
+    @fields.setter
+    def fields(self, fields: List[OPSectionField]):
+        self["fields"] = fields
+
     def fields_by_label(self, label) -> List[OPSectionField]:
         """
         Returns all fields in a section matching the given label.

@@ -1,6 +1,10 @@
 import copy
 
-from typing import Dict, List, Any
+class OPSectionFieldCollisionException(Exception):
+    pass
+
+class OPSectionCollisionException(Exception):
+    pass
 
 class OPSectionField(dict):
     def __init__(self, field_dict, deep_copy=True):

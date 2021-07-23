@@ -2,8 +2,8 @@ import base64
 import json
 
 from abc import ABC, ABCMeta, abstractmethod
-from typing import List
-from .item_section import OPSection, OPSectionField
+from typing import List, Union
+from .item_section import OPSection, OPSectionField, OPSectionCollisionException
 from .templates import TemplateDirectory
 
 
@@ -32,6 +32,17 @@ class OPAbstractItem(ABC):
     def __init__(self, item_dict):
         self._from_template = False
         self._item_dict = item_dict
+
+    def add_section(self, name: str, title: str, fields: Union[List[OPSectionField], None]):
+        for sect in self.sections:
+            if sect.name == name:
+                raise OPSectionCollisionException(f"Section with the unique name {name} already exists")
+        new_sect = OPSection.new_section(name, title, fields)
+        sections = self.sections
+        sections.append(new_sect)
+        self.sections = sections
+
+        return new_sect
 
     def primary_section_field_value(self, field_label):
         first_sect = self.first_section

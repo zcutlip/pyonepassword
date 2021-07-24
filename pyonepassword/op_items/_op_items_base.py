@@ -132,6 +132,8 @@ class OPAbstractItem(ABC):
         details_json = json.dumps(self.details)
         details_bytes = details_json.encode(encoding)
         b64_details = base64.urlsafe_b64encode(details_bytes)
+        b64_details = b64_details.decode(encoding)
+        b64_details = b64_details.rstrip('=')
         return b64_details
 
     def _field_value_from_section(self, section: OPSection, field_label: str):

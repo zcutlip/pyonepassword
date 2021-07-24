@@ -74,12 +74,13 @@ class OPSection(dict):
         self._parse_fields()
 
     @classmethod
-    def new_section(cls, name: str, title: str, fields: Union[List[OPSectionField], None]):
+    def new_section(cls, name: str, title: str, fields: List[OPSectionField] = None):
         section_dict = {
             "name": name,
-            "title": title,
-            "fields": fields
+            "title": title
         }
+        if fields is not None:
+            section_dict["fields"] = fields
         obj = cls(section_dict)
         return obj
 

@@ -103,7 +103,7 @@ class OPSection(dict):
 
     @property
     def fields(self) -> List[OPSectionField]:
-        field_list = self.get("fields", default=[])
+        field_list = self.get("fields", [])
         return field_list
 
     @fields.setter

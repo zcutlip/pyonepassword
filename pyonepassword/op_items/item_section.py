@@ -1,4 +1,6 @@
 import copy
+import uuid
+import binascii
 
 from typing import Dict, List, Any, Union
 
@@ -83,6 +85,15 @@ class OPSection(dict):
             section_dict["fields"] = fields
         obj = cls(section_dict)
         return obj
+
+    @staticmethod
+    def random_section_name():
+        _uuid = uuid.uuid4()
+        _uuid = binascii.hexlify(_uuid.bytes)
+        uuid_str = _uuid.decode("utf-8")
+        uuid_str = uuid_str.upper()
+        section_name = f"Section_{uuid_str}"
+        return section_name
 
     @property
     def name(self) -> str:

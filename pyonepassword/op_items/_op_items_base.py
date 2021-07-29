@@ -78,6 +78,10 @@ class OPAbstractItem(ABC):
     def __init__(self, item_dict):
         self._from_template = False
         self._item_dict = item_dict
+        # not every item has an overview
+        # in particular, items created from a template do not
+        overview = self._item_dict.get("overview", {})
+        self._overview = OPItemOverview(overview)
 
     def add_section(self, title: str, fields: List[OPSectionField] = None, name: str = None):
         if not name:

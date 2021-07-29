@@ -43,6 +43,8 @@ class OPLoginItem(OPAbstractItem):
 
     def __init__(self, item_dict, **kwargs):
         super().__init__(item_dict, **kwargs)
+        overview = self._item_dict.get("overview", {})
+        self._overview = self._OPLoginItemOverview(overview)
 
     @classmethod
     def from_template(cls, username, password):

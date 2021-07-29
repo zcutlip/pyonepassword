@@ -53,10 +53,10 @@ if __name__ == "__main__":
         print("")
         print("\"Example Login\" can also be looked up by its uuid")
         print("")
-        print("Looking up uuid \"ykhsbhhv2vf6hn2u4qwblfrmg4\"...")
-        print("Overriding \"Test Data\" vault, and look in \"Private\" instead")
+        print("Looking up uuid \"ubrjbhaixbexdglqfbe24nf2gu\"...")
+        print("Overriding \"Test Data\" vault, and look in \"Test Data 2\" instead")
         item_password = op.get_item_password(
-            "ykhsbhhv2vf6hn2u4qwblfrmg4", vault="Private")
+            "ubrjbhaixbexdglqfbe24nf2gu", vault="Test Data 2")
         print(item_password)
     except OPGetItemException as ope:
         print("1Password lookup failed: {}".format(ope))

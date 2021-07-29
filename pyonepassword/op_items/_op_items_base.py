@@ -1,27 +1,24 @@
 import base64
 import json
 
-from abc import ABC, ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 from typing import List
 from .item_section import OPSection, OPSectionField, OPSectionCollisionException
 from .templates import TemplateDirectory
 
+def item_template(cls):
+    orig_init = cls.__init__
+    t = TemplateDirectory()
+    template_dict = t.template(cls.TEMPLATE_ID)
 
-class _MetaItemTemplate(type):
-    def __call__(cls, *args, **kwargs):
-        t = TemplateDirectory()
-        template_dict = t.template(cls.TEMPLATE_ID)
+    def __init__(self, *args, **kwargs):
         item_dict = {
             "details": template_dict
         }
-        obj = super(_MetaItemTemplate, cls).__call__(
-            *args, item_dict, **kwargs)
-        obj._from_template = True
-        return obj
-
-
-OPMetaItemTemplate = type('OPMetaItemTemplate',
-                          (ABCMeta, _MetaItemTemplate), {})
+        orig_init(self, *args, item_dict, **kwargs)
+        self._from_template = True
+    cls.__init__ = __init__
+    return cls
 
 
 class OPAbstractItem(ABC):

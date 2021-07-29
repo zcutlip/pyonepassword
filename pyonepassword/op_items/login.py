@@ -1,10 +1,45 @@
+import copy
+
 from ._op_item_type_registry import op_register_item_type
-from ._op_items_base import OPAbstractItem, item_template
+from ._op_items_base import OPAbstractItem, item_template, OPItemOverview
 
 @op_register_item_type
 class OPLoginItem(OPAbstractItem):
     TEMPLATE_ID = "001"
     ITEM_CATEGORY = "Login"
+
+    class _OPLoginItemOverview(OPItemOverview):
+        class _URLEntry(dict):
+            def __init__(self, url_dict):
+                ud = copy.deepcopy(url_dict)
+                super().__init__(ud)
+
+            @property
+            def label(self):
+                return self["l"]
+
+            @property
+            def url(self):
+                return self["u"]
+
+        def __init__(self, overview_dict):
+            super().__init__(overview_dict)
+            _urls = self._process_urls()
+            if _urls is not None:
+                self["URLs"] = _urls
+
+        def _process_urls(self):
+            url_items = None
+            url_dicts = self.get("URLs", [])
+            if url_dicts:
+                url_items = []
+                for d in url_dicts:
+                    url = self._URLEntry(d)
+                    url_items.append(url)
+            return url_items
+
+        def url_list(self):
+            return self.get("URLs", [])
 
     def __init__(self, item_dict, **kwargs):
         super().__init__(item_dict, **kwargs)

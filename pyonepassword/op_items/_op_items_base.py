@@ -1,8 +1,9 @@
 import base64
+import copy
 import json
 
 from abc import ABC, abstractmethod
-from typing import List
+from typing import Dict, List
 from .item_section import OPSection, OPSectionField, OPSectionCollisionException
 from .templates import TemplateDirectory
 
@@ -137,3 +138,9 @@ class OPAbstractItem(ABC):
         section_field: OPSectionField = section.fields_by_label(field_label)[0]
         value = section_field.value
         return value
+
+class OPItemOverview(dict):
+
+    def __init__(self, overview_dict: Dict):
+        od = copy.deepcopy(overview_dict)
+        super().__init__(od)

@@ -28,5 +28,5 @@ from .py_op_exceptions import (
     OPSignoutException,
     OPForgetException,
     OPConfigNotFoundException,
-    OPCmdFailedException
+    OPCreateItemException
 )

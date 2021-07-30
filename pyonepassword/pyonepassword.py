@@ -4,7 +4,7 @@ from os import environ as env
 
 from .op_items._op_items_base import OPAbstractItem, OPItemCreateResult
 from .op_items._op_item_type_registry import OPItemFactory
-from .op_items.login import OPLoginItem
+from .op_items.login import OPLoginItem, OPLoginItemTemplate
 from ._py_op_commands import _OPCommandInterface
 from ._py_op_deprecation import deprecated
 from .py_op_exceptions import (
@@ -185,6 +185,11 @@ class OP(_OPCommandInterface):
         result = json.loads(result_str)
         result = OPItemCreateResult(result)
         created_item = self.get_item(result.uuid, vault=result.vault_uuid)
+        return created_item
+
+    def create_login_item(self, item_name, username, password, url=None, vault=None):
+        new_item = OPLoginItemTemplate(username, password, url=url)
+        created_item = self.create_item(new_item, item_name, vault=vault)
         return created_item
 
     def signout(self, forget=False):

@@ -3,6 +3,7 @@ import copy
 import json
 
 from abc import ABC, abstractmethod
+from datetime import datetime
 from typing import List, Union
 from .item_section import OPSection, OPSectionField, OPSectionCollisionException
 from .templates import TemplateDirectory
@@ -203,3 +204,29 @@ class OPAbstractItem(ABC):
         section_field: OPSectionField = section.fields_by_label(field_label)[0]
         value = section_field.value
         return value
+
+
+class OPItemCreateResult(dict):
+
+    def __init__(self, result_dict):
+        super().__init__(result_dict)
+
+    @property
+    def uuid(self):
+        return self["uuid"]
+
+    @property
+    def vault_uuid(self):
+        return self["vaultUuid"]
+
+    @property
+    def created_at(self):
+        created = self["createdAt"]
+        created = datetime.fromisoformat(created)
+        return created
+
+    @property
+    def updatedAt(self):
+        updated = self["updatedAt"]
+        updated = datetime.fromisoformat(updated)
+        return updated

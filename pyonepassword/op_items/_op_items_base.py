@@ -3,7 +3,7 @@ import copy
 import json
 
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Union
 from .item_section import OPSection, OPSectionField, OPSectionCollisionException
 from .templates import TemplateDirectory
 
@@ -185,6 +185,19 @@ class OPAbstractItem(ABC):
         b64_details = b64_details.decode(encoding)
         b64_details = b64_details.rstrip('=')
         return b64_details
+
+    @property
+    def urls(self):
+        return self._overview.url_list()
+
+    def first_url(self) -> Union[OPItemOverview.URLEntry, None]:
+        url = None
+        # When creating a new item, we can't specify more than one url
+        # so if there's more than one, we have to just grab the first
+        urls = self.urls
+        if urls:
+            url = urls[0]
+        return url
 
     def _field_value_from_section(self, section: OPSection, field_label: str):
         section_field: OPSectionField = section.fields_by_label(field_label)[0]

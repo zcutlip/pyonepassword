@@ -52,9 +52,7 @@ class OPLoginItem(OPAbstractItem):
         password_field = self.get_item_field("password")
         password_field["value"] = password
 
-    @property
-    def urls(self):
-        return self._overview.url_list()
+
 @item_template
 class OPLoginItemTemplate(OPLoginItem):
     def __init__(self,  username, password, *args, url=None, **kwargs):

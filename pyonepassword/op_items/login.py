@@ -59,4 +59,4 @@ class OPLoginItemTemplate(OPLoginItem):
         super().__init__(*args, **kwargs)
         self.username = username
         self.password = password
-        self.url = url
+        self._overview.set_url(url)

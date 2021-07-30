@@ -2,7 +2,7 @@ import json
 from json import JSONDecodeError
 from os import environ as env
 
-from .op_items._op_items_base import OPAbstractItem
+from .op_items._op_items_base import OPAbstractItem, OPItemCreateResult
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items.login import OPLoginItem
 from ._py_op_commands import _OPCommandInterface
@@ -181,10 +181,11 @@ class OP(_OPCommandInterface):
         return (file_name, document_bytes)
 
     def create_item(self, item: OPAbstractItem, item_name: str, vault: str = None):
-        result = super().create_item(item, item_name, vault=vault)
-        # TODO: turn result into something useful
-        # TODO: query 1P for the newly create item, fetch it, and return that
-        return result
+        result_str = super().create_item(item, item_name, vault=vault)
+        result = json.loads(result_str)
+        result = OPItemCreateResult(result)
+        created_item = self.get_item(result.uuid, vault=result.vault_uuid)
+        return created_item
 
     def signout(self, forget=False):
         account = self.account_shorthand

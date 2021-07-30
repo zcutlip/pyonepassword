@@ -292,6 +292,16 @@ class _OPArgv(list):
         category = item.category
 
         argv = [category, encoded, "--title", item_name]
+
+        # unfortunately the 'op' command can only set one URL
+        # so we need to get only the first one
+        url = item.first_url()
+        url_value = None
+        if url:
+            url_value = url.url
+        if url_value:
+            argv.extend(["--url", url_value])
+
         if vault:
             argv.extend(["--vault", vault])
 

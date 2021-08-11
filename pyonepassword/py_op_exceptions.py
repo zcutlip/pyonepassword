@@ -104,3 +104,7 @@ class OPNotFoundException(Exception):
 
 class OPConfigNotFoundException(Exception):
     pass
+
+
+class OPSecurityException(_OPAbstractException):
+    pass

@@ -15,7 +15,6 @@ from .op_items.credit_card import OPCreditCardItem
 from .pyonepassword import OP
 
 from .py_op_exceptions import (
-    OPLookupException,
     OPSigninException,
     OPNotFoundException,
     OPGetItemException,

@@ -4,8 +4,6 @@ TODO: Move other exception classes here
 """
 from abc import ABCMeta, abstractmethod
 
-from ._py_op_deprecation import deprecated
-
 
 class _OPAbstractException(Exception, metaclass=ABCMeta):
 
@@ -58,15 +56,6 @@ class OPForgetException(OPCmdFailedException):
 # can still work
 
 
-@deprecated("handle OPGetItemException instead")
-class OPLookupException(OPCmdFailedException):
-    MSG = "1Password lookup failed."
-
-
-# For now have this class extend OPLookupException
-# so code can handle that exception or this one
-# TODO: remove OPLookupException, have this class extend
-# _OPAbstractException
 class OPGetItemException(OPCmdFailedException):
     MSG = "1Password 'get item' failed."
 
@@ -89,6 +78,7 @@ class OPGetGroupException(OPCmdFailedException):
 
 class OPCreateItemException(OPCmdFailedException):
     MSG = "1Password 'create item' failed."
+
 
 class OPListEventsException(OPCmdFailedException):
     MSG = "1Passworm 'list events' failed."

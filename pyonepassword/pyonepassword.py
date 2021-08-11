@@ -6,7 +6,6 @@ from .op_items._op_items_base import OPAbstractItem, OPItemCreateResult
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items.login import OPLoginItem, OPLoginItemTemplate
 from ._py_op_commands import _OPCommandInterface
-from ._py_op_deprecation import deprecated
 from .py_op_exceptions import (
     OPGetItemException,
     OPGetDocumentException,
@@ -223,53 +222,3 @@ class OP(_OPCommandInterface):
             env.pop(sess_var_name)
         except KeyError:
             pass
-
-    @deprecated("use get_item() or get_item_password()")
-    def lookup(self, item_name_or_uuid, field_designation="password"):
-        """
-        Look up an item in a 1Password vault by name or UUID.
-
-        Arguments:
-            - 'item_name_or_uuid': The item to look up
-            - 'field_designation': The name of the field for which a value will be returned
-        Raises:
-            - OPGetItemException if the lookup fails for any reason.
-            - OPNotFoundException if the 1Password command can't be found.
-        Returns:
-            - Value of the specified field to lookup
-        """
-        # lookup_argv = [self.op_path, "get", "item", item_name_or_uuid]
-        # output = self._run_lookup(lookup_argv, self.token, decode="utf-8")
-        # item = json.loads(output)
-        # details = item['details']
-        # fields = details['fields']
-        # value = None
-        # for field in fields:
-        #     if 'designation' not in field.keys():
-        #         continue
-        #     if field['designation'] == field_designation:
-        #         value = field['value']
-        item: OPAbstractItem
-        if field_designation == "password":
-            value = self.get_item_password(item_name_or_uuid)
-        else:
-            item = self.get_item(item_name_or_uuid)
-            value = item.get_item_field_value(field_designation)
-        return value
-
-    @deprecated("use get_document()")
-    def download(self, item_name_or_uuid):
-        """
-        Download a document object from a 1Password vault by name or UUID.
-
-        Arguments:
-            - 'item_name_or_uuid': The item to look up
-        Raises:
-            - OPGetDocumentException if the lookup fails for any reason.
-            - OPNotFoundException if the 1Password command can't be found.
-        Returns:
-            - Bytes of the specified document
-        """
-        output = super().get_document(item_name_or_uuid)
-
-        return output

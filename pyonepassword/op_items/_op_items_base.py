@@ -8,6 +8,7 @@ from typing import List, Union
 from .item_section import OPSection, OPSectionField, OPSectionCollisionException
 from .templates import TemplateDirectory
 
+
 def item_template(cls):
     orig_init = cls.__init__
     t = TemplateDirectory()
@@ -70,6 +71,7 @@ class OPItemOverview(dict):
         # TODO: is it an error if we alread have one or more URLs?
         new_url = self.URLEntry(url_dict)
         self["URLs"] = [new_url]
+
 
 class OPAbstractItem(ABC):
     TEMPLATE_ID = None

@@ -180,7 +180,7 @@ class OP(_OPCommandInterface):
 
         return (file_name, document_bytes)
 
-    def create_item(self, item: OPAbstractItem, item_name: str, vault: str = None, acknowledge_insecurity=False):
+    def create_item_(self, item: OPAbstractItem, item_name: str, vault: str = None, acknowledge_insecurity=False):
         if not acknowledge_insecurity:
             lines = [
                 "Item creation is insecure by design, due to the way the 'op' command works.",
@@ -196,7 +196,7 @@ class OP(_OPCommandInterface):
         created_item = self.get_item(result.uuid, vault=result.vault_uuid)
         return created_item
 
-    def create_login_item(self, item_name, username, password, url=None, vault=None, acknowledge_insecurity=False):
+    def create_login_item_(self, item_name, username, password, url=None, vault=None, acknowledge_insecurity=False):
         new_item = OPLoginItemTemplate(username, password, url=url)
         created_item = self.create_item(
             new_item, item_name, vault=vault, acknowledge_insecurity=acknowledge_insecurity)

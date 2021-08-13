@@ -10,13 +10,6 @@ class OPLoginItem(OPAbstractItem):
     def __init__(self, item_dict, **kwargs):
         super().__init__(item_dict, **kwargs)
 
-    @classmethod
-    def from_template(cls, username, password):
-        obj: OPLoginItem = super().from_template()
-        obj.username = username
-        obj.password = password
-        return obj
-
     def get_item_field(self, field_designation):
         details = self._item_dict["details"]
         fields = details["fields"]

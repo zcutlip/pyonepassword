@@ -190,7 +190,7 @@ class OP(_OPCommandInterface):
             msg = "\n".join(lines)
             raise OPSecurityException(msg)
 
-        result_str = super().create_item(item, item_name, vault=vault)
+        result_str = super().create_item_(item, item_name, vault=vault)
         result = json.loads(result_str)
         result = OPItemCreateResult(result)
         created_item = self.get_item(result.uuid, vault=result.vault_uuid)
@@ -198,7 +198,7 @@ class OP(_OPCommandInterface):
 
     def create_login_item_(self, item_name, username, password, url=None, vault=None, acknowledge_insecurity=False):
         new_item = OPLoginItemTemplate(username, password, url=url)
-        created_item = self.create_item(
+        created_item = self.create_item_(
             new_item, item_name, vault=vault, acknowledge_insecurity=acknowledge_insecurity)
         return created_item
 

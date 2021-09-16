@@ -9,21 +9,6 @@ from .item_section import OPSection, OPSectionField, OPSectionCollisionException
 from .templates import TemplateDirectory
 
 
-def item_template(cls):
-    orig_init = cls.__init__
-    t = TemplateDirectory()
-    template_dict = t.template(cls.TEMPLATE_ID)
-
-    def __init__(self, *args, **kwargs):
-        item_dict = {
-            "details": template_dict
-        }
-        orig_init(self, *args, item_dict, **kwargs)
-        self._from_template = True
-    cls.__init__ = __init__
-    return cls
-
-
 class OPItemOverview(dict):
     class URLEntry(dict):
         def __init__(self, url_dict):
@@ -71,6 +56,20 @@ class OPItemOverview(dict):
         # TODO: is it an error if we alread have one or more URLs?
         new_url = self.URLEntry(url_dict)
         self["URLs"] = [new_url]
+
+
+class OPItemTemplateMixin:
+    TEMPLATE_ID: str = None
+    TEMPLATE_DIRECTORY = TemplateDirectory()
+
+    def __init__(self, *args, **kwargs):
+        template_dict = self.TEMPLATE_DIRECTORY.template(self.TEMPLATE_ID)
+        template_dict = copy.deepcopy(template_dict)
+        item_dict = {
+            "details": template_dict
+        }
+        super().__init__(*args, item_dict, **kwargs)
+        self._from_template = True
 
 
 class OPAbstractItem(ABC):

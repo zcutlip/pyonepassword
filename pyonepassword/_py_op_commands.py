@@ -84,7 +84,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return document_bytes
 
-    def create_item(self, item: OPAbstractItem, item_name, vault=None):
+    def create_item_(self, item: OPAbstractItem, item_name, vault=None):
         argv = self._create_item_argv(item, item_name, vault)
         try:
             output = self._run(

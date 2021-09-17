@@ -5,6 +5,7 @@ from importlib import resources
 
 from .. import data
 
+
 class TemplateNotFoundException(Exception):
     def __init__(self, template_id):
         self.template_id = template_id

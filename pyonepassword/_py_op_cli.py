@@ -155,6 +155,26 @@ class _OPCLIExecute:
         # TODO: return alread-decoded token from sign-in
         env[sess_var_name] = self.token.decode()
 
+    def _verify_signin(self, sess_var_name):
+        # Need to get existing token if we're already signed in
+        token = env.get(sess_var_name)
+
+        if token:
+            # if there's no token, no need to sign in
+            argv = _OPArgv.get_verify_signin_argv(self.op_path)
+            try:
+                self._run(argv, capture_stdout=True)
+            except OPCmdFailedException as opfe:
+                # scrape error message about not being signed in
+                # invalidate token if we're not signed in
+                if self.NOT_SIGNED_IN_TEXT in opfe.err_output:
+                    token = None
+                else:
+                    # there was a different error so raise the exception
+                    raise opfe
+
+        return token
+
     def _do_normal_signin(self, account_shorthand, password):
         self.logger.info("Doing normal (non-initial) 1Password sign-in")
         signin_argv = _OPArgv.get_normal_signin_argv(self.op_path, account_shorthand=account_shorthand)
@@ -280,3 +300,9 @@ class _OPArgv(list):
             global_args = ["--account", account_shorthand]
         argv = [account_shorthand, "--raw"]
         return cls(op_exe, "signin", argv, global_args=global_args)
+
+    @classmethod
+    def get_verify_signin_argv(cls, op_exe):
+        argv = ["templates"]
+        argv_obj = cls(op_exe, "list", argv)
+        return argv_obj

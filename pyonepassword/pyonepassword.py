@@ -229,7 +229,7 @@ class OP(_OPCommandInterface):
             raise OPForgetException.from_opexception(ocfe) from ocfe
 
     def _sanitize(self):
-        self.token = None
+        self._token = None
         sess_var_name = 'OP_SESSION_{}'.format(self.account_shorthand)
         try:
             env.pop(sess_var_name)

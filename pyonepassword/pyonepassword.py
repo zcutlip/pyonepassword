@@ -27,7 +27,7 @@ class OP(_OPCommandInterface):
     """
 
     def __init__(self, vault=None, account_shorthand=None, signin_address=None, email_address=None,
-                 secret_key=None, password=None, logger=None, op_path='op'):
+                 secret_key=None, password=None, logger=None, op_path='op', use_existing_session=False, password_prompt=True):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
         If 'password' is not provided, the 'op' command will prompt on the console for a password.
@@ -61,7 +61,9 @@ class OP(_OPCommandInterface):
                          secret_key=secret_key,
                          password=password,
                          logger=logger,
-                         op_path=op_path)
+                         op_path=op_path,
+                         use_existing_session=use_existing_session,
+                         password_prompt=password_prompt)
 
     def _get_abstract(self, abstract_obj_type: str, abs_name_or_uuid: str, exception_on_err: OPCmdFailedException):
         lookup_argv = [self.op_path, "get",

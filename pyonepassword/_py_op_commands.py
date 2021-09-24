@@ -24,15 +24,8 @@ class _OPCommandInterface(_OPCLIExecute):
     No responses are parsed.
     """
 
-    def __init__(self, vault=None, account_shorthand=None, signin_address=None, email_address=None,
-                 secret_key=None, password=None, logger=None, op_path='op'):
-        super().__init__(account_shorthand=account_shorthand,
-                         signin_address=signin_address,
-                         email_address=email_address,
-                         secret_key=secret_key,
-                         password=password,
-                         logger=logger,
-                         op_path=op_path)
+    def __init__(self, vault=None, **kwargs):
+        super().__init__(**kwargs)
         self.vault = vault
 
     def _get_item_argv(self, item_name_or_uuid, vault=None, fields=None):

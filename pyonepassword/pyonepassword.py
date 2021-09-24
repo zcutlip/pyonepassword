@@ -49,9 +49,15 @@ class OP(_OPCommandInterface):
             - 'password': The user's master password
             - 'logger': A logging object. If not provided a basic logger is created and used.
             - 'op_path': optional path to the `op` command, if it's not at the default location
+            - 'use_existing_session': A boolean indicating whether an existing login session should be used if possible
+            - 'password_prompt': A boolean indicating whether an interactive password prompt on the console should be presented if necessary
 
         Raises:
             - OPSigninException if 1Password sign-in fails for any reason.
+            - OPNotSignedInException if:
+                - No session is available for reuse (or session reuse not requested), and
+                - no password provided, and
+                - interactive password prompt is supressed
             - OPNotFoundException if the 1Password command can't be found.
         """
         super().__init__(vault=vault,

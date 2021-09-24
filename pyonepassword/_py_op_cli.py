@@ -12,6 +12,7 @@ from .op_items._op_items_base import OPAbstractItem
 from .py_op_exceptions import (
     OPConfigNotFoundException,
     OPSigninException,
+    OPNotSignedInException,
     OPNotFoundException,
     OPCmdFailedException,
     OPInvalidItemException
@@ -89,6 +90,8 @@ class OPCLIConfig(dict):
 
 
 class _OPCLIExecute:
+    NOT_SIGNED_IN_TEXT = "not currently signed in"
+
     logging.basicConfig(format="%(message)s", level=logging.DEBUG)
     logger = logging.getLogger()
     """
@@ -96,8 +99,16 @@ class _OPCLIExecute:
     """
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
-    def __init__(self, account_shorthand=None, signin_address=None, email_address=None,
-                 secret_key=None, password=None, logger=None, op_path='op'):
+    def __init__(self,
+                 account_shorthand=None,
+                 signin_address=None,
+                 email_address=None,
+                 secret_key=None,
+                 password=None,
+                 logger=None,
+                 op_path='op',
+                 use_existing_session=False,
+                 password_prompt=True):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
         If 'password' is not provided, the 'op' command will prompt on the console for a password.
@@ -135,8 +146,12 @@ class _OPCLIExecute:
                 account_shorthand = None
 
         if account_shorthand is None:
-            raise OPSigninException(
+            raise OPNotSignedInException(
                 "Account shorthand not provided and not found in 'op' config")
+
+        sess_var_name = 'OP_SESSION_{}'.format(account_shorthand)
+
+        self._token = None
 
         self.account_shorthand = account_shorthand
         self.op_path = op_path
@@ -148,14 +163,30 @@ class _OPCLIExecute:
                                password]
         initial_signin = (None not in initial_signin_args)
 
-        if initial_signin:
-            self.token = self._do_initial_signin(*initial_signin_args)
-            # export OP_SESSION_<signin_address>
-        else:
-            self.token = self._do_normal_signin(account_shorthand, password)
-        sess_var_name = 'OP_SESSION_{}'.format(self.account_shorthand)
+        if use_existing_session:
+            self._token = self._verify_signin(sess_var_name)
+
+        if not self._token:
+            if not password and not password_prompt:
+                raise OPNotSignedInException(
+                    "No existing session and no password provided.")
+            if initial_signin:
+                self._token = self._do_initial_signin(*initial_signin_args)
+                # export OP_SESSION_<signin_address>
+            else:
+                self._token = self._do_normal_signin(account_shorthand, password)
+
         # TODO: return alread-decoded token from sign-in
-        env[sess_var_name] = self.token.decode()
+        self._sess_var = sess_var_name
+        env[sess_var_name] = self.token
+
+    @property
+    def token(self) -> str:
+        return self._token
+
+    @property
+    def session_var(self) -> str:
+        return self._sess_var
 
     def _verify_signin(self, sess_var_name):
         # Need to get existing token if we're already signed in
@@ -182,7 +213,7 @@ class _OPCLIExecute:
         signin_argv = _OPArgv.normal_signin_argv(self.op_path, account_shorthand=account_shorthand)
 
         token = self._run_signin(signin_argv, password=password).rstrip()
-        return token
+        return token.decode()
 
     @deprecated("Initial sign-in soon to be deprecated due to incompatibility with multi-factor authentication")
     def _do_initial_signin(self, account_shorthand, signin_address, email_address, secret_key, password):
@@ -195,7 +226,7 @@ class _OPCLIExecute:
 
         token = self._run_signin(signin_argv, password=password).rstrip()
 
-        return token
+        return token.decode()
 
     def _run_signin(self, argv, password=None):
         try:

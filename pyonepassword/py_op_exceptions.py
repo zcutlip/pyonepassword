@@ -96,6 +96,10 @@ class OPInvalidItemException(_OPAbstractException):
         super().__init__(msg)
 
 
+class OPNotSignedInException(_OPAbstractException):
+    pass
+
+
 class OPInvalidDocumentException(OPInvalidItemException):
     pass
 

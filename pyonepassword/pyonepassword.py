@@ -226,17 +226,6 @@ class OP(_OPCommandInterface):
         Returns:
             - Value of the specified field to lookup
         """
-        # lookup_argv = [self.op_path, "get", "item", item_name_or_uuid]
-        # output = self._run_lookup(lookup_argv, self.token, decode="utf-8")
-        # item = json.loads(output)
-        # details = item['details']
-        # fields = details['fields']
-        # value = None
-        # for field in fields:
-        #     if 'designation' not in field.keys():
-        #         continue
-        #     if field['designation'] == field_designation:
-        #         value = field['value']
         item: OPAbstractItem
         if field_designation == "password":
             value = self.get_item_password(item_name_or_uuid)

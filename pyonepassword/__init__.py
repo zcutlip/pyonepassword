@@ -27,5 +27,6 @@ from .py_op_exceptions import (
     OPInvalidDocumentException,
     OPSignoutException,
     OPForgetException,
-    OPConfigNotFoundException
+    OPConfigNotFoundException,
+    OPNotSignedInException
 )

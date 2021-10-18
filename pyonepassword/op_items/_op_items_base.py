@@ -1,6 +1,7 @@
 import base64
 import copy
 import json
+import tempfile
 
 from abc import ABC, abstractmethod
 from datetime import datetime
@@ -84,6 +85,7 @@ class OPAbstractItem(ABC):
         # in particular, items created from a template do not
         overview = self._item_dict.get("overview", {})
         self._overview = OPItemOverview(overview)
+        self._temp_files = []
 
     def add_section(self, title: str, fields: List[OPSectionField] = None, name: str = None):
         if not name:
@@ -179,6 +181,14 @@ class OPAbstractItem(ABC):
         section = self.first_section_by_title(section_title)
         value = self._field_value_from_section(section, field_label)
         return value
+
+    def details_secure_tempfile(self, encoding="utf-8") -> tempfile.NamedTemporaryFile:
+        temp = tempfile.NamedTemporaryFile(mode="w", delete=False, encoding=encoding)
+        self._temp_files.append(temp.name)
+        details_json = json.dumps(self.details)
+        temp.write(details_json)
+        temp.close()
+        return temp.name
 
     def b64_encoded_details(self, encoding: str):
         details_json = json.dumps(self.details)

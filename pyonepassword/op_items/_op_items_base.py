@@ -1,5 +1,6 @@
 import copy
 import json
+import os
 import tempfile
 
 from abc import ABC, abstractmethod
@@ -180,6 +181,14 @@ class OPAbstractItem(ABC):
         section = self.first_section_by_title(section_title)
         value = self._field_value_from_section(section, field_label)
         return value
+
+    def __del__(self):
+        while self._temp_files:
+            t = self._temp_files.pop()
+            try:
+                os.unlink(t)
+            except FileNotFoundError:
+                continue
 
     def details_secure_tempfile(self, encoding="utf-8") -> tempfile.NamedTemporaryFile:
         temp = tempfile.NamedTemporaryFile(mode="w", delete=False, encoding=encoding)

@@ -1,4 +1,3 @@
-import base64
 import copy
 import json
 import tempfile
@@ -189,14 +188,6 @@ class OPAbstractItem(ABC):
         temp.write(details_json)
         temp.close()
         return temp.name
-
-    def b64_encoded_details(self, encoding: str):
-        details_json = json.dumps(self.details)
-        details_bytes = details_json.encode(encoding)
-        b64_details = base64.urlsafe_b64encode(details_bytes)
-        b64_details = b64_details.decode(encoding)
-        b64_details = b64_details.rstrip('=')
-        return b64_details
 
     @property
     def urls(self):

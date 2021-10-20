@@ -13,6 +13,7 @@ from .py_op_exceptions import (
     OPGetDocumentException
 )
 
+from .op_cli_version import MINIMUM_ITEM_CREATION_VERSION
 from .op_items._op_items_base import OPAbstractItem
 
 
@@ -27,6 +28,12 @@ class _OPCommandInterface(_OPCLIExecute):
     def __init__(self, vault=None, **kwargs):
         super().__init__(**kwargs)
         self.vault = vault
+
+    def supports_item_creation(self):
+        support = False
+        if self._cli_version >= MINIMUM_ITEM_CREATION_VERSION:
+            support = True
+        return support
 
     def _get_item_argv(self, item_name_or_uuid, vault=None, fields=None):
         vault_arg = vault if vault else self.vault

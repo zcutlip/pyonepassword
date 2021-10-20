@@ -69,3 +69,6 @@ class OPCLIVersion:
     def __le__(self, other):
         le = self.__lt__(other) or self.__eq__(other)
         return le
+
+
+MINIMUM_ITEM_CREATION_VERSION = OPCLIVersion('1.12.1')

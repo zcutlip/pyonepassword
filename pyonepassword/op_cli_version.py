@@ -28,6 +28,10 @@ class OPCLIVersion:
         # 11.3.1.0 vs 11.3.1.1, and can be compared 1 to 1
         return (parts_self, parts_other)
 
+    def __str__(self):
+        _str = ".".join([str(i) for i in self._parts])
+        return _str
+
     def __eq__(self, other):
         equal = id(self) == id(other)
 

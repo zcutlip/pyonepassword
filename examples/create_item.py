@@ -15,7 +15,7 @@ def do_signin():
 
 
 def main():
-    username = "testuer"
+    username = "testuser"
     password = "testpass"
     url = "https://example.website"
     item_name = "login 3"

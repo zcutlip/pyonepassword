@@ -373,3 +373,10 @@ class _OPArgv(list):
         argv = ["templates"]
         argv_obj = cls(op_exe, "list", argv)
         return argv_obj
+
+    @classmethod
+    def cli_version_argv(cls, op_exe):
+        args = []
+        global_args = ["--version"]
+        argv_obj = cls(op_exe, None, args, global_args=global_args)
+        return argv_obj

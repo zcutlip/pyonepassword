@@ -7,6 +7,7 @@ import subprocess
 from os import environ as env
 from typing import List
 
+from .op_cli_version import OPCLIVersion
 from .op_items._op_items_base import OPAbstractItem
 
 from .py_op_exceptions import (
@@ -187,6 +188,13 @@ class _OPCLIExecute:
     @property
     def session_var(self) -> str:
         return self._sess_var
+
+    def _get_cli_version(self, op_path):
+        argv = _OPArgv.cli_version_argv(op_path)
+        output = self._run(argv, capture_stdout=True, decode="utf-8")
+        output = output.rstrip()
+        cli_version = OPCLIVersion(output)
+        return cli_version
 
     def _verify_signin(self, sess_var_name):
         # Need to get existing token if we're already signed in

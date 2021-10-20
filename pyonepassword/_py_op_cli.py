@@ -136,7 +136,7 @@ class _OPCLIExecute:
         """
         if logger:
             self.logger = logger
-
+        self._cli_version: OPCLIVersion = self._get_cli_version(op_path)
         if account_shorthand is None:
             config = OPCLIConfig()
             try:

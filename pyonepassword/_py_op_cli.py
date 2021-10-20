@@ -338,11 +338,12 @@ class _OPArgv(list):
     def create_item_argv(cls, op_exe, item: OPAbstractItem, item_name: str, vault: str = None, encoding="utf-8"):
         if not item.is_from_template:
             raise OPInvalidItemException(f"Attempting to create item using object not from a template: {item_name}")
-        encoded = item.b64_encoded_details(encoding)
+        template_filename = item.details_secure_tempfile(
+            encoding=encoding)
 
         category = item.category
 
-        argv = [category, encoded, "--title", item_name]
+        argv = [category, "--title", item_name, "--template", template_filename]
 
         # unfortunately the 'op' command can only set one URL
         # so we need to get only the first one

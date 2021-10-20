@@ -298,7 +298,8 @@ class _OPArgv(list):
         argv = [op_exe]
         for arg in global_args:
             argv.append(arg)
-        argv.append(command)
+        if command:
+            argv.append(command)
         self.command = command
         self.subcommand = None
 

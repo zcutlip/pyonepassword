@@ -60,7 +60,11 @@ class OPCLIVersion:
         _parts_self, _parts_other = self._normalize(other)
 
         for i, part in enumerate(_parts_self):
-            if part < _parts_other[i]:
+            if part > _parts_other[i]:
+                break
+            elif part == _parts_other[i]:
+                continue
+            elif part < _parts_other[i]:
                 lt = True
                 break
 

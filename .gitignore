@@ -156,3 +156,5 @@ Temporary Items
 
 # Ignore working example/test data
 /working_data
+
+/op-binaries

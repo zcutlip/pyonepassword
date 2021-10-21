@@ -6,9 +6,11 @@ from ._py_op_cli import (
     _OPCLIExecute,
     _OPArgv
 )
+
 from .py_op_exceptions import (
     OPCmdFailedException,
     OPCreateItemException,
+    OPCreateItemNotSupportedException,
     OPGetItemException,
     OPGetDocumentException
 )
@@ -85,6 +87,9 @@ class _OPCommandInterface(_OPCLIExecute):
         return document_bytes
 
     def create_item_(self, item: OPAbstractItem, item_name, vault=None):
+        if not self.supports_item_creation():
+            msg = f"Minimum supported 'op' version for item creation: {MINIMUM_ITEM_CREATION_VERSION}, current version: {self._cli_version}"
+            raise OPCreateItemNotSupportedException(msg)
         argv = self._create_item_argv(item, item_name, vault)
         try:
             output = self._run(

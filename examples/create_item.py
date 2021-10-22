@@ -30,8 +30,9 @@ def main():
     # section.add_field("example field name", "example value", "string", "example field label")
 
     op = do_signin()
+
     try:
-        result: OPLoginItem = op.create_login_item_(item_name, username, password, url=url, vault="Test Data 2", acknowledge_insecurity=True)
+        result: OPLoginItem = op.create_login_item(item_name, username, password, url=url)
     except OPCreateItemException as e:
         print("create_item() failed")
         print(e.err_output)

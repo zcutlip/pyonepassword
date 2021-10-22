@@ -187,16 +187,16 @@ class OP(_OPCommandInterface):
 
         return (file_name, document_bytes)
 
-    def create_item_(self, item: OPAbstractItem, item_name: str, vault: str = None):
-        result_str = super().create_item_(item, item_name, vault=vault)
+    def create_item(self, item: OPAbstractItem, item_name: str, vault: str = None):
+        result_str = super().create_item(item, item_name, vault=vault)
         result = json.loads(result_str)
         result = OPItemCreateResult(result)
         created_item = self.get_item(result.uuid, vault=result.vault_uuid)
         return created_item
 
-    def create_login_item_(self, item_name, username, password, url=None, vault=None):
+    def create_login_item(self, item_name, username, password, url=None, vault=None):
         new_item = OPLoginItemTemplate(username, password, url=url)
-        created_item = self.create_item_(
+        created_item = self.create_item(
             new_item, item_name, vault=vault)
         return created_item
 

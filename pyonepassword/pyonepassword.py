@@ -11,7 +11,6 @@ from .py_op_exceptions import (
     OPGetDocumentException,
     OPInvalidDocumentException,
     OPCmdFailedException,
-    OPSecurityException,
     OPSignoutException,
     OPForgetException,
     OPGetUserException,
@@ -188,26 +187,17 @@ class OP(_OPCommandInterface):
 
         return (file_name, document_bytes)
 
-    def create_item_(self, item: OPAbstractItem, item_name: str, vault: str = None, acknowledge_insecurity=False):
-        if not acknowledge_insecurity:
-            lines = [
-                "Item creation is insecure by design, due to the way the 'op' command works.",
-                "To create items, pass acknowledge_insecurity=True",
-                "For more info, see: https://1password.community/discussion/comment/604875/"
-            ]
-            msg = "\n".join(lines)
-            raise OPSecurityException(msg)
-
+    def create_item_(self, item: OPAbstractItem, item_name: str, vault: str = None):
         result_str = super().create_item_(item, item_name, vault=vault)
         result = json.loads(result_str)
         result = OPItemCreateResult(result)
         created_item = self.get_item(result.uuid, vault=result.vault_uuid)
         return created_item
 
-    def create_login_item_(self, item_name, username, password, url=None, vault=None, acknowledge_insecurity=False):
+    def create_login_item_(self, item_name, username, password, url=None, vault=None):
         new_item = OPLoginItemTemplate(username, password, url=url)
         created_item = self.create_item_(
-            new_item, item_name, vault=vault, acknowledge_insecurity=acknowledge_insecurity)
+            new_item, item_name, vault=vault)
         return created_item
 
     def signout(self, forget=False):

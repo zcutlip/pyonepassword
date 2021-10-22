@@ -110,9 +110,5 @@ class OPConfigNotFoundException(Exception):
     pass
 
 
-class OPSecurityException(_OPAbstractException):
-    pass
-
-
 class OPCreateItemNotSupportedException(_OPAbstractException):
     pass

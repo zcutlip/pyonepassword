@@ -6,6 +6,7 @@ from .op_items._op_items_base import OPAbstractItem, OPItemCreateResult
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items.login import OPLoginItem, OPLoginItemTemplate
 from ._py_op_commands import _OPCommandInterface
+from ._py_op_deprecation import deprecated
 from .py_op_exceptions import (
     OPGetItemException,
     OPGetDocumentException,
@@ -20,55 +21,15 @@ from .py_op_exceptions import (
 )
 
 
-class OP(_OPCommandInterface):
+class _OPPrivate(_OPCommandInterface):
     """
-    Class for logging into and querying a 1Password account via the 'op' cli command.
+    Note: This private class serves to allow an API split and deprecation of initial sign-in support.
+    Two separate classes extend this class:
+    - 'OP' which no longer supports initial sign-in
+    - 'OP_' to which initial-signin API has been moved for deprecation
+
+    Once initial sign-in support has been completely removed, the 'OP' class and this class will be re-consolidated
     """
-
-    def __init__(self, vault=None, account_shorthand=None, signin_address=None, email_address=None,
-                 secret_key=None, password=None, logger=None, op_path='op', use_existing_session=False, password_prompt=True):
-        """
-        Create an OP object. The 1Password sign-in happens during object instantiation.
-        If 'password' is not provided, the 'op' command will prompt on the console for a password.
-
-        If all components of a 1Password account are provided, an initial sign-in is performed,
-        otherwise, a normal sign-in is performed. See `op --help` for further explanation.
-
-        Arguments:
-            - 'vault': If set, this becomes the default argument to the --vault flag
-                       for future queries.
-            - 'account_shorthand': The shorthand name for the account on this device.
-                                   You may choose this during initial signin, otherwise
-                                   1Password converts it from your account address.
-                                   See 'op signin --help' for more information.
-            - 'signin_address': Fully qualified address of the 1Password account.
-                                E.g., 'my-account.1password.com'
-            - 'email_address': Email of the address for the user of the account
-            - 'secret_key': Secret key for the account
-            - 'password': The user's master password
-            - 'logger': A logging object. If not provided a basic logger is created and used.
-            - 'op_path': optional path to the `op` command, if it's not at the default location
-            - 'use_existing_session': A boolean indicating whether an existing login session should be used if possible
-            - 'password_prompt': A boolean indicating whether an interactive password prompt on the console should be presented if necessary
-
-        Raises:
-            - OPSigninException if 1Password sign-in fails for any reason.
-            - OPNotSignedInException if:
-                - No session is available for reuse (or session reuse not requested), and
-                - no password provided, and
-                - interactive password prompt is supressed
-            - OPNotFoundException if the 1Password command can't be found.
-        """
-        super().__init__(vault=vault,
-                         account_shorthand=account_shorthand,
-                         signin_address=signin_address,
-                         email_address=email_address,
-                         secret_key=secret_key,
-                         password=password,
-                         logger=logger,
-                         op_path=op_path,
-                         use_existing_session=use_existing_session,
-                         password_prompt=password_prompt)
 
     def _get_abstract(self, abstract_obj_type: str, abs_name_or_uuid: str, exception_on_err: OPCmdFailedException):
         lookup_argv = [self.op_path, "get",
@@ -231,3 +192,114 @@ class OP(_OPCommandInterface):
             env.pop(sess_var_name)
         except KeyError:
             pass
+
+
+class OP(_OPPrivate):
+    """
+    Class for logging into and querying a 1Password account via the 'op' cli command.
+    """
+    def __init__(self,
+                 vault=None,
+                 account_shorthand=None,
+                 password=None,
+                 logger=None,
+                 op_path='op',
+                 use_existing_session=False,
+                 password_prompt=True):
+        """
+        Create an OP object. The 1Password sign-in happens during object instantiation.
+        If 'password' is not provided, the 'op' command will prompt on the console for a password.
+
+        If all components of a 1Password account are provided, an initial sign-in is performed,
+        otherwise, a normal sign-in is performed. See `op --help` for further explanation.
+
+        Arguments:
+            - 'vault': If set, this becomes the default argument to the --vault flag
+                       for future queries.
+            - 'account_shorthand': The shorthand name for the account on this device.
+                                   You may choose this during initial signin, otherwise
+                                   1Password converts it from your account address.
+                                   See 'op signin --help' for more information.
+            - 'password': The user's master password
+            - 'logger': A logging object. If not provided a basic logger is created and used.
+            - 'op_path': optional path to the `op` command, if it's not at the default location
+            - 'use_existing_session': A boolean indicating whether an existing login session should be used if possible
+            - 'password_prompt': A boolean indicating whether an interactive password prompt on the console should be presented if necessary
+
+        Raises:
+            - OPSigninException if 1Password sign-in fails for any reason.
+            - OPNotSignedInException if:
+                - No session is available for reuse (or session reuse not requested), and
+                - no password provided, and
+                - interactive password prompt is supressed
+            - OPNotFoundException if the 1Password command can't be found.
+        """
+        super().__init__(vault=vault,
+                         account_shorthand=account_shorthand,
+                         password=password,
+                         logger=logger,
+                         op_path=op_path,
+                         use_existing_session=use_existing_session,
+                         password_prompt=password_prompt)
+
+
+@deprecated("OP with initial sign-in is deprecated and will soon be removed")
+class OP_(_OPPrivate):
+    """
+    Class for logging into and querying a 1Password account via the 'op' cli command.
+
+    Note: This class, which supports additional parameters for initial sign-in is deprecated and will soon be removed.
+    """
+    def __init__(self,
+                 vault=None,
+                 account_shorthand=None,
+                 signin_address=None,
+                 email_address=None,
+                 secret_key=None,
+                 password=None,
+                 logger=None,
+                 op_path='op',
+                 use_existing_session=False,
+                 password_prompt=True):
+        """
+        Create an OP object. The 1Password sign-in happens during object instantiation.
+        If 'password' is not provided, the 'op' command will prompt on the console for a password.
+
+        If all components of a 1Password account are provided, an initial sign-in is performed,
+        otherwise, a normal sign-in is performed. See `op --help` for further explanation.
+
+        Arguments:
+            - 'vault': If set, this becomes the default argument to the --vault flag
+                       for future queries.
+            - 'account_shorthand': The shorthand name for the account on this device.
+                                   You may choose this during initial signin, otherwise
+                                   1Password converts it from your account address.
+                                   See 'op signin --help' for more information.
+            - 'signin_address': Fully qualified address of the 1Password account.
+                                E.g., 'my-account.1password.com'
+            - 'email_address': Email of the address for the user of the account
+            - 'secret_key': Secret key for the account
+            - 'password': The user's master password
+            - 'logger': A logging object. If not provided a basic logger is created and used.
+            - 'op_path': optional path to the `op` command, if it's not at the default location
+            - 'use_existing_session': A boolean indicating whether an existing login session should be used if possible
+            - 'password_prompt': A boolean indicating whether an interactive password prompt on the console should be presented if necessary
+
+        Raises:
+            - OPSigninException if 1Password sign-in fails for any reason.
+            - OPNotSignedInException if:
+                - No session is available for reuse (or session reuse not requested), and
+                - no password provided, and
+                - interactive password prompt is supressed
+            - OPNotFoundException if the 1Password command can't be found.
+        """
+        super().__init__(vault=vault,
+                         account_shorthand=account_shorthand,
+                         signin_address=signin_address,
+                         email_address=email_address,
+                         secret_key=secret_key,
+                         password=password,
+                         logger=logger,
+                         op_path=op_path,
+                         use_existing_session=use_existing_session,
+                         password_prompt=password_prompt)

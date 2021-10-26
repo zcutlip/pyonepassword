@@ -1,7 +1,10 @@
 import getpass
 
-from pyonepassword import OP, OPCreateItemException
-from pyonepassword import OPLoginItem
+from pyonepassword import (
+    OP,
+    OPCreateItemException,
+    OPLoginItem
+)
 from pyonepassword.py_op_exceptions import OPNotSignedInException
 
 

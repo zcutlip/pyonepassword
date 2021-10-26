@@ -12,7 +12,7 @@ from .op_items.secure_note import OPSecureNoteItem
 from .op_items.credit_card import OPCreditCardItem
 
 
-from .pyonepassword import OP
+from .pyonepassword import OP, OP_
 
 from .py_op_exceptions import (
     OPSigninException,

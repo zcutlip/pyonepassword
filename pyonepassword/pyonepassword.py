@@ -49,6 +49,28 @@ class _OPPrivate(_OPCommandInterface):
         return item_dict
 
     def get_item(self, item_name_or_uuid, vault=None):
+        """
+        Get an 'item' object from a 1Password vault by name or UUID.
+        The returned object may be any of the item types extending OPAbstractItem.
+        These include:
+        - OPLoginItem (template id 1)
+        - OPCreditCardItem (template id 2)
+        - OPSecureNoteItem (template id 3)
+        - OPPasswordItem (template id 5)
+        - OPDocumentItem (template id 6)
+        - OPServerItem (template id 110)
+
+        Note that getting a document item is not the same as getting the document itself. The
+        item only contains metadata about the document such as filename.
+
+        Arguments:
+            - 'item_name_or_uuid': The item to look up
+        Raises:
+            - OPGetItemException if the lookup fails for any reason.
+            - OPNotFoundException if the 1Password command can't be found.
+        Returns:
+            - OPAbstractItem: An instance of any of several classes that extends OPAbstractItem
+        """
         try:
             output = super().get_item(item_name_or_uuid, vault=vault, decode="utf-8")
         except OPCmdFailedException as ocfe:

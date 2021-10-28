@@ -95,9 +95,25 @@ class _OPPrivate(_OPCommandInterface):
         Returns the 100 most recent events by default.
         The Activity Log is only available for 1Password Business accounts.
 
-        :param eventid: start listing from event with ID eid
-        :param older: list events from before the specified event
-        :return: Raw JSON list of events
+        Parameters
+        ----------
+        eventid: str, optional
+            start listing from event with ID eid
+
+        older: bool, optional
+            list events from before the specified event
+
+        Raises
+        ------
+        OPListEventsException
+            If the lookup fails for any reason.
+        OPNotFoundException
+            If the 1Password command can't be found.
+
+        Returns
+        -------
+        str
+            Raw JSON list of events
         """
         event_argv = []
         if eventid:
@@ -139,7 +155,7 @@ class _OPPrivate(_OPCommandInterface):
             If the 1Password command can't be found.
 
         Returns
-        ------
+        -------
         password: str
             Value of the item's 'password' attribute
         """
@@ -167,7 +183,7 @@ class _OPPrivate(_OPCommandInterface):
             If the 1Password command can't be found.
 
         Returns
-        ------
+        -------
         file_name: str
             Value of the item's 'fileName' attribute
         """

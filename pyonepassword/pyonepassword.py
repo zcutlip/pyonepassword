@@ -118,7 +118,31 @@ class _OPPrivate(_OPCommandInterface):
         item_dict = json.loads(output)
         return item_dict
 
-    def get_item_password(self, item_name_or_uuid, vault=None):
+    def get_item_password(self, item_name_or_uuid, vault=None) -> str:
+        """
+        Get the value of the password field from the item specified by name or UUID.
+
+        Parameters
+        ----------
+        item_name_or_uuid: str
+            The item to look up
+        vault: str, optional
+            The name of a vault to override the object's default vault
+
+        Raises
+        ------
+        AttributeError
+            If the item doesn't have a 'fileName' attribute.
+        OPGetItemException
+            If the lookup fails for any reason.
+        OPNotFoundException
+            If the 1Password command can't be found.
+
+        Returns
+        ------
+        password: str
+            Value of the item's 'password' attribute
+        """
         item: OPLoginItem
         item = self.get_item(item_name_or_uuid, vault=vault)
         password = item.password

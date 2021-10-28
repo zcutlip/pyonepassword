@@ -228,7 +228,7 @@ class _OPPrivate(_OPCommandInterface):
         created_item = self.get_item(result.uuid, vault=result.vault_uuid)
         return created_item
 
-    def create_login_item(self, item_name, username, password, url=None, vault=None):
+    def create_login_item(self, item_name: str, username: str, password: str, url=None, vault=None):
         new_item = OPLoginItemTemplate(username, password, url=url)
         created_item = self.create_item(
             new_item, item_name, vault=vault)
@@ -271,6 +271,7 @@ class OP(_OPPrivate):
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
+
     def __init__(self,
                  vault=None,
                  account_shorthand=None,
@@ -323,6 +324,7 @@ class OP_(_OPPrivate):
 
     Note: This class, which supports additional parameters for initial sign-in is deprecated and will soon be removed.
     """
+
     def __init__(self,
                  vault=None,
                  account_shorthand=None,

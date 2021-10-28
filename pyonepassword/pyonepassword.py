@@ -1,6 +1,7 @@
 import json
 from json import JSONDecodeError
 from os import environ as env
+from typing import Dict
 
 from .op_items._op_items_base import OPAbstractItem, OPItemCreateResult
 from .op_items._op_item_type_registry import OPItemFactory
@@ -48,7 +49,7 @@ class _OPPrivate(_OPCommandInterface):
 
         return item_dict
 
-    def get_item(self, item_name_or_uuid, vault=None):
+    def get_item(self, item_name_or_uuid, vault=None) -> OPAbstractItem:
         """
         Get an 'item' object from a 1Password vault by name or UUID.
         The returned object may be any of the item types extending OPAbstractItem.
@@ -80,7 +81,7 @@ class _OPPrivate(_OPCommandInterface):
         op_item = OPItemFactory.op_item_from_item_dict(item_dict)
         return op_item
 
-    def get_user(self, user_name_or_uuid: str):
+    def get_user(self, user_name_or_uuid: str) -> Dict:
         return self._get_abstract('user', user_name_or_uuid, OPGetUserException)
 
     def get_vault(self, vault_name_or_uuid: str):

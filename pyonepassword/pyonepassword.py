@@ -128,14 +128,24 @@ class _OPPrivate(_OPCommandInterface):
         """
         Get the fileName attribute a document item from a 1Password vault by name or UUID.
 
-        Arguments:
-            - 'item_name_or_uuid': The item to look up
-        Raises:
-            - AttributeError if the item doesn't have a 'fileName' attribute.
-            - OPGetItemException if the lookup fails for any reason.
-            - OPNotFoundException if the 1Password command can't be found.
-        Returns:
-            - value of the item's 'fileName' attribute
+        Parameters
+        ----------
+        item_name_or_uuid : str
+            The item to look up
+
+        Raises
+        ------
+        AttributeError
+            If the item doesn't have a 'fileName' attribute.
+        OPGetItemException
+            If the lookup fails for any reason.
+        OPNotFoundException
+            If the 1Password command can't be found.
+
+        Returns
+        ------
+        file_name: str
+            Value of the item's 'fileName' attribute
         """
         item = self.get_item(item_name_or_uuid, vault=vault)
         # Will raise AttributeError if item isn't a OPDocumentItem

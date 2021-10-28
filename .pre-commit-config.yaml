@@ -1,12 +1,12 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.4.0
+    rev: v4.0.1
     hooks:
       - id: check-json
         exclude: ^\.vscode\/.*$
       - id: check-yaml
       - id: check-merge-conflict
   - repo: https://gitlab.com/PyCQA/flake8
-    rev: 3.8.4
+    rev: 3.9.2
     hooks:
     - id: flake8

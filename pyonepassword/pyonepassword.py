@@ -53,7 +53,7 @@ class _OPPrivate(_OPCommandInterface):
         """
         Get an 'item' object from a 1Password vault by name or UUID.
         The returned object may be any of the item types extending OPAbstractItem.
-        These include:
+        These currently include:
         - OPLoginItem (template id 1)
         - OPCreditCardItem (template id 2)
         - OPSecureNoteItem (template id 3)

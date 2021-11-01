@@ -64,13 +64,24 @@ class _OPPrivate(_OPCommandInterface):
         Note that getting a document item is not the same as getting the document itself. The
         item only contains metadata about the document such as filename.
 
-        Arguments:
-            - 'item_name_or_uuid': The item to look up
-        Raises:
-            - OPGetItemException if the lookup fails for any reason.
-            - OPNotFoundException if the 1Password command can't be found.
-        Returns:
-            - OPAbstractItem: An instance of any of several classes that extends OPAbstractItem
+        Parameters
+        ----------
+        item_name_or_uuid: str
+            Name or UUID of the item to look up
+        vault: str, optional
+            The name of a vault to override the object's default vault
+
+        Raises
+        ------
+        OPListEventsException
+            If the lookup fails for any reason.
+        OPNotFoundException
+            If the 1Password command can't be found.
+
+        Returns
+        -------
+        item: OPAbstractItem
+            An item object of one of the types listed above
         """
         try:
             output = super().get_item(item_name_or_uuid, vault=vault, decode="utf-8")

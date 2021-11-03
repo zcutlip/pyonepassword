@@ -183,15 +183,17 @@ class _OPPrivate(_OPCommandInterface):
         ----------
         item_name_or_uuid : str
             The item to look up
+        vault: str, optional
+            The name of a vault to override the object's default vault
 
         Raises
         ------
         AttributeError
-            If the item doesn't have a 'fileName' attribute.
+            If the item doesn't have a 'fileName' attribute
         OPGetItemException
-            If the lookup fails for any reason.
+            If the lookup fails for any reason
         OPNotFoundException
-            If the 1Password command can't be found.
+            If the 1Password command can't be found
 
         Returns
         -------

@@ -73,7 +73,7 @@ class _OPPrivate(_OPCommandInterface):
 
         Raises
         ------
-        OPListEventsException
+        OPGetItemException
             If the lookup fails for any reason.
         OPNotFoundException
             If the 1Password command can't be found.

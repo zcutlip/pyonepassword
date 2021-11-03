@@ -112,3 +112,9 @@ class OPConfigNotFoundException(Exception):
 
 class OPCreateItemNotSupportedException(_OPAbstractException):
     pass
+
+
+class OPGetCreatedItemException(_OPAbstractException):
+    def __init__(self, msg, item_uuid):
+        super().__init__(msg)
+        self.uuid = item_uuid

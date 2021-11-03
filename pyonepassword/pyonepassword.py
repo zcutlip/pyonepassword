@@ -15,6 +15,7 @@ from .py_op_exceptions import (
     OPCmdFailedException,
     OPSignoutException,
     OPForgetException,
+    OPGetCreatedItemException,
     OPGetUserException,
     OPGetVaultException,
     OPGetGroupException,
@@ -249,7 +250,11 @@ class _OPPrivate(_OPCommandInterface):
         result_str = super().create_item(item, item_name, vault=vault)
         result = json.loads(result_str)
         result = OPItemCreateResult(result)
-        created_item = self.get_item(result.uuid, vault=result.vault_uuid)
+        try:
+            created_item = self.get_item(result.uuid, vault=result.vault_uuid)
+        except OPGetItemException as e:
+            msg = f"Failed to get newly created item: [{e}], Item UUID: {result.uuid}"
+            raise OPGetCreatedItemException(msg, result.uuid) from e
         return created_item
 
     def create_login_item(self, item_name: str, username: str, password: str, url=None, vault=None):

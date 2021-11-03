@@ -246,7 +246,40 @@ class _OPPrivate(_OPCommandInterface):
 
         return (file_name, document_bytes)
 
-    def create_item(self, item: OPAbstractItem, item_name: str, vault: str = None):
+    def create_item(self, item: OPAbstractItem, item_name: str, vault: str = None) -> OPAbstractItem:
+        """
+        Create an item entry from the provided item object
+
+        Note: 'item' must be an instance of a type that inherits
+        'OPItemTemplateMixin'. Currently this includes:
+        - OPLoginItemTemplate
+
+        Parameters
+        ----------
+        item : OPAbstractItem|OPItemTemplateMixin
+            The item template object to create an entry from
+        item_name : str
+            The user-visible name of the entry to be created. The new entry can later be queried by this name
+        vault : str, optional
+            The name of a vault to override the OP object's default vault
+
+        Raises
+        ------
+        OPCreateItemNotSupportedException
+            If the 'item' object does not support item creation
+        OPCreateItemException
+            If item creation fails for any reason during execution
+        OPNotFoundException
+            If the 1Password command can't be found
+        OPGetCreatedItemException
+            If item creation succeeds, but fetching the item fails for some reason
+            Exception object's UUID attribute contains the created items's UUID
+
+        Returns
+        -------
+        created_item : OPAbstractItem
+            The item object fetched after creating a new item from template
+        """
         result_str = super().create_item(item, item_name, vault=vault)
         result = json.loads(result_str)
         result = OPItemCreateResult(result)

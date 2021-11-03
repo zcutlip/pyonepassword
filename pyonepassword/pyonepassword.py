@@ -210,15 +210,26 @@ class _OPPrivate(_OPCommandInterface):
         """
         Download a document object from a 1Password vault by name or UUID.
 
-        Arguments:
-            - 'item_name_or_uuid': The item to look up
-        Raises:
-            - OPInvalidDocumentException if the retrieved item isn't a document
-              object or lacks a documents expected attributes.
-            - OPGetDocumentException if the lookup fails for any reason.
-            - OPNotFoundException if the 1Password command can't be found.
-        Returns:
-            - Tuple: (filename string, bytes of the specified document)
+        Parameters
+        ----------
+        item_name_or_uuid : str
+            The item to look up
+        vault: str, optional
+            The name of a vault to override the object's default vault
+
+        Raises
+        ------
+        OPInvalidDocumentException
+            If the retrieved item isn't a document object or lacks a documents expected attributes
+        OPGetDocumentException
+            If the lookup fails for any reason
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        file_name, document bytes: Tuple[str, bytes]
+            A tuple consisting of the filename and bytes of the specified document
         """
         try:
             file_name = self.get_item_filename(

@@ -328,6 +328,26 @@ class _OPPrivate(_OPCommandInterface):
         return created_item
 
     def signout(self, forget=False):
+        """
+        Sign out of the account used to create this OP instance
+        This is equivalent to the command 'op signout'
+        Parameters
+        ----------
+        forget: bool, optional
+            Optionally remove details for this 1Password account from this device.
+            This is equivalent to the command 'op signout --forget'
+
+        Raises
+        ------
+        OPSignoutException
+            If the signout operation fails for any reason
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        None
+        """
         account = self.account_shorthand
         token = self.token
         global_flags = ["--session", token, "--account", account]

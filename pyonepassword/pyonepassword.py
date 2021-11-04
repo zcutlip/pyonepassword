@@ -430,26 +430,46 @@ class OP(_OPPrivate):
         If all components of a 1Password account are provided, an initial sign-in is performed,
         otherwise, a normal sign-in is performed. See `op --help` for further explanation.
 
-        Arguments:
-            - 'vault': If set, this becomes the default argument to the --vault flag
-                       for future queries.
-            - 'account_shorthand': The shorthand name for the account on this device.
-                                   You may choose this during initial signin, otherwise
-                                   1Password converts it from your account address.
-                                   See 'op signin --help' for more information.
-            - 'password': The user's master password
-            - 'logger': A logging object. If not provided a basic logger is created and used.
-            - 'op_path': optional path to the `op` command, if it's not at the default location
-            - 'use_existing_session': A boolean indicating whether an existing login session should be used if possible
-            - 'password_prompt': A boolean indicating whether an interactive password prompt on the console should be presented if necessary
+        Parameters
+        ----------
+        vault : str, optional
+            If set, this becomes the default argument to the --vault flag
+            for future queries.
+        account_shorthand : str, optional
+            The shorthand name for the account on this device. You may choose this
+            during initial signin, otherwise 1Password converts it from your account
+            address. See 'op signin --help' for more information.
+        password : str, optional
+            If provided, the password will be piped to the 'op' command over stdin
+            If not provided:
+            - If use_existing_session is True and there is a valid existing session for the
+                account shorthand, authentication will proceed with this session
+            - If 'password_prompt' is omitted or True, the 'op' command will be allowed
+                to prompt for the user's master password on the console if there is no
+            - If 'password_prompt' is false and an existing session can't or won't be used,
+                an exception is raised
 
-        Raises:
-            - OPSigninException if 1Password sign-in fails for any reason.
-            - OPNotSignedInException if:
+
+        logger : logging.Logger
+            A logging object. If not provided a basic logger is created and used
+        op_path : str, optional
+            Optional path to the `op` command, if it's not at the default location
+        use_existing_session : bool
+            Whether an existing login session should be used if possible
+        password_prompt : bool
+            Whether an interactive password prompt on the console should be presented if necessary
+
+        Raises
+        ------
+        OPSigninException
+            If 1Password sign-in fails for any reason.
+        OPNotSignedInException'
+            if:
                 - No session is available for reuse (or session reuse not requested), and
                 - no password provided, and
                 - interactive password prompt is supressed
-            - OPNotFoundException if the 1Password command can't be found.
+        OPNotFoundException
+            If the 1Password command can't be found
         """
         super().__init__(vault=vault,
                          account_shorthand=account_shorthand,

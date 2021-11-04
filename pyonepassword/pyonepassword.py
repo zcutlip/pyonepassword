@@ -291,6 +291,37 @@ class _OPPrivate(_OPCommandInterface):
         return created_item
 
     def create_login_item(self, item_name: str, username: str, password: str, url=None, vault=None):
+        """
+        A convenience method to create a login item entry
+
+        Parameters
+        ----------
+        item_name : str
+            The user-visible name of the entry to be created. The new entry can later be queried by this name
+        username : str
+            The value for the username field of the login item to create
+        password: str
+            The value for the password field of the login item to create
+        url : str, optional
+            An optional URL to associate with this login item
+        vault : str, optional
+            The name of a vault to override the OP object's default vault
+
+        Raises
+        ------
+        OPCreateItemException
+            If item creation fails for any reason during execution
+        OPNotFoundException
+            If the 1Password command can't be found
+        OPGetCreatedItemException
+            If item creation succeeds, but fetching the item fails for some reason
+            Exception object's UUID attribute contains the created items's UUID
+
+        Returns
+        -------
+        created_item : OPAbstractItem
+            The item object fetched after creating a new item from template
+        """
         new_item = OPLoginItemTemplate(username, password, url=url)
         created_item = self.create_item(
             new_item, item_name, vault=vault)

@@ -362,7 +362,32 @@ class _OPPrivate(_OPCommandInterface):
         self._sanitize()
 
     @classmethod
-    def forget(cls, account, op_path=None):
+    def forget(cls, account: str, op_path=None):
+        """
+        Remove details for the specified account from this device
+        This is equivalent to the command 'op forget <account>'
+
+        Note: this is a class method, so there is no need to have an OP instance or to have
+        an active, signed-in session
+
+        Parameters
+        ----------
+        account : str
+            The account shorthand to forget
+        op_path: str, optional
+            Path to an 'op' executable to use for this action
+
+        Raises
+        ------
+        OPForgetException
+            If the lookup fails for any reason
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        None
+        """
         if op_path is None:
             op_path = cls.OP_PATH
         forget_argv = [op_path, "forget", account]

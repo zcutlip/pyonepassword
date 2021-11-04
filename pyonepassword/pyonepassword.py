@@ -1,4 +1,6 @@
 import json
+import logging
+
 from json import JSONDecodeError
 from os import environ as env
 from typing import Dict
@@ -414,13 +416,13 @@ class OP(_OPPrivate):
     """
 
     def __init__(self,
-                 vault=None,
-                 account_shorthand=None,
-                 password=None,
-                 logger=None,
-                 op_path='op',
-                 use_existing_session=False,
-                 password_prompt=True):
+                 vault: str = None,
+                 account_shorthand: str = None,
+                 password: str = None,
+                 logger: logging.Logger = None,
+                 op_path: str = 'op',
+                 use_existing_session: bool = False,
+                 password_prompt: bool = True):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
         If 'password' is not provided, the 'op' command will prompt on the console for a password.
@@ -467,16 +469,16 @@ class OP_(_OPPrivate):
     """
 
     def __init__(self,
-                 vault=None,
-                 account_shorthand=None,
-                 signin_address=None,
-                 email_address=None,
-                 secret_key=None,
-                 password=None,
-                 logger=None,
-                 op_path='op',
-                 use_existing_session=False,
-                 password_prompt=True):
+                 vault: str = None,
+                 account_shorthand: str = None,
+                 signin_address: str = None,
+                 email_address: str = None,
+                 secret_key: str = None,
+                 password: str = None,
+                 logger: str = None,
+                 op_path: str = 'op',
+                 use_existing_session: bool = False,
+                 password_prompt: bool = True):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
         If 'password' is not provided, the 'op' command will prompt on the console for a password.

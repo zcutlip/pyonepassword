@@ -359,6 +359,9 @@ class _OPPrivate(_OPCommandInterface):
             self._run(signout_argv)
         except OPCmdFailedException as ocfe:
             raise OPSignoutException.from_opexception(ocfe) from ocfe
+
+        # drop any reference to op session token identifier from this
+        # instance and from environment variables
         self._sanitize()
 
     @classmethod

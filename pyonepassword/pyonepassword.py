@@ -3,11 +3,12 @@ import logging
 
 from json import JSONDecodeError
 from os import environ as env
-from typing import Dict
 
 from .op_items._op_items_base import OPAbstractItem, OPItemCreateResult
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items.login import OPLoginItem, OPLoginItemTemplate
+from .op_objects import OPUser
+
 from ._py_op_commands import _OPCommandInterface
 from ._py_op_deprecation import deprecated
 from .py_op_exceptions import (
@@ -18,7 +19,6 @@ from .py_op_exceptions import (
     OPSignoutException,
     OPForgetException,
     OPGetCreatedItemException,
-    OPGetUserException,
     OPGetVaultException,
     OPGetGroupException,
     OPListEventsException
@@ -95,8 +95,11 @@ class _OPPrivate(_OPCommandInterface):
         op_item = OPItemFactory.op_item_from_item_dict(item_dict)
         return op_item
 
-    def get_user(self, user_name_or_uuid: str) -> Dict:
-        return self._get_abstract('user', user_name_or_uuid, OPGetUserException)
+    def get_user(self, user_name_or_uuid: str) -> OPUser:
+        user_json = super().get_user(user_name_or_uuid)
+        user = OPUser(user_json)
+        # return self._get_abstract('user', user_name_or_uuid, OPGetUserException)
+        return user
 
     def get_vault(self, vault_name_or_uuid: str):
         return self._get_abstract('vault', vault_name_or_uuid, OPGetVaultException)

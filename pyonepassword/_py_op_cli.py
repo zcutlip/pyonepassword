@@ -321,6 +321,14 @@ class _OPArgv(list):
         return args
 
     @classmethod
+    def _get_generic_argv(cls, op_exe, get_subcommand, obj_identifier, sub_cmd_args):
+        args = [obj_identifier]
+        if sub_cmd_args:
+            args.extend(sub_cmd_args)
+        argv = cls(op_exe, "get", args, subcommand=get_subcommand)
+        return argv
+
+    @classmethod
     def get_item_argv(cls, op_exe, item_name_or_uuid, vault=None, fields=None):
         argv = [item_name_or_uuid]
 

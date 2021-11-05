@@ -293,6 +293,14 @@ class _OPCLIExecute:
 
 
 class _OPArgv(list):
+    """
+    This is essentially an 'argv' list with some additional methods, such as class methods
+    for generating proper argument lists for specific 1Password operations.
+
+    The primary purpose of this class is to facilitate the 'mock-op' project's automated response generation,
+    as it allows the preciese set of command line arguments to be captured for later playback.
+    """
+
     def __init__(self, op_exe: str, command: str, args: List, subcommand: str = None, global_args=[]):
         # TODO: Refactor this
         # constructor is getting too many specialized kwargs tied to

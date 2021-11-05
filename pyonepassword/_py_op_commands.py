@@ -12,7 +12,8 @@ from .py_op_exceptions import (
     OPCreateItemException,
     OPCreateItemNotSupportedException,
     OPGetItemException,
-    OPGetDocumentException
+    OPGetDocumentException,
+    OPGetUserException
 )
 
 from .op_cli_version import MINIMUM_ITEM_CREATION_VERSION
@@ -23,7 +24,7 @@ class _OPCommandInterface(_OPCLIExecute):
     """
     A class that directly maps methods to `op` commands
     & subcommands.
-    No convenience methods are provide.
+    No convenience methods are provided.
     No responses are parsed.
     """
 
@@ -51,6 +52,10 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, document_name_or_uuid, vault=vault_arg)
 
         return get_document_argv
+
+    def _get_user_argv(self, user_name_or_uuid: str):
+        get_user_argv = _OPArgv.get_user_argv(self.op_path, user_name_or_uuid)
+        return get_user_argv
 
     def get_item(self, item_name_or_uuid, vault=None, fields=None, decode="utf-8"):
         get_item_argv = self._get_item_argv(
@@ -85,6 +90,16 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPGetDocumentException.from_opexception(ocfe) from ocfe
 
         return document_bytes
+
+    def get_user(self, user_name_or_uuid: str, decode: str = "utf-8") -> str:
+        get_user_argv = self._get_user_argv(user_name_or_uuid)
+        try:
+            output = self._run(
+                get_user_argv, capture_stdout=True, decode=decode
+            )
+        except OPCmdFailedException as ocfe:
+            raise OPGetUserException.from_opexception(ocfe) from ocfe
+        return output
 
     def create_item(self, item: OPAbstractItem, item_name, vault=None):
         if not self.supports_item_creation():

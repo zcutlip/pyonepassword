@@ -77,10 +77,13 @@ class _OPPrivate(_OPCommandInterface):
         Raises
         ------
         OPGetItemException
-            If the lookup fails for any reason.
+            If the lookup fails for any reason during command execution
+        OPInvalidItemException
+            If the item JSON fails to decode
+        OPUnknownItemType
+            If the item object returned by 1Password isn't a known type
         OPNotFoundException
-            If the 1Password command can't be found.
-
+            If the 1Password command can't be found
         Returns
         -------
         item: OPAbstractItem

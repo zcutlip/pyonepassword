@@ -1,3 +1,8 @@
+import json
+from json.decoder import JSONDecodeError
+
+from pyonepassword.py_op_exceptions import OPInvalidItemException
+
 
 class OPUnknownItemType(Exception):
     def __init__(self, msg, item_dict=None):
@@ -22,6 +27,16 @@ class OPItemFactory:
                 "Unknown item type", item_dict=item_dict) from ke
 
         return item_cls(item_dict)
+
+    @classmethod
+    def op_item_from_json(cls, item_json: str):
+        try:
+            unserialized = json.loads(item_json)
+        except JSONDecodeError as jdce:
+            raise OPInvalidItemException(
+                f"Failed to unserialize item JSON: {jdce}") from jdce
+        obj = cls.op_item_from_item_dict(unserialized)
+        return obj
 
 
 def op_register_item_type(item_class):

@@ -335,22 +335,24 @@ class _OPArgv(list):
 
     @classmethod
     def get_item_argv(cls, op_exe, item_name_or_uuid, vault=None, fields=None):
-        argv = [item_name_or_uuid]
-
+        sub_cmd_args = []
         if vault:
-            argv.extend(["--vault", vault])
+            sub_cmd_args.extend(["--vault", vault])
 
         if fields:
-            argv.extend(["--fields", fields])
-        return cls(op_exe, "get", argv, subcommand="item")
+            sub_cmd_args.extend(["--fields", fields])
+        argv = cls._get_generic_argv(
+            op_exe, "item", item_name_or_uuid, sub_cmd_args)
+        return argv
 
     @classmethod
     def get_document_argv(cls, op_exe, document_name_or_uuid, vault=None):
-        argv = [document_name_or_uuid]
+        sub_cmd_args = []
         if vault:
-            argv.extend(["--vault", vault])
-
-        return cls(op_exe, "get", argv, subcommand="document")
+            sub_cmd_args.extend(["--vault", vault])
+        argv = cls._get_generic_argv(
+            op_exe, "document", document_name_or_uuid, sub_cmd_args)
+        return argv
 
     @classmethod
     def normal_signin_argv(cls, op_exe, account_shorthand=None):

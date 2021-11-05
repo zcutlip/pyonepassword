@@ -86,13 +86,9 @@ class _OPPrivate(_OPCommandInterface):
         item: OPAbstractItem
             An item object of one of the types listed above
         """
-        try:
-            output = super().get_item(item_name_or_uuid, vault=vault, decode="utf-8")
-        except OPCmdFailedException as ocfe:
-            raise OPGetItemException.from_opexception(ocfe) from ocfe
 
-        item_dict = json.loads(output)
-        op_item = OPItemFactory.op_item_from_item_dict(item_dict)
+        output = super().get_item(item_name_or_uuid, vault=vault, decode="utf-8")
+        op_item = OPItemFactory.op_item_from_json(output)
         return op_item
 
     def get_user(self, user_name_or_uuid: str) -> OPUser:

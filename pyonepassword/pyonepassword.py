@@ -463,7 +463,7 @@ class OP(_OPPrivate):
         ------
         OPSigninException
             If 1Password sign-in fails for any reason.
-        OPNotSignedInException'
+        OPNotSignedInException
             if:
                 - No session is available for reuse (or session reuse not requested), and
                 - no password provided, and
@@ -506,30 +506,43 @@ class OP_(_OPPrivate):
         If all components of a 1Password account are provided, an initial sign-in is performed,
         otherwise, a normal sign-in is performed. See `op --help` for further explanation.
 
-        Arguments:
-            - 'vault': If set, this becomes the default argument to the --vault flag
-                       for future queries.
-            - 'account_shorthand': The shorthand name for the account on this device.
-                                   You may choose this during initial signin, otherwise
-                                   1Password converts it from your account address.
-                                   See 'op signin --help' for more information.
-            - 'signin_address': Fully qualified address of the 1Password account.
-                                E.g., 'my-account.1password.com'
-            - 'email_address': Email of the address for the user of the account
-            - 'secret_key': Secret key for the account
-            - 'password': The user's master password
-            - 'logger': A logging object. If not provided a basic logger is created and used.
-            - 'op_path': optional path to the `op` command, if it's not at the default location
-            - 'use_existing_session': A boolean indicating whether an existing login session should be used if possible
-            - 'password_prompt': A boolean indicating whether an interactive password prompt on the console should be presented if necessary
+        Parameters
+        ----------
+        vault : str, optional
+            If set, this becomes the default argument to the --vault flag
+            for future queries.
+        account_shorthand : str, optional
+            The shorthand name for the account on this device. You may choose this during initial
+            signin, otherwise 1Password converts it from your account address. See 'op signin
+            --help' for more information.
+        signin_address : str, optional
+            Fully qualified address of the 1Password account. E.g., 'my-account.1password.com'
+        email_address : str, optional
+            Email of the address for the user of the account
+        secret_key : str, optional
+            Secret key for the account
+        password : str, optional
+            The user's master password
+        logger : str, optional
+            A logging object. If not provided a basic logger is created and used.
+        op_path : str, optional
+            Optional path to the `op` command, if it's not at the default location
+        use_existing_session : bool
+            Whether an existing login session should be used if possible
+        password_prompt : bool
+            Whether an interactive password prompt on the console should be presented if necessary
 
-        Raises:
-            - OPSigninException if 1Password sign-in fails for any reason.
-            - OPNotSignedInException if:
+        Raises
+        ------
+        OPSigninException
+            If 1Password sign-in fails for any reason.
+        OPNotSignedInException
+            if:
                 - No session is available for reuse (or session reuse not requested), and
                 - no password provided, and
                 - interactive password prompt is supressed
-            - OPNotFoundException if the 1Password command can't be found.
+        OPNotFoundException
+            If the 1Password command can't be found
         """
         super().__init__(vault=vault,
                          account_shorthand=account_shorthand,

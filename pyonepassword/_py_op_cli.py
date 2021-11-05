@@ -77,7 +77,8 @@ class OPCLIConfig(dict):
         if shorthand is None:
             shorthand = self.get("latest_signin")
         if shorthand is None:
-            raise OPConfigNotFoundException("No shorthand provided, no sign-ins found.")
+            raise OPConfigNotFoundException(
+                "No shorthand provided, no sign-ins found.")
         accounts: List = self["accounts"]
         config = None
         for acct in accounts:
@@ -85,7 +86,8 @@ class OPCLIConfig(dict):
                 config = acct
 
         if config is None:
-            raise OPConfigNotFoundException(f"No config found for shorthand {shorthand}")
+            raise OPConfigNotFoundException(
+                f"No config found for shorthand {shorthand}")
 
         return config
 
@@ -175,9 +177,10 @@ class _OPCLIExecute:
                 self._token = self._do_initial_signin(*initial_signin_args)
                 # export OP_SESSION_<signin_address>
             else:
-                self._token = self._do_normal_signin(account_shorthand, password)
+                self._token = self._do_normal_signin(
+                    account_shorthand, password)
 
-        # TODO: return alread-decoded token from sign-in
+        # TODO: return already-decoded token from sign-in
         self._sess_var = sess_var_name
         env[sess_var_name] = self.token
 
@@ -218,7 +221,8 @@ class _OPCLIExecute:
 
     def _do_normal_signin(self, account_shorthand, password):
         self.logger.info("Doing normal (non-initial) 1Password sign-in")
-        signin_argv = _OPArgv.normal_signin_argv(self.op_path, account_shorthand=account_shorthand)
+        signin_argv = _OPArgv.normal_signin_argv(
+            self.op_path, account_shorthand=account_shorthand)
 
         token = self._run_signin(signin_argv, password=password).rstrip()
         return token.decode()
@@ -346,13 +350,15 @@ class _OPArgv(list):
     @classmethod
     def create_item_argv(cls, op_exe, item: OPAbstractItem, item_name: str, vault: str = None, encoding="utf-8"):
         if not item.is_from_template:
-            raise OPInvalidItemException(f"Attempting to create item using object not from a template: {item_name}")
+            raise OPInvalidItemException(
+                f"Attempting to create item using object not from a template: {item_name}")
         template_filename = item.details_secure_tempfile(
             encoding=encoding)
 
         category = item.category
 
-        argv = [category, "--title", item_name, "--template", template_filename]
+        argv = [category, "--title", item_name,
+                "--template", template_filename]
 
         # unfortunately the 'op' command can only set one URL
         # so we need to get only the first one

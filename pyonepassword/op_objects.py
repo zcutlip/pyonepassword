@@ -28,11 +28,26 @@ class OPUser(dict):
     as a normal dictionary. In addition, it has a convenience property for each key in the
     the dictionary.
 
-    Note: date-related properties return parsed 'datetime' objects. To access the original
-    date strings, use the corresponding dictionary key
+    Note
+    ----
+    Date-related properties return parsed 'datetime' objects. To access the original
+    date strings, use the corresponding dictionary key.
     """
 
     def __init__(self, user_dict_or_json: Union[str, dict]):
+        """
+        Parameters
+        ----------
+        user_dict_or_json : Union[str, dict]
+            A dictionary or JSON string return from 'op get user'. If a JSON string is provided,
+            it will first be unserialized to a dict object.
+
+        Raises
+        ------
+        OPInvalidUserException
+            If JSON is provided and unserializing fails.
+
+        """
         if isinstance(user_dict_or_json, str):
             try:
                 user_dict = json.loads(user_dict_or_json)

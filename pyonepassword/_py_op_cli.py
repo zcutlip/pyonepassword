@@ -329,7 +329,7 @@ class _OPArgv(list):
         return args
 
     @classmethod
-    def _get_generic_argv(cls, op_exe, get_subcommand, obj_identifier, sub_cmd_args):
+    def get_generic_argv(cls, op_exe, get_subcommand, obj_identifier, sub_cmd_args):
         args = [obj_identifier]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
@@ -349,7 +349,7 @@ class _OPArgv(list):
 
         if fields:
             sub_cmd_args.extend(["--fields", fields])
-        argv = cls._get_generic_argv(
+        argv = cls.get_generic_argv(
             op_exe, "item", item_name_or_uuid, sub_cmd_args)
         return argv
 
@@ -358,7 +358,7 @@ class _OPArgv(list):
         sub_cmd_args = []
         if vault:
             sub_cmd_args.extend(["--vault", vault])
-        argv = cls._get_generic_argv(
+        argv = cls.get_generic_argv(
             op_exe, "document", document_name_or_uuid, sub_cmd_args)
         return argv
 

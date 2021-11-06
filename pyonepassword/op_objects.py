@@ -65,6 +65,27 @@ class OPAbstractObject(dict, metaclass=ABCMeta):
         return self["uuid"]
 
 
+class OPBaseObject(OPAbstractObject):
+
+    @property
+    def created_at(self) -> datetime:
+        """
+        datetime : The createdAt attribute parsed as a datetime object
+        """
+        created = self["createdAt"]
+        created = fromisoformat_z(created)
+        return created
+
+    @property
+    def updatedAt(self) -> datetime:
+        """
+        datetime : The updatedAt attribute parsed as a datetime object
+        """
+        updated = self["updatedAt"]
+        updated = fromisoformat_z(updated)
+        return updated
+
+
 class OPUser(dict):
     """
     A class that represents the result from an 'op get user' operation.

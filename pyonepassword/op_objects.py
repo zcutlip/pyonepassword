@@ -215,3 +215,81 @@ class OPUser(OPBaseObject):
         str : The combinedPermission attribute
         """
         return self["combinedPermissions"]
+
+
+class OPGroup(OPBaseObject):
+
+    def __init__(self, group_dict_or_json: Union[str, dict]):
+        """
+        Parameters
+        ----------
+        user_dict_or_json : Union[str, dict]
+            A dictionary or JSON string return from 'op get user'. If a JSON string is provided,
+            it will first be unserialized to a dict object.
+
+        Raises
+        ------
+        OPInvalidUserException
+            If JSON is provided and unserializing fails.
+
+        """
+        try:
+            super().__init__(group_dict_or_json)
+        except JSONDecodeError as jdce:
+            raise OPInvalidUserException(
+                f"Failed to unserialize group json: {jdce}") from jdce
+
+    @property
+    def type(self) -> str:
+        """
+        str : The type attribute
+        """
+        return self["type"]
+
+    @property
+    def name(self) -> str:
+        """
+        str : The name attribute
+        """
+        return self["name"]
+
+    @property
+    def desc(self) -> str:
+        """
+        The desc attribute
+        """
+        return self["desc"]
+
+    @property
+    def created_at(self) -> datetime:
+        """
+        datetime : The createdAt attribute parsed as a datetime object
+        """
+        created = self["createdAt"]
+        created = fromisoformat_z(created)
+        return created
+
+    @property
+    def updated_at(self) -> datetime:
+        """
+        datetime : The updatedAt attribute parsed as a datetime object
+        """
+        updated = self["updatedAt"]
+        updated = fromisoformat_z(updated)
+        return updated
+
+    @property
+    def active_keyset_uuid(self) -> str:
+        return self["activeKeysetUuid"]
+
+    @property
+    def attr_version(self) -> int:
+        return self["attrVersion"]
+
+    @property
+    def state(self) -> str:
+        return self["state"]
+
+    @property
+    def permissions(self) -> int:
+        return self["permissions"]

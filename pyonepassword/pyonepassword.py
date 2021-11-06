@@ -7,7 +7,7 @@ from os import environ as env
 from .op_items._op_items_base import OPAbstractItem, OPItemCreateResult
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items.login import OPLoginItem, OPLoginItemTemplate
-from .op_objects import OPUser
+from .op_objects import OPGroup, OPUser
 
 from ._py_op_commands import _OPCommandInterface
 from ._py_op_deprecation import deprecated
@@ -20,7 +20,6 @@ from .py_op_exceptions import (
     OPForgetException,
     OPGetCreatedItemException,
     OPGetVaultException,
-    OPGetGroupException,
     OPListEventsException
 )
 
@@ -104,7 +103,9 @@ class _OPPrivate(_OPCommandInterface):
         return self._get_abstract('vault', vault_name_or_uuid, OPGetVaultException)
 
     def get_group(self, group_name_or_uuid: str):
-        return self._get_abstract('group', group_name_or_uuid, OPGetGroupException)
+        group_json = super().get_group(group_name_or_uuid, decode="utf-8")
+        group = OPGroup(group_json)
+        return group
 
     def list_events(self, eventid=None, older=False):
         """

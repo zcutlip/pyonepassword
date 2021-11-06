@@ -11,6 +11,7 @@ from .py_op_exceptions import (
     OPCmdFailedException,
     OPCreateItemException,
     OPCreateItemNotSupportedException,
+    OPGetGroupException,
     OPGetItemException,
     OPGetDocumentException,
     OPGetUserException
@@ -105,6 +106,16 @@ class _OPCommandInterface(_OPCLIExecute):
             )
         except OPCmdFailedException as ocfe:
             raise OPGetUserException.from_opexception(ocfe) from ocfe
+        return output
+
+    def get_group(self, group_name_or_uuid: str, decode: str = "utf-8") -> str:
+        get_group_argv = self._get_group_argv(group_name_or_uuid)
+        try:
+            output = self._run(
+                get_group_argv, capture_stdout=True, decode=decode
+            )
+        except OPCmdFailedException as ocfe:
+            raise OPGetGroupException.from_opexception(ocfe) from ocfe
         return output
 
     def create_item(self, item: OPAbstractItem, item_name, vault=None):

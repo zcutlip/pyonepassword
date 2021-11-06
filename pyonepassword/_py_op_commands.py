@@ -58,6 +58,11 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, "user", user_name_or_uuid, [])
         return get_user_argv
 
+    def _get_group_argv(self, group_name_or_uuid: str):
+        get_group_argv = _OPArgv.get_generic_argv(
+            self.op_path, "group", group_name_or_uuid, [])
+        return get_group_argv
+
     def get_item(self, item_name_or_uuid, vault=None, fields=None, decode="utf-8"):
         get_item_argv = self._get_item_argv(
             item_name_or_uuid, vault=vault, fields=fields)

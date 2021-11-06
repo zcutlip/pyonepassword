@@ -5,7 +5,7 @@ import json
 from abc import ABCMeta, abstractmethod
 from datetime import datetime
 from json.decoder import JSONDecodeError
-from typing import Union
+from typing import Dict, Union
 
 from .py_op_exceptions import _OPAbstractException
 from ._datetime import fromisoformat_z
@@ -293,3 +293,70 @@ class OPGroup(OPBaseObject):
     @property
     def permissions(self) -> int:
         return self["permissions"]
+
+
+class OPUserDescriptorList(list):
+    class _OPUserDescriptor(OPAbstractObject):
+        def __init__(self, user_descriptor_dict: Dict):
+            super().__init__(user_descriptor_dict)
+
+        @property
+        def first_name(self) -> str:
+            """
+            str : The firstName attribute
+            """
+            return self["firstName"]
+
+        @property
+        def last_name(self) -> str:
+            """
+            str : The lastName attribute
+            """
+            return self["lastName"]
+
+        @property
+        def name(self) -> str:
+            """
+            str : The name attribute
+            """
+            return self["name"]
+
+        @property
+        def email(self) -> str:
+            """
+            str : The email attribute
+            """
+            return self["email"]
+
+        @property
+        def avatar(self) -> str:
+            """
+            str : The avatar attribute
+            """
+            return self["avatar"]
+
+        @property
+        def state(self) -> str:
+            """
+            str : The state attribute
+            """
+            return self["state"]
+
+        @property
+        def type(self) -> str:
+            """
+            str : The type attribute
+            """
+            return self["type"]
+
+    def __init__(self, user_list_json):
+        super().__init__()
+        user_list = []
+        try:
+            user_list = json.loads(user_list_json)
+        except JSONDecodeError as jdce:
+            raise OPInvalidUserListException(
+                f"Failed to unserialize user json: {jdce}", user_list_json)
+        for user_obj in user_list:
+            user_descriptor = self._OPUserDescriptor(user_obj)
+            self.append(user_descriptor)

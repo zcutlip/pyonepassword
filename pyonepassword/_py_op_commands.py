@@ -54,7 +54,8 @@ class _OPCommandInterface(_OPCLIExecute):
         return get_document_argv
 
     def _get_user_argv(self, user_name_or_uuid: str):
-        get_user_argv = _OPArgv.get_user_argv(self.op_path, user_name_or_uuid)
+        get_user_argv = _OPArgv.get_generic_argv(
+            self.op_path, "user", user_name_or_uuid, [])
         return get_user_argv
 
     def get_item(self, item_name_or_uuid, vault=None, fields=None, decode="utf-8"):

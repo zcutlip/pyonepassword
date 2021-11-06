@@ -11,12 +11,25 @@ from ._datetime import fromisoformat_z
 
 
 class OPInvalidObjectException(_OPAbstractException):
+    """
+    The data provided to generate an OP query object failed to parse or validate
+
+    Attributes
+    ----------
+    object_json : Union[str, None]
+        The original JSON from the 'op' command query, if available
+    """
+
     def __init__(self, msg, object_json):
         super().__init__(msg)
         self.object_json = object_json
 
 
 class OPInvalidUserException(OPInvalidObjectException):
+    """
+    The data provided to generate an 'op get user' query object failed to parse or validate
+    """
+
     def __init__(self, msg, user_json):
         super().__init__(msg, user_json)
 

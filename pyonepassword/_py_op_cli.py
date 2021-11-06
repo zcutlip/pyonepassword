@@ -337,11 +337,6 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def get_user_argv(cls, op_exe, user_name_or_uuid):
-        argv = cls._get_generic_argv(op_exe, "user", user_name_or_uuid, [])
-        return argv
-
-    @classmethod
     def get_item_argv(cls, op_exe, item_name_or_uuid, vault=None, fields=None):
         sub_cmd_args = []
         if vault:

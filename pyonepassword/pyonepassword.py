@@ -96,7 +96,6 @@ class _OPPrivate(_OPCommandInterface):
     def get_user(self, user_name_or_uuid: str) -> OPUser:
         user_json = super().get_user(user_name_or_uuid)
         user = OPUser(user_json)
-        # return self._get_abstract('user', user_name_or_uuid, OPGetUserException)
         return user
 
     def get_vault(self, vault_name_or_uuid: str):

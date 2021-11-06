@@ -47,7 +47,7 @@ class OPInvalidGroupListException(OPInvalidObjectException):
     pass
 
 
-class OPObject(metaaclass=ABCMeta):
+class OPAbstractObject(dict, metaclass=ABCMeta):
 
     @abstractmethod
     def __init__(self, dict_or_json: Union[str, dict]):
@@ -56,6 +56,13 @@ class OPObject(metaaclass=ABCMeta):
         else:
             obj_dict = dict_or_json
         super().__init__(obj_dict)
+
+    @property
+    def uuid(self):
+        """
+        str: The object's object's UUID
+        """
+        return self["uuid"]
 
 
 class OPUser(dict):

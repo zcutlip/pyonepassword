@@ -86,7 +86,7 @@ class OPBaseObject(OPAbstractObject):
         return updated
 
 
-class OPUser(dict):
+class OPUser(OPBaseObject):
     """
     A class that represents the result from an 'op get user' operation.
     This is a dictionary unserialized from the operation's JSON output, and can be treated
@@ -117,32 +117,7 @@ class OPUser(dict):
             super().__init__(user_dict_or_json)
         except JSONDecodeError as jdce:
             raise OPInvalidUserException(
-                f"Failed to unserialize user json: {jdce}", user_dict_or_json)
-
-    @property
-    def uuid(self):
-        """
-        str: The user object's UUID
-        """
-        return self["uuid"]
-
-    @property
-    def created_at(self) -> datetime:
-        """
-        datetime : The createdAt attribute parsed as a datetime object
-        """
-        created = self["createdAt"]
-        created = fromisoformat_z(created)
-        return created
-
-    @property
-    def updatedAt(self) -> datetime:
-        """
-        datetime : The updatedAt attribute parsed as a datetime object
-        """
-        updated = self["updatedAt"]
-        updated = fromisoformat_z(updated)
-        return updated
+                f"Failed to unserialize user json: {jdce}", user_dict_or_json) from jdce
 
     @property
     def last_auth_at(self) -> datetime:

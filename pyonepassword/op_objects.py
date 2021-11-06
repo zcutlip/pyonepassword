@@ -2,6 +2,7 @@
 Miscellaneous classes for objects return by 'op get' other than item or document objects
 """
 import json
+from abc import ABCMeta, abstractmethod
 from datetime import datetime
 from json.decoder import JSONDecodeError
 from typing import Union
@@ -34,6 +35,17 @@ class OPInvalidUserException(OPInvalidObjectException):
         super().__init__(msg, user_json)
 
 
+class OPObject(metaaclass=ABCMeta):
+
+    @abstractmethod
+    def __init__(self, dict_or_json: Union[str, dict]):
+        if isinstance(dict_or_json, str):
+            obj_dict = json.loads(dict_or_json)
+        else:
+            obj_dict = dict_or_json
+        super().__init__(obj_dict)
+
+
 class OPUser(dict):
     """
     A class that represents the result from an 'op get user' operation.
@@ -61,15 +73,11 @@ class OPUser(dict):
             If JSON is provided and unserializing fails.
 
         """
-        if isinstance(user_dict_or_json, str):
-            try:
-                user_dict = json.loads(user_dict_or_json)
-            except JSONDecodeError as jdce:
-                raise OPInvalidUserException(
-                    f"Failed to unserialize user json: {jdce}", user_dict_or_json)
-        else:
-            user_dict = user_dict_or_json
-        super().__init__(user_dict)
+        try:
+            super().__init__(user_dict_or_json)
+        except JSONDecodeError as jdce:
+            raise OPInvalidUserException(
+                f"Failed to unserialize user json: {jdce}", user_dict_or_json)
 
     @property
     def uuid(self):

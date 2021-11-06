@@ -30,9 +30,21 @@ class OPInvalidUserException(OPInvalidObjectException):
     """
     The data provided to generate an 'op get user' query object failed to parse or validate
     """
+    pass
 
-    def __init__(self, msg, user_json):
-        super().__init__(msg, user_json)
+
+class OPInvalidUserListException(OPInvalidObjectException):
+    """
+    The data provided from 'op list users' failed to parse or validate
+    """
+    pass
+
+
+class OPInvalidGroupListException(OPInvalidObjectException):
+    """
+    The data provided from 'op list groups' failed to parse or validate
+    """
+    pass
 
 
 class OPObject(metaaclass=ABCMeta):

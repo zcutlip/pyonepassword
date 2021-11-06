@@ -360,3 +360,49 @@ class OPUserDescriptorList(list):
         for user_obj in user_list:
             user_descriptor = self._OPUserDescriptor(user_obj)
             self.append(user_descriptor)
+
+
+class OPGroupDescriptorList(list):
+    class _OPGroupDescriptor(OPAbstractObject):
+
+        @property
+        def type(self) -> str:
+            """
+            str : The type attribute
+            """
+            return self["type"]
+
+        @property
+        def name(self) -> str:
+            """
+            str : The name attribute
+            """
+            return self["name"]
+
+        @property
+        def desc(self) -> str:
+            """
+            The desc attribute
+            """
+            return self["desc"]
+
+        @property
+        def created_at(self) -> datetime:
+            """
+            datetime : The createdAt attribute parsed as a datetime object
+            """
+            created = self["createdAt"]
+            created = fromisoformat_z(created)
+            return created
+
+    def __init__(self, group_list_json):
+        super().__init__()
+        group_list = []
+        try:
+            group_list = json.loads(group_list_json)
+        except JSONDecodeError as jdce:
+            raise OPInvalidGroupListException(
+                f"Failed to unserialize user json: {jdce}", group_list_json) from jdce
+        for group_obj in group_list:
+            group_descriptor = self._OPGroupDescriptor(group_obj)
+            self.append(group_descriptor)

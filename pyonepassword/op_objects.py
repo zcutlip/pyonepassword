@@ -210,7 +210,7 @@ class OPUser(OPBaseObject):
         return self["accountKeyUuid"]
 
     @property
-    def combined_permissions(self) -> str:
+    def combined_permissions(self) -> int:
         """
         str : The combinedPermission attribute
         """

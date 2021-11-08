@@ -47,6 +47,19 @@ class OPInvalidGroupListException(OPInvalidObjectException):
     pass
 
 
+class OPInvalidVaultException(OPInvalidObjectException):
+    """
+    The data provided from 'op get vault' failed to parse or validate
+    """
+    pass
+
+
+class OPInvalidVaultListException(OPInvalidGroupListException):
+    """
+    The data provided from 'op list vaults' failed to parse or validate
+    """
+
+
 class OPAbstractObject(dict, metaclass=ABCMeta):
 
     @abstractmethod

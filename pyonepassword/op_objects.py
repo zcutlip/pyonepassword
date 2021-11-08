@@ -419,3 +419,35 @@ class OPGroupDescriptorList(list):
         for group_obj in group_list:
             group_descriptor = self._OPGroupDescriptor(group_obj)
             self.append(group_descriptor)
+
+
+class OPVaultDescriptor(OPAbstractObject):
+
+    def __init__(self, vault_dict_or_json):
+        super().__init__(vault_dict_or_json)
+
+    @property
+    def name(self) -> str:
+        return self["name"]
+
+
+class OPVault(OPVaultDescriptor):
+
+    def __init__(self, vault_dict_or_json):
+        try:
+            super().__init__(vault_dict_or_json)
+        except JSONDecodeError as jdce:
+            raise OPInvalidVaultException(
+                f"Failed to unserialize vault json: {jdce}", vault_dict_or_json) from jdce
+
+    @property
+    def type(self) -> str:
+        return self["type"]
+
+    @property
+    def desc(self) -> str:
+        return self["desc"]
+
+    @property
+    def avatar(self) -> Union[str, None]:
+        return self.get("avatar", None)

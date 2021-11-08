@@ -413,3 +413,9 @@ class _OPArgv(list):
             signout_args.append("--forget")
         argv = cls(op_exe, "signout", signout_args, global_args=global_args)
         return argv
+
+    @classmethod
+    def forget_argv(cls, op_exe, account_shorthand):
+        forget_args = [account_shorthand]
+        argv = cls(op_exe, "forget", forget_args)
+        return argv

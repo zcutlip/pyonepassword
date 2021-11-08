@@ -14,7 +14,8 @@ from .py_op_exceptions import (
     OPGetGroupException,
     OPGetItemException,
     OPGetDocumentException,
-    OPGetUserException
+    OPGetUserException,
+    OPGetVaultException
 )
 
 from .op_cli_version import MINIMUM_ITEM_CREATION_VERSION
@@ -121,6 +122,16 @@ class _OPCommandInterface(_OPCLIExecute):
             )
         except OPCmdFailedException as ocfe:
             raise OPGetGroupException.from_opexception(ocfe) from ocfe
+        return output
+
+    def get_vault(self, vault_name_or_uuid: str, decode: str = "utf-8") -> str:
+        get_vault_argv = self._get_vault_argv(vault_name_or_uuid)
+        try:
+            output = self._run(
+                get_vault_argv, capture_stdout=True, decode=decode
+            )
+        except OPCmdFailedException as ocfe:
+            raise OPGetVaultException.from_opexception(ocfe)
         return output
 
     def create_item(self, item: OPAbstractItem, item_name, vault=None):

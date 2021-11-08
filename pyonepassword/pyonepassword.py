@@ -1,7 +1,6 @@
 import json
 import logging
 
-from json import JSONDecodeError
 from os import environ as env
 
 from .op_items._op_items_base import OPAbstractItem, OPItemCreateResult
@@ -32,23 +31,6 @@ class _OPPrivate(_OPCommandInterface):
 
     Once initial sign-in support has been completely removed, the 'OP' class and this class will be re-consolidated
     """
-
-    def _get_abstract(self, abstract_obj_type: str, abs_name_or_uuid: str, exception_on_err: OPCmdFailedException):
-        lookup_argv = [self.op_path, "get",
-                       abstract_obj_type, abs_name_or_uuid]
-
-        try:
-            output = self._run(
-                lookup_argv, capture_stdout=True, decode="utf-8")
-        except OPCmdFailedException as ocfe:
-            raise exception_on_err.from_opexception(ocfe) from ocfe
-
-        try:
-            item_dict = json.loads(output)
-        except JSONDecodeError as jdce:
-            raise exception_on_err.from_opexception(jdce) from jdce
-
-        return item_dict
 
     def get_item(self, item_name_or_uuid, vault=None) -> OPAbstractItem:
         """

@@ -451,3 +451,19 @@ class OPVault(OPVaultDescriptor):
     @property
     def avatar(self) -> Union[str, None]:
         return self.get("avatar", None)
+
+
+class OPVaultDescriptorList(list):
+
+    def __init__(self, vault_list_json):
+        super().__init__()
+        vault_list = []
+        try:
+            vault_list = json.loads(vault_list_json)
+        except JSONDecodeError as jdce:
+            raise OPInvalidVaultListException(
+                f"Failed to unserialize vault list JSON: {jdce}", vault_list_json) from jdce
+
+        for vault_obj in vault_list:
+            vault_descriptor = OPVaultDescriptor(vault_obj)
+            self.append(vault_descriptor)

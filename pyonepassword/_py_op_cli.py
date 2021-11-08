@@ -404,3 +404,10 @@ class _OPArgv(list):
         global_args = ["--version"]
         argv_obj = cls(op_exe, None, args, global_args=global_args)
         return argv_obj
+
+    @classmethod
+    def signout_argv(cls, op_exe, account_shorthand: str, session: str, forget=False):
+        global_args = ["--account", account_shorthand, "--session", session]
+        signout_args = []
+        argv = cls(op_exe, "signout", signout_args, global_args=global_args)
+        return argv

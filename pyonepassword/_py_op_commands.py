@@ -148,6 +148,12 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
+    def signout(self, account, session, forget=False):
+        argv = _OPArgv.signout_argv(
+            self.op_path, account, session, forget=forget)
+        print(argv)
+        self._run(argv)
+
     def _create_item_argv(self, item, item_name, vault):
         vault_arg = vault if vault else self.vault
         create_item_argv = _OPArgv.create_item_argv(

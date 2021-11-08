@@ -7,7 +7,7 @@ from os import environ as env
 from .op_items._op_items_base import OPAbstractItem, OPItemCreateResult
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items.login import OPLoginItem, OPLoginItemTemplate
-from .op_objects import OPGroup, OPUser
+from .op_objects import OPGroup, OPUser, OPVault
 
 from ._py_op_commands import _OPCommandInterface
 from ._py_op_deprecation import deprecated
@@ -19,7 +19,6 @@ from .py_op_exceptions import (
     OPSignoutException,
     OPForgetException,
     OPGetCreatedItemException,
-    OPGetVaultException,
     OPListEventsException
 )
 
@@ -99,7 +98,9 @@ class _OPPrivate(_OPCommandInterface):
         return user
 
     def get_vault(self, vault_name_or_uuid: str):
-        return self._get_abstract('vault', vault_name_or_uuid, OPGetVaultException)
+        vault_json = super().get_vault(vault_name_or_uuid, decode="utf-8")
+        vault = OPVault(vault_json)
+        return vault
 
     def get_group(self, group_name_or_uuid: str):
         group_json = super().get_group(group_name_or_uuid, decode="utf-8")

@@ -409,5 +409,7 @@ class _OPArgv(list):
     def signout_argv(cls, op_exe, account_shorthand: str, session: str, forget=False):
         global_args = ["--account", account_shorthand, "--session", session]
         signout_args = []
+        if forget:
+            signout_args.append("--forget")
         argv = cls(op_exe, "signout", signout_args, global_args=global_args)
         return argv

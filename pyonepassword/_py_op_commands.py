@@ -153,6 +153,13 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, account, session, forget=forget)
         self._run(argv)
 
+    @classmethod
+    def forget(cls, account: str, op_path=None):
+        if not op_path:
+            op_path = cls.OP_PATH
+        argv = _OPArgv.forget_argv(op_path, account)
+        cls._run(argv)
+
     def _create_item_argv(self, item, item_name, vault):
         vault_arg = vault if vault else self.vault
         create_item_argv = _OPArgv.create_item_argv(

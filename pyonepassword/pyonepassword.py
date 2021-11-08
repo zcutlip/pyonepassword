@@ -376,11 +376,9 @@ class _OPPrivate(_OPCommandInterface):
         -------
         None
         """
-        if op_path is None:
-            op_path = cls.OP_PATH
-        forget_argv = [op_path, "forget", account]
+
         try:
-            cls._run(forget_argv)
+            cls.forget(account, op_path=op_path)
         except OPCmdFailedException as ocfe:
             raise OPForgetException.from_opexception(ocfe) from ocfe
 

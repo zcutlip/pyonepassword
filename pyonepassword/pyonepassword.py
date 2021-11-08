@@ -337,13 +337,11 @@ class _OPPrivate(_OPCommandInterface):
         """
         account = self.account_shorthand
         token = self.token
-        global_flags = ["--session", token, "--account", account]
-        signout_argv = [self.op_path, "signout"]
-        if forget:
-            signout_argv.append("--forget")
-        signout_argv.extend(global_flags)
+        if not token:
+            return
+
         try:
-            self._run(signout_argv)
+            super().signout(account, token, forget=forget)
         except OPCmdFailedException as ocfe:
             raise OPSignoutException.from_opexception(ocfe) from ocfe
 

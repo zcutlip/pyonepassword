@@ -238,6 +238,17 @@ class OPUser(OPBaseObject):
 
 
 class OPGroup(OPBaseObject):
+    """
+    A class that represents the result from an 'op get group' operation.
+    This is a dictionary unserialized from the operation's JSON output, and can be treated
+    as a normal dictionary. In addition, it has a convenience property for each key in the
+    the dictionary.
+
+    Note
+    ----
+    Date-related properties return parsed 'datetime' objects. To access the original
+    date strings, use the corresponding dictionary key.
+    """
 
     def __init__(self, group_dict_or_json: Union[str, dict]):
         """

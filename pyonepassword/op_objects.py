@@ -327,6 +327,23 @@ class OPGroup(OPBaseObject):
 
 
 class OPUserDescriptorList(list):
+    """
+    List of 1Password "user" descriptors as returned from an 'op list users' operation
+    These are not full user dictionaries as would be returned from 'op get user'.
+    Rather, just a minimum set of fields to describe a user.
+
+    Each user descriptor object has the following properties
+
+    _OPUserDescriptor Properties
+    ----------------------------
+    first_name : str
+    last_name : str
+    name : str
+    email : str
+    avatar : str
+    state : str
+    type : str
+    """
     class _OPUserDescriptor(OPAbstractObject):
         def __init__(self, user_descriptor_dict: Dict):
             super().__init__(user_descriptor_dict)

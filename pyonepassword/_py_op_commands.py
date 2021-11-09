@@ -70,7 +70,7 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, "vault", vault_name_or_uuid, [])
         return get_vault_argv
 
-    def get_item(self, item_name_or_uuid, vault=None, fields=None, decode="utf-8"):
+    def _get_item(self, item_name_or_uuid, vault=None, fields=None, decode="utf-8"):
         get_item_argv = self._get_item_argv(
             item_name_or_uuid, vault=vault, fields=fields)
         try:
@@ -81,7 +81,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
-    def get_document(self, document_name_or_uuid: str, vault: str = None):
+    def _get_document(self, document_name_or_uuid: str, vault: str = None):
         """
         Download a document object from a 1Password vault by name or UUID.
 
@@ -104,7 +104,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return document_bytes
 
-    def get_user(self, user_name_or_uuid: str, decode: str = "utf-8") -> str:
+    def _get_user(self, user_name_or_uuid: str, decode: str = "utf-8") -> str:
         get_user_argv = self._get_user_argv(user_name_or_uuid)
         try:
             output = self._run(
@@ -114,7 +114,7 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPGetUserException.from_opexception(ocfe) from ocfe
         return output
 
-    def get_group(self, group_name_or_uuid: str, decode: str = "utf-8") -> str:
+    def _get_group(self, group_name_or_uuid: str, decode: str = "utf-8") -> str:
         get_group_argv = self._get_group_argv(group_name_or_uuid)
         try:
             output = self._run(
@@ -124,7 +124,7 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPGetGroupException.from_opexception(ocfe) from ocfe
         return output
 
-    def get_vault(self, vault_name_or_uuid: str, decode: str = "utf-8") -> str:
+    def _get_vault(self, vault_name_or_uuid: str, decode: str = "utf-8") -> str:
         get_vault_argv = self._get_vault_argv(vault_name_or_uuid)
         try:
             output = self._run(
@@ -134,7 +134,7 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPGetVaultException.from_opexception(ocfe)
         return output
 
-    def create_item(self, item: OPAbstractItem, item_name, vault=None):
+    def _create_item(self, item: OPAbstractItem, item_name, vault=None):
         if not self.supports_item_creation():
             msg = f"Minimum supported 'op' version for item creation: {MINIMUM_ITEM_CREATION_VERSION}, current version: {self._cli_version}"
             raise OPCreateItemNotSupportedException(msg)
@@ -148,13 +148,13 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
-    def signout(self, account, session, forget=False):
+    def _signout(self, account, session, forget=False):
         argv = _OPArgv.signout_argv(
             self.op_path, account, session, forget=forget)
         self._run(argv)
 
     @classmethod
-    def forget(cls, account: str, op_path=None):
+    def _forget(cls, account: str, op_path=None):
         if not op_path:
             op_path = cls.OP_PATH
         argv = _OPArgv.forget_argv(op_path, account)

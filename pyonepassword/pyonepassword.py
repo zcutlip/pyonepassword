@@ -70,22 +70,22 @@ class _OPPrivate(_OPCommandInterface):
             An item object of one of the types listed above
         """
 
-        output = super().get_item(item_name_or_uuid, vault=vault, decode="utf-8")
+        output = super()._get_item(item_name_or_uuid, vault=vault, decode="utf-8")
         op_item = OPItemFactory.op_item_from_json(output)
         return op_item
 
     def get_user(self, user_name_or_uuid: str) -> OPUser:
-        user_json = super().get_user(user_name_or_uuid)
+        user_json = super()._get_user(user_name_or_uuid)
         user = OPUser(user_json)
         return user
 
     def get_vault(self, vault_name_or_uuid: str):
-        vault_json = super().get_vault(vault_name_or_uuid, decode="utf-8")
+        vault_json = super()._get_vault(vault_name_or_uuid, decode="utf-8")
         vault = OPVault(vault_json)
         return vault
 
     def get_group(self, group_name_or_uuid: str):
-        group_json = super().get_group(group_name_or_uuid, decode="utf-8")
+        group_json = super()._get_group(group_name_or_uuid, decode="utf-8")
         group = OPGroup(group_json)
         return group
 
@@ -227,7 +227,7 @@ class _OPPrivate(_OPCommandInterface):
                 "Item has no 'fileName' attribute") from ae
 
         try:
-            document_bytes = super().get_document(document_name_or_uuid, vault=vault)
+            document_bytes = super()._get_document(document_name_or_uuid, vault=vault)
         except OPCmdFailedException as ocfe:
             raise OPGetDocumentException.from_opexception(ocfe) from ocfe
 
@@ -267,7 +267,7 @@ class _OPPrivate(_OPCommandInterface):
         created_item : OPAbstractItem
             The item object fetched after creating a new item from template
         """
-        result_str = super().create_item(item, item_name, vault=vault)
+        result_str = super()._create_item(item, item_name, vault=vault)
         result = json.loads(result_str)
         result = OPItemCreateResult(result)
         try:
@@ -341,7 +341,7 @@ class _OPPrivate(_OPCommandInterface):
             return
 
         try:
-            super().signout(account, token, forget=forget)
+            super()._signout(account, token, forget=forget)
         except OPCmdFailedException as ocfe:
             raise OPSignoutException.from_opexception(ocfe) from ocfe
 

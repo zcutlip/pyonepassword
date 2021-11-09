@@ -411,6 +411,21 @@ class OPUserDescriptorList(list):
 
 
 class OPGroupDescriptorList(list):
+    """
+    List of 1Password "group" descriptors as returned from an 'op list group' operation
+    These are not full group dictionaries as would be returned from 'op get group'.
+    Rather, just a minimum set of fields to describe a group.
+
+    Each group descriptor is a dictionary of str:str pairs, but in addition has the following
+    convenience properties
+
+    _OPGroupDescriptor Properties
+    -----------------------------
+    type : str
+    name : str
+    desc : str
+    created_at : datetime
+    """
     class _OPGroupDescriptor(OPAbstractObject):
 
         @property

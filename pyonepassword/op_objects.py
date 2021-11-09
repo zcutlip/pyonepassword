@@ -33,6 +33,13 @@ class OPInvalidUserException(OPInvalidObjectException):
     pass
 
 
+class OPInvalidGroupException(OPInvalidObjectException):
+    """
+    The data provided to from 'op get group' failed to parse or validate
+    """
+    pass
+
+
 class OPInvalidUserListException(OPInvalidObjectException):
     """
     The data provided from 'op list users' failed to parse or validate

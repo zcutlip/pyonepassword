@@ -249,14 +249,14 @@ class OPGroup(OPBaseObject):
 
         Raises
         ------
-        OPInvalidUserException
+        OPInvalidGroupException
             If JSON is provided and unserializing fails.
 
         """
         try:
             super().__init__(group_dict_or_json)
         except JSONDecodeError as jdce:
-            raise OPInvalidUserException(
+            raise OPInvalidGroupException(
                 f"Failed to unserialize group json: {jdce}") from jdce
 
     @property

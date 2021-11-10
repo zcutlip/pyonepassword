@@ -97,7 +97,7 @@ class OPBaseObject(OPAbstractObject):
         return created
 
     @property
-    def updatedAt(self) -> datetime:
+    def updated_at(self) -> datetime:
         """
         datetime : The updatedAt attribute parsed as a datetime object
         """

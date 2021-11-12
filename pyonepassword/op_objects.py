@@ -532,9 +532,12 @@ class OPVault(OPVaultDescriptor):
         return self.get("avatar", None)
 
 
-class OPVaultDescriptorList(list):
+class OPVaultDescriptorList(_OPDescriptorList[OPVaultDescriptor]):
+    """
+    A list of OPVaultDescriptor dictionaries as returned by 'op list vaults'
+    """
 
-    def __init__(self, vault_list_json):
+    def __init__(self, vault_list_json: str):
         super().__init__()
         vault_list = []
         try:

@@ -5,7 +5,7 @@ import json
 from abc import ABCMeta, abstractmethod
 from datetime import datetime
 from json.decoder import JSONDecodeError
-from typing import Dict, Union
+from typing import Dict, Union, TypeVar
 
 from .py_op_exceptions import _OPAbstractException
 from ._datetime import fromisoformat_z
@@ -65,6 +65,13 @@ class OPInvalidVaultListException(OPInvalidGroupListException):
     """
     The data provided from 'op list vaults' failed to parse or validate
     """
+
+
+DT = TypeVar('DT', dict)
+
+
+class _OPDescriptorList(list[DT]):
+    pass
 
 
 class OPAbstractObject(dict, metaclass=ABCMeta):
@@ -400,7 +407,7 @@ class OPUserDescriptor(OPAbstractObject):
         return self["type"]
 
 
-class OPUserDescriptorList(list):
+class OPUserDescriptorList(_OPDescriptorList[OPUserDescriptor]):
     """
     List of 1Password "user" descriptors as returned from an 'op list users' operation
     These are not full user dictionaries as would be returned from 'op get user'.

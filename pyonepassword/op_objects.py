@@ -67,7 +67,7 @@ class OPInvalidVaultListException(OPInvalidGroupListException):
     """
 
 
-DT = TypeVar('DT', dict)
+DT = TypeVar('DT')
 
 
 class _OPDescriptorList(list[DT]):

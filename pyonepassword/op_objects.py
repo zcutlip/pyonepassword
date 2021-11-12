@@ -87,7 +87,7 @@ class OPAbstractObject(dict, metaclass=ABCMeta):
     @property
     def uuid(self):
         """
-        str: The object's object's UUID
+        str: The object's UUID
         """
         return self["uuid"]
 

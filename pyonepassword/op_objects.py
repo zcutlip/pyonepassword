@@ -346,7 +346,7 @@ class OPGroup(OPBaseObject):
         return self["permissions"]
 
 
-class _OPUserDescriptor(OPAbstractObject):
+class OPUserDescriptor(OPAbstractObject):
     def __init__(self, user_descriptor_dict: Dict):
         super().__init__(user_descriptor_dict)
 
@@ -428,7 +428,7 @@ class OPUserDescriptorList(list):
             raise OPInvalidUserListException(
                 f"Failed to unserialize user json: {jdce}", user_list_json)
         for user_obj in user_list:
-            user_descriptor = _OPUserDescriptor(user_obj)
+            user_descriptor = OPUserDescriptor(user_obj)
             self.append(user_descriptor)
 
 

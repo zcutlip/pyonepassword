@@ -254,10 +254,9 @@ class OPUser(OPBaseObject):
 
 class OPGroup(OPBaseObject):
     """
-    A class that represents the result from an 'op get group' operation.
-    This is a dictionary unserialized from the operation's JSON output, and can be treated
-    as a normal dictionary. In addition, it has a convenience property for each key in the
-    the dictionary.
+    A dictionary of full details about a 1Password group.
+    This can be treated as a normal dictionary. In addition, it has a convenience
+    property for each key in the the dictionary.
 
     Note
     ----

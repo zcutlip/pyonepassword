@@ -400,7 +400,7 @@ class OPUserDescriptor(OPAbstractObject):
 
 class OPUserDescriptorList(_OPDescriptorList[OPUserDescriptor]):
     """
-    List of 1Password "user" descriptors as returned from an 'op list users' operation
+    List of OPUserDescriptor dictionaries as returned from an 'op list users' operation
     These are not full user dictionaries as would be returned from 'op get user'.
     Rather, just a minimum set of fields to describe a user.
 
@@ -455,7 +455,7 @@ class OPGroupDescriptor(OPAbstractObject):
 
 class OPGroupDescriptorList(_OPDescriptorList[OPGroupDescriptor]):
     """
-    List of 1Password "group" descriptors as returned from an 'op list group' operation
+    List of OPGroupDescriptor dictionaries as returned from an 'op list group' operation.
     These are not full group dictionaries as would be returned from 'op get group'.
     Rather, just a minimum set of fields to describe a group.
 

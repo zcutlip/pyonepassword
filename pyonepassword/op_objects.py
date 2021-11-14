@@ -452,7 +452,7 @@ class OPGroupDescriptor(OPAbstractObject):
         return created
 
 
-class OPGroupDescriptorList(list):
+class OPGroupDescriptorList(_OPDescriptorList[OPGroupDescriptor]):
     """
     List of 1Password "group" descriptors as returned from an 'op list group' operation
     These are not full group dictionaries as would be returned from 'op get group'.

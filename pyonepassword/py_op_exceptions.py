@@ -51,10 +51,6 @@ class OPSignoutException(OPCmdFailedException):
 class OPForgetException(OPCmdFailedException):
     MSG = "1Password forget failed."
 
-# Keep this exception class around for a bit
-# so any code handling this exception instead of OPGetItemException
-# can still work
-
 
 class OPGetItemException(OPCmdFailedException):
     MSG = "1Password 'get item' failed."

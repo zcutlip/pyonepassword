@@ -474,6 +474,10 @@ class OPGroupDescriptorList(list):
 
 
 class OPVaultDescriptor(OPAbstractObject):
+    """
+    A dictionary describing a vault as returned by 'op list vaults'. This is a subset of
+    a full vault object.
+    """
 
     def __init__(self, vault_dict_or_json):
         super().__init__(vault_dict_or_json)

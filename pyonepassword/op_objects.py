@@ -491,6 +491,10 @@ class OPVaultDescriptor(OPAbstractObject):
 
 
 class OPVault(OPVaultDescriptor):
+    """
+    A dictionary of full details about a vault as returned by
+    an 'op get vault' operation
+    """
 
     def __init__(self, vault_dict_or_json):
         try:
@@ -501,14 +505,25 @@ class OPVault(OPVaultDescriptor):
 
     @property
     def type(self) -> str:
+        """
+        str: The "type" attribute of the vault.
+        """
         return self["type"]
 
     @property
     def desc(self) -> str:
+        """
+        str : The vault description
+        """
         return self["desc"]
 
     @property
     def avatar(self) -> Union[str, None]:
+        """
+        Union[str, None] : The avatar filename associated with this vault
+
+        Note: This object does not appear to be queryable in any way
+        """
         return self.get("avatar", None)
 
 

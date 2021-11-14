@@ -124,26 +124,6 @@ class OPUser(OPBaseObject):
     ----
     Date-related properties return parsed 'datetime' objects. To access the original
     date strings, use the corresponding dictionary key.
-
-    Properties
-    ----------
-    uuid : str
-    created_at : datetime.datetime
-    updated_at : datetiem.datetime
-    last_auth_at : datetime.datetime
-    email : str
-    first_name : str
-    last_name : str
-    name : str
-    attr_version : int
-    keyset_version : int
-    state : str
-    type : str
-    avatar : str
-    language : str
-    account_key_format : str
-    account_key_uuid : str
-    combined_permissions : str
     """
 
     def __init__(self, user_dict_or_json: Union[str, dict]):
@@ -447,13 +427,6 @@ class OPGroupDescriptorList(list):
 
     Each group descriptor is a dictionary of str:str pairs, but in addition has the following
     convenience properties
-
-    _OPGroupDescriptor Properties
-    -----------------------------
-    type : str
-    name : str
-    desc : str
-    created_at : datetime
     """
     class _OPGroupDescriptor(OPAbstractObject):
 

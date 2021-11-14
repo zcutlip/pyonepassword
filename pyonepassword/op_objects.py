@@ -419,6 +419,39 @@ class OPUserDescriptorList(_OPDescriptorList[OPUserDescriptor]):
             self.append(user_descriptor)
 
 
+class _OPGroupDescriptor(OPAbstractObject):
+
+    @property
+    def type(self) -> str:
+        """
+        str : The type attribute
+        """
+        return self["type"]
+
+    @property
+    def name(self) -> str:
+        """
+        str : The name attribute
+        """
+        return self["name"]
+
+    @property
+    def desc(self) -> str:
+        """
+        The desc attribute
+        """
+        return self["desc"]
+
+    @property
+    def created_at(self) -> datetime:
+        """
+        datetime : The createdAt attribute parsed as a datetime object
+        """
+        created = self["createdAt"]
+        created = fromisoformat_z(created)
+        return created
+
+
 class OPGroupDescriptorList(list):
     """
     List of 1Password "group" descriptors as returned from an 'op list group' operation
@@ -428,37 +461,6 @@ class OPGroupDescriptorList(list):
     Each group descriptor is a dictionary of str:str pairs, but in addition has the following
     convenience properties
     """
-    class _OPGroupDescriptor(OPAbstractObject):
-
-        @property
-        def type(self) -> str:
-            """
-            str : The type attribute
-            """
-            return self["type"]
-
-        @property
-        def name(self) -> str:
-            """
-            str : The name attribute
-            """
-            return self["name"]
-
-        @property
-        def desc(self) -> str:
-            """
-            The desc attribute
-            """
-            return self["desc"]
-
-        @property
-        def created_at(self) -> datetime:
-            """
-            datetime : The createdAt attribute parsed as a datetime object
-            """
-            created = self["createdAt"]
-            created = fromisoformat_z(created)
-            return created
 
     def __init__(self, group_list_json):
         super().__init__()

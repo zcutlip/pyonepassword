@@ -394,16 +394,6 @@ class OPUserDescriptorList(_OPDescriptorList[OPUserDescriptor]):
     Rather, just a minimum set of fields to describe a user.
 
     Each user descriptor object has the following properties
-
-    _OPUserDescriptor Properties
-    ----------------------------
-    first_name : str
-    last_name : str
-    name : str
-    email : str
-    avatar : str
-    state : str
-    type : str
     """
 
     def __init__(self, user_list_json):

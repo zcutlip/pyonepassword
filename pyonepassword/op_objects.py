@@ -421,7 +421,9 @@ class OPUserDescriptorList(_OPDescriptorList[OPUserDescriptor]):
 
 
 class OPGroupDescriptor(OPAbstractObject):
-
+    """
+    A dictionary describing a group as returned by 'op list groups'. This is a subset of a full OPGroupOboject.
+    """
     @property
     def type(self) -> str:
         """

@@ -71,10 +71,16 @@ DT = TypeVar('DT')
 
 
 class _OPDescriptorList(list[DT]):
+    """
+    A class for type-hinting lists of 1Password object descriptors
+    """
     pass
 
 
 class OPAbstractObject(dict, metaclass=ABCMeta):
+    """
+    Abstract base class for 1Password objects as returned by 'op list|get <object class>'
+    """
 
     @abstractmethod
     def __init__(self, dict_or_json: Union[str, dict]):
@@ -93,6 +99,9 @@ class OPAbstractObject(dict, metaclass=ABCMeta):
 
 
 class OPBaseObject(OPAbstractObject):
+    """
+    Base class for miscellaneous 1Password objects as returned by 'op get <object class>'
+    """
 
     @property
     def created_at(self) -> datetime:
@@ -334,6 +343,10 @@ class OPGroup(OPBaseObject):
 
 
 class OPUserDescriptor(OPAbstractObject):
+    """
+    A dictionary describing a user as returned by 'op list users'. This is a subset of a full OPUserOboject.
+    """
+
     def __init__(self, user_descriptor_dict: Dict):
         super().__init__(user_descriptor_dict)
 

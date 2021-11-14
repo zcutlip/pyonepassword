@@ -419,7 +419,7 @@ class OPUserDescriptorList(_OPDescriptorList[OPUserDescriptor]):
             self.append(user_descriptor)
 
 
-class _OPGroupDescriptor(OPAbstractObject):
+class OPGroupDescriptor(OPAbstractObject):
 
     @property
     def type(self) -> str:
@@ -471,7 +471,7 @@ class OPGroupDescriptorList(list):
             raise OPInvalidGroupListException(
                 f"Failed to unserialize user json: {jdce}", group_list_json) from jdce
         for group_obj in group_list:
-            group_descriptor = self._OPGroupDescriptor(group_obj)
+            group_descriptor = OPGroupDescriptor(group_obj)
             self.append(group_descriptor)
 
 

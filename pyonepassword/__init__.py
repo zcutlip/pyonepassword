@@ -12,8 +12,19 @@ from .op_items.secure_note import OPSecureNoteItem
 from .op_items.credit_card import OPCreditCardItem
 from .op_objects import (
     OPUser,
+    OPUserDescriptor,
+    OPUserDescriptorList,
     OPInvalidObjectException,
-    OPInvalidUserException
+    OPInvalidUserException,
+    OPInvalidUserListException,
+    OPGroup,
+    OPGroupDescriptor,
+    OPGroupDescriptorList,
+    OPInvalidGroupException,
+    OPInvalidGroupListException,
+    OPVault,
+    OPVaultDescriptor,
+    OPVaultDescriptorList
 )
 
 from .pyonepassword import OP, OP_

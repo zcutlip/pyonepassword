@@ -484,6 +484,9 @@ class OPVaultDescriptor(OPAbstractObject):
 
     @property
     def name(self) -> str:
+        """
+        str : The vault's name
+        """
         return self["name"]
 
 

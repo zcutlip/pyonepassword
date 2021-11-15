@@ -44,6 +44,18 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "get-item-example-login-vault-test-data-2"
+    },
+    "get|vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-vault-test-data"
+    },
+    "--version": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "cli-version"
     }
   }
 }

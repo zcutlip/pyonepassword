@@ -70,6 +70,11 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, "vault", vault_name_or_uuid, [])
         return get_vault_argv
 
+    def _cli_version_argv(self):
+        # Specifically for use by mock_op response-generator
+        cli_version_argv = _OPArgv.cli_version_argv(self.op_path)
+        return cli_version_argv
+
     def _get_item(self, item_name_or_uuid, vault=None, fields=None, decode="utf-8"):
         get_item_argv = self._get_item_argv(
             item_name_or_uuid, vault=vault, fields=fields)

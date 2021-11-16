@@ -3,6 +3,7 @@ from typing import Dict
 from pytest import fixture
 from .paths import EXPECTED_DATA_PATH
 
+
 class ExpectedData:
     def __init__(self):
         data = json.load(open(EXPECTED_DATA_PATH, "r"))
@@ -18,6 +19,11 @@ class ExpectedData:
         doc_dict = document_data[document_id]
         return doc_dict
 
+    def lookup_vault(self, vault_id):
+        vault_data = self.vault_data
+        vault_dict = vault_data[vault_id]
+        return vault_dict
+
     @property
     def item_data(self) -> Dict[str, Dict]:
         return self._data["items"]
@@ -25,6 +31,10 @@ class ExpectedData:
     @property
     def document_data(self) -> Dict[str, Dict]:
         return self._data["documents"]
+
+    @property
+    def vault_data(self) -> Dict[str, Dict]:
+        return self._data["vaults"]
 
 
 @fixture

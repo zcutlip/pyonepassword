@@ -47,6 +47,9 @@
         "jqnwwnagfbhe5h2ky6k3rm3peu":{
             "name": "Test Data 2",
             "desc": "A second example vault holding test data"
+        },
+        "Invalid Vault":{
+            "returncode": 1
         }
     }
 }

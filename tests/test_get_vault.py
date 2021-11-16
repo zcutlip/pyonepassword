@@ -1,5 +1,5 @@
 from typing import Dict
-from pyonepassword import OP
+from pyonepassword import OP, OPGetVaultException
 from .fixtures.expected_data import ExpectedData
 
 
@@ -24,3 +24,14 @@ def test_get_vault_02(signed_in_op: OP, expected_data):
     result = signed_in_op.get_vault(vault_uuid)
     assert result.name == expected["name"]
     assert result.desc == expected["desc"]
+
+
+def test_get_invalid_vault_01(signed_in_op: OP, expected_data):
+    vault_name = "Invalid Vault"
+    expected = _lookup_item_data(expected_data, vault_name)
+    try:
+        _ = signed_in_op.get_vault(vault_name)
+        assert False, "We should have caught an exception"
+    except OPGetVaultException as e:
+        print(e)
+        assert e.returncode == expected["returncode"]

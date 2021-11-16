@@ -68,6 +68,12 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "get-vault-by-uuid-test-data-2"
+    },
+    "get|vault|Invalid Vault": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-vault-invalid-vault"
     }
   }
 }

@@ -37,5 +37,16 @@
             "size": 92934,
             "filename": "1200px-SpongeBob_SquarePants_character.svg.png.webp"
         }
+    },
+    "users":{ },
+    "vaults":{
+        "Test Data":{
+            "uuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+            "desc": "A vault to hold example data for testing"
+        },
+        "jqnwwnagfbhe5h2ky6k3rm3peu":{
+            "name": "Test Data 2",
+            "desc": "A second example vault holding test data"
+        }
     }
 }

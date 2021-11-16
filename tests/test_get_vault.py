@@ -1,0 +1,26 @@
+from typing import Dict
+from pyonepassword import OP
+from .fixtures.expected_data import ExpectedData
+
+
+def _lookup_item_data(data: ExpectedData, vault_id: str) -> Dict:
+    item = data.lookup_vault(vault_id)
+    return item
+
+
+def test_get_vault_01(signed_in_op: OP, expected_data):
+    # get vault "Test Data"
+    vault_name = "Test Data"
+    expected = _lookup_item_data(expected_data, vault_name)
+    result = signed_in_op.get_vault(vault_name)
+    assert result.uuid == expected["uuid"]
+    assert result.desc == expected["desc"]
+
+
+def test_get_vault_02(signed_in_op: OP, expected_data):
+    # get vault "jqnwwnagfbhe5h2ky6k3rm3peu"
+    vault_uuid = "jqnwwnagfbhe5h2ky6k3rm3peu"
+    expected = _lookup_item_data(expected_data, vault_uuid)
+    result = signed_in_op.get_vault(vault_uuid)
+    assert result.name == expected["name"]
+    assert result.desc == expected["desc"]

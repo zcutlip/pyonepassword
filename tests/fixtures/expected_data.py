@@ -24,6 +24,11 @@ class ExpectedData:
         vault_dict = vault_data[vault_id]
         return vault_dict
 
+    def lookup_user(self, user_id):
+        user_data = self.user_data
+        user_dict = user_data[user_id]
+        return user_dict
+
     @property
     def item_data(self) -> Dict[str, Dict]:
         return self._data["items"]
@@ -35,6 +40,10 @@ class ExpectedData:
     @property
     def vault_data(self) -> Dict[str, Dict]:
         return self._data["vaults"]
+
+    @property
+    def user_data(self) -> Dict[str, Dict]:
+        return self._data["users"]
 
 
 @fixture

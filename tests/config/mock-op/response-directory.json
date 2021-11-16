@@ -56,6 +56,12 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "cli-version"
+    },
+    "get|user|Example User": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-vault-example-user"
     }
   }
 }

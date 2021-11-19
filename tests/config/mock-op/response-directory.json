@@ -74,6 +74,12 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "get-vault-invalid-vault"
+    },
+    "get|group|No Such group": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-group-nonexistant-group"
     }
   }
 }

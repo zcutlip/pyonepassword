@@ -61,7 +61,7 @@
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "get-vault-example-user"
+      "name": "get-user-example-user"
     },
     "get|vault|jqnwwnagfbhe5h2ky6k3rm3peu": {
       "exit_status": 0,

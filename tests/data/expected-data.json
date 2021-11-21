@@ -38,7 +38,21 @@
             "filename": "1200px-SpongeBob_SquarePants_character.svg.png.webp"
         }
     },
-    "users":{ },
+    "users":{
+        "Example User":{
+            "uuid": "RAXCWKNRRNGL7I3KSZOH5ERLVV",
+            "createdAt": "2017-07-17T15:53:57Z",
+            "updatedAt": "2019-12-11T03:45:04Z",
+            "lastAuthAt": "2021-11-19T05:30:25Z",
+            "email": "example_user@example.email",
+            "firstName": "Example",
+            "lastName": "User",
+            "name": "Example User"
+        },
+        "No Such User": {
+            "returncode": 1
+        }
+    },
     "vaults":{
         "Test Data":{
             "uuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",

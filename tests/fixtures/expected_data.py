@@ -1,6 +1,6 @@
 import json
 from typing import Dict
-from pytest import fixture
+
 from .paths import EXPECTED_DATA_PATH
 
 
@@ -44,9 +44,3 @@ class ExpectedData:
     @property
     def user_data(self) -> Dict[str, Dict]:
         return self._data["users"]
-
-
-@fixture
-def expected_data():
-    data = ExpectedData()
-    return data

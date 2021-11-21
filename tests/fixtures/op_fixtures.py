@@ -2,7 +2,7 @@ import os
 from pytest import fixture
 from pyonepassword import OP
 
-from .expected_data import ExpectedData
+from .expected_data import ExpectedData, ExpectedUserData
 from .paths import RESP_DIRECTORY_PATH
 
 TEST_DATA_VAULT = "Test Data"
@@ -27,4 +27,10 @@ def signed_in_op():
 @fixture
 def expected_data():
     data = ExpectedData()
+    return data
+
+
+@fixture
+def expected_user_data():
+    data = ExpectedUserData()
     return data

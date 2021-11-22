@@ -3,9 +3,9 @@ from pytest import fixture
 from pyonepassword import OP
 
 from .expected_data import ExpectedData
+from .expected_group_data import ExpectedGroupData
 from .expected_user_data import ExpectedUserData
 from .expected_vault_data import ExpectedVaultData
-
 from .paths import RESP_DIRECTORY_PATH
 
 TEST_DATA_VAULT = "Test Data"
@@ -42,4 +42,10 @@ def expected_user_data():
 @fixture
 def expected_vault_data():
     data = ExpectedVaultData()
+    return data
+
+
+@fixture
+def expected_group_data():
+    data = ExpectedGroupData()
     return data

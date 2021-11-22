@@ -53,6 +53,18 @@
             "returncode": 1
         }
     },
+    "groups": {
+        "Example Group": {
+            "uuid": "qqqqqwwwwwq5ttnfczfyozzzzz",
+            "name": "Example Group",
+            "desc": "All team members.",
+            "createdAt": "2017-07-17T15:54:00Z",
+            "updatedAt": "2017-07-17T15:54:00Z"
+        },
+        "No Such group": {
+            "returncode": 1
+        }
+    },
     "vaults":{
         "Test Data":{
             "uuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",

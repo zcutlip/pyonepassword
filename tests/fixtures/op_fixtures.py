@@ -2,7 +2,9 @@ import os
 from pytest import fixture
 from pyonepassword import OP
 
-from .expected_data import ExpectedData, ExpectedUserData
+from .expected_data import ExpectedData
+from .expected_user_data import ExpectedUserData
+
 from .paths import RESP_DIRECTORY_PATH
 
 TEST_DATA_VAULT = "Test Data"

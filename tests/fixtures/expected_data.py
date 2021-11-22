@@ -88,6 +88,10 @@ class ExpectedUser:
     def name(self) -> str:
         return self._data["name"]
 
+    @property
+    def returncode(self) -> int:
+        return self._data["returncode"]
+
 
 class ExpectedUserData:
     def __init__(self):

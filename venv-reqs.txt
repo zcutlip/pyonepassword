@@ -2,8 +2,7 @@
 flake8
 autopep8
 pycodestyle
-bpython
-pytest
-git+https://github.com/zcutlip/mock-op
+ipython
 -e .
+-r test-reqs.txt
 -r requirements.txt

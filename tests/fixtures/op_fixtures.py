@@ -4,6 +4,7 @@ from pyonepassword import OP
 
 from .expected_data import ExpectedData
 from .expected_user_data import ExpectedUserData
+from .expected_vault_data import ExpectedVaultData
 
 from .paths import RESP_DIRECTORY_PATH
 
@@ -35,4 +36,10 @@ def expected_data():
 @fixture
 def expected_user_data():
     data = ExpectedUserData()
+    return data
+
+
+@fixture
+def expected_vault_data():
+    data = ExpectedVaultData()
     return data

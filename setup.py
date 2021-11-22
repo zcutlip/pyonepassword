@@ -20,7 +20,7 @@ setup(
     # We need python3.9 in order to use importlib.resources.files in templates.py
     python_requires='>=3.9',
     install_requires=[],
-    package_data={'pyonepassword': ['config/*']},
+    package_data={'pyonepassword': ['data/*']},
     entry_points={"console_scripts":
                   ["opconfig=pyonepassword.opconfig_main:main"]},
     classifiers=[

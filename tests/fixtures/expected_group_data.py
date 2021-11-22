@@ -32,6 +32,10 @@ class ExpectedGroup:
         updated_at = self._data["updatedAt"]
         return fromisoformat_z(updated_at)
 
+    @property
+    def returncode(self) -> int:
+        return self._data["returncode"]
+
 
 class ExpectedGroupData:
     def __init__(self):

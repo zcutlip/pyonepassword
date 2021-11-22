@@ -81,7 +81,7 @@
       "stderr": "error_output",
       "name": "get-user-nonexistant-user"
     },
-    "get|group|Team Members": {
+    "get|group|Example Group": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",

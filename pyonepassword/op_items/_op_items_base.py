@@ -4,8 +4,9 @@ import os
 import tempfile
 
 from abc import ABC, abstractmethod
-from datetime import datetime
 from typing import List, Union
+
+from .._datetime import fromisoformat_z
 from .item_section import OPSection, OPSectionField, OPSectionCollisionException
 from .templates import TemplateDirectory
 
@@ -236,11 +237,11 @@ class OPItemCreateResult(dict):
     @property
     def created_at(self):
         created = self["createdAt"]
-        created = datetime.fromisoformat(created)
+        created = fromisoformat_z(created)
         return created
 
     @property
     def updated_at(self):
         updated = self["updatedAt"]
-        updated = datetime.fromisoformat(updated)
+        updated = fromisoformat_z(updated)
         return updated

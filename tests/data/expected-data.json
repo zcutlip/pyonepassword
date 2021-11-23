@@ -28,7 +28,17 @@
                     "passphrase": "example_ssh_key_password"
                 }
             }
-
+        },
+        "Example Password":{
+            "password": "iXdx8KAEmUkPqCvHHYjngHzRr7",
+            "uuid": "2dvgl7kk5yjrq3gxwqimp5awve",
+            "title": "Example Password",
+            "createdAt": "2021-11-23T05:46:01Z",
+            "updatedAt": "2021-11-23T05:46:01Z",
+            "changerUuid": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "vaultUuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+            "trashed": false,
+            "returncode": 0
         }
     },
     "documents": {

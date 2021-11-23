@@ -1,6 +1,7 @@
 import datetime
 from typing import Dict
 
+from .expected_data import ExpectedData
 from ..test_support._datetime import fromisoformat_z
 
 
@@ -45,3 +46,10 @@ class ExpectedItemBase:
     @property
     def returncode(self) -> int:
         return self._data["returncode"]
+
+
+class ExpectedItemData:
+    def __init__(self):
+        expected_data = ExpectedData()
+        item_data: Dict = expected_data.item_data
+        self._data: Dict = item_data

@@ -2,6 +2,7 @@ from ._op_item_type_registry import op_register_item_type
 from ._op_items_base import OPAbstractItem
 from .item_section import OPSection, OPSectionField
 
+
 @op_register_item_type
 class OPCreditCardItem(OPAbstractItem):
     TEMPLATE_ID = "002"

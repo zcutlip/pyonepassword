@@ -104,6 +104,12 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "get-item-example-credit-card"
+    },
+    "get|item|Example Password|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-item-example-password"
     }
   }
 }

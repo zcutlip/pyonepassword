@@ -4,11 +4,14 @@ import binascii
 
 from typing import Dict, List, Any, Union
 
+
 class OPSectionFieldCollisionException(Exception):
     pass
 
+
 class OPSectionCollisionException(Exception):
     pass
+
 
 class OPSectionField(dict):
     def __init__(self, field_dict, deep_copy=True):
@@ -127,7 +130,8 @@ class OPSection(dict):
 
         for f in self.fields:
             if f.field_name == name:
-                raise OPSectionFieldCollisionException(f"Field with name {name} already exists in section {self.name}")
+                raise OPSectionFieldCollisionException(
+                    f"Field with name {name} already exists in section {self.name}")
         new_field = OPSectionField.new_field(name, value, field_type, label)
         fields = self.fields
         fields.append(new_field)

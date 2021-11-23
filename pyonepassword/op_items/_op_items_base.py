@@ -92,7 +92,8 @@ class OPAbstractItem(ABC):
             name = OPSection.random_section_name()
         for sect in self.sections:
             if sect.name == name:
-                raise OPSectionCollisionException(f"Section with the unique name {name} already exists")
+                raise OPSectionCollisionException(
+                    f"Section with the unique name {name} already exists")
         new_sect = OPSection.new_section(name, title, fields)
         sections = self.sections
         sections.append(new_sect)
@@ -148,7 +149,8 @@ class OPAbstractItem(ABC):
     @property
     def category(self):
         if not self.ITEM_CATEGORY:
-            raise NotImplementedError(f"item category is not set for {self._class__.__name__}")
+            raise NotImplementedError(
+                f"item category is not set for {self._class__.__name__}")
         return self.ITEM_CATEGORY
 
     def sections_by_title(self, title) -> List[OPSection]:
@@ -191,7 +193,8 @@ class OPAbstractItem(ABC):
                 continue
 
     def details_secure_tempfile(self, encoding="utf-8") -> tempfile.NamedTemporaryFile:
-        temp = tempfile.NamedTemporaryFile(mode="w", delete=False, encoding=encoding)
+        temp = tempfile.NamedTemporaryFile(
+            mode="w", delete=False, encoding=encoding)
         self._temp_files.append(temp.name)
         details_json = json.dumps(self.details)
         temp.write(details_json)

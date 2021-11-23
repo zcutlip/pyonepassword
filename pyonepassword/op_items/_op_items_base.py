@@ -240,7 +240,7 @@ class OPItemCreateResult(dict):
         return created
 
     @property
-    def updatedAt(self):
+    def updated_at(self):
         updated = self["updatedAt"]
         updated = datetime.fromisoformat(updated)
         return updated

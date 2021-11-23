@@ -1,4 +1,5 @@
 import copy
+import datetime
 import json
 import os
 import tempfile
@@ -116,6 +117,35 @@ class OPAbstractItem(ABC):
         overview = self._item_dict["overview"]
         title = overview["title"]
         return title
+
+    @property
+    def created_at(self) -> datetime.datetime:
+        created = self._item_dict["createdAt"]
+        created = fromisoformat_z(created)
+        return created
+
+    @property
+    def updated_at(self) -> datetime:
+        updated = self._item_dict["updatedAt"]
+        updated = fromisoformat_z(updated)
+        return updated
+
+    @property
+    def changer_uuid(self) -> str:
+        return self._item_dict["changerUuid"]
+
+    @property
+    def vault_uuid(self) -> str:
+        return self._item_dict["vaultUuid"]
+
+    @property
+    def trashed(self) -> bool:
+        trashed: str = self._item_dict["trashed"]
+        if trashed.lower() == "y":
+            trashed = True
+        elif trashed.lower() == "n":
+            trashed = False
+        return trashed
 
     @property
     def sections(self) -> List[OPSection]:

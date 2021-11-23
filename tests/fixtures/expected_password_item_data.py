@@ -1,7 +1,7 @@
 from .expected_item import ExpectedItemBase, ExpectedItemData
 
 
-class ExpectedItemPassword(ExpectedItemBase):
+class ExpectedPasswordItem(ExpectedItemBase):
 
     @property
     def password(self) -> str:
@@ -12,5 +12,5 @@ class ExpectedPasswordItemData(ExpectedItemData):
 
     def data_for_password(self, password_identifier: str):
         item_dict = self._data[password_identifier]
-        password_item = ExpectedItemPassword(item_dict)
+        password_item = ExpectedPasswordItem(item_dict)
         return password_item

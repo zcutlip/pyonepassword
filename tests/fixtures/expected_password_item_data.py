@@ -1,7 +1,4 @@
-from typing import Dict
-
-from .expected_item import ExpectedItemBase
-from .expected_data import ExpectedData
+from .expected_item import ExpectedItemBase, ExpectedItemData
 
 
 class ExpectedItemPassword(ExpectedItemBase):
@@ -11,11 +8,7 @@ class ExpectedItemPassword(ExpectedItemBase):
         return self._data["password"]
 
 
-class ExpectedItemPasswordData:
-    def __init__(self):
-        expected_data = ExpectedData()
-        item_data: Dict = expected_data.item_data
-        self._data: Dict = item_data
+class ExpectedPasswordItemData(ExpectedItemData):
 
     def data_for_password(self, password_identifier: str):
         item_dict = self._data[password_identifier]

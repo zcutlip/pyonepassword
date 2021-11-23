@@ -92,6 +92,12 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "get-group-nonexistant-group"
+    },
+    "get|item|Example Secure Note|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-item-example-secure-note"
     }
   }
 }

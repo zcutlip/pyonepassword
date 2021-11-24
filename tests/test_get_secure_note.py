@@ -1,3 +1,4 @@
+import pytest
 from pyonepassword import OP, OPSecureNoteItem
 
 
@@ -6,9 +7,11 @@ def _lookup_note_data(data, note_identifier: str):
     return item
 
 
-def test_get_secure_note_item_01(signed_in_op: OP, expected_secure_note_item_data):
-    note_identifier = "Example Secure Note"
-    vault = "Test Data"
+@pytest.mark.parametrize("note_identifier,vault",
+                         [("Example Secure Note", "Test Data"),
+                          ("Example Secure Note 2", None),
+                          ("t4gp6e7s6xtsiu35xq5cewxqpi", None)])
+def test_get_secure_note_item_01(signed_in_op: OP, expected_secure_note_item_data, note_identifier, vault):
     expected = _lookup_note_data(
         expected_secure_note_item_data, note_identifier)
     result: OPSecureNoteItem = signed_in_op.get_item(

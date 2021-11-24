@@ -43,41 +43,71 @@ class OPCmdFailedException(_OPAbstractException):
 class OPSigninException(OPCmdFailedException):
     MSG = "1Password sign-in failed."
 
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
 
 class OPSignoutException(OPCmdFailedException):
     MSG = "1Password signout failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
 
 
 class OPForgetException(OPCmdFailedException):
     MSG = "1Password forget failed."
 
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
 
 class OPGetItemException(OPCmdFailedException):
     MSG = "1Password 'get item' failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
 
 
 class OPGetDocumentException(OPCmdFailedException):
     MSG = "1Password 'get document' failed."
 
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
 
 class OPGetUserException(OPCmdFailedException):
     MSG = "1Password 'get user' failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
 
 
 class OPGetVaultException(OPCmdFailedException):
     MSG = "1Password 'get vault' failed."
 
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
 
 class OPGetGroupException(OPCmdFailedException):
     MSG = "1Password 'get group' failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
 
 
 class OPCreateItemException(OPCmdFailedException):
     MSG = "1Password 'create item' failed."
 
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
 
 class OPListEventsException(OPCmdFailedException):
     MSG = "1Passworm 'list events' failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
 
 
 class OPInvalidItemException(_OPAbstractException):
@@ -86,11 +116,14 @@ class OPInvalidItemException(_OPAbstractException):
 
 
 class OPNotSignedInException(_OPAbstractException):
-    pass
+    def __init__(self, msg):
+        super().__init__(msg)
 
 
 class OPInvalidDocumentException(OPInvalidItemException):
-    pass
+
+    def __init__(self, msg):
+        super().__init__(msg)
 
 
 class OPNotFoundException(Exception):

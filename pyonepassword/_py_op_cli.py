@@ -4,6 +4,7 @@ import json
 import logging
 from json.decoder import JSONDecodeError
 import subprocess
+import shlex
 from os import environ as env
 from typing import List
 
@@ -327,6 +328,13 @@ class _OPArgv(list):
     def query_args(self):
         args = list(self[1:])
         return args
+
+    def cmd_str(self):
+        """
+        return a shell-escaped command string from this argv
+        """
+        cmd_str = shlex.join(self)
+        return cmd_str
 
     @classmethod
     def get_generic_argv(cls, op_exe, get_subcommand, obj_identifier, sub_cmd_args):

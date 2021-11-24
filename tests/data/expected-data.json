@@ -72,6 +72,12 @@
             "notesPlain":"This is secure note 2.\n\nHere is some bulleted text:\n\n- item 1\n- item 2\n- item 3",
             "title":"Example Secure Note 2",
             "returncode":0
+        },
+        "Example Secure Note 3":{
+            "returncode":1
+        },
+        "Example Secure Note 4":{
+            "returncode":1
         }
     },
     "documents": {

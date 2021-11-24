@@ -8,11 +8,13 @@ def _lookup_item_data(data: ExpectedData, item_id: str) -> Dict:
     item = data.lookup_item(item_id)
     return item
 
+
 def _lookup_ssh_key_data(data: ExpectedData, server_name, keyname) -> Dict:
     item = _lookup_item_data(data, server_name)
     all_keys = item["ssh_keys"]
     key_dict = all_keys[keyname]
     return key_dict
+
 
 def test_admin_user_01(signed_in_op: OP, expected_data):
     # get item "Example Login 1" --vault "Test Data"
@@ -21,6 +23,7 @@ def test_admin_user_01(signed_in_op: OP, expected_data):
     expected = _lookup_item_data(expected_data, server_name)
     result: OPServerItem = signed_in_op.get_item(server_name, vault=vault)
     assert result.username == expected["username"]
+
 
 def test_admin_password_01(signed_in_op: OP, expected_data):
     server_name = "Example Server"
@@ -35,10 +38,12 @@ def test_ssh_key_passphrase_01(signed_in_op: OP, expected_data):
     vault = "Test Data"
     keyname = "id_ed25519"
     passphrase_field = f"{keyname} passphrase"
-    expected_key_data = _lookup_ssh_key_data(expected_data, server_name, keyname)
+    expected_key_data = _lookup_ssh_key_data(
+        expected_data, server_name, keyname)
     server_item: OPServerItem = signed_in_op.get_item(server_name, vault=vault)
 
-    passphrase = server_item.field_value_by_section_title("SSH Keys", passphrase_field)
+    passphrase = server_item.field_value_by_section_title(
+        "SSH Keys", passphrase_field)
     assert passphrase == expected_key_data["passphrase"]
 
 

@@ -110,6 +110,18 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "get-item-example-password"
+    },
+    "get|item|Example Secure Note 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-item-example-secure-note-no-vault"
+    },
+    "get|item|t4gp6e7s6xtsiu35xq5cewxqpi": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-item-by-uuid-example-secure-note-2"
     }
   }
 }

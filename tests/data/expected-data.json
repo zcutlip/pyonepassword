@@ -39,6 +39,17 @@
             "vaultUuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",
             "trashed": false,
             "returncode": 0
+        },
+        "Example Secure Note":{
+            "uuid": "zjc6s5ri3rhcxploofa67jamze",
+            "trashed": false,
+            "createdAt": "2021-03-19T23:27:12Z",
+            "updatedAt": "2021-03-19T23:30:10Z",
+            "changerUuid": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "vaultUuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+            "notesPlain": "Note text here. **Mardown** supported.\n\nWhat does the note text look like?",
+            "title": "Example Secure Note",
+            "returncode":0
         }
     },
     "documents": {

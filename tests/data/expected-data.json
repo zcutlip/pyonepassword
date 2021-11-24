@@ -50,6 +50,28 @@
             "notesPlain": "Note text here. **Mardown** supported.\n\nWhat does the note text look like?",
             "title": "Example Secure Note",
             "returncode":0
+        },
+        "Example Secure Note 2":{
+            "uuid": "t4gp6e7s6xtsiu35xq5cewxqpi",
+            "trashed": false,
+            "createdAt": "2021-03-19T23:27:12Z",
+            "updatedAt": "2021-11-23T02:32:40Z",
+            "changerUuid": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "vaultUuid": "jqnwwnagfbhe5h2ky6k3rm3peu",
+            "notesPlain": "This is secure note 2.\n\nHere is some bulleted text:\n\n- item 1\n- item 2\n- item 3",
+            "title": "Example Secure Note 2",
+            "returncode": 0
+        },
+        "t4gp6e7s6xtsiu35xq5cewxqpi":{
+            "uuid": "t4gp6e7s6xtsiu35xq5cewxqpi",
+            "trashed": false,
+            "createdAt": "2021-03-19T23:27:12Z",
+            "updatedAt": "2021-11-23T02:32:40Z",
+            "changerUuid": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "vaultUuid": "jqnwwnagfbhe5h2ky6k3rm3peu",
+            "notesPlain":"This is secure note 2.\n\nHere is some bulleted text:\n\n- item 1\n- item 2\n- item 3",
+            "title":"Example Secure Note 2",
+            "returncode":0
         }
     },
     "documents": {

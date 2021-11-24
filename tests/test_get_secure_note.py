@@ -1,5 +1,6 @@
 import pytest
 from pyonepassword import OP, OPSecureNoteItem
+from pyonepassword.py_op_exceptions import OPGetItemException
 
 
 def _lookup_note_data(data, note_identifier: str):
@@ -25,3 +26,17 @@ def test_get_secure_note_item_01(signed_in_op: OP, expected_secure_note_item_dat
     assert result.changer_uuid == expected.changer_uuid
     assert result.vault_uuid == expected.vault_uuid
     assert result.trashed == expected.trashed
+
+
+@pytest.mark.parametrize("invalid_note,vault",
+                         [("Example Secure Note 3", None),
+                          ("Example Secure Note 4", "Test Data")])
+def test_get_secure_note_item_02(signed_in_op: OP, expected_secure_note_item_data, invalid_note, vault):
+    exception_class = OPGetItemException
+    expected = _lookup_note_data(
+        expected_secure_note_item_data, invalid_note)
+    try:
+        signed_in_op.get_item(invalid_note, vault=vault)
+        assert False, f"We should have caught {exception_class.__name__}"
+    except exception_class as e:
+        assert e.returncode == expected.returncode

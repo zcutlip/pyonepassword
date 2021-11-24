@@ -122,6 +122,18 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "get-item-by-uuid-example-secure-note-2"
+    },
+    "get|item|Example Secure Note 3": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-item-invalid-secure-note-no-vault"
+    },
+    "get|item|Example Secure Note 4|--vault|Test Data": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-item-invalid-secure-note-wrong-vault"
     }
   }
 }

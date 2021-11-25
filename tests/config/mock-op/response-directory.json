@@ -134,6 +134,30 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "get-item-invalid-secure-note-wrong-vault"
+    },
+    "get|item|Error Success|--vault|Test Data": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-invalid-document-wrong-vault-filename"
+    },
+    "get|document|Error Success|--vault|Test Data": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-invalid-document-wrong-vault"
+    },
+    "get|item|Invalid Document": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-invalid-document-filename"
+    },
+    "get|document|Invalid Document": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-invalid-document"
     }
   }
 }

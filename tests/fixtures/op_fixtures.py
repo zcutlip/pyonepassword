@@ -4,6 +4,7 @@ from pyonepassword import OP
 from pyonepassword.py_op_exceptions import OPCmdFailedException
 
 from .expected_data import ExpectedData
+from .expected_document_data import ExpectedDocumentData
 from .expected_group_data import ExpectedGroupData
 from .expected_password_item_data import ExpectedPasswordItemData
 from .expected_secure_note_item_data import ExpectedSecureNoteItemData
@@ -67,4 +68,10 @@ def expected_item_password_data():
 @fixture
 def expected_secure_note_item_data():
     data = ExpectedSecureNoteItemData()
+    return data
+
+
+@fixture
+def expected_document_data():
+    data = ExpectedDocumentData()
     return data

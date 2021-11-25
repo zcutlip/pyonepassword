@@ -225,6 +225,8 @@ class _OPPrivate(_OPCommandInterface):
         except AttributeError as ae:
             raise OPInvalidDocumentException(
                 "Item has no 'fileName' attribute") from ae
+        except OPCmdFailedException as ocfe:
+            raise OPGetDocumentException.from_opexception(ocfe) from ocfe
 
         try:
             document_bytes = super()._get_document(document_name_or_uuid, vault=vault)

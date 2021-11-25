@@ -1,6 +1,9 @@
-from typing import Dict
-from pyonepassword import OP, OPGetItemException
-from pyonepassword import OPLoginItem
+from __future__ import annotations
+from typing import Dict, TYPE_CHECKING
+if TYPE_CHECKING:
+    from pyonepassword import OP, OPLoginItem
+
+from pyonepassword import OPGetItemException
 from .fixtures.expected_data import ExpectedData
 
 

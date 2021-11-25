@@ -1,5 +1,12 @@
+from __future__ import annotations
 import pytest
-from pyonepassword import OP, OPSecureNoteItem
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pyonepassword import OP
+
+
+from pyonepassword import OPSecureNoteItem
 from pyonepassword.py_op_exceptions import OPGetItemException
 
 

@@ -1,4 +1,9 @@
-from pyonepassword import OP, OPPasswordItem
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from pyonepassword import OP
+
+from pyonepassword import OPPasswordItem
 
 
 def _lookup_password_data(data, password_identifier: str):

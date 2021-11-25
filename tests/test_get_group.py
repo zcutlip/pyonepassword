@@ -1,4 +1,10 @@
-from pyonepassword import OP, OPGetGroupException
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pyonepassword import OP
+
+from pyonepassword import OPGetGroupException
 
 
 def _lookup_group_data(data, group_identifier: str):

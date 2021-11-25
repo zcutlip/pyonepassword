@@ -1,6 +1,12 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pyonepassword import OP
+
 import pytest
 
-from pyonepassword import OP, OPGetDocumentException
+from pyonepassword import OPGetDocumentException
 from .test_support.util import digest
 
 

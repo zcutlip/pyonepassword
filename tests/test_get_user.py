@@ -1,4 +1,10 @@
-from pyonepassword import OP, OPGetUserException
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pyonepassword import OP
+
+from pyonepassword import OPGetUserException
 
 
 def _lookup_user_data(data, user_identifier: str):

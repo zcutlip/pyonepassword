@@ -1,5 +1,10 @@
-from typing import Dict
-from pyonepassword import OP, OPGetVaultException
+from __future__ import annotations
+from typing import Dict, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pyonepassword import OP
+
+from pyonepassword import OPGetVaultException
 
 
 def _lookup_item_data(data, vault_id: str) -> Dict:

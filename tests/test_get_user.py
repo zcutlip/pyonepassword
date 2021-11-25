@@ -1,5 +1,4 @@
 from pyonepassword import OP, OPGetUserException
-# from .fixtures.expected_data import ExpectedUser, ExpectedUserData
 
 
 def _lookup_user_data(data, user_identifier: str):

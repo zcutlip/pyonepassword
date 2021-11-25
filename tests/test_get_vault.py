@@ -1,9 +1,8 @@
 from typing import Dict
 from pyonepassword import OP, OPGetVaultException
-from .fixtures.expected_data import ExpectedData
 
 
-def _lookup_item_data(data: ExpectedData, vault_id: str) -> Dict:
+def _lookup_item_data(data, vault_id: str) -> Dict:
     item = data.data_for_vault(vault_id)
     return item
 

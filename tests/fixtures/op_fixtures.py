@@ -2,6 +2,7 @@ import os
 from pytest import fixture
 from pyonepassword import OP
 from pyonepassword.py_op_exceptions import OPCmdFailedException
+from tests.fixtures.expected_server import ExpectedServerItemData
 
 from .expected_data import ExpectedData
 from .expected_document_data import ExpectedDocumentData
@@ -74,4 +75,10 @@ def expected_secure_note_item_data():
 @fixture
 def expected_document_data():
     data = ExpectedDocumentData()
+    return data
+
+
+@fixture
+def expected_server_data():
+    data = ExpectedServerItemData()
     return data

@@ -23,7 +23,8 @@ def test_get_document_01(signed_in_op: OP, expected_document_data):
 
 @pytest.mark.parametrize("invalid_document,vault",
                          [("Invalid Document", None),
-                          ("Error Success", "Test Data")])
+                          ("Error Success", "Test Data"),
+                          ("Example Attached File 2", None)])
 def test_get_document_02(signed_in_op: OP, expected_document_data, invalid_document, vault):
     exception_class = OPGetDocumentException
     expected = expected_document_data.data_for_document(invalid_document)

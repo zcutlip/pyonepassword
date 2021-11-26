@@ -109,6 +109,10 @@
         },
         "Invalid Document":{
             "returncode":1
+        },
+        "Example Attached File 2":{
+            "filename": "Screen Shot 2021-11-23 at 7.49.17 AM.png",
+            "returncode": 1
         }
     },
     "users":{

@@ -158,6 +158,18 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "get-invalid-document"
+    },
+    "get|item|Example Attached File 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-document-missing-bytes-filename"
+    },
+    "get|document|Example Attached File 2": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "get-document-missing-bytes"
     }
   }
 }

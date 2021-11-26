@@ -2,13 +2,14 @@ import os
 from pytest import fixture
 from pyonepassword import OP
 from pyonepassword.py_op_exceptions import OPCmdFailedException
-from tests.fixtures.expected_server import ExpectedServerItemData
 
 from .expected_data import ExpectedData
+from .expected_credit_card import ExpectedCreditCardData
 from .expected_document_data import ExpectedDocumentData
 from .expected_group_data import ExpectedGroupData
 from .expected_password_item_data import ExpectedPasswordItemData
 from .expected_secure_note_item_data import ExpectedSecureNoteItemData
+from .expected_server import ExpectedServerItemData
 from .expected_user_data import ExpectedUserData
 from .expected_vault_data import ExpectedVaultData
 from .paths import RESP_DIRECTORY_PATH
@@ -81,4 +82,10 @@ def expected_document_data():
 @fixture
 def expected_server_data():
     data = ExpectedServerItemData()
+    return data
+
+
+@fixture
+def expected_credit_card_data():
+    data = ExpectedCreditCardData()
     return data

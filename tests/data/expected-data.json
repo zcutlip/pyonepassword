@@ -78,6 +78,24 @@
         },
         "Example Secure Note 4":{
             "returncode":1
+        },
+        "Example Credit Card":{
+            "uuid": "rh4qlntrofdwfmpsoa7j4eang4",
+            "trashed": false,
+            "createdAt": "2021-03-19T18:57:22Z",
+            "updatedAt": "2021-11-26T00:08:58Z",
+            "changerUuid": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "vaultUuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+            "credit_card_number": "3123456789012345",
+            "cvv": "1234",
+            "expiry_date": 204202,
+            "valid_from": 198001,
+            "pin": "9876",
+            "credit_limit": "50000",
+            "cash_withdrawal_limit": "3000",
+            "interest_rate": "8%",
+            "title": "Example Credit Card",
+            "returncode": 0
         }
     },
     "documents": {

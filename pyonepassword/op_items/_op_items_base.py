@@ -171,6 +171,12 @@ class OPAbstractItem(ABC):
             first = OPSection(first)
         return first
 
+    @first_section.setter
+    def first_section(self, section: OPSection):
+        sections = self.sections
+        sections[0] = section
+        self.sections = sections
+
     @property
     def details(self):
         return self._item_dict["details"]

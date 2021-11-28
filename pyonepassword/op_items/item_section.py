@@ -49,6 +49,10 @@ class OPSectionField(dict):
         v = self.get("v")
         return v
 
+    @value.setter
+    def value(self, value: Any):
+        self["v"] = value
+
     @property
     def field_type(self) -> str:
         """

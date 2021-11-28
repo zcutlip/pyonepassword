@@ -33,5 +33,5 @@ class OPPasswordItem(OPAbstractItem):
 
     @property
     def password(self):
-        password = self.get_item_field_value("password")
+        password = self.get_details_value("password")
         return password

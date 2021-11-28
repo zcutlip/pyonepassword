@@ -205,7 +205,7 @@ class OPAbstractItem(ABC):
         section = sections[0]
         return section
 
-    def get_item_field_value(self, field_designation):
+    def get_details_value(self, field_designation):
         field_value = None
         details_dict = self.details
         field_value = details_dict[field_designation]

@@ -38,5 +38,5 @@ class OPSecureNoteItem(OPAbstractItem):
 
     @property
     def note_text(self):
-        text = self.get_item_field_value("notesPlain")
+        text = self.get_details_value("notesPlain")
         return text

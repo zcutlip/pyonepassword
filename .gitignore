@@ -156,5 +156,5 @@ Temporary Items
 
 # Ignore working example/test data
 /working_data
-
+/ipython_snippets/scratch/
 /op-binaries

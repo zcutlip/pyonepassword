@@ -150,7 +150,8 @@ class OPAbstractItem(ABC):
     @property
     def sections(self) -> List[OPSection]:
         section_list = []
-        _sections = self._item_dict['details'].get("sections")
+        details_dict = self.details
+        _sections = details_dict.get("sections")
         if _sections:
             for section_dict in _sections:
                 s = OPSection(section_dict)
@@ -159,7 +160,8 @@ class OPAbstractItem(ABC):
 
     @sections.setter
     def sections(self, sections: List[OPSection]):
-        self._item_dict['details']['sections'] = sections
+        details_dict = self.details
+        details_dict['sections'] = sections
 
     @property
     def first_section(self) -> OPSection:
@@ -205,8 +207,8 @@ class OPAbstractItem(ABC):
 
     def get_item_field_value(self, field_designation):
         field_value = None
-        details = self._item_dict["details"]
-        field_value = details[field_designation]
+        details_dict = self.details
+        field_value = details_dict[field_designation]
 
         return field_value
 

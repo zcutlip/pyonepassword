@@ -10,40 +10,58 @@ class OPLoginItem(OPAbstractItem):
     def __init__(self, item_dict, **kwargs):
         super().__init__(item_dict, **kwargs)
 
-    def get_item_field(self, field_designation):
-        details = self._item_dict["details"]
-        fields = details["fields"]
+    def get_details_subfield(self, subfield_designation):
+        """
+        "details": {
+            "fields": [
+            {
+                "designation": "password",
+                "name": "password",
+                "type": "P",
+                "value": "doth-parrot-hid-tussock-veldt"
+            },
+            {
+                "designation": "username",
+                "name": "username",
+                "type": "T",
+                "value": "zcutlip"
+            }
+            ],
+            "notesPlain": ""
+        }
+        """
+        subfields = self.get_details_value("fields")
         field = None
-        for f in fields:
-            if f["designation"] == field_designation:
+        for f in subfields:
+            if f["designation"] == subfield_designation:
                 field = f
                 break
         return field
 
-    def get_item_field_value(self, field_designation):
+    def get_details_subfield_value(self, field_designation):
         field_value = None
-        field = self.get_item_field(field_designation)
+        field = self.get_details_subfield(field_designation)
         field_value = field["value"]
         return field_value
 
     @property
     def username(self):
-        username = self.get_item_field_value("username")
+        username = self.get_details_subfield_value("username")
         return username
 
     @username.setter
     def username(self, username: str):
-        username_field = self.get_item_field("username")
+        username_field = self.get_details_subfield("username")
         username_field["value"] = username
 
     @property
     def password(self):
-        password = self.get_item_field_value("password")
+        password = self.get_details_subfield_value("password")
         return password
 
     @password.setter
     def password(self, password: str):
-        password_field = self.get_item_field("password")
+        password_field = self.get_details_subfield("password")
         password_field["value"] = password
 
 

@@ -108,6 +108,13 @@ class OPAbstractItem(ABC):
         field_value = self._field_value_from_section(first_sect, field_label)
         return field_value
 
+    def set_primary_section_field_value(self, field_label, field_value):
+        first_sect = self.first_section
+        section_field: OPSectionField
+        section_field = first_sect.fields_by_label(field_label)[0]
+        section_field.value = field_value
+        self.first_section = first_sect
+
     @property
     def uuid(self) -> str:
         return self._item_dict["uuid"]

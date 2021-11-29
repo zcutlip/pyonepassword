@@ -14,10 +14,18 @@ class OPServerItem(OPAbstractItem):
         password = self.primary_section_field_value("password")
         return password
 
+    @password.setter
+    def password(self, password: str):
+        self.set_primary_section_field_value("password", password)
+
     @property
     def username(self):
         username = self.primary_section_field_value("username")
         return username
+
+    @username.setter
+    def username(self, username: str):
+        self.set_primary_section_field_value("username", username)
 
     @property
     def url(self):

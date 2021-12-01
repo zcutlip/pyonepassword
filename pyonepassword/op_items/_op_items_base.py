@@ -193,7 +193,7 @@ class OPAbstractItem(ABC):
     def category(self):
         if not self.ITEM_CATEGORY:
             raise NotImplementedError(
-                f"item category is not set for {self._class__.__name__}")
+                f"item category is not set for {self.__class__.__name__}")
         return self.ITEM_CATEGORY
 
     def sections_by_title(self, title) -> List[OPSection]:

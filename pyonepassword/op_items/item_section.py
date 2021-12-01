@@ -15,6 +15,8 @@ class OPSectionCollisionException(Exception):
 
 
 class OPSectionField(dict):
+    FIELD_TYPE = None
+
     def __init__(self, field_dict, deep_copy=True):
         # Let's make a copy so we don't modify the original
         if deep_copy:
@@ -24,11 +26,16 @@ class OPSectionField(dict):
         super().__init__(_dict)
 
     @classmethod
-    def new_field(cls, name, value, field_type, label):
+    def new_field(cls, value, label, name=None):
+        if not name:
+            name = cls.normalize_name(label)
+
+        if cls.FIELD_TYPE is None:
+            raise NotImplementedError("Use subclass that overrides FIELD_TYPE")
         field_dict = {
             "t": label,
             "v": value,
-            "k": field_type,
+            "k": cls.FIELD_TYPE,
             "n": name
         }
         obj = cls(field_dict)

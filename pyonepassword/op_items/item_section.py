@@ -151,18 +151,29 @@ class OPSection(dict):
     def fields(self, fields: List[OPSectionField]):
         self["fields"] = fields
 
-    def add_field(self, name: str, value: Union[str, int, Dict, List], field_type, label: str):
+    def add_field(self, value: Union[str, int, Dict, List], field_type, label: str, name=None):
         # TODO: Validate field type against list of valid types
+        new_field = OPSectionField.new_field(
+            value, field_type, label, name=name)
+        self._add_field(new_field)
 
+    def _add_field(self, new_field: OPSectionField):
+        name = new_field.field_name
         for f in self.fields:
             if f.field_name == name:
                 raise OPSectionFieldCollisionException(
                     f"Field with name {name} already exists in section {self.name}")
-        new_field = OPSectionField.new_field(name, value, field_type, label)
         fields = self.fields
         fields.append(new_field)
         self.fields = fields
-        return new_field
+
+    def add_string_field(self, value: str, label: str, name=None):
+        new_field = OPStringField.new_field(value, label, name=name)
+        self._add_field(new_field)
+
+    def add_concealed_field(self, value: str, label: str, name=None):
+        new_field = OPConcealedField.new_field(value, label, name=name)
+        self._add_field(new_field)
 
     def fields_by_label(self, label) -> List[OPSectionField]:
         """

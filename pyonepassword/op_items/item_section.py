@@ -80,6 +80,14 @@ class OPSectionField(dict):
         return name
 
 
+class OPStringField(OPSectionField):
+    FIELD_TYPE = "string"
+
+
+class OPConcealedField(OPSectionField):
+    FIELD_TYPE = "concealed"
+
+
 class OPSection(dict):
     def __init__(self, section_dict, deep_copy=True):
         if deep_copy:

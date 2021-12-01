@@ -1,4 +1,5 @@
 import copy
+import re
 import uuid
 import binascii
 
@@ -71,6 +72,12 @@ class OPSectionField(dict):
     def attributes(self) -> Dict[str, str]:
         attr_dict = self.get("a")
         return attr_dict
+
+    @staticmethod
+    def normalize_name(name: str):
+        name = name.lower()
+        name = re.sub(r"\W+", "_", name)
+        return name
 
 
 class OPSection(dict):

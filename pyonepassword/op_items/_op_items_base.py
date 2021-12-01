@@ -88,6 +88,7 @@ class OPAbstractItem(ABC):
         overview = self._item_dict.get("overview", {})
         self._overview = OPItemOverview(overview)
         self._temp_files = []
+        self._initialize_sections()
 
     def add_section(self, title: str, fields: List[OPSectionField] = None, name: str = None):
         if not name:
@@ -156,13 +157,9 @@ class OPAbstractItem(ABC):
 
     @property
     def sections(self) -> List[OPSection]:
-        section_list = []
         details_dict = self.details
-        _sections = details_dict.get("sections")
-        if _sections:
-            for section_dict in _sections:
-                s = OPSection(section_dict)
-                section_list.append(s)
+        section_list = details_dict.get("sections", [])
+
         return section_list
 
     @sections.setter
@@ -264,6 +261,16 @@ class OPAbstractItem(ABC):
         section_field: OPSectionField = section.fields_by_label(field_label)[0]
         value = section_field.value
         return value
+
+    def _initialize_sections(self):
+        section_list = []
+        details_dict = self.details
+        _sections = details_dict.get("sections")
+        if _sections:
+            for section_dict in _sections:
+                s = OPSection(section_dict)
+                section_list.append(s)
+        details_dict["sections"] = section_list
 
 
 class OPItemCreateResult(dict):

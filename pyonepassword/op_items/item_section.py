@@ -1,9 +1,8 @@
+import binascii
 import copy
 import re
 import uuid
-import binascii
-
-from typing import Dict, List, Any, Union
+from typing import Any, Dict, List, Union
 
 
 class OPSectionFieldCollisionException(Exception):

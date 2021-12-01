@@ -210,9 +210,10 @@ class OPAbstractItem(ABC):
         return matching_sections
 
     def first_section_by_title(self, title) -> OPSection:
-        # TODO: handle case of no matching section titles
         sections = self.sections_by_title(title)
-        section = sections[0]
+        section = None
+        if sections:
+            section = sections[0]
         return section
 
     def get_details_value(self, field_designation):

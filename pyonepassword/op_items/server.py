@@ -1,5 +1,5 @@
 from ._op_item_type_registry import op_register_item_type
-from ._op_items_base import OPAbstractItem
+from ._op_items_base import OPAbstractItem, OPItemTemplateMixin
 
 
 @op_register_item_type
@@ -48,3 +48,13 @@ class OPServerItem(OPAbstractItem):
         url = self.field_value_by_section_title(
             "Admin Console", "admin console URL")
         return url
+
+
+class OPServerItemTemplate(OPItemTemplateMixin, OPServerItem):
+    TEMPLATE_ID = OPServerItem.TEMPLATE_ID
+    ITEM_CATEGORY = "Server"
+
+    def __init__(self, username, password, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.username = username
+        self.password = password

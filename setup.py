@@ -1,10 +1,22 @@
+import os
 from setuptools import setup, find_packages
+
+
+def project_path():
+    path = os.path.dirname(os.path.abspath(__file__))
+    return path
+
+
+old_cwd = os.getcwd()
+proj_path = project_path()
+os.chdir(proj_path)
+
 about = {}
 
-with open("pyonepassword/__about__.py") as fp:
+with open(os.path.join(proj_path, "pyonepassword", "__about__.py"), "r") as fp:
     exec(fp.read(), about)
 
-with open("README.md", "r") as fp:
+with open(os.path.join(proj_path, "README.md"), "r") as fp:
     long_description = fp.read()
 
 setup(

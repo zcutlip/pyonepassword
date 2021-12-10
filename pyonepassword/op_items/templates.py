@@ -1,7 +1,7 @@
 import json
 import re
 
-from importlib import resources
+from ..pkg_resources import pkgresources as resources
 
 from .. import data
 

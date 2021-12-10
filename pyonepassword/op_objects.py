@@ -7,8 +7,8 @@ from datetime import datetime
 from json.decoder import JSONDecodeError
 from typing import Dict, List, TypeVar, Union
 
-from .py_op_exceptions import _OPAbstractException
 from ._datetime import fromisoformat_z
+from .py_op_exceptions import _OPAbstractException
 
 
 class OPInvalidObjectException(_OPAbstractException):

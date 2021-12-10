@@ -41,3 +41,5 @@ setup(
         "Operating System :: OS Independent",
     ],
 )
+
+os.chdir(old_cwd)

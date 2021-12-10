@@ -1,7 +1,7 @@
 import json
 import re
 
-from ..pkg_resources import pkgresources as resources
+from ..pkg_resources import pkgfiles
 
 from .. import data
 
@@ -43,7 +43,7 @@ class TemplateDirectory:
 
     def _load_from_json(self, fanme):
         loaded = None
-        with resources.files(data).joinpath(fanme).open("r") as _file:
+        with pkgfiles(data).joinpath(fanme).open("r") as _file:
             loaded = json.load(_file)
 
         return loaded

@@ -5,7 +5,7 @@ import json
 from abc import ABCMeta, abstractmethod
 from datetime import datetime
 from json.decoder import JSONDecodeError
-from typing import Dict, Union, TypeVar
+from typing import Dict, List, TypeVar, Union
 
 from .py_op_exceptions import _OPAbstractException
 from ._datetime import fromisoformat_z
@@ -70,7 +70,7 @@ class OPInvalidVaultListException(OPInvalidGroupListException):
 DT = TypeVar('DT')
 
 
-class _OPDescriptorList(list[DT]):
+class _OPDescriptorList(List[DT]):
     """
     A class for type-hinting lists of 1Password object descriptors
     """

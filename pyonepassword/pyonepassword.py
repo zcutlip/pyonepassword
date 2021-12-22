@@ -74,7 +74,7 @@ class _OPPrivate(_OPCommandInterface):
         op_item = OPItemFactory.op_item_from_json(output)
         return op_item
 
-    def get_totp(self, item_name_or_uuid, vault=None):
+    def get_totp(self, item_name_or_uuid: str, vault=None) -> str:
         output = super()._get_totp(item_name_or_uuid, vault=vault, decode="utf-8")
         # strip newline
         output = output.rstrip()
@@ -85,12 +85,12 @@ class _OPPrivate(_OPCommandInterface):
         user = OPUser(user_json)
         return user
 
-    def get_vault(self, vault_name_or_uuid: str):
+    def get_vault(self, vault_name_or_uuid: str) -> OPVault:
         vault_json = super()._get_vault(vault_name_or_uuid, decode="utf-8")
         vault = OPVault(vault_json)
         return vault
 
-    def get_group(self, group_name_or_uuid: str):
+    def get_group(self, group_name_or_uuid: str) -> OPGroup:
         group_json = super()._get_group(group_name_or_uuid, decode="utf-8")
         group = OPGroup(group_json)
         return group

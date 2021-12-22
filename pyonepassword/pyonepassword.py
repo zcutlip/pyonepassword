@@ -106,6 +106,25 @@ class _OPPrivate(_OPCommandInterface):
         return totp_code
 
     def get_user(self, user_name_or_uuid: str) -> OPUser:
+        """
+        Return the details for the user specified by name or UUID.
+
+        Parameters
+        ----------
+        item_name_or_uuid: str
+            Name or UUID of the item to look up
+        Raises
+        ------
+        OPGetUserException
+            If the lookup fails for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        user: OPuser
+            An object representing the details of the requested user
+        """
         user_json = super()._get_user(user_name_or_uuid)
         user = OPUser(user_json)
         return user

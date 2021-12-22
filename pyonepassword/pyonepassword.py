@@ -76,6 +76,8 @@ class _OPPrivate(_OPCommandInterface):
 
     def get_totp(self, item_name_or_uuid, vault=None):
         output = super()._get_totp(item_name_or_uuid, vault=vault, decode="utf-8")
+        # strip newline
+        output = output.rstrip()
         return output
 
     def get_user(self, user_name_or_uuid: str) -> OPUser:

@@ -357,6 +357,16 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    def get_totp_argv(cls, op_exe, item_name_or_uuid, vault=None):
+        sub_cmd_args = []
+        if vault:
+            sub_cmd_args.extend(["--vault", vault])
+
+        argv = cls.get_generic_argv(
+            op_exe, "totp", item_name_or_uuid, sub_cmd_args)
+        return argv
+
+    @classmethod
     def get_document_argv(cls, op_exe, document_name_or_uuid, vault=None):
         sub_cmd_args = []
         if vault:

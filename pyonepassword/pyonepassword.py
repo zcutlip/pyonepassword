@@ -154,6 +154,25 @@ class _OPPrivate(_OPCommandInterface):
         return vault
 
     def get_group(self, group_name_or_uuid: str) -> OPGroup:
+        """
+        Return the details for the group specified by name or UUID.
+
+        Parameters
+        ----------
+        group_name_or_uuid: str
+            Name or UUID of the group to look up
+        Raises
+        ------
+        OPGetGroupException
+            If the lookup fails for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        user: OPGroup
+            An object representing the details of the requested group
+        """
         group_json = super()._get_group(group_name_or_uuid, decode="utf-8")
         group = OPGroup(group_json)
         return group

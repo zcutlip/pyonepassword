@@ -75,10 +75,35 @@ class _OPPrivate(_OPCommandInterface):
         return op_item
 
     def get_totp(self, item_name_or_uuid: str, vault=None) -> str:
+        """
+        Get a TOTP code from the item specified by name or UUID.
+
+        Note: Items in the Archive are ignored by default. To get the TOTP for an
+        item in the Archive, specify the item by UUID.
+
+        Parameters
+        ----------
+        item_name_or_uuid: str
+            Name or UUID of the item to look up
+        vault: str, optional
+            The name of a vault to override the object's default vault
+
+        Raises
+        ------
+        OPGetItemException
+            If the lookup fails for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        totp_code: str
+            A string representing the TOTP code
+        """
         output = super()._get_totp(item_name_or_uuid, vault=vault, decode="utf-8")
         # strip newline
-        output = output.rstrip()
-        return output
+        totp_code = output.rstrip()
+        return totp_code
 
     def get_user(self, user_name_or_uuid: str) -> OPUser:
         user_json = super()._get_user(user_name_or_uuid)

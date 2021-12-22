@@ -74,6 +74,12 @@ class _OPPrivate(_OPCommandInterface):
         op_item = OPItemFactory.op_item_from_json(output)
         return op_item
 
+    def get_totp(self, item_name_or_uuid, vault=None):
+        output = super()._get_totp(item_name_or_uuid, vault=vault, decode="utf-8")
+        # strip newline
+        output = output.rstrip()
+        return output
+
     def get_user(self, user_name_or_uuid: str) -> OPUser:
         user_json = super()._get_user(user_name_or_uuid)
         user = OPUser(user_json)

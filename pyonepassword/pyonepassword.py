@@ -130,6 +130,25 @@ class _OPPrivate(_OPCommandInterface):
         return user
 
     def get_vault(self, vault_name_or_uuid: str) -> OPVault:
+        """
+        Return the details for the vault specified by name or UUID.
+
+        Parameters
+        ----------
+        vault_name_or_uuid: str
+            Name or UUID of the vault to look up
+        Raises
+        ------
+        OPGetVaultException
+            If the lookup fails for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        user: OPVault
+            An object representing the details of the requested vault
+        """
         vault_json = super()._get_vault(vault_name_or_uuid, decode="utf-8")
         vault = OPVault(vault_json)
         return vault

@@ -111,8 +111,8 @@ class _OPPrivate(_OPCommandInterface):
 
         Parameters
         ----------
-        item_name_or_uuid: str
-            Name or UUID of the item to look up
+        user_name_or_uuid: str
+            Name or UUID of the user to look up
         Raises
         ------
         OPGetUserException

@@ -54,61 +54,15 @@ def do_signin():
     return OP(vault="Test Data", password=my_password)
 
 
-if __name__ == "__main__":
-    try:
-        op = do_signin()
-    except OPSigninException as opse:
-        print("1Password sign-in failed.")
-        print(opse.err_output)
-        exit(opse.returncode)
-    except OPNotFoundException as ope:
-        print("Uh oh. Couldn't find 'op'")
-        print(ope)
-        exit(ope.errno)
-    except OPConfigNotFoundException as ope:
-        print("Didn't provide an account shorthand, and we couldn't locate 'op' config to look it up.")
-        print(ope)
-        exit(1)
+def main():
+  	op = do_signin()
+    item_password = op.get_item_password("Example Login")
+	
+  	# We can also look up the item by its UUID
+    # as well as retrieve from an alternate vault
+    item_password = op.get_item_password(
+      "ykhsbhhv2vf6hn2u4qwblfrmg4", vault="Private")
 
-    print("Signed in.")
-    print("Looking up \"Example Login\"...")
-    try:
-        item_password = op.get_item_password("Example Login")
-        print(item_password)
-        print("")
-        print("\"Example Login\" can also be looked up by its uuid")
-        print("")
-        print("Looking up uuid \"ykhsbhhv2vf6hn2u4qwblfrmg4\"...")
-        print("Overriding \"Test Data\" vault, and look in \"Private\" instead")
-        item_password = op.get_item_password(
-            "ykhsbhhv2vf6hn2u4qwblfrmg4", vault="Private")
-        print(item_password)
-    except OPGetItemException as ope:
-        print("1Password lookup failed: {}".format(ope))
-        print(ope.err_output)
-        exit(ope.returncode)
-    except OPNotFoundException as ope:
-        print("Uh oh. Couldn't find 'op'")
-        print(ope)
-        exit(ope.errno)
-
-```
-
-```Console
-$ python3 ./examples/example-signin-get-item.py
-1Password master password:
-
-Using account shorthand found in op config: my_1p_account
-Doing normal (non-initial) 1Password sign-in
-Signed in.
-Looking up "Example Login"...
-doth-parrot-hid-tussock-veldt
-
-"Example Login" can also be looked up by its uuid
-
-Looking up uuid "ykhsbhhv2vf6hn2u4qwblfrmg4"...
-Overriding "Archive" vault, and look in "Private" instead
-doth-parrot-hid-tussock-veldt
 ```
 
 ### Document retrieval
@@ -120,41 +74,14 @@ Below is an example demonstrating:
 
 ```Python
 op = do_signin()
-    file_name, document_bytes = op.get_document(
-    "Example Login - 1Password Logo")
-print("The original file name and the document title in 1Password are often different.")
-print("File name: {}".format(file_name))
-print("Size: {} bytes".format(len(document_bytes)))
-print("")
-print("\"Example Login - 1Password Logo\" can also be looked up by its uuid")
-print("")
-print("Looking up uuid \"bmxpvuthureo7e52uqmvqcr4dy\"...")
+# File name and document title in 1Password are often different.
+# so we get back the file name, and the bytes object representing the document
+file_name, document_bytes = op.get_document("Example Login - 1Password Logo")
+
+# we can also look up the document by UUID
 file_name, document_bytes = op.get_document(
     "bmxpvuthureo7e52uqmvqcr4dy")
-print(file_name)
-print("{} bytes".format(len(document_bytes)))
-print("Writing downloaded document to {}".format(file_name))
 open(file_name, "wb").write(document_bytes)
-```
-
-```Console
-$ python3 ./examples/example-signin-get-document.py
-1Password master password:
-
-Doing normal (non-initial) 1Password sign-in
-
-Signed in.
-Getting document "Example Login - 1Password Logo"...
-The original file name and the document title in 1Password are often different.
-File name: logo-v1.svg
-Size: 2737 bytes
-
-"Example Login - 1Password Logo" can also be looked up by its uuid
-
-Looking up uuid "bmxpvuthureo7e52uqmvqcr4dy"...
-logo-v1.svg
-2737 bytes
-Writing downloaded document to logo-v1.svg
 ```
 
 ### Signing out of 1Password
@@ -176,81 +103,27 @@ def do_lookup():
         return opge.returncode
 
 
-if __name__ == "__main__":
+def main():
+	  op = do_signin()
+
+    # do signout
+    op.signout()
+
     try:
-        op = do_signin()
-    except OPSigninException as opse:
-        print("1Password sign-in failed.")
-        print(opse.err_output)
-        exit(opse.returncode)
+		    do_lookup()
+     except OPGetItemException:
+      	# lookup fails since we signed out
+        pass
 
-    print("Doing signout.")
-    try:
-        op.signout()
-    except OPSignoutException as e:
-        print("Signout failed.")
-        print(e.err_output)
-        exit(e.returncode)
+    # now let's sign in again, then signout with forget=True
+    op = do_signin()
+    op.signout(forget=True)
 
-    print("Trying to get item")
-    do_lookup()
-
-    print("Trying 'op forget'")
-    try:
-        op = do_signin()
-    except OPSigninException as opse:
-        print("1Password sign-in failed.")
-        print(opse.err_output)
-        exit(opse.returncode)
-
-    print("Doing forget.")
-    try:
-        op.signout(forget=True)
-    except OPSignoutException as e:
-        print(e.err_output)
-        exit(e.returncode)
-    print("Done.")
-
-    print("Trying to get item")
-    ret = do_lookup()
-
-    print("Trying to re-signin")
     try:
         do_signin()
-    except OPSigninException as opse:
-        print("1Password sign-in failed.")
-        print(opse.err_output)
-```
-
-```console
-$ python3 ./examples/example-signin-signout.py
-1Password master password:
-
-Using account shorthand found in op config: my_1p_account
-Doing normal (non-initial) 1Password sign-in
-Doing signout.
-Trying to get item
-Get item failed.
-[ERROR] 2020/10/23 11:32:55 You are not currently signed in. Please run `op signin --help` for instructions
-Trying 'op forget'
-1Password master password:
-
-Using account shorthand found in op config: my_1p_account
-Doing normal (non-initial) 1Password sign-in
-Doing forget.
-Done.
-Trying to get item
-Get item failed.
-[ERROR] 2020/10/23 11:33:04 The account details you entered aren't saved on this device. Use `op signin` to sign in to an account.
-Trying to re-signin
-1Password master password:
-
-Using account shorthand found in op config:
-Doing normal (non-initial) 1Password sign-in
-1Password sign-in failed.
-[ERROR] 2020/10/23 11:33:11 No account found on this device.
-
-To sign in to an account: op signin --help
+    except OPSigninException:
+				# Sign-in fails since we erased the initial sign-in with forget=True
+				pass
 ```
 
 ### Getting Details for a User
@@ -259,10 +132,10 @@ To sign in to an account: op signin --help
 op = OP(password=my_password)
 
 # User's name:
-user_dict = op.get_user("Firstname Lastname")
+user: OPUser = op.get_user("Firstname Lastname")
 
 # or the user's UUID
-user_dict = op.get_user(user_uuid)
+user: OPUser = op.get_user(user_uuid)
 ```
 
 ### Getting Details for a Group
@@ -271,10 +144,10 @@ user_dict = op.get_user(user_uuid)
 op = OP(password=my_password)
 
 # Group name:
-group_dict = op.get_group("Team Members")
+group: OPGroup = op.get_group("Team Members")
 
 # or the group's UUID
-group_dict_ = op.get_group("yhdg6ovhkjcfhn3u25cp2bnl6e")
+group: OPGroup = op.get_group("yhdg6ovhkjcfhn3u25cp2bnl6e")
 ```
 
 ### Getting Details for a Vault
@@ -283,10 +156,10 @@ group_dict_ = op.get_group("yhdg6ovhkjcfhn3u25cp2bnl6e")
 op = OP(password=my_password)
 
 # Group name:
-vault_dict = op.get_vault("Test Data")
+vault: OPVault = op.get_vault("Test Data")
 
 # or the group's UUID
-vault_dict = op.get_vault("yhdg6ovhkjcfhn3u25cp2bnl6e")
+vault: OPVault = op.get_vault("yhdg6ovhkjcfhn3u25cp2bnl6e")
 ```
 
 ## Notes

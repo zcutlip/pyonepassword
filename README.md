@@ -155,9 +155,10 @@ vault: OPVault = op.get_vault("yhdg6ovhkjcfhn3u25cp2bnl6e")
 
 ## Notes
 
-- This has been lightly tested, and only on my Mac. I don't know if it works on other systems.
-- This has been tested with `op` version 1.7.0
-- You need the `op` 1Password command-line tool. On a Mac with homebrew, you can do `brew install 1password-cli`.
+- You need the `op` 1Password command-line tool. On a Mac with homebrew, you can do `brew install 1password-cli`
+  - More details [here](https://support.1password.com/command-line-getting-started/)
+- For item creation, `op` v1.12.1 or higher is required
+  - On earlier versions, an `OPCreateItemNotSupportedException` will be raised if on attempted item creation 
 
 ## TODO
 

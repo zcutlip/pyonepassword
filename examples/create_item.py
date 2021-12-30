@@ -10,7 +10,8 @@ from pyonepassword.py_op_exceptions import OPNotSignedInException
 
 def do_signin():
     try:
-        op = OP(vault="Test Data", use_existing_session=True, password_prompt=False)
+        op = OP(vault="Test Data", use_existing_session=True,
+                password_prompt=False)
     except OPNotSignedInException:
         my_password = getpass.getpass(prompt="1Password master password:\n")
         op = OP(vault="Test Data", password=my_password)
@@ -35,7 +36,8 @@ def main():
     op = do_signin()
 
     try:
-        result: OPLoginItem = op.create_login_item(item_name, username, password, url=url)
+        result: OPLoginItem = op.create_login_item(
+            item_name, username, password, url=url)
     except OPCreateItemException as e:
         print("create_item() failed")
         print(e.err_output)

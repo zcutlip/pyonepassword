@@ -4,15 +4,19 @@ from argparse import ArgumentParser
 
 from ._py_op_cli import OPCLIConfig, OPConfigNotFoundException
 
+
 def opc_parse_args():
     parser = ArgumentParser()
-    parser.add_argument("--print-account-key", help="Print just the account key instead of the whole config", action='store_true')
+    parser.add_argument("--print-account-key",
+                        help="Print just the account key instead of the whole config", action='store_true')
     parser.add_argument("--config-path", help="Path to 'op' configuration")
     parser.add_argument("--shorthand", help="Account shorthand to look up")
-    parser.add_argument("--raw", help="Write output suitable for piping to another process", action='store_true')
+    parser.add_argument(
+        "--raw", help="Write output suitable for piping to another process", action='store_true')
 
     parsed = parser.parse_args()
     return parsed
+
 
 def print_config(acct_conf):
     print(f"shorthand: {acct_conf['shorthand']}")

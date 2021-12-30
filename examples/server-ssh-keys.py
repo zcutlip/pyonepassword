@@ -18,7 +18,8 @@ class ServerWithSSHKeys:
         identity_name_pub = f"{identity_name}.pub"
         priv_key = None
         if not pub_only:
-            priv_key = self._server.field_value_by_section_title("SSH Keys", identity_name)
+            priv_key = self._server.field_value_by_section_title(
+                "SSH Keys", identity_name)
         pub_key = self._server.field_value_by_section_title(
             "SSH Keys", identity_name_pub)
         return (priv_key, pub_key)
@@ -51,13 +52,18 @@ def do_signin(vault="Machine Credentials"):
     my_password = getpass.getpass(prompt="1Password master password:\n")
     return OP(vault=vault, password=my_password)
 
+
 def do_parse_args():
     parser = ArgumentParser()
-    parser.add_argument("server_name", help="Name of server to fetch SSH keys for")
+    parser.add_argument(
+        "server_name", help="Name of server to fetch SSH keys for")
     parser.add_argument("key_name", help="Name of SSH identity file")
-    parser.add_argument("--pub-only", help="Only fetch public key for identity", action="store_true")
-    parser.add_argument("--outdir", help="Optional directory to write keys to. Default is CWD")
-    parser.add_argument("--vault", help="Optional name of 1Password vault to search")
+    parser.add_argument(
+        "--pub-only", help="Only fetch public key for identity", action="store_true")
+    parser.add_argument(
+        "--outdir", help="Optional directory to write keys to. Default is CWD")
+    parser.add_argument(
+        "--vault", help="Optional name of 1Password vault to search")
 
     parsed = parser.parse_args()
     return parsed

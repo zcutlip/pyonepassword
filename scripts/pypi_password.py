@@ -40,7 +40,8 @@ def pypi_parse_args(args):
     parser = ArgumentParser()
     parser.add_argument(
         "--pypi-item-name", help="Optional item name for PyPI login", default="PyPI")
-    parser.add_argument("--use-session", "-S", help="Attempt to use an existing 'op' session. If unsuccessful master password will be requested.", action='store_true')
+    parser.add_argument("--use-session", "-S",
+                        help="Attempt to use an existing 'op' session. If unsuccessful master password will be requested.", action='store_true')
     parsed = parser.parse_args(args)
     return parsed
 

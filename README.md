@@ -153,6 +153,49 @@ vault: OPVault = op.get_vault("Test Data")
 vault: OPVault = op.get_vault("yhdg6ovhkjcfhn3u25cp2bnl6e")
 ```
 
+## Item Creation
+
+As of version 2.0, `pyonepassword` supports creation of entries in 1Password vaults. In order to do this, an "item template" class must be used that inherits from `OPItemTemplateMixin` along with one of the item classes (e.g., `OPLoginItem`). Currently, two classes are provided that do this: `OPLoginItemTemplate` and `OPServerItemTemplate`.
+
+### Examples
+
+Below are a couple of examples creating a login item.
+
+### Creating a Login Item
+
+```Python
+op = do_signin()
+username = "testuser"
+password = "testpass"
+url = "https://example.website"
+item_name = "login 3"
+
+result: OPLoginItem = op.create_login_item(item_name, username, password, url=url)
+# result is an actual OPLoginItem object queried from 1Password after item creation
+# Among other things it provides the UUID of the created object
+print(f"Item UUID: {result.uuid}")
+```
+
+### Creating a Login Item with Custom Sections
+
+You may add custom sections and section fields to items before creation
+
+```python
+newlogin = OPLoginItemTemplate(username, password, )
+
+# user-visible section title is required
+# section name (not user visible) is optional and will be randomly generated if not provided
+#                 section title -----v                 v-------- section name
+# section = newlogin.add_section("New Section", "new_section")
+section = newlogin.add_section("New Section")
+
+# field name is not user visible
+# field label is user visible
+section.add_field("example field name", "example value", "string", "example field label")
+```
+
+
+
 ## Notes
 
 - You need the `op` 1Password command-line tool. On a Mac with homebrew, you can do `brew install 1password-cli`

@@ -162,6 +162,5 @@ vault: OPVault = op.get_vault("yhdg6ovhkjcfhn3u25cp2bnl6e")
 
 ## TODO
 
-- Ability for forget arbitrary accounts, not just the one currently signed in
-- API mapping on to all of `op`'s various commands and subcommands
-- API to get complete or partial JSON for an item
+TODO list has moved to GitHub [Issues](https://github.com/zcutlip/pyonepassword/issues)
+

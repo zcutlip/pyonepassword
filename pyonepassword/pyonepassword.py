@@ -468,7 +468,7 @@ class _OPPrivate(_OPCommandInterface):
         """
 
         try:
-            cls.forget(account, op_path=op_path)
+            cls._forget(account, op_path=op_path)
         except OPCmdFailedException as ocfe:
             raise OPForgetException.from_opexception(ocfe) from ocfe
 

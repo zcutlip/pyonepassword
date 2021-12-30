@@ -57,7 +57,7 @@ def do_signin():
 def main():
   	op = do_signin()
     item_password = op.get_item_password("Example Login")
-	
+
   	# We can also look up the item by its UUID
     # as well as retrieve from an alternate vault
     item_password = op.get_item_password(
@@ -94,15 +94,6 @@ Below is an example demonstrating:
 > Note: Currently `pyonepassword`'s sign-out & forget support requires a signed-in session. It is not yet possible to forget an arbitrary account.
 
 ```Python
-def do_lookup():
-    try:
-        print(op.get_item_password("Example Login"))
-    except OPGetItemException as opge:
-        print("Get item failed.")
-        print(opge.err_output)
-        return opge.returncode
-
-
 def main():
 	  op = do_signin()
 
@@ -110,7 +101,7 @@ def main():
     op.signout()
 
     try:
-		    do_lookup()
+		    print(op.get_item_password("Example Login"))
      except OPGetItemException:
       	# lookup fails since we signed out
         pass

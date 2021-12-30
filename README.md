@@ -12,6 +12,10 @@ A Python API to sign into and query a 1Password account using the `op` command.
 - Internet connectivity to 1Password.com
   - The `op` command queries your online account, not your local vault
 
+## A Quick Favor
+
+I don't have a way of knowing how widely this project is used. If you're using it, I would love for you to drop me a tweet ([@zcutlip](https://twitter.com/zcutlip)) or an email (see the commit history) and let me know. I'm interested in how it's going for you, how you're using it (if you're able to share), if there are things that are working well or not working well, etc.
+
 ## Installation
 
 ```shell
@@ -22,11 +26,34 @@ python3 -m pip install pyonepassword
 
 > Note: It is recommended to perform initial sign-in manually on the command line before using `pyonepassword`. Initial sign-in is supported but deprecated. Multi-factor-authenticaiton is not supported.
 
-### Subsequent sign-in and item retrieval
+### A Note about Initial Sign-in
+
+Initial sign-in, which was supported in earlier versions of `pyonepassword` is now deprecated. The reasons for this are:
+
+- Use of multifactor authentication is highly encouraged for all users, but is not supported via `pyonepassword`
+- If there was a way to perform mutlifactor authentication programatically, this would represent a failure of MFA; one of its main purposes is to capture user intent. If `pyonepassword` can automate MFA, so can malicious code.
+
+Code that was previously relying on initial sign-in support in `pyonepassword`, must now be updated to continue workong. It is necessary to import a different, deprecated class. A one line change should allow existing code to continue working for the time being:
+
+Change:
+
+```python
+from pyonepassword import OP
+```
+
+To:
+
+```python
+from pyonepassword import OP_ as OP
+```
+
+Other than deprecation warnings (via Python's `warnings.warn()`), everything should then function as normal. **Be aware that this functionality will be removed in a future update, without additional warning.**
+
+### Sign-in and item retrieval
 
 Below is an example demonstrating:
 
-- Subsequent sign-in
+- Sign-in
 - Specifying a default vault for queries
 - Retrieving an item from 1Password by name or by UUID
 - Overriding the default vault to retrieve a subsequent item from 1Password
@@ -163,6 +190,8 @@ Below are a couple of examples creating a login item.
 
 ### Creating a Login Item
 
+The `OP` class provides a convenience method to create a login item.
+
 ```Python
 op = do_signin()
 username = "testuser"
@@ -170,7 +199,8 @@ password = "testpass"
 url = "https://example.website"
 item_name = "login 3"
 
-result: OPLoginItem = op.create_login_item(item_name, username, password, url=url)
+result: OPLoginItem
+result = op.create_login_item(item_name, username, password, url=url)
 # result is an actual OPLoginItem object queried from 1Password after item creation
 # Among other things it provides the UUID of the created object
 print(f"Item UUID: {result.uuid}")
@@ -178,10 +208,10 @@ print(f"Item UUID: {result.uuid}")
 
 ### Creating a Login Item with Custom Sections
 
-You may add custom sections and section fields to items before creation
+Rather than use the convenience method, you may add custom sections and section fields to the item template before creation.
 
 ```python
-newlogin = OPLoginItemTemplate(username, password, )
+newlogin = OPLoginItemTemplate(username, password)
 
 # user-visible section title is required
 # section name (not user visible) is optional and will be randomly generated if not provided
@@ -192,6 +222,8 @@ section = newlogin.add_section("New Section")
 # field name is not user visible
 # field label is user visible
 section.add_field("example field name", "example value", "string", "example field label")
+
+op.create_item(newlogin, "login 3")
 ```
 
 

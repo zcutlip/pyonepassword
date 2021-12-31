@@ -33,7 +33,7 @@ Initial sign-in, which was supported in earlier versions of `pyonepassword` is n
 - Use of multifactor authentication is highly encouraged for all users, but is not supported via `pyonepassword`
 - If there was a way to perform mutlifactor authentication programatically, this would represent a failure of MFA; one of its main purposes is to capture user intent. If `pyonepassword` can automate MFA, so can malicious code.
 
-Code that was previously relying on initial sign-in support in `pyonepassword`, must now be updated to continue workong. It is necessary to import a different, deprecated class. A one line change should allow existing code to continue working for the time being:
+Code that was previously relying on initial sign-in support in `pyonepassword`, must now be updated to continue working. It is necessary to import a different, deprecated class. A one line change should allow existing code to continue working for the time being:
 
 Change:
 

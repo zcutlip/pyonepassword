@@ -22,9 +22,7 @@ I don't have a way of knowing how widely this project is used. If you're using i
 python3 -m pip install pyonepassword
 ```
 
-## Example usage
-
-> Note: It is recommended to perform initial sign-in manually on the command line before using `pyonepassword`. Initial sign-in is supported but deprecated. Multi-factor-authenticaiton is not supported.
+## Example Usage
 
 ### A Note about Initial Sign-in
 
@@ -233,9 +231,8 @@ op.create_item(newlogin, "login 3")
 - You need the `op` 1Password command-line tool. On a Mac with homebrew, you can do `brew install 1password-cli`
   - More details [here](https://support.1password.com/command-line-getting-started/)
 - For item creation, `op` v1.12.1 or higher is required
-  - On earlier versions, an `OPCreateItemNotSupportedException` will be raised if on attempted item creation 
+  - On earlier versions, an `OPCreateItemNotSupportedException` will be raised if on attempted item creation
 
 ## TODO
 
 TODO list has moved to GitHub [Issues](https://github.com/zcutlip/pyonepassword/issues)
-

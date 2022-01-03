@@ -1,16 +1,16 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+    rev: v4.1.0
     hooks:
       - id: check-json
         exclude: ^\.vscode\/.*$
       - id: check-yaml
       - id: check-merge-conflict
-  - repo: https://gitlab.com/PyCQA/flake8
-    rev: 3.9.2
+  - repo: https://github.com/PyCQA/flake8
+    rev: 4.0.1
     hooks:
     - id: flake8
   - repo: https://github.com/pre-commit/mirrors-autopep8
-    rev: 'v1.5.7'
+    rev: 'v1.6.0'
     hooks:
     - id: autopep8

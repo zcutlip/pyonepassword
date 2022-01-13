@@ -1,0 +1,20 @@
+version: "3"
+services:
+    tests_3_8:
+        environment:
+          - TOX_WORKDIR=.tox-docker
+        build: docker/3.8
+        volumes:
+            - ../:/usr/src/testdir
+        command: "bash -c 'python --version && cd /usr/src/testdir && tox --parallel--safe-build -e py38 --workdir $$TOX_WORKDIR'"
+        network_mode: bridge
+    tests_3_9:
+        environment:
+          - TOX_WORKDIR=.tox-docker
+        build:
+            context: docker/3.9
+            dockerfile: Dockerfile
+        volumes:
+            - ../:/usr/src/testdir
+        command: "bash -c 'python --version && cd /usr/src/testdir && tox --parallel--safe-build -e py39 --workdir $$TOX_WORKDIR'"
+        network_mode: bridge

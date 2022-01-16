@@ -2,7 +2,7 @@ import os
 import getpass
 from pathlib import Path
 from argparse import ArgumentParser
-from pyonepassword import OP, OPServerItem
+from pyonepassword import OP, OPServerItem, OPNotSignedInException
 
 
 class ServerWithSSHKeys:
@@ -49,8 +49,14 @@ class ServerWithSSHKeys:
 
 
 def do_signin(vault="Machine Credentials"):
-    my_password = getpass.getpass(prompt="1Password master password:\n")
-    return OP(vault=vault, password=my_password)
+    try:
+        op = OP(use_existing_session=True, password_prompt=False)
+    except OPNotSignedInException:
+        print("Existing session not found")
+        my_password = getpass.getpass(prompt="1Password master password:\n")
+        op = OP(vault="Test Data", password=my_password)
+
+    return op
 
 
 def do_parse_args():

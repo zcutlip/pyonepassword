@@ -1,5 +1,13 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base"
+  ],
+  "packageRules": [
+    {
+      "matchPaths": ["docker_testing/docker/3.8/Dockerfile"],
+      "matchPackageNames":["python"],
+      "allowedVersions": "3.8"
+    }
   ]
 }

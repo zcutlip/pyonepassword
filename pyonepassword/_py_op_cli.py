@@ -437,3 +437,26 @@ class _OPArgv(list):
         forget_args = [account_shorthand]
         argv = cls(op_exe, "forget", forget_args)
         return argv
+
+    @classmethod
+    def list_generic_argv(cls, op_exe, list_subcommand, sub_command_args):
+        argv = cls(op_exe, "list", sub_command_args,
+                   subcommand=list_subcommand)
+        return argv
+
+    @classmethod
+    def list_items_argv(cls, op_exe, categories=[], include_archive=False, tags=[], vault=None):
+        list_items_args = []
+        if categories:
+            categories_arg = ",".join(categories)
+            list_items_args.extend(["--categories", categories_arg])
+        if include_archive:
+            list_items_args.append("--include-archive")
+        if tags:
+            tags_args = ",".join(tags)
+            list_items_args.extend(["--tags", tags_args])
+        if vault:
+            list_items_args.extend(["--vault", vault])
+
+        argv = cls.list_generic_argv(op_exe, "items", list_items_args)
+        return argv

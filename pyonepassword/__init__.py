@@ -3,8 +3,9 @@ from .__about__ import (
     __title__,
     __summary__
 )
-
+from .op_items._item_list import OPItemList
 from .op_items.login import OPLoginItem
+from .op_items.identity import OPIdentityItemDescriptor
 from .op_items.document import OPDocumentItem
 from .op_items.password import OPPasswordItem
 from .op_items.server import OPServerItem, OPServerItemTemplate

@@ -3,6 +3,7 @@ import logging
 
 from os import environ as env
 
+from .op_items._item_list import OPItemList
 from .op_items._op_items_base import OPAbstractItem, OPItemCreateResult
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items.login import OPLoginItem, OPLoginItemTemplate
@@ -322,6 +323,12 @@ class _OPPrivate(_OPCommandInterface):
             raise OPGetDocumentException.from_opexception(ocfe) from ocfe
 
         return (file_name, document_bytes)
+
+    def list_items(self, categories=[], include_archive=False, tags=[], vault=None):
+        item_list_json = self._list_items(
+            categories, include_archive, tags, vault)
+        item_list = OPItemList(item_list_json)
+        return item_list
 
     def create_item(self, item: OPAbstractItem, item_name: str, vault: str = None) -> OPAbstractItem:
         """

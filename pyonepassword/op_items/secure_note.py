@@ -1,3 +1,5 @@
+from ._item_descriptor_base import OPAbstractItemDescriptor
+from ._item_descriptor_registry import op_register_item_descriptor_type
 from ._op_item_type_registry import op_register_item_type
 from ._op_items_base import OPAbstractItem
 
@@ -27,6 +29,13 @@ from ._op_items_base import OPAbstractItem
 #         "title": "Example Secure Note"
 #     }
 # }
+
+@op_register_item_descriptor_type
+class OPSecureNoteItemDescriptor(OPAbstractItemDescriptor):
+    TEMPLATE_ID = "003"
+
+    def __init__(self, item_dict):
+        super().__init__(item_dict)
 
 
 @op_register_item_type

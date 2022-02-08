@@ -169,7 +169,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
     def urls(self):
         return self._overview.url_list()
 
-    def first_url(self) -> Union[OPItemOverview.URLEntry, None]:
+    def first_url(self) -> Union[URLEntry, None]:
         url = None
         # When creating a new item, we can't specify more than one url
         # so if there's more than one, we have to just grab the first

@@ -1,14 +1,14 @@
 import copy
-import datetime
 import json
 import os
 import tempfile
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import List, Union
 
 from .._datetime import fromisoformat_z
 from ._item_overview import OPItemOverview, URLEntry
+from ._item_descriptor_base import OPAbstractItemDescriptor
 from .item_section import OPSection, OPSectionField, OPSectionCollisionException
 from .templates import TemplateDirectory
 
@@ -39,18 +39,13 @@ class OPItemTemplateMixin:
         self._from_template = True
 
 
-class OPAbstractItem(ABC):
+class OPAbstractItem(OPAbstractItemDescriptor):
     TEMPLATE_ID = None
     ITEM_CATEGORY = None
 
     @abstractmethod
     def __init__(self, item_dict):
-        self._from_template = False
-        self._item_dict = item_dict
-        # not every item has an overview
-        # in particular, items created from a template do not
-        overview = self._item_dict.get("overview", {})
-        self._overview = OPItemOverview(overview)
+        super().__init__(item_dict)
         self._temp_files = []
         self._initialize_sections()
 
@@ -79,45 +74,6 @@ class OPAbstractItem(ABC):
         section_field = first_sect.fields_by_label(field_label)[0]
         section_field.value = field_value
         self.first_section = first_sect
-
-    @property
-    def uuid(self) -> str:
-        return self._item_dict["uuid"]
-
-    @property
-    def title(self) -> str:
-        overview = self._item_dict["overview"]
-        title = overview["title"]
-        return title
-
-    @property
-    def created_at(self) -> datetime.datetime:
-        created = self._item_dict["createdAt"]
-        created = fromisoformat_z(created)
-        return created
-
-    @property
-    def updated_at(self) -> datetime:
-        updated = self._item_dict["updatedAt"]
-        updated = fromisoformat_z(updated)
-        return updated
-
-    @property
-    def changer_uuid(self) -> str:
-        return self._item_dict["changerUuid"]
-
-    @property
-    def vault_uuid(self) -> str:
-        return self._item_dict["vaultUuid"]
-
-    @property
-    def trashed(self) -> bool:
-        trashed: str = self._item_dict["trashed"]
-        if trashed.lower() == "y":
-            trashed = True
-        elif trashed.lower() == "n":
-            trashed = False
-        return trashed
 
     @property
     def sections(self) -> List[OPSection]:

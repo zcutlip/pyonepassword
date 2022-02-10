@@ -170,6 +170,12 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "get-document-missing-bytes"
+    },
+    "list|items|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "list-items-vault-test-data"
     }
   }
 }

@@ -30,6 +30,11 @@ class OPCLIVersion:
             beta_ver = OPCLIVersion(self._beta_num, skip_beta=True)
         return beta_ver
 
+    @property
+    def is_beta(self) -> bool:
+        _is_beta = self.is_beta is not None and self.is_beta >= 0
+        return _is_beta
+
     def _parse_beta(self, version_string):
         regex = r".*(-beta.*)$"
         beta_num = None

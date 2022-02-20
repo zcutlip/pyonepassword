@@ -2,8 +2,13 @@ import re
 
 
 class OPCLIVersion:
-    def __init__(self, version_string: str):
+    def __init__(self, version_string: str, skip_beta=False):
+        version_string, beta_num = self._parse_beta(version_string)
         version_tuple = version_string.split(".")
+        if not skip_beta:
+            self._beta_num = beta_num
+        else:
+            self._beta_num = -1
         parts = []
         for part in version_tuple:
             parts.append(int(part, 0))

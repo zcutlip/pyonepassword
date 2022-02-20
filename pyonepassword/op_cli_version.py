@@ -98,6 +98,9 @@ class OPCLIVersion:
         return ne
 
     def __lt__(self, other):
+        if id(self) == id(other):
+            return False
+
         if not isinstance(other, type(self)):
             other = OPCLIVersion(other)
 

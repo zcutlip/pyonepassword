@@ -1,3 +1,6 @@
+import re
+
+
 class OPCLIVersion:
     def __init__(self, version_string: str):
         version_tuple = version_string.split(".")
@@ -5,6 +8,16 @@ class OPCLIVersion:
         for part in version_tuple:
             parts.append(int(part, 0))
         self._parts = parts
+
+    def _parse_beta(self, version_string):
+        regex = r".*(-beta.*)$"
+        beta_num = None
+        match = re.match(regex, version_string)
+        if match:
+            beta_string = match.groups()[0]
+            version_string = version_string.rstrip(beta_string)
+            beta_num = beta_string.lstrip("-beta.")
+        return version_string, beta_num
 
     def _normalize(self, other):
         parts_self = list(self._parts)

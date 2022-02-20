@@ -58,6 +58,17 @@ class OPCLIVersion:
             parts_other.append(0)
             diff_len -= 1
 
+        # appending the OPCLIVersion object for the beta version number
+        # will allow it to be transparently compared just like all the other version parts
+        # then the lt/gt/eq logic doesn't have to change
+        beta_ver = self.beta_ver
+        if beta_ver is not None:
+            parts_self.append(beta_ver)
+
+        beta_ver = other.beta_ver
+        if beta_ver is not None:
+            parts_other.append(beta_ver)
+
         # now 11.3.1 vs 11.3.1.1 becomes
         # 11.3.1.0 vs 11.3.1.1, and can be compared 1 to 1
         return (parts_self, parts_other)

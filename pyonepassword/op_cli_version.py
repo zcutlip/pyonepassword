@@ -1,5 +1,7 @@
 import re
 
+MAX_BETA_STR = f"{0xffffffff}.{0xffff}.{0xffff}"
+
 
 class OPCLIVersion:
     def __init__(self, version_string: str, skip_beta=False):
@@ -13,6 +15,20 @@ class OPCLIVersion:
         for part in version_tuple:
             parts.append(int(part, 0))
         self._parts = parts
+
+    @property
+    def beta_ver(self):
+        # if this is not a beta, set beta_ver to an absurdly high value
+        # so it beats any actual beta version
+        # this will make lt/gt/eq comparison logic simpler
+        beta_ver = None
+        if self._beta_num is None:
+            beta_ver = OPCLIVersion(MAX_BETA_STR, skip_beta=True)
+        elif self._beta_num == -1:
+            pass
+        else:
+            beta_ver = OPCLIVersion(self._beta_num, skip_beta=True)
+        return beta_ver
 
     def _parse_beta(self, version_string):
         regex = r".*(-beta.*)$"

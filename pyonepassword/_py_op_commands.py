@@ -2,10 +2,8 @@
 Description: A module that maps methods to to `op` commands and subcommands
 """
 
-from ._py_op_cli import (
-    _OPCLIExecute,
-    _OPArgv
-)
+from .op_cli._py_op_cli import _OPCLIExecute
+from ._argv_generator import OPArgvGenerator
 
 from .py_op_exceptions import (
     OPCmdFailedException,
@@ -33,6 +31,7 @@ class _OPCommandInterface(_OPCLIExecute):
     def __init__(self, vault=None, **kwargs):
         super().__init__(**kwargs)
         self.vault = vault
+        self._argv_generator = OPArgvGenerator(self.op_path)
 
     def supports_item_creation(self):
         support = False
@@ -43,43 +42,43 @@ class _OPCommandInterface(_OPCLIExecute):
     def _get_item_argv(self, item_name_or_uuid, vault=None, fields=None):
         vault_arg = vault if vault else self.vault
 
-        lookup_argv = _OPArgv.get_item_argv(
+        lookup_argv = self._argv_generator.get_item_argv(
             self.op_path, item_name_or_uuid, vault=vault_arg, fields=fields)
         return lookup_argv
 
     def _get_totp_argv(self, item_name_or_uuid, vault=None):
         vault_arg = vault if vault else self.vault
 
-        lookup_argv = _OPArgv.get_totp_argv(
+        lookup_argv = self._argv_generator.get_totp_argv(
             self.op_path, item_name_or_uuid, vault=vault_arg)
         return lookup_argv
 
     def _get_document_argv(self, document_name_or_uuid: str, vault: str = None):
         vault_arg = vault if vault else self.vault
 
-        get_document_argv = _OPArgv.get_document_argv(
+        get_document_argv = self._argv_generator.get_document_argv(
             self.op_path, document_name_or_uuid, vault=vault_arg)
 
         return get_document_argv
 
     def _get_user_argv(self, user_name_or_uuid: str):
-        get_user_argv = _OPArgv.get_generic_argv(
+        get_user_argv = self._argv_generator.get_generic_argv(
             self.op_path, "user", user_name_or_uuid, [])
         return get_user_argv
 
     def _get_group_argv(self, group_name_or_uuid: str):
-        get_group_argv = _OPArgv.get_generic_argv(
+        get_group_argv = self._argv_generator.get_generic_argv(
             self.op_path, "group", group_name_or_uuid, [])
         return get_group_argv
 
     def _get_vault_argv(self, vault_name_or_uuid: str):
-        get_vault_argv = _OPArgv.get_generic_argv(
+        get_vault_argv = self._argv_generator.get_generic_argv(
             self.op_path, "vault", vault_name_or_uuid, [])
         return get_vault_argv
 
     def _cli_version_argv(self):
         # Specifically for use by mock_op response-generator
-        cli_version_argv = _OPArgv.cli_version_argv(self.op_path)
+        cli_version_argv = self._argv_generator.cli_version_argv(self.op_path)
         return cli_version_argv
 
     def _get_item(self, item_name_or_uuid, vault=None, fields=None, decode="utf-8"):
@@ -172,29 +171,29 @@ class _OPCommandInterface(_OPCLIExecute):
         return output
 
     def _signout(self, account, session, forget=False):
-        argv = _OPArgv.signout_argv(
+        argv = self._argv_generator.signout_argv(
             self.op_path, account, session, forget=forget)
         self._run(argv)
 
     @classmethod
-    def _forget(cls, account: str, op_path=None):
+    def _forget(cls, account: str, op_path='op'):
+        generator = OPArgvGenerator(op_path)
         if not op_path:
             op_path = cls.OP_PATH
-        argv = _OPArgv.forget_argv(op_path, account)
+        argv = generator.forget_argv(op_path, account)
         cls._run(argv)
 
     def _create_item_argv(self, item, item_name, vault):
         vault_arg = vault if vault else self.vault
-        create_item_argv = _OPArgv.create_item_argv(
+        create_item_argv = self._argv_generator.create_item_argv(
             self.op_path, item, item_name, vault=vault_arg
         )
         return create_item_argv
 
     def _list_items_argv(self, categories=[], include_archive=False, tags=[], vault=None):
         vault_arg = vault if vault else self.vault
-        list_items_argv = _OPArgv.list_items_argv(self.op_path,
-                                                  categories=categories, include_archive=include_archive, tags=tags, vault=vault_arg
-                                                  )
+        list_items_argv = self._argv_generator.list_items_argv(
+            self.op_path, categories=categories, include_archive=include_archive, tags=tags, vault=vault_arg)
         return list_items_argv
 
     def _list_items(self, categories=[], include_archive=False, tags=[], vault=None, decode="utf-8"):

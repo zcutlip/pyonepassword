@@ -128,4 +128,5 @@ class OPCLIVersion:
         return le
 
 
+MINIMUM_VERSION_2 = OPCLIVersion('2.0.0-beta.1')
 MINIMUM_ITEM_CREATION_VERSION = OPCLIVersion('1.12.1')

@@ -2,10 +2,10 @@
 Description: A module that maps methods to to `op` commands and subcommands
 """
 
-from .op_cli._py_op_cli import _OPCLIExecute
-from ._argv_generator import OPArgvGenerator
+from ..op_cli._py_op_cli import _OPCLIExecute
+from .._argv_generator import OPArgvGenerator
 
-from .py_op_exceptions import (
+from ..py_op_exceptions import (
     OPCmdFailedException,
     OPCreateItemException,
     OPCreateItemNotSupportedException,
@@ -16,8 +16,8 @@ from .py_op_exceptions import (
     OPGetVaultException
 )
 
-from .op_cli_version import MINIMUM_ITEM_CREATION_VERSION
-from .op_items._op_items_base import OPAbstractItem
+from ..op_cli_version import MINIMUM_ITEM_CREATION_VERSION
+from ..op_items._op_items_base import OPAbstractItem
 
 
 class _OPCommandInterface(_OPCLIExecute):

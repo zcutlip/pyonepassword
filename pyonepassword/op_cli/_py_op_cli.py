@@ -6,7 +6,7 @@ from os import environ as env
 from ._op_argv_base import _OPArgvBase
 from ._op_argv_v1 import _OPArgv as _OPArgvV1
 from .._op_cli_config import OPCLIConfig
-from ..op_cli_version import OPCLIVersion
+from ..op_cli_version import OPCLIVersion, MINIMUM_VERSION_2
 
 from ..py_op_exceptions import (
     OPSigninException,
@@ -105,6 +105,9 @@ class _OPCLIExecute:
                 raise OPNotSignedInException(
                     "No existing session and no password provided.")
             if initial_signin:
+                if MINIMUM_VERSION_2 <= self._cli_version:
+                    raise NotImplementedError(
+                        "Initial sign-in not implemented for 'op' verisons 2.0 & greater")
                 self._token = self._do_initial_signin(*initial_signin_args)
                 # export OP_SESSION_<signin_address>
             else:

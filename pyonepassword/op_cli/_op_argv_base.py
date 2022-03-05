@@ -18,7 +18,7 @@ class _OPArgvBase(list):
         # specific commands/subcommands
         # maybe instead of an "args" array plus a bunch of named kwargs,
         # send in a dict that gets passed through tree of argv building logic?
-        argv = [op_exe]
+        argv = [str(op_exe)]
         for arg in global_args:
             argv.append(arg)
         if command:

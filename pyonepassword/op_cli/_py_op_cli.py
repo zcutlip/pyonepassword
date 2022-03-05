@@ -35,6 +35,10 @@ class _OPCLIExecute:
     def session_var(self) -> str:
         return self._sess_var
 
+    @property
+    def cli_version(self) -> OPCLIVersion:
+        return self._cli_version
+
     def _get_cli_version(self, op_path):
         argv = _OPArgvBase.cli_version_argv(op_path)
         output = self._run(argv, capture_stdout=True, decode="utf-8")
@@ -83,3 +87,6 @@ class _OPCLIExecute:
             raise OPNotFoundException(argv[0], err.errno) from err
 
         return output
+
+    def __str__(self):
+        return self.op_path

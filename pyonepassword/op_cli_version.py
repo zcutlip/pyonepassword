@@ -36,6 +36,8 @@ class OPCLIVersion:
         return _is_beta
 
     def _parse_beta(self, version_string):
+        if isinstance(version_string, int):
+            version_string = str(version_string)
         regex = r".*(-beta.*)$"
         beta_num = None
         match = re.match(regex, version_string)

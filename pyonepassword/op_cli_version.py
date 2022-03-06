@@ -129,6 +129,12 @@ class OPCLIVersion:
         le = self.__lt__(other) or self.__eq__(other)
         return le
 
+    def __hash__(self):
+        _hash = None
+        for part in self._parts:
+            _hash = hash((part, _hash))
+        return _hash
+
 
 MINIMUM_VERSION_2 = OPCLIVersion('2.0.0-beta.1')
 MINIMUM_ITEM_CREATION_VERSION = OPCLIVersion('1.12.1')

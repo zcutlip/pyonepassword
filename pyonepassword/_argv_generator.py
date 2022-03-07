@@ -1,6 +1,7 @@
 from .op_cli import OPArgvCommon
 from .op_cli._op_argv_v1 import _OPArgv as OPArgv_V1
-from .op_cli_version import MINIMUM_VERSION_2
+from .op_cli._op_argv_v2 import _OPArgv as OPArgv_V2
+from .op_cli_version import MINIMUM_VERSION_2, MINIMUM_VERSION_3
 
 
 class OPArgvGenerator:
@@ -9,6 +10,10 @@ class OPArgvGenerator:
         self._op_argv = None
         if cli_version < MINIMUM_VERSION_2:
             self._op_argv = OPArgv_V1
+        elif cli_version < MINIMUM_VERSION_3:
+            self._op_argv = OPArgv_V2
+        else:
+            raise Exception(f"No OPArgv class for {cli_version}")
         self.version = cli_version
 
     def normal_signin_argv(self, op_exe, account_shorthand=None):
@@ -42,4 +47,9 @@ class OPArgvGenerator:
     def get_document_argv(self, op_exe, document_name_or_uuid, vault=None):
         argv = self._op_argv.get_document_argv(
             op_exe, document_name_or_uuid, vault=vault)
+        return argv
+
+    def item_get_argv(self, op_exe, item_name_or_uuid, vault=None, field_labels=[]):
+        argv = self._op_argv.item_get_argv(
+            op_exe, item_name_or_uuid, vault=vault, field_labels=field_labels)
         return argv

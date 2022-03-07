@@ -23,6 +23,7 @@ class _OPCommandInterface(_OPCommandInterfaceAbstract, metaclass=_OPCommandRegis
     MAX_CLI_VERSION = None
 
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
+    NOT_SIGNED_IN_TEXT = "not currently signed in"
 
     def __init__(self,
                  vault=None,

@@ -19,7 +19,6 @@ TODO: Move other code that closely touches 'op' here
 
 
 class _OPCLIExecute:
-    NOT_SIGNED_IN_TEXT = "not currently signed in"
 
     logging.basicConfig(format="%(message)s", level=logging.DEBUG)
     logger = logging.getLogger()

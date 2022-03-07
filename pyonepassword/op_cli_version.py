@@ -137,4 +137,6 @@ class OPCLIVersion:
 
 
 MINIMUM_VERSION_2 = OPCLIVersion('2.0.0-beta.1')
+# doesn't exist yet, but if we ever get to version 3, this should catch it
+MINIMUM_VERSION_3 = OPCLIVersion('3.0.0-beta.1')
 MINIMUM_ITEM_CREATION_VERSION = OPCLIVersion('1.12.1')

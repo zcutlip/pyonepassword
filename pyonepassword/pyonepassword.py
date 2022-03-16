@@ -6,7 +6,7 @@ from os import environ as env
 from .op_items._item_list import OPItemList
 from .op_items._op_items_base import OPAbstractItem, OPItemCreateResult
 from .op_items._op_item_type_registry import OPItemFactory
-from .op_items.login import OPLoginItem, OPLoginItemTemplate
+from .op_items.v1.login import OPLoginItem, OPLoginItemTemplate
 from .op_objects import OPGroup, OPUser, OPVault
 
 from .op_commands import _OPCommandInterface

@@ -4,13 +4,13 @@ from .__about__ import (
     __summary__
 )
 from .op_items._item_list import OPItemList
-from .op_items.login import OPLoginItem
-from .op_items.identity import OPIdentityItemDescriptor
-from .op_items.document import OPDocumentItem
-from .op_items.password import OPPasswordItem
-from .op_items.server import OPServerItem, OPServerItemTemplate
-from .op_items.secure_note import OPSecureNoteItem
-from .op_items.credit_card import OPCreditCardItem
+from .op_items.v1.login import OPLoginItem
+from .op_items.v1.identity import OPIdentityItemDescriptor
+from .op_items.v1.document import OPDocumentItem
+from .op_items.v1.password import OPPasswordItem
+from .op_items.v1.server import OPServerItem, OPServerItemTemplate
+from .op_items.v1.secure_note import OPSecureNoteItem
+from .op_items.v1.credit_card import OPCreditCardItem
 from .op_objects import (
     OPUser,
     OPUserDescriptor,

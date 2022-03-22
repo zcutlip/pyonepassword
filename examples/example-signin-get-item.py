@@ -14,19 +14,27 @@ from pyonepassword import (  # noqa: E402
     OPSigninException,
     OPGetItemException,
     OPNotFoundException,
+    OPNotSignedInException,
     OPConfigNotFoundException
 )
 
 
 def do_signin():
-    # If you've already signed in at least once, you don't need to provide all
-    # account details on future sign-ins. Just master password
-    my_password = getpass.getpass(prompt="1Password master password:\n")
-    # You may optionally provide an account shorthand if you used a custom one during initial sign-in
-    # shorthand = "arbitrary_account_shorthand"
-    # return OP(account_shorthand=shorthand, password=my_password)
-    # Or we'll try to look up account shorthand from your latest sign-in in op's config file
-    return OP(vault="Test Data", password=my_password)
+    op_path = "op-binaries/1.12.4/op"
+    try:
+        op = OP(vault="Test Data", op_path=op_path,
+                use_existing_session=True, password_prompt=False)
+    except OPNotSignedInException:
+
+        # If you've already signed in at least once, you don't need to provide all
+        # account details on future sign-ins. Just master password
+        my_password = getpass.getpass(prompt="1Password master password:\n")
+        # You may optionally provide an account shorthand if you used a custom one during initial sign-in
+        # shorthand = "arbitrary_account_shorthand"
+        # return OP(account_shorthand=shorthand, password=my_password)
+        # Or we'll try to look up account shorthand from your latest sign-in in op's config file
+        op = OP(vault="Test Data", password=my_password, op_path=op_path)
+    return op
 
 
 if __name__ == "__main__":

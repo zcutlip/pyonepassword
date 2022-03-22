@@ -2,7 +2,7 @@ import sys
 from argparse import ArgumentParser
 
 
-from ._op_cli_config import OPCLIConfig, OPConfigNotFoundException
+from ._py_op_cli import OPCLIConfig, OPConfigNotFoundException
 
 
 def opc_parse_args():

@@ -2,34 +2,27 @@
 Description: A module that maps methods to to `op` commands and subcommands
 """
 
-import logging
-
-from .._argv_generator import OPArgvGenerator
-from ..op_cli_version import (
-    MINIMUM_ITEM_CREATION_VERSION,
-    MINIMUM_VERSION_2,
-    OPCLIVersion
+from ._py_op_cli import (
+    _OPCLIExecute,
+    _OPArgv
 )
-from ..op_items._op_items_base import OPAbstractItem
-from ..py_op_exceptions import (
+
+from .py_op_exceptions import (
     OPCmdFailedException,
     OPCreateItemException,
     OPCreateItemNotSupportedException,
-    OPGetDocumentException,
     OPGetGroupException,
     OPGetItemException,
+    OPGetDocumentException,
     OPGetUserException,
     OPGetVaultException
 )
-from ._op_commands_abstract import (
-    _OPCommandInterfaceAbstract,
-    _OPCommandRegistry
-)
+
+from .op_cli_version import MINIMUM_ITEM_CREATION_VERSION
+from .op_items._op_items_base import OPAbstractItem
 
 
-class _OPCommandV1(_OPCommandInterfaceAbstract, metaclass=_OPCommandRegistry):
-    MIN_CLI_VERSION = OPCLIVersion(0)
-    MAX_CLI_VERSION = MINIMUM_VERSION_2
+class _OPCommandInterface(_OPCLIExecute):
     """
     A class that directly maps methods to `op` commands
     & subcommands.
@@ -37,14 +30,9 @@ class _OPCommandV1(_OPCommandInterfaceAbstract, metaclass=_OPCommandRegistry):
     No responses are parsed.
     """
 
-    def __init__(self, op_exe, vault=None, logger=None):
-        self._op_exe = op_exe
+    def __init__(self, vault=None, **kwargs):
+        super().__init__(**kwargs)
         self.vault = vault
-        if not logger:
-            logging.basicConfig(format="%(message)s", level=logging.DEBUG)
-            logger = logging.getLogger()
-        self.logger = logger
-        self._argv_generator = OPArgvGenerator(self.cli_version)
 
     def supports_item_creation(self):
         support = False
@@ -55,45 +43,50 @@ class _OPCommandV1(_OPCommandInterfaceAbstract, metaclass=_OPCommandRegistry):
     def _get_item_argv(self, item_name_or_uuid, vault=None, fields=None):
         vault_arg = vault if vault else self.vault
 
-        lookup_argv = self._argv_generator.get_item_argv(
-            self._op_exe, item_name_or_uuid, vault=vault_arg, fields=fields)
+        lookup_argv = _OPArgv.get_item_argv(
+            self.op_path, item_name_or_uuid, vault=vault_arg, fields=fields)
         return lookup_argv
 
     def _get_totp_argv(self, item_name_or_uuid, vault=None):
         vault_arg = vault if vault else self.vault
 
-        lookup_argv = self._argv_generator.get_totp_argv(
-            self._op_exe, item_name_or_uuid, vault=vault_arg)
+        lookup_argv = _OPArgv.get_totp_argv(
+            self.op_path, item_name_or_uuid, vault=vault_arg)
         return lookup_argv
 
     def _get_document_argv(self, document_name_or_uuid: str, vault: str = None):
         vault_arg = vault if vault else self.vault
 
-        get_document_argv = self._argv_generator.get_document_argv(
-            self._op_exe, document_name_or_uuid, vault=vault_arg)
+        get_document_argv = _OPArgv.get_document_argv(
+            self.op_path, document_name_or_uuid, vault=vault_arg)
 
         return get_document_argv
 
     def _get_user_argv(self, user_name_or_uuid: str):
-        get_user_argv = self._argv_generator.get_generic_argv(
-            self._op_exe, "user", user_name_or_uuid, [])
+        get_user_argv = _OPArgv.get_generic_argv(
+            self.op_path, "user", user_name_or_uuid, [])
         return get_user_argv
 
     def _get_group_argv(self, group_name_or_uuid: str):
-        get_group_argv = self._argv_generator.get_generic_argv(
-            self._op_exe, "group", group_name_or_uuid, [])
+        get_group_argv = _OPArgv.get_generic_argv(
+            self.op_path, "group", group_name_or_uuid, [])
         return get_group_argv
 
     def _get_vault_argv(self, vault_name_or_uuid: str):
-        get_vault_argv = self._argv_generator.get_generic_argv(
-            self._op_exe, "vault", vault_name_or_uuid, [])
+        get_vault_argv = _OPArgv.get_generic_argv(
+            self.op_path, "vault", vault_name_or_uuid, [])
         return get_vault_argv
+
+    def _cli_version_argv(self):
+        # Specifically for use by mock_op response-generator
+        cli_version_argv = _OPArgv.cli_version_argv(self.op_path)
+        return cli_version_argv
 
     def _get_item(self, item_name_or_uuid, vault=None, fields=None, decode="utf-8"):
         get_item_argv = self._get_item_argv(
             item_name_or_uuid, vault=vault, fields=fields)
         try:
-            output = self._op_exe._run(
+            output = self._run(
                 get_item_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPGetItemException.from_opexception(ocfe) from ocfe
@@ -104,7 +97,7 @@ class _OPCommandV1(_OPCommandInterfaceAbstract, metaclass=_OPCommandRegistry):
         get_totp_argv = self._get_totp_argv(
             item_name_or_uuid, vault=vault)
         try:
-            output = self._op_exe._run(
+            output = self._run(
                 get_totp_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPGetItemException.from_opexception(ocfe) from ocfe
@@ -128,8 +121,7 @@ class _OPCommandV1(_OPCommandInterfaceAbstract, metaclass=_OPCommandRegistry):
             document_name_or_uuid, vault=vault)
 
         try:
-            document_bytes = self._op_exe._run(
-                get_document_argv, capture_stdout=True)
+            document_bytes = self._run(get_document_argv, capture_stdout=True)
         except OPCmdFailedException as ocfe:
             raise OPGetDocumentException.from_opexception(ocfe) from ocfe
 
@@ -138,7 +130,7 @@ class _OPCommandV1(_OPCommandInterfaceAbstract, metaclass=_OPCommandRegistry):
     def _get_user(self, user_name_or_uuid: str, decode: str = "utf-8") -> str:
         get_user_argv = self._get_user_argv(user_name_or_uuid)
         try:
-            output = self._op_exe._run(
+            output = self._run(
                 get_user_argv, capture_stdout=True, decode=decode
             )
         except OPCmdFailedException as ocfe:
@@ -148,7 +140,7 @@ class _OPCommandV1(_OPCommandInterfaceAbstract, metaclass=_OPCommandRegistry):
     def _get_group(self, group_name_or_uuid: str, decode: str = "utf-8") -> str:
         get_group_argv = self._get_group_argv(group_name_or_uuid)
         try:
-            output = self._op_exe._run(
+            output = self._run(
                 get_group_argv, capture_stdout=True, decode=decode
             )
         except OPCmdFailedException as ocfe:
@@ -158,7 +150,7 @@ class _OPCommandV1(_OPCommandInterfaceAbstract, metaclass=_OPCommandRegistry):
     def _get_vault(self, vault_name_or_uuid: str, decode: str = "utf-8") -> str:
         get_vault_argv = self._get_vault_argv(vault_name_or_uuid)
         try:
-            output = self._op_exe._run(
+            output = self._run(
                 get_vault_argv, capture_stdout=True, decode=decode
             )
         except OPCmdFailedException as ocfe:
@@ -171,7 +163,7 @@ class _OPCommandV1(_OPCommandInterfaceAbstract, metaclass=_OPCommandRegistry):
             raise OPCreateItemNotSupportedException(msg)
         argv = self._create_item_argv(item, item_name, vault)
         try:
-            output = self._op_exe._run(
+            output = self._run(
                 argv, capture_stdout=True, decode="utf-8"
             )
         except OPCmdFailedException as ocfe:
@@ -180,37 +172,36 @@ class _OPCommandV1(_OPCommandInterfaceAbstract, metaclass=_OPCommandRegistry):
         return output
 
     def _signout(self, account, session, forget=False):
-        argv = self._argv_generator.signout_argv(
-            self._op_exe, account, session, forget=forget)
-        self._op_exe._run(argv)
+        argv = _OPArgv.signout_argv(
+            self.op_path, account, session, forget=forget)
+        self._run(argv)
 
     @classmethod
-    def _forget(cls, account: str, op_path='op'):
+    def _forget(cls, account: str, op_path=None):
         if not op_path:
             op_path = cls.OP_PATH
-        generator = OPArgvGenerator(op_path)
-        argv = generator.forget_argv(op_path, account)
+        argv = _OPArgv.forget_argv(op_path, account)
         cls._run(argv)
 
     def _create_item_argv(self, item, item_name, vault):
         vault_arg = vault if vault else self.vault
-        create_item_argv = self._argv_generator.create_item_argv(
-            self._op_exe, item, item_name, vault=vault_arg
+        create_item_argv = _OPArgv.create_item_argv(
+            self.op_path, item, item_name, vault=vault_arg
         )
         return create_item_argv
 
     def _list_items_argv(self, categories=[], include_archive=False, tags=[], vault=None):
         vault_arg = vault if vault else self.vault
-        list_items_argv = self._argv_generator.list_items_argv(
-            self._op_exe, categories=categories, include_archive=include_archive, tags=tags, vault=vault_arg)
+        list_items_argv = _OPArgv.list_items_argv(self.op_path,
+                                                  categories=categories, include_archive=include_archive, tags=tags, vault=vault_arg
+                                                  )
         return list_items_argv
 
     def _list_items(self, categories=[], include_archive=False, tags=[], vault=None, decode="utf-8"):
         argv = self._list_items_argv(
             categories=categories, include_archive=include_archive, tags=tags, vault=vault)
         try:
-            output = self._op_exe._run(
-                argv, capture_stdout=True, decode=decode)
+            output = self._run(argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as e:
             raise e
         return output

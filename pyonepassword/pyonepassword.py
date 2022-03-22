@@ -6,10 +6,10 @@ from os import environ as env
 from .op_items._item_list import OPItemList
 from .op_items._op_items_base import OPAbstractItem, OPItemCreateResult
 from .op_items._op_item_type_registry import OPItemFactory
-from .op_items.v1.login import OPLoginItem, OPLoginItemTemplate
+from .op_items.login import OPLoginItem, OPLoginItemTemplate
 from .op_objects import OPGroup, OPUser, OPVault
 
-from .op_commands import _OPCommandInterface
+from ._py_op_commands import _OPCommandInterface
 from ._py_op_deprecation import deprecated
 from .py_op_exceptions import (
     OPGetItemException,
@@ -553,7 +553,7 @@ class OP(_OPPrivate):
                          account_shorthand=account_shorthand,
                          password=password,
                          logger=logger,
-                         op_path_or_exe=op_path,
+                         op_path=op_path,
                          use_existing_session=use_existing_session,
                          password_prompt=password_prompt)
 

@@ -3,6 +3,7 @@ import datetime
 from abc import ABC, abstractmethod
 
 from .._datetime import fromisoformat_z
+from ._item_overview import OPItemOverview
 
 
 class OPAbstractItemDescriptor(ABC):
@@ -13,6 +14,10 @@ class OPAbstractItemDescriptor(ABC):
     def __init__(self, item_dict):
         self._from_template = False
         self._item_dict = item_dict
+        # not every item has an overview
+        # in particular, items created from a template do not
+        overview = self._item_dict.get("overview", {})
+        self._overview = OPItemOverview(overview)
 
     @property
     def uuid(self) -> str:

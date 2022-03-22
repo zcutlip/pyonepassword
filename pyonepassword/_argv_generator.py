@@ -1,29 +1,19 @@
-from .op_cli import OPArgvCommon
-from .op_cli._op_argv_v1 import _OPArgv as OPArgv_V1
-from .op_cli._op_argv_v2 import _OPArgv as OPArgv_V2
-from .op_cli_version import MINIMUM_VERSION_2, MINIMUM_VERSION_3
+from .op_cli_version import OPCLIVersion, MINIMUM_VERSION_2
+from .op_cli import OPArgvCommon, OPArgvV1
+from .op_cli import _OPCLIExecute
 
 
 class OPArgvGenerator:
 
-    def __init__(self, cli_version, decode="utf-8"):
+    def __init__(self, op_exe, decode="utf-8"):
+        argv = self.cli_version_argv(op_exe)
+        version_output = _OPCLIExecute._run(
+            argv, capture_stdout=True, decode=decode)
+        version = OPCLIVersion(version_output)
         self._op_argv = None
-        if cli_version < MINIMUM_VERSION_2:
-            self._op_argv = OPArgv_V1
-        elif cli_version < MINIMUM_VERSION_3:
-            self._op_argv = OPArgv_V2
-        else:
-            raise Exception(f"No OPArgv class for {cli_version}")
-        self.version = cli_version
-
-    def normal_signin_argv(self, op_exe, account_shorthand=None):
-        argv = self._op_argv.normal_signin_argv(
-            op_exe, account_shorthand=account_shorthand)
-        return argv
-
-    def get_verify_signin_argv(self, op_exe):
-        argv = self._op_argv.get_verify_signin_argv(op_exe)
-        return argv
+        if version < MINIMUM_VERSION_2:
+            self._op_argv = OPArgvV1
+        self.version = version
 
     def cli_version_argv(self, op_exe):
         argv = OPArgvCommon.cli_version_argv(op_exe)
@@ -47,9 +37,4 @@ class OPArgvGenerator:
     def get_document_argv(self, op_exe, document_name_or_uuid, vault=None):
         argv = self._op_argv.get_document_argv(
             op_exe, document_name_or_uuid, vault=vault)
-        return argv
-
-    def item_get_argv(self, op_exe, item_name_or_uuid, vault=None, field_labels=[]):
-        argv = self._op_argv.item_get_argv(
-            op_exe, item_name_or_uuid, vault=vault, field_labels=field_labels)
         return argv

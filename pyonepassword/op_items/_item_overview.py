@@ -1,9 +1,10 @@
 import copy
 
-from .._op_items_base import URLEntry
 
-
-class URLEntryV1(URLEntry):
+class URLEntry(dict):
+    def __init__(self, url_dict):
+        ud = copy.deepcopy(url_dict)
+        super().__init__(ud)
 
     @property
     def label(self):
@@ -34,21 +35,9 @@ class OPItemOverview(dict):
         if url_dicts:
             url_items = []
             for d in url_dicts:
-                url = URLEntryV1(d)
+                url = URLEntry(d)
                 url_items.append(url)
         return url_items
 
     def url_list(self):
         return self.get("URLs", None)
-
-
-class OPMutableItemOverview(OPItemOverview):
-
-    def set_url(self, url, label=""):
-        url_dict = {
-            "l": label,
-            "u": url
-        }
-        # TODO: is it an error if we alread have one or more URLs?
-        new_url = URLEntryV1(url_dict)
-        self["URLs"] = [new_url]

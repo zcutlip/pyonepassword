@@ -1,5 +1,5 @@
-from .._item_descriptor_base import OPAbstractItemDescriptor
-from .._item_descriptor_registry import op_register_item_descriptor_type
+from ._item_descriptor_base import OPAbstractItemDescriptor
+from ._item_descriptor_registry import op_register_item_descriptor_type
 
 
 @op_register_item_descriptor_type

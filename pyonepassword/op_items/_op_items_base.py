@@ -1,26 +1,42 @@
 import copy
+import json
 import os
+import tempfile
 
-from abc import abstractmethod, abstractproperty
+from abc import abstractmethod
 from typing import List, Union
 
 from .._datetime import fromisoformat_z
+from ._item_overview import OPItemOverview, URLEntry
 from ._item_descriptor_base import OPAbstractItemDescriptor
-from .item_section import OPSection, OPSectionField
+from .item_section import OPSection, OPSectionField, OPSectionCollisionException
+from .templates import TemplateDirectory
 
 
-class URLEntry(dict):
-    def __init__(self, url_dict):
-        ud = copy.deepcopy(url_dict)
-        super().__init__(ud)
+class OPMutableItemOverview(OPItemOverview):
 
-    @abstractproperty
-    def label(self):
-        pass
+    def set_url(self, url, label=""):
+        url_dict = {
+            "l": label,
+            "u": url
+        }
+        # TODO: is it an error if we alread have one or more URLs?
+        new_url = URLEntry(url_dict)
+        self["URLs"] = [new_url]
 
-    @abstractproperty
-    def url(self):
-        pass
+
+class OPItemTemplateMixin:
+    TEMPLATE_ID: str = None
+    TEMPLATE_DIRECTORY = TemplateDirectory()
+
+    def __init__(self, *args, **kwargs):
+        template_dict = self.TEMPLATE_DIRECTORY.template(self.TEMPLATE_ID)
+        template_dict = copy.deepcopy(template_dict)
+        item_dict = {
+            "details": template_dict
+        }
+        super().__init__(*args, item_dict, **kwargs)
+        self._from_template = True
 
 
 class OPAbstractItem(OPAbstractItemDescriptor):
@@ -31,14 +47,26 @@ class OPAbstractItem(OPAbstractItemDescriptor):
     def __init__(self, item_dict):
         super().__init__(item_dict)
         self._temp_files = []
+        self._initialize_sections()
 
-    @abstractmethod
     def add_section(self, title: str, fields: List[OPSectionField] = None, name: str = None):
-        pass
+        if not name:
+            name = OPSection.random_section_name()
+        for sect in self.sections:
+            if sect.name == name:
+                raise OPSectionCollisionException(
+                    f"Section with the unique name {name} already exists")
+        new_sect = OPSection.new_section(name, title, fields)
+        sections = self.sections
+        sections.append(new_sect)
+        self.sections = sections
 
-    @abstractmethod
+        return new_sect
+
     def primary_section_field_value(self, field_label):
-        pass
+        first_sect = self.first_section
+        field_value = self._field_value_from_section(first_sect, field_label)
+        return field_value
 
     def set_primary_section_field_value(self, field_label, field_value):
         first_sect = self.first_section
@@ -47,16 +75,19 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         section_field.value = field_value
         self.first_section = first_sect
 
-    @abstractproperty
+    @property
     def sections(self) -> List[OPSection]:
-        pass
+        details_dict = self.details
+        section_list = details_dict.get("sections", [])
+
+        return section_list
 
     @sections.setter
     def sections(self, sections: List[OPSection]):
         details_dict = self.details
         details_dict['sections'] = sections
 
-    @abstractproperty
+    @property
     def first_section(self) -> OPSection:
         first = None
         if self.sections:
@@ -71,6 +102,10 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         self.sections = sections
 
     @property
+    def details(self):
+        return self._item_dict["details"]
+
+    @property
     def is_from_template(self):
         return self._from_template
 
@@ -81,21 +116,37 @@ class OPAbstractItem(OPAbstractItemDescriptor):
                 f"item category is not set for {self.__class__.__name__}")
         return self.ITEM_CATEGORY
 
-    @abstractmethod
     def sections_by_title(self, title) -> List[OPSection]:
         """
         Returns a list of zero or more sections matching the given title.
         Sections are not required to have unique titles, so there may be more than one match.
         """
-        pass
+        matching_sections = []
+        sect: OPSection
+        for sect in self.sections:
+            if sect.title == title:
+                matching_sections.append(sect)
 
-    @abstractmethod
+        return matching_sections
+
     def first_section_by_title(self, title) -> OPSection:
-        pass
+        sections = self.sections_by_title(title)
+        section = None
+        if sections:
+            section = sections[0]
+        return section
 
-    @abstractmethod
+    def get_details_value(self, field_designation):
+        field_value = None
+        details_dict = self.details
+        field_value = details_dict[field_designation]
+
+        return field_value
+
     def field_value_by_section_title(self, section_title: str, field_label: str):
-        pass
+        section = self.first_section_by_title(section_title)
+        value = self._field_value_from_section(section, field_label)
+        return value
 
     def __del__(self):
         while self._temp_files:
@@ -105,13 +156,42 @@ class OPAbstractItem(OPAbstractItemDescriptor):
             except FileNotFoundError:
                 continue
 
-    @abstractproperty
-    def urls(self):
-        pass
+    def details_secure_tempfile(self, encoding="utf-8") -> tempfile.NamedTemporaryFile:
+        temp = tempfile.NamedTemporaryFile(
+            mode="w", delete=False, encoding=encoding)
+        self._temp_files.append(temp.name)
+        details_json = json.dumps(self.details)
+        temp.write(details_json)
+        temp.close()
+        return temp.name
 
-    @abstractmethod
+    @property
+    def urls(self):
+        return self._overview.url_list()
+
     def first_url(self) -> Union[URLEntry, None]:
-        pass
+        url = None
+        # When creating a new item, we can't specify more than one url
+        # so if there's more than one, we have to just grab the first
+        urls = self.urls
+        if urls:
+            url = urls[0]
+        return url
+
+    def _field_value_from_section(self, section: OPSection, field_label: str):
+        section_field: OPSectionField = section.fields_by_label(field_label)[0]
+        value = section_field.value
+        return value
+
+    def _initialize_sections(self):
+        section_list = []
+        details_dict = self.details
+        _sections = details_dict.get("sections")
+        if _sections:
+            for section_dict in _sections:
+                s = OPSection(section_dict)
+                section_list.append(s)
+        details_dict["sections"] = section_list
 
 
 class OPItemCreateResult(dict):

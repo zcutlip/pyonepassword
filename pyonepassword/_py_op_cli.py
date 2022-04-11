@@ -55,6 +55,7 @@ class _OPCLIExecute:
 
     @classmethod
     def _run(cls, argv, capture_stdout=False, input_string=None, decode=None):
+        cls.logger.debug(f"Running: {argv.cmd_str()}")
         output = None
         try:
             output, _, _ = cls._run_raw(

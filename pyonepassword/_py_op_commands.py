@@ -9,6 +9,7 @@ from os import environ as env
 from typing import List
 
 from ._py_op_cli import _OPArgv, _OPCLIExecute
+from .account import OPAccount, OPAccountList
 from .op_cli_version import MINIMUM_ITEM_CREATION_VERSION, OPCLIVersion
 from .op_items._op_items_base import OPAbstractItem
 from .py_op_exceptions import (
@@ -223,6 +224,27 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPSigninException.from_opexception(opfe) from opfe
 
         return output
+
+    @classmethod
+    def uses_biometric(cls, op_path="op", account_shorthand=None, encoding="utf-8"):
+        uses_bio = True
+        account_list_argv = cls._account_list_argv(
+            op_path=op_path, encoding=encoding)
+        account_list_json = cls._run(
+            account_list_argv, capture_stdout=True, decode=encoding)
+        account_list = OPAccountList(account_list_json)
+        acct: OPAccount
+        for acct in account_list:
+            if not acct.shorthand:
+                continue
+            if account_shorthand:
+                if acct.shorthand != account_shorthand:
+                    continue
+            # There is at least one account_shorthand found in `op account list`
+            # and if we were given a specific shorthand to use, it matches
+            uses_bio = False
+            break
+        return uses_bio
 
     def supports_item_creation(self):
         support = False

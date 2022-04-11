@@ -64,7 +64,7 @@ if __name__ == "__main__":
         # the document item often has a different 'fileName' attribute than
         # the document's name, so get_document() returns 1Password's fileName attribute
         # even though you already know the document name
-        file_name, document_bytes = op.get_document(
+        file_name, document_bytes = op.document_get(
             "Example Login - 1Password Logo")
         print("The original file name and the document title in 1Password are often different.")
         print("File name: {}".format(file_name))

@@ -33,7 +33,7 @@ class _OPPrivate(_OPCommandInterface):
     Once initial sign-in support has been completely removed, the 'OP' class and this class will be re-consolidated
     """
 
-    def get_item(self, item_name_or_uuid, vault=None) -> OPAbstractItem:
+    def item_get(self, item_name_or_uuid, vault=None) -> OPAbstractItem:
         """
         Get an 'item' object from a 1Password vault by name or UUID.
         The returned object may be any of the item types extending OPAbstractItem.
@@ -71,7 +71,7 @@ class _OPPrivate(_OPCommandInterface):
             An item object of one of the types listed above
         """
 
-        output = super()._get_item(item_name_or_uuid, vault=vault, decode="utf-8")
+        output = super()._item_get(item_name_or_uuid, vault=vault, decode="utf-8")
         op_item = OPItemFactory.op_item_from_json(output)
         return op_item
 
@@ -248,7 +248,7 @@ class _OPPrivate(_OPCommandInterface):
             Value of the item's 'password' attribute
         """
         item: OPLoginItem
-        item = self.get_item(item_name_or_uuid, vault=vault)
+        item = self.item_get(item_name_or_uuid, vault=vault)
         password = item.password
         return password
 
@@ -277,7 +277,7 @@ class _OPPrivate(_OPCommandInterface):
         file_name: str
             Value of the item's 'fileName' attribute
         """
-        item = self.get_item(item_name_or_uuid, vault=vault)
+        item = self.item_get(item_name_or_uuid, vault=vault)
         # Will raise AttributeError if item isn't a OPDocumentItem
         file_name = item.file_name
 
@@ -368,7 +368,7 @@ class _OPPrivate(_OPCommandInterface):
         result = json.loads(result_str)
         result = OPItemCreateResult(result)
         try:
-            created_item = self.get_item(result.uuid, vault=result.vault_uuid)
+            created_item = self.item_get(result.uuid, vault=result.vault_uuid)
         except OPGetItemException as e:
             msg = f"Failed to get newly created item: [{e}], Item UUID: {result.uuid}"
             raise OPGetCreatedItemException(msg, result.uuid) from e

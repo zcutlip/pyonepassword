@@ -1,25 +1,93 @@
 """
 Description: A module that maps methods to to `op` commands and subcommands
 """
+import json
+import os
+import pathlib
+from json.decoder import JSONDecodeError
+from os import environ as env
+from typing import List
 
-from ._py_op_cli import (
-    _OPCLIExecute,
-    _OPArgv
-)
-
+from ._py_op_cli import _OPArgv, _OPCLIExecute
+from .op_cli_version import MINIMUM_ITEM_CREATION_VERSION, OPCLIVersion
+from .op_items._op_items_base import OPAbstractItem
 from .py_op_exceptions import (
     OPCmdFailedException,
+    OPConfigNotFoundException,
     OPCreateItemException,
     OPCreateItemNotSupportedException,
     OPGetGroupException,
     OPGetItemException,
     OPGetDocumentException,
     OPGetUserException,
-    OPGetVaultException
+    OPGetVaultException,
+    OPNotSignedInException,
 )
 
-from .op_cli_version import MINIMUM_ITEM_CREATION_VERSION
-from .op_items._op_items_base import OPAbstractItem
+
+class OPCLIConfig(dict):
+    OP_CONFIG_PATHS = [
+        pathlib.Path(".config", "op", "config"),
+        pathlib.Path(".op", "config")
+    ]
+
+    def __init__(self, configpath=None):
+        super().__init__()
+        if configpath is None:
+            configpath = self._get_config_path()
+        self.configpath = configpath
+        if configpath is None:
+            raise OPConfigNotFoundException("No op configuration found")
+
+        try:
+            config_json = open(configpath, "r").read()
+        except FileNotFoundError as e:
+            raise OPConfigNotFoundException(
+                "op config not found at path: {}".format(configpath)) from e
+        except PermissionError as e:
+            raise OPConfigNotFoundException(
+                "Permission denied accessing op config at path: {}".format(configpath)) from e
+
+        try:
+            config = json.loads(config_json)
+            self.update(config)
+        except JSONDecodeError as e:
+            raise OPConfigNotFoundException(
+                "Unable to json decode config at path: {}".format(configpath)) from e
+
+    def _get_config_path(self):
+        configpath = None
+        config_home = None
+        try:
+            config_home = os.environ['XDG_CONFIG_HOME']
+        except KeyError:
+            config_home = pathlib.Path.home()
+
+        for subpath in self.OP_CONFIG_PATHS:
+            _configpath = pathlib.Path(config_home, subpath)
+            if os.path.exists(_configpath):
+                configpath = _configpath
+                break
+
+        return configpath
+
+    def get_config(self, shorthand=None):
+        if shorthand is None:
+            shorthand = self.get("latest_signin")
+        if shorthand is None:
+            raise OPConfigNotFoundException(
+                "No shorthand provided, no sign-ins found.")
+        accounts: List = self["accounts"]
+        config = None
+        for acct in accounts:
+            if acct["shorthand"] == shorthand:
+                config = acct
+
+        if config is None:
+            raise OPConfigNotFoundException(
+                f"No config found for shorthand {shorthand}")
+
+        return config
 
 
 class _OPCommandInterface(_OPCLIExecute):
@@ -30,9 +98,68 @@ class _OPCommandInterface(_OPCLIExecute):
     No responses are parsed.
     """
 
-    def __init__(self, vault=None, **kwargs):
-        super().__init__(**kwargs)
+    OP_PATH = 'op'  # let subprocess find 'op' in the system path
+
+    def __init__(self,
+                 vault=None,
+                 account_shorthand=None,
+                 password=None,
+                 logger=None,
+                 op_path='op',
+                 use_existing_session=False,
+                 password_prompt=True):
+        """
+        Create an OP object. The 1Password sign-in happens during object instantiation.
+        If 'password' is not provided, the 'op' command will prompt on the console for a password.
+
+        Arguments:
+            - 'account_shorthand': The shorthand name for the account on this device.
+                                   See 'op signin --help' for more information.
+            - 'password': The user's master password
+            - 'logger': A logging object. If not provided a basic logger is created and used.
+            - 'op_path': optional path to the `op` command, if it's not at the default location
+
+        Raises:
+            - OPSigninException if 1Password sign-in fails for any reason.
+            - OPNotFoundException if the 1Password command can't be found.
+        """
+        super().__init__()
         self.vault = vault
+        if logger:
+            self.logger = logger
+        self._token = None
+        self.op_path = op_path
+
+        self._cli_version: OPCLIVersion = self._get_cli_version(op_path)
+
+        uses_bio = self.uses_biometric(
+            self.op_path, account_shorthand=account_shorthand)
+
+        if account_shorthand is None and not uses_bio:
+            account_shorthand = self._get_account_shorthand()
+        self.account_shorthand = account_shorthand
+
+        if self.account_shorthand is None and not uses_bio:
+            raise OPNotSignedInException(
+                "Account shorthand not provided and not found in 'op' config")
+
+        sess_var_name = 'OP_SESSION_{}'.format(account_shorthand)
+        if use_existing_session:
+            self._token = self._verify_signin(sess_var_name)
+
+        if not self._token:
+            if not password and not password_prompt and not uses_bio:
+                # we don't have a token, weren't provided a password
+                # and were told not to let 'op' prompt for a password
+                raise OPNotSignedInException(
+                    "No existing session and no password provided.")
+            # We don't have a token but eitehr are have a password
+            # or op should be allowed to prompt for one
+            self._token = self._do_normal_signin(account_shorthand, password)
+
+        self._sess_var = sess_var_name
+        # export OP_SESSION_<signin_address>
+        env[sess_var_name] = self.token
 
     def supports_item_creation(self):
         support = False

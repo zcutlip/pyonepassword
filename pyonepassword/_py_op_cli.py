@@ -1,96 +1,24 @@
-import os
-import pathlib
-import json
 import logging
-from json.decoder import JSONDecodeError
+
 import subprocess
 import shlex
 from os import environ as env
 from typing import List
 
-from .op_cli_version import OPCLIVersion
 from .op_items._op_items_base import OPAbstractItem
 
 from .py_op_exceptions import (
-    OPConfigNotFoundException,
-    OPSigninException,
-    OPNotSignedInException,
     OPNotFoundException,
     OPCmdFailedException,
     OPInvalidItemException
 )
-from ._py_op_deprecation import deprecated
+
 
 """
 Module to hold stuff that interacts directly with 'op' or its config
 
 TODO: Move other code that closely touches 'op' here
 """
-
-
-class OPCLIConfig(dict):
-    OP_CONFIG_PATHS = [
-        pathlib.Path(".config", "op", "config"),
-        pathlib.Path(".op", "config")
-    ]
-
-    def __init__(self, configpath=None):
-        super().__init__()
-        if configpath is None:
-            configpath = self._get_config_path()
-        self.configpath = configpath
-        if configpath is None:
-            raise OPConfigNotFoundException("No op configuration found")
-
-        try:
-            config_json = open(configpath, "r").read()
-        except FileNotFoundError as e:
-            raise OPConfigNotFoundException(
-                "op config not found at path: {}".format(configpath)) from e
-        except PermissionError as e:
-            raise OPConfigNotFoundException(
-                "Permission denied accessing op config at path: {}".format(configpath)) from e
-
-        try:
-            config = json.loads(config_json)
-            self.update(config)
-        except JSONDecodeError as e:
-            raise OPConfigNotFoundException(
-                "Unable to json decode config at path: {}".format(configpath)) from e
-
-    def _get_config_path(self):
-        configpath = None
-        config_home = None
-        try:
-            config_home = os.environ['XDG_CONFIG_HOME']
-        except KeyError:
-            config_home = pathlib.Path.home()
-
-        for subpath in self.OP_CONFIG_PATHS:
-            _configpath = pathlib.Path(config_home, subpath)
-            if os.path.exists(_configpath):
-                configpath = _configpath
-                break
-
-        return configpath
-
-    def get_config(self, shorthand=None):
-        if shorthand is None:
-            shorthand = self.get("latest_signin")
-        if shorthand is None:
-            raise OPConfigNotFoundException(
-                "No shorthand provided, no sign-ins found.")
-        accounts: List = self["accounts"]
-        config = None
-        for acct in accounts:
-            if acct["shorthand"] == shorthand:
-                config = acct
-
-        if config is None:
-            raise OPConfigNotFoundException(
-                f"No config found for shorthand {shorthand}")
-
-        return config
 
 
 class _OPCLIExecute:
@@ -101,154 +29,6 @@ class _OPCLIExecute:
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
-    OP_PATH = 'op'  # let subprocess find 'op' in the system path
-
-    def __init__(self,
-                 account_shorthand=None,
-                 signin_address=None,
-                 email_address=None,
-                 secret_key=None,
-                 password=None,
-                 logger=None,
-                 op_path='op',
-                 use_existing_session=False,
-                 password_prompt=True):
-        """
-        Create an OP object. The 1Password sign-in happens during object instantiation.
-        If 'password' is not provided, the 'op' command will prompt on the console for a password.
-
-        If all components of a 1Password account are provided, an initial sign-in is performed,
-        otherwise, a normal sign-in is performed. See `op --help` for further explanation.
-
-        Arguments:
-            - 'account_shorthand': The shorthand name for the account on this device.
-                                   You may choose this during initial signin, otherwise
-                                   1Password converts it from your account address.
-                                   See 'op signin --help' for more information.
-            - 'signin_address': Fully qualified address of the 1Password account.
-                                E.g., 'my-account.1password.com'
-            - 'email_address': Email of the address for the user of the account
-            - 'secret_key': Secret key for the account
-            - 'password': The user's master password
-            - 'logger': A logging object. If not provided a basic logger is created and used.
-            - 'op_path': optional path to the `op` command, if it's not at the default location
-
-        Raises:
-            - OPSigninException if 1Password sign-in fails for any reason.
-            - OPNotFoundException if the 1Password command can't be found.
-        """
-        if logger:
-            self.logger = logger
-        self._cli_version: OPCLIVersion = self._get_cli_version(op_path)
-        if account_shorthand is None:
-            config = OPCLIConfig()
-            try:
-                account_shorthand = config['latest_signin']
-                self.logger.debug(
-                    "Using account shorthand found in op config: {}".format(account_shorthand))
-            except KeyError:
-                account_shorthand = None
-
-        if account_shorthand is None:
-            raise OPNotSignedInException(
-                "Account shorthand not provided and not found in 'op' config")
-
-        sess_var_name = 'OP_SESSION_{}'.format(account_shorthand)
-
-        self._token = None
-
-        self.account_shorthand = account_shorthand
-        self.op_path = op_path
-
-        initial_signin_args = [account_shorthand,
-                               signin_address,
-                               email_address,
-                               secret_key,
-                               password]
-        initial_signin = (None not in initial_signin_args)
-
-        if use_existing_session:
-            self._token = self._verify_signin(sess_var_name)
-
-        if not self._token:
-            if not password and not password_prompt:
-                raise OPNotSignedInException(
-                    "No existing session and no password provided.")
-            if initial_signin:
-                self._token = self._do_initial_signin(*initial_signin_args)
-                # export OP_SESSION_<signin_address>
-            else:
-                self._token = self._do_normal_signin(
-                    account_shorthand, password)
-
-        # TODO: return already-decoded token from sign-in
-        self._sess_var = sess_var_name
-        env[sess_var_name] = self.token
-
-    @property
-    def token(self) -> str:
-        return self._token
-
-    @property
-    def session_var(self) -> str:
-        return self._sess_var
-
-    def _get_cli_version(self, op_path):
-        argv = _OPArgv.cli_version_argv(op_path)
-        output = self._run(argv, capture_stdout=True, decode="utf-8")
-        output = output.rstrip()
-        cli_version = OPCLIVersion(output)
-        return cli_version
-
-    def _verify_signin(self, sess_var_name):
-        # Need to get existing token if we're already signed in
-        token = env.get(sess_var_name)
-
-        if token:
-            # if there's no token, no need to sign in
-            argv = _OPArgv.get_verify_signin_argv(self.op_path)
-            try:
-                self._run(argv, capture_stdout=True)
-            except OPCmdFailedException as opfe:
-                # scrape error message about not being signed in
-                # invalidate token if we're not signed in
-                if self.NOT_SIGNED_IN_TEXT in opfe.err_output:
-                    token = None
-                else:
-                    # there was a different error so raise the exception
-                    raise opfe
-
-        return token
-
-    def _do_normal_signin(self, account_shorthand, password):
-        self.logger.info("Doing normal (non-initial) 1Password sign-in")
-        signin_argv = _OPArgv.normal_signin_argv(
-            self.op_path, account_shorthand=account_shorthand)
-
-        token = self._run_signin(signin_argv, password=password).rstrip()
-        return token.decode()
-
-    @deprecated("Initial sign-in soon to be deprecated due to incompatibility with multi-factor authentication")
-    def _do_initial_signin(self, account_shorthand, signin_address, email_address, secret_key, password):
-        self.logger.info(
-            "Performing initial 1Password sign-in to {} as {}".format(signin_address, email_address))
-        signin_argv = [self.op_path, "signin", signin_address,
-                       email_address, secret_key, "--raw"]
-        if account_shorthand:
-            signin_argv.extend(["--shorthand", account_shorthand])
-
-        token = self._run_signin(signin_argv, password=password).rstrip()
-
-        return token.decode()
-
-    def _run_signin(self, argv, password=None):
-        try:
-            output = self._run(argv, capture_stdout=True,
-                               input_string=password)
-        except OPCmdFailedException as opfe:
-            raise OPSigninException.from_opexception(opfe) from opfe
-
-        return output
 
     @classmethod
     def _run_raw(cls, argv, input_string=None, capture_stdout=False, ignore_error=False):
@@ -302,13 +82,15 @@ class _OPArgv(list):
     as it allows the preciese set of command line arguments to be captured for later playback.
     """
 
-    def __init__(self, op_exe: str, command: str, args: List, subcommand: str = None, global_args=[]):
+    def __init__(self, op_exe: str, command: str, args: List, subcommand: str = None, global_args=[], encoding="utf-8"):
         # TODO: Refactor this
         # constructor is getting too many specialized kwargs tied to
         # specific commands/subcommands
         # maybe instead of an "args" array plus a bunch of named kwargs,
         # send in a dict that gets passed through tree of argv building logic?
         argv = [op_exe]
+        if encoding.lower() != "utf-8":
+            global_args.extend(["--encoding", encoding])
         for arg in global_args:
             argv.append(arg)
         if command:

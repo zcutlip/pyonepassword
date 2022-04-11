@@ -22,6 +22,7 @@ from .py_op_exceptions import (
     OPGetUserException,
     OPGetVaultException,
     OPNotSignedInException,
+    OPSigninException
 )
 
 
@@ -160,6 +161,68 @@ class _OPCommandInterface(_OPCLIExecute):
         self._sess_var = sess_var_name
         # export OP_SESSION_<signin_address>
         env[sess_var_name] = self.token
+
+    @property
+    def token(self) -> str:
+        return self._token
+
+    @property
+    def session_var(self) -> str:
+        return self._sess_var
+
+    def _get_account_shorthand(self):
+        config = OPCLIConfig()
+        try:
+            account_shorthand = config['latest_signin']
+            self.logger.debug(
+                "Using account shorthand found in op config: {}".format(account_shorthand))
+        except KeyError:
+            account_shorthand = None
+        return account_shorthand
+
+    def _get_cli_version(self, op_path):
+        argv = _OPArgv.cli_version_argv(op_path)
+        output = self._run(argv, capture_stdout=True, decode="utf-8")
+        output = output.rstrip()
+        cli_version = OPCLIVersion(output)
+        return cli_version
+
+    def _verify_signin(self, sess_var_name):
+        # Need to get existing token if we're already signed in
+        token = env.get(sess_var_name)
+
+        if token:
+            # if there's no token, no need to sign in
+            argv = _OPArgv.get_verify_signin_argv(self.op_path)
+            try:
+                self._run(argv, capture_stdout=True)
+            except OPCmdFailedException as opfe:
+                # scrape error message about not being signed in
+                # invalidate token if we're not signed in
+                if self.NOT_SIGNED_IN_TEXT in opfe.err_output:
+                    token = None
+                else:
+                    # there was a different error so raise the exception
+                    raise opfe
+
+        return token
+
+    def _do_normal_signin(self, account_shorthand, password):
+        self.logger.info("Doing normal (non-initial) 1Password sign-in")
+        signin_argv = _OPArgv.normal_signin_argv(
+            self.op_path, account_shorthand=account_shorthand)
+
+        token = self._run_signin(signin_argv, password=password).rstrip()
+        return token.decode()
+
+    def _run_signin(self, argv, password=None):
+        try:
+            output = self._run(argv, capture_stdout=True,
+                               input_string=password)
+        except OPCmdFailedException as opfe:
+            raise OPSigninException.from_opexception(opfe) from opfe
+
+        return output
 
     def supports_item_creation(self):
         support = False

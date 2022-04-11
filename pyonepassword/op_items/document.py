@@ -1,3 +1,4 @@
+from typing import List
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._item_descriptor_registry import op_register_item_descriptor_type
 from ._op_item_type_registry import op_register_item_type
@@ -27,7 +28,7 @@ class OPDocumentFile(dict):
 
 @op_register_item_descriptor_type
 class OPDocumentItemDescriptor(OPAbstractItemDescriptor):
-    TEMPLATE_ID = "006"
+    CATEGORY = "DOCUMENT"
 
     def __init__(self, item_dict):
         super().__init__(item_dict)
@@ -35,14 +36,22 @@ class OPDocumentItemDescriptor(OPAbstractItemDescriptor):
 
 @op_register_item_type
 class OPDocumentItem(OPAbstractItem):
-    TEMPLATE_ID = "006"
+    CATEGORY = "DOCUMENT"
 
     def __init__(self, item_dict):
         super().__init__(item_dict)
+        files = []
+        for file_dict in self.files:
+            file_obj = OPDocumentFile(file_dict)
+            files.append(file_obj)
+        self["files"] = files
 
     @property
     def file_name(self):
-        details = self._item_dict["details"]
-        document_attributes = details["documentAttributes"]
-        file_name = document_attributes["fileName"]
+        first_file = self.files[0]
+        file_name = first_file.name
         return file_name
+
+    @property
+    def files(self) -> List[OPDocumentFile]:
+        return self["files"]

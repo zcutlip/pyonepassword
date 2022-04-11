@@ -242,3 +242,13 @@ class _OPArgv(list):
 
         argv = cls.list_generic_argv(op_exe, "items", list_items_args)
         return argv
+
+    @classmethod
+    def account_list_argv(cls, op_exe, output_format="json", encoding="utf-8"):
+        cmd = "account"
+        cmd_args = []
+        subcmd = "list"
+        global_args = ["--format", output_format]
+        argv = cls(op_exe, cmd, cmd_args, subcommand=subcmd,
+                   global_args=global_args, encoding=encoding)
+        return argv

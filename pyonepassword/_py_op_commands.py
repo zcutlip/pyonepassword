@@ -252,6 +252,11 @@ class _OPCommandInterface(_OPCLIExecute):
             support = True
         return support
 
+    @classmethod
+    def _account_list_argv(cls, op_path="op", encoding="utf-8"):
+        argv = _OPArgv.account_list_argv(op_path, encoding=encoding)
+        return argv
+
     def _get_item_argv(self, item_name_or_uuid, vault=None, fields=None):
         vault_arg = vault if vault else self.vault
 

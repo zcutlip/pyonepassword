@@ -13,6 +13,10 @@ from .item_section import OPSection, OPSectionField, OPSectionCollisionException
 from .templates import TemplateDirectory
 
 
+class OPFieldNotFoundException(Exception):
+    pass
+
+
 class OPMutableItemOverview(OPItemOverview):
 
     def set_url(self, url, label=""):
@@ -40,14 +44,14 @@ class OPItemTemplateMixin:
 
 
 class OPAbstractItem(OPAbstractItemDescriptor):
-    TEMPLATE_ID = None
-    ITEM_CATEGORY = None
+    CATEGORY = None
 
     @abstractmethod
     def __init__(self, item_dict):
         super().__init__(item_dict)
         self._temp_files = []
         self._initialize_sections()
+        self._field_map = self._initialize_fields()
 
     def add_section(self, title: str, fields: List[OPSectionField] = None, name: str = None):
         if not name:
@@ -77,9 +81,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
     @property
     def sections(self) -> List[OPSection]:
-        details_dict = self.details
-        section_list = details_dict.get("sections", [])
-
+        section_list = self.get("sections", [])
         return section_list
 
     @sections.setter
@@ -102,19 +104,15 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         self.sections = sections
 
     @property
-    def details(self):
-        return self._item_dict["details"]
-
-    @property
     def is_from_template(self):
         return self._from_template
 
     @property
     def category(self):
-        if not self.ITEM_CATEGORY:
+        if not self.CATEGORY:
             raise NotImplementedError(
                 f"item category is not set for {self.__class__.__name__}")
-        return self.ITEM_CATEGORY
+        return self.CATEGORY.lower()
 
     def sections_by_title(self, title) -> List[OPSection]:
         """
@@ -135,13 +133,6 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         if sections:
             section = sections[0]
         return section
-
-    def get_details_value(self, field_designation):
-        field_value = None
-        details_dict = self.details
-        field_value = details_dict[field_designation]
-
-        return field_value
 
     def field_value_by_section_title(self, section_title: str, field_label: str):
         section = self.first_section_by_title(section_title)
@@ -178,6 +169,19 @@ class OPAbstractItem(OPAbstractItemDescriptor):
             url = urls[0]
         return url
 
+    def field_by_id(self, field_id) -> OPSectionField:
+        try:
+            field = self._field_map[field_id]
+        except KeyError:
+            raise OPFieldNotFoundException(
+                f"Field not found with ID: {field_id}")
+        return field
+
+    def field_value_by_id(self, field_id):
+        field = self.field_by_id(field_id)
+        value = field.value
+        return value
+
     def _field_value_from_section(self, section: OPSection, field_label: str):
         section_field: OPSectionField = section.fields_by_label(field_label)[0]
         value = section_field.value
@@ -185,13 +189,23 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
     def _initialize_sections(self):
         section_list = []
-        details_dict = self.details
-        _sections = details_dict.get("sections")
+        _sections = self.get("sections")
         if _sections:
             for section_dict in _sections:
                 s = OPSection(section_dict)
                 section_list.append(s)
-        details_dict["sections"] = section_list
+        self["sections"] = section_list
+
+    def _initialize_fields(self):
+        field_list = []
+        field_map = {}
+        _fields = self.get("fields", [])
+        for field_dict in _fields:
+            field = OPSectionField(field_dict, deep_copy=False)
+            field_list.append(field)
+            field_map[field.field_id] = field
+        self["fields"] = field_list
+        return field_map
 
 
 class OPItemCreateResult(dict):

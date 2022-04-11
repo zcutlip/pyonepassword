@@ -257,10 +257,10 @@ class _OPCommandInterface(_OPCLIExecute):
         argv = _OPArgv.account_list_argv(op_path, encoding=encoding)
         return argv
 
-    def _get_item_argv(self, item_name_or_uuid, vault=None, fields=None):
+    def _item_get_argv(self, item_name_or_uuid, vault=None, fields=None):
         vault_arg = vault if vault else self.vault
 
-        lookup_argv = _OPArgv.get_item_argv(
+        lookup_argv = _OPArgv.item_get_argv(
             self.op_path, item_name_or_uuid, vault=vault_arg, fields=fields)
         return lookup_argv
 
@@ -299,8 +299,8 @@ class _OPCommandInterface(_OPCLIExecute):
         cli_version_argv = _OPArgv.cli_version_argv(self.op_path)
         return cli_version_argv
 
-    def _get_item(self, item_name_or_uuid, vault=None, fields=None, decode="utf-8"):
-        get_item_argv = self._get_item_argv(
+    def _item_get(self, item_name_or_uuid, vault=None, fields=None, decode="utf-8"):
+        get_item_argv = self._item_get_argv(
             item_name_or_uuid, vault=vault, fields=fields)
         try:
             output = self._run(

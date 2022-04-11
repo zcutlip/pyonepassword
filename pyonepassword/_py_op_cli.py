@@ -119,23 +119,24 @@ class _OPArgv(list):
         return cmd_str
 
     @classmethod
-    def get_generic_argv(cls, op_exe, get_subcommand, obj_identifier, sub_cmd_args):
-        args = [obj_identifier]
+    def item_generic_argv(cls, op_exe, item_subcommand, sub_cmd_args):
+        args = []
+        global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "get", args, subcommand=get_subcommand)
+        argv = cls(op_exe, "item", args, subcommand=item_subcommand,
+                   global_args=global_args)
         return argv
 
     @classmethod
-    def get_item_argv(cls, op_exe, item_name_or_uuid, vault=None, fields=None):
-        sub_cmd_args = []
+    def item_get_argv(cls, op_exe, item_name_or_uuid, vault=None, fields=None):
+        sub_cmd_args = [item_name_or_uuid]
         if vault:
             sub_cmd_args.extend(["--vault", vault])
 
         if fields:
             sub_cmd_args.extend(["--fields", fields])
-        argv = cls.get_generic_argv(
-            op_exe, "item", item_name_or_uuid, sub_cmd_args)
+        argv = cls.item_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
     @classmethod
@@ -162,7 +163,7 @@ class _OPArgv(list):
         global_args = []
         if account_shorthand:
             global_args = ["--account", account_shorthand]
-        argv = [account_shorthand, "--raw"]
+        argv = ["--raw"]
         return cls(op_exe, "signin", argv, global_args=global_args)
 
     @classmethod

@@ -274,7 +274,7 @@ class _OPCommandInterface(_OPCLIExecute):
     def _get_document_argv(self, document_name_or_uuid: str, vault: str = None):
         vault_arg = vault if vault else self.vault
 
-        get_document_argv = _OPArgv.get_document_argv(
+        get_document_argv = _OPArgv.document_get_argv(
             self.op_path, document_name_or_uuid, vault=vault_arg)
 
         return get_document_argv
@@ -321,7 +321,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
-    def _get_document(self, document_name_or_uuid: str, vault: str = None):
+    def _document_get(self, document_name_or_uuid: str, vault: str = None):
         """
         Download a document object from a 1Password vault by name or UUID.
 

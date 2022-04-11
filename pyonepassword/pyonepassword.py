@@ -222,7 +222,7 @@ class _OPPrivate(_OPCommandInterface):
         item_dict = json.loads(output)
         return item_dict
 
-    def get_item_password(self, item_name_or_uuid, vault=None) -> str:
+    def item_get_password(self, item_name_or_uuid, vault=None) -> str:
         """
         Get the value of the password field from the item specified by name or UUID.
 
@@ -252,7 +252,7 @@ class _OPPrivate(_OPCommandInterface):
         password = item.password
         return password
 
-    def get_item_filename(self, item_name_or_uuid, vault=None):
+    def item_get_filename(self, item_name_or_uuid, vault=None):
         """
         Get the fileName attribute a document item from a 1Password vault by name or UUID.
 
@@ -283,7 +283,7 @@ class _OPPrivate(_OPCommandInterface):
 
         return file_name
 
-    def get_document(self, document_name_or_uuid, vault=None):
+    def document_get(self, document_name_or_uuid, vault=None):
         """
         Download a document object from a 1Password vault by name or UUID.
 
@@ -309,7 +309,7 @@ class _OPPrivate(_OPCommandInterface):
             A tuple consisting of the filename and bytes of the specified document
         """
         try:
-            file_name = self.get_item_filename(
+            file_name = self.item_get_filename(
                 document_name_or_uuid, vault=vault)
         except AttributeError as ae:
             raise OPInvalidDocumentException(
@@ -318,7 +318,7 @@ class _OPPrivate(_OPCommandInterface):
             raise OPGetDocumentException.from_opexception(ocfe) from ocfe
 
         try:
-            document_bytes = super()._get_document(document_name_or_uuid, vault=vault)
+            document_bytes = super()._document_get(document_name_or_uuid, vault=vault)
         except OPCmdFailedException as ocfe:
             raise OPGetDocumentException.from_opexception(ocfe) from ocfe
 

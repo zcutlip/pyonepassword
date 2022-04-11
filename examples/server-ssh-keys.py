@@ -91,7 +91,7 @@ def main():
     else:
         outdir = Path(".")
 
-    server: OPServerItem = op.get_item(server_name)
+    server: OPServerItem = op.item_get(server_name)
     server: ServerWithSSHKeys = ServerWithSSHKeys(server)
     server.write_ssh_keys(outdir, key_name, args.pub_only)
 

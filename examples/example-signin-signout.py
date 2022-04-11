@@ -30,7 +30,7 @@ def do_signin():
 
 def do_lookup():
     try:
-        print(op.get_item_password("Example Login"))
+        print(op.item_get_password("Example Login"))
     except OPGetItemException as opge:
         print("Get item failed.")
         print(opge.err_output)

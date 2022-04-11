@@ -64,14 +64,14 @@ if __name__ == "__main__":
     print("Signed in.")
     print("Looking up \"Example Login\"...")
     try:
-        item_password = op.get_item_password("Example Login")
+        item_password = op.item_get_password("Example Login")
         print(item_password)
         print("")
         print("\"Example Login\" can also be looked up by its uuid")
         print("")
         print("Looking up uuid \"ubrjbhaixbexdglqfbe24nf2gu\"...")
         print("Overriding \"Test Data\" vault, and look in \"Test Data 2\" instead")
-        item_password = op.get_item_password(
+        item_password = op.item_get_password(
             "ubrjbhaixbexdglqfbe24nf2gu", vault="Test Data 2")
         print(item_password)
     except OPGetItemException as ope:

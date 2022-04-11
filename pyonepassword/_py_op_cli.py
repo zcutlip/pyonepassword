@@ -151,12 +151,21 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def get_document_argv(cls, op_exe, document_name_or_uuid, vault=None):
-        sub_cmd_args = []
+    def document_generic_argv(cls, op_exe, doc_subcommand, sub_cmd_args):
+        args = []
+        global_args = ["--format", "json"]
+        if sub_cmd_args:
+            args.extend(sub_cmd_args)
+        argv = cls(op_exe, "document", args,
+                   subcommand=doc_subcommand, global_args=global_args)
+        return argv
+
+    @classmethod
+    def document_get_argv(cls, op_exe, document_name_or_uuid, vault=None):
+        sub_cmd_args = [document_name_or_uuid]
         if vault:
             sub_cmd_args.extend(["--vault", vault])
-        argv = cls.get_generic_argv(
-            op_exe, "document", document_name_or_uuid, sub_cmd_args)
+        argv = cls.document_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
     @classmethod

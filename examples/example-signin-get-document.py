@@ -60,9 +60,9 @@ if __name__ == "__main__":
         print("")
         print("\"Example Login - 1Password Logo\" can also be looked up by its uuid")
         print("")
-        print("Looking up uuid \"bmxpvuthureo7e52uqmvqcr4dy\"...")
-        file_name, document_bytes = op.get_document(
-            "bmxpvuthureo7e52uqmvqcr4dy")
+        print("Looking up uuid \"ue6i3anfk7vdzf6vntruaunbuy\"...")
+        file_name, document_bytes = op.document_get(
+            "ue6i3anfk7vdzf6vntruaunbuy")
         print(file_name)
         print("{} bytes".format(len(document_bytes)))
         print("Writing downloaded document to {}".format(file_name))

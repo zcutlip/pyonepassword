@@ -1,6 +1,7 @@
 import getpass
 import os
 import sys
+
 parent_path = os.path.dirname(
     os.path.dirname(
         os.path.abspath(__file__)
@@ -11,21 +12,25 @@ if parent_path not in sys.path:
 
 from pyonepassword import (  # noqa: E402
     OP,
-    OPSigninException,
+    OPConfigNotFoundException,
     OPGetItemException,
     OPNotFoundException,
     OPNotSignedInException,
-    OPConfigNotFoundException
+    OPSigninException
 )
+from pyonepassword.py_op_exceptions import OPCmdFailedException  # noqa: E402
 
 
 def do_signin():
-    op_path = "op-binaries/1.12.4/op"
+    # op_path = "op-binaries/2.0.0/op"
+    op_path = None
+    uses_biometric = OP.uses_biometric(op_path=op_path)
     try:
         op = OP(vault="Test Data", op_path=op_path,
                 use_existing_session=True, password_prompt=False)
-    except OPNotSignedInException:
-
+    except OPNotSignedInException as e:
+        if uses_biometric:
+            raise e
         # If you've already signed in at least once, you don't need to provide all
         # account details on future sign-ins. Just master password
         my_password = getpass.getpass(prompt="1Password master password:\n")
@@ -52,6 +57,9 @@ if __name__ == "__main__":
         print("Didn't provide an account shorthand, and we couldn't locate 'op' config to look it up.")
         print(ope)
         exit(1)
+    except OPCmdFailedException as ope:
+        print(ope.err_output)
+        exit(ope.returncode)
 
     print("Signed in.")
     print("Looking up \"Example Login\"...")

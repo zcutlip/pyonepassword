@@ -19,7 +19,7 @@ class OPItemFactory:
 
     @classmethod
     def op_item_from_item_dict(cls, item_dict):
-        item_type = item_dict["templateUuid"]
+        item_type = item_dict["category"]
         try:
             item_cls = cls._TYPE_REGISTRY[item_type]
         except KeyError as ke:
@@ -40,6 +40,6 @@ class OPItemFactory:
 
 
 def op_register_item_type(item_class):
-    item_type = item_class.TEMPLATE_ID
+    item_type = item_class.CATEGORY
     OPItemFactory.register_op_item_type(item_type, item_class)
     return item_class

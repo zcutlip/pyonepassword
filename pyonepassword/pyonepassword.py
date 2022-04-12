@@ -72,7 +72,7 @@ class _OPPrivate(_OPCommandInterface):
         """
 
         output = super()._item_get(item_name_or_uuid, vault=vault, decode="utf-8")
-        op_item = OPItemFactory.op_item_from_json(output)
+        op_item = OPItemFactory.op_item(output)
         return op_item
 
     def get_totp(self, item_name_or_uuid: str, vault=None) -> str:

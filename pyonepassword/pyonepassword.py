@@ -434,7 +434,7 @@ class _OPPrivate(_OPCommandInterface):
         """
         account = self.account_shorthand
         token = self.token
-        if not token:
+        if not token and not self.uses_bio:
             return
 
         try:

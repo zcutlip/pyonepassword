@@ -137,14 +137,14 @@ class _OPCommandInterface(_OPCLIExecute):
 
         self._cli_version: OPCLIVersion = self._get_cli_version(op_path)
 
-        uses_bio = self.uses_biometric(
+        self.uses_bio = self.uses_biometric(
             self.op_path, account_shorthand=account_shorthand)
 
-        if account_shorthand is None and not uses_bio:
+        if account_shorthand is None and not self.uses_bio:
             account_shorthand = self._get_account_shorthand()
         self.account_shorthand = account_shorthand
 
-        if self.account_shorthand is None and not uses_bio:
+        if self.account_shorthand is None and not self.uses_bio:
             raise OPNotSignedInException(
                 "Account shorthand not provided and not found in 'op' config")
 
@@ -153,7 +153,7 @@ class _OPCommandInterface(_OPCLIExecute):
             self._token = self._verify_signin(sess_var_name)
 
         if not self._token:
-            if not password and not password_prompt and not uses_bio:
+            if not password and not password_prompt and not self.uses_bio:
                 # we don't have a token, weren't provided a password
                 # and were told not to let 'op' prompt for a password
                 raise OPNotSignedInException(

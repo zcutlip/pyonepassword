@@ -392,8 +392,11 @@ class _OPCommandInterface(_OPCLIExecute):
         return output
 
     def _signout(self, account, session, forget=False):
+        if forget and self.uses_bio:
+            self.logger.warn(
+                "Biometric is enabled. 'forget' operation will have no effect.")
         argv = _OPArgv.signout_argv(
-            self.op_path, account, session, forget=forget)
+            self.op_path, account, session, forget=forget, uses_bio=self.uses_bio)
         self._run(argv)
 
     @classmethod

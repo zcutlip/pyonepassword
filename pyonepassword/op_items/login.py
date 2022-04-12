@@ -16,9 +16,6 @@ class OPLoginDescriptorItem(OPAbstractItemDescriptor):
 class OPLoginItem(OPAbstractItem):
     CATEGORY = "LOGIN"
 
-    def __init__(self, item_dict, **kwargs):
-        super().__init__(item_dict, **kwargs)
-
     @property
     def username(self):
         username = self.field_value_by_id("username")

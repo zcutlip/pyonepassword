@@ -2,6 +2,7 @@
 Description: A module that maps methods to to `op` commands and subcommands
 """
 import json
+import logging
 import os
 import pathlib
 from json.decoder import JSONDecodeError
@@ -127,8 +128,10 @@ class _OPCommandInterface(_OPCLIExecute):
         """
         super().__init__()
         self.vault = vault
-        if logger:
-            self.logger = logger
+        if not logger:
+            logging.basicConfig(format="%(message)s", level=logging.DEBUG)
+            logger = logging.getLogger()
+        self.logger = logger
         self._token = None
         self.op_path = op_path
 

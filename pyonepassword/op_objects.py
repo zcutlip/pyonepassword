@@ -9,6 +9,7 @@ from typing import Dict, List, TypeVar, Union
 
 from ._datetime import fromisoformat_z
 from .py_op_exceptions import _OPAbstractException
+from .json import safe_unjson
 
 
 class OPInvalidObjectException(_OPAbstractException):
@@ -84,10 +85,7 @@ class OPAbstractObject(dict, metaclass=ABCMeta):
 
     @abstractmethod
     def __init__(self, dict_or_json: Union[str, dict]):
-        if isinstance(dict_or_json, str):
-            obj_dict = json.loads(dict_or_json)
-        else:
-            obj_dict = dict_or_json
+        obj_dict = safe_unjson(dict_or_json)
         super().__init__(obj_dict)
 
     @property

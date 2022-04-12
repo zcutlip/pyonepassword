@@ -217,8 +217,11 @@ class _OPArgv(list):
         return argv_obj
 
     @classmethod
-    def signout_argv(cls, op_exe, account_shorthand: str, session: str, forget=False):
-        global_args = ["--account", account_shorthand, "--session", session]
+    def signout_argv(cls, op_exe, account_shorthand: str, session: str, forget=False, uses_bio=False):
+        global_args = []
+        if not uses_bio:
+            global_args = ["--account",
+                           account_shorthand, "--session", session]
         signout_args = []
         if forget:
             signout_args.append("--forget")

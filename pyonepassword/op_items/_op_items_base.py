@@ -47,8 +47,8 @@ class OPAbstractItem(OPAbstractItemDescriptor):
     CATEGORY = None
 
     @abstractmethod
-    def __init__(self, item_dict):
-        super().__init__(item_dict)
+    def __init__(self, item_dict_or_json):
+        super().__init__(item_dict_or_json)
         self._temp_files = []
         self._initialize_sections()
         self._field_map = self._initialize_fields()

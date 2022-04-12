@@ -1,8 +1,8 @@
 import datetime
-
 from abc import ABCMeta, abstractmethod
 
 from .._datetime import fromisoformat_z
+from ..json import safe_unjson
 from ._item_overview import OPItemOverview
 
 
@@ -12,7 +12,8 @@ class OPAbstractItemDescriptor(dict):
     ITEM_CATEGORY = None
 
     @abstractmethod
-    def __init__(self, item_dict):
+    def __init__(self, item_dict_or_json):
+        item_dict = safe_unjson(item_dict_or_json)
         super().__init__(item_dict)
         self._from_template = False
         # not every item has an overview

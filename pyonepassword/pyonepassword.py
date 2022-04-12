@@ -147,10 +147,10 @@ class _OPPrivate(_OPCommandInterface):
 
         Returns
         -------
-        user: OPVault
+        vault: OPVault
             An object representing the details of the requested vault
         """
-        vault_json = super()._get_vault(vault_name_or_uuid, decode="utf-8")
+        vault_json = super()._vault_get(vault_name_or_uuid, decode="utf-8")
         vault = OPVault(vault_json)
         return vault
 

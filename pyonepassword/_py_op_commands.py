@@ -292,9 +292,10 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, "group", group_name_or_uuid, [])
         return get_group_argv
 
-    def _get_vault_argv(self, vault_name_or_uuid: str):
-        get_vault_argv = _OPArgv.get_generic_argv(
-            self.op_path, "vault", vault_name_or_uuid, [])
+    def _vault_get_argv(self, vault_name_or_uuid: str):
+
+        get_vault_argv = _OPArgv.vault_get_argv(
+            self.op_path, vault_name_or_uuid)
         return get_vault_argv
 
     def _cli_version_argv(self):
@@ -367,8 +368,8 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPGetGroupException.from_opexception(ocfe) from ocfe
         return output
 
-    def _get_vault(self, vault_name_or_uuid: str, decode: str = "utf-8") -> str:
-        get_vault_argv = self._get_vault_argv(vault_name_or_uuid)
+    def _vault_get(self, vault_name_or_uuid: str, decode: str = "utf-8") -> str:
+        get_vault_argv = self._vault_get_argv(vault_name_or_uuid)
         try:
             output = self._run(
                 get_vault_argv, capture_stdout=True, decode=decode

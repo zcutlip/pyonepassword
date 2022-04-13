@@ -7,7 +7,7 @@ import os
 import pathlib
 from json.decoder import JSONDecodeError
 from os import environ as env
-from typing import List
+from typing import Dict, List
 
 from ._py_op_cli import _OPArgv, _OPCLIExecute
 from .account import OPAccount, OPAccountList
@@ -26,6 +26,36 @@ from .py_op_exceptions import (
     OPNotSignedInException,
     OPSigninException
 )
+
+
+class OPCLIAccountConfig(dict):
+
+    def __init__(self, account_dict):
+        super().__init__(account_dict)
+
+    @property
+    def shorthand(self) -> str:
+        return self["shorthand"]
+
+    @property
+    def account_uuid(self) -> str:
+        return self["accountUUID"]
+
+    @property
+    def url(self) -> str:
+        return self["url"]
+
+    @property
+    def email(self) -> str:
+        return self["email"]
+
+    @property
+    def account_key(self) -> str:
+        return self["accountKey"]
+
+    @property
+    def user_uuid(self) -> str:
+        return self["userUUID"]
 
 
 class OPCLIConfig(dict):
@@ -58,6 +88,8 @@ class OPCLIConfig(dict):
             raise OPConfigNotFoundException(
                 "Unable to json decode config at path: {}".format(configpath)) from e
 
+        self.account_map = self._initialize_account_objects()
+
     def _get_config_path(self):
         configpath = None
         config_home = None
@@ -74,23 +106,40 @@ class OPCLIConfig(dict):
 
         return configpath
 
-    def get_config(self, shorthand=None):
+    def _initialize_account_objects(self):
+        account_list = self.accounts
+        account_objects = []
+        account_map = {}
+        acct: OPCLIAccountConfig
+        for account_dict in account_list:
+            acct = OPCLIAccountConfig(account_dict)
+            account_objects.append(acct)
+            account_map[acct.shorthand] = acct
+        return account_map
+
+    @property
+    def accounts(self) -> List[Dict[str, str]]:
+        return self["accounts"]
+
+    def get_config(self, shorthand=None) -> OPCLIAccountConfig:
         if shorthand is None:
             shorthand = self.get("latest_signin")
         if shorthand is None:
             raise OPConfigNotFoundException(
                 "No shorthand provided, no sign-ins found.")
-        accounts: List = self["accounts"]
-        config = None
-        for acct in accounts:
-            if acct["shorthand"] == shorthand:
-                config = acct
 
-        if config is None:
+        try:
+            config = self.account_map[shorthand]
+        except KeyError:
             raise OPConfigNotFoundException(
                 f"No config found for shorthand {shorthand}")
 
         return config
+
+    def uuid_for_shorthand(self, shorthand) -> str:
+        config = self.get_config(shorthand=shorthand)
+        uuid = config.user_uuid
+        return uuid
 
 
 class _OPCommandInterface(_OPCLIExecute):

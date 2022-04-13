@@ -221,8 +221,10 @@ class _OPArgv(list):
 
     @classmethod
     def get_verify_signin_argv(cls, op_exe):
-        argv = ["templates"]
-        argv_obj = cls(op_exe, "list", argv)
+        sub_command = "template"
+        sub_cmd_args = ["list"]
+
+        argv_obj = cls.item_generic_argv(op_exe, sub_command, sub_cmd_args)
         return argv_obj
 
     @classmethod

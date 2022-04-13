@@ -188,17 +188,22 @@ class _OPCommandInterface(_OPCLIExecute):
 
         self.uses_bio = self.uses_biometric(
             self.op_path, account_shorthand=account_shorthand)
-
+        op_config = OPCLIConfig()
         if account_shorthand is None and not self.uses_bio:
-            account_shorthand = self._get_account_shorthand()
+            account_shorthand = self._get_account_shorthand(op_config)
+            if account_shorthand is None:
+                raise OPNotSignedInException(
+                    "Account shorthand not provided and not found in 'op' config")
+
         self.account_shorthand = account_shorthand
 
-        if self.account_shorthand is None and not self.uses_bio:
-            raise OPNotSignedInException(
-                "Account shorthand not provided and not found in 'op' config")
+        sess_var_name = None
 
-        sess_var_name = 'OP_SESSION_{}'.format(account_shorthand)
-        if use_existing_session:
+        if account_shorthand and not self.uses_bio:
+            user_uuid = op_config.uuid_for_shorthand(account_shorthand)
+            sess_var_name = 'OP_SESSION_{}'.format(user_uuid)
+
+        if use_existing_session and sess_var_name:
             self._token = self._verify_signin(sess_var_name)
 
         if not self._token:
@@ -213,7 +218,8 @@ class _OPCommandInterface(_OPCLIExecute):
 
         self._sess_var = sess_var_name
         # export OP_SESSION_<signin_address>
-        env[sess_var_name] = self.token
+        if sess_var_name and self.token:
+            env[sess_var_name] = self.token
 
     @property
     def token(self) -> str:
@@ -223,8 +229,7 @@ class _OPCommandInterface(_OPCLIExecute):
     def session_var(self) -> str:
         return self._sess_var
 
-    def _get_account_shorthand(self):
-        config = OPCLIConfig()
+    def _get_account_shorthand(self, config):
         try:
             account_shorthand = config['latest_signin']
             self.logger.debug(

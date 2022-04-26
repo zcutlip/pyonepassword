@@ -423,10 +423,10 @@ class _OPCommandInterface(_OPCLIExecute):
         return output
 
     def _vault_get(self, vault_name_or_uuid: str, decode: str = "utf-8") -> str:
-        get_vault_argv = self._vault_get_argv(vault_name_or_uuid)
+        vault_get_argv = self._vault_get_argv(vault_name_or_uuid)
         try:
             output = self._run(
-                get_vault_argv, capture_stdout=True, decode=decode
+                vault_get_argv, capture_stdout=True, decode=decode
             )
         except OPCmdFailedException as ocfe:
             raise OPGetVaultException.from_opexception(ocfe)

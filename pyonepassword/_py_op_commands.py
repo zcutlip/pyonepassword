@@ -412,7 +412,7 @@ class _OPCommandInterface(_OPCLIExecute):
         return output
 
     def _get_group(self, group_name_or_uuid: str, decode: str = "utf-8") -> str:
-        get_group_argv = self._get_group_argv(group_name_or_uuid)
+        get_group_argv = self._group_get_argv(group_name_or_uuid)
         try:
             output = self._run(
                 get_group_argv, capture_stdout=True, decode=decode

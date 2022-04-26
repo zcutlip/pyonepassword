@@ -154,7 +154,7 @@ class _OPPrivate(_OPCommandInterface):
         vault = OPVault(vault_json)
         return vault
 
-    def get_group(self, group_name_or_uuid: str) -> OPGroup:
+    def group_get(self, group_name_or_uuid: str) -> OPGroup:
         """
         Return the details for the group specified by name or UUID.
 
@@ -174,7 +174,7 @@ class _OPPrivate(_OPCommandInterface):
         user: OPGroup
             An object representing the details of the requested group
         """
-        group_json = super()._get_group(group_name_or_uuid, decode="utf-8")
+        group_json = super()._group_get(group_name_or_uuid, decode="utf-8")
         group = OPGroup(group_json)
         return group
 

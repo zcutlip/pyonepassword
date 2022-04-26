@@ -340,10 +340,10 @@ class _OPCommandInterface(_OPCLIExecute):
         get_user_argv = _OPArgv.user_get_argv(self.op_path, user_name_or_uuid)
         return get_user_argv
 
-    def _get_group_argv(self, group_name_or_uuid: str):
-        get_group_argv = _OPArgv.get_generic_argv(
-            self.op_path, "group", group_name_or_uuid, [])
-        return get_group_argv
+    def _group_get_argv(self, group_name_or_uuid: str):
+        group_get_argv = _OPArgv.group_get_argv(
+            self.op_path, group_name_or_uuid)
+        return group_get_argv
 
     def _vault_get_argv(self, vault_name_or_uuid: str):
 

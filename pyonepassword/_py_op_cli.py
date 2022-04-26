@@ -201,6 +201,22 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    def group_generic_argv(cls, op_exe, vault_subcommand, sub_cmd_args):
+        args = []
+        global_args = ["--format", "json"]
+        if sub_cmd_args:
+            args.extend(sub_cmd_args)
+        argv = cls(op_exe, "group", args, subcommand=vault_subcommand,
+                   global_args=global_args)
+        return argv
+
+    @classmethod
+    def group_get_argv(cls, op_exe, user_name_or_uuid):
+        sub_cmd_args = [user_name_or_uuid]
+        argv = cls.group_generic_argv(op_exe, "get", sub_cmd_args)
+        return argv
+
+    @classmethod
     def normal_signin_argv(cls, op_exe, account_shorthand=None):
         global_args = []
         if account_shorthand:

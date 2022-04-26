@@ -130,7 +130,7 @@ class _OPPrivate(_OPCommandInterface):
         user = OPUser(user_json)
         return user
 
-    def get_vault(self, vault_name_or_uuid: str) -> OPVault:
+    def vault_get(self, vault_name_or_uuid: str) -> OPVault:
         """
         Return the details for the vault specified by name or UUID.
 

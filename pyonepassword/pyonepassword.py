@@ -106,7 +106,7 @@ class _OPPrivate(_OPCommandInterface):
         totp_code = output.rstrip()
         return totp_code
 
-    def get_user(self, user_name_or_uuid: str) -> OPUser:
+    def user_get(self, user_name_or_uuid: str) -> OPUser:
         """
         Return the details for the user specified by name or UUID.
 
@@ -126,7 +126,7 @@ class _OPPrivate(_OPCommandInterface):
         user: OPuser
             An object representing the details of the requested user
         """
-        user_json = super()._get_user(user_name_or_uuid)
+        user_json = super()._user_get(user_name_or_uuid)
         user = OPUser(user_json)
         return user
 

@@ -336,9 +336,8 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return get_document_argv
 
-    def _get_user_argv(self, user_name_or_uuid: str):
-        get_user_argv = _OPArgv.get_generic_argv(
-            self.op_path, "user", user_name_or_uuid, [])
+    def _user_get_argv(self, user_name_or_uuid: str):
+        get_user_argv = _OPArgv.user_get_argv(self.op_path, user_name_or_uuid)
         return get_user_argv
 
     def _get_group_argv(self, group_name_or_uuid: str):
@@ -402,8 +401,8 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return document_bytes
 
-    def _get_user(self, user_name_or_uuid: str, decode: str = "utf-8") -> str:
-        get_user_argv = self._get_user_argv(user_name_or_uuid)
+    def _user_get(self, user_name_or_uuid: str, decode: str = "utf-8") -> str:
+        get_user_argv = self._user_get_argv(user_name_or_uuid)
         try:
             output = self._run(
                 get_user_argv, capture_stdout=True, decode=decode

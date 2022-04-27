@@ -291,20 +291,20 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def list_items_argv(cls, op_exe, categories=[], include_archive=False, tags=[], vault=None):
-        list_items_args = []
+    def item_list_argv(cls, op_exe, categories=[], include_archive=False, tags=[], vault=None):
+        item_list_args = []
         if categories:
             categories_arg = ",".join(categories)
-            list_items_args.extend(["--categories", categories_arg])
+            item_list_args.extend(["--categories", categories_arg])
         if include_archive:
-            list_items_args.append("--include-archive")
+            item_list_args.append("--include-archive")
         if tags:
             tags_args = ",".join(tags)
-            list_items_args.extend(["--tags", tags_args])
+            item_list_args.extend(["--tags", tags_args])
         if vault:
-            list_items_args.extend(["--vault", vault])
+            item_list_args.extend(["--vault", vault])
 
-        argv = cls.list_generic_argv(op_exe, "items", list_items_args)
+        argv = cls.item_generic_argv(op_exe, "list", item_list_args)
         return argv
 
     @classmethod

@@ -467,15 +467,14 @@ class _OPCommandInterface(_OPCLIExecute):
         )
         return create_item_argv
 
-    def _list_items_argv(self, categories=[], include_archive=False, tags=[], vault=None):
+    def _item_list_argv(self, categories=[], include_archive=False, tags=[], vault=None):
         vault_arg = vault if vault else self.vault
-        list_items_argv = _OPArgv.list_items_argv(self.op_path,
-                                                  categories=categories, include_archive=include_archive, tags=tags, vault=vault_arg
-                                                  )
+        list_items_argv = _OPArgv.item_list_argv(self.op_path,
+                                                 categories=categories, include_archive=include_archive, tags=tags, vault=vault_arg)
         return list_items_argv
 
-    def _list_items(self, categories=[], include_archive=False, tags=[], vault=None, decode="utf-8"):
-        argv = self._list_items_argv(
+    def _item_list(self, categories=[], include_archive=False, tags=[], vault=None, decode="utf-8"):
+        argv = self._item_list_argv(
             categories=categories, include_archive=include_archive, tags=tags, vault=vault)
         try:
             output = self._run(argv, capture_stdout=True, decode=decode)

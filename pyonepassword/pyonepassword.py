@@ -324,8 +324,8 @@ class _OPPrivate(_OPCommandInterface):
 
         return (file_name, document_bytes)
 
-    def list_items(self, categories=[], include_archive=False, tags=[], vault=None):
-        item_list_json = self._list_items(
+    def item_list(self, categories=[], include_archive=False, tags=[], vault=None):
+        item_list_json = self._item_list(
             categories, include_archive, tags, vault)
         item_list = OPItemList(item_list_json)
         return item_list

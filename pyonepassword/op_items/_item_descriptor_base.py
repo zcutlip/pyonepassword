@@ -1,6 +1,7 @@
 import datetime
 from abc import ABCMeta, abstractmethod
 
+from ..op_objects import OPVaultDescriptor
 from .._datetime import fromisoformat_z
 from ..json import safe_unjson
 from ._item_overview import OPItemOverview
@@ -16,10 +17,16 @@ class OPAbstractItemDescriptor(dict):
         item_dict = safe_unjson(item_dict_or_json)
         super().__init__(item_dict)
         self._from_template = False
+        vault_dict = self["vault"]
+        self._vault = OPVaultDescriptor(vault_dict)
         # not every item has an overview
         # in particular, items created from a template do not
         overview = self.get("overview", {})
         self._overview = OPItemOverview(overview)
+
+    @property
+    def vault(self) -> OPVaultDescriptor:
+        return self._vault
 
     @property
     def unique_id(self) -> str:
@@ -47,8 +54,8 @@ class OPAbstractItemDescriptor(dict):
         return self["changerUuid"]
 
     @property
-    def vault_uuid(self) -> str:
-        return self["vaultUuid"]
+    def vault_id(self) -> str:
+        return self.vault.unique_id
 
     @property
     def trashed(self) -> bool:

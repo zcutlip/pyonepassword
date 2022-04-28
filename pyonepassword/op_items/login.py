@@ -1,6 +1,6 @@
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._op_item_type_registry import op_register_item_type
-from ._op_items_base import OPAbstractItem, OPItemTemplateMixin, OPMutableItemOverview
+from ._op_items_base import OPAbstractItem, OPItemTemplateMixin
 from ._item_descriptor_registry import op_register_item_descriptor_type
 
 
@@ -35,5 +35,3 @@ class OPLoginItemTemplate(OPItemTemplateMixin, OPLoginItem):
         self.username = username
         self.password = password
         # replace overview with a modifiable overview
-        self._overview = OPMutableItemOverview(self._overview)
-        self._overview.set_url(url)

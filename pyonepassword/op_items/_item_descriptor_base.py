@@ -4,7 +4,6 @@ from abc import ABCMeta, abstractmethod
 from ..op_objects import OPVaultDescriptor
 from .._datetime import fromisoformat_z
 from ..json import safe_unjson
-from ._item_overview import OPItemOverview
 
 
 class OPAbstractItemDescriptor(dict):
@@ -21,8 +20,6 @@ class OPAbstractItemDescriptor(dict):
         self._vault = OPVaultDescriptor(vault_dict)
         # not every item has an overview
         # in particular, items created from a template do not
-        overview = self.get("overview", {})
-        self._overview = OPItemOverview(overview)
 
     @property
     def vault(self) -> OPVaultDescriptor:
@@ -34,34 +31,25 @@ class OPAbstractItemDescriptor(dict):
 
     @property
     def title(self) -> str:
-        title = self._overview["title"]
+        title = self["title"]
         return title
 
     @property
     def created_at(self) -> datetime.datetime:
-        created = self["createdAt"]
+        created = self["created_at"]
         created = fromisoformat_z(created)
         return created
 
     @property
     def updated_at(self) -> datetime.datetime:
-        updated = self["updatedAt"]
+        updated = self["updated_at"]
         updated = fromisoformat_z(updated)
         return updated
 
     @property
-    def changer_uuid(self) -> str:
-        return self["changerUuid"]
+    def last_edited_by(self) -> str:
+        return self["last_edited_by"]
 
     @property
     def vault_id(self) -> str:
         return self.vault.unique_id
-
-    @property
-    def trashed(self) -> bool:
-        trashed: str = self["trashed"]
-        if trashed.lower() == "y":
-            trashed = True
-        elif trashed.lower() == "n":
-            trashed = False
-        return trashed

@@ -1,0 +1,31 @@
+{
+  "id": "caveh7ghsffalokofr3o6qbfjy",
+  "title": "Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp",
+  "version": 1,
+  "vault": {
+    "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+    "name": "Test Data"
+  },
+  "category": "DOCUMENT",
+  "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+  "created_at": "2020-12-10T01:27:04Z",
+  "updated_at": "2020-12-10T01:27:05Z",
+  "additional_information": "93 KB",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data/Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp/notesPlain"
+    }
+  ],
+  "files": [
+    {
+      "id": "jelkptdlhzat5n262jd5vf76ue",
+      "name": "1200px-SpongeBob_SquarePants_character.svg.png.webp",
+      "size": 92934,
+      "content_path": "/v1/vaults/yhdg6ovhkjcfhn3u25cp2bnl6e/items/caveh7ghsffalokofr3o6qbfjy/files/jelkptdlhzat5n262jd5vf76ue/content"
+    }
+  ]
+}

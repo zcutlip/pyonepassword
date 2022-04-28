@@ -15,8 +15,8 @@ class ExpectedGroup:
         return self._data["unique_id"]
 
     @property
-    def desc(self) -> str:
-        return self._data["desc"]
+    def description(self) -> str:
+        return self._data["description"]
 
     @property
     def name(self) -> str:
@@ -24,12 +24,12 @@ class ExpectedGroup:
 
     @property
     def created_at(self) -> datetime.datetime:
-        created_at = self._data["createdAt"]
+        created_at = self._data["created_at"]
         return fromisoformat_z(created_at)
 
     @property
     def updated_at(self) -> datetime.datetime:
-        updated_at = self._data["updatedAt"]
+        updated_at = self._data["updated_at"]
         return fromisoformat_z(updated_at)
 
     @property

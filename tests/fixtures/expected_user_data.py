@@ -16,12 +16,12 @@ class ExpectedUser:
 
     @property
     def created_at(self) -> datetime.datetime:
-        created_at = self._data["createdAt"]
+        created_at = self._data["created_at"]
         return fromisoformat_z(created_at)
 
     @property
     def updated_at(self) -> datetime.datetime:
-        updated_at = self._data["updatedAt"]
+        updated_at = self._data["updated_at"]
         return fromisoformat_z(updated_at)
 
     @property
@@ -32,14 +32,6 @@ class ExpectedUser:
     @property
     def email(self) -> str:
         return self._data["email"]
-
-    @property
-    def first_name(self) -> str:
-        return self._data["firstName"]
-
-    @property
-    def last_name(self) -> str:
-        return self._data["lastName"]
 
     @property
     def name(self) -> str:

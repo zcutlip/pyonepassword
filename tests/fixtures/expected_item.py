@@ -23,25 +23,21 @@ class ExpectedItemBase:
 
     @property
     def created_at(self) -> datetime.datetime:
-        created_at = self._data["createdAt"]
+        created_at = self._data["created_at"]
         return fromisoformat_z(created_at)
 
     @property
     def updated_at(self) -> datetime.datetime:
-        updated_at = self._data["updatedAt"]
+        updated_at = self._data["updated_at"]
         return fromisoformat_z(updated_at)
 
     @property
-    def changer_uuid(self) -> str:
-        return self._data["changerUuid"]
+    def last_edited_by(self) -> str:
+        return self._data["last_edited_by"]
 
     @property
-    def vault_uuid(self) -> str:
+    def vault_id(self) -> str:
         return self._data["vaultUuid"]
-
-    @property
-    def trashed(self) -> bool:
-        return self._data["trashed"]
 
     @property
     def returncode(self) -> int:

@@ -211,12 +211,12 @@ class OPItemCreateResult(dict):
 
     @property
     def created_at(self):
-        created = self["createdAt"]
+        created = self["created_at"]
         created = fromisoformat_z(created)
         return created
 
     @property
     def updated_at(self):
-        updated = self["updatedAt"]
+        updated = self["updated_at"]
         updated = fromisoformat_z(updated)
         return updated

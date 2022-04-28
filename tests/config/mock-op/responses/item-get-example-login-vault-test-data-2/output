@@ -1,0 +1,57 @@
+{
+  "id": "ubrjbhaixbexdglqfbe24nf2gu",
+  "title": "Example Login",
+  "version": 3,
+  "vault": {
+    "id": "jqnwwnagfbhe5h2ky6k3rm3peu",
+    "name": "Test Data 2"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+  "created_at": "2021-06-29T18:42:03Z",
+  "updated_at": "2021-07-23T02:11:13Z",
+  "additional_information": "zcutlip",
+  "urls": [
+    {
+      "href": "http://example2.website"
+    },
+    {
+      "primary": true,
+      "href": "https://example.website"
+    }
+  ],
+  "sections": [
+    {
+      "id": "linked items",
+      "label": "Related Items"
+    }
+  ],
+  "fields": [
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "doth-parrot-hid-tussock-veldt",
+      "reference": "op://Test Data 2/Example Login/password",
+      "password_details": {
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "zcutlip",
+      "reference": "op://Test Data 2/Example Login/username"
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data 2/Example Login/notesPlain"
+    }
+  ]
+}

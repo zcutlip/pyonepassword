@@ -1,0 +1,99 @@
+{
+  "id": "nnotgv5xwrhjbdj6bt3rugrijy",
+  "title": "Example Login 1",
+  "version": 5,
+  "vault": {
+    "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+    "name": "Test Data"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+  "created_at": "2020-12-04T00:50:48Z",
+  "updated_at": "2021-03-15T17:15:37Z",
+  "additional_information": "johndoe1999",
+  "urls": [
+    {
+      "label": "website",
+      "primary": true,
+      "href": "https://example.cheeseburger/login.php"
+    }
+  ],
+  "sections": [
+    {
+      "id": "Section_967FEBAC931841BCBD2DD7CFE0B8DC82",
+      "label": "Example Section"
+    },
+    {
+      "id": "Section_A0DF12F5980643C28965446FFDCDDD2A",
+      "label": "Example Section"
+    },
+    {
+      "id": "linked items",
+      "label": "Related Items"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "johndoe1999",
+      "reference": "op://Test Data/Example Login 1/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "W9bZ@ZwGpRXCqnWt",
+      "entropy": 94.353515625,
+      "reference": "op://Test Data/Example Login 1/password",
+      "password_details": {
+        "entropy": 94,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data/Example Login 1/notesPlain"
+    },
+    {
+      "id": "601BBCABD1734482857A3367E46CC2E6",
+      "section": {
+        "id": "Section_967FEBAC931841BCBD2DD7CFE0B8DC82",
+        "label": "Example Section"
+      },
+      "type": "STRING",
+      "label": "Example Field 1 Label",
+      "value": "Example Field 1 Text",
+      "reference": "op://Test Data/Example Login 1/Example Section/Example Field 1 Label"
+    },
+    {
+      "id": "5B084397D60C450CAD5BB0B13866ED3B",
+      "section": {
+        "id": "Section_967FEBAC931841BCBD2DD7CFE0B8DC82",
+        "label": "Example Section"
+      },
+      "type": "URL",
+      "label": "Example Field 2 Label",
+      "value": "https://example-field-2.url",
+      "reference": "op://Test Data/Example Login 1/Example Section/Example Field 2 Label"
+    },
+    {
+      "id": "F9B5A24E64A946E69DA2A1A7E8685E1E",
+      "section": {
+        "id": "Section_A0DF12F5980643C28965446FFDCDDD2A",
+        "label": "Example Section"
+      },
+      "type": "STRING",
+      "label": "Example Field 1 Label",
+      "value": "Example Filed 1 Text",
+      "reference": "op://Test Data/Example Login 1/Example Section/Example Field 1 Label"
+    }
+  ]
+}

@@ -41,7 +41,7 @@ from ._op_items_base import OPAbstractItem
 
 @op_register_item_descriptor_type
 class OPPasswordItemDescriptor(OPAbstractItemDescriptor):
-    TEMPLATE_ID = "005"
+    CATEGORY = "PASSWORD"
 
     def __init__(self, item_dict):
         super().__init__(item_dict)
@@ -49,12 +49,12 @@ class OPPasswordItemDescriptor(OPAbstractItemDescriptor):
 
 @op_register_item_type
 class OPPasswordItem(OPAbstractItem):
-    TEMPLATE_ID = "005"
+    CATEGORY = "PASSWORD"
 
     def __init__(self, item_dict):
         super().__init__(item_dict)
 
     @property
     def password(self):
-        password = self.get_details_value("password")
+        password = self.field_value_by_id("password")
         return password

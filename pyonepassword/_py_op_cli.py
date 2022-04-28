@@ -13,6 +13,8 @@ from .py_op_exceptions import (
     OPInvalidItemException
 )
 
+# Mainly for use in automated testing
+LOG_OP_ERR_ENV_NAME = "LOG_OP_ERR"
 
 """
 Module to hold stuff that interacts directly with 'op' or its config
@@ -49,6 +51,8 @@ class _OPCLIExecute:
                 _ran.check_returncode()
             except subprocess.CalledProcessError as err:
                 stderr_output = stderr.decode("utf-8").rstrip()
+                if env.get(LOG_OP_ERR_ENV_NAME) == "1":
+                    cls.logger.error(stderr_output)
                 raise OPCmdFailedException(stderr_output, returncode) from err
 
         return (stdout, stderr, returncode)

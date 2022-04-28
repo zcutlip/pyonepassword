@@ -33,9 +33,9 @@
             "password": "iXdx8KAEmUkPqCvHHYjngHzRr7",
             "unique_id": "2dvgl7kk5yjrq3gxwqimp5awve",
             "title": "Example Password",
-            "createdAt": "2021-11-23T05:46:01Z",
-            "updatedAt": "2021-11-23T05:46:01Z",
-            "changerUuid": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "created_at": "2021-11-23T05:46:01Z",
+            "updated_at": "2021-11-23T05:46:01Z",
+            "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
             "vaultUuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",
             "trashed": false,
             "returncode": 0
@@ -43,9 +43,9 @@
         "Example Secure Note":{
             "unique_id": "zjc6s5ri3rhcxploofa67jamze",
             "trashed": false,
-            "createdAt": "2021-03-19T23:27:12Z",
-            "updatedAt": "2021-03-19T23:30:10Z",
-            "changerUuid": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "created_at": "2021-03-19T23:27:12Z",
+            "updated_at": "2021-03-19T23:30:10Z",
+            "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
             "vaultUuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",
             "notesPlain": "Note text here. **Mardown** supported.\n\nWhat does the note text look like?",
             "title": "Example Secure Note",
@@ -54,9 +54,9 @@
         "Example Secure Note 2":{
             "unique_id": "t4gp6e7s6xtsiu35xq5cewxqpi",
             "trashed": false,
-            "createdAt": "2021-03-19T23:27:12Z",
-            "updatedAt": "2021-11-23T02:32:40Z",
-            "changerUuid": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "created_at": "2021-03-19T23:27:12Z",
+            "updated_at": "2021-11-23T02:32:40Z",
+            "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
             "vaultUuid": "jqnwwnagfbhe5h2ky6k3rm3peu",
             "notesPlain": "This is secure note 2.\n\nHere is some bulleted text:\n\n- item 1\n- item 2\n- item 3",
             "title": "Example Secure Note 2",
@@ -65,9 +65,9 @@
         "t4gp6e7s6xtsiu35xq5cewxqpi":{
             "unique_id": "t4gp6e7s6xtsiu35xq5cewxqpi",
             "trashed": false,
-            "createdAt": "2021-03-19T23:27:12Z",
-            "updatedAt": "2021-11-23T02:32:40Z",
-            "changerUuid": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "created_at": "2021-03-19T23:27:12Z",
+            "updated_at": "2021-11-23T02:32:40Z",
+            "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
             "vaultUuid": "jqnwwnagfbhe5h2ky6k3rm3peu",
             "notesPlain":"This is secure note 2.\n\nHere is some bulleted text:\n\n- item 1\n- item 2\n- item 3",
             "title":"Example Secure Note 2",
@@ -82,9 +82,9 @@
         "Example Credit Card":{
             "unique_id": "rh4qlntrofdwfmpsoa7j4eang4",
             "trashed": false,
-            "createdAt": "2021-03-19T18:57:22Z",
-            "updatedAt": "2021-11-26T00:08:58Z",
-            "changerUuid": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "created_at": "2021-03-19T18:57:22Z",
+            "updated_at": "2021-11-26T00:08:58Z",
+            "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
             "vaultUuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",
             "credit_card_number": "3123456789012345",
             "cvv": "1234",
@@ -100,8 +100,8 @@
     },
     "documents": {
         "Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp": {
-            "digest": "86d5cd6e5037743d76c07a69461e91d07364d062f778297c7e098e11bc1b936a",
-            "size": 92934,
+            "digest": "2596bc41c0fbcddce21f4b6f5e6a97807e94cbf29feae1296612a48c8e91bc37",
+            "size": 92935,
             "filename": "1200px-SpongeBob_SquarePants_character.svg.png.webp"
         },
         "Error Success": {
@@ -117,13 +117,11 @@
     },
     "users":{
         "Example User":{
-            "uuid": "RAXCWKNRRNGL7I3KSZOH5ERLVV",
-            "createdAt": "2017-07-17T15:53:57Z",
-            "updatedAt": "2019-12-11T03:45:04Z",
-            "lastAuthAt": "2021-11-19T05:30:25Z",
+            "unique_id": "RAXCWKNRRNGL7I3KSZOH5ERLVV",
+            "created_at": "2017-07-17T15:53:57Z",
+            "updated_at": "2019-12-11T03:45:04Z",
+            "lastAuthAt": "2022-04-27T00:55:17Z",
             "email": "example_user@example.email",
-            "firstName": "Example",
-            "lastName": "User",
             "name": "Example User"
         },
         "No Such User": {
@@ -131,12 +129,12 @@
         }
     },
     "groups": {
-        "Example Group": {
-            "uuid": "qqqqqwwwwwq5ttnfczfyozzzzz",
-            "name": "Example Group",
-            "desc": "All team members.",
-            "createdAt": "2017-07-17T15:54:00Z",
-            "updatedAt": "2017-07-17T15:54:00Z"
+        "Team Members": {
+            "unique_id": "qqqqqwwwwwq5ttnfczfyozzzzz",
+            "name": "Team Members",
+            "description": "All team members.",
+            "created_at": "2017-07-17T15:54:00Z",
+            "updated_at": "2017-07-17T15:54:00Z"
         },
         "No Such group": {
             "returncode": 1
@@ -145,11 +143,11 @@
     "vaults":{
         "Test Data":{
             "unique_id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
-            "desc": "A vault to hold example data for testing"
+            "description": "A vault to hold example data for testing"
         },
         "jqnwwnagfbhe5h2ky6k3rm3peu":{
             "name": "Test Data 2",
-            "desc": "A second example vault holding test data"
+            "description": "A second example vault holding test data"
         },
         "Invalid Vault":{
             "returncode": 1

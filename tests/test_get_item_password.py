@@ -16,7 +16,7 @@ def test_get_item_password_01(signed_in_op: OP, expected_item_password_data):
     vault = "Test Data"
     expected = _lookup_password_data(
         expected_item_password_data, password_identifier)
-    result: OPPasswordItem = signed_in_op.get_item(
+    result: OPPasswordItem = signed_in_op.item_get(
         password_identifier, vault=vault)
     assert isinstance(result, OPPasswordItem)
     assert result.password == expected.password
@@ -24,6 +24,5 @@ def test_get_item_password_01(signed_in_op: OP, expected_item_password_data):
     assert result.title == expected.title
     assert result.created_at == expected.created_at
     assert result.updated_at == expected.updated_at
-    assert result.changer_uuid == expected.changer_uuid
-    assert result.vault_uuid == expected.vault_uuid
-    assert result.trashed == expected.trashed
+    assert result.last_edited_by == expected.last_edited_by
+    assert result.vault_id == expected.vault_id

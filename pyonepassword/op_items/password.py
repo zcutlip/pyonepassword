@@ -4,25 +4,38 @@ from ._op_item_type_registry import op_register_item_type
 from ._op_items_base import OPAbstractItem
 
 # {
-#     "uuid": "2dvgl7kk5yjrq3gxwqimp5awve",
-#     "templateUuid": "005",
-#     "trashed": "N",
-#     "createdAt": "2021-11-23T05:46:01Z",
-#     "updatedAt": "2021-11-23T05:46:01Z",
-#     "changerUuid": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
-#     "itemVersion": 1,
-#     "vaultUuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",
-#     "details": {
-#         "notesPlain": "",
-#         "password": "iXdx8KAEmUkPqCvHHYjngHzRr7",
-#         "passwordHistory": [],
-#         "sections": []
+#     "id": "2dvgl7kk5yjrq3gxwqimp5awve",
+#     "title": "Example Password",
+#     "version": 1,
+#     "vault": {
+#         "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+#         "name": "Test Data"
 #     },
-#     "overview": {
-#         "ainfo": "2021-11-22 09:46 PM",
-#         "ps": 100,
-#         "title": "Example Password"
-#     }
+#     "category": "PASSWORD",
+#     "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+#     "created_at": "2021-11-23T05:46:01Z",
+#     "updated_at": "2021-11-23T05:46:01Z",
+#     "additional_information": "2021-11-22 09:46 PM",
+#     "fields": [
+#         {
+#             "id": "password",
+#             "type": "CONCEALED",
+#             "purpose": "PASSWORD",
+#             "label": "password",
+#             "value": "iXdx8KAEmUkPqCvHHYjngHzRr7",
+#             "reference": "op://Test Data/Example Password/password",
+#             "password_details": {
+#                 "strength": "FANTASTIC"
+#             }
+#         },
+#         {
+#             "id": "notesPlain",
+#             "type": "STRING",
+#             "purpose": "NOTES",
+#             "label": "notesPlain",
+#             "reference": "op://Test Data/Example Password/notesPlain"
+#         }
+#     ]
 # }
 
 

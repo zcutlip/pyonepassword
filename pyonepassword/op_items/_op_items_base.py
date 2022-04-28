@@ -7,7 +7,7 @@ from abc import abstractmethod
 from typing import List, Union
 
 from .._datetime import fromisoformat_z
-from ._item_overview import OPItemOverview, URLEntry
+from ._item_overview import URLEntry
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from .item_section import OPSection, OPSectionField, OPSectionCollisionException
 from .templates import TemplateDirectory
@@ -15,18 +15,6 @@ from .templates import TemplateDirectory
 
 class OPFieldNotFoundException(Exception):
     pass
-
-
-class OPMutableItemOverview(OPItemOverview):
-
-    def set_url(self, url, label=""):
-        url_dict = {
-            "l": label,
-            "u": url
-        }
-        # TODO: is it an error if we alread have one or more URLs?
-        new_url = URLEntry(url_dict)
-        self["URLs"] = [new_url]
 
 
 class OPItemTemplateMixin:

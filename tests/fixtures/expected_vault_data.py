@@ -12,8 +12,8 @@ class ExpectedVault:
         return self._data["unique_id"]
 
     @property
-    def desc(self) -> str:
-        return self._data["desc"]
+    def description(self) -> str:
+        return self._data["description"]
 
     @property
     def name(self) -> str:

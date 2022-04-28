@@ -11,8 +11,8 @@ class ExpectedGroup:
         self._data = group_dict
 
     @property
-    def uuid(self) -> str:
-        return self._data["uuid"]
+    def unique_id(self) -> str:
+        return self._data["unique_id"]
 
     @property
     def desc(self) -> str:

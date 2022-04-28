@@ -31,7 +31,7 @@
         },
         "Example Password":{
             "password": "iXdx8KAEmUkPqCvHHYjngHzRr7",
-            "uuid": "2dvgl7kk5yjrq3gxwqimp5awve",
+            "unique_id": "2dvgl7kk5yjrq3gxwqimp5awve",
             "title": "Example Password",
             "createdAt": "2021-11-23T05:46:01Z",
             "updatedAt": "2021-11-23T05:46:01Z",
@@ -41,7 +41,7 @@
             "returncode": 0
         },
         "Example Secure Note":{
-            "uuid": "zjc6s5ri3rhcxploofa67jamze",
+            "unique_id": "zjc6s5ri3rhcxploofa67jamze",
             "trashed": false,
             "createdAt": "2021-03-19T23:27:12Z",
             "updatedAt": "2021-03-19T23:30:10Z",
@@ -52,7 +52,7 @@
             "returncode":0
         },
         "Example Secure Note 2":{
-            "uuid": "t4gp6e7s6xtsiu35xq5cewxqpi",
+            "unique_id": "t4gp6e7s6xtsiu35xq5cewxqpi",
             "trashed": false,
             "createdAt": "2021-03-19T23:27:12Z",
             "updatedAt": "2021-11-23T02:32:40Z",
@@ -63,7 +63,7 @@
             "returncode": 0
         },
         "t4gp6e7s6xtsiu35xq5cewxqpi":{
-            "uuid": "t4gp6e7s6xtsiu35xq5cewxqpi",
+            "unique_id": "t4gp6e7s6xtsiu35xq5cewxqpi",
             "trashed": false,
             "createdAt": "2021-03-19T23:27:12Z",
             "updatedAt": "2021-11-23T02:32:40Z",
@@ -80,7 +80,7 @@
             "returncode":1
         },
         "Example Credit Card":{
-            "uuid": "rh4qlntrofdwfmpsoa7j4eang4",
+            "unique_id": "rh4qlntrofdwfmpsoa7j4eang4",
             "trashed": false,
             "createdAt": "2021-03-19T18:57:22Z",
             "updatedAt": "2021-11-26T00:08:58Z",
@@ -144,7 +144,7 @@
     },
     "vaults":{
         "Test Data":{
-            "uuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+            "unique_id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
             "desc": "A vault to hold example data for testing"
         },
         "jqnwwnagfbhe5h2ky6k3rm3peu":{

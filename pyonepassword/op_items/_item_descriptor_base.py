@@ -22,8 +22,8 @@ class OPAbstractItemDescriptor(dict):
         self._overview = OPItemOverview(overview)
 
     @property
-    def uuid(self) -> str:
-        return self["uuid"]
+    def unique_id(self) -> str:
+        return self["id"]
 
     @property
     def title(self) -> str:

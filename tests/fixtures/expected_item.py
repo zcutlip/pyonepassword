@@ -14,8 +14,8 @@ class ExpectedItemBase:
         return self._data["password"]
 
     @property
-    def uuid(self) -> str:
-        return self._data["uuid"]
+    def unique_id(self) -> str:
+        return self._data["unique_id"]
 
     @property
     def title(self) -> str:

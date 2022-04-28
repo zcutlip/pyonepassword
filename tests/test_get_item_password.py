@@ -20,7 +20,7 @@ def test_get_item_password_01(signed_in_op: OP, expected_item_password_data):
         password_identifier, vault=vault)
     assert isinstance(result, OPPasswordItem)
     assert result.password == expected.password
-    assert result.uuid == expected.uuid
+    assert result.unique_id == expected.unique_id
     assert result.title == expected.title
     assert result.created_at == expected.created_at
     assert result.updated_at == expected.updated_at

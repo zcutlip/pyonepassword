@@ -131,7 +131,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         return section
 
     def field_value_by_section_title(self, section_title: str, field_label: str):
-        section = self.first_section_by_title(section_title)
+        section = self.first_section_by_label(section_title)
         value = self._field_value_from_section(section, field_label)
         return value
 

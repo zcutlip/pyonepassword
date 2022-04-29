@@ -20,18 +20,9 @@ class OPCreditCardItem(OPAbstractItem):
     def __init__(self, item_dict):
         super().__init__(item_dict)
 
-    def credit_card_details(self) -> OPSection:
-        details = self.first_section
-        return details
-
     def additional_details(self) -> OPSection:
         details = self.sections_by_label("Additional Details")[0]
         return details
-
-    def primary_details_item(self, field_label: str):
-        details = self.credit_card_details()
-        item_value = self._details_item(details, field_label)
-        return item_value
 
     def addl_details_item(self, field_label: str):
         details = self.additional_details()
@@ -40,27 +31,29 @@ class OPCreditCardItem(OPAbstractItem):
 
     @property
     def credit_card_number(self):
-        ccnum = self.primary_details_item("number")
+        ccnum = self.field_value_by_id("ccnum")
         return ccnum
 
     @property
     def cvv(self):
-        ccv = self.primary_details_item("verification number")
+        ccv = self.field_value_by_id("cvv")
         return ccv
 
     @property
     def expiry_date(self) -> int:
-        exp_date = self.primary_details_item("expiry date")
+        exp_date = self.field_value_by_id("expiry")
+        exp_date = int(exp_date)
         return exp_date
 
     @property
     def valid_from(self) -> int:
-        valid_from = self.primary_details_item("valid from")
+        valid_from = self.field_value_by_id("validFrom")
+        valid_from = int(valid_from)
         return valid_from
 
     @property
     def pin(self):
-        pin = self.addl_details_item("PIN")
+        pin = self.field_value_by_id("pin")
         return pin
 
     @property

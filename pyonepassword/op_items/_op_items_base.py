@@ -115,6 +115,14 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
         return matching_sections
 
+    def section_by_id(self, section_id) -> OPSection:
+        section: OPSection
+        for sect in self.sections:
+            if sect.section_id == section_id:
+                section = sect
+                break
+        return section
+
     def first_section_by_label(self, label) -> OPSection:
         sections = self.sections_by_label(label)
         section = None

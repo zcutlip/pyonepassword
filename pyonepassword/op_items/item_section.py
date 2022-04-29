@@ -124,7 +124,7 @@ class OPSection(dict):
 
     @property
     def fields(self) -> List[OPSectionField]:
-        field_list = self.get("fields", [])
+        field_list = self.setdefault("fields", [])
         return field_list
 
     def register_field(self, field_dict):

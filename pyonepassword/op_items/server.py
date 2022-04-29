@@ -21,7 +21,7 @@ class OPServerItem(OPAbstractItem):
 
     @property
     def password(self):
-        password = self.primary_section_field_value("password")
+        password = self.field_value_by_id("password")
         return password
 
     @password.setter
@@ -30,7 +30,7 @@ class OPServerItem(OPAbstractItem):
 
     @property
     def username(self):
-        username = self.primary_section_field_value("username")
+        username = self.field_value_by_id("username")
         return username
 
     @username.setter

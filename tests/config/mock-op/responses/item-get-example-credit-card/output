@@ -1,0 +1,183 @@
+{
+  "id": "rh4qlntrofdwfmpsoa7j4eang4",
+  "title": "Example Credit Card",
+  "version": 2,
+  "vault": {
+    "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+    "name": "Test Data"
+  },
+  "category": "CREDIT_CARD",
+  "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+  "created_at": "2021-03-19T18:57:22Z",
+  "updated_at": "2021-11-26T00:08:58Z",
+  "additional_information": "3123 **** 2345",
+  "sections": [
+    {
+      "id": "details",
+      "label": "Additional Details"
+    },
+    {
+      "id": "contactInfo",
+      "label": "Contact Information"
+    },
+    {
+      "id": "linked items",
+      "label": "Related Items"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data/Example Credit Card/notesPlain"
+    },
+    {
+      "id": "cardholder",
+      "type": "STRING",
+      "label": "cardholder name",
+      "value": "Guest User",
+      "reference": "op://Test Data/Example Credit Card/cardholder name"
+    },
+    {
+      "id": "type",
+      "type": "CREDIT_CARD_TYPE",
+      "label": "type",
+      "value": "amex",
+      "reference": "op://Test Data/Example Credit Card/type"
+    },
+    {
+      "id": "ccnum",
+      "type": "CREDIT_CARD_NUMBER",
+      "label": "number",
+      "value": "3123456789012345",
+      "reference": "op://Test Data/Example Credit Card/number"
+    },
+    {
+      "id": "cvv",
+      "type": "CONCEALED",
+      "label": "verification number",
+      "value": "1234",
+      "reference": "op://Test Data/Example Credit Card/verification number"
+    },
+    {
+      "id": "expiry",
+      "type": "MONTH_YEAR",
+      "label": "expiry date",
+      "value": "204202",
+      "reference": "op://Test Data/Example Credit Card/expiry date"
+    },
+    {
+      "id": "validFrom",
+      "type": "MONTH_YEAR",
+      "label": "valid from",
+      "value": "198001",
+      "reference": "op://Test Data/Example Credit Card/valid from"
+    },
+    {
+      "id": "bank",
+      "section": {
+        "id": "contactInfo",
+        "label": "Contact Information"
+      },
+      "type": "STRING",
+      "label": "issuing bank",
+      "reference": "op://Test Data/Example Credit Card/Contact Information/issuing bank"
+    },
+    {
+      "id": "phoneLocal",
+      "section": {
+        "id": "contactInfo",
+        "label": "Contact Information"
+      },
+      "type": "PHONE",
+      "label": "phone (local)",
+      "reference": "op://Test Data/Example Credit Card/Contact Information/phoneLocal"
+    },
+    {
+      "id": "phoneTollFree",
+      "section": {
+        "id": "contactInfo",
+        "label": "Contact Information"
+      },
+      "type": "PHONE",
+      "label": "phone (toll free)",
+      "reference": "op://Test Data/Example Credit Card/Contact Information/phoneTollFree"
+    },
+    {
+      "id": "phoneIntl",
+      "section": {
+        "id": "contactInfo",
+        "label": "Contact Information"
+      },
+      "type": "PHONE",
+      "label": "phone (intl)",
+      "reference": "op://Test Data/Example Credit Card/Contact Information/phoneIntl"
+    },
+    {
+      "id": "website",
+      "section": {
+        "id": "contactInfo",
+        "label": "Contact Information"
+      },
+      "type": "URL",
+      "label": "website",
+      "reference": "op://Test Data/Example Credit Card/Contact Information/website"
+    },
+    {
+      "id": "pin",
+      "section": {
+        "id": "details",
+        "label": "Additional Details"
+      },
+      "type": "CONCEALED",
+      "label": "PIN",
+      "value": "9876",
+      "reference": "op://Test Data/Example Credit Card/Additional Details/PIN"
+    },
+    {
+      "id": "creditLimit",
+      "section": {
+        "id": "details",
+        "label": "Additional Details"
+      },
+      "type": "STRING",
+      "label": "credit limit",
+      "value": "50000",
+      "reference": "op://Test Data/Example Credit Card/Additional Details/credit limit"
+    },
+    {
+      "id": "cashLimit",
+      "section": {
+        "id": "details",
+        "label": "Additional Details"
+      },
+      "type": "STRING",
+      "label": "cash withdrawal limit",
+      "value": "3000",
+      "reference": "op://Test Data/Example Credit Card/Additional Details/cash withdrawal limit"
+    },
+    {
+      "id": "interest",
+      "section": {
+        "id": "details",
+        "label": "Additional Details"
+      },
+      "type": "STRING",
+      "label": "interest rate",
+      "value": "8%",
+      "reference": "op://Test Data/Example Credit Card/Additional Details/interest rate"
+    },
+    {
+      "id": "issuenumber",
+      "section": {
+        "id": "details",
+        "label": "Additional Details"
+      },
+      "type": "STRING",
+      "label": "issue number",
+      "reference": "op://Test Data/Example Credit Card/Additional Details/issue number"
+    }
+  ]
+}

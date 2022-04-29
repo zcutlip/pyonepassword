@@ -1,0 +1,30 @@
+{
+  "id": "t4gp6e7s6xtsiu35xq5cewxqpi",
+  "title": "Example Secure Note 2",
+  "version": 4,
+  "vault": {
+    "id": "jqnwwnagfbhe5h2ky6k3rm3peu",
+    "name": "Test Data 2"
+  },
+  "category": "SECURE_NOTE",
+  "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+  "created_at": "2021-03-19T23:27:12Z",
+  "updated_at": "2021-11-23T02:32:40Z",
+  "additional_information": "This is secure note 2.",
+  "sections": [
+    {
+      "id": "linked items",
+      "label": "Related Items"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": "This is secure note 2.\n\nHere is some bulleted text:\n\n- item 1\n- item 2\n- item 3",
+      "reference": "op://Test Data 2/Example Secure Note 2/notesPlain"
+    }
+  ]
+}

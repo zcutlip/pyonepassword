@@ -1,0 +1,30 @@
+{
+  "id": "zjc6s5ri3rhcxploofa67jamze",
+  "title": "Example Secure Note",
+  "version": 2,
+  "vault": {
+    "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+    "name": "Test Data"
+  },
+  "category": "SECURE_NOTE",
+  "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+  "created_at": "2021-03-19T23:27:12Z",
+  "updated_at": "2021-03-19T23:30:10Z",
+  "additional_information": "Note text here. **Mardown** supported.",
+  "sections": [
+    {
+      "id": "linked items",
+      "label": "Related Items"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": "Note text here. **Mardown** supported.\n\nWhat does the note text look like?",
+      "reference": "op://Test Data/Example Secure Note/notesPlain"
+    }
+  ]
+}

@@ -7,7 +7,7 @@ from .item_section import OPSection, OPSectionField
 
 @op_register_item_descriptor_type
 class OPCreditCardItemDescriptor(OPAbstractItemDescriptor):
-    TEMPLATE_ID = "002"
+    CATEGORY = "CREDIT_CARD"
 
     def __init__(self, item_dict):
         super().__init__(item_dict)
@@ -15,7 +15,7 @@ class OPCreditCardItemDescriptor(OPAbstractItemDescriptor):
 
 @op_register_item_type
 class OPCreditCardItem(OPAbstractItem):
-    TEMPLATE_ID = "002"
+    CATEGORY = "CREDIT_CARD"
 
     def __init__(self, item_dict):
         super().__init__(item_dict)

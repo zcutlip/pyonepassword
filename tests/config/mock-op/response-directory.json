@@ -3,179 +3,185 @@
     "response_dir": "tests/config/mock-op/responses"
   },
   "commands": {
-    "get|item|Example Login 1|--vault|Test Data": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-item-example-login-1-vault-test-data"
-    },
-    "get|item|nok7367v4vbsfgg2fczwu4ei44": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-item-by-uuid-example-login-2"
-    },
-    "get|item|Invalid Item": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-item-invalid-item"
-    },
-    "get|item|Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp|--vault|Test Data": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-document-spongebob-image-filename"
-    },
-    "get|document|Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp|--vault|Test Data": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-document-spongebob-image"
-    },
-    "get|item|Example Server|--vault|Test Data": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-server-example-server"
-    },
-    "get|item|Example Login|--vault|Test Data 2": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-item-example-login-vault-test-data-2"
-    },
-    "get|vault|Test Data": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-vault-test-data"
-    },
     "--version": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
       "name": "cli-version"
     },
-    "get|user|Example User": {
+    "--format|json|account|list": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "get-user-example-user"
+      "name": "list-signed-in-accounts"
     },
-    "get|vault|jqnwwnagfbhe5h2ky6k3rm3peu": {
+    "--format|json|item|get|Example Login 1|--vault|Test Data": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "get-vault-by-uuid-test-data-2"
+      "name": "item-get-example-login-1-vault-test-data"
     },
-    "get|vault|Invalid Vault": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-vault-invalid-vault"
-    },
-    "get|user|No Such User": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-user-nonexistant-user"
-    },
-    "get|group|Example Group": {
+    "--format|json|item|get|nok7367v4vbsfgg2fczwu4ei44": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "get-group-example-group"
+      "name": "item-get-by-uuid-example-login-2"
     },
-    "get|group|No Such group": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-group-nonexistant-group"
-    },
-    "get|item|Example Secure Note|--vault|Test Data": {
+    "--format|json|item|get|Example Login|--vault|Test Data 2": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "get-item-example-secure-note"
+      "name": "item-get-example-login-vault-test-data-2"
     },
-    "get|item|Example Credit Card|--vault|Test Data": {
+    "--format|json|item|get|Invalid Item": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-invalid-item"
+    },
+    "--format|json|document|get|Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp|--vault|Test Data": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "get-item-example-credit-card"
+      "name": "document-get-spongebob-image"
     },
-    "get|item|Example Password|--vault|Test Data": {
+    "--format|json|item|get|Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp|--vault|Test Data": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "get-item-example-password"
+      "name": "document-get-spongebob-image-filename"
     },
-    "get|item|Example Secure Note 2": {
+    "--format|json|document|get|Error Success|--vault|Test Data": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "document-get-wrong-vault"
+    },
+    "--format|json|item|get|Error Success|--vault|Test Data": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "document-get-wrong-vault-filename"
+    },
+    "--format|json|document|get|Invalid Document": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "document-get-invalid"
+    },
+    "--format|json|item|get|Invalid Document": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "document-get-invalid-filename"
+    },
+    "--format|json|document|get|Example Attached File 2": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "document-get-missing-bytes"
+    },
+    "--format|json|item|get|Example Attached File 2": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "get-item-example-secure-note-no-vault"
+      "name": "document-get-missing-bytes-filename"
     },
-    "get|item|t4gp6e7s6xtsiu35xq5cewxqpi": {
+    "--format|json|item|get|Example Server|--vault|Test Data": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "get-item-by-uuid-example-secure-note-2"
+      "name": "item-get-example-server"
     },
-    "get|item|Example Secure Note 3": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-item-invalid-secure-note-no-vault"
-    },
-    "get|item|Example Secure Note 4|--vault|Test Data": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-item-invalid-secure-note-wrong-vault"
-    },
-    "get|item|Error Success|--vault|Test Data": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-invalid-document-wrong-vault-filename"
-    },
-    "get|document|Error Success|--vault|Test Data": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-invalid-document-wrong-vault"
-    },
-    "get|item|Invalid Document": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-invalid-document-filename"
-    },
-    "get|document|Invalid Document": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-invalid-document"
-    },
-    "get|item|Example Attached File 2": {
+    "--format|json|item|get|Example Secure Note|--vault|Test Data": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "get-document-missing-bytes-filename"
+      "name": "item-get-example-secure-note"
     },
-    "get|document|Example Attached File 2": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "get-document-missing-bytes"
-    },
-    "list|items|--vault|Test Data": {
+    "--format|json|item|get|Example Secure Note 2": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "list-items-vault-test-data"
+      "name": "item-get-example-secure-note-no-vault"
+    },
+    "--format|json|item|get|t4gp6e7s6xtsiu35xq5cewxqpi": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-by-uuid-example-secure-note-2"
+    },
+    "--format|json|item|get|Example Secure Note 3": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-invalid-secure-note-no-vault"
+    },
+    "--format|json|item|get|Example Secure Note 4|--vault|Test Data": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-invalid-secure-note-wrong-vault"
+    },
+    "--format|json|item|get|Example Credit Card|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-credit-card"
+    },
+    "--format|json|item|get|Example Password|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-password"
+    },
+    "--format|json|vault|get|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "vault-get-test-data"
+    },
+    "--format|json|vault|get|jqnwwnagfbhe5h2ky6k3rm3peu": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "vault-get-by-uuid-test-data-2"
+    },
+    "--format|json|vault|get|Invalid Vault": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "vault-get-invalid-vault"
+    },
+    "--format|json|user|get|Example User": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-get-example-user"
+    },
+    "--format|json|user|get|No Such User": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-get-nonexistant-user"
+    },
+    "--format|json|group|get|Team Members": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "group-get-example-group"
+    },
+    "--format|json|group|get|No Such group": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "group-get-nonexistant-group"
+    },
+    "--format|json|item|list|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-vault-test-data"
     }
   }
 }

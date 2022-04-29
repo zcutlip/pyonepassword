@@ -32,7 +32,7 @@ from ._op_items_base import OPAbstractItem
 
 @op_register_item_descriptor_type
 class OPSecureNoteItemDescriptor(OPAbstractItemDescriptor):
-    TEMPLATE_ID = "003"
+    CATEGORY = "SECURE_NOTE"
 
     def __init__(self, item_dict):
         super().__init__(item_dict)
@@ -40,7 +40,7 @@ class OPSecureNoteItemDescriptor(OPAbstractItemDescriptor):
 
 @op_register_item_type
 class OPSecureNoteItem(OPAbstractItem):
-    TEMPLATE_ID = "003"
+    CATEGORY = "SECURE_NOTE"
 
     def __init__(self, item_dict):
         super().__init__(item_dict)

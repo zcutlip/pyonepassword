@@ -57,7 +57,7 @@ def main():
         exit(e.returncode)
 
     try:
-        password = op.get_item_password(pypi_item_name)
+        password = op.item_get_password(pypi_item_name)
         sys.stdout.write(password)
         sys.stdout.flush()
     except OPGetItemException as e:

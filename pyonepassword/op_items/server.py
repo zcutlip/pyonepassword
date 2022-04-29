@@ -6,7 +6,7 @@ from ._op_items_base import OPAbstractItem, OPItemTemplateMixin
 
 @op_register_item_descriptor_type
 class OPServerItemDescriptor(OPAbstractItemDescriptor):
-    TEMPLATE_ID = "110"
+    CATEGORY = "SERVER"
 
     def __init__(self, item_dict):
         super().__init__(item_dict)
@@ -14,7 +14,7 @@ class OPServerItemDescriptor(OPAbstractItemDescriptor):
 
 @op_register_item_type
 class OPServerItem(OPAbstractItem):
-    TEMPLATE_ID = "110"
+    CATEGORY = "SERVER"
 
     def __init__(self, item_dict):
         super().__init__(item_dict)

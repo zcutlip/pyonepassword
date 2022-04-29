@@ -11,6 +11,6 @@ class OPItemDescriptorFactory(OPItemFactory):
 
 
 def op_register_item_descriptor_type(item_class):
-    item_type = item_class.TEMPLATE_ID
+    item_type = item_class.CATEGORY
     OPItemDescriptorFactory.register_op_item_type(item_type, item_class)
     return item_class

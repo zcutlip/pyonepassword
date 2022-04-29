@@ -1,0 +1,11 @@
+{
+  "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+  "name": "Test Data",
+  "content_version": 130,
+  "description": "A vault to hold example data for testing",
+  "attribute_version": 1,
+  "items": 14,
+  "type": "USER_CREATED",
+  "created_at": "2020-12-04T00:50:32Z",
+  "updated_at": "2022-04-11T20:39:20Z"
+}

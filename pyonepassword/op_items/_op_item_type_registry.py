@@ -25,7 +25,7 @@ class OPItemFactory:
             item_cls = cls._TYPE_REGISTRY[item_type]
         except KeyError as ke:
             raise OPUnknownItemType(
-                "Unknown item type", item_dict=item_dict) from ke
+                f"Unknown item type {item_type}", item_dict=item_dict) from ke
 
         return item_cls(item_dict)
 

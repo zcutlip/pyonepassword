@@ -25,7 +25,7 @@ def test_admin_user_01(signed_in_op: OP, expected_server_data: ExpectedServer):
     server_name = "Example Server"
     vault = "Test Data"
     expected = expected_server_data.data_for_server(server_name)
-    result: OPServerItem = signed_in_op.get_item(server_name, vault=vault)
+    result: OPServerItem = signed_in_op.item_get(server_name, vault=vault)
     assert result.username == expected.username
 
 
@@ -33,7 +33,7 @@ def test_admin_password_01(signed_in_op: OP, expected_server_data: ExpectedServe
     server_name = "Example Server"
     vault = "Test Data"
     expected = expected_server_data.data_for_server(server_name)
-    result: OPServerItem = signed_in_op.get_item(server_name, vault=vault)
+    result: OPServerItem = signed_in_op.item_get(server_name, vault=vault)
     assert result.password == expected.password
 
 
@@ -46,7 +46,7 @@ def test_ssh_key_passphrase_01(signed_in_op: OP, expected_server_data: ExpectedS
     expected_key_data = _lookup_ssh_key_data(
         expected_server_data, server_name, keyname)
 
-    server_item: OPServerItem = signed_in_op.get_item(server_name, vault=vault)
+    server_item: OPServerItem = signed_in_op.item_get(server_name, vault=vault)
 
     passphrase = server_item.field_value_by_section_title(
         "SSH Keys", passphrase_field)
@@ -59,7 +59,7 @@ def test_ssh_priv_key_01(signed_in_op: OP, expected_server_data: ExpectedServer)
     keyname = "id_ed25519"
     expected_key_data = _lookup_ssh_key_data(
         expected_server_data, server_name, keyname)
-    server_item: OPServerItem = signed_in_op.get_item(server_name, vault=vault)
+    server_item: OPServerItem = signed_in_op.item_get(server_name, vault=vault)
 
     priv_key = server_item.field_value_by_section_title(
         "SSH Keys", keyname)
@@ -74,7 +74,7 @@ def test_ssh_pub_key_01(signed_in_op: OP, expected_server_data: ExpectedServer):
     pub_keyname = f"{keyname}.pub"
     expected_key_data = _lookup_ssh_key_data(
         expected_server_data, server_name, keyname)
-    server_item: OPServerItem = signed_in_op.get_item(server_name, vault=vault)
+    server_item: OPServerItem = signed_in_op.item_get(server_name, vault=vault)
 
     pub_key = server_item.field_value_by_section_title(
         "SSH Keys", pub_keyname)

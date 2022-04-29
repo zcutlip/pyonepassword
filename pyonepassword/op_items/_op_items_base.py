@@ -72,10 +72,10 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         section_list = self.get("sections", [])
         return section_list
 
-    @sections.setter
-    def sections(self, sections: List[OPSection]):
-        details_dict = self.details
-        details_dict['sections'] = sections
+    # @sections.setter
+    # def sections(self, sections: List[OPSection]):
+    #     details_dict = self.details
+    #     details_dict['sections'] = sections
 
     @property
     def first_section(self) -> OPSection:

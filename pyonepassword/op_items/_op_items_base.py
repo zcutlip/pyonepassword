@@ -102,7 +102,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
                 f"item category is not set for {self.__class__.__name__}")
         return self.CATEGORY.lower()
 
-    def sections_by_title(self, title) -> List[OPSection]:
+    def sections_by_label(self, label) -> List[OPSection]:
         """
         Returns a list of zero or more sections matching the given title.
         Sections are not required to have unique titles, so there may be more than one match.
@@ -110,7 +110,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         matching_sections = []
         sect: OPSection
         for sect in self.sections:
-            if sect.title == title:
+            if sect.label == label:
                 matching_sections.append(sect)
 
         return matching_sections

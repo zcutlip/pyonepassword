@@ -25,7 +25,7 @@ class OPCreditCardItem(OPAbstractItem):
         return details
 
     def additional_details(self) -> OPSection:
-        details = self.sections_by_title("Additional Details")[0]
+        details = self.sections_by_label("Additional Details")[0]
         return details
 
     def primary_details_item(self, field_label: str):

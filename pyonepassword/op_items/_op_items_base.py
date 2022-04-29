@@ -190,6 +190,11 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         _fields = self.get("fields", [])
         for field_dict in _fields:
             field = OPSectionField(field_dict, deep_copy=False)
+            section_dict = field.get("section")
+            if section_dict:
+                section_id = section_dict["id"]
+                section = self.section_by_id(section_id)
+                section.register_field(field_dict)
             field_list.append(field)
             field_map[field.field_id] = field
         self["fields"] = field_list

@@ -10,10 +10,6 @@ class ExpectedItemBase:
         self._data = item_dict
 
     @property
-    def password(self) -> str:
-        return self._data["password"]
-
-    @property
     def unique_id(self) -> str:
         return self._data["unique_id"]
 

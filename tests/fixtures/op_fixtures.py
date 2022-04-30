@@ -12,6 +12,7 @@ from .expected_secure_note_item_data import ExpectedSecureNoteItemData
 from .expected_server import ExpectedServerItemData
 from .expected_user_data import ExpectedUserData
 from .expected_vault_data import ExpectedVaultData
+from .expected_login import ExpectedLoginItemData
 from .paths import RESP_DIRECTORY_PATH
 
 TEST_DATA_VAULT = "Test Data"
@@ -90,4 +91,10 @@ def expected_server_data():
 @fixture
 def expected_credit_card_data():
     data = ExpectedCreditCardData()
+    return data
+
+
+@fixture
+def expected_login_item_data():
+    data = ExpectedLoginItemData()
     return data

@@ -182,6 +182,18 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "item-list-vault-test-data"
+    },
+    "--format|json|item|list|--categories|login,identity|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-vault-test-data-login-identity"
+    },
+    "--format|json|item|list|--include-archive|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-vault-test-data-include-archive"
     }
   }
 }

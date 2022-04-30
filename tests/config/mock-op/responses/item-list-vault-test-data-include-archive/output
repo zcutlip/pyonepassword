@@ -1,0 +1,293 @@
+[
+  {
+    "id": "zjc6s5ri3rhcxploofa67jamze",
+    "title": "Example Secure Note",
+    "version": 2,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "SECURE_NOTE",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2021-03-19T23:27:12Z",
+    "updated_at": "2021-03-19T23:30:10Z",
+    "additional_information": "Note text here. **Mardown** supported."
+  },
+  {
+    "id": "2dvgl7kk5yjrq3gxwqimp5awve",
+    "title": "Example Password",
+    "version": 1,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "PASSWORD",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2021-11-23T05:46:01Z",
+    "updated_at": "2021-11-23T05:46:01Z",
+    "additional_information": "2021-11-22 09:46 PM"
+  },
+  {
+    "id": "3wcd3zsps7fvij47fef6scznxq",
+    "title": "Example Server 2",
+    "version": 6,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "SERVER",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2020-12-15T18:32:04Z",
+    "updated_at": "2020-12-16T23:57:20Z"
+  },
+  {
+    "id": "iilqshv2zfd65aefprr7vztpha",
+    "title": "Example Identity",
+    "version": 2,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "IDENTITY",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2021-04-20T03:24:20Z",
+    "updated_at": "2021-04-20T03:26:07Z",
+    "additional_information": "Johnny Appleseed"
+  },
+  {
+    "id": "4ccuqmpy4ebirar64vzph2pkqe",
+    "title": "Archived Machine with SSH Keys",
+    "version": 3,
+    "state": "ARCHIVED",
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "SERVER",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2021-11-30T06:17:49Z",
+    "updated_at": "2022-04-30T20:52:08Z",
+    "additional_information": "admin"
+  },
+  {
+    "id": "ith5uwjtobzwxpfigwtbmpospi",
+    "title": "login 3",
+    "version": 2,
+    "state": "ARCHIVED",
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "LOGIN",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2021-11-30T06:11:46Z",
+    "updated_at": "2021-11-30T06:12:35Z",
+    "additional_information": "testuser",
+    "urls": [
+      {
+        "primary": true,
+        "href": "https://example.website"
+      }
+    ]
+  },
+  {
+    "id": "4smjvvepfbg3hencrmo7cozphe",
+    "title": "Example Login",
+    "version": 2,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "LOGIN",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2021-06-29T18:42:03Z",
+    "updated_at": "2022-03-17T03:40:49Z",
+    "additional_information": "zcutlip",
+    "urls": [
+      {
+        "label": "example website 1",
+        "primary": true,
+        "href": "https://example.website"
+      },
+      {
+        "label": "example website 2",
+        "href": "http://example2.website"
+      }
+    ]
+  },
+  {
+    "id": "m33nxah4bhknmoq552etfuupcy",
+    "title": "login 3",
+    "version": 2,
+    "state": "ARCHIVED",
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "LOGIN",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2021-11-30T06:14:38Z",
+    "updated_at": "2021-11-30T06:16:50Z",
+    "additional_information": "testuser",
+    "urls": [
+      {
+        "primary": true,
+        "href": "https://example.website"
+      }
+    ]
+  },
+  {
+    "id": "caveh7ghsffalokofr3o6qbfjy",
+    "title": "Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp",
+    "version": 1,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "DOCUMENT",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2020-12-10T01:27:04Z",
+    "updated_at": "2020-12-10T01:27:05Z",
+    "additional_information": "93 KB"
+  },
+  {
+    "id": "nnotgv5xwrhjbdj6bt3rugrijy",
+    "title": "Example Login 1",
+    "version": 5,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "LOGIN",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2020-12-04T00:50:48Z",
+    "updated_at": "2021-03-15T17:15:37Z",
+    "additional_information": "johndoe1999",
+    "urls": [
+      {
+        "label": "website",
+        "primary": true,
+        "href": "https://example.cheeseburger/login.php"
+      }
+    ]
+  },
+  {
+    "id": "cytleolj5azxuavsva2grfhyvm",
+    "title": "login 3",
+    "version": 2,
+    "state": "ARCHIVED",
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "LOGIN",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2021-11-30T06:16:38Z",
+    "updated_at": "2021-11-30T06:16:52Z",
+    "additional_information": "testuser",
+    "urls": [
+      {
+        "primary": true,
+        "href": "https://example.website"
+      }
+    ]
+  },
+  {
+    "id": "nok7367v4vbsfgg2fczwu4ei44",
+    "title": "Example Login 2",
+    "version": 4,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "LOGIN",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2020-12-04T00:53:50Z",
+    "updated_at": "2020-12-10T01:27:08Z",
+    "additional_information": "janedoe123"
+  },
+  {
+    "id": "rh4qlntrofdwfmpsoa7j4eang4",
+    "title": "Example Credit Card",
+    "version": 2,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "CREDIT_CARD",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2021-03-19T18:57:22Z",
+    "updated_at": "2021-11-26T00:08:58Z",
+    "additional_information": "3123 **** 2345"
+  },
+  {
+    "id": "dmm2ybtxxjlxtv23puevxw5ydy",
+    "title": "Delete Me",
+    "version": 1,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "LOGIN",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2022-01-19T02:51:38Z",
+    "updated_at": "2022-01-19T02:51:38Z",
+    "additional_information": "username_1"
+  },
+  {
+    "id": "ue6i3anfk7vdzf6vntruaunbuy",
+    "title": "Example Login - 1Password Logo",
+    "version": 2,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "DOCUMENT",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2022-04-11T20:38:18Z",
+    "updated_at": "2022-04-11T20:39:19Z",
+    "additional_information": "12 KB"
+  },
+  {
+    "id": "dnmr2lvyqslco7sh4q4fntgb6i",
+    "title": "Login With TOTP",
+    "version": 1,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "LOGIN",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2021-12-21T23:52:55Z",
+    "updated_at": "2021-12-21T23:52:55Z",
+    "additional_information": "guest user"
+  },
+  {
+    "id": "ylvxrhgv2fwwvrgqklod6zekyq",
+    "title": "Delete Me",
+    "version": 1,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "LOGIN",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2022-01-19T02:51:59Z",
+    "updated_at": "2022-01-19T02:51:59Z",
+    "additional_information": "username_1"
+  },
+  {
+    "id": "hqnf5vpzc5mg4x4asrpbvoi54u",
+    "title": "Example Server",
+    "version": 1,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "SERVER",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2021-06-29T18:31:30Z",
+    "updated_at": "2021-06-29T18:31:30Z",
+    "additional_information": "admin"
+  }
+]

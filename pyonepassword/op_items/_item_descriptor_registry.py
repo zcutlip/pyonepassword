@@ -1,11 +1,12 @@
 from ._op_item_type_registry import OPItemFactory
+from ._item_descriptor_base import OPAbstractItemDescriptor
 
 
 class OPItemDescriptorFactory(OPItemFactory):
     _TYPE_REGISTRY = {}
 
     @classmethod
-    def item_descriptor(cls, item_json):
+    def item_descriptor(cls, item_json) -> OPAbstractItemDescriptor:
         obj = cls.op_item(item_json)
         return obj
 

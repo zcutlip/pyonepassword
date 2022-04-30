@@ -22,7 +22,7 @@ ACCOUNT_SHORTHAND = "onepassword_username"
 def _get_signed_in_op(account_shorthand, default_vault=None):
     os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(RESP_DIRECTORY_PATH)
     os.environ["MOCK_OP_SIGNIN_SUCCEED"] = "1"
-    os.environ["MOCK_OP_SIGNIN_USES_BIO"] = "1"
+    # os.environ["MOCK_OP_SIGNIN_USES_BIO"] = "1"
     os.environ["LOG_OP_ERR"] = "1"
     try:
         op = OP(vault=default_vault, account_shorthand=account_shorthand,

@@ -3,6 +3,21 @@
         "Example Login 1": {
             "username": "johndoe1999",
             "password": "W9bZ@ZwGpRXCqnWt",
+            "unique_id": "nnotgv5xwrhjbdj6bt3rugrijy",
+            "created_at": "2020-12-04T00:50:48Z",
+            "updated_at": "2021-03-15T17:15:37Z",
+            "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "vault_id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+            "returncode": 0
+        },
+        "Example Login 2": {
+            "username": "johndoe1999",
+            "password": "W9bZ@ZwGpRXCqnWt",
+            "unique_id": "nok7367v4vbsfgg2fczwu4ei44",
+            "created_at": "2020-12-04T00:53:50Z",
+            "updated_at": "2020-12-10T01:27:08Z",
+            "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "vault_id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
             "returncode": 0
         },
         "nok7367v4vbsfgg2fczwu4ei44": {

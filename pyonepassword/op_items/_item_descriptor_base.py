@@ -53,3 +53,11 @@ class OPAbstractItemDescriptor(dict):
     @property
     def vault_id(self) -> str:
         return self.vault.unique_id
+
+    @property
+    def state(self) -> str:
+        return self.get("state")
+
+    @property
+    def archived(self) -> bool:
+        return self.state == "ARCHIVED"

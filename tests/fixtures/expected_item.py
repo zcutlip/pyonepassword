@@ -39,6 +39,10 @@ class ExpectedItemBase:
     def returncode(self) -> int:
         return self._data["returncode"]
 
+    @property
+    def archived(self) -> bool:
+        return self._data["archived"]
+
 
 class ExpectedItemData:
     def __init__(self):

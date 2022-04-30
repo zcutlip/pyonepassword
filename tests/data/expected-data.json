@@ -19,15 +19,41 @@
             "returncode": 1
         },
         "Example Server":{
+            "unique_id": "hqnf5vpzc5mg4x4asrpbvoi54u",
+            "title": "Example Server",
             "username": "admin",
             "password": "example_admin_password",
+            "created_at": "2021-06-29T18:31:30Z",
+            "updated_at": "2021-06-29T18:31:30Z",
+            "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "vault_id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
             "ssh_keys":{
                 "id_ed25519":{
                     "pubkey_digest":"83312cfb5a2d9bb6bb90e89b73c48554df964ef3b29021e66ffa2ffbda649ac4",
                     "privkey_digest":"78670118cc184cf45d0fee82bcac4c3a0d2528dd4aa5b8406ee4a059133efa2a",
                     "passphrase": "example_ssh_key_password"
                 }
-            }
+            },
+            "returncode": 0
+        },
+        "Archived Machine with SSH Keys":{
+            "unique_id": "4ccuqmpy4ebirar64vzph2pkqe",
+            "title": "Example Server",
+            "username": "admin",
+            "password": "adminpass",
+            "created_at": "2021-11-30T06:17:49Z",
+            "updated_at": "2022-04-30T20:52:08Z",
+            "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "vault_id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+            "archived": true,
+            "ssh_keys":{
+                "id_ed25519":{
+                    "pubkey_digest":"83312cfb5a2d9bb6bb90e89b73c48554df964ef3b29021e66ffa2ffbda649ac4",
+                    "privkey_digest":"78670118cc184cf45d0fee82bcac4c3a0d2528dd4aa5b8406ee4a059133efa2a",
+                    "passphrase": "example_ssh_key_password"
+                }
+            },
+            "returncode": 0
         },
         "Example Password":{
             "password": "iXdx8KAEmUkPqCvHHYjngHzRr7",
@@ -36,7 +62,7 @@
             "created_at": "2021-11-23T05:46:01Z",
             "updated_at": "2021-11-23T05:46:01Z",
             "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
-            "vaultUuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+            "vault_id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
             "trashed": false,
             "returncode": 0
         },
@@ -46,7 +72,7 @@
             "created_at": "2021-03-19T23:27:12Z",
             "updated_at": "2021-03-19T23:30:10Z",
             "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
-            "vaultUuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+            "vault_id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
             "notesPlain": "Note text here. **Mardown** supported.\n\nWhat does the note text look like?",
             "title": "Example Secure Note",
             "returncode":0
@@ -57,7 +83,7 @@
             "created_at": "2021-03-19T23:27:12Z",
             "updated_at": "2021-11-23T02:32:40Z",
             "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
-            "vaultUuid": "jqnwwnagfbhe5h2ky6k3rm3peu",
+            "vault_id": "jqnwwnagfbhe5h2ky6k3rm3peu",
             "notesPlain": "This is secure note 2.\n\nHere is some bulleted text:\n\n- item 1\n- item 2\n- item 3",
             "title": "Example Secure Note 2",
             "returncode": 0
@@ -68,7 +94,7 @@
             "created_at": "2021-03-19T23:27:12Z",
             "updated_at": "2021-11-23T02:32:40Z",
             "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
-            "vaultUuid": "jqnwwnagfbhe5h2ky6k3rm3peu",
+            "vault_id": "jqnwwnagfbhe5h2ky6k3rm3peu",
             "notesPlain":"This is secure note 2.\n\nHere is some bulleted text:\n\n- item 1\n- item 2\n- item 3",
             "title":"Example Secure Note 2",
             "returncode":0
@@ -85,7 +111,7 @@
             "created_at": "2021-03-19T18:57:22Z",
             "updated_at": "2021-11-26T00:08:58Z",
             "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
-            "vaultUuid": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+            "vault_id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
             "credit_card_number": "3123456789012345",
             "cvv": "1234",
             "expiry_date": 204202,

@@ -33,7 +33,7 @@ class ExpectedItemBase:
 
     @property
     def vault_id(self) -> str:
-        return self._data["vaultUuid"]
+        return self._data["vault_id"]
 
     @property
     def returncode(self) -> int:

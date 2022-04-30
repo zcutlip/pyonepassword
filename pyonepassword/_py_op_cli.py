@@ -289,12 +289,6 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def list_generic_argv(cls, op_exe, list_subcommand, sub_command_args):
-        argv = cls(op_exe, "list", sub_command_args,
-                   subcommand=list_subcommand)
-        return argv
-
-    @classmethod
     def item_list_argv(cls, op_exe, categories=[], include_archive=False, tags=[], vault=None):
         item_list_args = []
         if categories:

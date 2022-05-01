@@ -1,34 +1,16 @@
-import copy
 import json
 import os
 import tempfile
 
 from abc import abstractmethod
-from typing import List, Union
+from typing import List
 
-from .._datetime import fromisoformat_z
-from ._item_overview import URLEntry
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from .item_section import OPSection, OPSectionField, OPSectionCollisionException
-from .templates import TemplateDirectory
 
 
 class OPFieldNotFoundException(Exception):
     pass
-
-
-class OPItemTemplateMixin:
-    TEMPLATE_ID: str = None
-    TEMPLATE_DIRECTORY = TemplateDirectory()
-
-    def __init__(self, *args, **kwargs):
-        template_dict = self.TEMPLATE_DIRECTORY.template(self.TEMPLATE_ID)
-        template_dict = copy.deepcopy(template_dict)
-        item_dict = {
-            "details": template_dict
-        }
-        super().__init__(*args, item_dict, **kwargs)
-        self._from_template = True
 
 
 class OPAbstractItem(OPAbstractItemDescriptor):
@@ -55,27 +37,10 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
         return new_sect
 
-    def primary_section_field_value(self, field_label):
-        first_sect = self.first_section
-        field_value = self._field_value_from_section(first_sect, field_label)
-        return field_value
-
-    def set_primary_section_field_value(self, field_label, field_value):
-        first_sect = self.first_section
-        section_field: OPSectionField
-        section_field = first_sect.fields_by_label(field_label)[0]
-        section_field.value = field_value
-        self.first_section = first_sect
-
     @property
     def sections(self) -> List[OPSection]:
         section_list = self.get("sections", [])
         return section_list
-
-    # @sections.setter
-    # def sections(self, sections: List[OPSection]):
-    #     details_dict = self.details
-    #     details_dict['sections'] = sections
 
     @property
     def first_section(self) -> OPSection:
@@ -84,16 +49,6 @@ class OPAbstractItem(OPAbstractItemDescriptor):
             first = self.sections[0]
             first = OPSection(first)
         return first
-
-    @first_section.setter
-    def first_section(self, section: OPSection):
-        sections = self.sections
-        sections[0] = section
-        self.sections = sections
-
-    @property
-    def is_from_template(self):
-        return self._from_template
 
     @property
     def category(self):
@@ -156,15 +111,6 @@ class OPAbstractItem(OPAbstractItemDescriptor):
     def urls(self):
         return self._overview.url_list()
 
-    def first_url(self) -> Union[URLEntry, None]:
-        url = None
-        # When creating a new item, we can't specify more than one url
-        # so if there's more than one, we have to just grab the first
-        urls = self.urls
-        if urls:
-            url = urls[0]
-        return url
-
     def field_by_id(self, field_id) -> OPSectionField:
         try:
             field = self._field_map[field_id]
@@ -207,29 +153,3 @@ class OPAbstractItem(OPAbstractItemDescriptor):
             field_map[field.field_id] = field
         self["fields"] = field_list
         return field_map
-
-
-class OPItemCreateResult(dict):
-
-    def __init__(self, result_dict):
-        super().__init__(result_dict)
-
-    @property
-    def uuid(self):
-        return self["uuid"]
-
-    @property
-    def vault_uuid(self):
-        return self["vaultUuid"]
-
-    @property
-    def created_at(self):
-        created = self["created_at"]
-        created = fromisoformat_z(created)
-        return created
-
-    @property
-    def updated_at(self):
-        updated = self["updated_at"]
-        updated = fromisoformat_z(updated)
-        return updated

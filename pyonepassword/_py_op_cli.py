@@ -5,12 +5,9 @@ import shlex
 from os import environ as env
 from typing import List
 
-from .op_items._op_items_base import OPAbstractItem
-
 from .py_op_exceptions import (
     OPNotFoundException,
-    OPCmdFailedException,
-    OPInvalidItemException
+    OPCmdFailedException
 )
 
 # Mainly for use in automated testing
@@ -227,33 +224,6 @@ class _OPArgv(list):
             global_args = ["--account", account_shorthand]
         argv = ["--raw"]
         return cls(op_exe, "signin", argv, global_args=global_args)
-
-    @classmethod
-    def create_item_argv(cls, op_exe, item: OPAbstractItem, item_name: str, vault: str = None, encoding="utf-8"):
-        if not item.is_from_template:
-            raise OPInvalidItemException(
-                f"Attempting to create item using object not from a template: {item_name}")
-        template_filename = item.details_secure_tempfile(
-            encoding=encoding)
-
-        category = item.category
-
-        argv = [category, "--title", item_name,
-                "--template", template_filename]
-
-        # unfortunately the 'op' command can only set one URL
-        # so we need to get only the first one
-        url = item.first_url()
-        url_value = None
-        if url:
-            url_value = url.url
-        if url_value:
-            argv.extend(["--url", url_value])
-
-        if vault:
-            argv.extend(["--vault", vault])
-
-        return cls(op_exe, "create", argv, subcommand="item")
 
     @classmethod
     def get_verify_signin_argv(cls, op_exe):

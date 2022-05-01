@@ -15,7 +15,6 @@ class OPAbstractItemDescriptor(dict):
     def __init__(self, item_dict_or_json):
         item_dict = safe_unjson(item_dict_or_json)
         super().__init__(item_dict)
-        self._from_template = False
         vault_dict = self["vault"]
         self._vault = OPVaultDescriptor(vault_dict)
         # not every item has an overview

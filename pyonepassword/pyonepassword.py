@@ -4,21 +4,19 @@ import logging
 from os import environ as env
 
 from .op_items._item_list import OPItemList
-from .op_items._op_items_base import OPAbstractItem, OPItemCreateResult
+from .op_items._op_items_base import OPAbstractItem
 from .op_items._op_item_type_registry import OPItemFactory
-from .op_items.login import OPLoginItem, OPLoginItemTemplate
+from .op_items.login import OPLoginItem
 from .op_objects import OPGroup, OPUser, OPVault
 
 from ._py_op_commands import _OPCommandInterface
 from ._py_op_deprecation import deprecated
 from .py_op_exceptions import (
-    OPGetItemException,
     OPGetDocumentException,
     OPInvalidDocumentException,
     OPCmdFailedException,
     OPSignoutException,
     OPForgetException,
-    OPGetCreatedItemException,
     OPListEventsException
 )
 
@@ -329,87 +327,6 @@ class _OPPrivate(_OPCommandInterface):
             categories, include_archive, tags, vault)
         item_list = OPItemList(item_list_json)
         return item_list
-
-    def create_item(self, item: OPAbstractItem, item_name: str, vault: str = None) -> OPAbstractItem:
-        """
-        Create an item entry from the provided item object
-
-        Note: 'item' must be an instance of a type that inherits
-        'OPItemTemplateMixin'. Currently this includes:
-        - OPLoginItemTemplate
-
-        Parameters
-        ----------
-        item : OPAbstractItem|OPItemTemplateMixin
-            The item template object to create an entry from
-        item_name : str
-            The user-visible name of the entry to be created. The new entry can later be queried by this name
-        vault : str, optional
-            The name of a vault to override the OP object's default vault
-
-        Raises
-        ------
-        OPCreateItemNotSupportedException
-            If the 'item' object does not support item creation
-        OPCreateItemException
-            If item creation fails for any reason during execution
-        OPNotFoundException
-            If the 1Password command can't be found
-        OPGetCreatedItemException
-            If item creation succeeds, but fetching the item fails for some reason
-            Exception object's UUID attribute contains the created items's UUID
-
-        Returns
-        -------
-        created_item : OPAbstractItem
-            The item object fetched after creating a new item from template
-        """
-        result_str = super()._create_item(item, item_name, vault=vault)
-        result = json.loads(result_str)
-        result = OPItemCreateResult(result)
-        try:
-            created_item = self.item_get(result.uuid, vault=result.vault_uuid)
-        except OPGetItemException as e:
-            msg = f"Failed to get newly created item: [{e}], Item UUID: {result.uuid}"
-            raise OPGetCreatedItemException(msg, result.uuid) from e
-        return created_item
-
-    def create_login_item(self, item_name: str, username: str, password: str, url=None, vault=None):
-        """
-        A convenience method to create a login item entry
-
-        Parameters
-        ----------
-        item_name : str
-            The user-visible name of the entry to be created. The new entry can later be queried by this name
-        username : str
-            The value for the username field of the login item to create
-        password: str
-            The value for the password field of the login item to create
-        url : str, optional
-            An optional URL to associate with this login item
-        vault : str, optional
-            The name of a vault to override the OP object's default vault
-
-        Raises
-        ------
-        OPCreateItemException
-            If item creation fails for any reason during execution
-        OPNotFoundException
-            If the 1Password command can't be found
-        OPGetCreatedItemException
-            If item creation succeeds, but fetching the item fails for some reason
-            Exception object's UUID attribute contains the created items's UUID
-
-        Returns
-        -------
-        created_item : OPAbstractItem
-            The item object fetched after creating a new item from template
-        """
-        new_item = OPLoginItemTemplate(username, password, url=url)
-        created_item = self.create_item(
-            new_item, item_name, vault=vault)
-        return created_item
 
     def signout(self, forget=False):
         """

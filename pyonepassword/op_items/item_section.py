@@ -64,10 +64,6 @@ class OPSectionField(dict):
         v = self.get("value")
         return v
 
-    @value.setter
-    def value(self, value: Any):
-        self["value"] = value
-
     @property
     def field_type(self) -> str:
         """
@@ -92,16 +88,6 @@ class OPSection(dict):
             _dict = section_dict
         super().__init__(_dict)
         self._shadow_fields = {}
-
-    # @classmethod
-    # def new_section(cls, section_id: str, field_label: str):
-    #     section_dict = {
-    #         "id": section_id,
-    #         "label": field_label,
-    #         "fields": []
-    #     }
-    #     obj = cls(section_dict)
-        # return obj
 
     @property
     def section_id(self) -> str:
@@ -134,34 +120,6 @@ class OPSection(dict):
                 f"Field {field_id} already registered in section {self.section_id}")
         self.fields.append(field)
         self._shadow_fields[field_id] = field
-
-    # @fields.setter
-    # def fields(self, fields: List[OPSectionField]):
-    #     self["fields"] = fields
-
-    # def add_field(self, value: Union[str, int, Dict, List], field_type, label: str, name=None):
-    #     # TODO: Validate field type against list of valid types
-    #     new_field = OPSectionField.new_field(
-    #         value, field_type, label, field_id=name)
-    #     self._add_field(new_field)
-
-    # def _add_field(self, new_field: OPSectionField):
-    #     name = new_field.field_name
-    #     for f in self.fields:
-    #         if f.field_name == name:
-    #             raise OPSectionFieldCollisionException(
-    #                 f"Field with name {name} already exists in section {self.name}")
-    #     fields = self.fields
-    #     fields.append(new_field)
-    #     self.fields = fields
-
-    # def add_string_field(self, value: str, label: str, name=None):
-    #     new_field = OPStringField.new_field(value, label, field_id=name)
-    #     self._add_field(new_field)
-
-    # def add_concealed_field(self, value: str, label: str, name=None):
-    #     new_field = OPConcealedField.new_field(value, label, field_id=name)
-    #     self._add_field(new_field)
 
     def fields_by_label(self, label) -> List[OPSectionField]:
         """

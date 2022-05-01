@@ -12,12 +12,10 @@ from typing import Dict, List
 from ._py_op_cli import _OPArgv, _OPCLIExecute
 from .account import OPAccount, OPAccountList
 from .op_cli_version import MINIMUM_ITEM_CREATION_VERSION, OPCLIVersion
-from .op_items._op_items_base import OPAbstractItem
+
 from .py_op_exceptions import (
     OPCmdFailedException,
     OPConfigNotFoundException,
-    OPCreateItemException,
-    OPCreateItemNotSupportedException,
     OPGetDocumentException,
     OPGetGroupException,
     OPGetItemException,
@@ -431,20 +429,6 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPGetVaultException.from_opexception(ocfe)
         return output
 
-    def _create_item(self, item: OPAbstractItem, item_name, vault=None):
-        if not self.supports_item_creation():
-            msg = f"Minimum supported 'op' version for item creation: {MINIMUM_ITEM_CREATION_VERSION}, current version: {self._cli_version}"
-            raise OPCreateItemNotSupportedException(msg)
-        argv = self._create_item_argv(item, item_name, vault)
-        try:
-            output = self._run(
-                argv, capture_stdout=True, decode="utf-8"
-            )
-        except OPCmdFailedException as ocfe:
-            raise OPCreateItemException.from_opexception(ocfe)
-
-        return output
-
     def _signout(self, account, session, forget=False):
         if forget and self.uses_bio:
             self.logger.warn(
@@ -459,13 +443,6 @@ class _OPCommandInterface(_OPCLIExecute):
             op_path = cls.OP_PATH
         argv = _OPArgv.forget_argv(op_path, account)
         cls._run(argv)
-
-    def _create_item_argv(self, item, item_name, vault):
-        vault_arg = vault if vault else self.vault
-        create_item_argv = _OPArgv.create_item_argv(
-            self.op_path, item, item_name, vault=vault_arg
-        )
-        return create_item_argv
 
     def _item_list_argv(self, categories=[], include_archive=False, tags=[], vault=None):
         vault_arg = vault if vault else self.vault

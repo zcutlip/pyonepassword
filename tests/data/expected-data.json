@@ -8,6 +8,13 @@
             "updated_at": "2021-03-15T17:15:37Z",
             "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
             "vault_id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+            "urls": [
+                {
+                    "label": "website",
+                    "primary": true,
+                    "href": "https://example.cheeseburger/login.php"
+                }
+            ],
             "returncode": 0
         },
         "Example Login 2": {
@@ -18,6 +25,7 @@
             "updated_at": "2020-12-10T01:27:08Z",
             "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
             "vault_id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+            "urls": [],
             "returncode": 0
         },
         "nok7367v4vbsfgg2fczwu4ei44": {
@@ -28,6 +36,17 @@
         "Example Login": {
             "username": "zcutlip",
             "password": "doth-parrot-hid-tussock-veldt",
+            "urls": [
+                {
+                    "label": "example website 2",
+                    "href": "http://example2.website"
+                },
+                {
+                    "label": "example website 1",
+                    "primary": true,
+                    "href": "https://example.website"
+                }
+            ],
             "returncode": 0
         },
         "Invalid Item": {

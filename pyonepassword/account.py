@@ -18,6 +18,10 @@ class OPAccount(dict):
         return self["user_uuid"]
 
     @property
+    def account_uuid(self) -> str:
+        return self["account_uuid"]
+
+    @property
     def shorthand(self) -> Union[str, None]:
         return self.get("shorthand")
 

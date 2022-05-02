@@ -4,9 +4,11 @@ MAX_BETA_STR = f"{0xffffffff}.{0xffff}.{0xffff}"
 
 
 class OPCLIVersion:
-    def __init__(self, version_string: str, skip_beta=False):
-        version_string, beta_num = self._parse_beta(version_string)
-        version_tuple = version_string.split(".")
+    def __init__(self, version: str, skip_beta=False):
+        if isinstance(version, int):
+            version = str(version)
+        version, beta_num = self._parse_beta(version)
+        version_tuple = version.split(".")
         if not skip_beta:
             self._beta_num = beta_num
         else:
@@ -43,6 +45,7 @@ class OPCLIVersion:
             beta_string = match.groups()[0]
             version_string = version_string.rstrip(beta_string)
             beta_num = beta_string.lstrip("-beta.")
+            beta_num = int(beta_num)
         return version_string, beta_num
 
     def _normalize(self, other):

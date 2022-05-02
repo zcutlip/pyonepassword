@@ -4,6 +4,7 @@ from pyonepassword import OP
 from pyonepassword.py_op_exceptions import OPCmdFailedException
 from pytest import fixture
 
+from .expected_account_data import ExpectedAccountData
 from .expected_credit_card import ExpectedCreditCardData
 from .expected_data import ExpectedData
 from .expected_document_data import ExpectedDocumentData
@@ -98,4 +99,10 @@ def expected_credit_card_data():
 @fixture
 def expected_login_item_data():
     data = ExpectedLoginItemData()
+    return data
+
+
+@fixture
+def expected_account_data():
+    data = ExpectedAccountData()
     return data

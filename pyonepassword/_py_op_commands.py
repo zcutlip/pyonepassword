@@ -399,6 +399,12 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return document_bytes
 
+    def _signed_in_accounts(self, decode="utf-8"):
+        account_list_argv = self._account_list_argv(op_path=self.op_path)
+        output = self._run(account_list_argv,
+                           capture_stdout=True, decode=decode)
+        return output
+
     def _user_get(self, user_name_or_uuid: str, decode: str = "utf-8") -> str:
         get_user_argv = self._user_get_argv(user_name_or_uuid)
         try:

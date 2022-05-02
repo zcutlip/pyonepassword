@@ -3,6 +3,7 @@ import logging
 
 from os import environ as env
 
+from .account import OPAccountList
 from .op_items._item_list import OPItemList
 from .op_items._op_items_base import OPAbstractItem
 from .op_items._op_item_type_registry import OPItemFactory
@@ -327,6 +328,11 @@ class _OPPrivate(_OPCommandInterface):
             categories, include_archive, tags, vault)
         item_list = OPItemList(item_list_json)
         return item_list
+
+    def signed_in_accounts(self, decode="utf-8") -> OPAccountList:
+        account_list_json = super()._signed_in_accounts(decode)
+        account_list = OPAccountList(account_list_json)
+        return account_list
 
     def signout(self, forget=False):
         """

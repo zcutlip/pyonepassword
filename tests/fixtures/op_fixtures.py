@@ -1,18 +1,19 @@
 import os
-from pytest import fixture
+
 from pyonepassword import OP
 from pyonepassword.py_op_exceptions import OPCmdFailedException
+from pytest import fixture
 
-from .expected_data import ExpectedData
 from .expected_credit_card import ExpectedCreditCardData
+from .expected_data import ExpectedData
 from .expected_document_data import ExpectedDocumentData
 from .expected_group_data import ExpectedGroupData
+from .expected_login import ExpectedLoginItemData
 from .expected_password_item_data import ExpectedPasswordItemData
 from .expected_secure_note_item_data import ExpectedSecureNoteItemData
 from .expected_server import ExpectedServerItemData
 from .expected_user_data import ExpectedUserData
 from .expected_vault_data import ExpectedVaultData
-from .expected_login import ExpectedLoginItemData
 from .paths import RESP_DIRECTORY_PATH
 
 TEST_DATA_VAULT = "Test Data"

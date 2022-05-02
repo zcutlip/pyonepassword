@@ -82,7 +82,12 @@ class OPCLIVersion:
         return (parts_self, parts_other)
 
     def __str__(self):
+        beta_part = None
+        if self.is_beta:
+            beta_part = f"-beta.{self._beta_num}"
         _str = ".".join([str(i) for i in self._parts])
+        if beta_part:
+            _str += beta_part
         return _str
 
     def __eq__(self, other):

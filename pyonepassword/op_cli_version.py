@@ -32,7 +32,7 @@ class OPCLIVersion:
 
     @property
     def is_beta(self) -> bool:
-        _is_beta = self.is_beta is not None and self.is_beta >= 0
+        _is_beta = self._beta_num is not None and self._beta_num >= 0
         return _is_beta
 
     def _parse_beta(self, version_string):

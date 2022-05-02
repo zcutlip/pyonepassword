@@ -34,3 +34,11 @@ class OPAccountList(List[OPAccount]):
         for account_dict in account_list:
             op_account = OPAccount(account_dict)
             self.append(op_account)
+
+    def account_for_email(self, email: str):
+        acct = None
+        for account in self:
+            if account.email == email:
+                acct = account
+                break
+        return acct

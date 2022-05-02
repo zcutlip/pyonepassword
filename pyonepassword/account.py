@@ -1,6 +1,6 @@
-import json
+from typing import List, Union
 
-from typing import Union
+from .json import safe_unjson
 
 
 class OPAccount(dict):
@@ -22,12 +22,11 @@ class OPAccount(dict):
         return self.get("shorthand")
 
 
-class OPAccountList(list):
+class OPAccountList(List[OPAccount]):
 
-    def __init__(self, account_list):
+    def __init__(self, account_list_or_json):
         super().__init__()
-        if isinstance(account_list, str):
-            account_list = json.loads(account_list)
+        account_list = safe_unjson(account_list_or_json)
         for account_dict in account_list:
             op_account = OPAccount(account_dict)
             self.append(op_account)

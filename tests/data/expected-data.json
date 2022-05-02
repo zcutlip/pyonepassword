@@ -212,5 +212,19 @@
         "Invalid Vault":{
             "returncode": 1
         }
+    },
+    "accounts" :{
+        "user1@yahoo.com": {
+            "url": "my.1password.com",
+            "email": "user1@yahoo.com",
+            "user_uuid": "GLEFUICT5AAABBBBIBNEEHE22M",
+            "account_uuid": "RZZ2VQXXXZZZZK7N56H7JDDLOL"
+        },
+        "user2@yahoo.com": {
+            "url": "my-family.1password.com",
+            "email": "user2@yahoo.com",
+            "user_uuid": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "account_uuid": "JE3H7ZW5VBCLHNKKKJJJJ2OXYZ"
+        }
     }
 }

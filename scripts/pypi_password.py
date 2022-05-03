@@ -39,7 +39,7 @@ def do_signin(use_existing_session):
 def pypi_parse_args(args):
     parser = ArgumentParser()
     parser.add_argument(
-        "--pypi-item-name", help="Optional item name for PyPI login", default="PyPI")
+        "--pypi-item-name", help="Optional item name for PyPI login", default="PyPI API")
     parser.add_argument("--use-session", "-S",
                         help="Attempt to use an existing 'op' session. If unsuccessful master password will be requested.", action='store_true')
     parsed = parser.parse_args(args)
@@ -57,7 +57,11 @@ def main():
         exit(e.returncode)
 
     try:
-        password = op.item_get_password(pypi_item_name)
+        op_item = op.item_get(pypi_item_name)
+        if hasattr(op_item, "password"):
+            password = op_item.password
+        else:
+            password = op_item.credential
         sys.stdout.write(password)
         sys.stdout.flush()
     except OPGetItemException as e:

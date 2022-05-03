@@ -4,8 +4,9 @@ Description: A module that maps methods to to `op` commands and subcommands
 import logging
 from os import environ as env
 
+from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
-from ._py_op_cli import _OPArgv, _OPCLIExecute
+from ._py_op_cli import _OPCLIExecute
 from .account import OPAccount, OPAccountList
 from .op_cli_version import MINIMUM_ITEM_CREATION_VERSION, OPCLIVersion
 from .py_op_exceptions import (

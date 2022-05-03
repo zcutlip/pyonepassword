@@ -9,6 +9,7 @@ from .op_items._op_items_base import OPAbstractItem
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items.login import OPLoginItem
 from .op_objects import OPGroup, OPUser, OPVault
+from .op_items.totp import OPTOTPItem
 
 from ._py_op_commands import _OPCommandInterface
 from ._py_op_deprecation import deprecated
@@ -74,7 +75,7 @@ class _OPPrivate(_OPCommandInterface):
         op_item = OPItemFactory.op_item(output)
         return op_item
 
-    def item_get_totp(self, item_name_or_uuid: str, vault=None) -> str:
+    def item_get_totp(self, item_name_or_uuid: str, vault=None) -> OPTOTPItem:
         """
         Get a TOTP code from the item specified by name or UUID.
 
@@ -102,8 +103,8 @@ class _OPPrivate(_OPCommandInterface):
         """
         output = super()._item_get_totp(item_name_or_uuid, vault=vault, decode="utf-8")
         # strip newline
-        totp_code = output.rstrip()
-        return totp_code
+        totp = OPTOTPItem(output)
+        return totp
 
     def user_get(self, user_name_or_uuid: str) -> OPUser:
         """

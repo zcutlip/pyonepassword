@@ -194,6 +194,12 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "item-list-vault-test-data-include-archive"
+    },
+    "--format|json|item|get|Login With TOTP|--vault|Test Data|--fields|type=otp": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-login-with-totp"
     }
   }
 }

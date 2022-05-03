@@ -71,11 +71,12 @@ class _OPArgv(list):
     @classmethod
     def item_get_totp_argv(cls, op_exe, item_name_or_uuid, vault=None):
         sub_cmd_args = []
+        field_arg = "type=otp"
         if vault:
             sub_cmd_args.extend(["--vault", vault])
 
-        argv = cls.get_generic_argv(
-            op_exe, "totp", item_name_or_uuid, sub_cmd_args)
+        argv = cls.item_get_argv(
+            op_exe, item_name_or_uuid, vault=vault, fields=field_arg)
         return argv
 
     @classmethod

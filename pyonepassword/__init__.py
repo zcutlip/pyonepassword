@@ -4,6 +4,7 @@ from .__about__ import (
     __summary__
 )
 from .op_items._item_list import OPItemList
+from .op_items.api_credential import OPAPICredentialItem
 from .op_items.login import OPLoginItem
 from .op_items.identity import OPIdentityItemDescriptor
 from .op_items.document import OPDocumentItem

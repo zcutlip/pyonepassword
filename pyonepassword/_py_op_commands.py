@@ -200,10 +200,10 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, item_name_or_uuid, vault=vault_arg, fields=fields)
         return lookup_argv
 
-    def _get_totp_argv(self, item_name_or_uuid, vault=None):
+    def _item_get_totp_argv(self, item_name_or_uuid, vault=None):
         vault_arg = vault if vault else self.vault
 
-        lookup_argv = _OPArgv.get_totp_argv(
+        lookup_argv = _OPArgv.item_get_totp_argv(
             self.op_path, item_name_or_uuid, vault=vault_arg)
         return lookup_argv
 
@@ -246,12 +246,12 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
-    def _get_totp(self, item_name_or_uuid, vault=None, decode="utf-8"):
-        get_totp_argv = self._get_totp_argv(
+    def _item_get_totp(self, item_name_or_uuid, vault=None, decode="utf-8"):
+        item_get_totp_argv = self._item_get_totp_argv(
             item_name_or_uuid, vault=vault)
         try:
             output = self._run(
-                get_totp_argv, capture_stdout=True, decode=decode)
+                item_get_totp_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPGetItemException.from_opexception(ocfe) from ocfe
 

@@ -69,7 +69,7 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def get_totp_argv(cls, op_exe, item_name_or_uuid, vault=None):
+    def item_get_totp_argv(cls, op_exe, item_name_or_uuid, vault=None):
         sub_cmd_args = []
         if vault:
             sub_cmd_args.extend(["--vault", vault])

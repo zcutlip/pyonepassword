@@ -74,7 +74,7 @@ class _OPPrivate(_OPCommandInterface):
         op_item = OPItemFactory.op_item(output)
         return op_item
 
-    def get_totp(self, item_name_or_uuid: str, vault=None) -> str:
+    def item_get_totp(self, item_name_or_uuid: str, vault=None) -> str:
         """
         Get a TOTP code from the item specified by name or UUID.
 
@@ -100,7 +100,7 @@ class _OPPrivate(_OPCommandInterface):
         totp_code: str
             A string representing the TOTP code
         """
-        output = super()._get_totp(item_name_or_uuid, vault=vault, decode="utf-8")
+        output = super()._item_get_totp(item_name_or_uuid, vault=vault, decode="utf-8")
         # strip newline
         totp_code = output.rstrip()
         return totp_code

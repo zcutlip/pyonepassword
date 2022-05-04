@@ -2,7 +2,7 @@ from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._item_descriptor_registry import op_register_item_descriptor_type
 from ._op_item_type_registry import op_register_item_type
 from ._op_items_base import OPAbstractItem
-from .item_section import OPSection, OPSectionField
+from .item_section import OPSection, OPItemField
 
 
 @op_register_item_descriptor_type
@@ -77,6 +77,6 @@ class OPCreditCardItem(OPAbstractItem):
         return issue_num
 
     def _details_item(self, details: OPSection, field_label: str):
-        item_field: OPSectionField = details.fields_by_label(field_label)[0]
+        item_field: OPItemField = details.fields_by_label(field_label)[0]
         item_value = item_field.value
         return item_value

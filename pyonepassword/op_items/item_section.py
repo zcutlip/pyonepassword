@@ -9,7 +9,7 @@ def random_id():
     return unique_id
 
 
-class OPSectionFieldCollisionException(Exception):
+class OPItemFieldCollisionException(Exception):
     pass
 
 
@@ -17,7 +17,7 @@ class OPSectionCollisionException(Exception):
     pass
 
 
-class OPSectionField(dict):
+class OPItemField(dict):
     FIELD_TYPE = None
 
     def __init__(self, field_dict, deep_copy=True):
@@ -72,11 +72,11 @@ class OPSectionField(dict):
         return self["type"]
 
 
-class OPStringField(OPSectionField):
+class OPStringField(OPItemField):
     FIELD_TYPE = "string"
 
 
-class OPConcealedField(OPSectionField):
+class OPConcealedField(OPItemField):
     FIELD_TYPE = "concealed"
 
 
@@ -108,26 +108,26 @@ class OPSection(dict):
         return self["label"]
 
     @property
-    def fields(self) -> List[OPSectionField]:
+    def fields(self) -> List[OPItemField]:
         field_list = self.setdefault("fields", [])
         return field_list
 
     def register_field(self, field_dict):
-        field = OPSectionField(field_dict)
+        field = OPItemField(field_dict)
         field_id = field.field_id
         if field_id in self._shadow_fields:
-            raise OPSectionFieldCollisionException(
+            raise OPItemFieldCollisionException(
                 f"Field {field_id} already registered in section {self.section_id}")
         self.fields.append(field)
         self._shadow_fields[field_id] = field
 
-    def fields_by_label(self, label) -> List[OPSectionField]:
+    def fields_by_label(self, label) -> List[OPItemField]:
         """
         Returns all fields in a section matching the given label.
         Fields are not required to have unique labels, so there may be more than one match.
         """
         matching_fields = []
-        f: OPSectionField
+        f: OPItemField
         for f in self.fields:
             if f.label == label:
                 matching_fields.append(f)

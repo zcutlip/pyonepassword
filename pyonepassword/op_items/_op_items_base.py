@@ -6,7 +6,7 @@ from abc import abstractmethod
 from typing import List
 
 from ._item_descriptor_base import OPAbstractItemDescriptor
-from .item_section import OPSection, OPSectionField, OPSectionCollisionException
+from .item_section import OPSection, OPItemField, OPSectionCollisionException
 
 
 class OPFieldNotFoundException(Exception):
@@ -23,7 +23,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         self._initialize_sections()
         self._field_map = self._initialize_fields()
 
-    def add_section(self, title: str, fields: List[OPSectionField] = None, name: str = None):
+    def add_section(self, title: str, fields: List[OPItemField] = None, name: str = None):
         if not name:
             name = OPSection.random_section_name()
         for sect in self.sections:
@@ -111,7 +111,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
     def urls(self):
         return self._overview.url_list()
 
-    def field_by_id(self, field_id) -> OPSectionField:
+    def field_by_id(self, field_id) -> OPItemField:
         try:
             field = self._field_map[field_id]
         except KeyError:
@@ -125,7 +125,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         return value
 
     def _field_value_from_section(self, section: OPSection, field_label: str):
-        section_field: OPSectionField = section.fields_by_label(field_label)[0]
+        section_field: OPItemField = section.fields_by_label(field_label)[0]
         value = section_field.value
         return value
 
@@ -143,7 +143,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         field_map = {}
         _fields = self.get("fields", [])
         for field_dict in _fields:
-            field = OPSectionField(field_dict, deep_copy=False)
+            field = OPItemField(field_dict, deep_copy=False)
             section_dict = field.get("section")
             if section_dict:
                 section_id = section_dict["id"]

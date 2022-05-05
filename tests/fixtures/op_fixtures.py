@@ -17,6 +17,7 @@ from .expected_server import ExpectedServerItemData
 from .expected_totp_data import ExpectedTOTPData
 from .expected_user_data import ExpectedUserData
 from .expected_vault_data import ExpectedVaultData
+from .invalid_data import InvalidData
 from .paths import RESP_DIRECTORY_PATH
 
 TEST_DATA_VAULT = "Test Data"
@@ -119,4 +120,10 @@ def expected_totp_data():
 @fixture
 def expected_api_credential_data():
     data = ExpectedAPICredentialData()
+    return data
+
+
+@fixture
+def invalid_data():
+    data = InvalidData()
     return data

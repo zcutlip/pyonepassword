@@ -107,10 +107,6 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         temp.close()
         return temp.name
 
-    @property
-    def urls(self):
-        return self._overview.url_list()
-
     def field_by_id(self, field_id) -> OPItemField:
         try:
             field = self._field_map[field_id]

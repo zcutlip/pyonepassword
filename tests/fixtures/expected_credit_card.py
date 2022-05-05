@@ -47,6 +47,10 @@ class ExpectedCreditCard(ExpectedItemBase):
     def interest_rate(self) -> str:
         return self._data["interest_rate"]
 
+    @property
+    def issue_number(self) -> str:
+        return self._data["issue_number"]
+
 
 class ExpectedCreditCardData(ExpectedItemData):
 

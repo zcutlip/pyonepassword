@@ -1,0 +1,10 @@
+{
+    "invalid-item": {
+        "name": "invalid-item.json",
+        "type": "text"
+    },
+    "malformed-item-json": {
+        "name": "malformed-item-json.txt",
+        "type": "text"
+    }
+}

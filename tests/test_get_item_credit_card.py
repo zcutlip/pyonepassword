@@ -133,3 +133,13 @@ def test_get_item_credit_card_13(signed_in_op: OP, expected_credit_card_data: Ex
         credit_card_id, vault=vault)
 
     assert result.last_edited_by == expected.last_edited_by
+
+
+def test_get_item_credit_card_14(signed_in_op: OP, expected_credit_card_data: ExpectedCreditCardData):
+    credit_card_id = "Example Credit Card"
+    vault = "Test Data"
+    expected = expected_credit_card_data.data_for_credit_card(credit_card_id)
+    result: OPCreditCardItem = signed_in_op.item_get(
+        credit_card_id, vault=vault)
+
+    assert result.issue_number == expected.issue_number

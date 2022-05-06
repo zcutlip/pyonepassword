@@ -8,7 +8,7 @@ from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
 from ._py_op_cli import _OPCLIExecute
 from .account import OPAccount, OPAccountList
-from .op_cli_version import OPCLIVersion
+from .op_cli_version import OPCLIVersion, DOCUMENT_BYTES_BUG_VERSION
 from .py_op_exceptions import (
     OPCmdFailedException,
     OPGetDocumentException,
@@ -272,6 +272,13 @@ class _OPCommandInterface(_OPCLIExecute):
         except OPCmdFailedException as ocfe:
             raise OPGetDocumentException.from_opexception(ocfe) from ocfe
 
+        if self._cli_version <= DOCUMENT_BYTES_BUG_VERSION:
+            # op v2.x appends an erroneous \x0a ('\n') byte to document bytes
+            # trim it off if its present
+            if document_bytes[-1] == 0x0a:
+                document_bytes = document_bytes[:-1]
+        else:
+            print(self._cli_version)
         return document_bytes
 
     def _signed_in_accounts(self, decode="utf-8"):

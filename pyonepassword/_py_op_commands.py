@@ -8,7 +8,7 @@ from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
 from ._py_op_cli import _OPCLIExecute
 from .account import OPAccount, OPAccountList
-from .op_cli_version import MINIMUM_ITEM_CREATION_VERSION, OPCLIVersion
+from .op_cli_version import OPCLIVersion
 from .py_op_exceptions import (
     OPCmdFailedException,
     OPGetDocumentException,
@@ -181,12 +181,6 @@ class _OPCommandInterface(_OPCLIExecute):
             uses_bio = False
             break
         return uses_bio
-
-    def supports_item_creation(self):
-        support = False
-        if self._cli_version >= MINIMUM_ITEM_CREATION_VERSION:
-            support = True
-        return support
 
     @classmethod
     def _account_list_argv(cls, op_path="op", encoding="utf-8"):

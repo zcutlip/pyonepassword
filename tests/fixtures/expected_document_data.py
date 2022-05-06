@@ -9,6 +9,14 @@ class ExpectedDocument:
         self._data = document_dict
 
     @property
+    def file_id(self) -> str:
+        return self._data["id"]
+
+    @property
+    def content_path(self) -> str:
+        return self._data["content_path"]
+
+    @property
     def digest(self) -> str:
         return self._data.get("digest", None)
 

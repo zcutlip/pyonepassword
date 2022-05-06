@@ -1,12 +1,8 @@
-import json
-import os
-import tempfile
-
 from abc import abstractmethod
 from typing import List
 
 from ._item_descriptor_base import OPAbstractItemDescriptor
-from .item_section import OPSection, OPItemField, OPSectionCollisionException
+from .item_section import OPItemField, OPSection
 
 
 class OPFieldNotFoundException(Exception):
@@ -19,43 +15,13 @@ class OPAbstractItem(OPAbstractItemDescriptor):
     @abstractmethod
     def __init__(self, item_dict_or_json):
         super().__init__(item_dict_or_json)
-        self._temp_files = []
         self._initialize_sections()
         self._field_map = self._initialize_fields()
-
-    def add_section(self, title: str, fields: List[OPItemField] = None, name: str = None):
-        if not name:
-            name = OPSection.random_section_name()
-        for sect in self.sections:
-            if sect.name == name:
-                raise OPSectionCollisionException(
-                    f"Section with the unique name {name} already exists")
-        new_sect = OPSection.new_section(name, title, fields)
-        sections = self.sections
-        sections.append(new_sect)
-        self.sections = sections
-
-        return new_sect
 
     @property
     def sections(self) -> List[OPSection]:
         section_list = self.get("sections", [])
         return section_list
-
-    @property
-    def first_section(self) -> OPSection:
-        first = None
-        if self.sections:
-            first = self.sections[0]
-            first = OPSection(first)
-        return first
-
-    @property
-    def category(self):
-        if not self.CATEGORY:
-            raise NotImplementedError(
-                f"item category is not set for {self.__class__.__name__}")
-        return self.CATEGORY.lower()
 
     def sections_by_label(self, label) -> List[OPSection]:
         """
@@ -89,23 +55,6 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         section = self.first_section_by_label(section_title)
         value = self._field_value_from_section(section, field_label)
         return value
-
-    def __del__(self):
-        while self._temp_files:
-            t = self._temp_files.pop()
-            try:
-                os.unlink(t)
-            except FileNotFoundError:
-                continue
-
-    def details_secure_tempfile(self, encoding="utf-8") -> tempfile.NamedTemporaryFile:
-        temp = tempfile.NamedTemporaryFile(
-            mode="w", delete=False, encoding=encoding)
-        self._temp_files.append(temp.name)
-        details_json = json.dumps(self.details)
-        temp.write(details_json)
-        temp.close()
-        return temp.name
 
     def field_by_id(self, field_id) -> OPItemField:
         try:

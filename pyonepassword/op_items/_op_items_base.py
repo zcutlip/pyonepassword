@@ -79,7 +79,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         _sections = self.get("sections")
         if _sections:
             for section_dict in _sections:
-                s = OPSection(section_dict)
+                s = OPSection(section_dict, deep_copy=False)
                 section_list.append(s)
         self["sections"] = section_list
 

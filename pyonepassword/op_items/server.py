@@ -42,7 +42,8 @@ class OPServerItem(OPAbstractItem):
 
     @property
     def admin_console_username(self):
-        username = self.field_value_by_section_title("admin console username")
+        username = self.field_value_by_section_title(
+            "Admin Console", "admin console username")
         return username
 
     @property

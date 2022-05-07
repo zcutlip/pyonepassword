@@ -1,7 +1,9 @@
+from typing import Union
+
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._item_descriptor_registry import op_register_item_descriptor_type
 from ._op_item_type_registry import op_register_item_type
-from ._op_items_base import OPAbstractItem
+from ._op_items_base import OPAbstractItem, OPFieldNotFoundException
 
 
 @op_register_item_descriptor_type
@@ -30,8 +32,11 @@ class OPServerItem(OPAbstractItem):
         return username
 
     @property
-    def url(self):
-        url = self.primary_section_field_value("URL")
+    def url(self) -> Union[str, None]:
+        try:
+            url = self.field_value_by_id("url")
+        except OPFieldNotFoundException:
+            url = None
         return url
 
     @property

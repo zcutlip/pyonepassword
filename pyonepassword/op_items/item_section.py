@@ -1,12 +1,5 @@
 import copy
-import uuid
 from typing import Any, List
-
-
-def random_id():
-    unique_id = uuid.uuid4()
-    unique_id = unique_id.hex
-    return unique_id
 
 
 class OPItemFieldCollisionException(Exception):
@@ -27,22 +20,6 @@ class OPItemField(dict):
         else:
             _dict = field_dict
         super().__init__(_dict)
-
-    @classmethod
-    def new_field(cls, value, field_label, field_id=None):
-        if not field_id:
-            field_id = random_id()
-
-        if cls.FIELD_TYPE is None:
-            raise NotImplementedError("Use subclass that overrides FIELD_TYPE")
-        field_dict = {
-            "id": field_id,
-            "type": cls.FIELD_TYPE,
-            "label": field_label,
-            "value": value,
-        }
-        obj = cls(field_dict)
-        return obj
 
     @property
     def field_id(self) -> str:

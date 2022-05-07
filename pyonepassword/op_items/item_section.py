@@ -1,5 +1,5 @@
 import copy
-from typing import Any, List
+from typing import Any, List, Union
 
 
 class OPItemFieldCollisionException(Exception):
@@ -47,6 +47,10 @@ class OPItemField(dict):
         Returns the field's type, which affects how the field's value is rendered in 1Password
         """
         return self["type"]
+
+    @property
+    def reference(self) -> Union[str, None]:
+        return self.get("reference")
 
 
 class OPStringField(OPItemField):

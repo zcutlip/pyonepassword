@@ -206,6 +206,18 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "item-get-api-cred"
+    },
+    "--format|json|item|get|3wcd3zsps7fvij47fef6scznxq": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-server-3-by-id"
+    },
+    "--format|json|item|get|Example Server 2|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-server-2"
     }
   }
 }

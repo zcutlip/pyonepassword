@@ -1,0 +1,140 @@
+{
+  "id": "3wcd3zsps7fvij47fef6scznxq",
+  "title": "Example Server 3",
+  "version": 10,
+  "vault": {
+    "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+    "name": "Test Data"
+  },
+  "category": "SERVER",
+  "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+  "created_at": "2020-12-15T18:32:04Z",
+  "updated_at": "2022-05-06T20:52:19Z",
+  "additional_information": "server-3-username",
+  "sections": [
+    {
+      "id": "admin_console",
+      "label": "Admin Console"
+    },
+    {
+      "id": "hosting_provider_details",
+      "label": "Hosting Provider"
+    },
+    {
+      "id": "ssh_keys",
+      "label": "SSH Keys"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": "This is Example Server 3",
+      "reference": "op://Test Data/Example Server 3/notesPlain"
+    },
+    {
+      "id": "url",
+      "type": "STRING",
+      "label": "URL",
+      "value": "ssh://example-server-3",
+      "reference": "op://Test Data/Example Server 3/URL"
+    },
+    {
+      "id": "username",
+      "type": "STRING",
+      "label": "username",
+      "value": "server-3-username",
+      "reference": "op://Test Data/Example Server 3/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "label": "password",
+      "value": "jeremiah-birdie-celt-tuneless",
+      "reference": "op://Test Data/Example Server 3/password"
+    },
+    {
+      "id": "admin_console_url",
+      "section": {
+        "id": "admin_console",
+        "label": "Admin Console"
+      },
+      "type": "STRING",
+      "label": "admin console URL",
+      "reference": "op://Test Data/Example Server 3/Admin Console/admin console URL"
+    },
+    {
+      "id": "admin_console_username",
+      "section": {
+        "id": "admin_console",
+        "label": "Admin Console"
+      },
+      "type": "STRING",
+      "label": "admin console username",
+      "reference": "op://Test Data/Example Server 3/Admin Console/admin console username"
+    },
+    {
+      "id": "admin_console_password",
+      "section": {
+        "id": "admin_console",
+        "label": "Admin Console"
+      },
+      "type": "CONCEALED",
+      "label": "console password",
+      "reference": "op://Test Data/Example Server 3/Admin Console/console password"
+    },
+    {
+      "id": "name",
+      "section": {
+        "id": "hosting_provider_details",
+        "label": "Hosting Provider"
+      },
+      "type": "STRING",
+      "label": "name",
+      "reference": "op://Test Data/Example Server 3/Hosting Provider/name"
+    },
+    {
+      "id": "website",
+      "section": {
+        "id": "hosting_provider_details",
+        "label": "Hosting Provider"
+      },
+      "type": "STRING",
+      "label": "website",
+      "reference": "op://Test Data/Example Server 3/Hosting Provider/website"
+    },
+    {
+      "id": "support_contact_url",
+      "section": {
+        "id": "hosting_provider_details",
+        "label": "Hosting Provider"
+      },
+      "type": "STRING",
+      "label": "support URL",
+      "reference": "op://Test Data/Example Server 3/Hosting Provider/support URL"
+    },
+    {
+      "id": "support_contact_phone",
+      "section": {
+        "id": "hosting_provider_details",
+        "label": "Hosting Provider"
+      },
+      "type": "STRING",
+      "label": "support phone",
+      "reference": "op://Test Data/Example Server 3/Hosting Provider/support phone"
+    },
+    {
+      "id": "id_ed25519",
+      "section": {
+        "id": "ssh_keys",
+        "label": "SSH Keys"
+      },
+      "type": "CONCEALED",
+      "label": "id_ed25519",
+      "value": "foobar123",
+      "reference": "op://Test Data/Example Server 3/SSH Keys/id_ed25519"
+    }
+  ]
+}

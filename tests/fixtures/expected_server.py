@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Union
 
 from .expected_item import ExpectedItemBase, ExpectedItemData
 
@@ -52,11 +52,27 @@ class ExpectedServer(ExpectedItemBase):
     def ssh_keys(self) -> Dict[str, Dict[str, str]]:
         return self._data["ssh_keys"]
 
+    @property
+    def url(self) -> Union[str, None]:
+        return self._data.get("url")
+
     def ssh_keys_for_id(self, ssh_key_id) -> ExpectedServerSSHKeys:
         all_keys = self.ssh_keys
         key_dict = all_keys[ssh_key_id]
         key_obj = ExpectedServerSSHKeys(key_dict)
         return key_obj
+
+    @property
+    def admin_console_url(self) -> str:
+        return self._data["admin_console_url"]
+
+    @property
+    def admin_console_username(self) -> str:
+        return self._data["admin_console_username"]
+
+    @property
+    def admin_console_password(self) -> str:
+        return self._data["admin_console_password"]
 
 
 class ExpectedServerItemData(ExpectedItemData):

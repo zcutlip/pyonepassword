@@ -218,6 +218,24 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "item-get-example-server-2"
+    },
+    "--format|json|user|list|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-list-vault-test-data"
+    },
+    "--format|json|user|list": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-list-all-users"
+    },
+    "--format|json|user|list|--group|Owners": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-list-group-owners"
     }
   }
 }

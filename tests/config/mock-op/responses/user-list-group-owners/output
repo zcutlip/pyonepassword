@@ -1,0 +1,10 @@
+[
+  {
+    "id": "5GHHPJK5HZC5BAT7WDUXW57G44",
+    "name": "Example User",
+    "email": "example_user@example.email",
+    "type": "MEMBER",
+    "state": "ACTIVE",
+    "role": "MANAGER"
+  }
+]

@@ -8,7 +8,7 @@ from .op_items._item_list import OPItemList
 from .op_items._op_items_base import OPAbstractItem
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items.login import OPLoginItem
-from .op_objects import OPGroup, OPUser, OPVault
+from .op_objects import OPGroup, OPUser, OPVault, OPUserDescriptorList
 from .op_items.totp import OPTOTPItem
 
 from ._py_op_commands import _OPCommandInterface
@@ -129,6 +129,13 @@ class _OPPrivate(_OPCommandInterface):
         user_json = super()._user_get(user_name_or_uuid)
         user = OPUser(user_json)
         return user
+
+    def user_list(self, group_name_or_id=None, vault=None) -> OPUserDescriptorList:
+        user_list: OPUserDescriptorList
+        user_list = self._user_list(
+            group_name_or_id=group_name_or_id, vault=vault)
+        user_list = OPUserDescriptorList(user_list)
+        return user_list
 
     def vault_get(self, vault_name_or_uuid: str) -> OPVault:
         """

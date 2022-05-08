@@ -9,6 +9,7 @@ from pyonepassword.op_items import (
     OPUnknownItemType
 )
 from pyonepassword.py_op_exceptions import OPInvalidItemException
+from pyonepassword.op_items.item_section import OPItemFieldCollisionException
 
 if TYPE_CHECKING:
     from pyonepassword import OP, OPLoginItem
@@ -33,3 +34,9 @@ def test_item_field_not_found_01(signed_in_op: OP):
     result = signed_in_op.item_get(item_name, vault=vault)
     with pytest.raises(OPFieldNotFoundException):
         result.field_by_id("Non-existent-field")
+
+
+def test_item_field_collision_01(invalid_data):
+    field_collision_json = invalid_data.data_for_name("field-collision")
+    with pytest.raises(OPItemFieldCollisionException):
+        OPItemFactory.op_item(field_collision_json)

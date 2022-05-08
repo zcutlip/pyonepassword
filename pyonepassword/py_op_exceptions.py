@@ -82,6 +82,10 @@ class OPGetUserException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
+class OPUserListException(OPCmdFailedException):
+    MSG = "1Password 'user list' failed."
+
+
 class OPGetVaultException(OPCmdFailedException):
     MSG = "1Password 'get vault' failed."
 

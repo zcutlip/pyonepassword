@@ -17,7 +17,8 @@ from .py_op_exceptions import (
     OPGetUserException,
     OPGetVaultException,
     OPNotSignedInException,
-    OPSigninException
+    OPSigninException,
+    OPUserListException
 )
 
 
@@ -213,6 +214,11 @@ class _OPCommandInterface(_OPCLIExecute):
         get_user_argv = _OPArgv.user_get_argv(self.op_path, user_name_or_uuid)
         return get_user_argv
 
+    def _user_list_argv(self, group_name_or_id=None, vault=None):
+        user_list_argv = _OPArgv.user_list_argv(
+            self.op_path, group_name_or_id=group_name_or_id, vault=vault)
+        return user_list_argv
+
     def _group_get_argv(self, group_name_or_uuid: str):
         group_get_argv = _OPArgv.group_get_argv(
             self.op_path, group_name_or_uuid)
@@ -295,6 +301,17 @@ class _OPCommandInterface(_OPCLIExecute):
             )
         except OPCmdFailedException as ocfe:
             raise OPGetUserException.from_opexception(ocfe) from ocfe
+        return output
+
+    def _user_list(self, group_name_or_id=None, vault=None, decode: str = "utf-8") -> str:
+        user_list_argv = self._user_list_argv(
+            group_name_or_id=group_name_or_id, vault=vault)
+        try:
+            output = self._run(
+                user_list_argv, capture_stdout=True, decode=decode
+            )
+        except OPCmdFailedException as ocfe:
+            raise OPUserListException.from_opexception(ocfe)
         return output
 
     def _group_get(self, group_name_or_uuid: str, decode: str = "utf-8") -> str:

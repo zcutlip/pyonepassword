@@ -130,6 +130,16 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    def user_list_argv(cls, op_exe, group_name_or_id=None, vault=None):
+        sub_cmd_args = []
+        if group_name_or_id:
+            sub_cmd_args.extend(["--group", group_name_or_id])
+        if vault:
+            sub_cmd_args.extend(["--vault", vault])
+        argv = cls.user_generic_argv(op_exe, "list", sub_cmd_args)
+        return argv
+
+    @classmethod
     def group_generic_argv(cls, op_exe, vault_subcommand, sub_cmd_args):
         args = []
         global_args = ["--format", "json"]

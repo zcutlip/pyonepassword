@@ -246,6 +246,43 @@
             "returncode": 1
         }
     },
+    "user-lists":{
+        "all-users":[
+            {
+                "unique_id": "5GHHPJK5HZC5BAT7WDUXW57G44",
+                "name": "Example User",
+                "email": "example_user@example.email",
+                "type": "MEMBER",
+                "state": "ACTIVE"
+            },
+            {
+                "unique_id": "T3KMQ7HLN5HJJHNN7CIXXMLJ2E",
+                "name": "Other User",
+                "email": "other_user@example.email",
+                "type": "MEMBER",
+                "state": "ACTIVE"
+            }
+        ],
+        "group-owners":[
+            {
+                "unique_id": "5GHHPJK5HZC5BAT7WDUXW57G44",
+                "name": "Example User",
+                "email": "example_user@example.email",
+                "type": "MEMBER",
+                "state": "ACTIVE",
+                "role": "MANAGER"
+            }
+        ],
+        "vault-test-data":[
+            {
+                "unique_id": "5GHHPJK5HZC5BAT7WDUXW57G44",
+                "name": "Example User",
+                "email": "example_user@example.email",
+                "type": "MEMBER",
+                "state": "ACTIVE"
+            }
+        ]
+    },
     "groups": {
         "Team Members": {
             "unique_id": "g4jgqqvmizfbvi3oavcafz4y7a",

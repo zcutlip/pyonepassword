@@ -24,4 +24,4 @@
       }
     },
     {
-__INVALID_ITEM_JSON__
+__MALFORMED_JSON__

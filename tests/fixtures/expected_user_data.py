@@ -1,6 +1,6 @@
 import datetime
 
-from typing import Dict
+from typing import Dict, Union
 
 from ..test_support._datetime import fromisoformat_z
 from .expected_data import ExpectedData
@@ -52,3 +52,46 @@ class ExpectedUserData:
         user_dict = self._data[user_identifier]
         user = ExpectedUser(user_dict)
         return user
+
+
+class ExpectedUserListEntry:
+    def __init__(self, user_item: Dict) -> None:
+        self._data = user_item
+
+    @property
+    def unique_id(self) -> str:
+        return self._data["unique_id"]
+
+    @property
+    def name(self) -> str:
+        return self._data["name"]
+
+    @property
+    def email(self) -> str:
+        return self._data["email"]
+
+    @property
+    def type(self) -> str:
+        return self._data["type"]
+
+    @property
+    def state(self) -> str:
+        return self._data["state"]
+
+    @property
+    def role(self) -> Union[str, None]:
+        return self._data.get("role")
+
+
+class ExpectedUserListData:
+
+    def __init__(self) -> None:
+        expected_data = ExpectedData()
+        user_list_data: Dict = expected_data.user_list_data
+        self._data: Dict = user_list_data
+
+    def data_for_key(self, data_key: str):
+        user_list = self._data[data_key]
+        user_list = [ExpectedUserListEntry(entry_dict)
+                     for entry_dict in user_list]
+        return user_list

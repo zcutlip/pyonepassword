@@ -1,10 +1,13 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
+
+import pytest
 
 if TYPE_CHECKING:
     from pyonepassword import OP
 
-from pyonepassword import OPGetUserException
+from pyonepassword import OPGetUserException, OPInvalidUserException, OPUser
 
 
 def _lookup_user_data(data, user_identifier: str):
@@ -34,3 +37,9 @@ def test_get_invalid_user_01(signed_in_op: OP, expected_user_data):
         assert False, "We should have caught an OPGetUserException"
     except OPGetUserException as e:
         assert e.returncode == expected.returncode
+
+
+def test_user_get_malformed_json_01(invalid_data):
+    malformed_json = invalid_data.data_for_name("malformed-user-json")
+    with pytest.raises(OPInvalidUserException):
+        OPUser(malformed_json)

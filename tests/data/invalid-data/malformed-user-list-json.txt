@@ -1,0 +1,15 @@
+[
+  {
+    "id": "5GHHPJK5HZC5BAT7WDUXW57G44",
+    "name": "Example User",
+    "email": "example_user@example.email",
+    "type": "MEMBER",
+    "state": "ACTIVE"
+  },
+  {
+    "id": "T3KMQ7HLN5HJJHNN7CIXXMLJ2E",
+    "name": "Other User",
+    "email": "other_user@example.email",
+    "type": "MEMBER",
+    "state": "ACTIVE"
+__MALFORMED_JSON__

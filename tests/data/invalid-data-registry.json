@@ -10,5 +10,17 @@
     "malformed-item-json": {
         "name": "malformed-item-json.txt",
         "type": "text"
+    },
+    "malformed-group-json": {
+        "name": "malformed-group-json.txt",
+        "type": "text"
+    },
+    "malformed-user-json": {
+        "name": "malformed-user-json.txt",
+        "type": "text"
+    },
+    "malformed-user-list-json": {
+        "name": "malformed-user-list-json.txt",
+        "type": "text"
     }
 }

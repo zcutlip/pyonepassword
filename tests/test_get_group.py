@@ -1,10 +1,13 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
+
+import pytest
 
 if TYPE_CHECKING:
     from pyonepassword import OP
 
-from pyonepassword import OPGetGroupException
+from pyonepassword import OPGetGroupException, OPGroup, OPInvalidGroupException
 
 
 def _lookup_group_data(data, group_identifier: str):
@@ -32,3 +35,9 @@ def test_get_invalid_user_01(signed_in_op: OP, expected_group_data):
         assert False, "Should have caught an OPGetGroupException"
     except OPGetGroupException as e:
         assert e.returncode == expected.returncode
+
+
+def test_group_get_malformed_json_01(invalid_data):
+    malformed_json = invalid_data.data_for_name("malformed-group-json")
+    with pytest.raises(OPInvalidGroupException):
+        OPGroup(malformed_json)

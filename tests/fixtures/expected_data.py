@@ -1,6 +1,5 @@
 import json
-
-from typing import Dict
+from typing import Dict, List
 
 from .paths import EXPECTED_DATA_PATH
 
@@ -45,6 +44,10 @@ class ExpectedData:
     @property
     def user_data(self) -> Dict[str, Dict]:
         return self._data["users"]
+
+    @property
+    def user_list_data(self) -> Dict[str, List]:
+        return self._data["user-lists"]
 
     @property
     def group_data(self) -> Dict[str, Dict]:

@@ -220,7 +220,7 @@ class OPGroup(OPBaseObject):
             super().__init__(group_dict_or_json)
         except JSONDecodeError as jdce:
             raise OPInvalidGroupException(
-                f"Failed to unserialize group json: {jdce}") from jdce
+                f"Failed to unserialize group json: {jdce}", group_dict_or_json) from jdce
 
     @property
     def description(self) -> str:

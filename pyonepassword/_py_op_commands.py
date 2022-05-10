@@ -8,7 +8,7 @@ from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
 from ._py_op_cli import _OPCLIExecute
 from .account import OPAccount, OPAccountList
-from .op_cli_version import OPCLIVersion, DOCUMENT_BYTES_BUG_VERSION
+from .op_cli_version import DOCUMENT_BYTES_BUG_VERSION, OPCLIVersion
 from .py_op_exceptions import (
     OPCmdFailedException,
     OPGetDocumentException,
@@ -16,6 +16,7 @@ from .py_op_exceptions import (
     OPGetItemException,
     OPGetUserException,
     OPGetVaultException,
+    OPGroupListException,
     OPNotSignedInException,
     OPSigninException,
     OPUserListException
@@ -224,6 +225,11 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, group_name_or_uuid)
         return group_get_argv
 
+    def _group_list_argv(self, user_name_or_id=None, vault=None):
+        group_list_argv = _OPArgv.group_list_argv(
+            self.op_path, user_name_or_id=user_name_or_id, vault=vault)
+        return group_list_argv
+
     def _vault_get_argv(self, vault_name_or_uuid: str):
 
         get_vault_argv = _OPArgv.vault_get_argv(
@@ -322,6 +328,17 @@ class _OPCommandInterface(_OPCLIExecute):
             )
         except OPCmdFailedException as ocfe:
             raise OPGetGroupException.from_opexception(ocfe) from ocfe
+        return output
+
+    def _group_list(self, user_name_or_id=None, vault=None, decode: str = "utf-8") -> str:
+        group_list_argv = self._group_list_argv(
+            user_name_or_id=user_name_or_id, vault=vault)
+        try:
+            output = self._run(
+                group_list_argv, capture_stdout=True, decode=decode
+            )
+        except OPCmdFailedException as ocfe:
+            raise OPGroupListException.from_opexception(ocfe)
         return output
 
     def _vault_get(self, vault_name_or_uuid: str, decode: str = "utf-8") -> str:

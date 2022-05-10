@@ -236,6 +236,24 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "user-list-group-owners"
+    },
+    "--format|json|group|list": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "group-list-all-groups"
+    },
+    "--format|json|group|list|--user|Example User": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "group-list-example-user"
+    },
+    "--format|json|group|list|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "group-list-vault-test-data"
     }
   }
 }

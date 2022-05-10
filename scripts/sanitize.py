@@ -14,33 +14,35 @@ class TextFile:
         self._fpath = file_path
 
     def sanitize(self):
-        print(f"Sanitizing {self._fpath}")
         changed = False
         try:
             text = open(self._fpath, "r").read()
         except UnicodeDecodeError:
-            print("\tnot text")
             return changed
         for old, new in self._smap.items():
             if old in text:
                 text = text.replace(old, new)
                 changed = True
         if changed:
-            print("\tSanitized")
+            print(f"Sanitized {self._fpath}")
             open(self._fpath, "w").write(text)
-        else:
-            print("\tNo change")
+
         return changed
 
 
 def sanitize_files(top_dir, sanitization_map):
-
+    changed_count = 0
+    file_count = 0
     for root, dirs, files in os.walk(top_dir):
         for file in files:
             for pattern in whitelist:
                 if fnmatch.fnmatch(file, pattern):
                     textfile = TextFile(Path(root, file), sanitization_map)
-                    textfile.sanitize()
+                    file_count += 1
+                    if textfile.sanitize():
+                        changed_count += 1
+    print(f"Considered {file_count} files")
+    print(f"Changed {changed_count} files")
 
 
 def sanitize_parse_args():

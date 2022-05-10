@@ -54,5 +54,9 @@ class ExpectedData:
         return self._data["groups"]
 
     @property
+    def group_list_data(self) -> Dict[str, List]:
+        return self._data["group-lists"]
+
+    @property
     def account_data(self) -> Dict[str, Dict]:
         return self._data["accounts"]

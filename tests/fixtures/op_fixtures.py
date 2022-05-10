@@ -9,7 +9,7 @@ from .expected_api_credential_data import ExpectedAPICredentialData
 from .expected_credit_card import ExpectedCreditCardData
 from .expected_data import ExpectedData
 from .expected_document_data import ExpectedDocumentData
-from .expected_group_data import ExpectedGroupData
+from .expected_group_data import ExpectedGroupData, ExpectedGroupListData
 from .expected_login import ExpectedLoginItemData
 from .expected_password_item_data import ExpectedPasswordItemData
 from .expected_secure_note_item_data import ExpectedSecureNoteItemData
@@ -72,6 +72,12 @@ def expected_vault_data():
 @fixture
 def expected_group_data():
     data = ExpectedGroupData()
+    return data
+
+
+@fixture
+def expected_group_list_data():
+    data = ExpectedGroupListData()
     return data
 
 

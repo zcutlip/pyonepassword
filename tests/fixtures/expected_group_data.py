@@ -47,3 +47,44 @@ class ExpectedGroupData:
         group_dict = self._data[group_identifier]
         group = ExpectedGroup(group_dict)
         return group
+
+
+class ExpectedGroupListEntry:
+    def __init__(self, user_item: Dict) -> None:
+        self._data = user_item
+
+    @property
+    def unique_id(self) -> str:
+        return self._data["unique_id"]
+
+    @property
+    def name(self) -> str:
+        return self._data["name"]
+
+    @property
+    def description(self) -> str:
+        return self._data["description"]
+
+    @property
+    def state(self) -> str:
+        return self._data["state"]
+
+    @property
+    def created_at(self) -> datetime.datetime:
+        created = self._data["created_at"]
+        created = fromisoformat_z(created)
+        return created
+
+
+class ExpectedGroupListData:
+
+    def __init__(self) -> None:
+        expected_data = ExpectedData()
+        group_list_data: Dict = expected_data.group_list_data
+        self._data: Dict = group_list_data
+
+    def data_for_key(self, data_key: str):
+        group_list = self._data[data_key]
+        group_list = [ExpectedGroupListEntry(entry_dict)
+                      for entry_dict in group_list]
+        return group_list

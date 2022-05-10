@@ -1,25 +1,29 @@
 import json
 import logging
-
 from os import environ as env
-
-from .account import OPAccountList
-from .op_items._item_list import OPItemList
-from .op_items._op_items_base import OPAbstractItem
-from .op_items._op_item_type_registry import OPItemFactory
-from .op_items.login import OPLoginItem
-from .op_objects import OPGroup, OPUser, OPVault, OPUserDescriptorList
-from .op_items.totp import OPTOTPItem
 
 from ._py_op_commands import _OPCommandInterface
 from ._py_op_deprecation import deprecated
+from .account import OPAccountList
+from .op_items._item_list import OPItemList
+from .op_items._op_item_type_registry import OPItemFactory
+from .op_items._op_items_base import OPAbstractItem
+from .op_items.login import OPLoginItem
+from .op_items.totp import OPTOTPItem
+from .op_objects import (
+    OPGroup,
+    OPGroupDescriptorList,
+    OPUser,
+    OPUserDescriptorList,
+    OPVault
+)
 from .py_op_exceptions import (
+    OPCmdFailedException,
+    OPForgetException,
     OPGetDocumentException,
     OPInvalidDocumentException,
-    OPCmdFailedException,
-    OPSignoutException,
-    OPForgetException,
-    OPListEventsException
+    OPListEventsException,
+    OPSignoutException
 )
 
 
@@ -184,6 +188,13 @@ class _OPPrivate(_OPCommandInterface):
         group_json = super()._group_get(group_name_or_uuid, decode="utf-8")
         group = OPGroup(group_json)
         return group
+
+    def group_list(self, user_name_or_id=None, vault=None) -> OPUserDescriptorList:
+        group_list: OPUserDescriptorList
+        group_list = self._group_list(
+            user_name_or_id=user_name_or_id, vault=vault)
+        group_list = OPGroupDescriptorList(group_list)
+        return group_list
 
     def list_events(self, eventid=None, older=False):
         """

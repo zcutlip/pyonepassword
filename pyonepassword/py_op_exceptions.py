@@ -100,6 +100,10 @@ class OPGetGroupException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
+class OPGroupListException(OPCmdFailedException):
+    MSG = "1Password 'group list' failed."
+
+
 class OPCreateItemException(OPCmdFailedException):
     MSG = "1Password 'create item' failed."
 

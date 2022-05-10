@@ -156,6 +156,16 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    def group_list_argv(cls, op_exe, user_name_or_id=None, vault=None):
+        sub_cmd_args = []
+        if user_name_or_id:
+            sub_cmd_args.extend(["--user", user_name_or_id])
+        if vault:
+            sub_cmd_args.extend(["--vault", vault])
+        argv = cls.group_generic_argv(op_exe, "list", sub_cmd_args)
+        return argv
+
+    @classmethod
     def normal_signin_argv(cls, op_exe, account_shorthand=None):
         global_args = []
         if account_shorthand:

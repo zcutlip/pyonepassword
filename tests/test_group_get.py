@@ -15,7 +15,7 @@ def _lookup_group_data(data, group_identifier: str):
     return group
 
 
-def test_get_group_01(signed_in_op: OP, expected_group_data):
+def test_group_get_01(signed_in_op: OP, expected_group_data):
     group_identifier = "Team Members"
     expected = _lookup_group_data(expected_group_data, group_identifier)
     result = signed_in_op.group_get(group_identifier)

@@ -254,6 +254,24 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "group-list-vault-test-data"
+    },
+    "--format|json|vault|list": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "vault-list-all-vaults"
+    },
+    "--format|json|vault|list|--group|Team Members": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "vault-list-group-team-members"
+    },
+    "--format|json|vault|list|--user|example_user@example.email": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "vault-list-user-example-user"
     }
   }
 }

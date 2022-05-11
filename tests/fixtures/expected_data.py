@@ -42,6 +42,10 @@ class ExpectedData:
         return self._data["vaults"]
 
     @property
+    def vault_list_data(self) -> Dict[str, List]:
+        return self._data["vault-lists"]
+
+    @property
     def user_data(self) -> Dict[str, Dict]:
         return self._data["users"]
 

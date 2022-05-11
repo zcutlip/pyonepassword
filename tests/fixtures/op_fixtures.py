@@ -16,7 +16,7 @@ from .expected_secure_note_item_data import ExpectedSecureNoteItemData
 from .expected_server import ExpectedServerItemData
 from .expected_totp_data import ExpectedTOTPData
 from .expected_user_data import ExpectedUserData, ExpectedUserListData
-from .expected_vault_data import ExpectedVaultData
+from .expected_vault_data import ExpectedVaultData, ExpectedVaultListData
 from .invalid_data import InvalidData
 from .paths import RESP_DIRECTORY_PATH
 
@@ -66,6 +66,12 @@ def expected_user_list_data():
 @fixture
 def expected_vault_data():
     data = ExpectedVaultData()
+    return data
+
+
+@fixture
+def expected_vault_list_data():
+    data = ExpectedVaultListData()
     return data
 
 

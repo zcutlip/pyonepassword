@@ -69,6 +69,24 @@ def test_get_user_06(signed_in_op: OP, expected_user_data):
     assert result.last_auth_at == expected.last_auth_at
 
 
+def test_get_user_07(signed_in_op: OP, expected_user_data):
+    # get vault "Test Data"
+    user_identifier = "Example User"
+    expected = _lookup_user_data(expected_user_data, user_identifier)
+    result = signed_in_op.user_get(user_identifier)
+    assert isinstance(result, OPUser)
+    assert result.state == expected.state
+
+
+def test_get_user_08(signed_in_op: OP, expected_user_data):
+    # get vault "Test Data"
+    user_identifier = "Example User"
+    expected = _lookup_user_data(expected_user_data, user_identifier)
+    result = signed_in_op.user_get(user_identifier)
+    assert isinstance(result, OPUser)
+    assert result.type == expected.type
+
+
 def test_get_invalid_user_01(signed_in_op: OP, expected_user_data):
     user_identifier = "No Such User"
     expected = _lookup_user_data(expected_user_data, user_identifier)

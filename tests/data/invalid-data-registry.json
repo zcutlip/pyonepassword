@@ -22,5 +22,9 @@
     "malformed-user-list-json": {
         "name": "malformed-user-list-json.txt",
         "type": "text"
+    },
+    "malformed-group-list-json": {
+        "name": "malformed-group-list-json.txt",
+        "type": "text"
     }
 }

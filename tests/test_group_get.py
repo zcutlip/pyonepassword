@@ -50,6 +50,33 @@ def test_group_get_05(signed_in_op: OP, expected_group_data):
     assert result.created_at == expected.created_at
 
 
+def test_group_get_06(signed_in_op: OP, expected_group_data):
+    group_identifier = "Team Members"
+    expected = expected_group_data.data_for_group(group_identifier)
+    result = signed_in_op.group_get(group_identifier)
+    assert isinstance(result, OPGroup)
+    assert result.state == expected.state
+
+
+def test_group_get_07(signed_in_op: OP, expected_group_data):
+    group_identifier = "Team Members"
+    expected = expected_group_data.data_for_group(group_identifier)
+    result = signed_in_op.group_get(group_identifier)
+    assert isinstance(result, OPGroup)
+    assert result.type == expected.type
+
+
+def test_group_get_08(signed_in_op: OP, expected_group_data):
+    group_identifier = "Team Members"
+    expected = expected_group_data.data_for_group(group_identifier)
+    result = signed_in_op.group_get(group_identifier)
+    assert isinstance(result, OPGroup)
+    group_perms = result.permissions
+    assert isinstance(group_perms, list)
+    assert len(group_perms) == len(expected.permissions)
+    assert set(group_perms) == set(expected.permissions)
+
+
 def test_get_invalid_user_01(signed_in_op: OP, expected_group_data):
     group_identifier = "No Such group"
     expected = expected_group_data.data_for_group(group_identifier)

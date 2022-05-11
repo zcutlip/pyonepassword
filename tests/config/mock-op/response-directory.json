@@ -141,7 +141,7 @@
       "stderr": "error_output",
       "name": "vault-get-test-data"
     },
-    "--format|json|vault|get|jqnwwnagfbhe5h2ky6k3rm3peu": {
+    "--format|json|vault|get|yv7w5ijyxbdhxgh3njphwsxujy": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",

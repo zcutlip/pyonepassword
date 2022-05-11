@@ -22,8 +22,8 @@ def test_get_vault_01(signed_in_op: OP, expected_vault_data):
 
 
 def test_get_vault_02(signed_in_op: OP, expected_vault_data):
-    # get vault "jqnwwnagfbhe5h2ky6k3rm3peu"
-    vault_uuid = "jqnwwnagfbhe5h2ky6k3rm3peu"
+    # get vault "yv7w5ijyxbdhxgh3njphwsxujy"
+    vault_uuid = "yv7w5ijyxbdhxgh3njphwsxujy"
     expected = _lookup_item_data(expected_vault_data, vault_uuid)
     result = signed_in_op.vault_get(vault_uuid)
     assert result.name == expected.name

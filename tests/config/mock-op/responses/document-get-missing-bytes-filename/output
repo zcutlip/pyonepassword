@@ -3,7 +3,7 @@
   "title": "Example Attached File 2",
   "version": 1,
   "vault": {
-    "id": "jqnwwnagfbhe5h2ky6k3rm3peu",
+    "id": "yv7w5ijyxbdhxgh3njphwsxujy",
     "name": "Test Data 2"
   },
   "category": "DOCUMENT",
@@ -31,7 +31,7 @@
       "id": "4ox3dfl4obcu5gfwdupnquxqmu",
       "name": "Screen Shot 2021-11-23 at 7.49.17 AM.png",
       "size": 13587,
-      "content_path": "/v1/vaults/jqnwwnagfbhe5h2ky6k3rm3peu/items/2shcpuyudra2fppxar376io6a4/files/4ox3dfl4obcu5gfwdupnquxqmu/content"
+      "content_path": "/v1/vaults/yv7w5ijyxbdhxgh3njphwsxujy/items/2shcpuyudra2fppxar376io6a4/files/4ox3dfl4obcu5gfwdupnquxqmu/content"
     }
   ]
 }

@@ -19,7 +19,8 @@ from .py_op_exceptions import (
     OPGroupListException,
     OPNotSignedInException,
     OPSigninException,
-    OPUserListException
+    OPUserListException,
+    OPVaultListException
 )
 
 
@@ -354,6 +355,16 @@ class _OPCommandInterface(_OPCLIExecute):
             )
         except OPCmdFailedException as ocfe:
             raise OPGetVaultException.from_opexception(ocfe)
+        return output
+
+    def _vault_list(self, group_name_or_id=None, user_name_or_id=None, decode="utf-8") -> str:
+        vault_list_argv = self._vault_list_argv(
+            group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
+        try:
+            output = self._run(
+                vault_list_argv, capture_stdout=True, decode=decode)
+        except OPCmdFailedException as ocfe:
+            raise OPVaultListException.from_opexception(ocfe)
         return output
 
     def _signout(self, account, session, forget=False):

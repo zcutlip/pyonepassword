@@ -93,6 +93,10 @@ class OPGetVaultException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
+class OPVaultListException(OPCmdFailedException):
+    MSG = "1Password 'vault list' failed."
+
+
 class OPGetGroupException(OPCmdFailedException):
     MSG = "1Password 'get group' failed."
 

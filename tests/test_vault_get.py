@@ -12,7 +12,7 @@ def _lookup_item_data(data, vault_id: str) -> Dict:
     return item
 
 
-def test_get_vault_01(signed_in_op: OP, expected_vault_data):
+def test_vault_get_01(signed_in_op: OP, expected_vault_data):
     # get vault "Test Data"
     vault_name = "Test Data"
     expected = _lookup_item_data(expected_vault_data, vault_name)
@@ -21,7 +21,7 @@ def test_get_vault_01(signed_in_op: OP, expected_vault_data):
     assert result.description == expected.description
 
 
-def test_get_vault_02(signed_in_op: OP, expected_vault_data):
+def test_vault_get_02(signed_in_op: OP, expected_vault_data):
     # get vault "yv7w5ijyxbdhxgh3njphwsxujy"
     vault_uuid = "yv7w5ijyxbdhxgh3njphwsxujy"
     expected = _lookup_item_data(expected_vault_data, vault_uuid)
@@ -30,7 +30,7 @@ def test_get_vault_02(signed_in_op: OP, expected_vault_data):
     assert result.description == expected.description
 
 
-def test_get_invalid_vault_01(signed_in_op: OP, expected_vault_data):
+def test_vault_get_invalid_01(signed_in_op: OP, expected_vault_data):
     vault_name = "Invalid Vault"
     expected = _lookup_item_data(expected_vault_data, vault_name)
     try:

@@ -41,6 +41,14 @@ class ExpectedUser:
     def returncode(self) -> int:
         return self._data["returncode"]
 
+    @property
+    def type(self) -> str:
+        return self._data["type"]
+
+    @property
+    def state(self) -> str:
+        return self._data["state"]
+
 
 class ExpectedUserData:
     def __init__(self):

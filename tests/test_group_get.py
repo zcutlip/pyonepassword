@@ -19,11 +19,39 @@ def test_group_get_01(signed_in_op: OP, expected_group_data):
     group_identifier = "Team Members"
     expected = _lookup_group_data(expected_group_data, group_identifier)
     result = signed_in_op.group_get(group_identifier)
-
+    assert isinstance(result, OPGroup)
     assert result.unique_id == expected.unique_id
+
+
+def test_group_get_02(signed_in_op: OP, expected_group_data):
+    group_identifier = "Team Members"
+    expected = _lookup_group_data(expected_group_data, group_identifier)
+    result = signed_in_op.group_get(group_identifier)
+    assert isinstance(result, OPGroup)
     assert result.name == expected.name
+
+
+def test_group_get_03(signed_in_op: OP, expected_group_data):
+    group_identifier = "Team Members"
+    expected = _lookup_group_data(expected_group_data, group_identifier)
+    result = signed_in_op.group_get(group_identifier)
+    assert isinstance(result, OPGroup)
     assert result.description == expected.description
+
+
+def test_group_get_04(signed_in_op: OP, expected_group_data):
+    group_identifier = "Team Members"
+    expected = _lookup_group_data(expected_group_data, group_identifier)
+    result = signed_in_op.group_get(group_identifier)
+    assert isinstance(result, OPGroup)
     assert result.updated_at == expected.updated_at
+
+
+def test_group_get_05(signed_in_op: OP, expected_group_data):
+    group_identifier = "Team Members"
+    expected = _lookup_group_data(expected_group_data, group_identifier)
+    result = signed_in_op.group_get(group_identifier)
+    assert isinstance(result, OPGroup)
     assert result.created_at == expected.created_at
 
 

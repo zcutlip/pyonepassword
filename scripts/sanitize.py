@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Dict
 from configparser import ConfigParser
 
-whitelist = ["output", "*.txt", "*.json"]
+whitelist = ["output", "*.txt", "*.json", "test_*.py"]
 
 
 class TextFile:
@@ -60,14 +60,13 @@ def main():
     config.optionxform = str
     config.read(config_path)
     tests_path = config['main']['tests_path']
-    responses_path = config['main']['response-path']
-    responses_path = Path(tests_path, responses_path)
-    data_path = config['main']['test_data_path']
-    data_path = Path(tests_path, data_path)
+    # responses_path = config['main']['response-path']
+    # responses_path = Path(tests_path, responses_path)
+    # data_path = config['main']['test_data_path']
+    # data_path = Path(tests_path, data_path)
     replacement_map = dict(config['replacements'])
 
-    for path in [responses_path, data_path]:
-        sanitize_files(path, replacement_map)
+    sanitize_files(tests_path, replacement_map)
 
 
 if __name__ == "__main__":

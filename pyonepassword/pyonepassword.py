@@ -14,7 +14,8 @@ from .op_objects import (
     OPGroupDescriptorList,
     OPUser,
     OPUserDescriptorList,
-    OPVault
+    OPVault,
+    OPVaultDescriptorList
 )
 from .py_op_exceptions import (
     OPCmdFailedException,
@@ -222,6 +223,12 @@ class OP(_OPCommandInterface):
         vault_json = super()._vault_get(vault_name_or_uuid, decode="utf-8")
         vault = OPVault(vault_json)
         return vault
+
+    def vault_list(self, group_name_or_id=None, user_name_or_id=None) -> OPVaultDescriptorList:
+        vault_list_json = super()._vault_list(
+            group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
+        vault_list = OPVaultDescriptorList(vault_list_json)
+        return vault_list
 
     def group_get(self, group_name_or_uuid: str) -> OPGroup:
         """

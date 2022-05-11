@@ -1,6 +1,6 @@
 import datetime
 
-from typing import Dict
+from typing import Dict, List
 
 from ..test_support._datetime import fromisoformat_z
 from .expected_data import ExpectedData
@@ -35,6 +35,18 @@ class ExpectedGroup:
     @property
     def returncode(self) -> int:
         return self._data["returncode"]
+
+    @property
+    def type(self) -> str:
+        return self._data["type"]
+
+    @property
+    def state(self) -> str:
+        return self._data["state"]
+
+    @property
+    def permissions(self) -> List[str]:
+        return self._data["permissions"]
 
 
 class ExpectedGroupData:

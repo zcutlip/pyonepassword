@@ -236,6 +236,11 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, vault_name_or_uuid)
         return get_vault_argv
 
+    def _vault_list_argv(self, group_name_or_id=None, user_name_or_id=None):
+        vault_list_argv = _OPArgv.vault_list_argv(
+            self.op_path, group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
+        return vault_list_argv
+
     def _cli_version_argv(self):
         # Specifically for use by mock_op response-generator
         cli_version_argv = _OPArgv.cli_version_argv(self.op_path)

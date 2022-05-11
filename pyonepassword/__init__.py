@@ -30,7 +30,7 @@ from .op_objects import (
     OPVaultDescriptorList
 )
 
-from .pyonepassword import OP, OP_
+from .pyonepassword import OP
 
 from .py_op_exceptions import (
     OPSigninException,

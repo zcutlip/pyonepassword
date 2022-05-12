@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import pytest
+
 if TYPE_CHECKING:
     from pyonepassword import OP
     from .fixtures.expected_vault_data import (
@@ -9,7 +11,7 @@ if TYPE_CHECKING:
         ExpectedVault
     )
 
-from pyonepassword import OPGetVaultException, OPVault
+from pyonepassword import OPGetVaultException, OPInvalidVaultException, OPVault
 
 
 def test_vault_get_01(signed_in_op: OP, expected_vault_data: ExpectedVaultData):
@@ -173,3 +175,9 @@ def test_vault_get_invalid_01(signed_in_op: OP, expected_vault_data):
     except OPGetVaultException as e:
         print(e)
         assert e.returncode == expected.returncode
+
+
+def test_vault_get_malformed_json_01(invalid_data):
+    malformed_json = invalid_data.data_for_name("malformed-vault-json")
+    with pytest.raises(OPInvalidVaultException):
+        OPVault(malformed_json)

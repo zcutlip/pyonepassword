@@ -26,5 +26,9 @@
     "malformed-group-list-json": {
         "name": "malformed-group-list-json.txt",
         "type": "text"
+    },
+    "malformed-vault-list-json": {
+        "name": "malformed-vault-list-json.txt",
+        "type": "text"
     }
 }

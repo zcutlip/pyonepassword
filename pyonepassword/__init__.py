@@ -18,6 +18,7 @@ from .op_objects import (
     OPInvalidObjectException,
     OPInvalidUserException,
     OPInvalidUserListException,
+    OPInvalidVaultException,
     OPInvalidVaultListException,
     OPUser,
     OPUserDescriptor,

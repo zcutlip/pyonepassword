@@ -39,9 +39,9 @@ def test_group_list_02(signed_in_op: OP, expected_group_list_data: ExpectedGroup
     group_list_key = "all-groups"
     expected_group_list: List[ExpectedGroupListEntry]
     expected_group_list = expected_group_list_data.data_for_key(group_list_key)
-    expected = expected_group_list[0]
+    expected = expected_group_list[1]
     result = signed_in_op.group_list()
-    group_entry = result[0]
+    group_entry = result[1]
     assert isinstance(result, OPGroupDescriptorList)
     assert isinstance(group_entry, OPGroupDescriptor)
 
@@ -52,9 +52,9 @@ def test_group_list_03(signed_in_op: OP, expected_group_list_data: ExpectedGroup
     group_list_key = "all-groups"
     expected_group_list: List[ExpectedGroupListEntry]
     expected_group_list = expected_group_list_data.data_for_key(group_list_key)
-    expected = expected_group_list[0]
+    expected = expected_group_list[2]
     result = signed_in_op.group_list()
-    group_entry = result[0]
+    group_entry = result[2]
     assert isinstance(result, OPGroupDescriptorList)
     assert isinstance(group_entry, OPGroupDescriptor)
 
@@ -65,9 +65,9 @@ def test_group_list_04(signed_in_op: OP, expected_group_list_data: ExpectedGroup
     group_list_key = "all-groups"
     expected_group_list: List[ExpectedGroupListEntry]
     expected_group_list = expected_group_list_data.data_for_key(group_list_key)
-    expected = expected_group_list[0]
+    expected = expected_group_list[3]
     result = signed_in_op.group_list()
-    group_entry = result[0]
+    group_entry = result[3]
     assert isinstance(result, OPGroupDescriptorList)
     assert isinstance(group_entry, OPGroupDescriptor)
 

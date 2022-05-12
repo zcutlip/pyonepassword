@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, List
 
+import pytest
+
 # make imports for type-hinting disappear at run-time to avoid
 # circular imports.
 # this also reduced exercising tested code simply by importing
@@ -13,7 +15,11 @@ if TYPE_CHECKING:
         ExpectedVaultListEntry
     )
 
-from pyonepassword import OPVaultDescriptor, OPVaultDescriptorList
+from pyonepassword import (
+    OPInvalidVaultListException,
+    OPVaultDescriptor,
+    OPVaultDescriptorList
+)
 
 
 def test_vault_list_01(signed_in_op: OP, expected_vault_list_data: ExpectedVaultListData):
@@ -49,10 +55,17 @@ def test_vault_list_03(signed_in_op: OP, expected_vault_list_data: ExpectedVault
     expected: ExpectedVaultListEntry
 
     expected_vault_list = expected_vault_list_data.data_for_key("all-vaults")
-    expected = expected_vault_list[1]
+    expected = expected_vault_list[2]
     result = signed_in_op.vault_list()
     vault_entry = result[2]
     assert isinstance(result, OPVaultDescriptorList)
     assert isinstance(vault_entry, OPVaultDescriptor)
 
     assert vault_entry.name == expected.name
+
+
+def test_vault_list_malformed_json_01(invalid_data):
+    malformed_json = invalid_data.data_for_name("malformed-vault-list-json")
+
+    with pytest.raises(OPInvalidVaultListException):
+        OPVaultDescriptorList(malformed_json)

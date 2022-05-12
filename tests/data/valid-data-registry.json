@@ -1,0 +1,10 @@
+{
+    "login-item-field-password":{
+        "name": "login-item-field-password.json",
+        "type": "json"
+    },
+    "login-item-field-username": {
+        "name": "login-item-field-username.json",
+        "type": "json"
+    }
+}

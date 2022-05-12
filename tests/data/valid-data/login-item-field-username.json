@@ -1,0 +1,8 @@
+{
+    "id": "username",
+    "type": "STRING",
+    "purpose": "USERNAME",
+    "label": "username",
+    "value": "johndoe1999",
+    "reference": "op://Test Data/Example Login 1/username"
+}

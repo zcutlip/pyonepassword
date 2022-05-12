@@ -11,10 +11,7 @@ if TYPE_CHECKING:
     from .fixtures.expected_user_data import ExpectedUserListEntry, ExpectedUserListData
     from pyonepassword import OP
 
-from pyonepassword import (
-    OPInvalidUserListException,
-    OPUserDescriptorList
-)
+from pyonepassword import OPInvalidUserListException, OPUserDescriptorList
 
 
 def test_user_list_01(signed_in_op: OP, expected_user_list_data: ExpectedUserListData):

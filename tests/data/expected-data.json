@@ -404,5 +404,15 @@
             "user_uuid": "5GHHPJK5HZC5BAT7WDUXW57G44",
             "account_uuid": "JE3H7ZW5VBCLHNKKKJJJJ2OXYZ"
         }
+    },
+    "item-fields": {
+        "example-login-username": {
+            "field_id": "username",
+            "type": "STRING",
+            "purpose": "USERNAME",
+            "label": "username",
+            "value": "johndoe1999",
+            "reference": "op://Test Data/Example Login 1/username"
+        }
     }
 }

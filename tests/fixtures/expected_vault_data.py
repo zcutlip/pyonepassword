@@ -1,5 +1,7 @@
+import datetime
 from typing import Dict
 
+from ..test_support._datetime import fromisoformat_z
 from .expected_data import ExpectedData
 
 
@@ -20,8 +22,26 @@ class ExpectedVault:
         return self._data["name"]
 
     @property
+    def created_at(self) -> datetime.datetime:
+        created_at = self._data["created_at"]
+        return fromisoformat_z(created_at)
+
+    @property
+    def updated_at(self) -> datetime.datetime:
+        updated_at = self._data["updated_at"]
+        return fromisoformat_z(updated_at)
+
+    @property
     def returncode(self) -> int:
         return self._data["returncode"]
+
+    @property
+    def type(self) -> str:
+        return self._data["type"]
+
+    @property
+    def items(self) -> int:
+        return self._data["items"]
 
 
 class ExpectedVaultData:

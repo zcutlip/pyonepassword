@@ -108,13 +108,6 @@ class OPGroupListException(OPCmdFailedException):
     MSG = "1Password 'group list' failed."
 
 
-class OPCreateItemException(OPCmdFailedException):
-    MSG = "1Password 'create item' failed."
-
-    def __init__(self, stderr_out, returncode):
-        super().__init__(stderr_out, returncode)
-
-
 class OPListEventsException(OPCmdFailedException):
     MSG = "1Passworm 'list events' failed."
 
@@ -149,13 +142,3 @@ class OPNotFoundException(Exception):
 
 class OPConfigNotFoundException(Exception):
     pass
-
-
-class OPCreateItemNotSupportedException(_OPAbstractException):
-    pass
-
-
-class OPGetCreatedItemException(_OPAbstractException):
-    def __init__(self, msg, item_uuid):
-        super().__init__(msg)
-        self.uuid = item_uuid

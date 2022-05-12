@@ -29,7 +29,6 @@ from .op_objects import (
 )
 from .py_op_exceptions import (
     OPConfigNotFoundException,
-    OPCreateItemException,
     OPForgetException,
     OPGetDocumentException,
     OPGetGroupException,

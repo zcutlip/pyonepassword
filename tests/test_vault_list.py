@@ -13,7 +13,7 @@ if TYPE_CHECKING:
         ExpectedVaultListEntry
     )
 
-from pyonepassword import OPVaultDescriptorList
+from pyonepassword import OPVaultDescriptor, OPVaultDescriptorList
 
 
 def test_vault_list_01(signed_in_op: OP, expected_vault_list_data: ExpectedVaultListData):
@@ -28,3 +28,31 @@ def test_vault_list_01(signed_in_op: OP, expected_vault_list_data: ExpectedVault
     result_ids = {vault_obj.unique_id for vault_obj in result}
     expected_ids = {entry.unique_id for entry in expected}
     assert result_ids == expected_ids
+
+
+def test_vault_list_02(signed_in_op: OP, expected_vault_list_data: ExpectedVaultListData):
+    epected_vault_list: List[ExpectedVaultListEntry]
+    expected: ExpectedVaultListEntry
+
+    expected_vault_list = expected_vault_list_data.data_for_key("all-vaults")
+    expected = expected_vault_list[0]
+    result = signed_in_op.vault_list()
+    vault_entry = result[0]
+    assert isinstance(result, OPVaultDescriptorList)
+    assert isinstance(vault_entry, OPVaultDescriptor)
+
+    assert vault_entry.unique_id == expected.unique_id
+
+
+def test_vault_list_03(signed_in_op: OP, expected_vault_list_data: ExpectedVaultListData):
+    epected_vault_list: List[ExpectedVaultListEntry]
+    expected: ExpectedVaultListEntry
+
+    expected_vault_list = expected_vault_list_data.data_for_key("all-vaults")
+    expected = expected_vault_list[1]
+    result = signed_in_op.vault_list()
+    vault_entry = result[2]
+    assert isinstance(result, OPVaultDescriptorList)
+    assert isinstance(vault_entry, OPVaultDescriptor)
+
+    assert vault_entry.name == expected.name

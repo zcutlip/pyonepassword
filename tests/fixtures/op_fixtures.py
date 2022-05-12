@@ -1,8 +1,9 @@
 import os
 
+from pytest import fixture
+
 from pyonepassword import OP
 from pyonepassword.py_op_exceptions import OPCmdFailedException
-from pytest import fixture
 
 from .expected_account_data import ExpectedAccountData
 from .expected_api_credential_data import ExpectedAPICredentialData
@@ -19,6 +20,7 @@ from .expected_user_data import ExpectedUserData, ExpectedUserListData
 from .expected_vault_data import ExpectedVaultData, ExpectedVaultListData
 from .invalid_data import InvalidData
 from .paths import RESP_DIRECTORY_PATH
+from .valid_data import ValidData
 
 TEST_DATA_VAULT = "Test Data"
 OP_MASTER_PASSWORD = "made-up-password"
@@ -144,4 +146,10 @@ def expected_api_credential_data():
 @fixture
 def invalid_data():
     data = InvalidData()
+    return data
+
+
+@fixture
+def valid_data():
+    data = ValidData()
     return data

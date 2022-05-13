@@ -46,6 +46,14 @@ class OPItemField(dict):
     def reference(self) -> Union[str, None]:
         return self.get("reference")
 
+    @property
+    def purpose(self) -> str:
+        return self["purpose"]
+
+    @property
+    def entropy(self) -> Union[float, None]:
+        return self.get("entropy")
+
 
 class OPSection(dict):
     def __init__(self, section_dict):

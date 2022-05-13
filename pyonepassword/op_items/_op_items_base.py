@@ -79,7 +79,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         _sections = self.get("sections")
         if _sections:
             for section_dict in _sections:
-                s = OPSection(section_dict, deep_copy=False)
+                s = OPSection(section_dict)
                 section_list.append(s)
         self["sections"] = section_list
 
@@ -88,7 +88,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         field_map = {}
         _fields = self.get("fields", [])
         for field_dict in _fields:
-            field = OPItemField(field_dict, deep_copy=False)
+            field = OPItemField(field_dict)
             section_dict = field.get("section")
             if section_dict:
                 section_id = section_dict["id"]

@@ -47,14 +47,6 @@ class OPItemField(dict):
         return self.get("reference")
 
 
-class OPStringField(OPItemField):
-    FIELD_TYPE = "string"
-
-
-class OPConcealedField(OPItemField):
-    FIELD_TYPE = "concealed"
-
-
 class OPSection(dict):
     def __init__(self, section_dict):
         super().__init__(section_dict)

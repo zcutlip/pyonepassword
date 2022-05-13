@@ -413,6 +413,15 @@
             "label": "username",
             "value": "johndoe1999",
             "reference": "op://Test Data/Example Login 1/username"
+        },
+        "example-login-password": {
+            "field_id": "password",
+            "type": "CONCEALED",
+            "purpose": "PASSWORD",
+            "label": "password",
+            "value": "W9bZ@ZwGpRXCqnWt",
+            "entropy": 94.353515625,
+            "reference": "op://Test Data/Example Login 1/password"
         }
     }
 }

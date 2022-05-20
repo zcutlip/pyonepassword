@@ -68,3 +68,7 @@ class ExpectedData:
     @property
     def item_fields(self) -> Dict[str, Dict]:
         return self._data["item-fields"]
+
+    @property
+    def op_config_data(self) -> Dict[str, Dict]:
+        return self._data["op-config"]

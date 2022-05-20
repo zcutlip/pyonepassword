@@ -1,0 +1,16 @@
+{
+	"latest_signin": "example_shorthand",
+	"device": "__REDACTED__",
+	"accounts": [
+		{
+			"shorthand": "example_shorthand",
+			"accountUUID": "GRXJAN4BY5DPROISKYL55IRCPY",
+			"url": "https://example-account.1password.com",
+			"email": "example_user@example.email",
+			"accountKey": "__REDACTED__",
+			"userUUID": "5GHHPJK5HZC5BAT7WDUXW57G44",
+			"dsecret": "__REDACTED__"
+		}
+	],
+	"system_auth_latest_signin": "5GHHPJK5HZC5BAT7WDUXW57G44"
+}

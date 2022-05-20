@@ -23,6 +23,7 @@ from .expected_vault_data import ExpectedVaultData, ExpectedVaultListData
 from .invalid_data import InvalidData
 from .paths import RESP_DIRECTORY_PATH
 from .valid_data import ValidData
+from .valid_op_cli_config import ValidOPCLIConfig
 
 TEST_DATA_VAULT = "Test Data"
 OP_MASTER_PASSWORD = "made-up-password"
@@ -167,3 +168,15 @@ def invalid_data():
 def valid_data():
     data = ValidData()
     return data
+
+
+@fixture
+def valid_op_cli_config_homedir():
+    config_obj = ValidOPCLIConfig()
+    return config_obj
+
+
+@fixture
+def valid_op_cli_config_xdghome():
+    config_obj = ValidOPCLIConfig(location_env_var='XDG_CONFIG_HOME')
+    return config_obj

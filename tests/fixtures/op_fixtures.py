@@ -13,6 +13,7 @@ from .expected_document_data import ExpectedDocumentData
 from .expected_group_data import ExpectedGroupData, ExpectedGroupListData
 from .expected_item_fields import ExpectedItemFieldData
 from .expected_login import ExpectedLoginItemData
+from .expected_op_cli_config import ExpectedConfigData
 from .expected_password_item_data import ExpectedPasswordItemData
 from .expected_secure_note_item_data import ExpectedSecureNoteItemData
 from .expected_server import ExpectedServerItemData
@@ -147,6 +148,12 @@ def expected_api_credential_data():
 @fixture
 def expected_item_field_data():
     data = ExpectedItemFieldData()
+    return data
+
+
+@fixture
+def expected_op_config_data():
+    data = ExpectedConfigData()
     return data
 
 

@@ -46,7 +46,7 @@ class OPCLIConfig(dict):
         self.configpath = configpath
         if configpath is None:
             raise OPConfigNotFoundException("No op configuration found")
-
+        self._configpath = configpath
         try:
             config_json = open(configpath, "r").read()
         except FileNotFoundError as e:

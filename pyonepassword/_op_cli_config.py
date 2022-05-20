@@ -29,10 +29,6 @@ class OPCLIAccountConfig(dict):
         return self["email"]
 
     @property
-    def account_key(self) -> str:
-        return self["accountKey"]
-
-    @property
     def user_uuid(self) -> str:
         return self["userUUID"]
 

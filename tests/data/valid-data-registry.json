@@ -6,5 +6,9 @@
     "login-item-field-username": {
         "name": "login-item-field-username.json",
         "type": "json"
+    },
+    "example-op-config": {
+        "name": "example-op-config.json",
+        "type": "text"
     }
 }

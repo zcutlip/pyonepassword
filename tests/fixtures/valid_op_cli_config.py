@@ -6,7 +6,7 @@ from .valid_data import ValidData
 
 
 class ValidOPCLIConfig:
-    def __init__(self, location_env_var='HOME'):
+    def __init__(self, location_env_var='HOME', config_text=None):
         self._new_home = None
         self._old_home = None
         self._tempdir = tempfile.TemporaryDirectory()
@@ -31,7 +31,8 @@ class ValidOPCLIConfig:
         op_config_path = Path(self._tempdir.name, ".config", "op")
         op_config_path.mkdir(parents=True)
         op_config_path = Path(op_config_path, "config")
-        config_text = ValidData().data_for_name("example-op-config")
+        if config_text is None:
+            config_text = ValidData().data_for_name("example-op-config")
         with open(op_config_path, "w") as config:
             config.write(config_text)
         self._op_config_path = op_config_path

@@ -34,5 +34,9 @@
     "malformed-vault-json": {
         "name": "malformed-vault-json.txt",
         "type": "text"
+    },
+    "malformed-op-config-json": {
+        "name": "malformed-op-config-json.txt",
+        "type": "text"
     }
 }

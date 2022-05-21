@@ -114,3 +114,23 @@ def test_op_cli_config_xdg_07(expected_op_config_data: ExpectedConfigData, valid
     config = OPCLIConfig()
     with pytest.raises(OPConfigNotFoundException):
         config.get_config(shorthand)
+
+
+def test_op_cli_config_unreable_01(invalid_op_cli_config_unreable):
+    with pytest.raises(OPConfigNotFoundException):
+        OPCLIConfig()
+
+
+def test_op_cli_config_missing_01(invalid_op_cli_config_missing):
+    with pytest.raises(OPConfigNotFoundException):
+        OPCLIConfig()
+
+
+def test_op_cli_config_missing_02(invalid_op_cli_config_missing):
+    with pytest.raises(OPConfigNotFoundException):
+        OPCLIConfig(configpath="no_such_path")
+
+
+def test_op_cli_config_malformed_01(invalid_op_cli_config_malformed):
+    with pytest.raises(OPConfigNotFoundException):
+        OPCLIConfig()

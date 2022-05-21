@@ -21,6 +21,11 @@ from .expected_totp_data import ExpectedTOTPData
 from .expected_user_data import ExpectedUserData, ExpectedUserListData
 from .expected_vault_data import ExpectedVaultData, ExpectedVaultListData
 from .invalid_data import InvalidData
+from .invalid_op_cli_config import (
+    MalformedOPCLIConfig,
+    MissingOPCLIConfig,
+    UnreadableOPCLIConfig
+)
 from .paths import RESP_DIRECTORY_PATH
 from .valid_data import ValidData
 from .valid_op_cli_config import ValidOPCLIConfig
@@ -179,4 +184,22 @@ def valid_op_cli_config_homedir():
 @fixture
 def valid_op_cli_config_xdghome():
     config_obj = ValidOPCLIConfig(location_env_var='XDG_CONFIG_HOME')
+    return config_obj
+
+
+@fixture
+def invalid_op_cli_config_unreable():
+    config_obj = UnreadableOPCLIConfig()
+    return config_obj
+
+
+@fixture
+def invalid_op_cli_config_missing():
+    config_obj = MissingOPCLIConfig()
+    return config_obj
+
+
+@fixture
+def invalid_op_cli_config_malformed():
+    config_obj = MalformedOPCLIConfig()
     return config_obj

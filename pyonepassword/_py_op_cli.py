@@ -1,13 +1,8 @@
 import logging
-
 import subprocess
-
 from os import environ as env
 
-from .py_op_exceptions import (
-    OPNotFoundException,
-    OPCmdFailedException
-)
+from .py_op_exceptions import OPCmdFailedException, OPNotFoundException
 
 # Mainly for use in automated testing
 LOG_OP_ERR_ENV_NAME = "LOG_OP_ERR"
@@ -66,9 +61,7 @@ class _OPCLIExecute:
             cls.logger.error(
                 "1Password 'op' command not found at: {}".format(argv[0]))
             cls.logger.error(
-                "See https://support.1password.com/command-line-getting-started/ for more information,")
-            cls.logger.error(
-                "or install from Homebrew with: 'brew install 1password-cli")
+                "See https://developer.1password.com/docs/cli for more information")
             raise OPNotFoundException(argv[0], err.errno) from err
 
         return output

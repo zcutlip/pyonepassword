@@ -28,7 +28,10 @@ from .invalid_op_cli_config import (
 )
 from .paths import RESP_DIRECTORY_PATH
 from .valid_data import ValidData
-from .valid_op_cli_config import ValidOPCLIConfig
+from .valid_op_cli_config import (
+    VALID_OP_CONFIG_NO_SHORTHAND_KEY,
+    ValidOPCLIConfig
+)
 
 TEST_DATA_VAULT = "Test Data"
 OP_MASTER_PASSWORD = "made-up-password"
@@ -184,6 +187,13 @@ def valid_op_cli_config_homedir():
 @fixture
 def valid_op_cli_config_xdghome():
     config_obj = ValidOPCLIConfig(location_env_var='XDG_CONFIG_HOME')
+    return config_obj
+
+
+@fixture
+def valid_op_cli_config_no_shorthand():
+    config_obj = ValidOPCLIConfig(
+        valid_data_key=VALID_OP_CONFIG_NO_SHORTHAND_KEY)
     return config_obj
 
 

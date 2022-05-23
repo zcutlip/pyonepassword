@@ -4,9 +4,12 @@ from pathlib import Path
 
 from .valid_data import ValidData
 
+VALID_OP_CONFIG_KEY = "example-op-config"
+VALID_OP_CONFIG_NO_SHORTHAND_KEY = "example-op-config-no-latest-shorthand"
+
 
 class ValidOPCLIConfig:
-    def __init__(self, location_env_var='HOME', config_text=None):
+    def __init__(self, location_env_var='HOME', config_text=None, valid_data_key=VALID_OP_CONFIG_KEY):
         self._new_home = None
         self._old_home = None
         self._tempdir = tempfile.TemporaryDirectory()
@@ -32,7 +35,7 @@ class ValidOPCLIConfig:
         op_config_path.mkdir(parents=True)
         op_config_path = Path(op_config_path, "config")
         if config_text is None:
-            config_text = ValidData().data_for_name("example-op-config")
+            config_text = ValidData().data_for_name(valid_data_key)
         with open(op_config_path, "w") as config:
             config.write(config_text)
         self._op_config_path = op_config_path

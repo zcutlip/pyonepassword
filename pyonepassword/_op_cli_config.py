@@ -99,7 +99,7 @@ class OPCLIConfig(dict):
     def get_config(self, shorthand=None) -> OPCLIAccountConfig:
         if shorthand is None:
             shorthand = self.get("latest_signin")
-        if shorthand is None:
+        if not shorthand:  # if shorthand is None or empty string
             raise OPConfigNotFoundException(
                 "No shorthand provided, no sign-ins found.")
 

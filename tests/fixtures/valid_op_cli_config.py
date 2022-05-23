@@ -17,9 +17,12 @@ class ValidOPCLIConfig:
         # reset $HOME to something useless
         # of location_env_var is HOME, we'll reset it later
         new_home = "/dev/null"
-        self._old_home = os.environ['HOME']
+
+        # in some environments HOME may not be set, so don't assume it is
+        self._old_home = os.environ.get('HOME')
         self._old_xdg = os.environ.get("XDG_CONFIG_HOME")
-        os.environ['HOME'] = new_home
+        if self._old_home is not None:
+            os.environ['HOME'] = new_home
 
         if location_env_var is not None:
             os.environ[location_env_var] = self._tempdir.name
@@ -42,7 +45,10 @@ class ValidOPCLIConfig:
 
     def __del__(self):
         if os.environ.get('HOME') == self._new_home:
-            os.environ['HOME'] = self._old_home
+            if self._old_home is not None:
+                os.environ['HOME'] = self._old_home
+            else:
+                os.environ.pop('HOME', None)
 
         if os.environ.get('XDG_CONFIG_HOME') == self._new_xdg:
             if self._old_xdg is not None:

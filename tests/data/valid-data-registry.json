@@ -10,5 +10,9 @@
     "example-op-config": {
         "name": "example-op-config.json",
         "type": "text"
+    },
+    "example-op-config-no-latest-shorthand": {
+        "name": "example-op-config-no-latest-shorthand.json",
+        "type": "text"
     }
 }

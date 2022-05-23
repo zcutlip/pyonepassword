@@ -134,3 +134,9 @@ def test_op_cli_config_missing_02(invalid_op_cli_config_missing):
 def test_op_cli_config_malformed_01(invalid_op_cli_config_malformed):
     with pytest.raises(OPConfigNotFoundException):
         OPCLIConfig()
+
+
+def test_op_cli_config_missing_shorthand_01(valid_op_cli_config_no_shorthand):
+    conf = OPCLIConfig()
+    with pytest.raises(OPConfigNotFoundException):
+        conf.get_config()

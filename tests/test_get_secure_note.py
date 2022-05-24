@@ -1,13 +1,17 @@
 from __future__ import annotations
-import pytest
+
 from typing import TYPE_CHECKING
+
+import pytest
 
 if TYPE_CHECKING:
     from pyonepassword import OP
 
-
 from pyonepassword import OPSecureNoteItem
 from pyonepassword.py_op_exceptions import OPGetItemException
+
+# ensure HOME env variable is set, and there's a valid op config present
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def _lookup_note_data(data, note_identifier: str):

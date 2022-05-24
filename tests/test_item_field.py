@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import pytest
+
 from pyonepassword.op_items.item_section import OPItemField
 
 if TYPE_CHECKING:
@@ -10,6 +12,10 @@ if TYPE_CHECKING:
         ExpectedItemFieldData
     )
     from .fixtures.valid_data import ValidData
+
+
+# ensure HOME env variable is set, and there's a valid op config present
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def test_item_field_01(valid_data: ValidData, expected_item_field_data: ExpectedItemFieldData):

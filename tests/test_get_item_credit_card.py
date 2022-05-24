@@ -1,8 +1,16 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
+
+import pytest
+
 if TYPE_CHECKING:
     from pyonepassword import OP, OPCreditCardItem
+
     from .fixtures.expected_credit_card import ExpectedCreditCardData
+
+
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def test_get_item_credit_card_01(signed_in_op: OP, expected_credit_card_data: ExpectedCreditCardData):

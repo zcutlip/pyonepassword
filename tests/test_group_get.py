@@ -9,6 +9,9 @@ if TYPE_CHECKING:
 
 from pyonepassword import OPGetGroupException, OPGroup, OPInvalidGroupException
 
+# ensure HOME env variable is set, and there's a valid op config present
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
+
 
 def test_group_get_01(signed_in_op: OP, expected_group_data):
     group_identifier = "Team Members"

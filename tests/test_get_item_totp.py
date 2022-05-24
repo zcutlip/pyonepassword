@@ -1,8 +1,10 @@
 # __future__.annotaitons, and typing.TYPE_CHECKING
 # enable anything imported for type hinting to disappear at run time
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
+import pytest
 
 # make imports for type-hinting disappear at run-time to avoid
 # circular imports.
@@ -10,7 +12,11 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .fixtures.expected_totp_data import ExpectedTOTP, ExpectedTOTPData
     from pyonepassword import OP
+
 from pyonepassword import OPTOTPItem
+
+# ensure HOME env variable is set, and there's a valid op config present
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def test_item_get_totp_01(signed_in_op: OP, expected_totp_data: ExpectedTOTPData):

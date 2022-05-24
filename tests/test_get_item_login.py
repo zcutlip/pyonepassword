@@ -1,10 +1,18 @@
 from __future__ import annotations
-from typing import Dict, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Dict
+
+import pytest
+
 if TYPE_CHECKING:
     from pyonepassword import OP, OPLoginItem
 
 from pyonepassword import OPGetItemException
+
 from .fixtures.expected_data import ExpectedData
+
+# ensure HOME env variable is set, and there's a valid op config present
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def _lookup_item_data(data: ExpectedData, item_id: str) -> Dict:

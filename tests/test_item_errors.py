@@ -3,16 +3,21 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
+
 from pyonepassword.op_items import (
     OPFieldNotFoundException,
     OPItemFactory,
     OPUnknownItemType
 )
-from pyonepassword.py_op_exceptions import OPInvalidItemException
 from pyonepassword.op_items.item_section import OPItemFieldCollisionException
+from pyonepassword.py_op_exceptions import OPInvalidItemException
 
 if TYPE_CHECKING:
     from pyonepassword import OP, OPLoginItem
+
+
+# ensure HOME env variable is set, and there's a valid op config present
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def test_unknown_item_type_01(invalid_data):

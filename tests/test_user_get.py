@@ -9,6 +9,9 @@ if TYPE_CHECKING:
 
 from pyonepassword import OPGetUserException, OPInvalidUserException, OPUser
 
+# ensure HOME env variable is set, and there's a valid op config present
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
+
 
 def _lookup_user_data(data, user_identifier: str):
     item = data.data_for_user(user_identifier)

@@ -1,7 +1,10 @@
 # enable anything imported for type hinting to disappear at run time
 from __future__ import annotations
-from typing import TYPE_CHECKING
+
 from datetime import date
+from typing import TYPE_CHECKING
+
+import pytest
 
 # make imports for type-hinting disappear at run-time to avoid
 # circular imports.
@@ -9,7 +12,10 @@ from datetime import date
 if TYPE_CHECKING:
     from .fixtures.expected_api_credential_data import ExpectedAPICredential, ExpectedAPICredentialData
     from pyonepassword import OP
+
 from pyonepassword import OPAPICredentialItem
+
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def test_item_get_api_cred_01(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):

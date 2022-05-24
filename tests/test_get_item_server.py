@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import pytest
+
 from .test_support.util import digest
 
 # make imports for type-hinting disappear at run-time to avoid
@@ -14,6 +16,9 @@ if TYPE_CHECKING:
     from pyonepassword import OP
 
 from pyonepassword import OPServerItem
+
+# ensure HOME env variable is set, and there's a valid op config present
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def _lookup_ssh_key_data(expected_server_data, server_name, keyname) -> ExpectedServerSSHKeys:

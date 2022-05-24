@@ -1,9 +1,16 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
+
+import pytest
+
 if TYPE_CHECKING:
     from pyonepassword import OP
 
 from pyonepassword import OPPasswordItem
+
+# ensure HOME env variable is set, and there's a valid op config present
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def _lookup_password_data(data, password_identifier: str):

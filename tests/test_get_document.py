@@ -6,10 +6,13 @@ if TYPE_CHECKING:
     from pyonepassword import OP
 
 import pytest
+
 from pyonepassword import OPDocumentItem, OPGetDocumentException
 from pyonepassword.op_items.document import OPDocumentFile
 
 from .test_support.util import digest
+
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def test_get_document_01(signed_in_op: OP, expected_document_data):

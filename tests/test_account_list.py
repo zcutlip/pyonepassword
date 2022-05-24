@@ -1,9 +1,18 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
+
+import pytest
+
 from pyonepassword.account import OPAccount
+
 if TYPE_CHECKING:
     from pyonepassword import OP
+
     from .fixtures.expected_account_data import ExpectedAccountData
+
+
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def test_account_list_01(signed_in_op: OP, expected_account_data: ExpectedAccountData):

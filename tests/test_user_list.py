@@ -13,6 +13,9 @@ if TYPE_CHECKING:
 
 from pyonepassword import OPInvalidUserListException, OPUserDescriptorList
 
+# ensure HOME env variable is set, and there's a valid op config present
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
+
 
 def test_user_list_01(signed_in_op: OP, expected_user_list_data: ExpectedUserListData):
     user_list_key = "all-users"

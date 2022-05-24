@@ -21,6 +21,8 @@ from pyonepassword import (
     OPVaultDescriptorList
 )
 
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
+
 
 def _sanity_check_vault_list(vault_list, expected_list):
     assert isinstance(vault_list, OPVaultDescriptorList)

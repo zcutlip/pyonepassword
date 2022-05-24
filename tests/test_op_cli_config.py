@@ -117,6 +117,8 @@ def test_op_cli_config_xdg_07(expected_op_config_data: ExpectedConfigData, valid
 
 
 def test_op_cli_config_unreable_01(invalid_op_cli_config_unreable):
+    # NOTE: This test will fail if run as root (e.g., in a docker container with no users)
+    # there is no way to make a file unreadable to root
     with pytest.raises(OPConfigNotFoundException):
         OPCLIConfig()
 

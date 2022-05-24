@@ -1,11 +1,17 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
+
+import pytest
 
 if TYPE_CHECKING:
     from pyonepassword import OP
 
 from pyonepassword import OPItemList
 from pyonepassword.op_items.password import OPPasswordItemDescriptor
+
+# ensure HOME env variable is set, and there's a valid op config present
+pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def _item_by_id(item_list: OPItemList, item_id):

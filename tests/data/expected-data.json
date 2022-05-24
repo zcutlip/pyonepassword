@@ -389,6 +389,55 @@
                 "unique_id": "dwt2r677gna6xkog27qaibmhei",
                 "name": "Example Vault"
             }
+        ],
+        "group-team-members":[
+            {
+                "unique_id": "f4x7bsl5rjhe7kscozcmjryrqq",
+                "name": "Shared",
+                "content_version": 73
+            }
+        ],
+        "user-example-user":[
+            {
+                "unique_id": "uutfheqncbgh7ee3lt5kguqrve",
+                "name": "Private",
+                "content_version": 1742
+            },
+            {
+                "unique_id": "hwgbirgi3ngt5j5r4z5yhxy7ru",
+                "name": "Machine Credentials",
+                "content_version": 92
+            },
+            {
+                "unique_id": "5mhffp5wmbfgtef3n6nknbl53a",
+                "name": "Local",
+                "content_version": 64
+            },
+            {
+                "unique_id": "gshlsjsajnawtnjynzgwmiebge",
+                "name": "Test Data",
+                "content_version": 142
+            },
+            {
+                "unique_id": "yv7w5ijyxbdhxgh3njphwsxujy",
+                "name": "Test Data 2",
+                "content_version": 41
+            },
+            {
+                "unique_id": "dwt2r677gna6xkog27qaibmhei",
+                "name": "Example Vault",
+                "content_version": 3
+            },
+            {
+                "unique_id": "beqpiuo3kzd3djtlxpdynf4vxa",
+                "name": "Ops Data",
+                "content_version": 2
+            },
+            {
+                "unique_id": "f4x7bsl5rjhe7kscozcmjryrqq",
+                "name": "Shared",
+                "content_version": 73
+            }
         ]
     },
     "accounts": {

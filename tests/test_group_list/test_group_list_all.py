@@ -14,13 +14,12 @@ from pyonepassword.op_objects import (
 # this also reduced exercising tested code simply by importing
 if TYPE_CHECKING:
     from pyonepassword import OP
+    from ..fixtures.expected_group_data import (
+        ExpectedGroupListData,
+        ExpectedGroupListEntry
+    )
 
 from pyonepassword import OPGroupDescriptorList
-
-from ..fixtures.expected_group_data import (
-    ExpectedGroupListData,
-    ExpectedGroupListEntry
-)
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")

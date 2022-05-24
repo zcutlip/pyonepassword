@@ -10,7 +10,7 @@ from .fixtures.expected_op_cli_config import ExpectedConfigData
 
 def _sanity_check_xdg_home_env():
     assert os.environ['XDG_CONFIG_HOME'] is not None
-    assert os.environ['HOME'] == '/dev/null'
+    assert os.environ.get('HOME') in ['/dev/null', None]
 
 
 def test_op_cli_config_homedir_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):

@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 from pyonepassword import OPGroupDescriptorList
 
-from .fixtures.expected_group_data import (
+from ..fixtures.expected_group_data import (
     ExpectedGroupListData,
     ExpectedGroupListEntry
 )

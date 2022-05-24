@@ -36,10 +36,6 @@ class _OPArgv(list):
         argv.extend(args)
         super().__init__(argv)
 
-    def query_args(self):
-        args = list(self[1:])
-        return args
-
     def cmd_str(self):
         """
         return a shell-escaped command string from this argv

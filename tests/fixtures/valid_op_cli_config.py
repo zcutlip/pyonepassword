@@ -27,7 +27,7 @@ class ValidOPCLIConfig:
         if location_env_var is not None:
             os.environ[location_env_var] = self._tempdir.name
         # save whatever we set HOME to for later comparison & restore
-        self._new_home = os.environ['HOME']
+        self._new_home = os.environ.get('HOME')
         self._new_xdg = os.environ.get('XDG_CONFIG_HOME')
 
         if location_env_var != "XDG_CONFIG_HOME":

@@ -343,8 +343,30 @@
                 "state": "ACTIVE",
                 "created_at": "2017-07-17T15:54:00Z"
             }
+        ],
+        "vault-test-data":[
+            {
+                "unique_id": "ibzbz27c2rbfni4sklrvcu2utu",
+                "name": "Owners",
+                "description": "Access to billing and account administration.",
+                "state": "ACTIVE",
+                "created_at": "2017-07-17T15:54:00Z"
+            },
+            {
+                "unique_id": "4dah4kx3ijfane3625dvlj36qy",
+                "name": "Administrators",
+                "description": "Administration of users, groups, and vaults.",
+                "state": "ACTIVE",
+                "created_at": "2017-07-17T15:54:00Z"
+            },
+            {
+                "unique_id": "7dbad25plvcitho64llktl6xl4",
+                "name": "Recovery",
+                "description": "Can reset user passwords if account recovery is enabled.",
+                "state": "ACTIVE",
+                "created_at": "2017-07-17T15:54:00Z"
+            }
         ]
-
     },
     "groups": {
         "Team Members": {

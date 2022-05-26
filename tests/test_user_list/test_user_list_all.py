@@ -17,18 +17,69 @@ from pyonepassword import OPInvalidUserListException, OPUserDescriptorList
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
-def test_user_list_01(signed_in_op: OP, expected_user_list_data: ExpectedUserListData):
+def _sanity_check_user_list(user_list, expected_list):
+    assert isinstance(user_list, OPUserDescriptorList)
+    assert len(user_list) > 0
+    assert len(user_list) == len(expected_list)
+
+
+def test_user_list_all_users_01(signed_in_op: OP, expected_user_list_data: ExpectedUserListData):
     user_list_key = "all-users"
     expected_user_list: List[ExpectedUserListEntry]
     expected_user_list = expected_user_list_data.data_for_key(user_list_key)
     expected = expected_user_list[0]
     result = signed_in_op.user_list()
-    user_entry = result[0]
+    _sanity_check_user_list(result, expected_user_list)
 
+    user_entry = result[0]
     assert user_entry.unique_id == expected.unique_id
+
+
+def test_user_list_all_users_02(signed_in_op: OP, expected_user_list_data: ExpectedUserListData):
+    user_list_key = "all-users"
+    expected_user_list: List[ExpectedUserListEntry]
+    expected_user_list = expected_user_list_data.data_for_key(user_list_key)
+    expected = expected_user_list[0]
+    result = signed_in_op.user_list()
+    _sanity_check_user_list(result, expected_user_list)
+
+    user_entry = result[0]
     assert user_entry.email == expected.email
+
+
+def test_user_list_all_users_03(signed_in_op: OP, expected_user_list_data: ExpectedUserListData):
+    user_list_key = "all-users"
+    expected_user_list: List[ExpectedUserListEntry]
+    expected_user_list = expected_user_list_data.data_for_key(user_list_key)
+    expected = expected_user_list[0]
+    result = signed_in_op.user_list()
+    _sanity_check_user_list(result, expected_user_list)
+
+    user_entry = result[0]
     assert user_entry.name == expected.name
+
+
+def test_user_list_all_users_04(signed_in_op: OP, expected_user_list_data: ExpectedUserListData):
+    user_list_key = "all-users"
+    expected_user_list: List[ExpectedUserListEntry]
+    expected_user_list = expected_user_list_data.data_for_key(user_list_key)
+    expected = expected_user_list[0]
+    result = signed_in_op.user_list()
+    _sanity_check_user_list(result, expected_user_list)
+
+    user_entry = result[0]
     assert user_entry.type == expected.type
+
+
+def test_user_list_all_users_05(signed_in_op: OP, expected_user_list_data: ExpectedUserListData):
+    user_list_key = "all-users"
+    expected_user_list: List[ExpectedUserListEntry]
+    expected_user_list = expected_user_list_data.data_for_key(user_list_key)
+    expected = expected_user_list[0]
+    result = signed_in_op.user_list()
+    _sanity_check_user_list(result, expected_user_list)
+
+    user_entry = result[0]
     assert user_entry.state == expected.state
 
 

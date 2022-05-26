@@ -23,7 +23,7 @@ then
     echo "Archiving" "$(which op)" "to $OP_BINARY_PATH/$op_ver/"
     cp "$(which op)" "$OP_BINARY_PATH/$op_ver/op";
 else
-    echo "Archive already present"
+    echo "op $op_ver archive already present"
 fi
 
 echo "Checking hashes"

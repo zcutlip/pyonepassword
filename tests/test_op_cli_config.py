@@ -13,7 +13,13 @@ def _sanity_check_xdg_home_env():
     assert os.environ.get('HOME') in ['/dev/null', None]
 
 
+def _sanity_check_standard_home_env():
+    assert os.environ.get('XDG_CONFIG_HOME') is None
+    assert os.environ.get('HOME') not in ['/dev/null', None]
+
+
 def test_op_cli_config_homedir_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):
+    _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
     result = config.get_config("example_shorthand")
@@ -21,6 +27,7 @@ def test_op_cli_config_homedir_01(expected_op_config_data: ExpectedConfigData, v
 
 
 def test_op_cli_config_homedir_02(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):
+    _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
     result = config.get_config("example_shorthand")
@@ -28,6 +35,7 @@ def test_op_cli_config_homedir_02(expected_op_config_data: ExpectedConfigData, v
 
 
 def test_op_cli_config_homedir_03(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):
+    _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
     result = config.get_config("example_shorthand")
@@ -35,6 +43,7 @@ def test_op_cli_config_homedir_03(expected_op_config_data: ExpectedConfigData, v
 
 
 def test_op_cli_config_homedir_04(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):
+    _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
     result = config.get_config("example_shorthand")
@@ -42,6 +51,7 @@ def test_op_cli_config_homedir_04(expected_op_config_data: ExpectedConfigData, v
 
 
 def test_op_cli_config_homedir_05(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):
+    _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
     result = config.get_config("example_shorthand")
@@ -49,6 +59,7 @@ def test_op_cli_config_homedir_05(expected_op_config_data: ExpectedConfigData, v
 
 
 def test_op_cli_config_homedir_06(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):
+    _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
     result = config.uuid_for_shorthand("example_shorthand")
@@ -56,6 +67,7 @@ def test_op_cli_config_homedir_06(expected_op_config_data: ExpectedConfigData, v
 
 
 def test_op_cli_config_homedir_07(valid_op_cli_config_homedir):
+    _sanity_check_standard_home_env()
     shorthand = "NO_SUCH_SHORTHAND"
     config = OPCLIConfig()
     with pytest.raises(OPConfigNotFoundException):

@@ -9,7 +9,7 @@ from .fixtures.expected_op_cli_config import ExpectedConfigData
 
 
 def _sanity_check_xdg_home_env():
-    assert os.environ['XDG_CONFIG_HOME'] is not None
+    assert os.environ.get('XDG_CONFIG_HOME') is not None
     assert os.environ.get('HOME') in ['/dev/null', None]
 
 

@@ -11,8 +11,7 @@ parent_path = os.path.dirname(
 if parent_path not in sys.path:
     sys.path.append(parent_path)
 
-from pyonepassword import OPVault, OPGetVaultException  # noqa: E402
-
+from pyonepassword import OPGetVaultException, OPVault  # noqa: E402
 
 if __name__ == "__main__":
 
@@ -21,13 +20,13 @@ if __name__ == "__main__":
     print("Signed in.")
     print("Looking up vault \"Test Data\"...")
     try:
-        vault_1: OPVault = op.get_vault("Test Data")
+        vault_1: OPVault = op.vault_get("Test Data")
         print(vault_1)
         print("")
         print("Vaults can also be looked up by their uuid")
         print("")
         print("Looking up uuid \"yhdg6ovhkjcfhn3u25cp2bnl6e\"...")
-        vault_2: OPVault = op.get_vault("yhdg6ovhkjcfhn3u25cp2bnl6e")
+        vault_2: OPVault = op.vault_get("yhdg6ovhkjcfhn3u25cp2bnl6e")
         if (vault_1.unique_id == vault_2.unique_id and
                 vault_1.name == vault_2.name):
             pass

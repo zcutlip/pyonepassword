@@ -314,7 +314,7 @@
                 "created_at": "2017-07-17T15:54:00Z"
             }
         ],
-        "user-example-user":[
+        "user-example-user": [
             {
                 "unique_id": "ibzbz27c2rbfni4sklrvcu2utu",
                 "name": "Owners",
@@ -344,7 +344,7 @@
                 "created_at": "2017-07-17T15:54:00Z"
             }
         ],
-        "vault-test-data":[
+        "vault-test-data": [
             {
                 "unique_id": "ibzbz27c2rbfni4sklrvcu2utu",
                 "name": "Owners",
@@ -443,14 +443,14 @@
                 "name": "Example Vault"
             }
         ],
-        "group-team-members":[
+        "group-team-members": [
             {
                 "unique_id": "f4x7bsl5rjhe7kscozcmjryrqq",
                 "name": "Shared",
                 "content_version": 73
             }
         ],
-        "user-example-user":[
+        "user-example-user": [
             {
                 "unique_id": "uutfheqncbgh7ee3lt5kguqrve",
                 "name": "Private",

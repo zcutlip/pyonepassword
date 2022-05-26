@@ -9,6 +9,7 @@ from .expected_account_data import ExpectedAccountData
 from .expected_api_credential_data import ExpectedAPICredentialData
 from .expected_credit_card import ExpectedCreditCardData
 from .expected_data import ExpectedData
+from .expected_datetimes import ExpectedDatetimeData
 from .expected_document_data import ExpectedDocumentData
 from .expected_group_data import ExpectedGroupData, ExpectedGroupListData
 from .expected_item_fields import ExpectedItemFieldData
@@ -157,6 +158,12 @@ def expected_api_credential_data():
 @fixture
 def expected_item_field_data():
     data = ExpectedItemFieldData()
+    return data
+
+
+@fixture
+def expected_datetime_data():
+    data = ExpectedDatetimeData()
     return data
 
 

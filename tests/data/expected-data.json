@@ -534,5 +534,8 @@
             "email": "example_user@example.email",
             "userUUID": "5GHHPJK5HZC5BAT7WDUXW57G44"
         }
+    },
+    "datetimes": {
+        "example-datetime": "2021-06-29T18:31:30Z"
     }
 }

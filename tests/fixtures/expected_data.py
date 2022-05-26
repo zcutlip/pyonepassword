@@ -72,3 +72,7 @@ class ExpectedData:
     @property
     def op_config_data(self) -> Dict[str, Dict]:
         return self._data["op-config"]
+
+    @property
+    def datetime_data(self) -> Dict[str, str]:
+        return self._data["datetimes"]

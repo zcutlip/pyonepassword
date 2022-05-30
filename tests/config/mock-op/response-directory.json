@@ -290,6 +290,12 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "group-list-invalid-vault"
+    },
+    "--format|json|item|list|--include-archive|--vault|Invalid Vault": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-vault-invalid-vault-include-archive"
     }
   }
 }

@@ -17,6 +17,7 @@ from .py_op_exceptions import (
     OPGetUserException,
     OPGetVaultException,
     OPGroupListException,
+    OPItemListException,
     OPNotSignedInException,
     OPSigninException,
     OPUserListException,
@@ -394,5 +395,5 @@ class _OPCommandInterface(_OPCLIExecute):
         try:
             output = self._run(argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as e:
-            raise e
+            raise OPItemListException.from_opexception(e)
         return output

@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from ..fixtures.expected_user_data import ExpectedUserListEntry, ExpectedUserListData
     from pyonepassword import OP
 
-from pyonepassword import OPUserDescriptorList
+from pyonepassword import OPUserDescriptorList, OPUserListException
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
@@ -81,3 +81,9 @@ def test_user_list_group_owners_05(signed_in_op: OP, expected_user_list_data: Ex
 
     user_entry = result[0]
     assert user_entry.state == expected.state
+
+
+def test_user_list_invalid_group_01(signed_in_op: OP):
+    group_identifier = "No Such Group"
+    with pytest.raises(OPUserListException):
+        signed_in_op.user_list(group_name_or_id=group_identifier)

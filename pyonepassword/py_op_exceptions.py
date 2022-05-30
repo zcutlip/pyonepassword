@@ -68,6 +68,13 @@ class OPGetItemException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
+class OPItemListException(OPCmdFailedException):
+    MSG = "1Password 'item list' failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
+
 class OPGetDocumentException(OPCmdFailedException):
     MSG = "1Password 'get document' failed."
 

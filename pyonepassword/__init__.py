@@ -35,11 +35,14 @@ from .py_op_exceptions import (
     OPGetItemException,
     OPGetUserException,
     OPGetVaultException,
+    OPGroupListException,
     OPInvalidDocumentException,
     OPListEventsException,
     OPNotFoundException,
     OPNotSignedInException,
     OPSigninException,
-    OPSignoutException
+    OPSignoutException,
+    OPUserListException,
+    OPVaultListException
 )
 from .pyonepassword import OP

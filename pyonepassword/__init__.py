@@ -37,6 +37,7 @@ from .py_op_exceptions import (
     OPGetVaultException,
     OPGroupListException,
     OPInvalidDocumentException,
+    OPItemListException,
     OPListEventsException,
     OPNotFoundException,
     OPNotSignedInException,

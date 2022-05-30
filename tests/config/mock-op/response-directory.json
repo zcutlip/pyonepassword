@@ -272,6 +272,24 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "vault-list-user-example-user"
+    },
+    "--format|json|vault|list|--user|No Such User": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "vault-list-nonexistant-user"
+    },
+    "--format|json|user|list|--group|No Such Group": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-list-nonexistant-group"
+    },
+    "--format|json|group|list|--vault|Invalid Vault": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "group-list-invalid-vault"
     }
   }
 }

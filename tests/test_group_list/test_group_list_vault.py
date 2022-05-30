@@ -16,7 +16,7 @@ if TYPE_CHECKING:
         ExpectedGroupListEntry
     )
 
-from pyonepassword import OPGroupDescriptorList
+from pyonepassword import OPGroupDescriptorList, OPGroupListException
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
@@ -74,3 +74,9 @@ def test_group_list_test_data_04(signed_in_op: OP, expected_group_list_data: Exp
     assert isinstance(group_entry, OPGroupDescriptor)
 
     assert group_entry.created_at == expected.created_at
+
+
+def test_group_list_invalid_vault_01(signed_in_op: OP):
+    vault_identifier = "Invalid Vault"
+    with pytest.raises(OPGroupListException):
+        signed_in_op.group_list(vault=vault_identifier)

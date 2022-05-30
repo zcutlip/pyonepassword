@@ -18,7 +18,8 @@ if TYPE_CHECKING:
 from pyonepassword import (
     OPInvalidVaultListException,
     OPVaultDescriptor,
-    OPVaultDescriptorList
+    OPVaultDescriptorList,
+    OPVaultListException
 )
 
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
@@ -176,3 +177,9 @@ def test_vault_list_malformed_json_01(invalid_data):
 
     with pytest.raises(OPInvalidVaultListException):
         OPVaultDescriptorList(malformed_json)
+
+
+def test_vault_list_nonexistant_user_01(signed_in_op: OP):
+    user_identifier = "No Such User"
+    with pytest.raises(OPVaultListException):
+        signed_in_op.vault_list(user_name_or_id=user_identifier)

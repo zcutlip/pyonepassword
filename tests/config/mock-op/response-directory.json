@@ -296,6 +296,12 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "item-list-vault-invalid-vault-include-archive"
+    },
+    "--format|json|item|get|Invalid TOTP Login|--vault|Test Data|--fields|type=otp": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-invalid-totp"
     }
   }
 }

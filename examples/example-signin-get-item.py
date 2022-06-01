@@ -1,5 +1,6 @@
 import os
 import sys
+
 from do_signin import do_signin
 
 parent_path = os.path.dirname(
@@ -12,12 +13,11 @@ if parent_path not in sys.path:
 
 from pyonepassword import (  # noqa: E402
     OPConfigNotFoundException,
-    OPGetItemException,
+    OPItemGetException,
     OPNotFoundException,
     OPSigninException
 )
 from pyonepassword.py_op_exceptions import OPCmdFailedException  # noqa: E402
-
 
 if __name__ == "__main__":
     try:
@@ -51,7 +51,7 @@ if __name__ == "__main__":
         item_password = op.item_get_password(
             "ubrjbhaixbexdglqfbe24nf2gu", vault="Test Data 2")
         print(item_password)
-    except OPGetItemException as ope:
+    except OPItemGetException as ope:
         print("1Password lookup failed: {}".format(ope))
         print(ope.err_output)
         exit(ope.returncode)

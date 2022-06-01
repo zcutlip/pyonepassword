@@ -61,7 +61,7 @@ class OPForgetException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
-class OPGetItemException(OPCmdFailedException):
+class OPItemGetException(OPCmdFailedException):
     MSG = "1Password 'get item' failed."
 
     def __init__(self, stderr_out, returncode):

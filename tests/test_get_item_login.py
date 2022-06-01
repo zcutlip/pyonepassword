@@ -7,7 +7,7 @@ import pytest
 if TYPE_CHECKING:
     from pyonepassword import OP, OPLoginItem
 
-from pyonepassword import OPGetItemException
+from pyonepassword import OPItemGetException
 
 from .fixtures.expected_data import ExpectedData
 
@@ -57,7 +57,7 @@ def test_get_invalid_item_login_01(signed_in_op: OP, expected_data):
     try:
         _ = signed_in_op.item_get(item_name)
         assert False, "We should have caught an exception"
-    except OPGetItemException as e:
+    except OPItemGetException as e:
         print(e)
         print(e.err_output)
         assert e.returncode == expected["returncode"]

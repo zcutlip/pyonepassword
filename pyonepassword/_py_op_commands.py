@@ -13,10 +13,10 @@ from .py_op_exceptions import (
     OPCmdFailedException,
     OPGetDocumentException,
     OPGetGroupException,
-    OPGetItemException,
     OPGetUserException,
     OPGetVaultException,
     OPGroupListException,
+    OPItemGetException,
     OPItemListException,
     OPNotSignedInException,
     OPSigninException,
@@ -255,7 +255,7 @@ class _OPCommandInterface(_OPCLIExecute):
             output = self._run(
                 get_item_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
-            raise OPGetItemException.from_opexception(ocfe) from ocfe
+            raise OPItemGetException.from_opexception(ocfe) from ocfe
 
         return output
 
@@ -266,7 +266,7 @@ class _OPCommandInterface(_OPCLIExecute):
             output = self._run(
                 item_get_totp_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
-            raise OPGetItemException.from_opexception(ocfe) from ocfe
+            raise OPItemGetException.from_opexception(ocfe) from ocfe
 
         return output
 

@@ -1,6 +1,7 @@
 import getpass
 import os
 import sys
+
 parent_path = os.path.dirname(
     os.path.dirname(
         os.path.abspath(__file__)
@@ -11,10 +12,10 @@ if parent_path not in sys.path:
 
 from pyonepassword import (  # noqa: E402
     OP,
+    OPForgetException,
+    OPItemGetException,
     OPSigninException,
-    OPGetItemException,
-    OPSignoutException,
-    OPForgetException
+    OPSignoutException
 )
 
 
@@ -32,7 +33,7 @@ def do_signin():
 def do_lookup():
     try:
         print(op.item_get_password("Example Login"))
-    except OPGetItemException as opge:
+    except OPItemGetException as opge:
         print("Get item failed.")
         print(opge.err_output)
         return opge.returncode

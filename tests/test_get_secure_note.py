@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from pyonepassword import OP
 
 from pyonepassword import OPSecureNoteItem
-from pyonepassword.py_op_exceptions import OPGetItemException
+from pyonepassword.py_op_exceptions import OPItemGetException
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
@@ -42,7 +42,7 @@ def test_get_secure_note_item_01(signed_in_op: OP, expected_secure_note_item_dat
                          [("Example Secure Note 3", None),
                           ("Example Secure Note 4", "Test Data")])
 def test_get_secure_note_item_02(signed_in_op: OP, expected_secure_note_item_data, invalid_note, vault):
-    exception_class = OPGetItemException
+    exception_class = OPItemGetException
     expected = _lookup_note_data(
         expected_secure_note_item_data, invalid_note)
     try:

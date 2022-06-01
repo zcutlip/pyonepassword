@@ -12,7 +12,7 @@ if parent_path not in sys.path:
     sys.path.append(parent_path)
 
 from pyonepassword import (  # noqa: E402
-    OPGetItemException,
+    OPItemGetException,
     OPSigninException,
     OPSignoutException
 )
@@ -21,7 +21,7 @@ from pyonepassword import (  # noqa: E402
 def do_lookup():
     try:
         print(op.item_get_password("Example Login"))
-    except OPGetItemException as opge:
+    except OPItemGetException as opge:
         print("Get item failed.")
         print(opge.err_output)
         return opge.returncode

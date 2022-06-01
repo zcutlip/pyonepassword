@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 import getpass
-import sys
 import os
+import sys
 from argparse import ArgumentParser
+
 parent_path = os.path.dirname(
     os.path.dirname(
         os.path.abspath(__file__)
@@ -14,9 +15,9 @@ if parent_path not in sys.path:
 
 from pyonepassword import (  # noqa: E402
     OP,
-    OPSigninException,
-    OPGetItemException,
-    OPNotSignedInException
+    OPItemGetException,
+    OPNotSignedInException,
+    OPSigninException
 )
 
 
@@ -64,7 +65,7 @@ def main():
             password = op_item.credential
         sys.stdout.write(password)
         sys.stdout.flush()
-    except OPGetItemException as e:
+    except OPItemGetException as e:
         print("Failed to look up password", file=sys.stderr)
         print(e.err_output, file=sys.stderr)
         exit(e.returncode)

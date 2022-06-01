@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from .fixtures.expected_totp_data import ExpectedTOTP, ExpectedTOTPData
     from pyonepassword import OP
 
-from pyonepassword import OPTOTPItem
+from pyonepassword import OPGetItemException, OPTOTPItem
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
@@ -73,3 +73,10 @@ def test_item_get_totp_05(signed_in_op: OP, expected_totp_data: ExpectedTOTPData
     result = signed_in_op.item_get_totp(login_name, vault="Test Data")
     assert isinstance(result, OPTOTPItem)
     assert result.label == expected.label
+
+
+def test_item_get_totp_invalid_01(signed_in_op: OP):
+    login_name = "Invalid TOTP Login"
+    vault = "Test Data"
+    with pytest.raises(OPGetItemException):
+        signed_in_op.item_get_totp(login_name, vault=vault)

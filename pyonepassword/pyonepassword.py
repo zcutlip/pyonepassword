@@ -19,8 +19,8 @@ from .op_objects import (
 )
 from .py_op_exceptions import (
     OPCmdFailedException,
+    OPDocumentGetException,
     OPForgetException,
-    OPGetDocumentException,
     OPInvalidDocumentException,
     OPListEventsException,
     OPSignoutException
@@ -179,7 +179,7 @@ class OP(_OPCommandInterface):
             Name or UUID of the user to look up
         Raises
         ------
-        OPGetUserException
+        OPUserGetException
             If the lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
@@ -210,7 +210,7 @@ class OP(_OPCommandInterface):
             Name or UUID of the vault to look up
         Raises
         ------
-        OPGetVaultException
+        OPVaultGetException
             If the lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
@@ -240,7 +240,7 @@ class OP(_OPCommandInterface):
             Name or UUID of the group to look up
         Raises
         ------
-        OPGetGroupException
+        OPGroupGetException
             If the lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
@@ -381,7 +381,7 @@ class OP(_OPCommandInterface):
         ------
         OPInvalidDocumentException
             If the retrieved item isn't a document object or lacks a documents expected attributes
-        OPGetDocumentException
+        OPDocumentGetException
             If the lookup fails for any reason
         OPNotFoundException
             If the 1Password command can't be found
@@ -398,12 +398,12 @@ class OP(_OPCommandInterface):
             raise OPInvalidDocumentException(
                 "Item has no 'fileName' attribute") from ae
         except OPCmdFailedException as ocfe:
-            raise OPGetDocumentException.from_opexception(ocfe) from ocfe
+            raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
         try:
             document_bytes = super()._document_get(document_name_or_uuid, vault=vault)
         except OPCmdFailedException as ocfe:
-            raise OPGetDocumentException.from_opexception(ocfe) from ocfe
+            raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
         return (file_name, document_bytes)
 

@@ -75,14 +75,14 @@ class OPItemListException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
-class OPGetDocumentException(OPCmdFailedException):
+class OPDocumentGetException(OPCmdFailedException):
     MSG = "1Password 'get document' failed."
 
     def __init__(self, stderr_out, returncode):
         super().__init__(stderr_out, returncode)
 
 
-class OPGetUserException(OPCmdFailedException):
+class OPUserGetException(OPCmdFailedException):
     MSG = "1Password 'get user' failed."
 
     def __init__(self, stderr_out, returncode):
@@ -96,7 +96,7 @@ class OPUserListException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
-class OPGetVaultException(OPCmdFailedException):
+class OPVaultGetException(OPCmdFailedException):
     MSG = "1Password 'get vault' failed."
 
     def __init__(self, stderr_out, returncode):
@@ -110,7 +110,7 @@ class OPVaultListException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
-class OPGetGroupException(OPCmdFailedException):
+class OPGroupGetException(OPCmdFailedException):
     MSG = "1Password 'get group' failed."
 
     def __init__(self, stderr_out, returncode):

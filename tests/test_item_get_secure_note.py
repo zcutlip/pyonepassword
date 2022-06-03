@@ -23,7 +23,7 @@ def _lookup_note_data(data, note_identifier: str):
                          [("Example Secure Note", "Test Data"),
                           ("Example Secure Note 2", None),
                           ("t4gp6e7s6xtsiu35xq5cewxqpi", None)])
-def test_get_secure_note_item_01(signed_in_op: OP, expected_secure_note_item_data, note_identifier, vault):
+def test_item_get_invalid_secure_note_01(signed_in_op: OP, expected_secure_note_item_data, note_identifier, vault):
     expected = _lookup_note_data(
         expected_secure_note_item_data, note_identifier)
     result: OPSecureNoteItem = signed_in_op.item_get(
@@ -41,7 +41,7 @@ def test_get_secure_note_item_01(signed_in_op: OP, expected_secure_note_item_dat
 @pytest.mark.parametrize("invalid_note,vault",
                          [("Example Secure Note 3", None),
                           ("Example Secure Note 4", "Test Data")])
-def test_get_secure_note_item_02(signed_in_op: OP, expected_secure_note_item_data, invalid_note, vault):
+def test_item_get_invalid_secure_note_02(signed_in_op: OP, expected_secure_note_item_data, invalid_note, vault):
     exception_class = OPItemGetException
     expected = _lookup_note_data(
         expected_secure_note_item_data, invalid_note)

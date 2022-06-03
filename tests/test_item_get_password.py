@@ -18,7 +18,7 @@ def _lookup_password_data(data, password_identifier: str):
     return item
 
 
-def test_get_item_password_01(signed_in_op: OP, expected_item_password_data):
+def test_item_getpassword_01(signed_in_op: OP, expected_item_password_data):
     password_identifier = "Example Password"
     vault = "Test Data"
     expected = _lookup_password_data(

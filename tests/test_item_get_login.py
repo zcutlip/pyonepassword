@@ -20,7 +20,7 @@ def _lookup_item_data(data: ExpectedData, item_id: str) -> Dict:
     return item
 
 
-def test_get_item_login_01(signed_in_op: OP, expected_login_item_data):
+def test_item_getlogin_01(signed_in_op: OP, expected_login_item_data):
     # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     vault = "Test Data"
@@ -32,7 +32,7 @@ def test_get_item_login_01(signed_in_op: OP, expected_login_item_data):
     assert result.primary_url.label == expected.primary_url.label
 
 
-def test_get_item_login_02(signed_in_op: OP, expected_login_item_data):
+def test_item_getlogin_02(signed_in_op: OP, expected_login_item_data):
     # get item nok7367v4vbsfgg2fczwu4ei44
     item_uuid = "nok7367v4vbsfgg2fczwu4ei44"
     expected = expected_login_item_data.data_for_login(item_uuid)
@@ -41,7 +41,7 @@ def test_get_item_login_02(signed_in_op: OP, expected_login_item_data):
     assert result.password == expected.password
 
 
-def test_get_item_login_03(signed_in_op: OP, expected_login_item_data):
+def test_item_getlogin_03(signed_in_op: OP, expected_login_item_data):
     # get item "Example Login" --vault "Test Data 2"
     item_name = "Example Login"
     vault = "Test Data 2"
@@ -51,7 +51,7 @@ def test_get_item_login_03(signed_in_op: OP, expected_login_item_data):
     assert result.password == expected.password
 
 
-def test_get_invalid_item_login_01(signed_in_op: OP, expected_data):
+def test_item_get_invalid_login_01(signed_in_op: OP, expected_data):
     item_name = "Invalid Item"
     expected = _lookup_item_data(expected_data, item_name)
     try:
@@ -63,7 +63,7 @@ def test_get_invalid_item_login_01(signed_in_op: OP, expected_data):
         assert e.returncode == expected["returncode"]
 
 
-def test_get_item_login_url_list_01(signed_in_op: OP, expected_login_item_data):
+def test_item_getlogin_url_list_01(signed_in_op: OP, expected_login_item_data):
     item_name = "Example Login 1"
     vault = "Test Data"
     expected = expected_login_item_data.data_for_login(item_name)

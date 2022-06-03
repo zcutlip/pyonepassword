@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
 import pytest
 
-from pyonepassword import OPDocumentItem, OPGetDocumentException
+from pyonepassword import OPDocumentGetException, OPDocumentItem
 from pyonepassword.op_items.document import OPDocumentFile
 
 from .test_support.util import digest
@@ -15,7 +15,7 @@ from .test_support.util import digest
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
-def test_get_document_01(signed_in_op: OP, expected_document_data):
+def test_document_get01(signed_in_op: OP, expected_document_data):
     item_name = "Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp"
     vault = "Test Data"
     expected = expected_document_data.data_for_document(item_name)
@@ -30,8 +30,8 @@ def test_get_document_01(signed_in_op: OP, expected_document_data):
                          [("Invalid Document", None),
                           ("Error Success", "Test Data"),
                           ("Example Attached File 2", None)])
-def test_get_document_02(signed_in_op: OP, expected_document_data, invalid_document, vault):
-    exception_class = OPGetDocumentException
+def test_document_get02(signed_in_op: OP, expected_document_data, invalid_document, vault):
+    exception_class = OPDocumentGetException
     expected = expected_document_data.data_for_document(invalid_document)
     try:
         signed_in_op.document_get(invalid_document, vault=vault)
@@ -40,7 +40,7 @@ def test_get_document_02(signed_in_op: OP, expected_document_data, invalid_docum
         assert expected.returncode == e.returncode
 
 
-def test_get_document_03(signed_in_op: OP, expected_document_data):
+def test_document_get03(signed_in_op: OP, expected_document_data):
     item_name = "Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp"
     vault = "Test Data"
     expected: OPDocumentItem = expected_document_data.data_for_document(

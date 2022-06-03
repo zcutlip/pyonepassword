@@ -11,16 +11,16 @@ from .account import OPAccount, OPAccountList
 from .op_cli_version import DOCUMENT_BYTES_BUG_VERSION, OPCLIVersion
 from .py_op_exceptions import (
     OPCmdFailedException,
-    OPGetDocumentException,
-    OPGetGroupException,
-    OPGetUserException,
-    OPGetVaultException,
+    OPDocumentGetException,
+    OPGroupGetException,
     OPGroupListException,
     OPItemGetException,
     OPItemListException,
     OPNotSignedInException,
     OPSigninException,
+    OPUserGetException,
     OPUserListException,
+    OPVaultGetException,
     OPVaultListException
 )
 
@@ -277,7 +277,7 @@ class _OPCommandInterface(_OPCLIExecute):
         Arguments:
             - 'item_name_or_uuid': The item to look up
         Raises:
-            - OPGetDocumentException if the lookup fails for any reason.
+            - OPDocumentGetException if the lookup fails for any reason.
             - OPNotFoundException if the 1Password command can't be found.
         Returns:
             - Bytes: document bytes
@@ -289,7 +289,7 @@ class _OPCommandInterface(_OPCLIExecute):
         try:
             document_bytes = self._run(get_document_argv, capture_stdout=True)
         except OPCmdFailedException as ocfe:
-            raise OPGetDocumentException.from_opexception(ocfe) from ocfe
+            raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
         if self._cli_version <= DOCUMENT_BYTES_BUG_VERSION:
             # op v2.x appends an erroneous \x0a ('\n') byte to document bytes
@@ -313,7 +313,7 @@ class _OPCommandInterface(_OPCLIExecute):
                 get_user_argv, capture_stdout=True, decode=decode
             )
         except OPCmdFailedException as ocfe:
-            raise OPGetUserException.from_opexception(ocfe) from ocfe
+            raise OPUserGetException.from_opexception(ocfe) from ocfe
         return output
 
     def _user_list(self, group_name_or_id=None, vault=None, decode: str = "utf-8") -> str:
@@ -334,7 +334,7 @@ class _OPCommandInterface(_OPCLIExecute):
                 group_get_argv, capture_stdout=True, decode=decode
             )
         except OPCmdFailedException as ocfe:
-            raise OPGetGroupException.from_opexception(ocfe) from ocfe
+            raise OPGroupGetException.from_opexception(ocfe) from ocfe
         return output
 
     def _group_list(self, user_name_or_id=None, vault=None, decode: str = "utf-8") -> str:
@@ -355,7 +355,7 @@ class _OPCommandInterface(_OPCLIExecute):
                 vault_get_argv, capture_stdout=True, decode=decode
             )
         except OPCmdFailedException as ocfe:
-            raise OPGetVaultException.from_opexception(ocfe)
+            raise OPVaultGetException.from_opexception(ocfe)
         return output
 
     def _vault_list(self, group_name_or_id=None, user_name_or_id=None, decode="utf-8") -> str:

@@ -13,7 +13,7 @@ if parent_path not in sys.path:
 
 from pyonepassword import (  # noqa: E402
     OPConfigNotFoundException,
-    OPGetDocumentException,
+    OPDocumentGetException,
     OPInvalidDocumentException,
     OPNotFoundException,
     OPSigninException
@@ -56,7 +56,7 @@ if __name__ == "__main__":
         print("{} bytes".format(len(document_bytes)))
         print("Writing downloaded document to {}".format(file_name))
         open(file_name, "wb").write(document_bytes)
-    except OPGetDocumentException as ope:
+    except OPDocumentGetException as ope:
         # Couldn't find your document in 1Password
         print("1Password lookup failed: {}".format(ope))
         print(ope.err_output)

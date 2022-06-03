@@ -29,11 +29,9 @@ from .op_objects import (
 )
 from .py_op_exceptions import (
     OPConfigNotFoundException,
+    OPDocumentGetException,
     OPForgetException,
-    OPGetDocumentException,
-    OPGetGroupException,
-    OPGetUserException,
-    OPGetVaultException,
+    OPGroupGetException,
     OPGroupListException,
     OPInvalidDocumentException,
     OPItemGetException,
@@ -43,7 +41,9 @@ from .py_op_exceptions import (
     OPNotSignedInException,
     OPSigninException,
     OPSignoutException,
+    OPUserGetException,
     OPUserListException,
+    OPVaultGetException,
     OPVaultListException
 )
 from .pyonepassword import OP

@@ -11,7 +11,7 @@ parent_path = os.path.dirname(
 if parent_path not in sys.path:
     sys.path.append(parent_path)
 
-from pyonepassword import OPGetVaultException, OPVault  # noqa: E402
+from pyonepassword import OPVault, OPVaultGetException  # noqa: E402
 
 if __name__ == "__main__":
 
@@ -36,7 +36,7 @@ if __name__ == "__main__":
                                                     vault_1.items == vault_2.items and
                                                     vault_1.created_at == vault_2.created_at and
                                                     vault_1.updated_at == vault_2.updated_at))
-    except OPGetVaultException as ope:
+    except OPVaultGetException as ope:
         print("1Password lookup failed: {}".format(ope))
         print(ope.err_output)
         exit(ope.returncode)

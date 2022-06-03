@@ -11,7 +11,7 @@ if TYPE_CHECKING:
         ExpectedVault
     )
 
-from pyonepassword import OPGetVaultException, OPInvalidVaultException, OPVault
+from pyonepassword import OPInvalidVaultException, OPVault, OPVaultGetException
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
@@ -175,7 +175,7 @@ def test_vault_get_invalid_01(signed_in_op: OP, expected_vault_data):
     try:
         _ = signed_in_op.vault_get(vault_name)
         assert False, "We should have caught an exception"
-    except OPGetVaultException as e:
+    except OPVaultGetException as e:
         print(e)
         assert e.returncode == expected.returncode
 

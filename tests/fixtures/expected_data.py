@@ -76,3 +76,7 @@ class ExpectedData:
     @property
     def datetime_data(self) -> Dict[str, str]:
         return self._data["datetimes"]
+
+    @property
+    def misc_data(self) -> Dict[str, str]:
+        return self._data["miscellaneous"]

@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "response_dir": "tests/config/mock-op/alternate-responses"
+  },
+  "commands": {
+    "--version": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "cli-version"
+    },
+    "--format|json|account|list": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "list-signed-in-accounts"
+    }
+  }
+}

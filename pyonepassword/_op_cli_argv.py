@@ -189,7 +189,7 @@ class _OPArgv(list):
 
     @classmethod
     def get_verify_signin_argv(cls, op_exe):
-        argv = cls.item_template_list_argv()
+        argv = cls.item_template_list_argv(op_exe)
         return argv
 
     @classmethod

@@ -40,6 +40,19 @@ OP_MASTER_PASSWORD = "made-up-password"
 ACCOUNT_SHORTHAND = "onepassword_username"
 
 
+@fixture(autouse=True, scope='function')
+def save_restore_env():
+    """
+    pyonepassword modifies os.environ
+    before each test, we need to save a copy
+    and after the test/before the next, restore the copy
+    """
+    orig_env = os.environ.copy()
+    yield
+    os.environ.clear()
+    os.environ.update(orig_env)
+
+
 def _setup_normal_env():
     os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(RESP_DIRECTORY_PATH)
     os.environ["MOCK_OP_SIGNIN_SUCCEED"] = "1"

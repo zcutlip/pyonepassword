@@ -14,6 +14,12 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "list-signed-in-accounts"
+    },
+    "--format|json|item|template|list": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "list-templates"
     }
   }
 }

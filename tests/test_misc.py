@@ -67,6 +67,19 @@ def test_use_existing_session_01():
         OP(op_path='mock-op', use_existing_session=True, password_prompt=False)
 
 
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+@pytest.mark.usefixtures("setup_op_sess_var_alt_env")
+def test_use_existing_session_02():
+    """
+    Simulate a pyonepassword environment that:
+    - doesn't use biometric
+    - DOES have OP_SESSION_<user uuid> env variable set
+    Check that OP(use_existing_session=True) succeeds
+    """
+    # with pytest.raises(OPNotSignedInException):
+    _ = OP(op_path='mock-op', use_existing_session=True, password_prompt=False)
+
+
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
 @pytest.mark.usefixtures("setup_alt_op_env")
 def test_no_shorthand_no_bio_01():

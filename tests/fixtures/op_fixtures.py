@@ -89,6 +89,14 @@ def setup_alt_op_env():
 
 
 @fixture
+def setup_op_sess_var_alt_env(setup_alt_op_env):
+    misc_data = ExpectedMiscData()
+    sess_var_name = misc_data.data_for_key("op-session-var")
+    sess_token = misc_data.data_for_key("op-session-token")
+    os.environ[sess_var_name] = sess_token
+
+
+@fixture
 def signed_in_op():
     op = _get_signed_in_op(ACCOUNT_SHORTHAND)
     return op

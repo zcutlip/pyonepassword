@@ -28,7 +28,11 @@ from .invalid_op_cli_config import (
     MissingOPCLIConfig,
     UnreadableOPCLIConfig
 )
-from .paths import ALT_RESP_DIRECTORY_PATH, RESP_DIRECTORY_PATH
+from .paths import (
+    ALT_RESP_DIRECTORY_PATH,
+    RESP_DIRECTORY_PATH,
+    UNAUTH_RESP_DIRECTORY_PATH
+)
 from .valid_data import ValidData
 from .valid_op_cli_config import (
     VALID_OP_CONFIG_NO_SHORTHAND_KEY,
@@ -67,6 +71,13 @@ def _setup_alt_env():
     os.environ["LOG_OP_ERR"] = "1"
 
 
+def _setup_unauth_env():
+    os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(UNAUTH_RESP_DIRECTORY_PATH)
+    os.environ["MOCK_OP_SIGNIN_SUCCEED"] = "1"
+    # os.environ["MOCK_OP_SIGNIN_USES_BIO"] = "1"
+    os.environ["LOG_OP_ERR"] = "1"
+
+
 def _get_signed_in_op(account_shorthand, default_vault=None):
     _setup_normal_env()
     try:
@@ -89,7 +100,20 @@ def setup_alt_op_env():
 
 
 @fixture
+def setup_unauth_op_env():
+    _setup_unauth_env()
+
+
+@fixture
 def setup_op_sess_var_alt_env(setup_alt_op_env):
+    misc_data = ExpectedMiscData()
+    sess_var_name = misc_data.data_for_key("op-session-var")
+    sess_token = misc_data.data_for_key("op-session-token")
+    os.environ[sess_var_name] = sess_token
+
+
+@fixture
+def setup_op_sess_var_unauth_env(setup_unauth_op_env):
     misc_data = ExpectedMiscData()
     sess_var_name = misc_data.data_for_key("op-session-var")
     sess_token = misc_data.data_for_key("op-session-token")

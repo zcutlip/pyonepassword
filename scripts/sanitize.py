@@ -36,7 +36,7 @@ class TextFile:
         return string
 
 
-class Jsonfile(TextFile):
+class JSONFile(TextFile):
     def sanitize(self):
         changed = False
         # get the indent of the original file
@@ -117,7 +117,7 @@ def sanitize_files(top_dir, sanitization_map):
                 if fnmatch.fnmatch(file, pattern):
                     filepath = Path(root, file)
                     if filepath.suffix == ".json":
-                        textfile = Jsonfile(filepath, sanitization_map)
+                        textfile = JSONFile(filepath, sanitization_map)
                     else:
                         textfile = TextFile(filepath, sanitization_map)
                     file_count += 1

@@ -302,6 +302,12 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "item-get-invalid-totp"
+    },
+    "--format|json|item|get|Not A Document": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-not-a-document"
     }
   }
 }

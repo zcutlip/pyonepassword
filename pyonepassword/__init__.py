@@ -36,7 +36,6 @@ from .py_op_exceptions import (
     OPInvalidDocumentException,
     OPItemGetException,
     OPItemListException,
-    OPListEventsException,
     OPNotFoundException,
     OPNotSignedInException,
     OPSigninException,

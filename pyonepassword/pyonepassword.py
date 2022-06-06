@@ -1,4 +1,3 @@
-import json
 import logging
 from os import environ as env
 
@@ -22,7 +21,6 @@ from .py_op_exceptions import (
     OPDocumentGetException,
     OPForgetException,
     OPInvalidDocumentException,
-    OPListEventsException,
     OPSignoutException
 )
 
@@ -260,50 +258,6 @@ class OP(_OPCommandInterface):
             user_name_or_id=user_name_or_id, vault=vault)
         group_list = OPGroupDescriptorList(group_list)
         return group_list
-
-    def list_events(self, eventid=None, older=False):
-        """
-        Returns the 100 most recent events by default.
-        The Activity Log is only available for 1Password Business accounts.
-
-        Parameters
-        ----------
-        eventid: str, optional
-            start listing from event with ID eid
-
-        older: bool, optional
-            list events from before the specified event
-
-        Raises
-        ------
-        OPListEventsException
-            If the lookup fails for any reason.
-        OPNotFoundException
-            If the 1Password command can't be found.
-
-        Returns
-        -------
-        str
-            Raw JSON list of events
-        """
-        event_argv = []
-        if eventid:
-            event_argv = ["--eventid", eventid]
-            if older:
-                event_argv = ["--older", "--eventid", eventid]
-
-        lookup_argv = [self.op_path, "list", "events"]
-        if event_argv:
-            lookup_argv.extend(event_argv)
-
-        try:
-            output = self._run(
-                lookup_argv, capture_stdout=True, decode="utf-8")
-        except OPCmdFailedException as ocfe:
-            raise OPListEventsException.from_opexception(ocfe) from ocfe
-
-        item_dict = json.loads(output)
-        return item_dict
 
     def item_get_password(self, item_name_or_uuid, vault=None) -> str:
         """

@@ -90,9 +90,9 @@ def test_use_existing_session_03():
     - session token not valid
     Check that OP(use_existing_session=True) fails
     """
-    # with pytest.raises(OPNotSignedInException):
-    _ = OP(op_path='mock-op', use_existing_session=True,
-           account_shorthand="example_shorthand", password_prompt=False)
+    with pytest.raises(OPNotSignedInException):
+        _ = OP(op_path='mock-op', use_existing_session=True,
+               account_shorthand="example_shorthand", password_prompt=False)
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")

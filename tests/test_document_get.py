@@ -7,7 +7,11 @@ if TYPE_CHECKING:
 
 import pytest
 
-from pyonepassword import OPDocumentGetException, OPDocumentItem
+from pyonepassword import (
+    OPDocumentGetException,
+    OPDocumentItem,
+    OPInvalidDocumentException
+)
 from pyonepassword.op_items.document import OPDocumentFile
 
 from .test_support.util import digest
@@ -53,3 +57,8 @@ def test_document_get03(signed_in_op: OP, expected_document_data):
     assert file_obj.size == expected.size
     assert file_obj.content_path == expected.content_path
     assert file_obj.file_id == expected.file_id
+
+
+def test_document_get_wrong_item_type_01(signed_in_op: OP):
+    with pytest.raises(OPInvalidDocumentException):
+        signed_in_op.document_get("Not A Document")

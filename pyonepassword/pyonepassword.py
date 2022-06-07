@@ -40,10 +40,17 @@ class OP(_OPCommandInterface):
                  password_prompt: bool = True):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
-        If 'password' is not provided, the 'op' command will prompt on the console for a password.
 
-        If all components of a 1Password account are provided, an initial sign-in is performed,
-        otherwise, a normal sign-in is performed. See `op --help` for further explanation.
+        Authentication is attempted in the following order:
+        - If use_existing_session is True and a session token is found
+          in an OP_SESSION_<user UUID> environment variable, that session is verified
+          and used
+        - If biometric authentication is enabled, it will be used
+        - If 'password' is provided, it will be provided to the 'op' command
+        - If no password is provided, but password_prompt is True, 'op' will be allowed to prompt for a password
+        - If authentication is attempted and failed (password or biometric), OPSigninException is raised
+        - If no authentication is attempted and (no password, no password prompt, biometric not enabled), and no
+          valid session is found, OPNotSignedInException is raised
 
         Parameters
         ----------
@@ -56,15 +63,6 @@ class OP(_OPCommandInterface):
             address. See 'op signin --help' for more information.
         password : str, optional
             If provided, the password will be piped to the 'op' command over stdin
-            If not provided:
-            - If use_existing_session is True and there is a valid existing session for the
-                account shorthand, authentication will proceed with this session
-            - If 'password_prompt' is omitted or True, the 'op' command will be allowed
-                to prompt for the user's master password on the console if there is no
-            - If 'password_prompt' is false and an existing session can't or won't be used,
-                an exception is raised
-
-
         logger : logging.Logger
             A logging object. If not provided a basic logger is created and used
         op_path : str, optional
@@ -81,8 +79,9 @@ class OP(_OPCommandInterface):
         OPNotSignedInException
             if:
                 - No session is available for reuse (or session reuse not requested), and
-                - no password provided, and
-                - interactive password prompt is supressed
+                - no password provided,
+                - interactive password prompt is supressed, and
+                - biometric authenticaiotn is disabled
         OPNotFoundException
             If the 1Password command can't be found
         """

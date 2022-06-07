@@ -117,7 +117,7 @@ class OP(_OPCommandInterface):
 
         Raises
         ------
-        OPGetItemException
+        OPItemGetException
             If the lookup fails for any reason during command execution
         OPInvalidItemException
             If the item JSON fails to decode
@@ -151,7 +151,7 @@ class OP(_OPCommandInterface):
 
         Raises
         ------
-        OPGetItemException
+        OPItemGetException
             If the lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
@@ -273,7 +273,7 @@ class OP(_OPCommandInterface):
         ------
         AttributeError
             If the item doesn't have a 'fileName' attribute.
-        OPGetItemException
+        OPItemGetException
             If the lookup fails for any reason.
         OPNotFoundException
             If the 1Password command can't be found.
@@ -303,7 +303,7 @@ class OP(_OPCommandInterface):
         ------
         AttributeError
             If the item doesn't have a 'fileName' attribute
-        OPGetItemException
+        OPItemGetException
             If the lookup fails for any reason
         OPNotFoundException
             If the 1Password command can't be found

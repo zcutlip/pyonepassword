@@ -62,7 +62,7 @@ import getpass
 from pyonepassword import (  # noqa: E402
     OP,
     OPSigninException,
-    OPGetItemException,
+    OPItemGetException,
     OPNotFoundException,
     OPConfigNotFoundException
 )
@@ -127,7 +127,7 @@ def main():
 
     try:
 		    print(op.get_item_password("Example Login"))
-     except OPGetItemException:
+     except OPItemGetException:
       	# lookup fails since we signed out
         pass
 

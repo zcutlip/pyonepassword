@@ -5,7 +5,7 @@ from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidItemException
 
 
-class OPUnknownItemType(Exception):
+class OPUnknownItemTypeException(Exception):
     def __init__(self, msg, item_dict=None):
         super().__init__(msg)
         self.item_dict = item_dict
@@ -24,7 +24,7 @@ class OPItemFactory:
         try:
             item_cls = cls._TYPE_REGISTRY[item_type]
         except KeyError as ke:
-            raise OPUnknownItemType(
+            raise OPUnknownItemTypeException(
                 f"Unknown item type {item_type}", item_dict=item_dict) from ke
 
         return item_cls(item_dict)

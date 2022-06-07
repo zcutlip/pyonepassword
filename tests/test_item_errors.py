@@ -7,7 +7,7 @@ import pytest
 from pyonepassword.op_items import (
     OPFieldNotFoundException,
     OPItemFactory,
-    OPUnknownItemType
+    OPUnknownItemTypeException
 )
 from pyonepassword.op_items.item_section import OPItemFieldCollisionException
 from pyonepassword.py_op_exceptions import OPInvalidItemException
@@ -22,7 +22,7 @@ pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 def test_unknown_item_type_01(invalid_data):
     invalid_item_json = invalid_data.data_for_name("invalid-item")
-    with pytest.raises(OPUnknownItemType):
+    with pytest.raises(OPUnknownItemTypeException):
         _ = OPItemFactory.op_item(invalid_item_json)
 
 

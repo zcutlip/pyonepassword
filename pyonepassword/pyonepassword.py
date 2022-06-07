@@ -121,7 +121,7 @@ class OP(_OPCommandInterface):
             If the lookup fails for any reason during command execution
         OPInvalidItemException
             If the item JSON fails to decode
-        OPUnknownItemType
+        OPUnknownItemTypeException
             If the item object returned by 1Password isn't a known type
         OPNotFoundException
             If the 1Password command can't be found

@@ -191,6 +191,16 @@ class OP(_OPCommandInterface):
         return user
 
     def user_list(self, group_name_or_id=None, vault_name_or_id=None) -> OPUserDescriptorList:
+        """
+        Return a list of users in an account.
+
+        Parameters
+        ----------
+        group_name_or_id: str
+            Name or ID of a group to restrict user listing to
+        vault_name_or_id: str
+            Name or ID of a vault to restrict user listing to
+        """
         user_list: OPUserDescriptorList
         user_list = self._user_list(
             group_name_or_id=group_name_or_id, vault=vault_name_or_id)

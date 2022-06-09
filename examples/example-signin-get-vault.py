@@ -1,5 +1,6 @@
 import os
 import sys
+from pprint import pprint
 
 from do_signin import do_signin
 
@@ -21,15 +22,13 @@ if __name__ == "__main__":
     print("Looking up vault \"Test Data\"...")
     try:
         vault_1: OPVault = op.vault_get("Test Data")
-        print(vault_1)
+        pprint(vault_1, sort_dicts=False, indent=2)
         print("")
         print("Vaults can also be looked up by their uuid")
         print("")
         print("Looking up uuid \"yhdg6ovhkjcfhn3u25cp2bnl6e\"...")
         vault_2: OPVault = op.vault_get("yhdg6ovhkjcfhn3u25cp2bnl6e")
-        if (vault_1.unique_id == vault_2.unique_id and
-                vault_1.name == vault_2.name):
-            pass
+
         print("Vault dictionaries match? {}".format(vault_1.unique_id == vault_2.unique_id and
                                                     vault_1.name == vault_2.name and
                                                     vault_1.description == vault_2.description and

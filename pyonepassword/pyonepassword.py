@@ -113,7 +113,7 @@ class OP(_OPCommandInterface):
         item_name_or_id: str
             Name or ID of the item to look up
         vault: str, optional
-            The name of a vault to override the object's default vault
+            The name or ID of a vault to override the object's default vault
 
         Raises
         ------
@@ -147,7 +147,7 @@ class OP(_OPCommandInterface):
         item_name_or_id: str
             Name or ID of the item to look up
         vault: str, optional
-            The name of a vault to override the object's default vault
+            The name or ID of a vault to override the object's default vault
 
         Raises
         ------
@@ -277,7 +277,7 @@ class OP(_OPCommandInterface):
         item_name_or_id: str
             The item to look up
         vault: str, optional
-            The name of a vault to override the object's default vault
+            The name or ID of a vault to override the object's default vault
 
         Raises
         ------
@@ -307,7 +307,7 @@ class OP(_OPCommandInterface):
         item_name_or_id : str
             The item to look up
         vault: str, optional
-            The name of a vault to override the object's default vault
+            The name or ID of a vault to override the object's default vault
 
         Raises
         ------
@@ -338,7 +338,7 @@ class OP(_OPCommandInterface):
         document_name_or_id : str
             The item to look up
         vault: str, optional
-            The name of a vault to override the object's default vault
+            The name or ID of a vault to override the object's default vault
 
         Raises
         ------

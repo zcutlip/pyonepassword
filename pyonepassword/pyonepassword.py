@@ -232,6 +232,16 @@ class OP(_OPCommandInterface):
         return vault
 
     def vault_list(self, group_name_or_id=None, user_name_or_id=None) -> OPVaultDescriptorList:
+        """
+        Return a list of vaults in an account.
+
+        Parameters
+        ----------
+        group_name_or_id: str
+            Name or ID of a group to restrict vault listing to
+        user_name_or_id: str
+            Name or ID of a user to restrict vault listing to
+        """
         vault_list_json = super()._vault_list(
             group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
         vault_list = OPVaultDescriptorList(vault_list_json)
@@ -262,6 +272,16 @@ class OP(_OPCommandInterface):
         return group
 
     def group_list(self, user_name_or_id=None, vault=None) -> OPUserDescriptorList:
+        """
+        Return a list of vaults in an account.
+
+        Parameters
+        ----------
+        user_name_or_id: str
+            Name or ID of a user to restrict vault listing to
+        group_name_or_id: str
+            Name or ID of a group to restrict vault listing to
+        """
         group_list: OPUserDescriptorList
         group_list = self._group_list(
             user_name_or_id=user_name_or_id, vault=vault)

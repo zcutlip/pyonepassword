@@ -190,10 +190,10 @@ class OP(_OPCommandInterface):
         user = OPUser(user_json)
         return user
 
-    def user_list(self, group_name_or_id=None, vault=None) -> OPUserDescriptorList:
+    def user_list(self, group_name_or_id=None, vault_name_or_id=None) -> OPUserDescriptorList:
         user_list: OPUserDescriptorList
         user_list = self._user_list(
-            group_name_or_id=group_name_or_id, vault=vault)
+            group_name_or_id=group_name_or_id, vault=vault_name_or_id)
         user_list = OPUserDescriptorList(user_list)
         return user_list
 

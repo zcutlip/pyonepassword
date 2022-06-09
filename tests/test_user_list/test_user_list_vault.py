@@ -28,7 +28,7 @@ def test_user_list_vault_test_data_01(signed_in_op: OP, expected_user_list_data:
     expected_user_list: List[ExpectedUserListEntry]
     expected_user_list = expected_user_list_data.data_for_key(user_list_key)
     expected = expected_user_list[0]
-    result = signed_in_op.user_list(vault="Test Data")
+    result = signed_in_op.user_list(vault_name_or_id="Test Data")
     _sanity_check_user_list(result, expected_user_list)
 
     user_entry = result[0]
@@ -40,7 +40,7 @@ def test_user_list_vault_test_data_02(signed_in_op: OP, expected_user_list_data:
     expected_user_list: List[ExpectedUserListEntry]
     expected_user_list = expected_user_list_data.data_for_key(user_list_key)
     expected = expected_user_list[0]
-    result = signed_in_op.user_list(vault="Test Data")
+    result = signed_in_op.user_list(vault_name_or_id="Test Data")
     _sanity_check_user_list(result, expected_user_list)
 
     user_entry = result[0]
@@ -52,7 +52,7 @@ def test_user_list_vault_test_data_03(signed_in_op: OP, expected_user_list_data:
     expected_user_list: List[ExpectedUserListEntry]
     expected_user_list = expected_user_list_data.data_for_key(user_list_key)
     expected = expected_user_list[0]
-    result = signed_in_op.user_list(vault="Test Data")
+    result = signed_in_op.user_list(vault_name_or_id="Test Data")
     _sanity_check_user_list(result, expected_user_list)
 
     user_entry = result[0]
@@ -64,7 +64,7 @@ def test_user_list_vault_test_data_04(signed_in_op: OP, expected_user_list_data:
     expected_user_list: List[ExpectedUserListEntry]
     expected_user_list = expected_user_list_data.data_for_key(user_list_key)
     expected = expected_user_list[0]
-    result = signed_in_op.user_list(vault="Test Data")
+    result = signed_in_op.user_list(vault_name_or_id="Test Data")
     _sanity_check_user_list(result, expected_user_list)
 
     user_entry = result[0]
@@ -76,7 +76,7 @@ def test_user_list_vault_test_data_05(signed_in_op: OP, expected_user_list_data:
     expected_user_list: List[ExpectedUserListEntry]
     expected_user_list = expected_user_list_data.data_for_key(user_list_key)
     expected = expected_user_list[0]
-    result = signed_in_op.user_list(vault="Test Data")
+    result = signed_in_op.user_list(vault_name_or_id="Test Data")
     _sanity_check_user_list(result, expected_user_list)
 
     user_entry = result[0]

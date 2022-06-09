@@ -24,29 +24,6 @@ python3 -m pip install pyonepassword
 
 ## Example Usage
 
-### A Note about Initial Sign-in
-
-Initial sign-in, which was supported in earlier versions of `pyonepassword` is now deprecated. The reasons for this are:
-
-- Use of multifactor authentication is highly encouraged for all users, but is not supported via `pyonepassword`
-- If there was a way to perform mutlifactor authentication programatically, this would represent a failure of MFA; one of its main purposes is to capture user intent. If `pyonepassword` can automate MFA, so can malicious code.
-
-Code that was previously relying on initial sign-in support in `pyonepassword`, must now be updated to continue working. It is necessary to import a different, deprecated class. A one line change should allow existing code to continue working for the time being:
-
-Change:
-
-```python
-from pyonepassword import OP
-```
-
-To:
-
-```python
-from pyonepassword import OP_ as OP
-```
-
-Other than deprecation warnings (via Python's `warnings.warn()`), everything should then function as normal. **Be aware that this functionality will be removed in a future update, without additional warning.**
-
 ### Sign-in and item retrieval
 
 Below is an example demonstrating:

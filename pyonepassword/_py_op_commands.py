@@ -149,7 +149,6 @@ class _OPCommandInterface(_OPCLIExecute):
         return token
 
     def _do_normal_signin(self, account_shorthand, password):
-        self.logger.info("Doing normal (non-initial) 1Password sign-in")
         signin_argv = _OPArgv.normal_signin_argv(
             self.op_path, account_shorthand=account_shorthand)
 

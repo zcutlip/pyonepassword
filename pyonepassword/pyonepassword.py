@@ -207,13 +207,13 @@ class OP(_OPCommandInterface):
         user_list = OPUserDescriptorList(user_list)
         return user_list
 
-    def vault_get(self, vault_name_or_uuid: str) -> OPVault:
+    def vault_get(self, vault_name_or_id: str) -> OPVault:
         """
         Return the details for the vault specified by name or UUID.
 
         Parameters
         ----------
-        vault_name_or_uuid: str
+        vault_name_or_id: str
             Name or UUID of the vault to look up
         Raises
         ------
@@ -227,7 +227,7 @@ class OP(_OPCommandInterface):
         vault: OPVault
             An object representing the details of the requested vault
         """
-        vault_json = super()._vault_get(vault_name_or_uuid, decode="utf-8")
+        vault_json = super()._vault_get(vault_name_or_id, decode="utf-8")
         vault = OPVault(vault_json)
         return vault
 
@@ -237,13 +237,13 @@ class OP(_OPCommandInterface):
         vault_list = OPVaultDescriptorList(vault_list_json)
         return vault_list
 
-    def group_get(self, group_name_or_uuid: str) -> OPGroup:
+    def group_get(self, group_name_or_id: str) -> OPGroup:
         """
         Return the details for the group specified by name or UUID.
 
         Parameters
         ----------
-        group_name_or_uuid: str
+        group_name_or_id: str
             Name or UUID of the group to look up
         Raises
         ------
@@ -257,7 +257,7 @@ class OP(_OPCommandInterface):
         user: OPGroup
             An object representing the details of the requested group
         """
-        group_json = super()._group_get(group_name_or_uuid, decode="utf-8")
+        group_json = super()._group_get(group_name_or_id, decode="utf-8")
         group = OPGroup(group_json)
         return group
 

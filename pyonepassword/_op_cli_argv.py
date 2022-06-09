@@ -54,8 +54,8 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_get_argv(cls, op_exe, item_name_or_uuid, vault=None, fields=None):
-        sub_cmd_args = [item_name_or_uuid]
+    def item_get_argv(cls, op_exe, item_name_or_id, vault=None, fields=None):
+        sub_cmd_args = [item_name_or_id]
         if vault:
             sub_cmd_args.extend(["--vault", vault])
 
@@ -65,14 +65,14 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_get_totp_argv(cls, op_exe, item_name_or_uuid, vault=None):
+    def item_get_totp_argv(cls, op_exe, item_name_or_id, vault=None):
         sub_cmd_args = []
         field_arg = "type=otp"
         if vault:
             sub_cmd_args.extend(["--vault", vault])
 
         argv = cls.item_get_argv(
-            op_exe, item_name_or_uuid, vault=vault, fields=field_arg)
+            op_exe, item_name_or_id, vault=vault, fields=field_arg)
         return argv
 
     @classmethod
@@ -86,8 +86,8 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def document_get_argv(cls, op_exe, document_name_or_uuid, vault=None):
-        sub_cmd_args = [document_name_or_uuid]
+    def document_get_argv(cls, op_exe, document_name_or_id, vault=None):
+        sub_cmd_args = [document_name_or_id]
         if vault:
             sub_cmd_args.extend(["--vault", vault])
         argv = cls.document_generic_argv(op_exe, "get", sub_cmd_args)
@@ -104,8 +104,8 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def vault_get_argv(cls, op_exe, vault_name_or_uuid):
-        sub_cmd_args = [vault_name_or_uuid]
+    def vault_get_argv(cls, op_exe, vault_name_or_id):
+        sub_cmd_args = [vault_name_or_id]
         argv = cls.vault_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
@@ -130,8 +130,8 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def user_get_argv(cls, op_exe, user_name_or_uuid):
-        sub_cmd_args = [user_name_or_uuid]
+    def user_get_argv(cls, op_exe, user_name_or_id):
+        sub_cmd_args = [user_name_or_id]
         argv = cls.user_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
@@ -156,8 +156,8 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def group_get_argv(cls, op_exe, user_name_or_uuid):
-        sub_cmd_args = [user_name_or_uuid]
+    def group_get_argv(cls, op_exe, user_name_or_id):
+        sub_cmd_args = [user_name_or_id]
         argv = cls.group_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 

@@ -191,30 +191,30 @@ class _OPCommandInterface(_OPCLIExecute):
         argv = _OPArgv.account_list_argv(op_path, encoding=encoding)
         return argv
 
-    def _item_get_argv(self, item_name_or_uuid, vault=None, fields=None):
+    def _item_get_argv(self, item_name_or_id, vault=None, fields=None):
         vault_arg = vault if vault else self.vault
 
         lookup_argv = _OPArgv.item_get_argv(
-            self.op_path, item_name_or_uuid, vault=vault_arg, fields=fields)
+            self.op_path, item_name_or_id, vault=vault_arg, fields=fields)
         return lookup_argv
 
-    def _item_get_totp_argv(self, item_name_or_uuid, vault=None):
+    def _item_get_totp_argv(self, item_name_or_id, vault=None):
         vault_arg = vault if vault else self.vault
 
         lookup_argv = _OPArgv.item_get_totp_argv(
-            self.op_path, item_name_or_uuid, vault=vault_arg)
+            self.op_path, item_name_or_id, vault=vault_arg)
         return lookup_argv
 
-    def _get_document_argv(self, document_name_or_uuid: str, vault: str = None):
+    def _get_document_argv(self, document_name_or_id: str, vault: str = None):
         vault_arg = vault if vault else self.vault
 
         get_document_argv = _OPArgv.document_get_argv(
-            self.op_path, document_name_or_uuid, vault=vault_arg)
+            self.op_path, document_name_or_id, vault=vault_arg)
 
         return get_document_argv
 
-    def _user_get_argv(self, user_name_or_uuid: str):
-        get_user_argv = _OPArgv.user_get_argv(self.op_path, user_name_or_uuid)
+    def _user_get_argv(self, user_name_or_id: str):
+        get_user_argv = _OPArgv.user_get_argv(self.op_path, user_name_or_id)
         return get_user_argv
 
     def _user_list_argv(self, group_name_or_id=None, vault=None):
@@ -222,9 +222,9 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, group_name_or_id=group_name_or_id, vault=vault)
         return user_list_argv
 
-    def _group_get_argv(self, group_name_or_uuid: str):
+    def _group_get_argv(self, group_name_or_id: str):
         group_get_argv = _OPArgv.group_get_argv(
-            self.op_path, group_name_or_uuid)
+            self.op_path, group_name_or_id)
         return group_get_argv
 
     def _group_list_argv(self, user_name_or_id=None, vault=None):
@@ -232,10 +232,10 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, user_name_or_id=user_name_or_id, vault=vault)
         return group_list_argv
 
-    def _vault_get_argv(self, vault_name_or_uuid: str):
+    def _vault_get_argv(self, vault_name_or_id: str):
 
         get_vault_argv = _OPArgv.vault_get_argv(
-            self.op_path, vault_name_or_uuid)
+            self.op_path, vault_name_or_id)
         return get_vault_argv
 
     def _vault_list_argv(self, group_name_or_id=None, user_name_or_id=None):
@@ -248,9 +248,9 @@ class _OPCommandInterface(_OPCLIExecute):
         cli_version_argv = _OPArgv.cli_version_argv(self.op_path)
         return cli_version_argv
 
-    def _item_get(self, item_name_or_uuid, vault=None, fields=None, decode="utf-8"):
+    def _item_get(self, item_name_or_id, vault=None, fields=None, decode="utf-8"):
         get_item_argv = self._item_get_argv(
-            item_name_or_uuid, vault=vault, fields=fields)
+            item_name_or_id, vault=vault, fields=fields)
         try:
             output = self._run(
                 get_item_argv, capture_stdout=True, decode=decode)
@@ -259,9 +259,9 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
-    def _item_get_totp(self, item_name_or_uuid, vault=None, decode="utf-8"):
+    def _item_get_totp(self, item_name_or_id, vault=None, decode="utf-8"):
         item_get_totp_argv = self._item_get_totp_argv(
-            item_name_or_uuid, vault=vault)
+            item_name_or_id, vault=vault)
         try:
             output = self._run(
                 item_get_totp_argv, capture_stdout=True, decode=decode)
@@ -270,12 +270,12 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
-    def _document_get(self, document_name_or_uuid: str, vault: str = None):
+    def _document_get(self, document_name_or_id: str, vault: str = None):
         """
         Download a document object from a 1Password vault by name or UUID.
 
         Arguments:
-            - 'item_name_or_uuid': The item to look up
+            - 'item_name_or_id': The item to look up
         Raises:
             - OPDocumentGetException if the lookup fails for any reason.
             - OPNotFoundException if the 1Password command can't be found.
@@ -284,7 +284,7 @@ class _OPCommandInterface(_OPCLIExecute):
         """
 
         get_document_argv = self._get_document_argv(
-            document_name_or_uuid, vault=vault)
+            document_name_or_id, vault=vault)
 
         try:
             document_bytes = self._run(get_document_argv, capture_stdout=True)
@@ -306,8 +306,8 @@ class _OPCommandInterface(_OPCLIExecute):
                            capture_stdout=True, decode=decode)
         return output
 
-    def _user_get(self, user_name_or_uuid: str, decode: str = "utf-8") -> str:
-        get_user_argv = self._user_get_argv(user_name_or_uuid)
+    def _user_get(self, user_name_or_id: str, decode: str = "utf-8") -> str:
+        get_user_argv = self._user_get_argv(user_name_or_id)
         try:
             output = self._run(
                 get_user_argv, capture_stdout=True, decode=decode
@@ -327,8 +327,8 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPUserListException.from_opexception(ocfe)
         return output
 
-    def _group_get(self, group_name_or_uuid: str, decode: str = "utf-8") -> str:
-        group_get_argv = self._group_get_argv(group_name_or_uuid)
+    def _group_get(self, group_name_or_id: str, decode: str = "utf-8") -> str:
+        group_get_argv = self._group_get_argv(group_name_or_id)
         try:
             output = self._run(
                 group_get_argv, capture_stdout=True, decode=decode
@@ -348,8 +348,8 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPGroupListException.from_opexception(ocfe)
         return output
 
-    def _vault_get(self, vault_name_or_uuid: str, decode: str = "utf-8") -> str:
-        vault_get_argv = self._vault_get_argv(vault_name_or_uuid)
+    def _vault_get(self, vault_name_or_id: str, decode: str = "utf-8") -> str:
+        vault_get_argv = self._vault_get_argv(vault_name_or_id)
         try:
             output = self._run(
                 vault_get_argv, capture_stdout=True, decode=decode

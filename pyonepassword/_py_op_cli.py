@@ -17,7 +17,7 @@ TODO: Move other code that closely touches 'op' here
 class _OPCLIExecute:
     NOT_SIGNED_IN_TEXT = "not currently signed in"
 
-    logging.basicConfig(format="%(message)s", level=logging.DEBUG)
+    logging.basicConfig(format="%(message)s", level=logging.INFO)
     logger = logging.getLogger()
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.

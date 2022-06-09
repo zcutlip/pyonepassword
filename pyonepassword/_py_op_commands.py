@@ -150,7 +150,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
     def _do_normal_signin(self, account_shorthand, password):
         signin_argv = _OPArgv.normal_signin_argv(
-            self.op_path, account_shorthand=account_shorthand)
+            self.op_path, account=account_shorthand)
 
         token = self._run_signin(signin_argv, password=password).rstrip()
         return token.decode()

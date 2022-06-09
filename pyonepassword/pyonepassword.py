@@ -93,7 +93,7 @@ class OP(_OPCommandInterface):
                          use_existing_session=use_existing_session,
                          password_prompt=password_prompt)
 
-    def item_get(self, item_name_or_uuid, vault=None) -> OPAbstractItem:
+    def item_get(self, item_name_or_id, vault=None) -> OPAbstractItem:
         """
         Get an 'item' object from a 1Password vault by name or UUID.
         The returned object may be any of the item types extending OPAbstractItem.
@@ -110,8 +110,8 @@ class OP(_OPCommandInterface):
 
         Parameters
         ----------
-        item_name_or_uuid: str
-            Name or UUID of the item to look up
+        item_name_or_id: str
+            Name or ID of the item to look up
         vault: str, optional
             The name of a vault to override the object's default vault
 
@@ -131,11 +131,11 @@ class OP(_OPCommandInterface):
             An item object of one of the types listed above
         """
 
-        output = super()._item_get(item_name_or_uuid, vault=vault, decode="utf-8")
+        output = super()._item_get(item_name_or_id, vault=vault, decode="utf-8")
         op_item = OPItemFactory.op_item(output)
         return op_item
 
-    def item_get_totp(self, item_name_or_uuid: str, vault=None) -> OPTOTPItem:
+    def item_get_totp(self, item_name_or_id: str, vault=None) -> OPTOTPItem:
         """
         Get a TOTP code from the item specified by name or UUID.
 
@@ -144,8 +144,8 @@ class OP(_OPCommandInterface):
 
         Parameters
         ----------
-        item_name_or_uuid: str
-            Name or UUID of the item to look up
+        item_name_or_id: str
+            Name or ID of the item to look up
         vault: str, optional
             The name of a vault to override the object's default vault
 
@@ -161,19 +161,19 @@ class OP(_OPCommandInterface):
         totp_code: str
             A string representing the TOTP code
         """
-        output = super()._item_get_totp(item_name_or_uuid, vault=vault, decode="utf-8")
+        output = super()._item_get_totp(item_name_or_id, vault=vault, decode="utf-8")
         # strip newline
         totp = OPTOTPItem(output)
         return totp
 
-    def user_get(self, user_name_or_uuid: str) -> OPUser:
+    def user_get(self, user_name_or_id: str) -> OPUser:
         """
         Return the details for the user specified by name or UUID.
 
         Parameters
         ----------
-        user_name_or_uuid: str
-            Name or UUID of the user to look up
+        user_name_or_id: str
+            Name or ID of the user to look up
         Raises
         ------
         OPUserGetException
@@ -186,7 +186,7 @@ class OP(_OPCommandInterface):
         user: OPuser
             An object representing the details of the requested user
         """
-        user_json = super()._user_get(user_name_or_uuid)
+        user_json = super()._user_get(user_name_or_id)
         user = OPUser(user_json)
         return user
 
@@ -258,13 +258,13 @@ class OP(_OPCommandInterface):
         group_list = OPGroupDescriptorList(group_list)
         return group_list
 
-    def item_get_password(self, item_name_or_uuid, vault=None) -> str:
+    def item_get_password(self, item_name_or_id, vault=None) -> str:
         """
         Get the value of the password field from the item specified by name or UUID.
 
         Parameters
         ----------
-        item_name_or_uuid: str
+        item_name_or_id: str
             The item to look up
         vault: str, optional
             The name of a vault to override the object's default vault
@@ -284,17 +284,17 @@ class OP(_OPCommandInterface):
             Value of the item's 'password' attribute
         """
         item: OPLoginItem
-        item = self.item_get(item_name_or_uuid, vault=vault)
+        item = self.item_get(item_name_or_id, vault=vault)
         password = item.password
         return password
 
-    def item_get_filename(self, item_name_or_uuid, vault=None):
+    def item_get_filename(self, item_name_or_id, vault=None):
         """
         Get the fileName attribute a document item from a 1Password vault by name or UUID.
 
         Parameters
         ----------
-        item_name_or_uuid : str
+        item_name_or_id : str
             The item to look up
         vault: str, optional
             The name of a vault to override the object's default vault
@@ -313,19 +313,19 @@ class OP(_OPCommandInterface):
         file_name: str
             Value of the item's 'fileName' attribute
         """
-        item = self.item_get(item_name_or_uuid, vault=vault)
+        item = self.item_get(item_name_or_id, vault=vault)
         # Will raise AttributeError if item isn't a OPDocumentItem
         file_name = item.file_name
 
         return file_name
 
-    def document_get(self, document_name_or_uuid, vault=None):
+    def document_get(self, document_name_or_id, vault=None):
         """
         Download a document object from a 1Password vault by name or UUID.
 
         Parameters
         ----------
-        item_name_or_uuid : str
+        document_name_or_id : str
             The item to look up
         vault: str, optional
             The name of a vault to override the object's default vault
@@ -346,7 +346,7 @@ class OP(_OPCommandInterface):
         """
         try:
             file_name = self.item_get_filename(
-                document_name_or_uuid, vault=vault)
+                document_name_or_id, vault=vault)
         except AttributeError as ae:
             raise OPInvalidDocumentException(
                 "Item has no 'fileName' attribute") from ae
@@ -354,7 +354,7 @@ class OP(_OPCommandInterface):
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
         try:
-            document_bytes = super()._document_get(document_name_or_uuid, vault=vault)
+            document_bytes = super()._document_get(document_name_or_id, vault=vault)
         except OPCmdFailedException as ocfe:
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 

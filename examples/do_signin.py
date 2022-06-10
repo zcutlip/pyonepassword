@@ -15,7 +15,8 @@ from pyonepassword import OP, OPNotSignedInException  # noqa: E402
 
 
 def do_signin(vault=None, op_path="op"):
-    # op_path = "op-binaries/2.0.0/op"
+    # Let's check If biometric is enabled
+    # If so, no need to provide a password
     uses_biometric = OP.uses_biometric(op_path=op_path)
     try:
         op = OP(vault=vault, op_path=op_path,

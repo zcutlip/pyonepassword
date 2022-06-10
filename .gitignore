@@ -159,3 +159,5 @@ Temporary Items
 /ipython_snippets/scratch/
 /op-binaries
 /sanitize.cfg
+# ignore private response-generation configs
+/*private*cfg

@@ -1,7 +1,10 @@
 import getpass
 
 from pyonepassword import OP
-from pyonepassword.py_op_exceptions import OPCreateItemNotSupportedException, OPNotSignedInException
+from pyonepassword.py_op_exceptions import (
+    OPCreateItemNotSupportedException,
+    OPNotSignedInException
+)
 
 
 def do_signin():

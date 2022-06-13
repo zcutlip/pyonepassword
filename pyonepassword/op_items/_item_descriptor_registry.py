@@ -1,5 +1,5 @@
-from ._op_item_type_registry import OPItemFactory
 from ._item_descriptor_base import OPAbstractItemDescriptor
+from ._op_item_type_registry import OPItemFactory
 
 
 class OPItemDescriptorFactory(OPItemFactory):

@@ -1,8 +1,9 @@
-from pathlib import Path
-from pyonepassword import OPServerItem
 import json
+from pathlib import Path
 
-from _util.functions import snippet_dir, scratch_dir
+from _util.functions import scratch_dir, snippet_dir
+
+from pyonepassword import OPServerItem
 
 server_json = Path(snippet_dir(), "server.json")
 server_dict = json.load(open(server_json, "r"))

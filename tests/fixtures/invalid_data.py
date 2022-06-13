@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from .paths import INVALID_DATA_REGISTRY_PATH, INVALID_DATA_PATH
+from .paths import INVALID_DATA_PATH, INVALID_DATA_REGISTRY_PATH
 
 
 class InvalidData:

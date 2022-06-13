@@ -8,8 +8,8 @@ from json.decoder import JSONDecodeError
 from typing import Dict, List, TypeVar, Union
 
 from ._datetime import fromisoformat_z
-from .py_op_exceptions import _OPAbstractException
 from .json import safe_unjson
+from .py_op_exceptions import _OPAbstractException
 
 
 class OPInvalidObjectException(_OPAbstractException):

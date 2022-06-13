@@ -1,8 +1,9 @@
-import os
 import getpass
-from pathlib import Path
+import os
 from argparse import ArgumentParser
-from pyonepassword import OP, OPServerItem, OPNotSignedInException
+from pathlib import Path
+
+from pyonepassword import OP, OPNotSignedInException, OPServerItem
 
 
 class ServerWithSSHKeys:

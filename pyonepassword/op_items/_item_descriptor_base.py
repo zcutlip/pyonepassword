@@ -1,9 +1,9 @@
 import datetime
 from abc import ABCMeta, abstractmethod
 
-from ..op_objects import OPVaultDescriptor
 from .._datetime import fromisoformat_z
 from ..json import safe_unjson
+from ..op_objects import OPVaultDescriptor
 
 
 class OPAbstractItemDescriptor(dict):

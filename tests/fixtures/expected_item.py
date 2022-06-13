@@ -1,8 +1,8 @@
 import datetime
 from typing import Dict
 
-from .expected_data import ExpectedData
 from ..test_support._datetime import fromisoformat_z
+from .expected_data import ExpectedData
 
 
 class ExpectedItemBase:

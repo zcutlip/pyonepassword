@@ -3,7 +3,6 @@ from ._item_descriptor_registry import op_register_item_descriptor_type
 from ._op_item_type_registry import op_register_item_type
 from ._op_items_base import OPAbstractItem
 
-
 # {
 #     "uuid": "zjc6s5ri3rhcxploofa67jamze",
 #     "templateUuid": "003",

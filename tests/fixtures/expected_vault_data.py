@@ -40,7 +40,7 @@ class ExpectedVault:
         return self._data["type"]
 
     @property
-    def items(self) -> int:
+    def item_count(self) -> int:
         return self._data["items"]
 
 

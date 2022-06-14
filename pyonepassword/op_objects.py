@@ -377,7 +377,7 @@ class OPVault(OPVaultDescriptor):
         return self["description"]
 
     @property
-    def items(self) -> int:
+    def item_count(self) -> int:
         return self["items"]
 
     @property

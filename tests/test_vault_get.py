@@ -55,8 +55,8 @@ def test_vault_get_03(signed_in_op: OP, expected_vault_data: ExpectedVaultData):
     expected = expected_vault_data.data_for_vault(vault_name)
     result = signed_in_op.vault_get(vault_name)
     assert isinstance(result, OPVault)
-    assert result.items > 0
-    assert result.items == expected.items
+    assert result.item_count > 0
+    assert result.item_count == expected.item_count
 
 
 def test_vault_get_04(signed_in_op: OP, expected_vault_data: ExpectedVaultData):
@@ -136,8 +136,8 @@ def test_vault_get_10(signed_in_op: OP, expected_vault_data: ExpectedVaultData):
     expected = expected_vault_data.data_for_vault(vault_uuid)
     result = signed_in_op.vault_get(vault_uuid)
     assert isinstance(result, OPVault)
-    assert result.items > 0
-    assert result.items == expected.items
+    assert result.item_count > 0
+    assert result.item_count == expected.item_count
 
 
 def test_vault_get_11(signed_in_op: OP, expected_vault_data: ExpectedVaultData):

@@ -4,16 +4,17 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from pyonepassword.op_items import (
+from pyonepassword.api.exceptions import (
     OPFieldNotFoundException,
-    OPItemFactory,
+    OPInvalidItemException,
     OPUnknownItemTypeException
 )
+from pyonepassword.op_items import OPItemFactory
 from pyonepassword.op_items.item_section import OPItemFieldCollisionException
-from pyonepassword.py_op_exceptions import OPInvalidItemException
 
 if TYPE_CHECKING:
-    from pyonepassword import OP, OPLoginItem
+    from pyonepassword import OP
+    from pyonepassword.api.object_types import OPLoginItem
 
 
 # ensure HOME env variable is set, and there's a valid op config present

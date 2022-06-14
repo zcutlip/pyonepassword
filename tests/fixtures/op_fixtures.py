@@ -3,7 +3,7 @@ import os
 from pytest import fixture
 
 from pyonepassword import OP
-from pyonepassword.py_op_exceptions import OPCmdFailedException
+from pyonepassword.api.exceptions import OPCmdFailedException
 
 from .expected_account_data import ExpectedAccountData
 from .expected_api_credential_data import ExpectedAPICredentialData

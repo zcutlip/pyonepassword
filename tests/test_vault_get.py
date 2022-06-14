@@ -11,7 +11,11 @@ if TYPE_CHECKING:
         ExpectedVault
     )
 
-from pyonepassword import OPInvalidVaultException, OPVault, OPVaultGetException
+from pyonepassword.api.exceptions import (
+    OPInvalidVaultException,
+    OPVaultGetException
+)
+from pyonepassword.api.object_types import OPVault
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")

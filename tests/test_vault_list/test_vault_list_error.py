@@ -10,9 +10,9 @@ import pytest
 if TYPE_CHECKING:
     from pyonepassword import OP
 
-from pyonepassword import (
+from pyonepassword.api.descriptor_types import OPVaultDescriptorList
+from pyonepassword.api.exceptions import (
     OPInvalidVaultListException,
-    OPVaultDescriptorList,
     OPVaultListException
 )
 

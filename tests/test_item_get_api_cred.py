@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from .fixtures.expected_api_credential_data import ExpectedAPICredential, ExpectedAPICredentialData
     from pyonepassword import OP
 
-from pyonepassword import OPAPICredentialItem
+from pyonepassword.api.object_types import OPAPICredentialItem
 
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 

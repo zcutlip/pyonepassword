@@ -15,7 +15,10 @@ if TYPE_CHECKING:
         ExpectedVaultListEntry
     )
 
-from pyonepassword import OPVaultDescriptor, OPVaultDescriptorList
+from pyonepassword.api.descriptor_types import (
+    OPVaultDescriptor,
+    OPVaultDescriptorList
+)
 
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 

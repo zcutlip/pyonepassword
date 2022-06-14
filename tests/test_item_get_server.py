@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from .fixtures.expected_server import ExpectedServer, ExpectedServerSSHKeys, ExpectedServerItemData
     from pyonepassword import OP
 
-from pyonepassword import OPServerItem
+from pyonepassword.api.object_types import OPServerItem
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")

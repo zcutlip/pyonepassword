@@ -3,7 +3,7 @@ import os
 import pytest
 
 from pyonepassword._op_cli_config import OPCLIConfig
-from pyonepassword.py_op_exceptions import OPConfigNotFoundException
+from pyonepassword.api.exceptions import OPConfigNotFoundException
 
 from .fixtures.expected_op_cli_config import ExpectedConfigData
 

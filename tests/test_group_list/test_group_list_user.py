@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, List
 
 import pytest
 
-from pyonepassword.op_objects import OPGroupDescriptor
+from pyonepassword.api.descriptor_types import OPGroupDescriptor
 
 # make imports for type-hinting disappear at run-time to avoid
 # circular imports.
@@ -16,7 +16,7 @@ if TYPE_CHECKING:
         ExpectedGroupListEntry
     )
 
-from pyonepassword import OPGroupDescriptorList
+from pyonepassword.api.descriptor_types import OPGroupDescriptorList
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")

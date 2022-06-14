@@ -2,7 +2,8 @@ import os
 
 import pytest
 
-from pyonepassword import OP, OPNotFoundException, OPSigninException
+from pyonepassword import OP
+from pyonepassword.api.exceptions import OPNotFoundException, OPSigninException
 
 from .fixtures.paths import RESP_DIRECTORY_PATH
 

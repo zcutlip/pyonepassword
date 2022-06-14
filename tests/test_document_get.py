@@ -7,12 +7,11 @@ if TYPE_CHECKING:
 
 import pytest
 
-from pyonepassword import (
+from pyonepassword.api.exceptions import (
     OPDocumentGetException,
-    OPDocumentItem,
     OPInvalidDocumentException
 )
-from pyonepassword.op_items.document import OPDocumentFile
+from pyonepassword.api.object_types import OPDocumentFile, OPDocumentItem
 
 from .test_support.util import digest
 

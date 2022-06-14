@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from pyonepassword.account import OPAccount
+from pyonepassword.api.object_types import OPAccount
 
 if TYPE_CHECKING:
     from pyonepassword import OP

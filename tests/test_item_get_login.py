@@ -5,9 +5,10 @@ from typing import TYPE_CHECKING, Dict
 import pytest
 
 if TYPE_CHECKING:
-    from pyonepassword import OP, OPLoginItem
+    from pyonepassword import OP
+    from pyonepassword.api.object_types import OPLoginItem
 
-from pyonepassword import OPItemGetException
+from pyonepassword.api.exceptions import OPItemGetException
 
 from .fixtures.expected_data import ExpectedData
 

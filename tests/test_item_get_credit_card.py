@@ -5,7 +5,8 @@ from typing import TYPE_CHECKING
 import pytest
 
 if TYPE_CHECKING:
-    from pyonepassword import OP, OPCreditCardItem
+    from pyonepassword import OP
+    from pyonepassword.api.object_types import OPCreditCardItem
 
     from .fixtures.expected_credit_card import ExpectedCreditCardData
 

@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import pytest
 
-from pyonepassword import OP, OPNotSignedInException
+from pyonepassword import OP
 from pyonepassword._op_cli_config import OPCLIConfig
+from pyonepassword.api.exceptions import OPNotSignedInException
 
 # ensure HOME env variable is set, and there's a valid op config present
 # pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")

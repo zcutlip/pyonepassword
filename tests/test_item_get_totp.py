@@ -13,7 +13,8 @@ if TYPE_CHECKING:
     from .fixtures.expected_totp_data import ExpectedTOTP, ExpectedTOTPData
     from pyonepassword import OP
 
-from pyonepassword import OPItemGetException, OPTOTPItem
+from pyonepassword.api.exceptions import OPItemGetException
+from pyonepassword.api.object_types import OPTOTPItem
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")

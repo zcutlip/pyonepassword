@@ -20,6 +20,21 @@ A Python API to sign into and query a 1Password account using the `op` command.
 python3 -m pip install pyonepassword
 ```
 
+## Overview
+
+`pyonepassword` essentially has two parts:
+
+1. Convenience Python classes for the various objects that the `op` command returns
+2. A full-fledged API for querying a 1Password account
+
+If you already have a workflow to drive the `op` command, handle authentication, and so forth, but would benefit from an API that can injest `op`'s JSON and give you Python objects, you're in luck, number one might be just what you need.
+
+On the ohter hand, if you're using `op` manually (maybe along side `jq`), or in shell scripts (or maybe not at all), and you'd like a full-service Python API rather than console commands, number two does that.
+
+We'll get into some examples below for both of these.
+
+
+
 ## Example Usage
 
 ### Sign-in and item retrieval

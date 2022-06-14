@@ -9,6 +9,7 @@ parent_path = os.path.dirname(
         os.path.abspath(__file__)
     )
 )
+# isort: split
 if parent_path not in sys.path:
     sys.path.append(parent_path)
 

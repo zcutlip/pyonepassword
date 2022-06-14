@@ -175,7 +175,7 @@ def main():
   	op = do_signin()
     item_password = op.item_get_password("Example Login")
 
-  	# We can also look up the item by its UUID
+    # We can also look up the item by its UUID
     # as well as retrieve from an alternate vault
     item_password = op.item_get_password(
       "ykhsbhhv2vf6hn2u4qwblfrmg4", vault="Private")

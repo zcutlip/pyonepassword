@@ -37,6 +37,96 @@ We'll get into some examples below for both of these.
 
 ## Example Usage
 
+### Object API
+
+`pyonepassword` provides Python classes for many of the objects `op` returns, including:
+
+- Several "item" types (login, password, secure note, etc)
+- User
+- User List (e.g., from 'op user list')
+- Group
+- Group List
+- Vault
+- Vault List
+- Account
+- Account List
+
+All of these classes provide assorted convenience properties. For example `obj.created_at` returns a proper Python `datetime` object.
+
+All of the object types are fundamentally dictionaries, so their data can be accessed as such, and they can be serialized back to JSON.
+
+Also, all classes can be instantiated from either directly from a JSON string, or from an unserialized object.
+
+Take the following Login item as an example:
+
+```JSON
+{
+  "id": "4smjvvepfbg3hencrmo7cozphe",
+  "title": "Example Login",
+  "version": 2,
+  "vault": {
+    "id": "yhdg6ovhkjcfhn3u25cp2bnl6e"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+  "created_at": "2021-06-29T18:42:03Z",
+  "updated_at": "2022-03-17T03:40:49Z",
+  "sections": [
+    {
+      "id": "linked items",
+      "label": "Related Items"
+    }
+  ],
+  "fields": [
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "doth-parrot-hid-tussock-veldt",
+      "password_details": {
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "zcutlip"
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain"
+    }
+  ],
+  "urls": [
+    {
+      "href": "http://example2.website"
+    },
+    {
+      "primary": true,
+      "href": "https://example.website"
+    }
+  ]
+}
+```
+
+In just a line of Python, you can create an `OPLoginItem` object:
+
+```Python
+login_item = OPLoginItem(login_item_json)
+print(login_item.username)
+print(login_item.password)
+print(login_item.primary_url.href)
+
+# login_item is also a dictionary:
+print(login_item["username"] == login_item.username)
+```
+
+
 ### Sign-in and item retrieval
 
 Below is an example demonstrating:

@@ -33,7 +33,7 @@ if __name__ == "__main__":
         print("Vault dictionaries match? {}".format(vault_1.unique_id == vault_2.unique_id and
                                                     vault_1.name == vault_2.name and
                                                     vault_1.description == vault_2.description and
-                                                    vault_1.items == vault_2.items and
+                                                    vault_1.item_count == vault_2.item_count and
                                                     vault_1.created_at == vault_2.created_at and
                                                     vault_1.updated_at == vault_2.updated_at))
     except OPVaultGetException as ope:

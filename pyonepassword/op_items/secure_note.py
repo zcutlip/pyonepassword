@@ -29,6 +29,7 @@ from ._op_items_base import OPAbstractItem
 #     }
 # }
 
+
 @op_register_item_descriptor_type
 class OPSecureNoteItemDescriptor(OPAbstractItemDescriptor):
     CATEGORY = "SECURE_NOTE"

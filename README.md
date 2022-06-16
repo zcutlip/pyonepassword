@@ -126,6 +126,18 @@ print(login_item.primary_url.href)
 print(login_item["username"] == login_item.username)
 ```
 
+### Example usage of the `OP` class
+
+If you want to fully automate connecting to and querying a 1Password account, that's what the `OP` class is for. I handles authentication (except for initial sign-in). And provides methods that are congruent to many of the `op` CLI tool's subcommands, such as:
+
+- `item_get()`
+- `item_list()`
+- `user_get()`
+- `user_list()`...
+
+... and so forth.
+
+All of these methods return objects types as described above. Also, `item_get()` returns the appropriate object type for the item, such as `OPLoginItem` or `OPSecureNoteItem`, as long as `pyonepassword` has a class for the returned item type.
 
 ### Sign-in and item retrieval
 
@@ -139,8 +151,8 @@ Below is an example demonstrating:
 ```Python
 import getpass
 
-from pyonepassword import (  # noqa: E402
-    OP,
+from pyonepassword import OP
+from pyonepassword.api.exceptions import (
     OPSigninException,
     OPItemGetException,
     OPNotFoundException,

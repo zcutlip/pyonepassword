@@ -95,6 +95,11 @@ def setup_normal_op_env():
 
 
 @fixture
+def setup_normal_op_env_signin_failure():
+    _setup_normal_env(signin_success="0")
+
+
+@fixture
 def setup_alt_op_env():
     _setup_alt_env()
 

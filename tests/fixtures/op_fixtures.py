@@ -57,9 +57,9 @@ def save_restore_env():
     os.environ.update(orig_env)
 
 
-def _setup_normal_env():
+def _setup_normal_env(signin_success="1"):
     os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(RESP_DIRECTORY_PATH)
-    os.environ["MOCK_OP_SIGNIN_SUCCEED"] = "1"
+    os.environ["MOCK_OP_SIGNIN_SUCCEED"] = str(signin_success)
     # os.environ["MOCK_OP_SIGNIN_USES_BIO"] = "1"
     os.environ["LOG_OP_ERR"] = "1"
 

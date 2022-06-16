@@ -3,20 +3,21 @@ import sys
 
 from do_signin import do_signin
 
-from pyonepassword.api.exceptions import (
-    OPItemGetException,
-    OPSigninException,
-    OPSignoutException
-)
-
 parent_path = os.path.dirname(
     os.path.dirname(
         os.path.abspath(__file__)
     )
 )
-# isort: split
+
 if parent_path not in sys.path:
     sys.path.append(parent_path)
+
+# isort: split
+from pyonepassword.api.exceptions import (  # noqa: E402
+    OPItemGetException,
+    OPSigninException,
+    OPSignoutException
+)
 
 
 def do_lookup():

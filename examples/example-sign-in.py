@@ -11,8 +11,8 @@ if parent_path not in sys.path:
     sys.path.append(parent_path)
 
 # isort: split
-from pyonepassword import (  # noqa: E402
-    OP,
+from pyonepassword import OP  # noqa: E402
+from pyonepassword.api.exceptions import (  # noqa: E402
     OPNotSignedInException,
     OPSigninException
 )

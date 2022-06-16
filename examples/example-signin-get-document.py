@@ -12,7 +12,7 @@ parent_path = os.path.dirname(
 if parent_path not in sys.path:
     sys.path.append(parent_path)
 
-from pyonepassword import (  # noqa: E402
+from pyonepassword.api.exceptions import (  # noqa: E402
     OPConfigNotFoundException,
     OPDocumentGetException,
     OPInvalidDocumentException,

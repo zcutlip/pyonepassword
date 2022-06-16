@@ -11,7 +11,8 @@ if parent_path not in sys.path:
     sys.path.append(parent_path)
 
 # isort: split
-from pyonepassword import OP, OPNotSignedInException  # noqa: E402
+from pyonepassword import OP  # noqa: E402
+from pyonepassword.api.exceptions import OPNotSignedInException  # noqa: E402
 
 
 def do_signin(vault=None, op_path="op"):

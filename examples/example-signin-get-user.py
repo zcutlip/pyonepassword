@@ -13,7 +13,8 @@ parent_path = os.path.dirname(
 if parent_path not in sys.path:
     sys.path.append(parent_path)
 
-from pyonepassword import OPUser, OPUserGetException  # noqa: E402
+from pyonepassword.api.exceptions import OPUserGetException  # noqa: E402
+from pyonepassword.api.object_types import OPUser  # noqa: E402
 
 if __name__ == "__main__":
 

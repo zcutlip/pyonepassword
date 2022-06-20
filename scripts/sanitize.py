@@ -7,7 +7,7 @@ from configparser import ConfigParser
 from pathlib import Path
 from typing import Dict
 
-whitelist = ["output", "*.txt", "*.json", "test_*.py"]
+whitelist = ["output", "*.txt", "*.json", "*.py"]
 
 
 class TextFile:
@@ -130,6 +130,8 @@ def sanitize_files(top_dir, sanitization_map):
 def sanitize_parse_args():
     parser = ArgumentParser()
     parser.add_argument("config", help="Path to config file")
+    parser.add_argument(
+        "--path", help="Alternate sanitization path to override the config file's path.")
 
     parsed = parser.parse_args()
     return parsed
@@ -141,14 +143,14 @@ def main():
     config = ConfigParser()
     config.optionxform = str
     config.read(config_path)
-    tests_path = config['main']['tests_path']
-    # responses_path = config['main']['response-path']
-    # responses_path = Path(tests_path, responses_path)
-    # data_path = config['main']['test_data_path']
-    # data_path = Path(tests_path, data_path)
+    if args.path:
+        sanitize_path = args.path
+    else:
+        sanitize_path = config['main']['sanitize_path']
+
     replacement_map = dict(config['replacements'])
 
-    sanitize_files(tests_path, replacement_map)
+    sanitize_files(sanitize_path, replacement_map)
 
 
 if __name__ == "__main__":

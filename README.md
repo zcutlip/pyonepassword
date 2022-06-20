@@ -282,6 +282,32 @@ vault: OPVault = op.vault_get("Test Data")
 vault: OPVault = op.vault_get("yhdg6ovhkjcfhn3u25cp2bnl6e")
 ```
 
+### Extending Item Types
+
+If any of the item types (login, password, etc.) are missing or don't provide sufficient properties or methods, it's very easy to add new ones or extend existing ones.
+
+Here's an example extending `OPLoginItem`.
+
+```python
+from pyonepassword import OP
+from pyonepassword.api.decorators import op_register_item_type
+from pyonepassword.api.object_types import OPLoginItem
+
+@op_register_item_type
+    class OPEnhancedLoginItem(OPLoginItem):
+
+        @property
+        def custom_property(self):
+          return self["custom_field"]
+
+
+op = OP()
+enhanced_login = op.item_get("Example Login", vault="Test Data")
+
+print(enhanced_login.custom_property)
+```
+
+
 ### More Examples
 
 Lots more examples are available in the `examples` directory

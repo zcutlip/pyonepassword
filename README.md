@@ -27,9 +27,9 @@ python3 -m pip install pyonepassword
 1. Convenience Python classes for the various objects that the `op` command returns
 2. A full-fledged API for querying a 1Password account
 
-If you already have a workflow to drive the `op` command, handle authentication, and so forth, but would benefit from an API that can injest `op`'s JSON and give you Python objects, you're in luck, number one might be just what you need.
+If you already have a workflow to drive the `op` command, handle authentication, and so forth, but would benefit from an API that can ingest `op`'s JSON and give you Python objects, you're in luck, number one might be just what you need.
 
-On the ohter hand, if you're using `op` manually (maybe along side `jq`), or in shell scripts (or maybe not at all), and you'd like a full-service Python API rather than console commands, number two does that.
+On the other hand, if you're using `op` manually (maybe along side `jq`), or in shell scripts (or maybe not at all), and you'd like a full-service Python API rather than console commands, number two does that.
 
 We'll get into some examples below for both of these.
 
@@ -117,7 +117,12 @@ Take the following Login item as an example:
 In just a line of Python, you can create an `OPLoginItem` object:
 
 ```Python
+
+from pyonepassword.api.object_types import OPLoginItem
+
 login_item = OPLoginItem(login_item_json)
+
+
 print(login_item.username)
 print(login_item.password)
 print(login_item.primary_url.href)

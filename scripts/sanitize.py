@@ -7,7 +7,7 @@ from configparser import ConfigParser
 from pathlib import Path
 from typing import Dict
 
-whitelist = ["output", "*.txt", "*.json", "*.py"]
+WHITELIST = ["output", "*.txt", "*.json", "*.py"]
 
 
 class TextFile:
@@ -108,21 +108,45 @@ class JSONFile(TextFile):
         return new_list
 
 
-def sanitize_files(top_dir, sanitization_map):
+def _santize_single(filepath, sanitization_map, whitelist):
+    changed = False
+    considered = False
+    for pattern in whitelist:
+        if fnmatch.fnmatch(filepath, pattern):
+
+            if filepath.suffix == ".json":
+                textfile = JSONFile(filepath, sanitization_map)
+            else:
+                textfile = TextFile(filepath, sanitization_map)
+            considered = True
+            changed = textfile.sanitize()
+    return (considered, changed)
+
+
+def sanitize_files(sanitize_path, sanitization_map):
     changed_count = 0
     file_count = 0
-    for root, dirs, files in os.walk(top_dir):
-        for file in files:
-            for pattern in whitelist:
-                if fnmatch.fnmatch(file, pattern):
-                    filepath = Path(root, file)
-                    if filepath.suffix == ".json":
-                        textfile = JSONFile(filepath, sanitization_map)
-                    else:
-                        textfile = TextFile(filepath, sanitization_map)
+    sanitize_path = Path(sanitize_path)
+    local_whitelist = WHITELIST
+    if sanitize_path.is_file():
+        local_whitelist = [sanitize_path]
+        considered, changed = _santize_single(
+            sanitize_path, sanitization_map, local_whitelist)
+        if considered:
+            file_count += 1
+        if changed:
+            changed_count += 1
+    else:
+        for root, dirs, files in os.walk(sanitize_path):
+            for file in files:
+                filepath = Path(root, file)
+                considered, changed = _santize_single(
+                    filepath, sanitization_map, local_whitelist)
+                if considered:
                     file_count += 1
-                    if textfile.sanitize():
-                        changed_count += 1
+                if changed:
+                    changed_count += 1
+
     print(f"Considered {file_count} files")
     print(f"Changed {changed_count} files")
 

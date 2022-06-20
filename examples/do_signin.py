@@ -15,7 +15,7 @@ from pyonepassword import OP  # noqa: E402
 from pyonepassword.api.exceptions import OPNotSignedInException  # noqa: E402
 
 
-def do_signin(vault=None, op_path="op"):
+def do_signin(vault=None, op_path="op", use_existing_session=False):
     # Let's check If biometric is enabled
     # If so, no need to provide a password
     uses_biometric = OP.uses_biometric(op_path=op_path)
@@ -32,5 +32,6 @@ def do_signin(vault=None, op_path="op"):
         # shorthand = "arbitrary_account_shorthand"
         # return OP(account_shorthand=shorthand, password=my_password)
         # Or we'll try to look up account shorthand from your latest sign-in in op's config file
-        op = OP(vault=vault, password=my_password, op_path=op_path)
+        op = OP(vault=vault, password=my_password, op_path=op_path,
+                use_existing_session=use_existing_session)
     return op

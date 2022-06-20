@@ -10,10 +10,10 @@ quit(){
 }
 
 branch=$(git rev-parse --abbrev-ref HEAD)
-if [ ! $branch == "master" ];
+if [ ! "$branch" = "main" ];
 then
-    echo 
-    quit "Attempting to tag from branch $branch. Check out 'master' first." 1
+    echo
+    quit "Attempting to tag from branch $branch. Check out 'main' first." 1
 fi
 
 modified=$(git ls-files -m) || quit "Unable to check for modified files." $?

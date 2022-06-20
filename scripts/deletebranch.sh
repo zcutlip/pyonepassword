@@ -67,9 +67,9 @@ then
     quit "Can't delete current branch: $branch" 1
 fi
 
-if [ "$to_delete" = "master" ];
+if [ "$to_delete" = "master" ] || [ "$to_delete" = "main" ];
 then
-    quit "Refusing to delete master branch." 1
+    quit "Refusing to delete master or main branch." 1
 fi
 
 local_exists=0

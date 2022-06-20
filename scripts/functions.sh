@@ -12,9 +12,9 @@ quit(){
     exit "$1"
 }
 
-branch_is_master(){
+branch_is_main(){
     _branch=$(git rev-parse --abbrev-ref HEAD)
-    if [ "$_branch" = "master" ];
+    if [ "$_branch" = "main" ];
     then
         return $SUCCESS;
     else

@@ -5,12 +5,12 @@
   ],
   "packageRules": [
     {
-      "matchPaths": ["docker_testing/docker/3.8/Dockerfile"],
+      "matchPaths": ["docker_testing/docker/py38.Dockerfile"],
       "matchPackageNames":["python"],
       "allowedVersions": "3.8"
     },
     {
-      "matchPaths": ["docker_testing/docker/3.9/Dockerfile"],
+      "matchPaths": ["docker_testing/docker/py39.Dockerfile"],
       "matchPackageNames":["python"],
       "allowedVersions": "3.9"
     }

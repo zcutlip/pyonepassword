@@ -11,7 +11,7 @@ class _OPArgv(list):
     as it allows the preciese set of command line arguments to be captured for later playback.
     """
 
-    def __init__(self, op_exe: str, command: str, args: List, subcommand: str = None, global_args=[], encoding="utf-8"):
+    def __init__(self, op_exe: str, command: str, args: List, subcommand: str = None, cache=False, global_args=[], encoding="utf-8"):
         # TODO: Refactor this
         # constructor is getting too many specialized kwargs tied to
         # specific commands/subcommands
@@ -20,6 +20,8 @@ class _OPArgv(list):
         argv = [op_exe]
         if encoding.lower() != "utf-8":
             global_args.extend(["--encoding", encoding])
+        if cache:
+            global_args.append("--cache")
         for arg in global_args:
             argv.append(arg)
         if command:

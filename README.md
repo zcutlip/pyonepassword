@@ -299,11 +299,11 @@ from pyonepassword.api.decorators import op_register_item_type
 from pyonepassword.api.object_types import OPLoginItem
 
 @op_register_item_type
-    class OPEnhancedLoginItem(OPLoginItem):
+class OPEnhancedLoginItem(OPLoginItem):
 
-        @property
-        def custom_property(self):
-          return self["custom_field"]
+    @property
+    def custom_property(self):
+      return self["custom_field"]
 
 
 op = OP()

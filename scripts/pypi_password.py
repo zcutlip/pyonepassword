@@ -49,8 +49,12 @@ def main():
             password = op_item.password
         else:
             password = op_item.credential
-        sys.stdout.write(password)
-        sys.stdout.flush()
+        if os.isatty(sys.stdout.fileno()):
+            end = None
+        else:
+            end = ''
+        print(password, end=end)
+
     except OPItemGetException as e:
         print("Failed to look up password", file=sys.stderr)
         print(e.err_output, file=sys.stderr)

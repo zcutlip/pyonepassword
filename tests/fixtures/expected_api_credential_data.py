@@ -10,7 +10,7 @@ class ExpectedAPICredential(ExpectedItemBase):
             "id": "jgou2ypa4ceurm4fetya3kptau",
             "title": "Example API Credential",
             "category": "API_CREDENTIAL",
-            "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+            "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
             "created_at": "2022-05-04T01:08:14Z",
             "updated_at": "2022-05-04T01:09:50Z",
             "additional_information": "other",

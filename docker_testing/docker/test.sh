@@ -3,6 +3,7 @@ uname -a
 NUM_PROCS="$(nproc)"
 export NUM_PROCS
 
+python3 --version
 echo "Number of processors: $NUM_PROCS"
 
 cd "$TESTDIR" || exit

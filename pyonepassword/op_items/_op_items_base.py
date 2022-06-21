@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import List
+from typing import List, Union
 
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from .item_section import OPItemField, OPSection
@@ -68,6 +68,11 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         field = self.field_by_id(field_id)
         value = field.value
         return value
+
+    def field_reference_by_id(self, field_id) -> Union[str, None]:
+        field = self.field_by_id(field_id)
+        ref = field.reference
+        return ref
 
     def _field_value_from_section(self, section: OPSection, field_label: str):
         section_field: OPItemField = section.fields_by_label(field_label)[0]

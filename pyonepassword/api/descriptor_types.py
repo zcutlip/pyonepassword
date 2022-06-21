@@ -7,6 +7,7 @@ from ..op_items.login import OPLoginDescriptorItem
 from ..op_items.password import OPPasswordItemDescriptor
 from ..op_items.secure_note import OPSecureNoteItemDescriptor
 from ..op_items.server import OPServerItemDescriptor
+from ..op_items.ssh_key import OPSSHKeyItemDescriptor
 from ..op_objects import (
     OPGroupDescriptor,
     OPGroupDescriptorList,

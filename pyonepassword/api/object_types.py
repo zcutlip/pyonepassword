@@ -7,5 +7,6 @@ from ..op_items.login import OPLoginItem
 from ..op_items.password import OPPasswordItem
 from ..op_items.secure_note import OPSecureNoteItem
 from ..op_items.server import OPServerItem
+from ..op_items.ssh_key import OPSSHKeyItem
 from ..op_items.totp import OPTOTPItem
 from ..op_objects import OPGroup, OPUser, OPVault

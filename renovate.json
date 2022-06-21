@@ -13,6 +13,11 @@
       "matchPaths": ["docker_testing/docker/py39.Dockerfile"],
       "matchPackageNames":["python"],
       "allowedVersions": "3.9"
+    },
+    {
+      "matchPaths": ["docker_testing/docker/py310.Dockerfile"],
+      "matchPackageNames":["python"],
+      "allowedVersions": "3.10"
     }
   ]
 }

@@ -60,3 +60,16 @@ class OPAbstractItemDescriptor(dict):
     @property
     def archived(self) -> bool:
         return self.state == "ARCHIVED"
+
+    @property
+    def favorite(self) -> bool:
+        fav = self.get("favorite", False)
+        return fav
+
+    @property
+    def version(self) -> int:
+        return self["version"]
+
+    @property
+    def category(self) -> str:
+        return self["category"]

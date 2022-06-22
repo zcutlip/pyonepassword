@@ -120,6 +120,7 @@ def _santize_single(filepath, sanitization_map, whitelist):
                 textfile = TextFile(filepath, sanitization_map)
             considered = True
             changed = textfile.sanitize()
+            break
     return (considered, changed)
 
 

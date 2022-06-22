@@ -7,7 +7,7 @@ from configparser import ConfigParser
 from pathlib import Path
 from typing import Dict
 
-WHITELIST = ["output", "*.txt", "*.json", "*.py"]
+WHITELIST = ["*/output", "*.txt", "*.json", "*.py"]
 
 
 class TextFile:

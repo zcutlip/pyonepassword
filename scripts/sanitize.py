@@ -54,6 +54,7 @@ class JSONFile(TextFile):
             new_json_text += "\n"
         if json_text != new_json_text:
             changed = True
+            print(f"Sanitized {self._fpath}")
             with open(self._fpath, "w") as f:
                 f.write(new_json_text)
         return changed
@@ -172,7 +173,7 @@ def main():
         sanitize_path = args.path
     else:
         sanitize_path = config['main']['sanitize_path']
-
+    print(f"Sanitizing: {sanitize_path}")
     replacement_map = dict(config['replacements'])
 
     sanitize_files(sanitize_path, replacement_map)

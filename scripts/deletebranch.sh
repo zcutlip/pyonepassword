@@ -7,46 +7,46 @@
 quit(){
     if [ $# -gt 1 ];
     then
-        echo $1
+        echo "$1"
         shift
     fi
-    exit $1
+    exit "$1"
 }
 
 local_branch_exists() {
-    local branch="$1"
-    git branch | grep "[:space:]*$branch$"
+    _branch="$1"
+    git branch | grep "[:space:]*$_branch$"
     return $?
 }
 
 remote_branch_exists() {
-    local remote="$1"
-    local branch="$2"
-    local remote_string="remotes\/$remote\/$branch"
-    git branch -a | grep "[:space:]*$remote_string$"
+    _remote="$1"
+    _branch="$2"
+    _remote_string="remotes\/$_remote\/$_branch"
+    git branch -a | grep "[:space:]*$_remote_string$"
     return $?
 }
 
 is_current_branch() {
-    local to_delete="$1"
-    local branch=$(git rev-parse --abbrev-ref HEAD)
-    [ "$to_delete" = "$branch" ]
+    _to_delete="$1"
+    _branch=$(git rev-parse --abbrev-ref HEAD)
+    [ "$_to_delete" = "$_branch" ]
     return $?
 }
 
 merged() {
-    local to_delete="$1"
-    local commit=$(git log $to_delete | head -1)
-    git log | grep "$commit";
+    _to_delete="$1"
+    _commit=$(git log "$_to_delete" | head -1)
+    git log | grep "$_commit";
     return $?
 }
 
 remote_merged() {
-    local remote="$1"
-    local to_delete="$2"
-    local remote_string="remotes/$remote/$to_delete"
-    local commit=$(git log $remote_string | head -1)
-    git log | grep "$commit";
+    _remote="$1"
+    _to_delete="$2"
+    _remote_string="remotes/$_remote/$_to_delete"
+    _commit=$(git log "$_remote_string" | head -1)
+    git log | grep "$_commit";
     return $?
 }
 
@@ -64,7 +64,7 @@ fi
 
 if is_current_branch "$to_delete";
 then
-    quit "Can't delete current branch: $branch" 1
+    quit "Can't delete current branch: $to_delete" 1
 fi
 
 if [ "$to_delete" = "master" ] || [ "$to_delete" = "main" ];
@@ -104,11 +104,10 @@ fi
 
 echo "Deleting branch $to_delete from local and $remote."
 
-git push -d $remote "$to_delete"
+git push -d "$remote" "$to_delete"
 ret1=$?
 git branch -d "$to_delete"
 ret2=$?
-set -x
+
 [ $ret1 -eq 0 ] && [ $ret2 -eq 0 ]
 quit $?
-set +x

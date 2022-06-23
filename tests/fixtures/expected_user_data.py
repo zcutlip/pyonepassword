@@ -11,7 +11,7 @@ class ExpectedUser:
 
     @property
     def unique_id(self) -> str:
-        return self._data["unique_id"]
+        return self._data["id"]
 
     @property
     def created_at(self) -> datetime.datetime:
@@ -67,7 +67,7 @@ class ExpectedUserListEntry:
 
     @property
     def unique_id(self) -> str:
-        return self._data["unique_id"]
+        return self._data["id"]
 
     @property
     def name(self) -> str:

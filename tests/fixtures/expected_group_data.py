@@ -11,7 +11,7 @@ class ExpectedGroup:
 
     @property
     def unique_id(self) -> str:
-        return self._data["unique_id"]
+        return self._data["id"]
 
     @property
     def description(self) -> str:
@@ -66,7 +66,7 @@ class ExpectedGroupListEntry:
 
     @property
     def unique_id(self) -> str:
-        return self._data["unique_id"]
+        return self._data["id"]
 
     @property
     def name(self) -> str:

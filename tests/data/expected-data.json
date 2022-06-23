@@ -3,7 +3,7 @@
         "Example Login 1": {
             "username": "johndoe1999",
             "password": "W9bZ@ZwGpRXCqnWt",
-            "unique_id": "nnotgv5xwrhjbdj6bt3rugrijy",
+            "id": "nnotgv5xwrhjbdj6bt3rugrijy",
             "created_at": "2020-12-04T00:50:48Z",
             "updated_at": "2021-03-15T17:15:37Z",
             "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
@@ -20,7 +20,7 @@
         "Example Login 2": {
             "username": "johndoe1999",
             "password": "W9bZ@ZwGpRXCqnWt",
-            "unique_id": "nok7367v4vbsfgg2fczwu4ei44",
+            "id": "nok7367v4vbsfgg2fczwu4ei44",
             "created_at": "2020-12-04T00:53:50Z",
             "updated_at": "2020-12-10T01:27:08Z",
             "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
@@ -53,7 +53,7 @@
             "returncode": 1
         },
         "Example Server": {
-            "unique_id": "hqnf5vpzc5mg4x4asrpbvoi54u",
+            "id": "hqnf5vpzc5mg4x4asrpbvoi54u",
             "title": "Example Server",
             "username": "admin",
             "password": "example_admin_password",
@@ -71,7 +71,7 @@
             "returncode": 0
         },
         "Example Server 2": {
-            "unique_id": "ag5i6ftzkdbkruy6i6zxrkkiqq",
+            "id": "ag5i6ftzkdbkruy6i6zxrkkiqq",
             "title": "Example Server 2",
             "username": null,
             "password": null,
@@ -85,7 +85,7 @@
             "returncode": 0
         },
         "3wcd3zsps7fvij47fef6scznxq": {
-            "unique_id": "3wcd3zsps7fvij47fef6scznxq",
+            "id": "3wcd3zsps7fvij47fef6scznxq",
             "title": "Example Server 3",
             "username": "server-3-username",
             "password": "jeremiah-birdie-celt-tuneless",
@@ -97,7 +97,7 @@
             "returncode": 0
         },
         "Archived Machine with SSH Keys": {
-            "unique_id": "4ccuqmpy4ebirar64vzph2pkqe",
+            "id": "4ccuqmpy4ebirar64vzph2pkqe",
             "title": "Example Server",
             "username": "admin",
             "password": "adminpass",
@@ -117,7 +117,7 @@
         },
         "Example Password": {
             "password": "iXdx8KAEmUkPqCvHHYjngHzRr7",
-            "unique_id": "2dvgl7kk5yjrq3gxwqimp5awve",
+            "id": "2dvgl7kk5yjrq3gxwqimp5awve",
             "title": "Example Password",
             "created_at": "2021-11-23T05:46:01Z",
             "updated_at": "2021-11-23T05:46:01Z",
@@ -127,7 +127,7 @@
             "returncode": 0
         },
         "Example Secure Note": {
-            "unique_id": "zjc6s5ri3rhcxploofa67jamze",
+            "id": "zjc6s5ri3rhcxploofa67jamze",
             "trashed": false,
             "created_at": "2021-03-19T23:27:12Z",
             "updated_at": "2021-03-19T23:30:10Z",
@@ -138,7 +138,7 @@
             "returncode": 0
         },
         "Example Secure Note 2": {
-            "unique_id": "t4gp6e7s6xtsiu35xq5cewxqpi",
+            "id": "t4gp6e7s6xtsiu35xq5cewxqpi",
             "trashed": false,
             "created_at": "2021-03-19T23:27:12Z",
             "updated_at": "2021-11-23T02:32:40Z",
@@ -149,7 +149,7 @@
             "returncode": 0
         },
         "t4gp6e7s6xtsiu35xq5cewxqpi": {
-            "unique_id": "t4gp6e7s6xtsiu35xq5cewxqpi",
+            "id": "t4gp6e7s6xtsiu35xq5cewxqpi",
             "trashed": false,
             "created_at": "2021-03-19T23:27:12Z",
             "updated_at": "2021-11-23T02:32:40Z",
@@ -166,7 +166,7 @@
             "returncode": 1
         },
         "Example Credit Card": {
-            "unique_id": "rh4qlntrofdwfmpsoa7j4eang4",
+            "id": "rh4qlntrofdwfmpsoa7j4eang4",
             "trashed": false,
             "created_at": "2021-03-19T18:57:22Z",
             "updated_at": "2022-05-05T21:13:48Z",
@@ -233,7 +233,7 @@
     },
     "users": {
         "Example User": {
-            "unique_id": "5GHHPJK5HZC5BAT7WDUXW57G44",
+            "id": "5GHHPJK5HZC5BAT7WDUXW57G44",
             "created_at": "2017-07-17T15:53:57Z",
             "updated_at": "2019-12-11T03:45:04Z",
             "lastAuthAt": "2022-04-27T00:55:17Z",
@@ -249,14 +249,14 @@
     "user-lists": {
         "all-users": [
             {
-                "unique_id": "5GHHPJK5HZC5BAT7WDUXW57G44",
+                "id": "5GHHPJK5HZC5BAT7WDUXW57G44",
                 "name": "Example User",
                 "email": "example_user@example.email",
                 "type": "MEMBER",
                 "state": "ACTIVE"
             },
             {
-                "unique_id": "T3KMQ7HLN5HJJHNN7CIXXMLJ2E",
+                "id": "T3KMQ7HLN5HJJHNN7CIXXMLJ2E",
                 "name": "Other User",
                 "email": "other_user@example.email",
                 "type": "MEMBER",
@@ -265,7 +265,7 @@
         ],
         "group-owners": [
             {
-                "unique_id": "5GHHPJK5HZC5BAT7WDUXW57G44",
+                "id": "5GHHPJK5HZC5BAT7WDUXW57G44",
                 "name": "Example User",
                 "email": "example_user@example.email",
                 "type": "MEMBER",
@@ -275,7 +275,7 @@
         ],
         "vault-test-data": [
             {
-                "unique_id": "5GHHPJK5HZC5BAT7WDUXW57G44",
+                "id": "5GHHPJK5HZC5BAT7WDUXW57G44",
                 "name": "Example User",
                 "email": "example_user@example.email",
                 "type": "MEMBER",
@@ -286,28 +286,28 @@
     "group-lists": {
         "all-groups": [
             {
-                "unique_id": "ibzbz27c2rbfni4sklrvcu2utu",
+                "id": "ibzbz27c2rbfni4sklrvcu2utu",
                 "name": "Owners",
                 "description": "Access to billing and account administration.",
                 "state": "ACTIVE",
                 "created_at": "2017-07-17T15:54:00Z"
             },
             {
-                "unique_id": "4dah4kx3ijfane3625dvlj36qy",
+                "id": "4dah4kx3ijfane3625dvlj36qy",
                 "name": "Administrators",
                 "description": "Administration of users, groups, and vaults.",
                 "state": "ACTIVE",
                 "created_at": "2017-07-17T15:54:00Z"
             },
             {
-                "unique_id": "7dbad25plvcitho64llktl6xl4",
+                "id": "7dbad25plvcitho64llktl6xl4",
                 "name": "Recovery",
                 "description": "Can reset user passwords if account recovery is enabled.",
                 "state": "ACTIVE",
                 "created_at": "2017-07-17T15:54:00Z"
             },
             {
-                "unique_id": "g4jgqqvmizfbvi3oavcafz4y7a",
+                "id": "g4jgqqvmizfbvi3oavcafz4y7a",
                 "name": "Team Members",
                 "description": "All team members.",
                 "state": "ACTIVE",
@@ -316,28 +316,28 @@
         ],
         "user-example-user": [
             {
-                "unique_id": "ibzbz27c2rbfni4sklrvcu2utu",
+                "id": "ibzbz27c2rbfni4sklrvcu2utu",
                 "name": "Owners",
                 "description": "Access to billing and account administration.",
                 "state": "ACTIVE",
                 "created_at": "2017-07-17T15:54:00Z"
             },
             {
-                "unique_id": "4dah4kx3ijfane3625dvlj36qy",
+                "id": "4dah4kx3ijfane3625dvlj36qy",
                 "name": "Administrators",
                 "description": "Administration of users, groups, and vaults.",
                 "state": "ACTIVE",
                 "created_at": "2017-07-17T15:54:00Z"
             },
             {
-                "unique_id": "7dbad25plvcitho64llktl6xl4",
+                "id": "7dbad25plvcitho64llktl6xl4",
                 "name": "Recovery",
                 "description": "Can reset user passwords if account recovery is enabled.",
                 "state": "ACTIVE",
                 "created_at": "2017-07-17T15:54:00Z"
             },
             {
-                "unique_id": "g4jgqqvmizfbvi3oavcafz4y7a",
+                "id": "g4jgqqvmizfbvi3oavcafz4y7a",
                 "name": "Team Members",
                 "description": "All team members.",
                 "state": "ACTIVE",
@@ -346,21 +346,21 @@
         ],
         "vault-test-data": [
             {
-                "unique_id": "ibzbz27c2rbfni4sklrvcu2utu",
+                "id": "ibzbz27c2rbfni4sklrvcu2utu",
                 "name": "Owners",
                 "description": "Access to billing and account administration.",
                 "state": "ACTIVE",
                 "created_at": "2017-07-17T15:54:00Z"
             },
             {
-                "unique_id": "4dah4kx3ijfane3625dvlj36qy",
+                "id": "4dah4kx3ijfane3625dvlj36qy",
                 "name": "Administrators",
                 "description": "Administration of users, groups, and vaults.",
                 "state": "ACTIVE",
                 "created_at": "2017-07-17T15:54:00Z"
             },
             {
-                "unique_id": "7dbad25plvcitho64llktl6xl4",
+                "id": "7dbad25plvcitho64llktl6xl4",
                 "name": "Recovery",
                 "description": "Can reset user passwords if account recovery is enabled.",
                 "state": "ACTIVE",
@@ -370,7 +370,7 @@
     },
     "groups": {
         "Team Members": {
-            "unique_id": "g4jgqqvmizfbvi3oavcafz4y7a",
+            "id": "g4jgqqvmizfbvi3oavcafz4y7a",
             "name": "Team Members",
             "description": "All team members.",
             "created_at": "2017-07-17T15:54:00Z",
@@ -387,7 +387,7 @@
     },
     "vaults": {
         "Test Data": {
-            "unique_id": "gshlsjsajnawtnjynzgwmiebge",
+            "id": "gshlsjsajnawtnjynzgwmiebge",
             "name": "Test Data",
             "description": "A vault to hold example data for testing",
             "items": 14,
@@ -396,7 +396,7 @@
             "updated_at": "2022-04-11T20:39:20Z"
         },
         "yv7w5ijyxbdhxgh3njphwsxujy": {
-            "unique_id": "yv7w5ijyxbdhxgh3njphwsxujy",
+            "id": "yv7w5ijyxbdhxgh3njphwsxujy",
             "name": "Test Data 2",
             "description": "A second example vault holding test data",
             "items": 7,
@@ -411,83 +411,83 @@
     "vault-lists": {
         "all-vaults": [
             {
-                "unique_id": "beqpiuo3kzd3djtlxpdynf4vxa",
+                "id": "beqpiuo3kzd3djtlxpdynf4vxa",
                 "name": "Ops Data"
             },
             {
-                "unique_id": "f4x7bsl5rjhe7kscozcmjryrqq",
+                "id": "f4x7bsl5rjhe7kscozcmjryrqq",
                 "name": "Shared"
             },
             {
-                "unique_id": "uutfheqncbgh7ee3lt5kguqrve",
+                "id": "uutfheqncbgh7ee3lt5kguqrve",
                 "name": "Private"
             },
             {
-                "unique_id": "hwgbirgi3ngt5j5r4z5yhxy7ru",
+                "id": "hwgbirgi3ngt5j5r4z5yhxy7ru",
                 "name": "Machine Credentials"
             },
             {
-                "unique_id": "5mhffp5wmbfgtef3n6nknbl53a",
+                "id": "5mhffp5wmbfgtef3n6nknbl53a",
                 "name": "Local"
             },
             {
-                "unique_id": "gshlsjsajnawtnjynzgwmiebge",
+                "id": "gshlsjsajnawtnjynzgwmiebge",
                 "name": "Test Data"
             },
             {
-                "unique_id": "yv7w5ijyxbdhxgh3njphwsxujy",
+                "id": "yv7w5ijyxbdhxgh3njphwsxujy",
                 "name": "Test Data 2"
             },
             {
-                "unique_id": "dwt2r677gna6xkog27qaibmhei",
+                "id": "dwt2r677gna6xkog27qaibmhei",
                 "name": "Example Vault"
             }
         ],
         "group-team-members": [
             {
-                "unique_id": "f4x7bsl5rjhe7kscozcmjryrqq",
+                "id": "f4x7bsl5rjhe7kscozcmjryrqq",
                 "name": "Shared",
                 "content_version": 73
             }
         ],
         "user-example-user": [
             {
-                "unique_id": "uutfheqncbgh7ee3lt5kguqrve",
+                "id": "uutfheqncbgh7ee3lt5kguqrve",
                 "name": "Private",
                 "content_version": 1742
             },
             {
-                "unique_id": "hwgbirgi3ngt5j5r4z5yhxy7ru",
+                "id": "hwgbirgi3ngt5j5r4z5yhxy7ru",
                 "name": "Machine Credentials",
                 "content_version": 92
             },
             {
-                "unique_id": "5mhffp5wmbfgtef3n6nknbl53a",
+                "id": "5mhffp5wmbfgtef3n6nknbl53a",
                 "name": "Local",
                 "content_version": 64
             },
             {
-                "unique_id": "gshlsjsajnawtnjynzgwmiebge",
+                "id": "gshlsjsajnawtnjynzgwmiebge",
                 "name": "Test Data",
                 "content_version": 142
             },
             {
-                "unique_id": "yv7w5ijyxbdhxgh3njphwsxujy",
+                "id": "yv7w5ijyxbdhxgh3njphwsxujy",
                 "name": "Test Data 2",
                 "content_version": 41
             },
             {
-                "unique_id": "dwt2r677gna6xkog27qaibmhei",
+                "id": "dwt2r677gna6xkog27qaibmhei",
                 "name": "Example Vault",
                 "content_version": 3
             },
             {
-                "unique_id": "beqpiuo3kzd3djtlxpdynf4vxa",
+                "id": "beqpiuo3kzd3djtlxpdynf4vxa",
                 "name": "Ops Data",
                 "content_version": 2
             },
             {
-                "unique_id": "f4x7bsl5rjhe7kscozcmjryrqq",
+                "id": "f4x7bsl5rjhe7kscozcmjryrqq",
                 "name": "Shared",
                 "content_version": 73
             }

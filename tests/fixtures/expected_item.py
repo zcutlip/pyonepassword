@@ -11,7 +11,7 @@ class ExpectedItemBase:
 
     @property
     def unique_id(self) -> str:
-        return self._data["unique_id"]
+        return self._data["id"]
 
     @property
     def title(self) -> str:

@@ -18,6 +18,10 @@ class ExpectedItemBase:
         return self._data["title"]
 
     @property
+    def category(self) -> str:
+        return self._data["category"]
+
+    @property
     def created_at(self) -> datetime.datetime:
         created_at = self._data["created_at"]
         return fromisoformat_z(created_at)

@@ -64,6 +64,19 @@ class OPAbstractItem(OPAbstractItemDescriptor):
                 f"Field not found with ID: {field_id}")
         return field
 
+    def fields_by_label(self, field_label: str) -> List[OPItemField]:
+        fields = []
+        f: OPItemField
+        for _, f in self._field_map.items():
+            if f.label == field_label:
+                fields.append(f)
+        return fields
+
+    def first_field_by_label(self, field_label: str) -> OPItemField:
+        fields = self.fields_by_label(field_label)
+        f = fields[0]
+        return f
+
     def field_value_by_id(self, field_id):
         field = self.field_by_id(field_id)
         value = field.value

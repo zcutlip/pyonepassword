@@ -103,3 +103,8 @@ class OPSection(dict):
             if f.label == label:
                 matching_fields.append(f)
         return matching_fields
+
+    def first_field_by_label(self, label: str):
+        fields = self.fields_by_label(label)
+        f = fields[0]
+        return f

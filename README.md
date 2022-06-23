@@ -133,7 +133,7 @@ print(login_item["username"] == login_item.username)
 
 ### Example usage of the `OP` class
 
-If you want to fully automate connecting to and querying a 1Password account, that's what the `OP` class is for. I handles authentication (except for initial sign-in). And provides methods that are congruent to many of the `op` CLI tool's subcommands, such as:
+If you want to fully automate connecting to and querying a 1Password account, that's what the `OP` class is for. It handles authentication (except for initial sign-in). And provides methods that are congruent to many of the `op` CLI tool's subcommands, such as:
 
 - `item_get()`
 - `item_list()`

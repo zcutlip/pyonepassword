@@ -19,6 +19,7 @@ from .expected_op_cli_config import ExpectedConfigData
 from .expected_password_item_data import ExpectedPasswordItemData
 from .expected_secure_note_item_data import ExpectedSecureNoteItemData
 from .expected_server import ExpectedServerItemData
+from .expected_ssh_key_data import ExpectedSSHKeyData
 from .expected_totp_data import ExpectedTOTPData
 from .expected_user_data import ExpectedUserData, ExpectedUserListData
 from .expected_vault_data import ExpectedVaultData, ExpectedVaultListData
@@ -248,6 +249,12 @@ def expected_op_config_data():
 @fixture
 def expected_misc_data():
     data = ExpectedMiscData()
+    return data
+
+
+@fixture
+def expected_ssh_key_data():
+    data = ExpectedSSHKeyData()
     return data
 
 

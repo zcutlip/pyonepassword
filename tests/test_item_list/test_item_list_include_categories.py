@@ -30,7 +30,7 @@ def _items_by_title(item_list: OPItemList, item_title):
     return items
 
 
-def test_items_list_identity_01(signed_in_op: OP, expected_login_item_data):
+def test_items_list_multiple_01(signed_in_op: OP, expected_login_item_data):
     login_item_title = "Example Login 1"
     items: OPItemList = signed_in_op.item_list(
         vault="Test Data", categories=["login", "identity"])

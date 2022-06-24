@@ -6,13 +6,13 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from .test_support.util import digest
+from ..test_support.util import digest
 
 # make imports for type-hinting disappear at run-time to avoid
 # circular imports.
 # this also reduced exercising tested code simply by importing
 if TYPE_CHECKING:
-    from .fixtures.expected_server import ExpectedServer, ExpectedServerSSHKeys, ExpectedServerItemData
+    from ..fixtures.expected_server import ExpectedServer, ExpectedServerSSHKeys, ExpectedServerItemData
     from pyonepassword import OP
 
 from pyonepassword.api.object_types import OPServerItem

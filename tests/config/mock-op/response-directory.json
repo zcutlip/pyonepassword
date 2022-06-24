@@ -314,6 +314,12 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "item-get-example-ssh-key"
+    },
+    "--format|json|item|get|Example Identity": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-identity"
     }
   }
 }

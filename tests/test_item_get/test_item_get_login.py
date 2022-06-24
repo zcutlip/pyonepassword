@@ -7,10 +7,9 @@ import pytest
 if TYPE_CHECKING:
     from pyonepassword import OP
     from pyonepassword.api.object_types import OPLoginItem
+    from ..fixtures.expected_data import ExpectedData
 
 from pyonepassword.api.exceptions import OPItemGetException
-
-from .fixtures.expected_data import ExpectedData
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")

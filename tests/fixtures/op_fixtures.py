@@ -12,6 +12,7 @@ from .expected_data import ExpectedData
 from .expected_datetimes import ExpectedDatetimeData
 from .expected_document_data import ExpectedDocumentData
 from .expected_group_data import ExpectedGroupData, ExpectedGroupListData
+from .expected_identity import ExpectedIdenityItemData
 from .expected_item_fields import ExpectedItemFieldData
 from .expected_login import ExpectedLoginItemData
 from .expected_miscellaneous_data import ExpectedMiscData
@@ -255,6 +256,12 @@ def expected_misc_data():
 @fixture
 def expected_ssh_key_data():
     data = ExpectedSSHKeyData()
+    return data
+
+
+@fixture
+def expected_identity_data():
+    data = ExpectedIdenityItemData()
     return data
 
 

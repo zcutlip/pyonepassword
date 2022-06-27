@@ -20,15 +20,53 @@ def _lookup_item_data(data: ExpectedData, item_id: str) -> Dict:
     return item
 
 
-def test_item_getlogin_01(signed_in_op: OP, expected_login_item_data):
+def test_item_get_login_01(signed_in_op: OP, expected_login_item_data):
     # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     vault = "Test Data"
     expected = expected_login_item_data.data_for_login(item_name)
     result = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPLoginItem)
     assert result.username == expected.username
+
+
+def test_item_get_login_02(signed_in_op: OP, expected_login_item_data):
+    # get item "Example Login 1" --vault "Test Data"
+    item_name = "Example Login 1"
+    vault = "Test Data"
+    expected = expected_login_item_data.data_for_login(item_name)
+    result = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPLoginItem)
     assert result.password == expected.password
+
+
+def test_item_get_login_03(signed_in_op: OP, expected_login_item_data):
+    # get item "Example Login 1" --vault "Test Data"
+    item_name = "Example Login 1"
+    vault = "Test Data"
+    expected = expected_login_item_data.data_for_login(item_name)
+    result = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPLoginItem)
     assert result.primary_url.href == expected.primary_url.href
+
+
+def test_item_get_login_04(signed_in_op: OP, expected_login_item_data):
+    # get item "Example Login 1" --vault "Test Data"
+    item_name = "Example Login 1"
+    vault = "Test Data"
+    expected = expected_login_item_data.data_for_login(item_name)
+    result = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPLoginItem)
+    assert result.primary_url.label == expected.primary_url.label
+
+
+def test_item_get_login_05(signed_in_op: OP, expected_login_item_data):
+    # get item "Example Login 1" --vault "Test Data"
+    item_name = "Example Login 1"
+    vault = "Test Data"
+    expected = expected_login_item_data.data_for_login(item_name)
+    result = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPLoginItem)
     assert result.primary_url.label == expected.primary_url.label
 
 

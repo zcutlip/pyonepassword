@@ -47,6 +47,14 @@ class ExpectedItemBase:
     def archived(self) -> bool:
         return self._data["archived"]
 
+    @property
+    def version(self) -> int:
+        return self._data["version"]
+
+    @property
+    def favorite(self) -> bool:
+        return self._data.get("favorite", False)
+
 
 class ExpectedItemData:
     def __init__(self):

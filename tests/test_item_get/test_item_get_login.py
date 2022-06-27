@@ -88,13 +88,24 @@ def test_item_get_login_by_uuid_02(signed_in_op: OP, expected_login_item_data):
     assert result.password == expected.password
 
 
-def test_item_getlogin_03(signed_in_op: OP, expected_login_item_data):
+def test_item_get_login_alt_vault_01(signed_in_op: OP, expected_login_item_data):
     # get item "Example Login" --vault "Test Data 2"
     item_name = "Example Login"
     vault = "Test Data 2"
     expected = expected_login_item_data.data_for_login(item_name)
     result: OPLoginItem = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPLoginItem)
     assert result.username == expected.username
+    assert result.password == expected.password
+
+
+def test_item_get_login_alt_vault_02(signed_in_op: OP, expected_login_item_data):
+    # get item "Example Login" --vault "Test Data 2"
+    item_name = "Example Login"
+    vault = "Test Data 2"
+    expected = expected_login_item_data.data_for_login(item_name)
+    result: OPLoginItem = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPLoginItem)
     assert result.password == expected.password
 
 

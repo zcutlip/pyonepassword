@@ -70,12 +70,21 @@ def test_item_get_login_05(signed_in_op: OP, expected_login_item_data):
     assert result.primary_url.label == expected.primary_url.label
 
 
-def test_item_getlogin_02(signed_in_op: OP, expected_login_item_data):
+def test_item_get_login_by_uuid_01(signed_in_op: OP, expected_login_item_data):
     # get item nok7367v4vbsfgg2fczwu4ei44
     item_uuid = "nok7367v4vbsfgg2fczwu4ei44"
     expected = expected_login_item_data.data_for_login(item_uuid)
     result = signed_in_op.item_get(item_uuid)
+    assert isinstance(result, OPLoginItem)
     assert result.username == expected.username
+
+
+def test_item_get_login_by_uuid_02(signed_in_op: OP, expected_login_item_data):
+    # get item nok7367v4vbsfgg2fczwu4ei44
+    item_uuid = "nok7367v4vbsfgg2fczwu4ei44"
+    expected = expected_login_item_data.data_for_login(item_uuid)
+    result = signed_in_op.item_get(item_uuid)
+    assert isinstance(result, OPLoginItem)
     assert result.password == expected.password
 
 

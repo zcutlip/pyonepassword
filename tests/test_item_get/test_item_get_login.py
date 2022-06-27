@@ -86,6 +86,30 @@ def test_item_get_login_06(signed_in_op: OP, expected_login_item_data):
 
 def test_item_get_login_07(signed_in_op: OP, expected_login_item_data):
     # get item "Example Login 1" --vault "Test Data"
+    item_name = "Example Login 1"
+    vault = "Test Data"
+    expected: ExpectedLogin = expected_login_item_data.data_for_login(
+        item_name)
+    result = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPLoginItem)
+    # "favorite" is true for Example Login 1
+    assert result.version == expected.version
+
+
+def test_item_get_login_08(signed_in_op: OP, expected_login_item_data):
+    # get item "Example Login 1" --vault "Test Data"
+    item_name = "Example Login 2"
+    vault = "Test Data"
+    expected: ExpectedLogin = expected_login_item_data.data_for_login(
+        item_name)
+    result = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPLoginItem)
+    # "favorite" is unset for Example Login 2
+    assert result.version == expected.version
+
+
+def test_item_get_login_09(signed_in_op: OP, expected_login_item_data):
+    # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 2"
     vault = "Test Data"
     expected: ExpectedLogin = expected_login_item_data.data_for_login(

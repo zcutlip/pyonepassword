@@ -1,4 +1,5 @@
 pytest
 pytest-dotenv
 pytest-xdist
+pytest-cov
 git+https://github.com/zcutlip/mock-op

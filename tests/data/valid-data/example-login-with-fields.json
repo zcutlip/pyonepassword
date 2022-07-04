@@ -1,77 +1,88 @@
 {
-    "id": "pzhqhogpa4dkecmyq3nsqhqsdi",
-    "title": "Example Login with Fields",
-    "version": 1,
-    "vault": {
-        "id": "gshlsjsajnawtnjynzgwmiebge",
-        "name": "Test Data"
+  "id": "pzhqhogpa4dkecmyq3nsqhqsdi",
+  "title": "Example Login with Fields",
+  "version": 2,
+  "vault": {
+    "id": "gshlsjsajnawtnjynzgwmiebge",
+    "name": "Test Data"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
+  "created_at": "2022-06-27T22:50:01Z",
+  "updated_at": "2022-07-04T16:55:08Z",
+  "additional_information": "guest_user",
+  "sections": [
+    {
+      "id": "vh4wk7qyw46urc7wuwczzhpm7u",
+      "label": "Example Section 1"
     },
-    "category": "LOGIN",
-    "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
-    "created_at": "2022-06-27T22:50:01Z",
-    "updated_at": "2022-06-27T22:50:01Z",
-    "additional_information": "guest_user",
-    "sections": [
-        {
-            "id": "vh4wk7qyw46urc7wuwczzhpm7u",
-            "label": "Example Section 1"
-        },
-        {
-            "id": "a5cwhzimcjiytoere7palzuoni",
-            "label": "Example Section 2"
-        }
-    ],
-    "fields": [
-        {
-            "id": "username",
-            "type": "STRING",
-            "purpose": "USERNAME",
-            "label": "username",
-            "value": "guest_user",
-            "reference": "op://Test Data/Example Login with Fields/username"
-        },
-        {
-            "id": "password",
-            "type": "CONCEALED",
-            "purpose": "PASSWORD",
-            "label": "password",
-            "value": "unruly-confer-cutlery-foveae",
-            "entropy": 56.590091705322266,
-            "reference": "op://Test Data/Example Login with Fields/password",
-            "password_details": {
-                "entropy": 56,
-                "generated": true,
-                "strength": "EXCELLENT"
-            }
-        },
-        {
-            "id": "notesPlain",
-            "type": "STRING",
-            "purpose": "NOTES",
-            "label": "notesPlain",
-            "reference": "op://Test Data/Example Login with Fields/notesPlain"
-        },
-        {
-            "id": "ikr76mnggw767qwqoel624oqv4",
-            "section": {
-                "id": "vh4wk7qyw46urc7wuwczzhpm7u",
-                "label": "Example Section 1"
-            },
-            "type": "STRING",
-            "label": "Example Field",
-            "value": "This is the text for the first instance of Example Field",
-            "reference": "op://Test Data/Example Login with Fields/Example Section 1/Example Field"
-        },
-        {
-            "id": "zyhpoqkrwjtrq6qh5vhwylh6ie",
-            "section": {
-                "id": "a5cwhzimcjiytoere7palzuoni",
-                "label": "Example Section 2"
-            },
-            "type": "STRING",
-            "label": "Example Field",
-            "value": "This is the text for the second instance of Example Field",
-            "reference": "op://Test Data/Example Login with Fields/Example Section 2/Example Field"
-        }
-    ]
+    {
+      "id": "a5cwhzimcjiytoere7palzuoni",
+      "label": "Example Section 2"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "guest_user",
+      "reference": "op://Test Data/Example Login with Fields/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "unruly-confer-cutlery-foveae",
+      "entropy": 56.590091705322266,
+      "reference": "op://Test Data/Example Login with Fields/password",
+      "password_details": {
+        "entropy": 56,
+        "generated": true,
+        "strength": "EXCELLENT"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data/Example Login with Fields/notesPlain"
+    },
+    {
+      "id": "ikr76mnggw767qwqoel624oqv4",
+      "section": {
+        "id": "vh4wk7qyw46urc7wuwczzhpm7u",
+        "label": "Example Section 1"
+      },
+      "type": "STRING",
+      "label": "Example Field",
+      "value": "This is the text for the first instance of Example Field",
+      "reference": "op://Test Data/Example Login with Fields/Example Section 1/Example Field"
+    },
+    {
+      "id": "xkspcha7sjjvviyp2fyjubsn2q",
+      "section": {
+        "id": "vh4wk7qyw46urc7wuwczzhpm7u",
+        "label": "Example Section 1"
+      },
+      "type": "STRING",
+      "label": "Second Example Field",
+      "value": "This is an example of a section with two fields",
+      "reference": "op://Test Data/Example Login with Fields/Example Section 1/Second Example Field"
+    },
+    {
+      "id": "zyhpoqkrwjtrq6qh5vhwylh6ie",
+      "section": {
+        "id": "a5cwhzimcjiytoere7palzuoni",
+        "label": "Example Section 2"
+      },
+      "type": "STRING",
+      "label": "Example Field",
+      "value": "This is the text for the second instance of Example Field",
+      "reference": "op://Test Data/Example Login with Fields/Example Section 2/Example Field"
+    }
+  ]
 }

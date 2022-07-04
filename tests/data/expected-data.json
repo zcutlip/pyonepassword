@@ -84,6 +84,17 @@
                     "reference": "op://Test Data/Example Login with Fields/Example Section 1/Example Field"
                 },
                 {
+                    "id": "xkspcha7sjjvviyp2fyjubsn2q",
+                    "section": {
+                        "id": "vh4wk7qyw46urc7wuwczzhpm7u",
+                        "label": "Example Section 1"
+                    },
+                    "type": "STRING",
+                    "label": "Second Example Field",
+                    "value": "This is an example of a section with two fields",
+                    "reference": "op://Test Data/Example Login with Fields/Example Section 1/Second Example Field"
+                },
+                {
                     "id": "zyhpoqkrwjtrq6qh5vhwylh6ie",
                     "section": {
                         "id": "a5cwhzimcjiytoere7palzuoni",

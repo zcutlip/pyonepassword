@@ -10,7 +10,7 @@ import pytest
 # circular imports.
 # this also reduced exercising tested code simply by importing
 if TYPE_CHECKING:
-    from .fixtures.expected_ssh_key_data import ExpectedSSHKey, ExpectedSSHKeyData
+    from ..fixtures.expected_ssh_key_data import ExpectedSSHKey, ExpectedSSHKeyData
     from pyonepassword import OP
 
 from pyonepassword.api.object_types import OPSSHKeyItem

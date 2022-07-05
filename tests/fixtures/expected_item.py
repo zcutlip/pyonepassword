@@ -1,8 +1,9 @@
 import datetime
-from typing import Dict
+from typing import Dict, List
 
 from ..test_support._datetime import fromisoformat_z
 from .expected_data import ExpectedData
+from .expected_item_fields import ExpectedItemField
 
 
 class ExpectedItemBase:
@@ -46,6 +47,26 @@ class ExpectedItemBase:
     @property
     def archived(self) -> bool:
         return self._data["archived"]
+
+    @property
+    def version(self) -> int:
+        return self._data["version"]
+
+    @property
+    def favorite(self) -> bool:
+        return self._data.get("favorite", False)
+
+    def fields_by_label(self, label: str) -> List[ExpectedItemField]:
+        """
+        Labels aren't guaranteed to so the best we can guarantee is a list,
+        even if only one
+        """
+        fields = []
+        field_dicts = self._data["fields"]
+        for fd in field_dicts:
+            f = ExpectedItemField(fd)
+            fields.append(f)
+        return fields
 
 
 class ExpectedItemData:

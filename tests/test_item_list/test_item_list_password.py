@@ -38,8 +38,8 @@ def test_item_list_password_01(signed_in_op: OP, expected_item_password_data):
     result = _item_by_id(items, item_id)
 
     # weird if this doesn't match, but hey
-    assert result.unique_id == expected.unique_id
     assert isinstance(result, OPPasswordItemDescriptor)
+    assert result.unique_id == expected.unique_id
 
 
 def test_item_list_password_02(signed_in_op: OP, expected_item_password_data):

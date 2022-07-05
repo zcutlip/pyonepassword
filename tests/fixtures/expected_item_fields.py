@@ -10,7 +10,7 @@ class ExpectedItemField:
 
     @property
     def field_id(self) -> str:
-        return self._data["field_id"]
+        return self._data["id"]
 
     @property
     def type(self) -> str:

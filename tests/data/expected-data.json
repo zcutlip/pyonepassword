@@ -8,6 +8,8 @@
             "updated_at": "2021-03-15T17:15:37Z",
             "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
             "vault_id": "gshlsjsajnawtnjynzgwmiebge",
+            "version": 6,
+            "favorite": true,
             "urls": [
                 {
                     "label": "website",
@@ -25,6 +27,7 @@
             "updated_at": "2020-12-10T01:27:08Z",
             "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
             "vault_id": "gshlsjsajnawtnjynzgwmiebge",
+            "version": 4,
             "urls": [],
             "returncode": 0
         },
@@ -48,6 +51,61 @@
                 }
             ],
             "returncode": 0
+        },
+        "Example Login with Fields": {
+            "id": "pzhqhogpa4dkecmyq3nsqhqsdi",
+            "title": "Example Login with Fields",
+            "version": 1,
+            "vault_id": "gshlsjsajnawtnjynzgwmiebge",
+            "category": "LOGIN",
+            "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
+            "created_at": "2022-06-27T22:50:01Z",
+            "updated_at": "2022-06-27T22:50:01Z",
+            "sections": [
+                {
+                    "id": "vh4wk7qyw46urc7wuwczzhpm7u",
+                    "label": "Example Section 1"
+                },
+                {
+                    "id": "a5cwhzimcjiytoere7palzuoni",
+                    "label": "Example Section 2"
+                }
+            ],
+            "fields": [
+                {
+                    "id": "ikr76mnggw767qwqoel624oqv4",
+                    "section": {
+                        "id": "vh4wk7qyw46urc7wuwczzhpm7u",
+                        "label": "Example Section 1"
+                    },
+                    "type": "STRING",
+                    "label": "Example Field",
+                    "value": "This is the text for the first instance of Example Field",
+                    "reference": "op://Test Data/Example Login with Fields/Example Section 1/Example Field"
+                },
+                {
+                    "id": "xkspcha7sjjvviyp2fyjubsn2q",
+                    "section": {
+                        "id": "vh4wk7qyw46urc7wuwczzhpm7u",
+                        "label": "Example Section 1"
+                    },
+                    "type": "STRING",
+                    "label": "Second Example Field",
+                    "value": "This is an example of a section with two fields",
+                    "reference": "op://Test Data/Example Login with Fields/Example Section 1/Second Example Field"
+                },
+                {
+                    "id": "zyhpoqkrwjtrq6qh5vhwylh6ie",
+                    "section": {
+                        "id": "a5cwhzimcjiytoere7palzuoni",
+                        "label": "Example Section 2"
+                    },
+                    "type": "STRING",
+                    "label": "Example Field",
+                    "value": "This is the text for the second instance of Example Field",
+                    "reference": "op://Test Data/Example Login with Fields/Example Section 2/Example Field"
+                }
+            ]
         },
         "Invalid Item": {
             "returncode": 1
@@ -216,6 +274,7 @@
             "title": "Example SSH Key",
             "category": "SSH_KEY",
             "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
+            "vault_id": "gshlsjsajnawtnjynzgwmiebge",
             "created_at": "2022-06-20T21:06:07Z",
             "updated_at": "2022-06-21T18:41:55Z",
             "additional_information": "SHA256:O+ehRdAhXz8+PGBCU0u4hOv/aHV9in9aMLPxWO2JsFA",
@@ -229,6 +288,16 @@
             "key_type": "ed25519",
             "key_type_ref": "op://Test Data/Example SSH Key/key type",
             "returncode": 0
+        },
+        "Example Identity": {
+            "id": "iilqshv2zfd65aefprr7vztpha",
+            "title": "Example Identity",
+            "version": 2,
+            "category": "IDENTITY",
+            "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
+            "created_at": "2021-04-20T03:24:20Z",
+            "updated_at": "2021-04-20T03:26:07Z",
+            "additional_information": "Johnny Appleseed"
         }
     },
     "documents": {
@@ -528,7 +597,7 @@
     },
     "item-fields": {
         "example-login-username": {
-            "field_id": "username",
+            "id": "username",
             "type": "STRING",
             "purpose": "USERNAME",
             "label": "username",
@@ -536,7 +605,7 @@
             "reference": "op://Test Data/Example Login 1/username"
         },
         "example-login-password": {
-            "field_id": "password",
+            "id": "password",
             "type": "CONCEALED",
             "purpose": "PASSWORD",
             "label": "password",

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import os
 import sys
 from argparse import ArgumentParser
@@ -65,18 +66,44 @@ class OPItemTemplateDescriptorList(List[OPItemTemplateDescriptor]):
             self.append(templ_descrip)
 
 
-def write_template(normalized_item_name, destdir, item_json):
-    template_filename = f"{normalized_item_name}.json"
-    template_path = Path(destdir, template_filename)
-    template_path.write_text(item_json)
-
-
 def op_template_get_argv(template_name):
     sub_command = "template"
     sub_cmd_args = ["get", template_name]
 
     argv_obj = _OPArgv.item_generic_argv('op', sub_command, sub_cmd_args)
     return argv_obj
+
+
+class OPItemTemplateRegistry:
+
+    REGISTRY_JSON = "template-registry.json"
+
+    def __init__(self, template_dir):
+        self.template_dir = Path(template_dir)
+        self.registry_path = Path(template_dir, self.REGISTRY_JSON)
+        self.registry = self._initialize_registry()
+
+    def _initialize_registry(self):
+        try:
+            registry = json.load(open(self.registry_path, "r"))
+        except FileNotFoundError:
+            registry = {}
+            self._write_registry(registry, self.registry_path)
+        return registry
+
+    def _write_registry(self, registry, registry_path):
+        registry_path = Path(registry_path)
+        registry_json = json.dumps(registry, indent=2)
+        registry_path.write_text(registry_json)
+
+    def add_template(self, item_name, item_json):
+        template_filename = f"{item_name}.json"
+        template_path = Path(self.template_dir, template_filename)
+        template_obj = json.loads(item_json)
+        category = template_obj["category"]
+        template_path.write_text(item_json)
+        self.registry[category] = template_filename
+        self._write_registry(self.registry, self.registry_path)
 
 
 def main():
@@ -90,15 +117,18 @@ def main():
         print(e.err_output, file=sys.stderr)
         exit(e.returncode)
 
+    registry = OPItemTemplateRegistry(parsed.template_dir)
     template_list_argv = _OPArgv.item_template_list_argv('op')
+    # using private APIs here. DON"T do this!
     template_list_json = op._run(
         template_list_argv, capture_stdout=True, decode="utf-8")
     template_list = OPItemTemplateDescriptorList(template_list_json)
     for template in template_list:
         normalized_name = template.normalized_name
         argv = op_template_get_argv(template.name)
+        # SUPER internal & private API
         template_json = op._run(argv, capture_stdout=True, decode="utf-8")
-        write_template(normalized_name, parsed.template_dir, template_json)
+        registry.add_template(normalized_name, template_json)
 
 
 if __name__ == "__main__":

@@ -28,6 +28,8 @@ def pypi_parse_args(args):
         "--pypi-item-name", help="Optional item name for PyPI login", default="PyPI API")
     parser.add_argument("--use-session", "-S",
                         help="Attempt to use an existing 'op' session. If unsuccessful master password will be requested.", action='store_true')
+    parser.add_argument("--account", "-A",
+                        help="1Password account to use. (See op signin --help, for valid identifiers")
     parsed = parser.parse_args(args)
     return parsed
 
@@ -37,7 +39,8 @@ def main():
     parsed = pypi_parse_args(sys.argv[1:])
     pypi_item_name = parsed.pypi_item_name
     try:
-        op = do_signin(use_existing_session=parsed.use_session)
+        op = do_signin(use_existing_session=parsed.use_session,
+                       account=parsed.account)
     except OPSigninException as e:
         print("sign-in failed", file=sys.stderr)
         print(e.err_output, file=sys.stderr)

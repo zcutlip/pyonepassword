@@ -1,0 +1,13 @@
+{
+  "title": "",
+  "category": "SECURE_NOTE",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    }
+  ]
+}

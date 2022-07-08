@@ -1,0 +1,61 @@
+{
+  "title": "",
+  "category": "MEMBERSHIP",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "org_name",
+      "type": "STRING",
+      "label": "group",
+      "value": ""
+    },
+    {
+      "id": "website",
+      "type": "URL",
+      "label": "website",
+      "value": ""
+    },
+    {
+      "id": "phone",
+      "type": "PHONE",
+      "label": "telephone",
+      "value": ""
+    },
+    {
+      "id": "member_name",
+      "type": "STRING",
+      "label": "member name",
+      "value": ""
+    },
+    {
+      "id": "member_since",
+      "type": "MONTH_YEAR",
+      "label": "member since",
+      "value": ""
+    },
+    {
+      "id": "expiry_date",
+      "type": "MONTH_YEAR",
+      "label": "expiry date",
+      "value": ""
+    },
+    {
+      "id": "membership_no",
+      "type": "STRING",
+      "label": "member ID",
+      "value": ""
+    },
+    {
+      "id": "pin",
+      "type": "CONCEALED",
+      "label": "PIN",
+      "value": ""
+    }
+  ]
+}

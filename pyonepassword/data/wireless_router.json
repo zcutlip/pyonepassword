@@ -1,0 +1,61 @@
+{
+  "title": "",
+  "category": "WIRELESS_ROUTER",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "name",
+      "type": "STRING",
+      "label": "base station name",
+      "value": ""
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "label": "base station password",
+      "value": ""
+    },
+    {
+      "id": "server",
+      "type": "STRING",
+      "label": "server / IP address",
+      "value": ""
+    },
+    {
+      "id": "airport_id",
+      "type": "STRING",
+      "label": "AirPort ID",
+      "value": ""
+    },
+    {
+      "id": "network_name",
+      "type": "STRING",
+      "label": "network name",
+      "value": ""
+    },
+    {
+      "id": "wireless_security",
+      "type": "MENU",
+      "label": "wireless security",
+      "value": ""
+    },
+    {
+      "id": "wireless_password",
+      "type": "CONCEALED",
+      "label": "wireless network password",
+      "value": ""
+    },
+    {
+      "id": "disk_password",
+      "type": "CONCEALED",
+      "label": "attached storage password",
+      "value": ""
+    }
+  ]
+}

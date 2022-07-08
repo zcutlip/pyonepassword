@@ -1,0 +1,55 @@
+{
+  "title": "",
+  "category": "OUTDOOR_LICENSE",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "name",
+      "type": "STRING",
+      "label": "full name",
+      "value": ""
+    },
+    {
+      "id": "valid_from",
+      "type": "DATE",
+      "label": "valid from",
+      "value": ""
+    },
+    {
+      "id": "expires",
+      "type": "DATE",
+      "label": "expires",
+      "value": ""
+    },
+    {
+      "id": "game",
+      "type": "STRING",
+      "label": "approved wildlife",
+      "value": ""
+    },
+    {
+      "id": "quota",
+      "type": "STRING",
+      "label": "maximum quota",
+      "value": ""
+    },
+    {
+      "id": "state",
+      "type": "STRING",
+      "label": "state",
+      "value": ""
+    },
+    {
+      "id": "country",
+      "type": "STRING",
+      "label": "country",
+      "value": ""
+    }
+  ]
+}

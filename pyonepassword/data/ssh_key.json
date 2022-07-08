@@ -1,0 +1,19 @@
+{
+  "title": "",
+  "category": "SSH_KEY",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "private_key",
+      "type": "SSHKEY",
+      "label": "private key",
+      "value": ""
+    }
+  ]
+}

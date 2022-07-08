@@ -1,0 +1,159 @@
+{
+  "title": "",
+  "category": "CREDIT_CARD",
+  "sections": [
+    {
+      "id": "details",
+      "label": "Additional Details"
+    },
+    {
+      "id": "contactInfo",
+      "label": "Contact Information"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "cardholder",
+      "type": "STRING",
+      "label": "cardholder name",
+      "value": ""
+    },
+    {
+      "id": "type",
+      "type": "CREDIT_CARD_TYPE",
+      "label": "type",
+      "value": ""
+    },
+    {
+      "id": "ccnum",
+      "type": "CREDIT_CARD_NUMBER",
+      "label": "number",
+      "value": ""
+    },
+    {
+      "id": "cvv",
+      "type": "CONCEALED",
+      "label": "verification number",
+      "value": ""
+    },
+    {
+      "id": "expiry",
+      "type": "MONTH_YEAR",
+      "label": "expiry date",
+      "value": ""
+    },
+    {
+      "id": "validFrom",
+      "type": "MONTH_YEAR",
+      "label": "valid from",
+      "value": ""
+    },
+    {
+      "id": "bank",
+      "section": {
+        "id": "contactInfo",
+        "label": "Contact Information"
+      },
+      "type": "STRING",
+      "label": "issuing bank",
+      "value": ""
+    },
+    {
+      "id": "phoneLocal",
+      "section": {
+        "id": "contactInfo",
+        "label": "Contact Information"
+      },
+      "type": "PHONE",
+      "label": "phone (local)",
+      "value": ""
+    },
+    {
+      "id": "phoneTollFree",
+      "section": {
+        "id": "contactInfo",
+        "label": "Contact Information"
+      },
+      "type": "PHONE",
+      "label": "phone (toll free)",
+      "value": ""
+    },
+    {
+      "id": "phoneIntl",
+      "section": {
+        "id": "contactInfo",
+        "label": "Contact Information"
+      },
+      "type": "PHONE",
+      "label": "phone (intl)",
+      "value": ""
+    },
+    {
+      "id": "website",
+      "section": {
+        "id": "contactInfo",
+        "label": "Contact Information"
+      },
+      "type": "URL",
+      "label": "website",
+      "value": ""
+    },
+    {
+      "id": "pin",
+      "section": {
+        "id": "details",
+        "label": "Additional Details"
+      },
+      "type": "CONCEALED",
+      "label": "PIN",
+      "value": ""
+    },
+    {
+      "id": "creditLimit",
+      "section": {
+        "id": "details",
+        "label": "Additional Details"
+      },
+      "type": "STRING",
+      "label": "credit limit",
+      "value": ""
+    },
+    {
+      "id": "cashLimit",
+      "section": {
+        "id": "details",
+        "label": "Additional Details"
+      },
+      "type": "STRING",
+      "label": "cash withdrawal limit",
+      "value": ""
+    },
+    {
+      "id": "interest",
+      "section": {
+        "id": "details",
+        "label": "Additional Details"
+      },
+      "type": "STRING",
+      "label": "interest rate",
+      "value": ""
+    },
+    {
+      "id": "issuenumber",
+      "section": {
+        "id": "details",
+        "label": "Additional Details"
+      },
+      "type": "STRING",
+      "label": "issue number",
+      "value": ""
+    }
+  ]
+}

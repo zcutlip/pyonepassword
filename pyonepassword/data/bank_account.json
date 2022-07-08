@@ -1,0 +1,87 @@
+{
+  "title": "",
+  "category": "BANK_ACCOUNT",
+  "sections": [
+    {
+      "id": "branchInfo",
+      "label": "Branch Information"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "bankName",
+      "type": "STRING",
+      "label": "bank name",
+      "value": ""
+    },
+    {
+      "id": "owner",
+      "type": "STRING",
+      "label": "name on account",
+      "value": ""
+    },
+    {
+      "id": "accountType",
+      "type": "MENU",
+      "label": "type",
+      "value": ""
+    },
+    {
+      "id": "routingNo",
+      "type": "STRING",
+      "label": "routing number",
+      "value": ""
+    },
+    {
+      "id": "accountNo",
+      "type": "STRING",
+      "label": "account number",
+      "value": ""
+    },
+    {
+      "id": "swift",
+      "type": "STRING",
+      "label": "SWIFT",
+      "value": ""
+    },
+    {
+      "id": "iban",
+      "type": "STRING",
+      "label": "IBAN",
+      "value": ""
+    },
+    {
+      "id": "telephonePin",
+      "type": "CONCEALED",
+      "label": "PIN",
+      "value": ""
+    },
+    {
+      "id": "branchPhone",
+      "section": {
+        "id": "branchInfo",
+        "label": "Branch Information"
+      },
+      "type": "PHONE",
+      "label": "phone",
+      "value": ""
+    },
+    {
+      "id": "branchAddress",
+      "section": {
+        "id": "branchInfo",
+        "label": "Branch Information"
+      },
+      "type": "STRING",
+      "label": "address",
+      "value": ""
+    }
+  ]
+}

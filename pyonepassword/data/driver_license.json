@@ -1,0 +1,79 @@
+{
+  "title": "",
+  "category": "DRIVER_LICENSE",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "fullname",
+      "type": "STRING",
+      "label": "full name",
+      "value": ""
+    },
+    {
+      "id": "address",
+      "type": "STRING",
+      "label": "address",
+      "value": ""
+    },
+    {
+      "id": "birthdate",
+      "type": "DATE",
+      "label": "date of birth",
+      "value": ""
+    },
+    {
+      "id": "gender",
+      "type": "STRING",
+      "label": "gender",
+      "value": ""
+    },
+    {
+      "id": "height",
+      "type": "STRING",
+      "label": "height",
+      "value": ""
+    },
+    {
+      "id": "number",
+      "type": "STRING",
+      "label": "number",
+      "value": ""
+    },
+    {
+      "id": "class",
+      "type": "STRING",
+      "label": "license class",
+      "value": ""
+    },
+    {
+      "id": "conditions",
+      "type": "STRING",
+      "label": "conditions / restrictions",
+      "value": ""
+    },
+    {
+      "id": "state",
+      "type": "STRING",
+      "label": "state",
+      "value": ""
+    },
+    {
+      "id": "country",
+      "type": "STRING",
+      "label": "country",
+      "value": ""
+    },
+    {
+      "id": "expiry_date",
+      "type": "MONTH_YEAR",
+      "label": "expiry date",
+      "value": ""
+    }
+  ]
+}

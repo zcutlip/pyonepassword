@@ -1,0 +1,149 @@
+{
+  "title": "",
+  "category": "SOFTWARE_LICENSE",
+  "sections": [
+    {
+      "id": "customer",
+      "label": "Customer"
+    },
+    {
+      "id": "order",
+      "label": "Order"
+    },
+    {
+      "id": "publisher",
+      "label": "Publisher"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "product_version",
+      "type": "STRING",
+      "label": "version",
+      "value": ""
+    },
+    {
+      "id": "reg_code",
+      "type": "STRING",
+      "label": "license key",
+      "value": ""
+    },
+    {
+      "id": "reg_name",
+      "section": {
+        "id": "customer",
+        "label": "Customer"
+      },
+      "type": "STRING",
+      "label": "licensed to",
+      "value": ""
+    },
+    {
+      "id": "reg_email",
+      "section": {
+        "id": "customer",
+        "label": "Customer"
+      },
+      "type": "EMAIL",
+      "label": "registered email",
+      "value": ""
+    },
+    {
+      "id": "company",
+      "section": {
+        "id": "customer",
+        "label": "Customer"
+      },
+      "type": "STRING",
+      "label": "company",
+      "value": ""
+    },
+    {
+      "id": "download_link",
+      "section": {
+        "id": "publisher",
+        "label": "Publisher"
+      },
+      "type": "URL",
+      "label": "download page",
+      "value": ""
+    },
+    {
+      "id": "publisher_name",
+      "section": {
+        "id": "publisher",
+        "label": "Publisher"
+      },
+      "type": "STRING",
+      "label": "publisher",
+      "value": ""
+    },
+    {
+      "id": "publisher_website",
+      "section": {
+        "id": "publisher",
+        "label": "Publisher"
+      },
+      "type": "URL",
+      "label": "website",
+      "value": ""
+    },
+    {
+      "id": "retail_price",
+      "section": {
+        "id": "publisher",
+        "label": "Publisher"
+      },
+      "type": "STRING",
+      "label": "retail price",
+      "value": ""
+    },
+    {
+      "id": "support_email",
+      "section": {
+        "id": "publisher",
+        "label": "Publisher"
+      },
+      "type": "EMAIL",
+      "label": "support email",
+      "value": ""
+    },
+    {
+      "id": "order_date",
+      "section": {
+        "id": "order",
+        "label": "Order"
+      },
+      "type": "DATE",
+      "label": "purchase date",
+      "value": ""
+    },
+    {
+      "id": "order_number",
+      "section": {
+        "id": "order",
+        "label": "Order"
+      },
+      "type": "STRING",
+      "label": "order number",
+      "value": ""
+    },
+    {
+      "id": "order_total",
+      "section": {
+        "id": "order",
+        "label": "Order"
+      },
+      "type": "STRING",
+      "label": "order total",
+      "value": ""
+    }
+  ]
+}

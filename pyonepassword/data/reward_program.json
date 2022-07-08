@@ -1,0 +1,93 @@
+{
+  "title": "",
+  "category": "REWARD_PROGRAM",
+  "sections": [
+    {
+      "id": "extra",
+      "label": "More Information"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "company_name",
+      "type": "STRING",
+      "label": "company name",
+      "value": ""
+    },
+    {
+      "id": "member_name",
+      "type": "STRING",
+      "label": "member name",
+      "value": ""
+    },
+    {
+      "id": "membership_no",
+      "type": "STRING",
+      "label": "member ID",
+      "value": ""
+    },
+    {
+      "id": "pin",
+      "type": "CONCEALED",
+      "label": "PIN",
+      "value": ""
+    },
+    {
+      "id": "additional_no",
+      "section": {
+        "id": "extra",
+        "label": "More Information"
+      },
+      "type": "STRING",
+      "label": "member ID (additional)",
+      "value": ""
+    },
+    {
+      "id": "member_since",
+      "section": {
+        "id": "extra",
+        "label": "More Information"
+      },
+      "type": "MONTH_YEAR",
+      "label": "member since",
+      "value": ""
+    },
+    {
+      "id": "customer_service_phone",
+      "section": {
+        "id": "extra",
+        "label": "More Information"
+      },
+      "type": "PHONE",
+      "label": "customer service phone",
+      "value": ""
+    },
+    {
+      "id": "reservations_phone",
+      "section": {
+        "id": "extra",
+        "label": "More Information"
+      },
+      "type": "PHONE",
+      "label": "phone for reservations",
+      "value": ""
+    },
+    {
+      "id": "website",
+      "section": {
+        "id": "extra",
+        "label": "More Information"
+      },
+      "type": "URL",
+      "label": "website",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "title": "",
+  "category": "CUSTOM",
+  "sections": [
+    {
+      "id": "wallet",
+      "label": "Wallet"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "recoveryPhrase",
+      "type": "CONCEALED",
+      "label": "recovery phrase",
+      "value": ""
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "label": "password",
+      "value": ""
+    },
+    {
+      "id": "walletAddress",
+      "section": {
+        "id": "wallet",
+        "label": "Wallet"
+      },
+      "type": "STRING",
+      "label": "wallet address",
+      "value": ""
+    }
+  ]
+}

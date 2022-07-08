@@ -1,1 +1,1 @@
-PROJECT_NAME="pyonepassword"
+DISTRIBUTION_NAME="pyonepassword"

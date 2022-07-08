@@ -1,0 +1,165 @@
+{
+  "title": "",
+  "category": "EMAIL_ACCOUNT",
+  "sections": [
+    {
+      "id": "Contact Information",
+      "label": "Contact Information"
+    },
+    {
+      "id": "SMTP",
+      "label": "SMTP"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "pop_type",
+      "type": "MENU",
+      "label": "type",
+      "value": ""
+    },
+    {
+      "id": "pop_username",
+      "type": "STRING",
+      "label": "username",
+      "value": ""
+    },
+    {
+      "id": "pop_server",
+      "type": "STRING",
+      "label": "server",
+      "value": ""
+    },
+    {
+      "id": "pop_port",
+      "type": "STRING",
+      "label": "port number",
+      "value": ""
+    },
+    {
+      "id": "pop_password",
+      "type": "CONCEALED",
+      "label": "password",
+      "value": ""
+    },
+    {
+      "id": "pop_security",
+      "type": "MENU",
+      "label": "security",
+      "value": ""
+    },
+    {
+      "id": "pop_authentication",
+      "type": "MENU",
+      "label": "auth method",
+      "value": ""
+    },
+    {
+      "id": "smtp_server",
+      "section": {
+        "id": "SMTP",
+        "label": "SMTP"
+      },
+      "type": "STRING",
+      "label": "SMTP server",
+      "value": ""
+    },
+    {
+      "id": "smtp_port",
+      "section": {
+        "id": "SMTP",
+        "label": "SMTP"
+      },
+      "type": "STRING",
+      "label": "port number",
+      "value": ""
+    },
+    {
+      "id": "smtp_username",
+      "section": {
+        "id": "SMTP",
+        "label": "SMTP"
+      },
+      "type": "STRING",
+      "label": "username",
+      "value": ""
+    },
+    {
+      "id": "smtp_password",
+      "section": {
+        "id": "SMTP",
+        "label": "SMTP"
+      },
+      "type": "CONCEALED",
+      "label": "password",
+      "value": ""
+    },
+    {
+      "id": "smtp_security",
+      "section": {
+        "id": "SMTP",
+        "label": "SMTP"
+      },
+      "type": "MENU",
+      "label": "security",
+      "value": ""
+    },
+    {
+      "id": "smtp_authentication",
+      "section": {
+        "id": "SMTP",
+        "label": "SMTP"
+      },
+      "type": "MENU",
+      "label": "auth method",
+      "value": ""
+    },
+    {
+      "id": "provider",
+      "section": {
+        "id": "Contact Information",
+        "label": "Contact Information"
+      },
+      "type": "STRING",
+      "label": "provider",
+      "value": ""
+    },
+    {
+      "id": "provider_website",
+      "section": {
+        "id": "Contact Information",
+        "label": "Contact Information"
+      },
+      "type": "STRING",
+      "label": "provider's website",
+      "value": ""
+    },
+    {
+      "id": "phone_local",
+      "section": {
+        "id": "Contact Information",
+        "label": "Contact Information"
+      },
+      "type": "STRING",
+      "label": "phone (local)",
+      "value": ""
+    },
+    {
+      "id": "phone_tollfree",
+      "section": {
+        "id": "Contact Information",
+        "label": "Contact Information"
+      },
+      "type": "STRING",
+      "label": "phone (toll free)",
+      "value": ""
+    }
+  ]
+}

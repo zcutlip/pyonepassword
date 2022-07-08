@@ -1,0 +1,277 @@
+{
+  "title": "",
+  "category": "IDENTITY",
+  "sections": [
+    {
+      "id": "address",
+      "label": "Address"
+    },
+    {
+      "id": "name",
+      "label": "Identification"
+    },
+    {
+      "id": "internet",
+      "label": "Internet Details"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "firstname",
+      "section": {
+        "id": "name",
+        "label": "Identification"
+      },
+      "type": "STRING",
+      "label": "first name",
+      "value": ""
+    },
+    {
+      "id": "initial",
+      "section": {
+        "id": "name",
+        "label": "Identification"
+      },
+      "type": "STRING",
+      "label": "initial",
+      "value": ""
+    },
+    {
+      "id": "lastname",
+      "section": {
+        "id": "name",
+        "label": "Identification"
+      },
+      "type": "STRING",
+      "label": "last name",
+      "value": ""
+    },
+    {
+      "id": "gender",
+      "section": {
+        "id": "name",
+        "label": "Identification"
+      },
+      "type": "STRING",
+      "label": "gender",
+      "value": ""
+    },
+    {
+      "id": "birthdate",
+      "section": {
+        "id": "name",
+        "label": "Identification"
+      },
+      "type": "DATE",
+      "label": "birth date",
+      "value": ""
+    },
+    {
+      "id": "occupation",
+      "section": {
+        "id": "name",
+        "label": "Identification"
+      },
+      "type": "STRING",
+      "label": "occupation",
+      "value": ""
+    },
+    {
+      "id": "company",
+      "section": {
+        "id": "name",
+        "label": "Identification"
+      },
+      "type": "STRING",
+      "label": "company",
+      "value": ""
+    },
+    {
+      "id": "department",
+      "section": {
+        "id": "name",
+        "label": "Identification"
+      },
+      "type": "STRING",
+      "label": "department",
+      "value": ""
+    },
+    {
+      "id": "jobtitle",
+      "section": {
+        "id": "name",
+        "label": "Identification"
+      },
+      "type": "STRING",
+      "label": "job title",
+      "value": ""
+    },
+    {
+      "id": "address",
+      "section": {
+        "id": "address",
+        "label": "Address"
+      },
+      "type": "ADDRESS",
+      "label": "address",
+      "value": ""
+    },
+    {
+      "id": "defphone",
+      "section": {
+        "id": "address",
+        "label": "Address"
+      },
+      "type": "PHONE",
+      "label": "default phone",
+      "value": ""
+    },
+    {
+      "id": "homephone",
+      "section": {
+        "id": "address",
+        "label": "Address"
+      },
+      "type": "PHONE",
+      "label": "home",
+      "value": ""
+    },
+    {
+      "id": "cellphone",
+      "section": {
+        "id": "address",
+        "label": "Address"
+      },
+      "type": "PHONE",
+      "label": "cell",
+      "value": ""
+    },
+    {
+      "id": "busphone",
+      "section": {
+        "id": "address",
+        "label": "Address"
+      },
+      "type": "PHONE",
+      "label": "business",
+      "value": ""
+    },
+    {
+      "id": "username",
+      "section": {
+        "id": "internet",
+        "label": "Internet Details"
+      },
+      "type": "STRING",
+      "label": "username",
+      "value": ""
+    },
+    {
+      "id": "reminderq",
+      "section": {
+        "id": "internet",
+        "label": "Internet Details"
+      },
+      "type": "STRING",
+      "label": "reminder question",
+      "value": ""
+    },
+    {
+      "id": "remindera",
+      "section": {
+        "id": "internet",
+        "label": "Internet Details"
+      },
+      "type": "STRING",
+      "label": "reminder answer",
+      "value": ""
+    },
+    {
+      "id": "email",
+      "section": {
+        "id": "internet",
+        "label": "Internet Details"
+      },
+      "type": "STRING",
+      "label": "email",
+      "value": ""
+    },
+    {
+      "id": "website",
+      "section": {
+        "id": "internet",
+        "label": "Internet Details"
+      },
+      "type": "STRING",
+      "label": "website",
+      "value": ""
+    },
+    {
+      "id": "icq",
+      "section": {
+        "id": "internet",
+        "label": "Internet Details"
+      },
+      "type": "STRING",
+      "label": "ICQ",
+      "value": ""
+    },
+    {
+      "id": "skype",
+      "section": {
+        "id": "internet",
+        "label": "Internet Details"
+      },
+      "type": "STRING",
+      "label": "skype",
+      "value": ""
+    },
+    {
+      "id": "aim",
+      "section": {
+        "id": "internet",
+        "label": "Internet Details"
+      },
+      "type": "STRING",
+      "label": "AOL/AIM",
+      "value": ""
+    },
+    {
+      "id": "yahoo",
+      "section": {
+        "id": "internet",
+        "label": "Internet Details"
+      },
+      "type": "STRING",
+      "label": "Yahoo",
+      "value": ""
+    },
+    {
+      "id": "msn",
+      "section": {
+        "id": "internet",
+        "label": "Internet Details"
+      },
+      "type": "STRING",
+      "label": "MSN",
+      "value": ""
+    },
+    {
+      "id": "forumsig",
+      "section": {
+        "id": "internet",
+        "label": "Internet Details"
+      },
+      "type": "STRING",
+      "label": "forum signature",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "title": "",
+  "category": "PASSPORT",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "type",
+      "type": "STRING",
+      "label": "type",
+      "value": ""
+    },
+    {
+      "id": "issuing_country",
+      "type": "STRING",
+      "label": "issuing country",
+      "value": ""
+    },
+    {
+      "id": "number",
+      "type": "STRING",
+      "label": "number",
+      "value": ""
+    },
+    {
+      "id": "fullname",
+      "type": "STRING",
+      "label": "full name",
+      "value": ""
+    },
+    {
+      "id": "gender",
+      "type": "STRING",
+      "label": "gender",
+      "value": ""
+    },
+    {
+      "id": "nationality",
+      "type": "STRING",
+      "label": "nationality",
+      "value": ""
+    },
+    {
+      "id": "issuing_authority",
+      "type": "STRING",
+      "label": "issuing authority",
+      "value": ""
+    },
+    {
+      "id": "birthdate",
+      "type": "DATE",
+      "label": "date of birth",
+      "value": ""
+    },
+    {
+      "id": "birthplace",
+      "type": "STRING",
+      "label": "place of birth",
+      "value": ""
+    },
+    {
+      "id": "issue_date",
+      "type": "DATE",
+      "label": "issued on",
+      "value": ""
+    },
+    {
+      "id": "expiry_date",
+      "type": "DATE",
+      "label": "expiry date",
+      "value": ""
+    }
+  ]
+}

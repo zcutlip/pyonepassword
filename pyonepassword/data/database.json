@@ -1,0 +1,67 @@
+{
+  "title": "",
+  "category": "DATABASE",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "database_type",
+      "type": "MENU",
+      "label": "type",
+      "value": ""
+    },
+    {
+      "id": "hostname",
+      "type": "STRING",
+      "label": "server",
+      "value": ""
+    },
+    {
+      "id": "port",
+      "type": "STRING",
+      "label": "port",
+      "value": ""
+    },
+    {
+      "id": "database",
+      "type": "STRING",
+      "label": "database",
+      "value": ""
+    },
+    {
+      "id": "username",
+      "type": "STRING",
+      "label": "username",
+      "value": ""
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "label": "password",
+      "value": ""
+    },
+    {
+      "id": "sid",
+      "type": "STRING",
+      "label": "SID",
+      "value": ""
+    },
+    {
+      "id": "alias",
+      "type": "STRING",
+      "label": "alias",
+      "value": ""
+    },
+    {
+      "id": "options",
+      "type": "STRING",
+      "label": "connection options",
+      "value": ""
+    }
+  ]
+}

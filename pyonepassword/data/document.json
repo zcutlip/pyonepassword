@@ -1,0 +1,13 @@
+{
+  "title": "",
+  "category": "DOCUMENT",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "title": "",
+  "category": "SERVER",
+  "sections": [
+    {
+      "id": "admin_console",
+      "label": "Admin Console"
+    },
+    {
+      "id": "hosting_provider_details",
+      "label": "Hosting Provider"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "url",
+      "type": "STRING",
+      "label": "URL",
+      "value": ""
+    },
+    {
+      "id": "username",
+      "type": "STRING",
+      "label": "username",
+      "value": ""
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "label": "password",
+      "value": ""
+    },
+    {
+      "id": "admin_console_url",
+      "section": {
+        "id": "admin_console",
+        "label": "Admin Console"
+      },
+      "type": "STRING",
+      "label": "admin console URL",
+      "value": ""
+    },
+    {
+      "id": "admin_console_username",
+      "section": {
+        "id": "admin_console",
+        "label": "Admin Console"
+      },
+      "type": "STRING",
+      "label": "admin console username",
+      "value": ""
+    },
+    {
+      "id": "admin_console_password",
+      "section": {
+        "id": "admin_console",
+        "label": "Admin Console"
+      },
+      "type": "CONCEALED",
+      "label": "console password",
+      "value": ""
+    },
+    {
+      "id": "name",
+      "section": {
+        "id": "hosting_provider_details",
+        "label": "Hosting Provider"
+      },
+      "type": "STRING",
+      "label": "name",
+      "value": ""
+    },
+    {
+      "id": "website",
+      "section": {
+        "id": "hosting_provider_details",
+        "label": "Hosting Provider"
+      },
+      "type": "STRING",
+      "label": "website",
+      "value": ""
+    },
+    {
+      "id": "support_contact_url",
+      "section": {
+        "id": "hosting_provider_details",
+        "label": "Hosting Provider"
+      },
+      "type": "STRING",
+      "label": "support URL",
+      "value": ""
+    },
+    {
+      "id": "support_contact_phone",
+      "section": {
+        "id": "hosting_provider_details",
+        "label": "Hosting Provider"
+      },
+      "type": "STRING",
+      "label": "support phone",
+      "value": ""
+    }
+  ]
+}

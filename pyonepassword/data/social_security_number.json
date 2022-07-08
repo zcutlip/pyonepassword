@@ -1,0 +1,25 @@
+{
+  "title": "",
+  "category": "SOCIAL_SECURITY_NUMBER",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "name",
+      "type": "STRING",
+      "label": "name",
+      "value": ""
+    },
+    {
+      "id": "number",
+      "type": "CONCEALED",
+      "label": "number",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "title": "",
+  "category": "MEDICAL_RECORD",
+  "sections": [
+    {
+      "id": "medication",
+      "label": "medication"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    },
+    {
+      "id": "date",
+      "type": "DATE",
+      "label": "date",
+      "value": ""
+    },
+    {
+      "id": "location",
+      "type": "STRING",
+      "label": "location",
+      "value": ""
+    },
+    {
+      "id": "healthcareprofessional",
+      "type": "STRING",
+      "label": "healthcare professional",
+      "value": ""
+    },
+    {
+      "id": "patient",
+      "type": "STRING",
+      "label": "patient",
+      "value": ""
+    },
+    {
+      "id": "reason",
+      "type": "STRING",
+      "label": "reason for visit",
+      "value": ""
+    },
+    {
+      "id": "medication",
+      "section": {
+        "id": "medication",
+        "label": "medication"
+      },
+      "type": "STRING",
+      "label": "medication",
+      "value": ""
+    },
+    {
+      "id": "dosage",
+      "section": {
+        "id": "medication",
+        "label": "medication"
+      },
+      "type": "STRING",
+      "label": "dosage",
+      "value": ""
+    },
+    {
+      "id": "notes",
+      "section": {
+        "id": "medication",
+        "label": "medication"
+      },
+      "type": "STRING",
+      "label": "medication notes",
+      "value": ""
+    }
+  ]
+}

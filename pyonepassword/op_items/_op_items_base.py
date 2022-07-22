@@ -2,7 +2,12 @@ from abc import abstractmethod
 from typing import List, Union
 
 from ._item_descriptor_base import OPAbstractItemDescriptor
-from .item_section import OPItemField, OPSection
+from .item_section import (
+    OPItemField,
+    OPItemFieldCollisionException,
+    OPSection,
+    OPSectionCollisionException
+)
 
 
 class OPFieldNotFoundException(Exception):
@@ -15,7 +20,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
     @abstractmethod
     def __init__(self, item_dict_or_json):
         super().__init__(item_dict_or_json)
-        self._initialize_sections()
+        self._section_map = self._initialize_sections()
         self._field_map = self._initialize_fields()
 
     @property
@@ -94,10 +99,15 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
     def _initialize_sections(self):
         section_list = []
+        section_map = {}
         _sections = self.get("sections")
         if _sections:
             for section_dict in _sections:
                 s = OPSection(section_dict)
+                section_id = s.section_id
+                if section_id in section_map:
+                    raise OPSectionCollisionException(
+                        f"Section {section_id} already registered")
                 section_list.append(s)
         self["sections"] = section_list
 
@@ -107,6 +117,10 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         _fields = self.get("fields", [])
         for field_dict in _fields:
             field = OPItemField(field_dict)
+            field_id = field.field_id
+            if field_id in field_map:
+                raise OPItemFieldCollisionException(
+                    f"Field {field_id} already registered")
             section_dict = field.get("section")
             if section_dict:
                 section_id = section_dict["id"]

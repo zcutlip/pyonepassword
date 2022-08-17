@@ -104,7 +104,7 @@ class OPSection(dict):
         self.fields.append(field)
         self._shadow_fields[field_id] = field
 
-    def fields_by_label(self, label) -> List[OPItemField]:
+    def fields_by_label(self, label, case_sensitive=True) -> List[OPItemField]:
         """
         Returns all fields in a section matching the given label.
         Fields are not required to have unique labels, so there may be more than one match.
@@ -112,11 +112,15 @@ class OPSection(dict):
         matching_fields = []
         f: OPItemField
         for f in self.fields:
-            if f.label == label:
+            f_label = f.label
+            if not case_sensitive:
+                f_label = f_label.lower()
+                label = label.lower()
+            if f_label == label:
                 matching_fields.append(f)
         return matching_fields
 
-    def first_field_by_label(self, label: str):
-        fields = self.fields_by_label(label)
+    def first_field_by_label(self, label: str, case_sensitive=True):
+        fields = self.fields_by_label(label, case_sensitive=case_sensitive)
         f = fields[0]
         return f

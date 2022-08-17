@@ -1,3 +1,4 @@
+import copy
 from typing import Any, List, Union
 
 
@@ -92,7 +93,10 @@ class OPSection(dict):
         return field_list
 
     def register_field(self, field_dict):
-        field = OPItemField(field_dict)
+        if isinstance(field_dict, OPItemField):
+            field = copy.copy(field_dict)
+        else:
+            field = OPItemField(field_dict)
         field_id = field.field_id
         if field_id in self._shadow_fields:
             raise OPItemFieldCollisionException(

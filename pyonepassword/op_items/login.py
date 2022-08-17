@@ -32,6 +32,21 @@ class OPLoginItemURL(dict):
         return self["href"]
 
 
+class OPLoginItemNewURL(OPLoginItemURL):
+    def __init__(self, url: str, label: str, primary: bool = False):
+        url_dict = {
+            "label": label,
+            "primary": primary,
+            "href": url
+        }
+        super().__init__(url_dict)
+
+
+class OPLoginItemNewPrimaryURL(OPLoginItemNewURL):
+    def __init__(self, url: str, label: str):
+        super().__init__(url, label, primary=True)
+
+
 @op_register_item_type
 class OPLoginItem(OPAbstractItem):
     CATEGORY = "LOGIN"

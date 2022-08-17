@@ -69,16 +69,22 @@ class OPAbstractItem(OPAbstractItemDescriptor):
                 f"Field not found with ID: {field_id}")
         return field
 
-    def fields_by_label(self, field_label: str) -> List[OPItemField]:
+    def fields_by_label(self, field_label: str, case_sensitive=True) -> List[OPItemField]:
         fields = []
         f: OPItemField
         for _, f in self._field_map.items():
-            if f.label == field_label:
+            f_label = f.label
+            if not case_sensitive:
+                f_label = f_label.lower()
+                field_label = field_label.lower()
+
+            if f_label == field_label:
                 fields.append(f)
         return fields
 
-    def first_field_by_label(self, field_label: str) -> OPItemField:
-        fields = self.fields_by_label(field_label)
+    def first_field_by_label(self, field_label: str, case_sensitive=True) -> OPItemField:
+        fields = self.fields_by_label(
+            field_label, case_sensitive=case_sensitive)
         f = fields[0]
         return f
 

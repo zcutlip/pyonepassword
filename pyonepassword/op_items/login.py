@@ -2,8 +2,14 @@ from typing import List
 
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._item_descriptor_registry import op_register_item_descriptor_type
+from ._new_fields import OPNewConcealedField, OPNewStringField
+from ._new_item import OPNewItemMixin
 from ._op_item_type_registry import op_register_item_type
 from ._op_items_base import OPAbstractItem
+
+
+class OPNewLoginItemURLException(Exception):
+    pass
 
 
 @op_register_item_descriptor_type
@@ -81,3 +87,43 @@ class OPLoginItem(OPAbstractItem):
     @property
     def primary_url(self) -> OPLoginItemURL:
         return self._primary_url
+
+
+class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
+    FIELD_ID_USERNAME = "username"
+    FIELD_ID_PASSWORD = "password"
+
+    def __init__(self,
+                 title: str,
+                 username: str,
+                 password: str = None,
+                 url: OPLoginItemURL = None):
+
+        username_field = OPNewStringField(
+            self.FIELD_ID_USERNAME,
+            username,
+            field_id=self.FIELD_ID_USERNAME
+        )
+
+        password_field = OPNewConcealedField(
+            self.FIELD_ID_PASSWORD,
+            password,
+            field_id=self.FIELD_ID_PASSWORD
+        )
+        fields = [username_field, password_field]
+        urls = []
+        if url:
+            urls.append(url)
+        extra_data = {"urls": urls}
+        super().__init__(title, fields=fields, extra_data=extra_data)
+
+    def add_url(self, url: OPLoginItemURL):
+        has_primary = False
+        if self.primary_url:
+            has_primary = True
+        if url.primary and has_primary:
+            raise OPNewLoginItemURLException("Can't add multiple primary URLs")
+
+        self._urls.append(url)
+        if url.primary:
+            self._primary_url = url

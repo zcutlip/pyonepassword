@@ -1,8 +1,9 @@
 --find-links=file:./deps
-flake8
 autopep8
-pycodestyle
+colored-traceback
+flake8
 ipython
+pycodestyle
 -e .
 -r test-reqs.txt
 -r requirements.txt

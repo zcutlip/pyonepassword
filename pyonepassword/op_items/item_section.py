@@ -54,6 +54,14 @@ class OPItemField(dict):
     def entropy(self) -> Union[float, None]:
         return self.get("entropy")
 
+    @property
+    def section_id(self) -> Union[str, None]:
+        section_id = None
+        section = self.get("section")
+        if section:
+            section_id = section["id"]
+        return section_id
+
 
 class OPSection(dict):
     def __init__(self, section_dict):

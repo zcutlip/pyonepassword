@@ -152,6 +152,11 @@ class OPConfigNotFoundException(Exception):
     pass
 
 
+class OPInvalidFieldException(_OPAbstractException):
+    def __init__(self, msg):
+        super().__init__(msg)
+
+
 class OPUnknownAccountException(_OPAbstractException):
     def __init__(self, msg):
         super().__init__(msg)

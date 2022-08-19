@@ -1,3 +1,5 @@
+import json
+import tempfile
 from typing import Dict, List
 
 from ._new_field_registry import OPItemFieldFactory
@@ -68,3 +70,12 @@ class OPNewItemMixin:
         if extra_data:
             template_dict.update(extra_data)
         super().__init__(template_dict)
+
+    def secure_tempfile(self, encoding="utf8") -> str:
+        temp = tempfile.NamedTemporaryFile(
+            mode="w", delete=False, encoding=encoding)
+        self._temp_files.append(temp.name)
+        details_json = json.dumps(self.details)
+        temp.write(details_json)
+        temp.close()
+        return temp.name

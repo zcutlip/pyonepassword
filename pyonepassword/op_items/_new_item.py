@@ -1,4 +1,5 @@
 import json
+import os
 import tempfile
 from typing import Dict, List
 
@@ -70,12 +71,20 @@ class OPNewItemMixin:
         if extra_data:
             template_dict.update(extra_data)
         super().__init__(template_dict)
+        self._temp_files = []
 
     def secure_tempfile(self, encoding="utf8") -> str:
         temp = tempfile.NamedTemporaryFile(
             mode="w", delete=False, encoding=encoding)
         self._temp_files.append(temp.name)
-        details_json = json.dumps(self.details)
-        temp.write(details_json)
+        json.dump(self, temp)
         temp.close()
         return temp.name
+
+    def __del__(self):
+        while self._temp_files:
+            t = self._temp_files.pop()
+            try:
+                os.unlink(t)
+            except FileNotFoundError:
+                continue

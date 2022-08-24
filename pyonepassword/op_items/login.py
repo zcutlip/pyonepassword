@@ -2,7 +2,7 @@ from typing import List
 
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._item_descriptor_registry import op_register_item_descriptor_type
-from ._new_fields import OPNewConcealedField, OPNewStringField
+from ._new_fields import OPNewPasswordField, OPNewUsernameField
 from ._new_item import OPNewItemMixin
 from ._op_item_type_registry import op_register_item_type
 from ._op_items_base import OPAbstractItem
@@ -99,13 +99,13 @@ class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
                  password: str = None,
                  url: OPLoginItemURL = None):
 
-        username_field = OPNewStringField(
+        username_field = OPNewUsernameField(
             self.FIELD_ID_USERNAME,
             username,
             field_id=self.FIELD_ID_USERNAME
         )
 
-        password_field = OPNewConcealedField(
+        password_field = OPNewPasswordField(
             self.FIELD_ID_PASSWORD,
             password,
             field_id=self.FIELD_ID_PASSWORD

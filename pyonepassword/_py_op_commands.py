@@ -522,15 +522,15 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPItemListException.from_opexception(e)
         return output
 
-    def _item_create_argv(self, item, vault):
+    def _item_create_argv(self, item, password_recipe, vault):
         vault_arg = vault if vault else self.vault
         create_item_argv = _OPArgv.item_create_argv(
-            self.op_path, item, vault=vault_arg
+            self.op_path, item, password_recipe=password_recipe, vault=vault_arg
         )
         return create_item_argv
 
-    def _item_create(self, item, vault, decode="utf-8"):
-        argv = self._item_create_argv(item, vault)
+    def _item_create(self, item, vault, password_recipe, decode="utf-8"):
+        argv = self._item_create_argv(item, password_recipe, vault)
         try:
             output = self._run(argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as e:

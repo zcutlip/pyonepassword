@@ -9,9 +9,14 @@ from ._py_op_commands import (
 from ._py_op_deprecation import deprecated_kwargs
 from .account import OPAccountList
 from .op_items._item_list import OPItemList
+from .op_items._new_item import OPNewItemMixin
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items._op_items_base import OPAbstractItem
-from .op_items.login import OPLoginItem
+from .op_items.login import (
+    OPLoginItem,
+    OPLoginItemNewPrimaryURL,
+    OPNewLoginItem
+)
 from .op_items.totp import OPTOTPItem
 from .op_objects import (
     OPGroup,
@@ -395,6 +400,24 @@ class OP(_OPCommandInterface):
             categories, include_archive, tags, vault)
         item_list = OPItemList(item_list_json)
         return item_list
+
+    def item_create(self, new_item: OPNewItemMixin, vault=None):
+        result_str = super()._item_create(new_item, vault=vault)
+        op_item = OPItemFactory.op_item(result_str)
+        return op_item
+
+    def login_item_create(self,
+                          title: str,
+                          username: str,
+                          password: str = None,
+                          url: str = None,
+                          url_label: str = "Website",
+                          vault=None):
+        if url:
+            url = OPLoginItemNewPrimaryURL(url, url_label)
+        new_item = OPNewLoginItem(title, username, password=password, url=url)
+        login_item = self.item_create(new_item, vault=vault)
+        return login_item
 
     def signed_in_accounts(self, decode="utf-8") -> OPAccountList:
         account_list_json = super()._signed_in_accounts(self.op_path, decode=decode)

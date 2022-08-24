@@ -2,6 +2,7 @@ import shlex
 from typing import List
 
 from .op_items._new_item import OPNewItemMixin
+from .op_items.password_recipe import OPPasswordRecipe
 from .py_op_exceptions import OPInvalidItemException
 
 
@@ -261,7 +262,12 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_create_argv(cls, op_exe, item: OPNewItemMixin, vault: str = None, encoding="utf-8"):
+    def item_create_argv(cls,
+                         op_exe,
+                         item: OPNewItemMixin,
+                         password_recipe: OPPasswordRecipe = None,
+                         vault: str = None,
+                         encoding="utf-8"):
         """
         op item create --template ./new_item.json --vault "Test Data" --generate-password=20,letters,digits --dry-run --format json
         """
@@ -274,6 +280,9 @@ class _OPArgv(list):
 
         item_create_args = ["--template", template_filename]
 
+        if password_recipe:
+            # '--password-recipe' requires an '=' unlike other option/argument pairs
+            item_create_args.append(f"--generate-password={password_recipe}")
         if vault:
             item_create_args.extend(["--vault", vault])
         argv = cls.item_generic_argv(

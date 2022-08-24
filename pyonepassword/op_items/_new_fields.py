@@ -50,3 +50,11 @@ class OPNewStringField(OPNewItemField):
 @op_register_item_field_type
 class OPNewConcealedField(OPNewItemField):
     FIELD_TYPE = "CONCEALED"
+
+
+class OPNewUsernameField(OPNewStringField):
+    FIELD_PURPOSE = "USERNAME"
+
+
+class OPNewPasswordField(OPNewConcealedField):
+    FIELD_PURPOSE = "PASSWORD"

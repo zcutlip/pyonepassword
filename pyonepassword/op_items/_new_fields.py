@@ -7,6 +7,7 @@ from .uuid import OPUniqueIdentifierHex, is_uuid
 
 class OPNewItemField(OPItemField):
     FIELD_TYPE = None
+    FIELD_PURPOSE = None
 
     def __init__(self, field_label: str, value: Any, field_id=None, section: OPSection = None):
         if not self.FIELD_TYPE:
@@ -22,6 +23,8 @@ class OPNewItemField(OPItemField):
             "value": value,
             "type": self.FIELD_TYPE
         }
+        if self.FIELD_PURPOSE:
+            field_dict["purpose"] = self.FIELD_PURPOSE
         if section:
             field_dict["section"] = dict(section)
         super().__init__(field_dict)

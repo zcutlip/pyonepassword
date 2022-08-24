@@ -22,3 +22,7 @@ class OPPasswordRecipe:
     def __str__(self) -> str:
         recipe_str = ",".join(self.recipe)
         return recipe_str
+
+
+LETTERS_DIGITS_SYMBOLS_20 = OPPasswordRecipe()
+LETTERS_DIGITS_25 = OPPasswordRecipe(length=25, symbols=False)

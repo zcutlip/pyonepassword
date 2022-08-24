@@ -17,6 +17,7 @@ from .op_items.login import (
     OPLoginItemNewPrimaryURL,
     OPNewLoginItem
 )
+from .op_items.password_recipe import OPPasswordRecipe
 from .op_items.totp import OPTOTPItem
 from .op_objects import (
     OPGroup,
@@ -401,8 +402,12 @@ class OP(_OPCommandInterface):
         item_list = OPItemList(item_list_json)
         return item_list
 
-    def item_create(self, new_item: OPNewItemMixin, vault=None):
-        result_str = super()._item_create(new_item, vault=vault)
+    def item_create(self,
+                    new_item: OPNewItemMixin,
+                    password_recipe: OPPasswordRecipe = None,
+                    vault=None):
+        result_str = super()._item_create(
+            new_item, password_recipe=password_recipe, vault=vault)
         op_item = OPItemFactory.op_item(result_str)
         return op_item
 

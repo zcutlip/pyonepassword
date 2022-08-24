@@ -1,5 +1,6 @@
 import logging
 from os import environ as env
+from typing import Union
 
 from ._py_op_commands import (
     EXISTING_AUTH_IGNORE,
@@ -414,14 +415,25 @@ class OP(_OPCommandInterface):
     def login_item_create(self,
                           title: str,
                           username: str,
-                          password: str = None,
+                          password: Union[str, OPPasswordRecipe] = None,
                           url: str = None,
                           url_label: str = "Website",
                           vault=None):
+        password_recipe = None
+
+        # if password is actually a password recipe,
+        # set passsword_recipe and set password to None
+        # that way we don't pass it into OPNewLoginItem
+        # and instead pass it to _item_create() so it gets used on the command line
+        if isinstance(password, OPPasswordRecipe):
+            password_recipe = password
+            password = None
+
         if url:
             url = OPLoginItemNewPrimaryURL(url, url_label)
         new_item = OPNewLoginItem(title, username, password=password, url=url)
-        login_item = self.item_create(new_item, vault=vault)
+        login_item = self.item_create(
+            new_item, password_recipe=password_recipe, vault=vault)
         return login_item
 
     def signed_in_accounts(self, decode="utf-8") -> OPAccountList:

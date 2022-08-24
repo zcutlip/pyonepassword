@@ -16,6 +16,7 @@ from .py_op_exceptions import (
     OPDocumentGetException,
     OPGroupGetException,
     OPGroupListException,
+    OPItemCreateException,
     OPItemGetException,
     OPItemListException,
     OPNotSignedInException,
@@ -519,4 +520,20 @@ class _OPCommandInterface(_OPCLIExecute):
             output = self._run(argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as e:
             raise OPItemListException.from_opexception(e)
+        return output
+
+    def _item_create_argv(self, item, vault):
+        vault_arg = vault if vault else self.vault
+        create_item_argv = _OPArgv.item_create_argv(
+            self.op_path, item, vault=vault_arg
+        )
+        return create_item_argv
+
+    def _item_create(self, item, vault, decode="utf-8"):
+        argv = self._item_create_argv(item, vault)
+        try:
+            output = self._run(argv, capture_stdout=True, decode=decode)
+        except OPCmdFailedException as e:
+            raise OPItemCreateException.from_opexception(e)
+
         return output

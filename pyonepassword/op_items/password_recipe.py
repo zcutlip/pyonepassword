@@ -3,8 +3,8 @@ class OPInvalidPasswordRecipeException(Exception):
 
 
 class OPPasswordRecipe:
-    def __init__(self, len: int = 20, letters=True, digits=True, symbols=True):
-        recipe_parts = [str(len)]
+    def __init__(self, length: int = 20, letters=True, digits=True, symbols=True):
+        recipe_parts = [str(length)]
 
         if True not in [letters, digits, symbols]:
             raise OPInvalidPasswordRecipeException(

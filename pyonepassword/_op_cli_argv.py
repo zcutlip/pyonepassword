@@ -1,6 +1,9 @@
 import shlex
 from typing import List
 
+from .op_items._new_item import OPNewItemMixin
+from .py_op_exceptions import OPInvalidItemException
+
 
 class _OPArgv(list):
     """
@@ -255,4 +258,24 @@ class _OPArgv(list):
         global_args = ["--format", output_format]
         argv = cls(op_exe, cmd, cmd_args, subcommand=subcmd,
                    global_args=global_args, encoding=encoding)
+        return argv
+
+    @classmethod
+    def item_create_argv(cls, op_exe, item: OPNewItemMixin, vault: str = None, encoding="utf-8"):
+        """
+        op item create --template ./new_item.json --vault "Test Data" --generate-password=20,letters,digits --dry-run --format json
+        """
+        if not isinstance(item, OPNewItemMixin):
+            raise OPInvalidItemException(
+                "Attempting to create item using object not from a template")
+
+        template_filename = item.secure_tempfile(
+            encoding=encoding)
+
+        item_create_args = ["--template", template_filename]
+
+        if vault:
+            item_create_args.extend(["--vault", vault])
+        argv = cls.item_generic_argv(
+            op_exe, "create", item_create_args)
         return argv

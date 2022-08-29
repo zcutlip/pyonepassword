@@ -1,13 +1,12 @@
-import json
 from typing import Dict, List
 
-from .paths import EXPECTED_DATA_PATH
+from .paths import EXPECTED_DATA_PATH, EXPECTED_DATA_REGISTRY_PATH
+from .valid_data import ValidData
 
 
-class ExpectedData:
-    def __init__(self):
-        data = json.load(open(EXPECTED_DATA_PATH, "r"))
-        self._data = data
+class ExpectedData(ValidData):
+    REGISTRY_PATH = EXPECTED_DATA_REGISTRY_PATH
+    DATA_PATH = EXPECTED_DATA_PATH
 
     def lookup_item(self, item_id):
         item_data = self.item_data
@@ -31,52 +30,65 @@ class ExpectedData:
 
     @property
     def item_data(self) -> Dict[str, Dict]:
-        return self._data["items"]
+        data = self.data_for_name("expected-item-data")
+        return data
 
     @property
     def document_data(self) -> Dict[str, Dict]:
-        return self._data["documents"]
+        data = self.data_for_name("expected-document-data")
+        return data
 
     @property
     def vault_data(self) -> Dict[str, Dict]:
-        return self._data["vaults"]
+        data = self.data_for_name("expected-vault-data")
+        return data
 
     @property
     def vault_list_data(self) -> Dict[str, List]:
-        return self._data["vault-lists"]
+        data = self.data_for_name("expected-vault-list-data")
+        return data
 
     @property
     def user_data(self) -> Dict[str, Dict]:
-        return self._data["users"]
+        data = self.data_for_name("expected-user-data")
+        return data
 
     @property
     def user_list_data(self) -> Dict[str, List]:
-        return self._data["user-lists"]
+        data = self.data_for_name("expected-user-list-data")
+        return data
 
     @property
     def group_data(self) -> Dict[str, Dict]:
-        return self._data["groups"]
+        data = self.data_for_name("expected-group-data")
+        return data
 
     @property
     def group_list_data(self) -> Dict[str, List]:
-        return self._data["group-lists"]
+        data = self.data_for_name("expected-group-list-data")
+        return data
 
     @property
     def account_data(self) -> Dict[str, Dict]:
-        return self._data["accounts"]
+        data = self.data_for_name("expected-account-data")
+        return data
 
     @property
     def item_fields(self) -> Dict[str, Dict]:
-        return self._data["item-fields"]
+        data = self.data_for_name("expected-item-field-data")
+        return data
 
     @property
     def op_config_data(self) -> Dict[str, Dict]:
-        return self._data["op-config"]
+        data = self.data_for_name("expected-op-config-data")
+        return data
 
     @property
     def datetime_data(self) -> Dict[str, str]:
-        return self._data["datetimes"]
+        data = self.data_for_name("expected-datetime-data")
+        return data
 
     @property
     def misc_data(self) -> Dict[str, str]:
-        return self._data["miscellaneous"]
+        data = self.data_for_name("expected-misc-data")
+        return data

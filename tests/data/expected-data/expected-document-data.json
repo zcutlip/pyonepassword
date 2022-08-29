@@ -1,0 +1,19 @@
+{
+    "Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp": {
+        "id": "jelkptdlhzat5n262jd5vf76ue",
+        "digest": "86d5cd6e5037743d76c07a69461e91d07364d062f778297c7e098e11bc1b936a",
+        "size": 92934,
+        "filename": "1200px-SpongeBob_SquarePants_character.svg.png.webp",
+        "content_path": "/v1/vaults/gshlsjsajnawtnjynzgwmiebge/items/caveh7ghsffalokofr3o6qbfjy/files/jelkptdlhzat5n262jd5vf76ue/content"
+    },
+    "Error Success": {
+        "returncode": 1
+    },
+    "Invalid Document": {
+        "returncode": 1
+    },
+    "Example Attached File 2": {
+        "filename": "Screen Shot 2021-11-23 at 7.49.17 AM.png",
+        "returncode": 1
+    }
+}

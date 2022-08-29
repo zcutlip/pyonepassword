@@ -1,0 +1,17 @@
+{
+    "Team Members": {
+        "id": "g4jgqqvmizfbvi3oavcafz4y7a",
+        "name": "Team Members",
+        "description": "All team members.",
+        "created_at": "2017-07-17T15:54:00Z",
+        "updated_at": "2017-07-17T15:54:00Z",
+        "permissions": [
+            "CREATE_VAULTS"
+        ],
+        "type": "TEAM_MEMBERS",
+        "state": "ACTIVE"
+    },
+    "No Such group": {
+        "returncode": 1
+    }
+}

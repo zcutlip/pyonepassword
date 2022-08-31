@@ -167,6 +167,10 @@ class _OPCommandInterface(_OPCLIExecute):
     @classmethod
     def uses_biometric(cls, op_path="op", account_shorthand=None, encoding="utf-8"):
         uses_bio = True
+        # We can run 'op account list', which doesn't require talking (or authenticating)
+        # to the 1Password account
+        # if biometric is enabled, there will be no account shorthands in the output
+        # if there are account shorthands, biometric is not enabled
         account_list_argv = cls._account_list_argv(
             op_path=op_path, encoding=encoding)
         account_list_json = cls._run(

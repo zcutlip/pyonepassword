@@ -96,6 +96,10 @@ class OPCLIConfig(dict):
     def accounts(self) -> List[Dict[str, str]]:
         return self["accounts"]
 
+    @property
+    def latest_signin(self) -> str:
+        return self["latest_signin"]
+
     def get_config(self, shorthand=None) -> OPCLIAccountConfig:
         if shorthand is None:
             shorthand = self.get("latest_signin")

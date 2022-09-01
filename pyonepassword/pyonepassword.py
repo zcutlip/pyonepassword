@@ -422,9 +422,9 @@ class OP(_OPCommandInterface):
         -------
         None
         """
-        account = self.account_shorthand
+        account = self._account_shorthand
         token = self.token
-        if not token and not self.uses_bio:
+        if not token and not self._uses_bio:
             return
 
         try:
@@ -471,7 +471,7 @@ class OP(_OPCommandInterface):
 
     def _sanitize(self):
         self._token = None
-        sess_var_name = 'OP_SESSION_{}'.format(self.account_shorthand)
+        sess_var_name = 'OP_SESSION_{}'.format(self._account_shorthand)
         try:
             env.pop(sess_var_name)
         except KeyError:

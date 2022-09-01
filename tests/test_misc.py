@@ -40,7 +40,7 @@ def test_uses_bio_property_01():
     check that op.uses_bio is False
     """
     op = OP(op_path='mock-op', account_shorthand="example_shorthand")
-    assert not op.uses_bio
+    assert not op._uses_bio
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")

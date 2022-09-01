@@ -47,7 +47,7 @@ if __name__ == "__main__":
         print("1Password sign-in failed.")
         print(opse.err_output)
         exit(opse.returncode)
-    account_shorthand = op.account_shorthand
+    account_shorthand = op._account_shorthand
     print("Doing signout.")
     try:
         op.signout()

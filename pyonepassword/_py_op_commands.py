@@ -64,45 +64,28 @@ class _OPCommandInterface(_OPCLIExecute):
             logging.basicConfig(format="%(message)s", level=logging.DEBUG)
             logger = logging.getLogger()
         self.logger = logger
-        self._token = None
         self.op_path = op_path
 
-        self._cli_version: OPCLIVersion = self._get_cli_version(op_path)
+        self._op_config: OPCLIConfig = None
+        self._cli_version: OPCLIVersion = None
+        self._uses_bio: bool = False
+        self._account_shorthand: str = None
+        self._sess_var: str = None
 
-        self.uses_bio = self.uses_biometric(
-            self.op_path, account_shorthand=account_shorthand)
-        op_config = OPCLIConfig()
-        if account_shorthand is None and not self.uses_bio:
-            account_shorthand = self._get_account_shorthand(op_config)
-            if account_shorthand is None:
-                raise OPNotSignedInException(
-                    "Account shorthand not provided and not found in 'op' config")
+        # gathering facts will attempt to set the above instance variables
+        # that got initialized to None or False
+        self._gather_facts(account_shorthand)
 
-        self.account_shorthand = account_shorthand
+        # So far everything above has been fairly lightweight, with no remote
+        # contact to the 1Password account.
+        # The next steps will attempt to talk to the 1Password account, and
+        # failing that, may attempt to authenticate to the 1Password account
+        self._token = self._new_or_existing_signin(
+            use_existing_session, password, password_prompt)
 
-        sess_var_name = None
-
-        if account_shorthand and not self.uses_bio:
-            user_uuid = op_config.uuid_for_shorthand(account_shorthand)
-            sess_var_name = 'OP_SESSION_{}'.format(user_uuid)
-
-        if use_existing_session and sess_var_name:
-            self._token = self._verify_signin(sess_var_name)
-
-        if not self._token:
-            if not password and not password_prompt and not self.uses_bio:
-                # we don't have a token, weren't provided a password
-                # and were told not to let 'op' prompt for a password
-                raise OPNotSignedInException(
-                    "No existing session and no password provided.")
-            # We don't have a token but eitehr are have a password
-            # or op should be allowed to prompt for one
-            self._token = self._do_normal_signin(account_shorthand, password)
-
-        self._sess_var = sess_var_name
         # export OP_SESSION_<signin_address>
-        if sess_var_name and self.token:
-            env[sess_var_name] = self.token
+        if self._sess_var and self.token:
+            env[self._sess_var] = self.token
 
     @property
     def token(self) -> str:
@@ -112,14 +95,38 @@ class _OPCommandInterface(_OPCLIExecute):
     def session_var(self) -> str:
         return self._sess_var
 
-    def _get_account_shorthand(self, config):
-        try:
-            account_shorthand = config['latest_signin']
-            self.logger.debug(
-                "Using account shorthand found in op config: {}".format(account_shorthand))
-        except KeyError:
-            account_shorthand = None
+    def _gather_facts(self, account_shorthand):
+        self._op_config = OPCLIConfig()
+        self._cli_version: OPCLIVersion = self._get_cli_version(self.op_path)
+        self._uses_bio = self.uses_biometric(
+            self.op_path, account_shorthand=account_shorthand)
+
+        if account_shorthand is None:
+            account_shorthand = self._get_account_shorthand()
+        self._account_shorthand = account_shorthand
+        self._sess_var = self._compute_session_var_name()
+
+    def _get_account_shorthand(self):
+        account_shorthand = None
+        if not self._uses_bio:
+            try:
+                account_shorthand = self._op_config.latest_signin
+                self.logger.debug(
+                    "Using account shorthand found in op config: {}".format(account_shorthand))
+            except KeyError:
+                pass
         return account_shorthand
+
+    def _compute_session_var_name(self):
+        sess_var_name = None
+        # we can only use a session variable if:
+        #   - biomatric isn't enabled, and
+        #   - we have an account shorthand
+        if not self._uses_bio and self._account_shorthand:
+            user_uuid = self._op_config.uuid_for_shorthand(
+                self._account_shorthand)
+            sess_var_name = 'OP_SESSION_{}'.format(user_uuid)
+        return sess_var_name
 
     def _get_cli_version(self, op_path):
         argv = _OPArgv.cli_version_argv(op_path)
@@ -128,12 +135,24 @@ class _OPCommandInterface(_OPCLIExecute):
         cli_version = OPCLIVersion(output)
         return cli_version
 
-    def _verify_signin(self, sess_var_name):
+    def _verify_signin(self, use_existing_session):
         # Need to get existing token if we're already signed in
-        token = env.get(sess_var_name)
 
+        token = None
+        # only try to get an existing session token if:
+        # - the user told us to use an existing session, and
+        # - we were provided an account shorthand so we could
+        #    compute the environment variable name
+        if use_existing_session and self._sess_var:
+            token = env.get(self._sess_var)
+
+        # if there's no token, no need to sign in
         if token:
-            # if there's no token, no need to sign in
+            # this step actually talks to the 1Password account
+            # it uses "op item template list" which is a very non-intrusive
+            # query on the user's account that will fail without authentication
+            # TODO: use 'op user get --me' where available since that's more appropriate
+            #       to verify authentication
             argv = _OPArgv.get_verify_signin_argv(self.op_path)
             try:
                 self._run(argv, capture_stdout=True)
@@ -148,9 +167,15 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return token
 
-    def _do_normal_signin(self, account_shorthand, password):
+    def _do_normal_signin(self, password: str, password_prompt: bool):
+        if not self._uses_bio and not password and not password_prompt:
+            # - we weren't provided a password, and
+            # - we were told not to let 'op' prompt for a password, and
+            # - biometric is not enabled
+            raise OPNotSignedInException(
+                "No existing session and no password provided.")
         signin_argv = _OPArgv.normal_signin_argv(
-            self.op_path, account=account_shorthand)
+            self.op_path, account=self._account_shorthand)
 
         token = self._run_signin(signin_argv, password=password).rstrip()
         return token.decode()
@@ -163,6 +188,18 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPSigninException.from_opexception(opfe) from opfe
 
         return output
+
+    def _new_or_existing_signin(self, use_existing_session: bool, password: str, password_prompt: bool):
+        token = self._verify_signin(use_existing_session)
+
+        if not token:
+            if not self._uses_bio and not password and not password_prompt:
+                raise OPNotSignedInException(
+                    "No existing session and no password provided.")
+            # we weren't able to verify a token (or weren't told to try) so
+            # let's try a normal sign-in
+            token = self._do_normal_signin(password, password_prompt)
+        return token
 
     @classmethod
     def uses_biometric(cls, op_path="op", account_shorthand=None, encoding="utf-8"):
@@ -372,11 +409,11 @@ class _OPCommandInterface(_OPCLIExecute):
         return output
 
     def _signout(self, account, session, forget=False):
-        if forget and self.uses_bio:
+        if forget and self._uses_bio:
             self.logger.warn(
                 "Biometric is enabled. 'forget' operation will have no effect.")
         argv = _OPArgv.signout_argv(
-            self.op_path, account, session, forget=forget, uses_bio=self.uses_bio)
+            self.op_path, account, session, forget=forget, uses_bio=self._uses_bio)
         self._run(argv)
 
     @classmethod

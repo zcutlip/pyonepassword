@@ -95,6 +95,31 @@ class _OPCommandInterface(_OPCLIExecute):
     def session_var(self) -> str:
         return self._sess_var
 
+    @classmethod
+    def uses_biometric(cls, op_path="op", account_shorthand=None, encoding="utf-8"):
+        uses_bio = True
+        # We can run 'op account list', which doesn't require talking (or authenticating)
+        # to the 1Password account
+        # if biometric is enabled, there will be no account shorthands in the output
+        # if there are account shorthands, biometric is not enabled
+        account_list_argv = cls._account_list_argv(
+            op_path=op_path, encoding=encoding)
+        account_list_json = cls._run(
+            account_list_argv, capture_stdout=True, decode=encoding)
+        account_list = OPAccountList(account_list_json)
+        acct: OPAccount
+        for acct in account_list:
+            if not acct.shorthand:
+                continue
+            if account_shorthand:
+                if acct.shorthand != account_shorthand:
+                    continue
+            # There is at least one account_shorthand found in `op account list`
+            # and if we were given a specific shorthand to use, it matches
+            uses_bio = False
+            break
+        return uses_bio
+
     def _gather_facts(self, account_shorthand):
         self._op_config = OPCLIConfig()
         self._cli_version: OPCLIVersion = self._get_cli_version(self.op_path)
@@ -105,6 +130,13 @@ class _OPCommandInterface(_OPCLIExecute):
             account_shorthand = self._get_account_shorthand()
         self._account_shorthand = account_shorthand
         self._sess_var = self._compute_session_var_name()
+
+    def _get_cli_version(self, op_path):
+        argv = _OPArgv.cli_version_argv(op_path)
+        output = self._run(argv, capture_stdout=True, decode="utf-8")
+        output = output.rstrip()
+        cli_version = OPCLIVersion(output)
+        return cli_version
 
     def _get_account_shorthand(self):
         account_shorthand = None
@@ -128,12 +160,17 @@ class _OPCommandInterface(_OPCLIExecute):
             sess_var_name = 'OP_SESSION_{}'.format(user_uuid)
         return sess_var_name
 
-    def _get_cli_version(self, op_path):
-        argv = _OPArgv.cli_version_argv(op_path)
-        output = self._run(argv, capture_stdout=True, decode="utf-8")
-        output = output.rstrip()
-        cli_version = OPCLIVersion(output)
-        return cli_version
+    def _new_or_existing_signin(self, use_existing_session: bool, password: str, password_prompt: bool):
+        token = self._verify_signin(use_existing_session)
+
+        if not token:
+            if not self._uses_bio and not password and not password_prompt:
+                raise OPNotSignedInException(
+                    "No existing session and no password provided.")
+            # we weren't able to verify a token (or weren't told to try) so
+            # let's try a normal sign-in
+            token = self._do_normal_signin(password, password_prompt)
+        return token
 
     def _verify_signin(self, use_existing_session):
         # Need to get existing token if we're already signed in
@@ -188,43 +225,6 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPSigninException.from_opexception(opfe) from opfe
 
         return output
-
-    def _new_or_existing_signin(self, use_existing_session: bool, password: str, password_prompt: bool):
-        token = self._verify_signin(use_existing_session)
-
-        if not token:
-            if not self._uses_bio and not password and not password_prompt:
-                raise OPNotSignedInException(
-                    "No existing session and no password provided.")
-            # we weren't able to verify a token (or weren't told to try) so
-            # let's try a normal sign-in
-            token = self._do_normal_signin(password, password_prompt)
-        return token
-
-    @classmethod
-    def uses_biometric(cls, op_path="op", account_shorthand=None, encoding="utf-8"):
-        uses_bio = True
-        # We can run 'op account list', which doesn't require talking (or authenticating)
-        # to the 1Password account
-        # if biometric is enabled, there will be no account shorthands in the output
-        # if there are account shorthands, biometric is not enabled
-        account_list_argv = cls._account_list_argv(
-            op_path=op_path, encoding=encoding)
-        account_list_json = cls._run(
-            account_list_argv, capture_stdout=True, decode=encoding)
-        account_list = OPAccountList(account_list_json)
-        acct: OPAccount
-        for acct in account_list:
-            if not acct.shorthand:
-                continue
-            if account_shorthand:
-                if acct.shorthand != account_shorthand:
-                    continue
-            # There is at least one account_shorthand found in `op account list`
-            # and if we were given a specific shorthand to use, it matches
-            uses_bio = False
-            break
-        return uses_bio
 
     @classmethod
     def _account_list_argv(cls, op_path="op", encoding="utf-8"):

@@ -9,6 +9,7 @@ from ._op_cli_config import OPCLIConfig
 from ._py_op_cli import _OPCLIExecute
 from .account import OPAccount, OPAccountList
 from .op_cli_version import DOCUMENT_BYTES_BUG_VERSION, OPCLIVersion
+from .op_objects import OPUser
 from .py_op_exceptions import (
     OPCmdFailedException,
     OPDocumentGetException,
@@ -41,7 +42,7 @@ class _OPCommandInterface(_OPCLIExecute):
                  password=None,
                  logger=None,
                  op_path='op',
-                 use_existing_session=False,
+                 existing_auth=False,
                  password_prompt=True):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
@@ -80,9 +81,12 @@ class _OPCommandInterface(_OPCLIExecute):
         # contact to the 1Password account.
         # The next steps will attempt to talk to the 1Password account, and
         # failing that, may attempt to authenticate to the 1Password account
-        self._token = self._new_or_existing_signin(
-            use_existing_session, password, password_prompt)
-
+        user, token = self._new_or_existing_signin(
+            existing_auth, password, password_prompt)
+        self._signed_in_user: OPUser = user
+        self._token = token
+        self.logger.debug(
+            f"Signed in as User ID: {self._signed_in_user.unique_id}")
         # export OP_SESSION_<signin_address>
         if self._sess_var and self.token:
             env[self._sess_var] = self.token
@@ -160,49 +164,57 @@ class _OPCommandInterface(_OPCLIExecute):
             sess_var_name = 'OP_SESSION_{}'.format(user_uuid)
         return sess_var_name
 
-    def _new_or_existing_signin(self, use_existing_session: bool, password: str, password_prompt: bool):
-        token = self._verify_signin(use_existing_session)
+    def _new_or_existing_signin(self, existing_auth: bool, password: str, password_prompt: bool):
+        user, token = self._verify_signin(existing_auth)
 
-        if not token:
+        if not user:
+            # If we couldn't verify being signed in. we need to authenticate
+            # there are three things that can be used for a new authentication:
+            # - biometric
+            # - password
+            # - allow 'op' to interactively prompt
             if not self._uses_bio and not password and not password_prompt:
+                # we need to authenticate, but don't have at least one of the three options
+                # so not being signed in is an error
                 raise OPNotSignedInException(
-                    "No existing session and no password provided.")
-            # we weren't able to verify a token (or weren't told to try) so
+                    "No existing authentication, biometric not enabled, and no password provided.")
+            # we couldn't verify being signed in (or weren't told to try)
             # let's try a normal sign-in
             token = self._do_normal_signin(password, password_prompt)
-        return token
+            user, _ = self._verify_signin(False)
+        return (user, token)
 
-    def _verify_signin(self, use_existing_session):
+    def _verify_signin(self, existing_auth):
         # Need to get existing token if we're already signed in
-
+        user: OPUser = None
         token = None
         # only try to get an existing session token if:
         # - the user told us to use an existing session, and
         # - we were provided an account shorthand so we could
         #    compute the environment variable name
-        if use_existing_session and self._sess_var:
+        if existing_auth and self._sess_var:
             token = env.get(self._sess_var)
 
-        # if there's no token, no need to sign in
-        if token:
-            # this step actually talks to the 1Password account
-            # it uses "op item template list" which is a very non-intrusive
-            # query on the user's account that will fail without authentication
-            # TODO: use 'op user get --me' where available since that's more appropriate
-            #       to verify authentication
-            argv = _OPArgv.get_verify_signin_argv(self.op_path)
-            try:
-                self._run(argv, capture_stdout=True)
-            except OPCmdFailedException as opfe:
-                # scrape error message about not being signed in
-                # invalidate token if we're not signed in
-                if self.NOT_SIGNED_IN_TEXT in opfe.err_output:
-                    token = None
-                else:
-                    # there was a different error so raise the exception
-                    raise opfe
+        # this step actually talks to the 1Password account
+        # it uses "op item template list" which is a very non-intrusive
+        # query on the user's account that will fail without authentication
+        # TODO: use 'op user get --me' where available since that's more appropriate
+        #       to verify authentication
+        argv = _OPArgv.user_get_signed_in_argv(self.op_path)
+        try:
+            user_json = self._run(argv, capture_stdout=True, decode="utf-8")
+            self.logger.info(f"user_json: {user_json}")
+            user = OPUser(user_json)
+        except OPCmdFailedException as opfe:
+            # scrape error message about not being signed in
+            # invalidate token if we're not signed in
+            if self.NOT_SIGNED_IN_TEXT in opfe.err_output:
+                token = None
+            else:
+                # there was a different error so raise the exception
+                raise opfe
 
-        return token
+        return (user, token)
 
     def _do_normal_signin(self, password: str, password_prompt: bool):
         if not self._uses_bio and not password and not password_prompt:

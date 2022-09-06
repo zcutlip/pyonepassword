@@ -2,6 +2,7 @@ import logging
 from os import environ as env
 
 from ._py_op_commands import _OPCommandInterface
+from ._py_op_deprecation import deprecated_kwargs
 from .account import OPAccountList
 from .op_items._item_list import OPItemList
 from .op_items._op_item_type_registry import OPItemFactory
@@ -29,13 +30,14 @@ class OP(_OPCommandInterface):
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
-
+    @deprecated_kwargs(use_existing_session='existing_auth')
     def __init__(self,
                  vault: str = None,
                  account_shorthand: str = None,
                  password: str = None,
                  logger: logging.Logger = None,
                  op_path: str = 'op',
+                 existing_auth: bool = False,
                  use_existing_session: bool = False,
                  password_prompt: bool = True):
         """
@@ -90,7 +92,7 @@ class OP(_OPCommandInterface):
                          password=password,
                          logger=logger,
                          op_path=op_path,
-                         use_existing_session=use_existing_session,
+                         existing_auth=existing_auth,
                          password_prompt=password_prompt)
 
     def item_get(self, item_name_or_id, vault=None) -> OPAbstractItem:

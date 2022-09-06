@@ -138,6 +138,12 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    def user_get_signed_in_argv(cls, op_exe):
+        sub_cmd_args = ["--me"]
+        argv = cls.user_generic_argv(op_exe, "get", sub_cmd_args)
+        return argv
+
+    @classmethod
     def user_list_argv(cls, op_exe, group_name_or_id=None, vault=None):
         sub_cmd_args = []
         if group_name_or_id:

@@ -1,6 +1,7 @@
 
 import functools
 import warnings
+from typing import Any, Callable, Dict
 
 """
 Adapted from:
@@ -63,3 +64,45 @@ class deprecated:
         if olddoc:
             newdoc = "%s\n\n    %s" % (newdoc, olddoc)
         return newdoc
+
+
+def deprecated_kwargs(**kwarg_aliases: str) -> Callable:
+    """Decorator for deprecated function and method arguments.
+
+    Use as follows:
+
+    @deprecated_kwargs(old_arg='new_arg')
+    def myfunc(new_arg):
+        ...
+    https://stackoverflow.com/a/49802489/17391340
+    """
+
+    def deco(f: Callable):
+        @functools.wraps(f)
+        def wrapper(*args, **kwargs):
+            _rename_kwargs(f.__name__, kwargs, kwarg_aliases)
+            return f(*args, **kwargs)
+
+        return wrapper
+
+    return deco
+
+
+def _rename_kwargs(func_name: str, kwargs: Dict[str, Any], kwarg_aliases: Dict[str, str]):
+    """Helper function for deprecating function arguments."""
+    for old_kwarg, new_kwarg in kwarg_aliases.items():
+        if old_kwarg in kwargs:
+            if new_kwarg in kwargs:
+                raise TypeError(
+                    f"{func_name} received both {old_kwarg} and {new_kwarg} as arguments!"
+                    f" {old_kwarg} is deprecated, use {new_kwarg} instead."
+                )
+            warnings.warn(
+                message=(
+                    f"`{old_kwarg}` is deprecated as an argument to `{func_name}`; use"
+                    f" `{new_kwarg}` instead."
+                ),
+                category=FutureWarning,
+                stacklevel=3,
+            )
+            kwargs[new_kwarg] = kwargs.pop(old_kwarg)

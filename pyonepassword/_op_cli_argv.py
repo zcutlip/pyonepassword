@@ -196,9 +196,11 @@ class _OPArgv(list):
         return argv_obj
 
     @classmethod
-    def whoami_argv(cls, op_exe):
+    def whoami_argv(cls, op_exe, account=None):
         args = []
-        global_args = ["--format", "json"]
+        if account:
+            global_args = ["--account", account]
+        global_args.extend(["--format", "json"])
         argv_obj = cls(op_exe, "whoami", args, global_args=global_args)
         return argv_obj
 

@@ -3,7 +3,7 @@ Description: A module that maps methods to to `op` commands and subcommands
 """
 import enum
 import logging
-from os import environ as env
+from os import environ
 
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
@@ -104,7 +104,7 @@ class _OPCommandInterface(_OPCLIExecute):
             f"Signed in as User ID: {self._signed_in_user.unique_id}")
         # export OP_SESSION_<signin_address>
         if self._sess_var and self.token:
-            env[self._sess_var] = self.token
+            environ[self._sess_var] = self.token
 
     @property
     def token(self) -> str:
@@ -200,8 +200,16 @@ class _OPCommandInterface(_OPCLIExecute):
             user = self._verify_signin(False)
         return (user, token)
 
-    def _verify_signin(self, existing_auth):
+    def _verify_signin(self, token=None):
         account: OPAccount = None
+        if token and self._sess_var:
+            # make a copy of environment rather than modifying actual env
+            # in order to verify login
+            # we'll offically set it once we know it works
+            env = dict(environ)
+            env[self._sess_var] = token
+        else:
+            env = environ
 
         # this step actually talks to the 1Password account
         # it uses "op user get --me" which is a very non-intrusive

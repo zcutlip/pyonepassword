@@ -159,16 +159,11 @@ class _OPCommandInterface(_OPCLIExecute):
         cli_version = OPCLIVersion(output)
         return cli_version
 
-    def _get_account_shorthand(self):
-        account_shorthand = None
-        if not self._uses_bio:
-            try:
-                account_shorthand = self._op_config.latest_signin
-                self.logger.debug(
-                    "Using account shorthand found in op config: {}".format(account_shorthand))
-            except KeyError:
-                pass
-        return account_shorthand
+    @classmethod
+    def _get_account_list(cls, op_path) -> OPAccountList:
+        account_list_json = cls._signed_in_accounts(op_path)
+        account_list = OPAccountList(account_list_json)
+        return account_list
 
     def _normalize_account_id(self):
         # we need to turn whatever we were given into a User ID

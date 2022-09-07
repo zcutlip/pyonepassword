@@ -419,10 +419,11 @@ class _OPCommandInterface(_OPCLIExecute):
             print(self._cli_version)
         return document_bytes
 
-    def _signed_in_accounts(self, decode="utf-8"):
-        account_list_argv = self._account_list_argv(op_path=self.op_path)
-        output = self._run(account_list_argv,
-                           capture_stdout=True, decode=decode)
+    @classmethod
+    def _signed_in_accounts(cls, op_path, decode="utf-8"):
+        account_list_argv = cls._account_list_argv(op_path)
+        output = cls._run(account_list_argv,
+                          capture_stdout=True, decode=decode)
         return output
 
     def _user_get(self, user_name_or_id: str, decode: str = "utf-8") -> str:

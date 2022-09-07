@@ -1,6 +1,6 @@
 import logging
 import subprocess
-from os import environ as env
+from os import environ
 
 from .py_op_exceptions import OPCmdFailedException, OPNotFoundException
 
@@ -24,7 +24,7 @@ class _OPCLIExecute:
     """
 
     @classmethod
-    def _run_raw(cls, argv, input_string=None, capture_stdout=False, ignore_error=False):
+    def _run_raw(cls, argv, input_string=None, capture_stdout=False, ignore_error=False, env=environ):
         stdout = subprocess.PIPE if capture_stdout else None
         if input_string:
             if isinstance(input_string, str):
@@ -42,19 +42,19 @@ class _OPCLIExecute:
                 _ran.check_returncode()
             except subprocess.CalledProcessError as err:
                 stderr_output = stderr.decode("utf-8").rstrip()
-                if env.get(LOG_OP_ERR_ENV_NAME) == "1":
+                if environ.get(LOG_OP_ERR_ENV_NAME) == "1":
                     cls.logger.error(stderr_output)
                 raise OPCmdFailedException(stderr_output, returncode) from err
 
         return (stdout, stderr, returncode)
 
     @classmethod
-    def _run(cls, argv, capture_stdout=False, input_string=None, decode=None):
+    def _run(cls, argv, capture_stdout=False, input_string=None, decode=None, env=environ):
         cls.logger.debug(f"Running: {argv.cmd_str()}")
         output = None
         try:
             output, _, _ = cls._run_raw(
-                argv, input_string=input_string, capture_stdout=capture_stdout)
+                argv, input_string=input_string, capture_stdout=capture_stdout, env=env)
             if decode:
                 output = output.decode(decode)
         except FileNotFoundError as err:

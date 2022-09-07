@@ -196,9 +196,11 @@ class _OPArgv(list):
         return argv_obj
 
     @classmethod
-    def get_verify_signin_argv(cls, op_exe):
-        argv = cls.item_template_list_argv(op_exe)
-        return argv
+    def whoami_argv(cls, op_exe):
+        args = []
+        global_args = ["--format", "json"]
+        argv_obj = cls(op_exe, "whoami", args, global_args=global_args)
+        return argv_obj
 
     @classmethod
     def cli_version_argv(cls, op_exe):

@@ -46,6 +46,8 @@ class _OPCommandInterface(_OPCLIExecute):
     No responses are parsed.
     """
     NOT_SIGNED_IN_TEXT = "not currently signed in"
+    NO_ACTIVE_SESSION_FOUND_TEXT = "no active session found for account"
+    NO_SESSION_TOKEN_FOUND_TEXT = "could not find session token for account"
 
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
@@ -211,8 +213,16 @@ class _OPCommandInterface(_OPCLIExecute):
             user = OPUser(user_json)
         except OPCmdFailedException as opfe:
             # scrape error message about not being signed in
-            if self.NOT_SIGNED_IN_TEXT not in opfe.err_output:
-                # there was a different error so raise the exception
+
+            fragments = [self.NO_ACTIVE_SESSION_FOUND_TEXT,
+                         self.NOT_SIGNED_IN_TEXT, self.NO_SESSION_TOKEN_FOUND_TEXT]
+            unknown_err = True
+            for frag in fragments:
+                if frag in opfe.err_output:
+                    unknown_err = False
+                    break
+            # there was a different error so raise the exception
+            if unknown_err:
                 raise opfe
 
         return user

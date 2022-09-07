@@ -296,9 +296,10 @@ class _OPCommandInterface(_OPCLIExecute):
         return token
 
     def _run_signin(self, argv, password=None):
+        self.logger.debug(f"Signing in with {argv.cmd_str()}")
         try:
             output = self._run(argv, capture_stdout=True,
-                               input_string=password)
+                               input_string=password, decode="utf-8")
         except OPCmdFailedException as opfe:
             raise OPSigninException.from_opexception(opfe) from opfe
 

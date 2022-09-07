@@ -33,6 +33,7 @@ class _OPCommandInterface(_OPCLIExecute):
     No convenience methods are provided.
     No responses are parsed.
     """
+    NOT_SIGNED_IN_TEXT = "not currently signed in"
 
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 

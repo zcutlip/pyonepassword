@@ -1,6 +1,7 @@
 """
 Description: A module that maps methods to to `op` commands and subcommands
 """
+import enum
 import logging
 from os import environ as env
 
@@ -24,6 +25,17 @@ from .py_op_exceptions import (
     OPVaultGetException,
     OPVaultListException
 )
+
+
+class ExistingAuthEnum(enum.IntEnum):
+    IGNORE = 0     # Don't check if there's an existing authentication, peform new one regardless
+    AVAILABLE = 1  # Check if there's an existing authentication, and if not, perform authentication
+    REQUIRED = 2   # Check if there's an existing authentication, failing otherwise
+
+
+EXISTING_AUTH_IGNORE = ExistingAuthEnum.IGNORE
+EXISTING_AUTH_AVAIL = ExistingAuthEnum.AVAILABLE
+EXISTING_AUTH_REQD = ExistingAuthEnum.REQUIRED
 
 
 class _OPCommandInterface(_OPCLIExecute):

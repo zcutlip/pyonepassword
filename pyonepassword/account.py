@@ -38,10 +38,10 @@ class OPAccountList(List[OPAccount]):
             op_account = OPAccount(account_dict)
             self.append(op_account)
 
-    def account_for_email(self, email: str):
+    def account_for_identifier(self, account_id: str):
         acct = None
         for account in self:
-            if account.email == email:
+            if account_id in [account.account_uuid, account.user_uuid, account.shorthand, account.email, account.url]:
                 acct = account
                 break
         return acct

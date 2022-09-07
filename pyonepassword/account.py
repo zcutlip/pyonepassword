@@ -4,6 +4,9 @@ from .json import safe_unjson
 
 
 class OPAccount(dict):
+    def __init__(self, account_dict_or_json):
+        account_dict = safe_unjson(account_dict_or_json)
+        super().__init__(account_dict)
 
     @property
     def url(self) -> str:

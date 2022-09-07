@@ -10,7 +10,6 @@ from ._op_cli_config import OPCLIConfig
 from ._py_op_cli import _OPCLIExecute
 from .account import OPAccount, OPAccountList
 from .op_cli_version import DOCUMENT_BYTES_BUG_VERSION, OPCLIVersion
-from .op_objects import OPUser
 from .py_op_exceptions import (
     OPCmdFailedException,
     OPDocumentGetException,
@@ -96,12 +95,12 @@ class _OPCommandInterface(_OPCLIExecute):
         # contact to the 1Password account.
         # The next steps will attempt to talk to the 1Password account, and
         # failing that, may attempt to authenticate to the 1Password account
-        user, token = self._new_or_existing_signin(
+        account, token = self._new_or_existing_signin(
             existing_auth, password, password_prompt)
-        self._signed_in_user: OPUser = user
+        self._signed_in_account: OPAccount = account
         self._token = token
         self.logger.debug(
-            f"Signed in as User ID: {self._signed_in_user.unique_id}")
+            f"Signed in as User ID: {self._signed_in_account.user_uuid}")
         # export OP_SESSION_<signin_address>
         if self._sess_var and self.token:
             environ[self._sess_var] = self.token

@@ -183,11 +183,22 @@ class _OPCommandInterface(_OPCLIExecute):
             sess_var_name = 'OP_SESSION_{}'.format(user_uuid)
         return sess_var_name
 
-    def _new_or_existing_signin(self, existing_auth: bool, password: str, password_prompt: bool):
+    def _new_or_existing_signin(self, existing_auth: ExistingAuthEnum, password: str, password_prompt: bool):
         token = None
-        user = self._verify_signin(existing_auth)
+        account = None
 
-        if not user:
+        # Don't attempt to verify sign-in unless caller told us to
+        # otherwise it will trigger a prompt, either GUI biometric prompt,
+        # or interactive console prompt
+        if existing_auth in [EXISTING_AUTH_AVAIL, EXISTING_AUTH_REQD]:
+            account = self._verify_signin()
+
+        if not account:
+            if existing_auth == EXISTING_AUTH_REQD:
+                # we were told to only use existing authentication but verificaiton failed
+                # this is a hard error
+                raise OPNotSignedInException(
+                    "Existing authentication specified as required, but could not be verified.")
             # If we couldn't verify being signed in. we need to authenticate
             # there are three things that can be used for a new authentication:
             # - biometric
@@ -201,8 +212,8 @@ class _OPCommandInterface(_OPCLIExecute):
             # we couldn't verify being signed in (or weren't told to try)
             # let's try a normal sign-in
             token = self._do_normal_signin(password, password_prompt)
-            user = self._verify_signin(False)
-        return (user, token)
+            account = self._verify_signin(token=token)
+        return (account, token)
 
     def _verify_signin(self, token=None):
         account: OPAccount = None

@@ -56,7 +56,7 @@ class _OPCommandInterface(_OPCLIExecute):
                  password=None,
                  logger=None,
                  op_path='op',
-                 existing_auth=False,
+                 existing_auth: ExistingAuthEnum = EXISTING_AUTH_IGNORE,
                  password_prompt=True):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
@@ -78,6 +78,11 @@ class _OPCommandInterface(_OPCLIExecute):
         if not logger:
             logging.basicConfig(format="%(message)s", level=logging.DEBUG)
             logger = logging.getLogger()
+
+        # Coerce existing_auth to an Enum in case it was passed in as a legacy bool
+        # False -> ExistingAuthFlag.NONE, True -> ExistingAuthFlag.AVAILABLE
+        existing_auth = ExistingAuthEnum(existing_auth)
+
         self.logger = logger
         self.op_path = op_path
 

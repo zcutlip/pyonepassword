@@ -191,13 +191,15 @@ class _OPCommandInterface(_OPCLIExecute):
         return user_uuid
 
     def _compute_session_var_name(self):
-        sess_var_name = None
+        sess_var_name = self._sess_var
+        # normalize account identifier before calling this
+        user_uuid = self._account_identifier
+
         # we can only use a session variable if:
-        #   - biomatric isn't enabled, and
+        #   - biometric isn't enabled, and
         #   - we have an account shorthand
-        if not self._uses_bio and self._account_shorthand:
-            user_uuid = self._op_config.uuid_for_shorthand(
-                self._account_shorthand)
+
+        if user_uuid and not self._uses_bio:
             sess_var_name = 'OP_SESSION_{}'.format(user_uuid)
         return sess_var_name
 

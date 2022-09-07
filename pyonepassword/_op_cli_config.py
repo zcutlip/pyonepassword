@@ -103,7 +103,15 @@ class OPCLIConfig(dict):
 
     @property
     def latest_signin(self) -> str:
-        return self["latest_signin"]
+        return self.get("latest_signin")
+
+    @property
+    def latest_signin_uuid(self) -> str:
+        latest_uuid = None
+        latest = self.latest_signin
+        if latest:
+            latest_uuid = self.uuid_for_account(latest)
+        return latest_uuid
 
     def get_config(self, account_id=None) -> OPCLIAccountConfig:
         if account_id is None:
@@ -121,7 +129,7 @@ class OPCLIConfig(dict):
 
         return config
 
-    def uuid_for_shorthand(self, shorthand) -> str:
-        config = self.get_config(account_id=shorthand)
+    def uuid_for_account(self, account_identifier) -> str:
+        config = self.get_config(account_id=account_identifier)
         uuid = config.user_uuid
         return uuid

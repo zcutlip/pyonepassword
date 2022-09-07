@@ -4,6 +4,7 @@ Description: A module that maps methods to to `op` commands and subcommands
 import enum
 import logging
 from os import environ
+from typing import Union
 
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
@@ -245,7 +246,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return account
 
-    def _do_normal_signin(self, password: str, password_prompt: bool):
+    def _do_normal_signin(self, password: str, password_prompt: bool) -> Union[str, None]:
         if not self._uses_bio and not password and not password_prompt:
             # - we weren't provided a password, and
             # - we were told not to let 'op' prompt for a password, and

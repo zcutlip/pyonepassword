@@ -122,6 +122,6 @@ class OPCLIConfig(dict):
         return config
 
     def uuid_for_shorthand(self, shorthand) -> str:
-        config = self.get_config(shorthand=shorthand)
+        config = self.get_config(account_id=shorthand)
         uuid = config.user_uuid
         return uuid

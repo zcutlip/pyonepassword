@@ -286,6 +286,10 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, account=self._account_identifier)
 
         token = self._run_signin(signin_argv, password=password)
+        if self._uses_bio:
+            # Set to None vs empty string
+            token = None
+
         return token
 
     def _get_existing_token(self, account: OPAccount):

@@ -54,7 +54,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
     def __init__(self,
                  vault=None,
-                 account_shorthand=None,
+                 account=None,
                  password=None,
                  logger=None,
                  op_path='op',
@@ -87,6 +87,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
         self.logger = logger
         self.op_path = op_path
+        self._account_identifier = account
 
         self._op_config: OPCLIConfig = None
         self._cli_version: OPCLIVersion = None
@@ -96,7 +97,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
         # gathering facts will attempt to set the above instance variables
         # that got initialized to None or False
-        self._gather_facts(account_shorthand)
+        self._gather_facts()
 
         # So far everything above has been fairly lightweight, with no remote
         # contact to the 1Password account.
@@ -282,7 +283,7 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPNotSignedInException(
                 "No existing session and no password provided.")
         signin_argv = _OPArgv.normal_signin_argv(
-            self.op_path, account=self._account_shorthand)
+            self.op_path, account=self._account_identifier)
 
         token = self._run_signin(signin_argv, password=password).rstrip()
         return token.decode()

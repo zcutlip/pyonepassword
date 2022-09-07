@@ -285,8 +285,8 @@ class _OPCommandInterface(_OPCLIExecute):
         signin_argv = _OPArgv.normal_signin_argv(
             self.op_path, account=self._account_identifier)
 
-        token = self._run_signin(signin_argv, password=password).rstrip()
-        return token.decode()
+        token = self._run_signin(signin_argv, password=password)
+        return token
 
     def _get_existing_token(self, account: OPAccount):
         user_id = account.user_uuid

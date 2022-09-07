@@ -169,6 +169,31 @@ class _OPCommandInterface(_OPCLIExecute):
                 pass
         return account_shorthand
 
+    def _normalize_account_id(self):
+        # we need to turn whatever we were given into a User ID
+        # we could have been given any of the following for account ID:
+        # - None
+        # - account shorthand
+        # - account URL
+        # - account UUID
+        # - user UUID
+        # see: 'op --help' for '--account' global flag
+        user_uuid = None
+        if not self._uses_bio:
+            if self._account_identifier:
+                # if we were given an specific account look up user ID for that
+                user_uuid = self._op_config.uuid_for_account(
+                    self._account_identifier)
+            else:
+                # else try to look up User ID for latest sign-in
+                # (may come back None)
+                user_uuid = self._op_config.latest_signin_uuid
+        elif self._account_identifier:
+            # self._account_list.
+            pass
+
+        return user_uuid
+
     def _compute_session_var_name(self):
         sess_var_name = None
         # we can only use a session variable if:

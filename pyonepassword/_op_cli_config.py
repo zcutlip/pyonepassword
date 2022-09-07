@@ -2,7 +2,7 @@ import json
 import os
 import pathlib
 from json.decoder import JSONDecodeError
-from typing import Dict, List
+from typing import List
 
 from .py_op_exceptions import OPConfigNotFoundException
 
@@ -63,7 +63,13 @@ class OPCLIConfig(dict):
             raise OPConfigNotFoundException(
                 "Unable to json decode config at path: {}".format(configpath)) from e
 
-        self.account_map = self._initialize_account_objects()
+        accounts = self._initialize_account_objects()
+        self["accounts"] = accounts
+
+        account_map = {}
+        for account in accounts:
+            account_map[account.shorthand] = account
+        self.account_map = account_map
 
     def _get_config_path(self):
         configpath = None
@@ -81,19 +87,18 @@ class OPCLIConfig(dict):
 
         return configpath
 
-    def _initialize_account_objects(self):
+    def _initialize_account_objects(self) -> List[OPCLIAccountConfig]:
         account_list = self.accounts
         account_objects = []
-        account_map = {}
         acct: OPCLIAccountConfig
         for account_dict in account_list:
             acct = OPCLIAccountConfig(account_dict)
             account_objects.append(acct)
-            account_map[acct.shorthand] = acct
-        return account_map
+
+        return account_objects
 
     @property
-    def accounts(self) -> List[Dict[str, str]]:
+    def accounts(self) -> List[OPCLIAccountConfig]:
         return self["accounts"]
 
     @property

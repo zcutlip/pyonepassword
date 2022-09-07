@@ -201,16 +201,16 @@ class _OPCommandInterface(_OPCLIExecute):
         return (user, token)
 
     def _verify_signin(self, existing_auth):
-        user: OPUser = None
+        account: OPAccount = None
 
         # this step actually talks to the 1Password account
         # it uses "op user get --me" which is a very non-intrusive
         # query that will fail without authentication
-        argv = _OPArgv.user_get_signed_in_argv(self.op_path)
+        argv = _OPArgv.whoami_argv(self.op_path)
         try:
-            user_json = self._run(argv, capture_stdout=True, decode="utf-8")
-            self.logger.info(f"user_json: {user_json}")
-            user = OPUser(user_json)
+            account_json = self._run(
+                argv, capture_stdout=True, decode="utf-8", env=env)
+            account = OPAccount(account_json)
         except OPCmdFailedException as opfe:
             # scrape error message about not being signed in
 
@@ -225,7 +225,7 @@ class _OPCommandInterface(_OPCLIExecute):
             if unknown_err:
                 raise opfe
 
-        return user
+        return account
 
     def _do_normal_signin(self, password: str, password_prompt: bool):
         if not self._uses_bio and not password and not password_prompt:

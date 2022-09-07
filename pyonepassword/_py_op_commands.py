@@ -106,7 +106,7 @@ class _OPCommandInterface(_OPCLIExecute):
         self._token = token
         self.logger.debug(
             f"Signed in as User ID: {self._signed_in_account.user_uuid}")
-        # export OP_SESSION_<signin_address>
+        # export OP_SESSION_<use_id>
         if self._sess_var and self.token:
             environ[self._sess_var] = self.token
 
@@ -119,7 +119,7 @@ class _OPCommandInterface(_OPCLIExecute):
         return self._sess_var
 
     @classmethod
-    def uses_biometric(cls, op_path="op", account_shorthand=None, encoding="utf-8"):
+    def uses_biometric(cls, op_path="op", encoding="utf-8"):
         uses_bio = True
         # We can run 'op account list', which doesn't require talking (or authenticating)
         # to the 1Password account
@@ -134,11 +134,7 @@ class _OPCommandInterface(_OPCLIExecute):
         for acct in account_list:
             if not acct.shorthand:
                 continue
-            if account_shorthand:
-                if acct.shorthand != account_shorthand:
-                    continue
             # There is at least one account_shorthand found in `op account list`
-            # and if we were given a specific shorthand to use, it matches
             uses_bio = False
             break
         return uses_bio
@@ -146,8 +142,7 @@ class _OPCommandInterface(_OPCLIExecute):
     def _gather_facts(self, account_shorthand):
         self._op_config = OPCLIConfig()
         self._cli_version: OPCLIVersion = self._get_cli_version(self.op_path)
-        self._uses_bio = self.uses_biometric(
-            self.op_path, account_shorthand=account_shorthand)
+        self._uses_bio = self.uses_biometric(self.op_path)
 
         if account_shorthand is None:
             account_shorthand = self._get_account_shorthand()

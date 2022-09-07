@@ -287,6 +287,14 @@ class _OPCommandInterface(_OPCLIExecute):
         token = self._run_signin(signin_argv, password=password).rstrip()
         return token.decode()
 
+    def _get_existing_token(self, account: OPAccount):
+        user_id = account.user_uuid
+        self._account_identifier = user_id
+        sess_var = self._compute_session_var_name()
+        self._sess_var = sess_var
+        token = environ.get(self._sess_var)
+        return token
+
     def _run_signin(self, argv, password=None):
         try:
             output = self._run(argv, capture_stdout=True,

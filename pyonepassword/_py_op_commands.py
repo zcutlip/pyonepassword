@@ -213,7 +213,9 @@ class _OPCommandInterface(_OPCLIExecute):
         if existing_auth in [EXISTING_AUTH_AVAIL, EXISTING_AUTH_REQD]:
             account = self._verify_signin()
 
-        if not account:
+        if account:
+            token = self._get_existing_token(account)
+        else:
             if existing_auth == EXISTING_AUTH_REQD:
                 # we were told to only use existing authentication but verificaiton failed
                 # this is a hard error

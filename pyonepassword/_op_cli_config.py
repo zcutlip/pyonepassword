@@ -105,18 +105,19 @@ class OPCLIConfig(dict):
     def latest_signin(self) -> str:
         return self["latest_signin"]
 
-    def get_config(self, shorthand=None) -> OPCLIAccountConfig:
-        if shorthand is None:
-            shorthand = self.get("latest_signin")
-        if not shorthand:  # if shorthand is None or empty string
+    def get_config(self, account_id=None) -> OPCLIAccountConfig:
+        if account_id is None:
+            account_id = self.get("latest_signin")
+        if not account_id:  # if shorthand is None or empty string
             raise OPConfigNotFoundException(
                 "No shorthand provided, no sign-ins found.")
 
-        try:
-            config = self.account_map[shorthand]
-        except KeyError:
-            raise OPConfigNotFoundException(
-                f"No config found for shorthand {shorthand}")
+        config = self.account_map.get(account_id)
+        if not config:
+            for account in self.accounts:
+                if account_id in [account.account_uuid, account.user_uuid, account.shorthand, account.email, account.url]:
+                    config = account
+                    break
 
         return config
 

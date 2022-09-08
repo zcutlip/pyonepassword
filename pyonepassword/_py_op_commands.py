@@ -57,7 +57,7 @@ class _OPCommandInterface(_OPCLIExecute):
                  account=None,
                  password=None,
                  logger=None,
-                 op_path='op',
+                 op_path=OP_PATH,
                  existing_auth: ExistingAuthEnum = EXISTING_AUTH_IGNORE,
                  password_prompt=True):
         """

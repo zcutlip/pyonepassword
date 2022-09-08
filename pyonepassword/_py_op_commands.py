@@ -110,7 +110,13 @@ class _OPCommandInterface(_OPCLIExecute):
         self.logger.debug(
             f"Signed in as User ID: {self._signed_in_account.user_uuid}")
         # export OP_SESSION_<use_id>
-        if self._sess_var and self.token:
+        if self.token:
+            if not self._account_identifier:
+                # if we weren't provided an account identifier,
+                # we can now get it from the signed-in account object
+                # and compute the session environment variable name
+                self._account_identifier = account.user_uuid
+                self._sess_var = self._compute_session_var_name()
             environ[self._sess_var] = self.token
 
     @property

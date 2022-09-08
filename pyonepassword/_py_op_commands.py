@@ -91,6 +91,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
         self._op_config: OPCLIConfig = None
         self._cli_version: OPCLIVersion = None
+        self._account_list: OPAccountList = None
         self._uses_bio: bool = False
         self._account_shorthand: str = None
         self._sess_var: str = None
@@ -145,11 +146,7 @@ class _OPCommandInterface(_OPCLIExecute):
     def _gather_facts(self, account_shorthand):
         self._op_config = OPCLIConfig()
         self._cli_version: OPCLIVersion = self._get_cli_version(self.op_path)
-        self._uses_bio = self.uses_biometric(self.op_path)
-
-        if account_shorthand is None:
-            account_shorthand = self._get_account_shorthand()
-        self._account_shorthand = account_shorthand
+        self._account_list = self._get_account_list(self.op_path)
         self._sess_var = self._compute_session_var_name()
 
     def _get_cli_version(self, op_path):

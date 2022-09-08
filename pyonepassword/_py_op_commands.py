@@ -142,6 +142,8 @@ class _OPCommandInterface(_OPCLIExecute):
         self._op_config = OPCLIConfig()
         self._cli_version: OPCLIVersion = self._get_cli_version(self.op_path)
         self._account_list = self._get_account_list(self.op_path)
+        self._uses_bio = self.uses_biometric(op_path=self.op_path)
+        self._account_identifier = self._normalize_account_id()
         self._sess_var = self._compute_session_var_name()
 
     def _get_cli_version(self, op_path):

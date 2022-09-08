@@ -93,7 +93,6 @@ class _OPCommandInterface(_OPCLIExecute):
         self._cli_version: OPCLIVersion = None
         self._account_list: OPAccountList = None
         self._uses_bio: bool = False
-        self._account_shorthand: str = None
         self._sess_var: str = None
 
         # gathering facts will attempt to set the above instance variables
@@ -143,7 +142,7 @@ class _OPCommandInterface(_OPCLIExecute):
             break
         return uses_bio
 
-    def _gather_facts(self, account_shorthand):
+    def _gather_facts(self):
         self._op_config = OPCLIConfig()
         self._cli_version: OPCLIVersion = self._get_cli_version(self.op_path)
         self._account_list = self._get_account_list(self.op_path)

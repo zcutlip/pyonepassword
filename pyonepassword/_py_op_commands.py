@@ -128,11 +128,7 @@ class _OPCommandInterface(_OPCLIExecute):
         # to the 1Password account
         # if biometric is enabled, there will be no account shorthands in the output
         # if there are account shorthands, biometric is not enabled
-        account_list_argv = cls._account_list_argv(
-            op_path=op_path, encoding=encoding)
-        account_list_json = cls._run(
-            account_list_argv, capture_stdout=True, decode=encoding)
-        account_list = OPAccountList(account_list_json)
+        account_list = cls._get_account_list(op_path)
         acct: OPAccount
         for acct in account_list:
             if not acct.shorthand:

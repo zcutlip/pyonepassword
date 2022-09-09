@@ -128,13 +128,14 @@ class _OPCommandInterface(_OPCLIExecute):
         return self._sess_var
 
     @classmethod
-    def uses_biometric(cls, op_path="op", encoding="utf-8"):
+    def uses_biometric(cls, op_path="op", encoding="utf-8", account_list=None):
         uses_bio = True
         # We can run 'op account list', which doesn't require talking (or authenticating)
         # to the 1Password account
         # if biometric is enabled, there will be no account shorthands in the output
         # if there are account shorthands, biometric is not enabled
-        account_list = cls._get_account_list(op_path)
+        if account_list is None:
+            account_list = cls._get_account_list(op_path)
         acct: OPAccount
         for acct in account_list:
             if not acct.shorthand:
@@ -148,7 +149,8 @@ class _OPCommandInterface(_OPCLIExecute):
         self._op_config = OPCLIConfig()
         self._cli_version: OPCLIVersion = self._get_cli_version(self.op_path)
         self._account_list = self._get_account_list(self.op_path)
-        self._uses_bio = self.uses_biometric(op_path=self.op_path)
+        self._uses_bio = self.uses_biometric(
+            op_path=self.op_path, account_list=self._account_list)
         self._account_identifier = self._normalize_account_id()
         self._sess_var = self._compute_session_var_name()
 

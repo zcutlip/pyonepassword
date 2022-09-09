@@ -64,3 +64,12 @@ class _OPCLIExecute:
             raise OPNotFoundException(argv[0], err.errno) from err
 
         return output
+
+    @classmethod
+    def set_logger(cls, logger: logging.Logger):
+        cls.logger = logger
+        print("logger has been set")
+
+    @classmethod
+    def set_log_level(cls, log_level: int):
+        cls.logger.setLevel(log_level)

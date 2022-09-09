@@ -76,16 +76,17 @@ class _OPCommandInterface(_OPCLIExecute):
             - OPNotFoundException if the 1Password command can't be found.
         """
         super().__init__()
-        self.vault = vault
         if not logger:
-            logging.basicConfig(format="%(message)s", level=logging.DEBUG)
-            logger = logging.getLogger()
+            logger = logging.getLogger(self.__class__.__name__)
+            logger.setLevel(logging.INFO)
+
+        self.vault = vault
+        self.logger = logger
 
         # Coerce existing_auth to an Enum in case it was passed in as a legacy bool
         # False -> ExistingAuthFlag.NONE, True -> ExistingAuthFlag.AVAILABLE
         existing_auth = ExistingAuthEnum(existing_auth)
 
-        self.logger = logger
         self.op_path = op_path
         self._account_identifier = account
 

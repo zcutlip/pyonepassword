@@ -20,6 +20,7 @@ from .py_op_exceptions import (
     OPItemListException,
     OPNotSignedInException,
     OPSigninException,
+    OPUnknownAccountException,
     OPUserGetException,
     OPUserListException,
     OPVaultGetException,
@@ -188,8 +189,12 @@ class _OPCommandInterface(_OPCLIExecute):
                 # (may come back None)
                 user_uuid = self._op_config.latest_signin_uuid
         elif self._account_identifier:
-            # self._account_list.
-            pass
+            user_uuid = self._account_list.user_id_for_account_identifier(
+                self._account_identifier)
+
+        if self._account_identifier and not user_uuid:
+            raise OPUnknownAccountException(
+                f"No account found for identifier: {self._account_identifier}")
 
         return user_uuid
 

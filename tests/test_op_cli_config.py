@@ -62,7 +62,7 @@ def test_op_cli_config_homedir_06(expected_op_config_data: ExpectedConfigData, v
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
-    result = config.uuid_for_shorthand("example_shorthand")
+    result = config.uuid_for_account("example_shorthand")
     assert result == expected.user_uuid
 
 
@@ -117,7 +117,7 @@ def test_op_cli_config_xdg_05(expected_op_config_data: ExpectedConfigData, valid
 def test_op_cli_config_xdg_06(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdghome):
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
-    result = config.uuid_for_shorthand("example_shorthand")
+    result = config.uuid_for_account("example_shorthand")
     assert result == expected.user_uuid
 
 

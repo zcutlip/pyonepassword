@@ -22,7 +22,7 @@ class _OPCLIExecute:
         if logger:
             print(f"setting logger on class: {cls}")
             cls.set_logger(logger)
-        return super().__new__(cls, *args, **kwargs)
+        return super().__new__(cls)
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """

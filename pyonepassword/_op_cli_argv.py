@@ -198,6 +198,7 @@ class _OPArgv(list):
     @classmethod
     def whoami_argv(cls, op_exe, account=None):
         args = []
+        global_args = []
         if account:
             global_args = ["--account", account]
         global_args.extend(["--format", "json"])

@@ -426,7 +426,7 @@ class OP(_OPCommandInterface):
         -------
         None
         """
-        account = self._account_shorthand
+        account = self._account_identifier
         token = self.token
         if not token and not self._uses_bio:
             return

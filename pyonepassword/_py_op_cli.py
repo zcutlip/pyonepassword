@@ -15,9 +15,14 @@ TODO: Move other code that closely touches 'op' here
 
 
 class _OPCLIExecute:
+    logger = logging.getLogger("_OPCLIExecute")
+    logger.setLevel(logging.INFO)
 
-    logging.basicConfig(format="%(message)s", level=logging.INFO)
-    logger = logging.getLogger()
+    def __new__(cls, *args, logger=None, **kwargs):
+        if logger:
+            print(f"setting logger on class: {cls}")
+            cls.set_logger(logger)
+        return super().__new__(cls, *args, **kwargs)
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """

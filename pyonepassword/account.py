@@ -45,3 +45,10 @@ class OPAccountList(List[OPAccount]):
                 acct = account
                 break
         return acct
+
+    def user_id_for_account_identifier(self, account_id: str):
+        user_id = None
+        acct = self.account_for_identifier(account_id)
+        if acct:
+            user_id = acct.user_uuid
+        return user_id

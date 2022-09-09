@@ -1,7 +1,11 @@
 import sys
 from argparse import ArgumentParser
 
-from ._op_cli_config import OPCLIConfig, OPConfigNotFoundException
+from ._op_cli_config import (
+    OPCLIAccountConfig,
+    OPCLIConfig,
+    OPConfigNotFoundException
+)
 
 
 def opc_parse_args():
@@ -17,11 +21,13 @@ def opc_parse_args():
     return parsed
 
 
-def print_config(acct_conf):
-    print(f"shorthand: {acct_conf['shorthand']}")
-    print(f"URL: {acct_conf['url']}")
-    print(f"email: {acct_conf['email']}")
+def print_config(acct_conf: OPCLIAccountConfig):
+    print(f"shorthand: {acct_conf.shorthand}")
+    print(f"URL: {acct_conf.url}")
+    print(f"email: {acct_conf.email}")
     print(f"Account key: {acct_conf['accountKey']}")
+    print(f"Account ID: {acct_conf.account_uuid}")
+    print(f"User ID: {acct_conf.user_uuid}")
 
 
 def main():
@@ -30,7 +36,7 @@ def main():
     shorthand = options.shorthand
     try:
         config = OPCLIConfig(configpath=config_path)
-        acct_conf = config.get_config(shorthand=shorthand)
+        acct_conf = config.get_config(account_id=shorthand)
     except OPConfigNotFoundException as e:
         print(f"Unable to look up op config: {e}", file=sys.stderr)
         exit(1)

@@ -30,9 +30,11 @@ class OP(_OPCommandInterface):
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
-    @deprecated_kwargs(use_existing_session='existing_auth')
+    @deprecated_kwargs(use_existing_session='existing_auth',
+                       account_shorthand='account')
     def __init__(self,
                  vault: str = None,
+                 account: str = None,
                  account_shorthand: str = None,
                  password: str = None,
                  logger: logging.Logger = None,
@@ -88,7 +90,7 @@ class OP(_OPCommandInterface):
             If the 1Password command can't be found
         """
         super().__init__(vault=vault,
-                         account_shorthand=account_shorthand,
+                         account=account,
                          password=password,
                          logger=logger,
                          op_path=op_path,

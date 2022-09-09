@@ -475,8 +475,8 @@ class OP(_OPCommandInterface):
 
     def _sanitize(self):
         self._token = None
-        sess_var_name = 'OP_SESSION_{}'.format(self._account_shorthand)
-        try:
-            env.pop(sess_var_name)
-        except KeyError:
-            pass
+        if self._sess_var:
+            try:
+                env.pop(self._sess_var)
+            except KeyError:
+                pass

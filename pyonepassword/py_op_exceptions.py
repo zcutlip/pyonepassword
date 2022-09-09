@@ -150,3 +150,8 @@ class OPNotFoundException(Exception):
 
 class OPConfigNotFoundException(Exception):
     pass
+
+
+class OPUnknownAccountException(_OPAbstractException):
+    def __init__(self, msg):
+        super().__init__(msg)

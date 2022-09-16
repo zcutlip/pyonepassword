@@ -401,7 +401,7 @@ class OP(_OPCommandInterface):
         return item_list
 
     def signed_in_accounts(self, decode="utf-8") -> OPAccountList:
-        account_list_json = super()._signed_in_accounts(decode)
+        account_list_json = super()._signed_in_accounts(self.op_path, decode=decode)
         account_list = OPAccountList(account_list_json)
         return account_list
 

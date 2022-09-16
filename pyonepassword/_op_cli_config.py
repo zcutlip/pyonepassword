@@ -118,7 +118,7 @@ class OPCLIConfig(dict):
             account_id = self.get("latest_signin")
         if not account_id:  # if shorthand is None or empty string
             raise OPConfigNotFoundException(
-                "No shorthand provided, no sign-ins found.")
+                "No account identifier provided, no sign-ins found.")
 
         config = self.account_map.get(account_id)
         if not config:
@@ -127,6 +127,9 @@ class OPCLIConfig(dict):
                     config = account
                     break
 
+        if config is None:
+            raise OPConfigNotFoundException(
+                f"No config found for account identifier '{account_id}'")
         return config
 
     def uuid_for_account(self, account_identifier) -> str:

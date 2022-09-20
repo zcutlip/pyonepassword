@@ -35,7 +35,7 @@ def test_session_var_property_01(expected_misc_data):
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
-@pytest.mark.usefixtures("setup_alt_op_env")
+@pytest.mark.usefixtures("setup_unauth_op_env")
 def test_use_existing_session_01():
     """
     Simulate an pyonepassword environment that doesn't use biometric auth, and doesn't have

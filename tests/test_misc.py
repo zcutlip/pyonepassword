@@ -40,7 +40,7 @@ def test_uses_bio_property_01():
     simulate an pyonepassword environment that doesn't use biometric auth
     check that op.uses_bio is False
     """
-    op = OP(op_path='mock-op', account_shorthand="example_shorthand")
+    op = OP(op_path='mock-op', account="example_shorthand")
     assert not op._uses_bio
 
 
@@ -53,7 +53,7 @@ def test_session_var_property_01(expected_misc_data):
     - Check that op.session_var gets set properly
     """
     expected_var_name = expected_misc_data.data_for_key("op-session-var")
-    op = OP(op_path='mock-op', account_shorthand="example_shorthand")
+    op = OP(op_path='mock-op', account="example_shorthand")
     assert op.session_var == expected_var_name
 
 

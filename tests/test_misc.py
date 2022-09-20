@@ -73,16 +73,3 @@ def test_use_existing_session_03():
     with pytest.raises(OPNotSignedInException):
         _ = OP(op_path='mock-op', existing_auth=EXISTING_AUTH_AVAIL,
                account="example_shorthand", password_prompt=False)
-
-
-@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
-@pytest.mark.usefixtures("setup_alt_op_env")
-def test_no_shorthand_no_bio_01():
-    """
-    If biometric is disabled, a shorthand is required, so:
-    - Simulate an pyonepassword environment that doesn't use biometric auth
-    - Provide a config that doesn't have a "latest sign-in", so no shorthand
-    - Check that OP() fails with OPNotSignedInException
-    """
-    with pytest.raises(OPNotSignedInException):
-        OP(op_path='mock-op')

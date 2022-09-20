@@ -2,7 +2,7 @@ import os
 
 from pytest import fixture
 
-from pyonepassword import OP
+from pyonepassword import OP, logging
 from pyonepassword.api.exceptions import OPCmdFailedException
 
 from .expected_account_data import ExpectedAccountData
@@ -81,10 +81,11 @@ def _setup_unauth_env():
 
 
 def _get_signed_in_op(account_shorthand, default_vault=None):
+    logger = logging.console_logger("pytest", logging.DEBUG)
     _setup_normal_env()
     try:
         op = OP(vault=default_vault, account_shorthand=account_shorthand,
-                password=OP_MASTER_PASSWORD, op_path='mock-op')
+                password=OP_MASTER_PASSWORD, op_path='mock-op', logger=logger)
     except OPCmdFailedException as e:
         print(f"OP() failed: {e.err_output}")
         raise e

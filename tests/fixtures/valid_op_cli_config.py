@@ -34,6 +34,7 @@ class ValidOPCLIConfig:
             # if we didn't explicitly need XDG_CONFIG_HOME, make sure it hasn't been set
             os.environ.pop('XDG_CONFIG_HOME', None)
 
+        old_umask = os.umask(0o077)
         op_config_path = Path(self._tempdir.name, ".config", "op")
         op_config_path.mkdir(parents=True)
         op_config_path = Path(op_config_path, "config")
@@ -41,6 +42,7 @@ class ValidOPCLIConfig:
             config_text = ValidData().data_for_name(valid_data_key)
         with open(op_config_path, "w") as config:
             config.write(config_text)
+        os.umask(old_umask)
         self._op_config_path = op_config_path
 
     def __del__(self):

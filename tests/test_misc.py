@@ -4,6 +4,7 @@ import pytest
 
 from pyonepassword import OP
 from pyonepassword._op_cli_config import OPCLIConfig
+from pyonepassword.api.authentication import EXISTING_AUTH_AVAIL
 from pyonepassword.api.exceptions import OPNotSignedInException
 
 # ensure HOME env variable is set, and there's a valid op config present
@@ -65,7 +66,7 @@ def test_use_existing_session_01():
     check that OP() fails with OPNotSignedIn
     """
     with pytest.raises(OPNotSignedInException):
-        OP(op_path='mock-op', use_existing_session=True, password_prompt=False)
+        OP(op_path='mock-op', existing_auth=EXISTING_AUTH_AVAIL, password_prompt=False)
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
@@ -78,7 +79,8 @@ def test_use_existing_session_02():
     Check that OP(use_existing_session=True) succeeds
     """
     # with pytest.raises(OPNotSignedInException):
-    _ = OP(op_path='mock-op', use_existing_session=True, password_prompt=False)
+    _ = OP(op_path='mock-op', existing_auth=EXISTING_AUTH_AVAIL,
+           password_prompt=False)
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
@@ -92,8 +94,8 @@ def test_use_existing_session_03():
     Check that OP(use_existing_session=True) fails
     """
     with pytest.raises(OPNotSignedInException):
-        _ = OP(op_path='mock-op', use_existing_session=True,
-               account_shorthand="example_shorthand", password_prompt=False)
+        _ = OP(op_path='mock-op', existing_auth=EXISTING_AUTH_AVAIL,
+               account="example_shorthand", password_prompt=False)
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")

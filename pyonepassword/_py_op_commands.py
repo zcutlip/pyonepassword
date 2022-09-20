@@ -257,7 +257,7 @@ class _OPCommandInterface(_OPCLIExecute):
             env = environ
 
         # this step actually talks to the 1Password account
-        # it uses "op user get --me" which is a very non-intrusive
+        # it uses "op whoami" which is a very non-intrusive
         # query that will fail without authentication
         argv = _OPArgv.whoami_argv(
             self.op_path, account=self._account_identifier)

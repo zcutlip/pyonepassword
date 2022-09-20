@@ -43,7 +43,7 @@ from .valid_op_cli_config import (
 
 TEST_DATA_VAULT = "Test Data"
 OP_MASTER_PASSWORD = "made-up-password"
-ACCOUNT_SHORTHAND = "onepassword_username"
+ACCOUNT_ID = "5GHHPJK5HZC5BAT7WDUXW57G44"
 
 
 @fixture(autouse=True, scope='function')
@@ -80,11 +80,11 @@ def _setup_unauth_env():
     os.environ["LOG_OP_ERR"] = "1"
 
 
-def _get_signed_in_op(account_shorthand, default_vault=None):
+def _get_signed_in_op(account_id, default_vault=None):
     logger = logging.console_logger("pytest", logging.DEBUG)
     _setup_normal_env()
     try:
-        op = OP(vault=default_vault, account_shorthand=account_shorthand,
+        op = OP(vault=default_vault, account=account_id,
                 password=OP_MASTER_PASSWORD, op_path='mock-op', logger=logger)
     except OPCmdFailedException as e:
         print(f"OP() failed: {e.err_output}")
@@ -130,7 +130,7 @@ def setup_op_sess_var_unauth_env(setup_unauth_op_env):
 
 @fixture
 def signed_in_op():
-    op = _get_signed_in_op(ACCOUNT_SHORTHAND)
+    op = _get_signed_in_op(ACCOUNT_ID)
     return op
 
 

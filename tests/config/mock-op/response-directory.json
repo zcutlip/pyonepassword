@@ -326,6 +326,13 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "item-get-example-login-2-vault-test-data"
+    },
+    "--account|5GHHPJK5HZC5BAT7WDUXW57G44|--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami-account-uuid",
+      "changes_state": false
     }
   }
 }

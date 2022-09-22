@@ -20,6 +20,13 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "list-signed-in-accounts"
+    },
+    "--account|5GHHPJK5HZC5BAT7WDUXW57G44|--format|json|whoami": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami-account-uuid",
+      "changes_state": false
     }
   }
 }

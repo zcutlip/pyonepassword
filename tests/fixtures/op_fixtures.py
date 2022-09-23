@@ -110,6 +110,11 @@ def setup_normal_op_env():
 
 
 @fixture
+def setup_no_bio_normal_op_env():
+    _setup_no_bio_normal_env()
+
+
+@fixture
 def setup_normal_op_env_signin_failure():
     _setup_normal_env(signin_success="0")
 
@@ -117,6 +122,11 @@ def setup_normal_op_env_signin_failure():
 @fixture
 def setup_alt_op_env():
     _setup_alt_env()
+
+
+@fixture
+def setup_no_bio_alt_op_env():
+    _setup_no_bio_alt_env()
 
 
 @fixture

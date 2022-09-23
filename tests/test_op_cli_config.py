@@ -74,6 +74,46 @@ def test_op_cli_config_homedir_07(valid_op_cli_config_homedir):
         config.get_config(shorthand)
 
 
+@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
+def test_op_cli_config_alt_acct_identifiers_01(expected_op_config_data: ExpectedConfigData):
+    _sanity_check_standard_home_env()
+    expected = expected_op_config_data.data_for_key("example-account")
+    user_uuid = "5GHHPJK5HZC5BAT7WDUXW57G44"
+    config = OPCLIConfig()
+    result = config.get_config(user_uuid)
+    assert expected.user_uuid == result.user_uuid
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
+def test_op_cli_config_alt_acct_identifiers_02(expected_op_config_data: ExpectedConfigData):
+    _sanity_check_standard_home_env()
+    expected = expected_op_config_data.data_for_key("example-account")
+    user_email = "example_user@example.email"
+    config = OPCLIConfig()
+    result = config.get_config(user_email)
+    assert expected.user_uuid == result.user_uuid
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
+def test_op_cli_config_alt_acct_identifiers_03(expected_op_config_data: ExpectedConfigData):
+    _sanity_check_standard_home_env()
+    expected = expected_op_config_data.data_for_key("example-account")
+    account_uuid = "GRXJAN4BY5DPROISKYL55IRCPY"
+    config = OPCLIConfig()
+    result = config.get_config(account_uuid)
+    assert expected.user_uuid == result.user_uuid
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
+def test_op_cli_config_alt_acct_identifiers_04(expected_op_config_data: ExpectedConfigData):
+    _sanity_check_standard_home_env()
+    expected = expected_op_config_data.data_for_key("example-account")
+    account_url = "https://example-account.1password.com"
+    config = OPCLIConfig()
+    result = config.get_config(account_url)
+    assert expected.user_uuid == result.user_uuid
+
+
 def test_op_cli_config_xdg_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdghome):
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")

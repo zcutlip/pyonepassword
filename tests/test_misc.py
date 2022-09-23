@@ -4,7 +4,10 @@ import pytest
 
 from pyonepassword import OP
 from pyonepassword.api.authentication import EXISTING_AUTH_AVAIL
-from pyonepassword.api.exceptions import OPNotSignedInException
+from pyonepassword.api.exceptions import (
+    OPNotSignedInException,
+    OPUnknownAccountException
+)
 
 # ensure HOME env variable is set, and there's a valid op config present
 # pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
@@ -108,3 +111,14 @@ def test_uses_biometric_class_method_01(console_logger):
     """
 
     assert OP.uses_biometric(op_path="mock-op")
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+@pytest.mark.usefixtures("setup_normal_op_env")
+def test_unknown_accound_identifier_01(console_logger):
+    """
+    Test calling OP.uses_biometric() as a class method
+    """
+    unknown_account = "made-up-account"
+    with pytest.raises(OPUnknownAccountException):
+        OP(op_path="mock-op", account=unknown_account)

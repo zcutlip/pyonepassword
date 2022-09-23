@@ -86,3 +86,13 @@ def test_no_bio_no_account_01(console_logger):
     """
 
     OP(op_path='mock-op', password="made-up-password", logger=console_logger)
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+@pytest.mark.usefixtures("setup_normal_op_env")
+def test_uses_biometric_class_method_01(console_logger):
+    """
+    Test calling OP.uses_biometric() as a class method
+    """
+
+    assert OP.uses_biometric(op_path="mock-op")

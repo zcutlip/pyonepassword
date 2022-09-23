@@ -24,6 +24,7 @@ from ..py_op_exceptions import (
     OPNotSignedInException,
     OPSigninException,
     OPSignoutException,
+    OPUnknownAccountException,
     OPUserGetException,
     OPUserListException,
     OPVaultGetException,

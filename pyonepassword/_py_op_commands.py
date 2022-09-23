@@ -229,18 +229,11 @@ class _OPCommandInterface(_OPCLIExecute):
                 # this is a hard error
                 raise OPNotSignedInException(
                     "Existing authentication specified as required, but could not be verified.")
-            # If we couldn't verify being signed in. we need to authenticate
-            # there are three things that can be used for a new authentication:
-            # - biometric
-            # - password
-            # - allow 'op' to interactively prompt
-            if not self._uses_bio and not password and not password_prompt:
-                # we need to authenticate, but don't have at least one of the three options
-                # so not being signed in is an error
-                raise OPNotSignedInException(
-                    "No existing authentication, biometric not enabled, and no password provided.")
+
             # we couldn't verify being signed in (or weren't told to try)
             # let's try a normal sign-in
+            # _do_normal_signin() will raise OPNotSignedInException if
+            # _uses_bio is false, no password given, and password prompt not allowed
             token = self._do_normal_signin(password, password_prompt)
             account = self._verify_signin(token=token)
         return (account, token)
@@ -284,10 +277,20 @@ class _OPCommandInterface(_OPCLIExecute):
         return account
 
     def _do_normal_signin(self, password: str, password_prompt: bool) -> Union[str, None]:
+        # normalize empty string to None, otherwise use password as given
+        password = None if password == "" else password
+
+        # there are three things that can be used for a *new* authentication:
+        # - biometric
+        # - password
+        # - allow 'op' to interactively prompt
+        # NOTE: we need to keep this check as close to the call to _run_signin() as possible
+        #       We can't tell 'op' not to prompt. We just have to not run it if we're not prompting
         if not self._uses_bio and not password and not password_prompt:
             # - we weren't provided a password, and
             # - we were told not to let 'op' prompt for a password, and
             # - biometric is not enabled
+            # so we can't sign in
             raise OPNotSignedInException(
                 "No existing session and no password provided.")
         signin_argv = _OPArgv.normal_signin_argv(

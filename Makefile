@@ -5,8 +5,8 @@ NPROCS=$(shell nproc)
 COV_STAMP=.cov_stamp
 HTML_REPORT_STAMP=".html_report_stamp"
 
-PYONEPASSWORD_SRC_FILES=$(shell find ./pyonepassword -name \*py -print)
-PYONEPASSWORD_TEST_FILES=$(shell find tests -name \*pyc -prune -o  -name reports -prune -o -type f -print)
+PYONEPASSWORD_SRC_FILES=$(shell find ./pyonepassword -name \*\.py -print)
+PYONEPASSWORD_TEST_FILES=$(shell find tests -name \*\.pyc -prune -o  -name reports -prune -o -type f -print)
 
 all:
 	@echo "make pytest-coverage for coverage report"

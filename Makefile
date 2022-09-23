@@ -21,10 +21,12 @@ coverage-report: $(COV_STAMP)
 	coverage report > $(COV_REPORT_FILE)
 
 $(COV_STAMP): $(PYONEPASSWORD_SRC_FILES) $(PYONEPASSWORD_TEST_FILES)
+	# not strictly necessary to erase previous coverage but stale
+	# coverage can result in errors in some cases
+	# see https://coverage.readthedocs.io/en/latest/faq.html
+	coverage erase
 	pytest --cov=pyonepassword --cov-report= -n $(NPROCS)
 	touch $@
-
-
 
 
 clean-coverage:

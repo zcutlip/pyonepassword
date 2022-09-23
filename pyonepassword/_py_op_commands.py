@@ -241,12 +241,18 @@ class _OPCommandInterface(_OPCLIExecute):
     def _verify_signin(self, token=None):
         account: OPAccount = None
         if token and self._sess_var:
+            # we need to pass an environment dictionary to subprocess.run() that contains
+            # the session token we're trying to verify
+            #
             # make a copy of environment rather than modifying actual env
             # in order to verify login
             # we'll offically set it once we know it works
             env = dict(environ)
             env[self._sess_var] = token
         else:
+            # we don't have a token to verify
+            # so no need to modify or copy the environment
+            # we can use it as-is
             env = environ
 
         # this step actually talks to the 1Password account

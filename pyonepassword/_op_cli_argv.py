@@ -213,7 +213,7 @@ class _OPArgv(list):
         return argv_obj
 
     @classmethod
-    def signout_argv(cls, op_exe, account_shorthand: str, session: str, forget=False, uses_bio=False):
+    def signout_argv(cls, op_exe, account_shorthand: str, session: str, forget=False, uses_bio=False):  # pragma: no cover
         global_args = []
         if not uses_bio:
             global_args = ["--account",
@@ -225,7 +225,7 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def forget_argv(cls, op_exe, account_shorthand):
+    def forget_argv(cls, op_exe, account_shorthand):  # pragma: no cover
         forget_args = [account_shorthand]
         argv = cls(op_exe, "forget", forget_args)
         return argv

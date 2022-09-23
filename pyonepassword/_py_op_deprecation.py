@@ -9,7 +9,7 @@ https://github.com/scikit-learn/scikit-learn/blob/master/sklearn/utils/deprecati
 """
 
 
-class deprecated:
+class deprecated:  # pragma: no cover
 
     def __init__(self, extra=""):
         self.extra = extra
@@ -88,7 +88,7 @@ def deprecated_kwargs(**kwarg_aliases: str) -> Callable:
     return deco
 
 
-def _rename_kwargs(func_name: str, kwargs: Dict[str, Any], kwarg_aliases: Dict[str, str]):
+def _rename_kwargs(func_name: str, kwargs: Dict[str, Any], kwarg_aliases: Dict[str, str]):  # pragma: no cover
     """Helper function for deprecating function arguments."""
     for old_kwarg, new_kwarg in kwarg_aliases.items():
         if old_kwarg in kwargs:

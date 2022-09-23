@@ -278,7 +278,7 @@ class _OPCommandInterface(_OPCLIExecute):
                     unknown_err = False
                     break
             # there was a different error so raise the exception
-            if unknown_err:
+            if unknown_err:  # pragma: no cover
                 raise opfe
 
         return account
@@ -421,7 +421,7 @@ class _OPCommandInterface(_OPCLIExecute):
         except OPCmdFailedException as ocfe:
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
-        if self._cli_version <= DOCUMENT_BYTES_BUG_VERSION:
+        if self._cli_version <= DOCUMENT_BYTES_BUG_VERSION:  # pragma: no cover
             # op v2.x appends an erroneous \x0a ('\n') byte to document bytes
             # trim it off if its present
             if document_bytes[-1] == 0x0a:
@@ -499,7 +499,7 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPVaultListException.from_opexception(ocfe)
         return output
 
-    def _signout(self, account, session, forget=False):
+    def _signout(self, account, session, forget=False):   # pragma: no cover
         if forget and self._uses_bio:
             self.logger.warn(
                 "Biometric is enabled. 'forget' operation will have no effect.")
@@ -508,7 +508,7 @@ class _OPCommandInterface(_OPCLIExecute):
         self._run(argv)
 
     @classmethod
-    def _forget(cls, account: str, op_path=None):
+    def _forget(cls, account: str, op_path=None):   # pragma: no cover
         if not op_path:
             op_path = cls.OP_PATH
         argv = _OPArgv.forget_argv(op_path, account)

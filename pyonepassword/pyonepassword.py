@@ -405,7 +405,7 @@ class OP(_OPCommandInterface):
         account_list = OPAccountList(account_list_json)
         return account_list
 
-    def signout(self, forget=False):
+    def signout(self, forget=False):  # pragma: no coverage
         """
         Sign out of the account used to create this OP instance
         This is equivalent to the command 'op signout'
@@ -441,7 +441,7 @@ class OP(_OPCommandInterface):
         self._sanitize()
 
     @classmethod
-    def forget(cls, account: str, op_path=None):
+    def forget(cls, account: str, op_path=None):  # pragma: no coverage
         """
         Remove details for the specified account from this device
         This is equivalent to the command 'op forget <account>'
@@ -473,7 +473,7 @@ class OP(_OPCommandInterface):
         except OPCmdFailedException as ocfe:
             raise OPForgetException.from_opexception(ocfe) from ocfe
 
-    def _sanitize(self):
+    def _sanitize(self):  # pragma: no coverage
         self._token = None
         if self._sess_var:
             try:

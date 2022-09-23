@@ -335,3 +335,9 @@ def invalid_op_cli_config_missing():
 def invalid_op_cli_config_malformed():
     config_obj = MalformedOPCLIConfig()
     return config_obj
+
+
+@fixture
+def console_logger():
+    logger = logging.console_logger("pytest", logging.DEBUG)
+    return logger

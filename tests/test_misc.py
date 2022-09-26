@@ -69,6 +69,8 @@ def test_use_existing_session_03():
     - doesn't use biometric
     - DOES have OP_SESSION_<user uuid> env variable set
     - session token not valid
+    Tell OP to use an exsiting session if available, but don't provide a password
+
     Check that OP(use_existing_session=True) fails
     """
     with pytest.raises(OPNotSignedInException):

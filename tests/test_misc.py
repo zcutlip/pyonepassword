@@ -58,9 +58,7 @@ def test_use_existing_session_02():
     - DOES have OP_SESSION_<user uuid> env variable set
     Check that OP(use_existing_session=True) succeeds
     """
-    # with pytest.raises(OPNotSignedInException):
-    _ = OP(op_path='mock-op', existing_auth=EXISTING_AUTH_AVAIL,
-           password_prompt=False)
+    OP(op_path='mock-op', existing_auth=EXISTING_AUTH_AVAIL, password_prompt=False)
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")

@@ -79,6 +79,22 @@ def test_use_existing_session_03():
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
+@pytest.mark.usefixtures("setup_op_sess_var_alt_env")
+def test_use_existing_session_04():
+    """
+    Simulate a pyonepassword environment that:
+    - no "latest_signin" to infer account identifier from
+    - doesn't use biometric
+    - DOES have OP_SESSION_<user uuid> env variable set
+    - session token is valid
+
+    test that OP_SESSION environment variable name is inferred at set without providing shorthand
+    """
+
+    OP(op_path='mock-op', existing_auth=EXISTING_AUTH_AVAIL, password_prompt=False)
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
 @pytest.mark.usefixtures("setup_no_bio_alt_op_env")
 def test_no_bio_no_account_01(console_logger):
     """

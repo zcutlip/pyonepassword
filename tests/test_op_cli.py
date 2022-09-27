@@ -4,6 +4,7 @@ from pyonepassword import OP
 from pyonepassword.api.exceptions import OPNotFoundException, OPSigninException
 
 
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
 def test_missing_op():
     with pytest.raises(OPNotFoundException):
         OP(op_path="no-such-op")

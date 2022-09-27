@@ -1,4 +1,5 @@
 import os
+import tempfile
 
 from pytest import fixture
 
@@ -57,6 +58,26 @@ def save_restore_env():
     yield
     os.environ.clear()
     os.environ.update(orig_env)
+
+
+@fixture(autouse=True, scope="function")
+def temp_home():
+    """
+    Ensure no test is inadvertantly relying on the real user's op config/home directory
+    Set $HOME to an empty tmpdir
+    If a test needs a valid op config/home directory, it should explicitly request
+    one using a fixture
+    """
+    old_home = os.environ.get('HOME')
+    tmp_home = tempfile.TemporaryDirectory().name
+    os.environ['HOME'] = tmp_home
+    yield
+    os.environ.pop('HOME', None)
+    if old_home is not None:
+        # only restore HOME env variable if it was set to start with
+        # in some minimal environments (e.g., some docker containers) there
+        # is no $HOME env variable
+        os.environ['HOME'] = old_home
 
 
 def _setup_normal_env(signin_success="1"):

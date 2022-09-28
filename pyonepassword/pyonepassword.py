@@ -61,18 +61,21 @@ class OP(_OPCommandInterface):
         vault : str, optional
             If set, this becomes the default argument to the --vault flag
             for future queries.
-        account_shorthand : str, optional
-            The shorthand name for the account on this device. You may choose this
-            during initial signin, otherwise 1Password converts it from your account
-            address. See 'op signin --help' for more information.
+        account : str, optional
+            May be any account identifier accepted by the op --account flag:
+            account shorthand, sign-in address, account ID, or user ID
         password : str, optional
             If provided, the password will be piped to the 'op' command over stdin
         logger : logging.Logger
             A logging object. If not provided a basic logger is created and used
         op_path : str, optional
             Optional path to the `op` command, if it's not at the default location
-        use_existing_session : bool
-            Whether an existing login session should be used if possible
+        existing_auth : ExistingAuthEnum
+            Whether existing authentication should be must be used, used if possible, or ignored
+            Valid values:
+              - EXISTING_AUTH_AVAIL: Use existing authentication if available
+              - EXISTING_AUTH_IGNORE: Reauthenticate, ignoring any existing authentication
+              - EXISTING_AUTH_REQD: Use existing authentication, failing if there isn't a valid session available
         password_prompt : bool
             Whether an interactive password prompt on the console should be presented if necessary
 

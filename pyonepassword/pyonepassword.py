@@ -43,18 +43,7 @@ class OP(_OPCommandInterface):
                  use_existing_session: bool = False,
                  password_prompt: bool = True):
         """
-        Create an OP object. The 1Password sign-in happens during object instantiation.
-
-        Authentication is attempted in the following order:
-        - If use_existing_session is True and a session token is found
-          in an OP_SESSION_<user UUID> environment variable, that session is verified
-          and used
-        - If biometric authentication is enabled, it will be used
-        - If 'password' is provided, it will be provided to the 'op' command
-        - If no password is provided, but password_prompt is True, 'op' will be allowed to prompt for a password
-        - If authentication is attempted and failed (password or biometric), OPSigninException is raised
-        - If no authentication is attempted and (no password, no password prompt, biometric not enabled), and no
-          valid session is found, OPNotSignedInException is raised
+        Create an OP object. The 1Password (non-initial) sign-in happens during object instantiation.
 
         Parameters
         ----------

@@ -53,7 +53,7 @@ def test_item_section_01(valid_data: ValidData, expected_login_item_data: Expect
     assert result.value == expected_field.value
 
 
-def test_item_section_02(valid_data: ValidData, expected_login_item_data: ExpectedItemFieldData):
+def test_item_section_03(valid_data: ValidData, expected_login_item_data: ExpectedItemFieldData):
     item_name = "Example Login with Fields"
     section_id = "vh4wk7qyw46urc7wuwczzhpm7u"
     field_label = "Second Example Field"

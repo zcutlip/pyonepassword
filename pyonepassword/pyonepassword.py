@@ -1,7 +1,11 @@
 import logging
 from os import environ as env
 
-from ._py_op_commands import _OPCommandInterface
+from ._py_op_commands import (
+    EXISTING_AUTH_IGNORE,
+    ExistingAuthEnum,
+    _OPCommandInterface
+)
 from ._py_op_deprecation import deprecated_kwargs
 from .account import OPAccountList
 from .op_items._item_list import OPItemList
@@ -36,7 +40,7 @@ class OP(_OPCommandInterface):
                  account: str = None,
                  account_shorthand: str = None,
                  password: str = None,
-                 existing_auth: bool = False,
+                 existing_auth: ExistingAuthEnum = EXISTING_AUTH_IGNORE,
                  use_existing_session: bool = False,
                  password_prompt: bool = True,
                  vault: str = None,

@@ -54,13 +54,13 @@ class _OPCommandInterface(_OPCLIExecute):
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
     def __init__(self,
-                 vault=None,
                  account=None,
                  password=None,
-                 logger=None,
-                 op_path=OP_PATH,
                  existing_auth: ExistingAuthEnum = EXISTING_AUTH_IGNORE,
-                 password_prompt=True):
+                 vault=None,
+                 password_prompt=True,
+                 op_path=OP_PATH,
+                 logger=None):
         """
         Create an OP object. The 1Password sign-in happens during object instantiation.
         If 'password' is not provided, the 'op' command will prompt on the console for a password.

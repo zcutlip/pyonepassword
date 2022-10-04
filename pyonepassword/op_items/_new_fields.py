@@ -37,7 +37,7 @@ class OPNewItemField(OPItemField):
         if is_uuid(field_id):
             field_id = str(OPUniqueIdentifierHex())
         label = field["label"]
-        value = field["label"]
+        value = field["value"]
         new_field = cls(label, value, field_id=field_id, section=section)
         return new_field
 

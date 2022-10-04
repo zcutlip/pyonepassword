@@ -186,7 +186,7 @@ class _OPArgv(list):
         return cls(op_exe, "signin", argv, global_args=global_args)
 
     @classmethod
-    def item_template_list_argv(cls, op_exe):
+    def item_template_list_argv(cls, op_exe):  # pragma: no cover
         sub_command = "template"
         sub_cmd_args = ["list"]
 

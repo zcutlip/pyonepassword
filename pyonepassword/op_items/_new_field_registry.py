@@ -16,8 +16,8 @@ class OPItemFieldFactory:
     _TYPE_REGISTRY = {}
 
     @classmethod
-    def register_op_field_type(cls, item_type, item_class):
-        cls._TYPE_REGISTRY[item_type] = item_class
+    def register_op_field_type(cls, item_class):
+        cls._TYPE_REGISTRY[item_class.FIELD_TYPE] = item_class
 
     @classmethod
     def _field_from_dict(cls, field_dict, section):
@@ -43,6 +43,5 @@ class OPItemFieldFactory:
 
 
 def op_register_item_field_type(item_class):
-    item_type = item_class.FIELD_TYPE
-    OPItemFieldFactory.register_op_field_type(item_type, item_class)
+    OPItemFieldFactory.register_op_field_type(item_class)
     return item_class

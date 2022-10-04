@@ -38,7 +38,7 @@ class OPItemFieldFactory:
         except JSONDecodeError as jdce:
             raise OPInvalidFieldException(
                 f"Failed to unserialize field JSON: {jdce}") from jdce
-        obj = cls._field_from_dict(field_dict)
+        obj = cls._field_from_dict(field_dict, section)
         return obj
 
 

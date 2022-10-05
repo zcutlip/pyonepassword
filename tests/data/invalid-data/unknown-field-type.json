@@ -1,0 +1,7 @@
+{
+    "id": "username",
+    "label": "username",
+    "value": "new_user",
+    "type": "UNKNOWN_TYPE",
+    "purpose": "USERNAME"
+}

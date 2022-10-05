@@ -38,5 +38,13 @@
     "malformed-op-config-json": {
         "name": "malformed-op-config-json.txt",
         "type": "text"
+    },
+    "unknown-field-type": {
+        "name": "unknown-field-type.json",
+        "type": "json"
+    },
+    "malformed-field-json": {
+        "name": "malformed-field-json.txt",
+        "type": "text"
     }
 }

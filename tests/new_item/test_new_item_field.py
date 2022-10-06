@@ -2,7 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pyonepassword.op_items._new_fields import OPNewUsernameField
+from pyonepassword.op_items._new_fields import (
+    OPNewStringField,
+    OPNewUsernameField
+)
 from pyonepassword.op_items.item_section import OPItemField
 
 if TYPE_CHECKING:
@@ -115,3 +118,18 @@ def test_new_username_field_08(valid_data: ValidData, expected_item_field_data: 
     new_field = OPNewUsernameField.from_field(existing_field)
 
     assert new_field.purpose == expected.purpose
+
+
+def test_new_field_from_field_with_uuid_01(valid_data: ValidData,
+                                           expected_item_field_data: ExpectedItemFieldData):
+    """
+    Create a new field from an existing field that has a hex UUID for field ID
+    Verify the new field has a newly generated ID that is not the same as the original
+    """
+    field_dict = valid_data.data_for_name("example-field-with-uuid")
+    existing_field = OPItemField(field_dict)
+
+    new_field = OPNewStringField.from_field(existing_field)
+    print(existing_field.field_id)
+    print(new_field.field_id)
+    assert new_field.field_id != existing_field.field_id

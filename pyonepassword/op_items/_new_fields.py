@@ -2,7 +2,7 @@ from typing import Any
 
 from ._new_field_registry import op_register_item_field_type
 from .item_section import OPItemField, OPSection
-from .uuid import OPUniqueIdentifierHex, is_uuid
+from .uuid import OPUniqueIdentifierBase32, is_uuid
 
 
 class OPNewItemField(OPItemField):
@@ -10,12 +10,12 @@ class OPNewItemField(OPItemField):
     FIELD_PURPOSE = None
 
     def __init__(self, field_label: str, value: Any, field_id=None, section: OPSection = None):
-        if not self.FIELD_TYPE:
+        if not self.FIELD_TYPE:  # pragma: no cover
             raise TypeError(
                 f"{self.__class__.__name__} must be overridden and FIELD_TYPE set")
 
         if not field_id:
-            unique_id = OPUniqueIdentifierHex()
+            unique_id = OPUniqueIdentifierBase32()
             field_id = str(unique_id)
         field_dict = {
             "id": field_id,
@@ -35,7 +35,7 @@ class OPNewItemField(OPItemField):
     def from_field(cls, field: OPItemField, section: OPSection = None):
         field_id = field["id"]
         if is_uuid(field_id):
-            field_id = str(OPUniqueIdentifierHex())
+            field_id = str(OPUniqueIdentifierBase32())
         label = field["label"]
         value = field["value"]
         new_field = cls(label, value, field_id=field_id, section=section)

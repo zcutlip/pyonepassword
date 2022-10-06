@@ -15,5 +15,12 @@
         "value": "W9bZ@ZwGpRXCqnWt",
         "entropy": 94.353515625,
         "reference": "op://Test Data/Example Login 1/password"
+    },
+    "example-field-with-uuid": {
+        "id": "zyhpoqkrwjtrq6qh5vhwylh6ie",
+        "type": "STRING",
+        "label": "Example Field",
+        "value": "This is the text for the second instance of Example Field",
+        "reference": "op://Test Data/Example Login with Fields/Example Section 2/Example Field"
     }
 }

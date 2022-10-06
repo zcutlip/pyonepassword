@@ -120,8 +120,7 @@ def test_new_username_field_08(valid_data: ValidData, expected_item_field_data: 
     assert new_field.purpose == expected.purpose
 
 
-def test_new_field_from_field_with_uuid_01(valid_data: ValidData,
-                                           expected_item_field_data: ExpectedItemFieldData):
+def test_new_field_generate_uuid_01(valid_data: ValidData):
     """
     Create a new field from an existing field that has a hex UUID for field ID
     Verify the new field has a newly generated ID that is not the same as the original

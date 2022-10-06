@@ -22,5 +22,9 @@
     "example-login-with-fields": {
         "name": "example-login-with-fields.json",
         "type": "json"
+    },
+    "example-field-with-uuid": {
+        "name": "example-field-with-uuid.json",
+        "type": "json"
     }
 }

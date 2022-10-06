@@ -7,7 +7,7 @@ from ._new_field_registry import OPItemFieldFactory
 from ._new_fields import OPNewItemField
 from .item_section import OPItemField, OPSection, OPSectionCollisionException
 from .template_directory import OPTemplateDirectory
-from .uuid import OPUniqueSectionIdentifier, is_uuid
+from .uuid import OPUniqueIdentifierBase32, is_uuid
 
 
 class OPNewItemDataCollisionException(Exception):
@@ -17,7 +17,7 @@ class OPNewItemDataCollisionException(Exception):
 class OPNewSection(OPSection):
     def __init__(self, section_label: str, section_id: str = None):
         if not section_id:
-            unique_id = OPUniqueSectionIdentifier()
+            unique_id = OPUniqueIdentifierBase32()
             section_id = str(unique_id)
         section_dict = {
             "id": section_id,
@@ -29,7 +29,7 @@ class OPNewSection(OPSection):
     def from_section(cls, section: OPSection):
         section_id = section.section_id
         if is_uuid(section_id):
-            section_id = str(OPUniqueSectionIdentifier())
+            section_id = str(OPUniqueIdentifierBase32())
         label = section.label
         return cls(label, section_id=section_id)
 

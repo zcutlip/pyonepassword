@@ -50,5 +50,9 @@
     "expected-misc-data": {
         "name": "expected-misc-data.json",
         "type": "json"
+    },
+    "expected-item-section-data": {
+        "name": "expected-item-section-data.json",
+        "type": "json"
     }
 }

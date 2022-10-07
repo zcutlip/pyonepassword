@@ -79,6 +79,11 @@ class ExpectedData(ValidData):
         return data
 
     @property
+    def item_sections(self) -> Dict[str, Dict]:
+        data = self.data_for_name("expected-item-section-data")
+        return data
+
+    @property
     def op_config_data(self) -> Dict[str, Dict]:
         data = self.data_for_name("expected-op-config-data")
         return data

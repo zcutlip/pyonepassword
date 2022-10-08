@@ -30,5 +30,10 @@
     "example-item-section-1": {
         "name": "example-item-section-1.json",
         "type": "json"
+    },
+    "example-item-section-no-uuid":{
+        "name": "example-item-section-no-uuid.json",
+        "type": "json"
+
     }
 }

@@ -99,6 +99,13 @@ class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
                  password: str = None,
                  url: OPLoginItemURL = None):
 
+        # were we provided a URL string intead of a OPLoginItemURL object?
+        # We can't just create an object because we don't know what the label should be
+        # TODO: should we just apply a standard primary URL label, like "website"?
+        if url is not None and not isinstance(url, OPLoginItemURL):
+            raise OPNewLoginItemURLException(
+                "URL must be in instance of OPLoginItemURL. Create a new one with OPLoginItemNewURL, or OPLoginItemNewPrimaryURL")
+
         username_field = OPNewUsernameField(
             self.FIELD_ID_USERNAME,
             username,

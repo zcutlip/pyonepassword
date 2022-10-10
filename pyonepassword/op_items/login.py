@@ -120,6 +120,8 @@ class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
         fields = [username_field, password_field]
         urls = []
         if url:
+            if not url.primary:
+                raise OPNewLoginItemURLException("Sole URL must be primary")
             urls.append(url)
         extra_data = {"urls": urls}
         super().__init__(title, fields=fields, extra_data=extra_data)

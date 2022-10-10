@@ -82,9 +82,13 @@ class OPNewItemMixin:
         return temp.name
 
     def __del__(self):
-        while self._temp_files:
-            t = self._temp_files.pop()
-            try:
-                os.unlink(t)
-            except FileNotFoundError:
-                continue
+
+        # if we blow up during object initialization
+        # _temp_files may not exist, so check first
+        if hasattr(self, "_temp_files"):
+            while self._temp_files:
+                t = self._temp_files.pop()
+                try:
+                    os.unlink(t)
+                except FileNotFoundError:
+                    continue

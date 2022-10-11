@@ -35,5 +35,9 @@
         "name": "example-item-section-no-uuid.json",
         "type": "json"
 
+    },
+    "example-field-no-uuid": {
+        "name": "example-field-no-uuid.json",
+        "type": "json"
     }
 }

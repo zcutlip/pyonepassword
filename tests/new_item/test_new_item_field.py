@@ -6,6 +6,7 @@ from pyonepassword.op_items._new_fields import (
     OPNewStringField,
     OPNewUsernameField
 )
+from pyonepassword.op_items._new_item import OPNewSection
 from pyonepassword.op_items.item_section import OPItemField
 
 if TYPE_CHECKING:
@@ -183,3 +184,26 @@ def test_new_field_generate_uuid_02(valid_data: ValidData):
     assert new_field_1.field_id is not None
     assert new_field_2.field_id is not None
     assert new_field_1.field_id != new_field_2.field_id
+
+
+def test_new_field_with_section_01(valid_data: ValidData):
+    """
+    Create:
+      - a new section
+      - new field, registering with the new section
+
+    Verify new_field.section_id matches new_section.section_id
+    """
+    section_dict = valid_data.data_for_name("example-item-section-1")
+    field_dict = valid_data.data_for_name("example-field-no-uuid")
+    f_label = field_dict["label"]
+    f_value = field_dict["value"]
+    f_id = field_dict["id"]
+
+    s_label = section_dict["label"]
+    new_section = OPNewSection(s_label)
+
+    new_field = OPNewStringField(
+        f_label, f_value, field_id=f_id, section=new_section)
+
+    assert new_field.section_id == new_section.section_id

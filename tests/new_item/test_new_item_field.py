@@ -17,6 +17,10 @@ if TYPE_CHECKING:
 
 
 def test_new_username_field_01(valid_data: ValidData, expected_item_field_data: ExpectedItemFieldData):
+    """
+    Create a new OPUsernameField
+    Verify the 'value' property
+    """
     expected: ExpectedItemField
 
     expected = expected_item_field_data.data_for_key("example-login-username")
@@ -30,6 +34,10 @@ def test_new_username_field_01(valid_data: ValidData, expected_item_field_data: 
 
 
 def test_new_username_field_02(valid_data: ValidData, expected_item_field_data: ExpectedItemFieldData):
+    """
+    Create a new OPUsernameField
+    Verify the 'field_id' property
+    """
     expected: ExpectedItemField
 
     expected = expected_item_field_data.data_for_key("example-login-username")
@@ -43,6 +51,10 @@ def test_new_username_field_02(valid_data: ValidData, expected_item_field_data: 
 
 
 def test_new_username_field_03(valid_data: ValidData, expected_item_field_data: ExpectedItemFieldData):
+    """
+    Create a new OPUsernameField
+    Verify the 'label' property
+    """
     expected: ExpectedItemField
 
     expected = expected_item_field_data.data_for_key("example-login-username")
@@ -56,6 +68,10 @@ def test_new_username_field_03(valid_data: ValidData, expected_item_field_data: 
 
 
 def test_new_username_field_04(valid_data: ValidData, expected_item_field_data: ExpectedItemFieldData):
+    """
+    Create a new OPUsernameField
+    Verify the 'purpose' property
+    """
     expected: ExpectedItemField
 
     expected = expected_item_field_data.data_for_key("example-login-username")
@@ -69,6 +85,10 @@ def test_new_username_field_04(valid_data: ValidData, expected_item_field_data: 
 
 
 def test_new_username_field_05(valid_data: ValidData, expected_item_field_data: ExpectedItemFieldData):
+    """
+    Create a new field from an existing field
+    Verify the 'value' property
+    """
     expected: ExpectedItemField
 
     expected = expected_item_field_data.data_for_key("example-login-username")
@@ -82,6 +102,10 @@ def test_new_username_field_05(valid_data: ValidData, expected_item_field_data: 
 
 
 def test_new_username_field_06(valid_data: ValidData, expected_item_field_data: ExpectedItemFieldData):
+    """
+    Create a new field from an existing field
+    Verify the 'field_id' property
+    """
     expected: ExpectedItemField
 
     expected = expected_item_field_data.data_for_key("example-login-username")
@@ -95,6 +119,10 @@ def test_new_username_field_06(valid_data: ValidData, expected_item_field_data: 
 
 
 def test_new_username_field_07(valid_data: ValidData, expected_item_field_data: ExpectedItemFieldData):
+    """
+    Create a new field from an existing field
+    Verify the 'label' property
+    """
     expected: ExpectedItemField
 
     expected = expected_item_field_data.data_for_key("example-login-username")
@@ -108,6 +136,10 @@ def test_new_username_field_07(valid_data: ValidData, expected_item_field_data: 
 
 
 def test_new_username_field_08(valid_data: ValidData, expected_item_field_data: ExpectedItemFieldData):
+    """
+    Create a new field from an existing field
+    Verify the 'purpose' property
+    """
     expected: ExpectedItemField
 
     expected = expected_item_field_data.data_for_key("example-login-username")

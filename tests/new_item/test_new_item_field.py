@@ -2,12 +2,17 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import pytest
+
 from pyonepassword.op_items._new_fields import (
     OPNewStringField,
     OPNewUsernameField
 )
 from pyonepassword.op_items._new_item import OPNewSection
-from pyonepassword.op_items.item_section import OPItemField
+from pyonepassword.op_items.item_section import (
+    OPItemField,
+    OPItemFieldCollisionException
+)
 
 if TYPE_CHECKING:
     from ..fixtures.expected_item_fields import (
@@ -207,3 +212,25 @@ def test_new_field_with_section_01(valid_data: ValidData):
         f_label, f_value, field_id=f_id, section=new_section)
 
     assert new_field.section_id == new_section.section_id
+
+
+def test_new_field_with_section_02(valid_data: ValidData):
+    """
+    create a new section and a new field registered to the section. Then create a second, identical
+    field registered to the same section
+
+    Verify OPItemFieldCollisionException is raised
+    """
+    section_dict = valid_data.data_for_name("example-item-section-1")
+    field_dict = valid_data.data_for_name("example-field-no-uuid")
+    f_label = field_dict["label"]
+    f_value = field_dict["value"]
+    f_id = field_dict["id"]
+
+    s_label = section_dict["label"]
+    new_section = OPNewSection(s_label)
+
+    _ = OPNewStringField(f_label, f_value, field_id=f_id, section=new_section)
+
+    with pytest.raises(OPItemFieldCollisionException):
+        OPNewStringField(f_label, f_value, field_id=f_id, section=new_section)

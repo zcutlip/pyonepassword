@@ -6,6 +6,7 @@ from ._new_fields import OPNewPasswordField, OPNewUsernameField
 from ._new_item import OPNewItemMixin
 from ._op_item_type_registry import op_register_item_type
 from ._op_items_base import OPAbstractItem
+from .item_section import OPItemField, OPSection
 
 
 class OPNewLoginItemURLException(Exception):
@@ -97,7 +98,9 @@ class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
                  title: str,
                  username: str,
                  password: str = None,
-                 url: OPLoginItemURL = None):
+                 url: OPLoginItemURL = None,
+                 fields: List[OPItemField] = [],
+                 sections: List[OPSection] = []):
 
         # were we provided a URL string intead of a OPLoginItemURL object?
         # We can't just create an object because we don't know what the label should be
@@ -117,14 +120,14 @@ class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
             password,
             field_id=self.FIELD_ID_PASSWORD
         )
-        fields = [username_field, password_field]
+        fields.extend([username_field, password_field])
         urls = []
         if url:
             if not url.primary:
                 raise OPNewLoginItemURLException("Sole URL must be primary")
             urls.append(url)
         extra_data = {"urls": urls}
-        super().__init__(title, fields=fields, extra_data=extra_data)
+        super().__init__(title, sections=sections, fields=fields, extra_data=extra_data)
 
     def add_url(self, url: OPLoginItemURL):
         has_primary = False

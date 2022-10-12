@@ -31,6 +31,15 @@ class OPNewItemField(OPItemField):
         if section:
             section.register_field(self)
 
+    def update_section(self, section: OPSection):
+        """
+        Update a field's associated section in the event
+        a section's UUID was regenerated
+        """
+        if self.section_id != section.section_id:
+            self["section"] = dict(section)
+            section.register_field(self)
+
     @classmethod
     def from_field(cls, field: OPItemField, section: OPSection = None):
         field_id = field["id"]

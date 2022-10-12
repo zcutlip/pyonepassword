@@ -10,6 +10,10 @@ from .item_section import (
 )
 
 
+class OPSectionNotFoundException(Exception):
+    pass
+
+
 class OPFieldNotFoundException(Exception):
     pass
 
@@ -46,11 +50,12 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         return matching_sections
 
     def section_by_id(self, section_id) -> OPSection:
-        section: OPSection
-        for sect in self.sections:
-            if sect.section_id == section_id:
-                section = sect
-                break
+        try:
+            section: OPSection = self._section_map[section_id]
+        except KeyError:
+            raise OPSectionNotFoundException(
+                f"Section not found with Section ID: {section_id}")
+
         return section
 
     def first_section_by_label(self, label, case_sensitive=True) -> OPSection:

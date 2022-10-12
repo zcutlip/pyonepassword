@@ -1,5 +1,5 @@
 {
-    "id": "non_uuid_field_id",
+    "id": "non_uuid_field_id_1",
     "type": "STRING",
     "label": "Example Field No UUID",
     "value": "This is the text for the second instance of Example Field",

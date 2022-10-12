@@ -200,7 +200,7 @@ def test_new_field_with_section_01(valid_data: ValidData):
     Verify new_field.section_id matches new_section.section_id
     """
     section_dict = valid_data.data_for_name("example-item-section-1")
-    field_dict = valid_data.data_for_name("example-field-no-uuid")
+    field_dict = valid_data.data_for_name("example-field-no-uuid-1")
     f_label = field_dict["label"]
     f_value = field_dict["value"]
     f_id = field_dict["id"]
@@ -222,7 +222,7 @@ def test_new_field_with_section_02(valid_data: ValidData):
     Verify OPItemFieldCollisionException is raised
     """
     section_dict = valid_data.data_for_name("example-item-section-1")
-    field_dict = valid_data.data_for_name("example-field-no-uuid")
+    field_dict = valid_data.data_for_name("example-field-no-uuid-1")
     f_label = field_dict["label"]
     f_value = field_dict["value"]
     f_id = field_dict["id"]

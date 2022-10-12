@@ -1,0 +1,7 @@
+{
+    "id": "non_uuid_field_id_2",
+    "type": "STRING",
+    "label": "Example Field No UUID",
+    "value": "This is the text for the second instance of Example Field",
+    "reference": "op://Test Data/Example Login with Fields/Example Section 2/Example Field"
+}

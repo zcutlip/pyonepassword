@@ -1,9 +1,5 @@
 {
     "id": "zyhpoqkrwjtrq6qh5vhwylh6ie",
-    "section": {
-        "id": "a5cwhzimcjiytoere7palzuoni",
-        "label": "Example Section 2"
-    },
     "type": "STRING",
     "label": "Example Field",
     "value": "This is the text for the second instance of Example Field",

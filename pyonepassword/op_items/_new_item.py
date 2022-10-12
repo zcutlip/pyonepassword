@@ -43,10 +43,14 @@ class OPNewItemMixin:
         section_map = {}
         new_sections = []
         new_fields = []
-
+        old_to_new_sections = {}
         for section in sections:
             if not isinstance(section, OPNewSection):
+                old_id = section.section_id
                 section = OPNewSection.from_section(section)
+                # create a mapping of old-to-new sections to keep
+                # up with the sections whose UUIDs get regenerated
+                old_to_new_sections[old_id] = section
             if section.section_id in section_map:
                 raise OPSectionCollisionException(
                     f"Duplicate section ID when creating new sections: {section.section_id}")
@@ -54,10 +58,15 @@ class OPNewItemMixin:
             new_sections.append(section)
 
         for field in fields:
+            section_id = field.section_id
             if not isinstance(field, OPNewItemField):
-                section_id = field.section_id
-                section = section_map.get(section_id)
+                section = old_to_new_sections.get(section_id)
                 field = OPItemFieldFactory.item_field(field, section)
+            else:
+                section = old_to_new_sections.get(section_id)
+                if section:
+                    # If a section's UUID may have been regenerated, we need to re-link it to the field
+                    field.update_section(section)
             new_fields.append(field)
         template_dict["sections"] = new_sections
         template_dict["fields"] = new_fields

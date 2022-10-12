@@ -37,6 +37,19 @@ class OPNewSection(OPSection):
 class OPNewItemMixin:
 
     def __init__(self, title: str, sections: List[OPSection] = [], fields: List[OPItemField] = [], extra_data={}):
+        if sections is None:  # pragma: no coverage
+            sections = []
+        else:
+            sections = list(sections)
+        if fields is None:  # pragma: no coverage
+            fields = []
+        else:
+            fields = list(fields)
+        if extra_data is None:  # pragma: no coverage
+            extra_data = {}
+        else:
+            extra_data = dict(extra_data)
+
         directory = OPTemplateDirectory()
         template_dict: Dict = directory.template_for_category(self.CATEGORY)
         template_dict["title"] = title

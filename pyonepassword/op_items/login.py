@@ -102,6 +102,14 @@ class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
                  fields: List[OPItemField] = [],
                  sections: List[OPSection] = []):
 
+        if sections is None:  # pragma: no coverage
+            sections = []
+        else:
+            sections = list(sections)
+        if fields is None:  # pragma: no coverage
+            fields = []
+        else:
+            fields = list(fields)
         # were we provided a URL string intead of a OPLoginItemURL object?
         # We can't just create an object because we don't know what the label should be
         # TODO: should we just apply a standard primary URL label, like "website"?
@@ -120,6 +128,7 @@ class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
             password,
             field_id=self.FIELD_ID_PASSWORD
         )
+
         fields.extend([username_field, password_field])
         urls = []
         if url:

@@ -118,8 +118,10 @@ class OPAbstractItem(OPAbstractItemDescriptor):
                 if section_id in section_map:
                     raise OPSectionCollisionException(
                         f"Section {section_id} already registered")
+                section_map[section_id] = s
                 section_list.append(s)
         self["sections"] = section_list
+        return section_map
 
     def _initialize_fields(self):
         field_list = []

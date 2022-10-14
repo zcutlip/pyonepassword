@@ -27,6 +27,10 @@
         "name": "example-field-with-uuid-1.json",
         "type": "json"
     },
+    "example-field-with-uuid-2": {
+        "name": "example-field-with-uuid-2.json",
+        "type": "json"
+    },
     "example-item-section-1": {
         "name": "example-item-section-1.json",
         "type": "json"

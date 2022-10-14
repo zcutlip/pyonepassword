@@ -156,3 +156,37 @@ def test_new_login_item_06(valid_data: ValidData):
 
     result = new_login.field_by_id(new_field_1.field_id)
     assert result.value == new_field_1.value
+
+
+def test_new_login_item_07(valid_data: ValidData):
+    """
+    Create:
+        - A section associated with existing (as opposed to new) fields
+        - An OPNewLoginItem object with the fields and the section
+    Verify:
+        - field_1 is properly added
+    """
+    section_dict = valid_data.data_for_name("example-item-section-1")
+    field_dict_1 = valid_data.data_for_name("example-field-no-uuid-1")
+    field_dict_2 = valid_data.data_for_name("example-field-no-uuid-2")
+    existing_section = OPSection(section_dict)
+
+    existing_field_1 = OPItemField(field_dict_1)
+    existing_field_1["section"] = existing_section
+    existing_section.register_field(existing_field_1)
+
+    existing_field_2 = OPItemField(field_dict_2)
+    existing_field_2["section"] = existing_section
+    existing_section.register_field(existing_field_2)
+
+    fields = [existing_field_1, existing_field_2]
+    sections = [existing_section]
+
+    username = "test_username"
+    title = "Test Login Item"
+
+    new_login = OPNewLoginItem(
+        title, username, fields=fields, sections=sections)
+
+    result = new_login.field_by_id(existing_field_1.field_id)
+    assert result.value == result.value

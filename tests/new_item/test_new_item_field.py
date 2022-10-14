@@ -163,7 +163,7 @@ def test_new_field_generate_uuid_01(valid_data: ValidData):
     Create a new field from an existing field that has a hex UUID for field ID
     Verify the new field has a newly generated ID that is not the same as the original
     """
-    field_dict = valid_data.data_for_name("example-field-with-uuid")
+    field_dict = valid_data.data_for_name("example-field-with-uuid-1")
     existing_field = OPItemField(field_dict)
 
     new_field = OPNewStringField.from_field(existing_field)
@@ -177,7 +177,7 @@ def test_new_field_generate_uuid_02(valid_data: ValidData):
     Generate two identical fields without specificying field ID
     Verify field ID gets generated and is random for both
     """
-    field_dict = valid_data.data_for_name("example-field-with-uuid")
+    field_dict = valid_data.data_for_name("example-field-with-uuid-1")
     existing_field = OPItemField(field_dict)
 
     field_label = existing_field.label

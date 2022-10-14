@@ -132,7 +132,7 @@ def test_new_login_item_06(valid_data: ValidData):
         - A section associated with the fields
         - An OPNewLoginItem object with the fields and the section
     Verify:
-        - ?
+        - field_1 is property added to the login item
     """
     section_dict = valid_data.data_for_name("example-item-section-1")
     field_dict_1 = valid_data.data_for_name("example-field-no-uuid-1")
@@ -154,5 +154,5 @@ def test_new_login_item_06(valid_data: ValidData):
     new_login = OPNewLoginItem(
         title, username, fields=fields, sections=sections)
 
-    # TODO: What should we be verifying here?
-    assert new_login.username == username
+    result = new_login.field_by_id(new_field_1.field_id)
+    assert result.value == new_field_1.value

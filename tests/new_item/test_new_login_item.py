@@ -190,3 +190,43 @@ def test_new_login_item_07(valid_data: ValidData):
 
     result = new_login.field_by_id(existing_field_1.field_id)
     assert result.value == existing_field_1.value
+
+
+def test_new_login_item_08(valid_data: ValidData):
+    """
+    Create:
+        - two new fields with UUID IDs
+        - A section associated with the fields
+        - An OPNewLoginItem object with the fields and the section
+    Verify:
+        - fields' IDs don't get regenerated after creating the login item
+    """
+    section_dict = valid_data.data_for_name("example-item-section-1")
+    field_dict_1 = valid_data.data_for_name("example-field-with-uuid-1")
+    field_dict_2 = valid_data.data_for_name("example-field-with-uuid-2")
+    existing_section = OPSection(section_dict)
+
+    existing_field = OPItemField(field_dict_1)
+    new_field_1 = OPNewStringField.from_field(
+        existing_field, section=existing_section)
+    existing_field = OPItemField(field_dict_2)
+    new_field_2 = OPNewStringField.from_field(
+        existing_field, section=existing_section)
+    fields = [new_field_1, new_field_2]
+    sections = [existing_section]
+
+    username = "test_username"
+    title = "Test Login Item"
+
+    new_login = OPNewLoginItem(
+        title, username, fields=fields, sections=sections)
+
+    result_1 = new_login.field_by_id(new_field_1.field_id)
+    result_2 = new_login.field_by_id(new_field_2.field_id)
+
+    # we wouldn't have gotten this far if field_id was regenerated
+    # but may as well assert equality while we're here
+    # new fields IDs shouldn't have gotten regenerated even though
+    # they're UUIDs, since the fields are OPNewItemField instances
+    assert result_1.field_id == new_field_1.field_id
+    assert result_2.field_id == new_field_2.field_id

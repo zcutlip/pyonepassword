@@ -2,13 +2,19 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import pytest
+
 from pyonepassword.api.object_types import (
     OPLoginItemNewPrimaryURL,
     OPLoginItemNewURL,
     OPNewLoginItem
 )
 from pyonepassword.op_items._new_fields import OPNewStringField
-from pyonepassword.op_items.item_section import OPItemField, OPSection
+from pyonepassword.op_items.item_section import (
+    OPItemField,
+    OPSection,
+    OPSectionCollisionException
+)
 
 if TYPE_CHECKING:
     from ..fixtures.valid_data import ValidData
@@ -354,3 +360,25 @@ def test_new_login_item_11(valid_data: ValidData):
         assert field.section_id == result_section.section_id
         # there's no API to inspect shadow fields so we do it the dirty way
         assert result_section._shadow_fields[field.field_id]
+
+
+def test_new_login_item_12(valid_data: ValidData):
+    """
+    Create:
+        - Two sections with the same (non-UUID) section_id
+        - An OPNewLoginItem object with the sections
+    Verify:
+        - OPSectionCollisionException is raised during OPNewLoginItemCreation
+    """
+    section_dict = valid_data.data_for_name("example-item-section-no-uuid")
+
+    existing_section_1 = OPSection(section_dict)
+    existing_section_2 = OPSection(section_dict)
+
+    sections = [existing_section_1, existing_section_2]
+
+    username = "test_username"
+    title = "Test Login Item"
+
+    with pytest.raises(OPSectionCollisionException):
+        OPNewLoginItem(title, username, sections=sections)

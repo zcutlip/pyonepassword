@@ -1,7 +1,6 @@
 {
-    "id": "zyhpoqkrwjtrq6qh5vhwylh6ie",
+    "id": "xkspcha7sjjvviyp2fyjubsn2q",
     "type": "STRING",
-    "label": "Example Field 2",
-    "value": "This is the text for the second instance of Example Field",
-    "reference": "op://Test Data/Example Login with Fields/Example Section 2/Example Field"
+    "label": "Second Example Field",
+    "value": "This is the text for the second instance of Example Field"
 }

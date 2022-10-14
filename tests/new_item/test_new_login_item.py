@@ -407,3 +407,29 @@ def test_new_login_item_13():
     assert os.path.isfile(temp_file_path)
     new_login = None
     assert not os.path.exists(temp_file_path)
+
+
+def test_new_login_item_14():
+    """
+    Create:
+        - An OPNewLoginItemObject
+        - request a secure temp file with the object serialized as JSON
+        - delete the temp file from under the object
+        - release the object
+    Verify:
+        - the temp file exists
+        - no exception is raised when object is released
+    """
+    username = "test_username"
+    title = "Test Login Item"
+
+    new_login = OPNewLoginItem(title, username)
+    temp_file_path = new_login.secure_tempfile()
+    assert os.path.isfile(temp_file_path)
+
+    # dirty trick; this shouldn't happen. But we need to be robust against it anyway
+    os.remove(temp_file_path)
+    try:
+        new_login = None
+    except Exception as e:
+        assert False, f"new_login = None raised an exception {e}"

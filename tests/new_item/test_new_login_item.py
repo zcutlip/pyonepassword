@@ -269,6 +269,10 @@ def test_new_login_item_09(valid_data: ValidData):
     new_login = OPNewLoginItem(
         title, username, fields=fields, sections=sections)
 
+    # look up the field by its label, which returns a list, because
+    # we don't know the regenerated ID
+    # we yolo the first item in the list which should be find since
+    # there should only be one
     result = new_login.fields_by_label(existing_field_1.label)[0]
     # field was not an OPNewItemField, and had a UUID
     # so the field ID should be regenerated

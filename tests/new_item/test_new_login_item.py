@@ -307,3 +307,50 @@ def test_new_login_item_10(valid_data: ValidData):
     # there should only be one
     result = new_login.sections_by_label(existing_section.label)[0]
     assert result.section_id != existing_section.section_id
+
+
+def test_new_login_item_11(valid_data: ValidData):
+    """
+    Create:
+        - A section associated with existing (as opposed to new) fields, all with UUID IDs
+        - An OPNewLoginItem object with the fields and the section
+    Verify:
+        - Field's registered section ID matches the section's regenerated ID
+        - The Field's new ID is regestered in the section's shadow fields map
+    """
+    section_dict = valid_data.data_for_name("example-item-section-1")
+    field_dict_1 = valid_data.data_for_name("example-field-with-uuid-1")
+    field_dict_2 = valid_data.data_for_name("example-field-with-uuid-2")
+    existing_section = OPSection(section_dict)
+
+    existing_field_1 = OPItemField(field_dict_1)
+    existing_field_1["section"] = existing_section
+    existing_section.register_field(existing_field_1)
+
+    existing_field_2 = OPItemField(field_dict_2)
+    existing_field_2["section"] = existing_section
+    existing_section.register_field(existing_field_2)
+
+    fields = [existing_field_1, existing_field_2]
+    sections = [existing_section]
+
+    username = "test_username"
+    title = "Test Login Item"
+
+    new_login = OPNewLoginItem(
+        title, username, fields=fields, sections=sections)
+
+    result_fields = new_login.fields_by_label(existing_field_1.label)
+    result_fields.extend(
+        new_login.fields_by_label(existing_field_2.label)
+    )
+    # look up the section by its label, which returns a list, because
+    # we don't know the regenerated ID
+    # we yolo the first item in the list which should be find since
+    # there should only be one
+    result_section = new_login.sections_by_label(existing_section.label)[0]
+
+    for field in result_fields:
+        assert field.section_id == result_section.section_id
+        # there's no API to inspect shadow fields so we do it the dirty way
+        assert result_section._shadow_fields[field.field_id]

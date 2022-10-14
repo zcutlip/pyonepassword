@@ -67,6 +67,8 @@ class OPItemField(dict):
 class OPSection(dict):
     def __init__(self, section_dict):
         super().__init__(section_dict)
+        # shadow fields map makes it easy to detect collisions
+        # by looking up a field's ID to see if it's already been registered
         self._shadow_fields = {}
 
     @property
@@ -94,6 +96,7 @@ class OPSection(dict):
 
     def register_field(self, field_dict):
         if isinstance(field_dict, OPItemField):
+            # make a copy of the field so we don't end up with a circular reference
             field = copy.copy(field_dict)
         else:
             field = OPItemField(field_dict)
@@ -121,6 +124,10 @@ class OPSection(dict):
         return matching_fields
 
     def first_field_by_label(self, label: str, case_sensitive=True):
+        """
+        Convenience function for when you're certain there's only one field
+        by a given label, or don't really care for whatever reason
+        """
         fields = self.fields_by_label(label, case_sensitive=case_sensitive)
         f = fields[0]
         return f

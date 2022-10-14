@@ -230,3 +230,40 @@ def test_new_login_item_08(valid_data: ValidData):
     # they're UUIDs, since the fields are OPNewItemField instances
     assert result_1.field_id == new_field_1.field_id
     assert result_2.field_id == new_field_2.field_id
+
+
+def test_new_login_item_09(valid_data: ValidData):
+    """
+    Create:
+        - Two "non-new" fields with UUID IDs
+        - A section associated the two fields
+        - An OPNewLoginItem object with the fields and the section
+    Verify:
+        - fields' IDs DO get regenerated after creating the login item
+    """
+    section_dict = valid_data.data_for_name("example-item-section-1")
+    field_dict_1 = valid_data.data_for_name("example-field-with-uuid-1")
+    field_dict_2 = valid_data.data_for_name("example-field-with-uuid-2")
+    existing_section = OPSection(section_dict)
+
+    existing_field_1 = OPItemField(field_dict_1)
+    existing_field_1["section"] = existing_section
+    existing_section.register_field(existing_field_1)
+
+    existing_field_2 = OPItemField(field_dict_2)
+    existing_field_2["section"] = existing_section
+    existing_section.register_field(existing_field_2)
+
+    fields = [existing_field_1, existing_field_2]
+    sections = [existing_section]
+
+    username = "test_username"
+    title = "Test Login Item"
+
+    new_login = OPNewLoginItem(
+        title, username, fields=fields, sections=sections)
+
+    result = new_login.fields_by_label(existing_field_1.label)[0]
+    # field was not an OPNewItemField, and had a UUID
+    # so the field ID should be regenerated
+    assert result.field_id != existing_field_1.field_id

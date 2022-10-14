@@ -189,4 +189,4 @@ def test_new_login_item_07(valid_data: ValidData):
         title, username, fields=fields, sections=sections)
 
     result = new_login.field_by_id(existing_field_1.field_id)
-    assert result.value == result.value
+    assert result.value == existing_field_1.value

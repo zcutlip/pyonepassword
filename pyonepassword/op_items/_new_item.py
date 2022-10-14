@@ -86,9 +86,9 @@ class OPNewItemMixin:
         key_collisions = []
         for key in extra_data.keys():
             if key in self:
-                key_collisions.append(key)
+                key_collisions.append(key)  # pragma: no coverage
         if key_collisions:
-            raise OPNewItemDataCollisionException(
+            raise OPNewItemDataCollisionException(  # pragma: no coverage
                 f"Extra data key collisions: {key_collisions}")
         if extra_data:
             template_dict.update(extra_data)

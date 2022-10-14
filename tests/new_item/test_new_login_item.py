@@ -267,3 +267,43 @@ def test_new_login_item_09(valid_data: ValidData):
     # field was not an OPNewItemField, and had a UUID
     # so the field ID should be regenerated
     assert result.field_id != existing_field_1.field_id
+
+
+def test_new_login_item_10(valid_data: ValidData):
+    """
+    Create:
+        - An "existing" section that has a UUID
+        - Set of existing fields registered with the section
+        - An OPNewLoginItem object with the fields and the section
+        - Look up the section on the new item by its label
+    Verify:
+        - the newly added section's ID has been regenerated and does not match the "existing" section
+    """
+    section_dict = valid_data.data_for_name("example-item-section-1")
+    field_dict_1 = valid_data.data_for_name("example-field-with-uuid-1")
+    field_dict_2 = valid_data.data_for_name("example-field-with-uuid-2")
+    existing_section = OPSection(section_dict)
+
+    existing_field_1 = OPItemField(field_dict_1)
+    existing_field_1["section"] = existing_section
+    existing_section.register_field(existing_field_1)
+
+    existing_field_2 = OPItemField(field_dict_2)
+    existing_field_2["section"] = existing_section
+    existing_section.register_field(existing_field_2)
+
+    fields = [existing_field_1, existing_field_2]
+    sections = [existing_section]
+
+    username = "test_username"
+    title = "Test Login Item"
+
+    new_login = OPNewLoginItem(
+        title, username, fields=fields, sections=sections)
+
+    # look up the section by its label, which returns a list, because
+    # we don't know the regenerated ID
+    # we yolo the first item in the list which should be find since
+    # there should only be one
+    result = new_login.sections_by_label(existing_section.label)[0]
+    assert result.section_id != existing_section.section_id

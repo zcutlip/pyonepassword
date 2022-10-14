@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from typing import TYPE_CHECKING
 
 import pytest
@@ -386,3 +387,23 @@ def test_new_login_item_12(valid_data: ValidData):
 
     with pytest.raises(OPSectionCollisionException):
         OPNewLoginItem(title, username, sections=sections)
+
+
+def test_new_login_item_13():
+    """
+    Create:
+        - An OPNewLoginItemObject
+        - request a secure temp file with the object serialized as JSON
+        - release the new object
+    Verify:
+        - the temp file exists
+        - the temp file has been deleted when the object is released
+    """
+    username = "test_username"
+    title = "Test Login Item"
+
+    new_login = OPNewLoginItem(title, username)
+    temp_file_path = new_login.secure_tempfile()
+    assert os.path.isfile(temp_file_path)
+    new_login = None
+    assert not os.path.exists(temp_file_path)

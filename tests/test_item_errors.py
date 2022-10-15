@@ -7,6 +7,7 @@ import pytest
 from pyonepassword.api.exceptions import (
     OPFieldNotFoundException,
     OPInvalidItemException,
+    OPSectionCollisionException,
     OPUnknownItemTypeException
 )
 from pyonepassword.op_items import OPItemFactory
@@ -15,6 +16,8 @@ from pyonepassword.op_items.item_section import OPItemFieldCollisionException
 if TYPE_CHECKING:
     from pyonepassword import OP
     from pyonepassword.api.object_types import OPLoginItem
+
+    from .fixtures.invalid_data import InvalidData
 
 
 # ensure HOME env variable is set, and there's a valid op config present
@@ -46,3 +49,18 @@ def test_item_field_collision_01(invalid_data):
     field_collision_json = invalid_data.data_for_name("field-collision")
     with pytest.raises(OPItemFieldCollisionException):
         OPItemFactory.op_item(field_collision_json)
+
+
+def test_item_section_collision_01(invalid_data: InvalidData):
+    """
+    Test item creation with colliding sections
+
+    Create:
+        - op item object from an item dictionary with colliding sections
+    Verify:
+        - OPSectionCollisionException is raised
+    """
+    invalid_item_dict = invalid_data.data_for_name(
+        "login-item-with-section-collision")
+    with pytest.raises(OPSectionCollisionException):
+        OPItemFactory.op_item(invalid_item_dict)

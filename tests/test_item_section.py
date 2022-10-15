@@ -32,6 +32,16 @@ def _lookup_exepcted_item_field(fields: List[ExpectedItemField], field_id: str) 
 
 
 def test_item_section_01(valid_data: ValidData, expected_login_item_data: ExpectedItemFieldData):
+    """
+    Test search for first field by label
+
+    Create:
+      - Look up a section on the item object by its ID
+      - Look up a field on the seciton object using first_field_by_id()
+    Verify:
+      - the lookup doesn't fail
+      - the returned section's value matches the expected value
+    """
     item_name = "Example Login with Fields"
     section_id = "vh4wk7qyw46urc7wuwczzhpm7u"
     field_label = "Example Field"
@@ -56,6 +66,15 @@ def test_item_section_01(valid_data: ValidData, expected_login_item_data: Expect
 def test_item_section_02(valid_data: ValidData, expected_login_item_data: ExpectedItemFieldData):
     """
     Test case-insensitive search for first field by label
+
+    Create:
+      - A login item object with fields and sections
+      - Look up a section on the item object by its ID
+      - Case-insensitive look up a field on the section object using first_field_by_id()
+    Verify:
+      - the lookup doesn't fail
+      - the returned field
+
     """
     item_name = "Example Login with Fields"
     section_id = "vh4wk7qyw46urc7wuwczzhpm7u"

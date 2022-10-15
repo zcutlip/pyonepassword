@@ -6,7 +6,7 @@ import pytest
 
 from pyonepassword.api.exceptions import OPSectionNotFoundException
 from pyonepassword.api.object_types import OPLoginItem
-from pyonepassword.op_items.item_section import OPItemField
+from pyonepassword.op_items.item_section import OPItemField, OPSection
 
 if TYPE_CHECKING:
     from .fixtures.expected_item_fields import ExpectedItemField
@@ -113,3 +113,36 @@ def test_item_section_03(valid_data: ValidData, expected_login_item_data: Expect
 
     with pytest.raises(OPSectionNotFoundException):
         result_login_item.section_by_id(section_id)
+
+
+def test_item_section_04(valid_data: ValidData, expected_login_item_data: ExpectedLoginItemData):
+    """
+    Test case-insensitive search for first field by label
+
+    Create:
+      - A login item object with fields and sections
+      - Look up a section on the item object by its ID
+      - Case-insensitive look up a field on the section object using sections_by_label()
+    Verify:
+      - the lookup doesn't fail
+      - the returned field
+
+    """
+    item_name = "Example Login with Fields"
+    section_id = "vh4wk7qyw46urc7wuwczzhpm7u"
+    section_label = "Example Section 1"
+
+    expected_login: ExpectedLogin = expected_login_item_data.data_for_login(
+        item_name)
+
+    expected_section = expected_login.section_by_id(section_id)
+
+    valid_item_dict = valid_data.data_for_name("example-login-with-fields")
+    result_login_item = OPLoginItem(valid_item_dict)
+
+    section_label_lower = section_label.lower()
+    result = result_login_item.sections_by_label(
+        section_label_lower, case_sensitive=False)[0]
+
+    assert isinstance(result, OPSection)
+    assert result.label == expected_section.label

@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, List
 
 import pytest
 
+from pyonepassword.api.exceptions import OPSectionNotFoundException
 from pyonepassword.api.object_types import OPLoginItem
 from pyonepassword.op_items.item_section import OPItemField
 
@@ -99,22 +100,19 @@ def test_item_section_02(valid_data: ValidData, expected_login_item_data: Expect
 
 
 def test_item_section_03(valid_data: ValidData, expected_login_item_data: ExpectedItemFieldData):
-    item_name = "Example Login with Fields"
-    section_id = "vh4wk7qyw46urc7wuwczzhpm7u"
-    field_label = "Second Example Field"
-    field_id = "xkspcha7sjjvviyp2fyjubsn2q"
-    expected_login: ExpectedLogin = expected_login_item_data.data_for_login(
-        item_name)
+    """
+    Test looking up a section on a login item by an invalid section ID
 
-    expected_field_list: ExpectedItemField = expected_login.fields_by_label(
-        field_label)
-    expected_field = _lookup_exepcted_item_field(expected_field_list, field_id)
+    Create:
+        - A login item object with fields and sections
+        - Look up an invalid section ID via section_by_id()
+    Verify:
+        - OPSectionNotFoundException is raised
+    """
+    section_id = "no_such_section"
+
     valid_item_dict = valid_data.data_for_name("example-login-with-fields")
     result_login_item = OPLoginItem(valid_item_dict)
 
-    result_item_section = result_login_item.section_by_id(section_id)
-
-    result = result_item_section.first_field_by_label(field_label)
-
-    assert isinstance(result, OPItemField)
-    assert result.value == expected_field.value
+    with pytest.raises(OPSectionNotFoundException):
+        result_login_item.section_by_id(section_id)

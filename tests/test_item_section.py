@@ -35,7 +35,7 @@ def test_item_section_01(valid_data: ValidData, expected_login_item_data: Expect
 
     Create:
       - Look up a section on the item object by its ID
-      - Look up a field on the seciton object using first_field_by_id()
+      - Look up a field on the seciton object using first_field_by_label()
     Verify:
       - the lookup doesn't fail
       - the returned section's value matches the expected value
@@ -68,7 +68,7 @@ def test_item_section_02(valid_data: ValidData, expected_login_item_data: Expect
     Create:
       - A login item object with fields and sections
       - Look up a section on the item object by its ID
-      - Case-insensitive look up a field on the section object using first_field_by_id()
+      - Case-insensitive look up a field on the section object using first_field_by_label()
     Verify:
       - the lookup doesn't fail
       - the returned field

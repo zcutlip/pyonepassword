@@ -9,11 +9,8 @@ from pyonepassword.api.object_types import OPLoginItem
 from pyonepassword.op_items.item_section import OPItemField
 
 if TYPE_CHECKING:
-    from .fixtures.expected_item_fields import (
-        ExpectedItemField,
-        ExpectedItemFieldData
-    )
-    from .fixtures.expected_login import ExpectedLogin
+    from .fixtures.expected_item_fields import ExpectedItemField
+    from .fixtures.expected_login import ExpectedLogin, ExpectedLoginItemData
     from .fixtures.valid_data import ValidData
 
 
@@ -32,7 +29,7 @@ def _lookup_exepcted_item_field(fields: List[ExpectedItemField], field_id: str) 
     return field
 
 
-def test_item_section_01(valid_data: ValidData, expected_login_item_data: ExpectedItemFieldData):
+def test_item_section_01(valid_data: ValidData, expected_login_item_data: ExpectedLoginItemData):
     """
     Test search for first field by label
 
@@ -64,7 +61,7 @@ def test_item_section_01(valid_data: ValidData, expected_login_item_data: Expect
     assert result.value == expected_field.value
 
 
-def test_item_section_02(valid_data: ValidData, expected_login_item_data: ExpectedItemFieldData):
+def test_item_section_02(valid_data: ValidData, expected_login_item_data: ExpectedLoginItemData):
     """
     Test case-insensitive search for first field by label
 
@@ -99,7 +96,7 @@ def test_item_section_02(valid_data: ValidData, expected_login_item_data: Expect
     assert result.value == expected_field.value
 
 
-def test_item_section_03(valid_data: ValidData, expected_login_item_data: ExpectedItemFieldData):
+def test_item_section_03(valid_data: ValidData, expected_login_item_data: ExpectedLoginItemData):
     """
     Test looking up a section on a login item by an invalid section ID
 

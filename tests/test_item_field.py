@@ -189,3 +189,33 @@ def test_item_lookup_field_02(valid_data: ValidData, expected_login_item_data):
     result = result_login_item.first_field_by_label(field_label)
 
     assert result.value == expected_field.value
+
+
+def test_item_lookup_field_03(valid_data: ValidData, expected_login_item_data):
+    """
+    Test case-insensitive field lookup by label
+
+    Create:
+        - a login item with fields and sections
+        - case-insensitively look up a field via first_field_by_label()
+    Verify:
+        - the lookup succeeded
+        - the resulting field matches the expected value
+    """
+    item_name = "Example Login with Fields"
+    field_label = "Example Field"
+    field_id = "ikr76mnggw767qwqoel624oqv4"
+    expected_login: ExpectedLogin = expected_login_item_data.data_for_login(
+        item_name)
+
+    expected_field_list: ExpectedItemField = expected_login.fields_by_label(
+        field_label)
+    expected_field = _lookup_exepcted_item_field(expected_field_list, field_id)
+
+    valid_item_dict = valid_data.data_for_name("example-login-with-fields")
+    result_login_item = OPLoginItem(valid_item_dict)
+    field_label_lower = field_label.lower()
+    result = result_login_item.first_field_by_label(
+        field_label_lower, case_sensitive=False)
+
+    assert result.value == expected_field.value

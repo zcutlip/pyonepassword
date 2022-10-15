@@ -117,7 +117,7 @@ def test_item_section_03(valid_data: ValidData, expected_login_item_data: Expect
 
 def test_item_section_04(valid_data: ValidData, expected_login_item_data: ExpectedLoginItemData):
     """
-    Test case-insensitive search for first field by label
+    Test case-insensitive search for sections by label
 
     Create:
       - A login item object with fields and sections

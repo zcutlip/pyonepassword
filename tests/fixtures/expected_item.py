@@ -4,6 +4,7 @@ from typing import Dict, List
 from ..test_support._datetime import fromisoformat_z
 from .expected_data import ExpectedData
 from .expected_item_fields import ExpectedItemField
+from .expected_item_sections import ExpectedItemSection
 
 
 class ExpectedItemBase:
@@ -67,6 +68,15 @@ class ExpectedItemBase:
             f = ExpectedItemField(fd)
             fields.append(f)
         return fields
+
+    def section_by_id(self, section_id: str) -> ExpectedItemSection:
+        section_dict = None
+        sections = self._data["sections"]
+        for sect in sections:
+            if sect["id"] == section_id:
+                section_dict = sect
+        section = ExpectedItemSection(section_dict)
+        return section
 
 
 class ExpectedItemData:

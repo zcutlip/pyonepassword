@@ -99,7 +99,10 @@ class OPCLIConfig(dict):
 
     @property
     def accounts(self) -> List[OPCLIAccountConfig]:
-        return self["accounts"]
+        account_list = self.get("accounts")
+        if account_list is None:
+            account_list = []
+        return account_list
 
     @property
     def latest_signin(self) -> str:

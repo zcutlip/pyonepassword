@@ -194,3 +194,12 @@ def test_op_cli_config_missing_shorthand_01(valid_op_cli_config_no_shorthand):
     conf = OPCLIConfig()
     with pytest.raises(OPConfigNotFoundException):
         conf.get_config()
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_no_account_list")
+# @pytest.mark.usefixtures("setup_normal_op_env")
+def test_op_cli_config_no_account_list_01():
+    """
+    Verify we can instantiate OPCLIConfig() even when account list is null
+    """
+    OPCLIConfig()

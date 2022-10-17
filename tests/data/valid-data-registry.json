@@ -15,6 +15,10 @@
         "name": "example-op-config-no-latest-shorthand.json",
         "type": "text"
     },
+    "example-op-config-no-account-list": {
+        "name": "example-op-config-no-account-list.json",
+        "type": "text"
+    },
     "example-login-with-fields": {
         "name": "example-login-with-fields.json",
         "type": "json"

@@ -1,7 +1,11 @@
 import logging
 from os import environ as env
 
-from ._py_op_commands import _OPCommandInterface
+from ._py_op_commands import (
+    EXISTING_AUTH_IGNORE,
+    ExistingAuthEnum,
+    _OPCommandInterface
+)
 from ._py_op_deprecation import deprecated_kwargs
 from .account import OPAccountList
 from .op_items._item_list import OPItemList
@@ -33,32 +37,25 @@ class OP(_OPCommandInterface):
     @deprecated_kwargs(use_existing_session='existing_auth',
                        account_shorthand='account')
     def __init__(self,
-                 vault: str = None,
                  account: str = None,
                  account_shorthand: str = None,
                  password: str = None,
-                 logger: logging.Logger = None,
-                 op_path: str = 'op',
-                 existing_auth: bool = False,
+                 existing_auth: ExistingAuthEnum = EXISTING_AUTH_IGNORE,
                  use_existing_session: bool = False,
-                 password_prompt: bool = True):
+                 password_prompt: bool = True,
+                 vault: str = None,
+                 op_path: str = 'op',
+                 logger: logging.Logger = None):
         """
         Create an OP object. The 1Password (non-initial) sign-in happens during object instantiation.
 
         Parameters
         ----------
-        vault : str, optional
-            If set, this becomes the default argument to the --vault flag
-            for future queries.
         account : str, optional
             May be any account identifier accepted by the op --account flag:
             account shorthand, sign-in address, account ID, or user ID
         password : str, optional
             If provided, the password will be piped to the 'op' command over stdin
-        logger : logging.Logger
-            A logging object. If not provided a basic logger is created and used
-        op_path : str, optional
-            Optional path to the `op` command, if it's not at the default location
         existing_auth : ExistingAuthEnum
             Whether existing authentication should be must be used, used if possible, or ignored
             Valid values:
@@ -67,6 +64,13 @@ class OP(_OPCommandInterface):
               - EXISTING_AUTH_REQD: Use existing authentication, failing if there isn't a valid session available
         password_prompt : bool
             Whether an interactive password prompt on the console should be presented if necessary
+        vault : str, optional
+            If set, this becomes the default argument to the --vault flag
+            for future queries.
+        op_path : str, optional
+            Optional path to the `op` command, if it's not at the default location
+        logger : logging.Logger
+            A logging object. If not provided a basic logger is created and used
 
         Raises
         ------

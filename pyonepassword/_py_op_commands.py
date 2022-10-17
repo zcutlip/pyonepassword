@@ -54,27 +54,15 @@ class _OPCommandInterface(_OPCLIExecute):
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
     def __init__(self,
-                 vault=None,
                  account=None,
                  password=None,
-                 logger=None,
-                 op_path=OP_PATH,
                  existing_auth: ExistingAuthEnum = EXISTING_AUTH_IGNORE,
-                 password_prompt=True):
+                 vault=None,
+                 password_prompt=True,
+                 op_path=OP_PATH,
+                 logger=None):
         """
-        Create an OP object. The 1Password sign-in happens during object instantiation.
-        If 'password' is not provided, the 'op' command will prompt on the console for a password.
-
-        Arguments:
-            - 'account_shorthand': The shorthand name for the account on this device.
-                                   See 'op signin --help' for more information.
-            - 'password': The user's master password
-            - 'logger': A logging object. If not provided a basic logger is created and used.
-            - 'op_path': optional path to the `op` command, if it's not at the default location
-
-        Raises:
-            - OPSigninException if 1Password sign-in fails for any reason.
-            - OPNotFoundException if the 1Password command can't be found.
+        Constructor to authenticate or verify existing authentication to `op`
         """
         super().__init__()
         if not logger:

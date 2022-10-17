@@ -6,6 +6,7 @@ from .valid_data import ValidData
 
 VALID_OP_CONFIG_KEY = "example-op-config"
 VALID_OP_CONFIG_NO_SHORTHAND_KEY = "example-op-config-no-latest-shorthand"
+VALID_OP_CONFIG_NO_ACCOUNT_LIST_KEY = "example-op-config-no-account-list"
 
 
 class ValidOPCLIConfig:

@@ -38,6 +38,7 @@ from .paths import (
 )
 from .valid_data import ValidData
 from .valid_op_cli_config import (
+    VALID_OP_CONFIG_NO_ACCOUNT_LIST_KEY,
     VALID_OP_CONFIG_NO_SHORTHAND_KEY,
     ValidOPCLIConfig
 )
@@ -337,6 +338,16 @@ def valid_op_cli_config_xdghome():
 def valid_op_cli_config_no_shorthand():
     config_obj = ValidOPCLIConfig(
         valid_data_key=VALID_OP_CONFIG_NO_SHORTHAND_KEY)
+    return config_obj
+
+
+@fixture
+def valid_op_cli_config_no_account_list():
+    """
+    Stage an 'op' config that is perfectly valid but "accounts" == null
+    """
+    config_obj = ValidOPCLIConfig(
+        valid_data_key=VALID_OP_CONFIG_NO_ACCOUNT_LIST_KEY)
     return config_obj
 
 

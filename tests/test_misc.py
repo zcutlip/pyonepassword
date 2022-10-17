@@ -157,3 +157,19 @@ def test_unknown_accound_identifier_01(console_logger):
     unknown_account = "made-up-account"
     with pytest.raises(OPUnknownAccountException):
         OP(op_path="mock-op", account=unknown_account)
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_no_account_list")
+@pytest.mark.usefixtures("setup_normal_op_env")
+def test_op_sign_in_no_account_list_01():
+    """
+    Simulate an environment that:
+      - has biometric enabled
+      - op config's "accounts" is null
+    Verify:
+      - OP() doesn't raise an exception
+    """
+    try:
+        OP(op_path="mock-op")
+    except Exception as e:
+        assert False, f"OP() raised an exception {e}"

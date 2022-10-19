@@ -2,6 +2,7 @@ from abc import abstractmethod
 from typing import List, Union
 
 from ._item_descriptor_base import OPAbstractItemDescriptor
+from .field_registry import OPItemFieldFactory
 from .item_field_base import OPItemField
 from .item_section import (
     OPItemFieldCollisionException,
@@ -133,7 +134,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         field_map = {}
         _fields = self.get("fields", [])
         for field_dict in _fields:
-            field = OPItemField(field_dict)
+            field = OPItemFieldFactory.item_field(field_dict)
             field_id = field.field_id
             if field_id in field_map:
                 raise OPItemFieldCollisionException(

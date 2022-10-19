@@ -5,7 +5,8 @@ from typing import Dict, List
 
 from ._new_field_registry import OPNewItemFieldFactory
 from ._new_fields import OPNewItemField
-from .item_section import OPItemField, OPSection, OPSectionCollisionException
+from .item_field_base import OPItemField
+from .item_section import OPSection, OPSectionCollisionException
 from .template_directory import OPTemplateDirectory
 from .uuid import OPUniqueIdentifierBase32, is_uuid
 

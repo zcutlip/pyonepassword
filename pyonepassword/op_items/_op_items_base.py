@@ -2,8 +2,8 @@ from abc import abstractmethod
 from typing import List, Union
 
 from ._item_descriptor_base import OPAbstractItemDescriptor
+from .item_field_base import OPItemField
 from .item_section import (
-    OPItemField,
     OPItemFieldCollisionException,
     OPSection,
     OPSectionCollisionException

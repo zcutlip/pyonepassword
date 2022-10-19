@@ -9,10 +9,8 @@ from pyonepassword.op_items._new_fields import (
     OPNewUsernameField
 )
 from pyonepassword.op_items._new_item import OPNewSection
-from pyonepassword.op_items.item_section import (
-    OPItemField,
-    OPItemFieldCollisionException
-)
+from pyonepassword.op_items.item_field_base import OPItemField
+from pyonepassword.op_items.item_section import OPItemFieldCollisionException
 
 if TYPE_CHECKING:
     from ..fixtures.expected_item_fields import (

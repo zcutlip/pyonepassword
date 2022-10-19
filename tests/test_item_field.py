@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, List
 import pytest
 
 from pyonepassword.api.object_types import OPLoginItem
-from pyonepassword.op_items.item_section import OPItemField
+from pyonepassword.op_items.item_field_base import OPItemField
 
 if TYPE_CHECKING:
     from .fixtures.expected_item_fields import (

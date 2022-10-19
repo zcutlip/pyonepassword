@@ -3,6 +3,8 @@ from ..op_items._item_list import OPItemList
 from ..op_items.api_credential import OPAPICredentialItem
 from ..op_items.credit_card import OPCreditCardItem
 from ..op_items.document import OPDocumentFile, OPDocumentItem
+from ..op_items.item_field import OPTOTPField
+from ..op_items.item_field_base import OPItemField
 from ..op_items.login import (
     OPLoginItem,
     OPLoginItemNewPrimaryURL,

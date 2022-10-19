@@ -5,12 +5,12 @@ from typing import TYPE_CHECKING
 import pytest
 
 from pyonepassword.op_items._new_field_registry import (
-    OPInvalidFieldException,
-    OPItemFieldFactory,
+    OPNewItemFieldFactory,
     OPUnknownFieldTypeException
 )
 from pyonepassword.op_items._new_fields import OPNewStringField
 from pyonepassword.op_items.item_section import OPItemField
+from pyonepassword.py_op_exceptions import OPInvalidFieldException
 
 if TYPE_CHECKING:
     from ..fixtures.expected_item_fields import (
@@ -29,7 +29,7 @@ def test_item_field_factory_01(valid_data: ValidData, expected_item_field_data: 
 
     existing_field = OPItemField(field_dict)
 
-    new_field = OPItemFieldFactory.item_field(existing_field)
+    new_field = OPNewItemFieldFactory.item_field(existing_field)
 
     assert isinstance(new_field, OPNewStringField)
     assert new_field.value == expected.value
@@ -43,7 +43,7 @@ def test_item_field_factory_02(valid_data: ValidData, expected_item_field_data: 
 
     existing_field = OPItemField(field_dict)
 
-    new_field = OPItemFieldFactory.item_field(existing_field)
+    new_field = OPNewItemFieldFactory.item_field(existing_field)
 
     assert isinstance(new_field, OPNewStringField)
     assert new_field.field_id == expected.field_id
@@ -52,10 +52,10 @@ def test_item_field_factory_02(valid_data: ValidData, expected_item_field_data: 
 def test_item_field_factory_unknown_field_type_01(invalid_data: InvalidData):
     unk_field_type_dict = invalid_data.data_for_name("unknown-field-type")
     with pytest.raises(OPUnknownFieldTypeException):
-        OPItemFieldFactory.item_field(unk_field_type_dict)
+        OPNewItemFieldFactory.item_field(unk_field_type_dict)
 
 
 def test_item_field_factory_malformed_field_json_01(invalid_data: InvalidData):
     malformed_json = invalid_data.data_for_name("malformed-field-json")
     with pytest.raises(OPInvalidFieldException):
-        OPItemFieldFactory.item_field(malformed_json)
+        OPNewItemFieldFactory.item_field(malformed_json)

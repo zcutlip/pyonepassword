@@ -3,7 +3,7 @@ import os
 import tempfile
 from typing import Dict, List
 
-from ._new_field_registry import OPItemFieldFactory
+from ._new_field_registry import OPNewItemFieldFactory
 from ._new_fields import OPNewItemField
 from .item_section import OPItemField, OPSection, OPSectionCollisionException
 from .template_directory import OPTemplateDirectory
@@ -74,7 +74,7 @@ class OPNewItemMixin:
             section_id = field.section_id
             if not isinstance(field, OPNewItemField):
                 section = old_to_new_sections.get(section_id)
-                field = OPItemFieldFactory.item_field(field, section)
+                field = OPNewItemFieldFactory.item_field(field, section)
             else:
                 section = old_to_new_sections.get(section_id)
                 if section:

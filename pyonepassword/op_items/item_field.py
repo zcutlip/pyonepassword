@@ -17,5 +17,9 @@ class OPTOTPField(OPStringField):
     FIELD_TYPE = "OTP"
 
     @property
-    def totp_secret(self):
+    def totp_secret(self) -> str:
         return self.value
+
+    @property
+    def totp(self) -> str:
+        return self["totp"]

@@ -5,6 +5,10 @@ from .item_section import OPItemField, OPSection
 from .uuid import OPUniqueIdentifierBase32, is_uuid
 
 
+class OPNewTOTPUrlException(Exception):
+    pass
+
+
 class OPNewItemField(OPItemField):
     FIELD_TYPE = None
     FIELD_PURPOSE = None

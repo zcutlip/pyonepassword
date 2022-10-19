@@ -1,7 +1,7 @@
 import base64
 import binascii
 import urllib
-from typing import Any, Optional
+from typing import Any, Optional, Union
 
 from ._new_field_registry import op_register_item_field_type
 from .item_section import OPItemField, OPSection
@@ -117,3 +117,17 @@ class OPNewTOTPUrl:
         params = urllib.parse.urlencode(params, quote_via=urllib.parse.quote)
         url_str = f"otpauth://totp/{label}?{params}"
         return url_str
+
+
+@op_register_item_field_type
+class OPNewTOTPField(OPNewStringField):
+    FIELD_TYPE = "OTP"
+
+    def __init__(self,
+                 field_label: str,
+                 totp_value: Union[str, OPNewTOTPUrl],
+                 field_id=None,
+                 section: OPSection = None):
+        if isinstance(totp_value, OPNewTOTPUrl):
+            totp_value = str(totp_value)
+        super().__init__(field_label, totp_value, field_id, section)

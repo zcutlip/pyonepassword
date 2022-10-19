@@ -1,4 +1,7 @@
-from typing import Any
+import base64
+import binascii
+import urllib
+from typing import Any, Optional
 
 from ._new_field_registry import op_register_item_field_type
 from .item_section import OPItemField, OPSection
@@ -71,3 +74,46 @@ class OPNewUsernameField(OPNewStringField):
 
 class OPNewPasswordField(OPNewConcealedField):
     FIELD_PURPOSE = "PASSWORD"
+
+
+class OPNewTOTPUrl:
+    # otpauth://totp/<website>:<user>?secret=<secret>&issuer=<issuer>'
+    # https://rootprojects.org/authenticator/
+    def __init__(self,
+                 secret: str,
+                 account_name: Optional[str] = None,
+                 issuer: Optional[str] = None):
+        self._secret = secret
+        self._issuer = issuer
+        self._account = account_name or "secret"
+        self._verify_secret()
+
+    def _verify_secret(self):
+        secret = self._secret
+        missing_padding = len(secret) % 8
+        if missing_padding != 0:
+            secret += "=" * (8 - missing_padding)
+        try:
+            base64.b32decode(secret, casefold=True)
+        except binascii.Error as e:
+            raise OPNewTOTPUrlException(
+                f"Invalid secret string: base32 decoding {e}")
+
+    def __str__(self):
+        issuer = None
+        if self._issuer:
+            issuer = urllib.parse.quote(self._issuer)
+        account = urllib.parse.quote(self._account)
+        if issuer:
+            label = f"{issuer}:{account}"
+        else:
+            label = account
+
+        params = {"secret": self._secret}
+
+        if self._issuer:
+            params["issuer"] = self._issuer
+
+        params = urllib.parse.urlencode(params, quote_via=urllib.parse.quote)
+        url_str = f"otpauth://totp/{label}?{params}"
+        return url_str

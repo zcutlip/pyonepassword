@@ -6,7 +6,8 @@ from ._new_fields import OPNewPasswordField, OPNewUsernameField
 from ._new_item import OPNewItemMixin
 from ._op_item_type_registry import op_register_item_type
 from ._op_items_base import OPAbstractItem
-from .item_section import OPItemField, OPSection
+from .item_field_base import OPItemField
+from .item_section import OPSection
 
 
 class OPNewLoginItemURLException(Exception):

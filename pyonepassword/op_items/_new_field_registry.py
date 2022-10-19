@@ -1,9 +1,13 @@
-from json.decoder import JSONDecodeError
-from typing import Dict, Union
+from __future__ import annotations
+
+from json import JSONDecodeError
+from typing import TYPE_CHECKING, Dict, Union
 
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidFieldException
-from .item_section import OPSection
+
+if TYPE_CHECKING:
+    from .item_section import OPSection
 
 
 class OPUnknownFieldTypeException(Exception):
@@ -12,7 +16,7 @@ class OPUnknownFieldTypeException(Exception):
         self.item_dict = item_dict
 
 
-class OPItemFieldFactory:
+class OPNewItemFieldFactory:
     _TYPE_REGISTRY = {}
 
     @classmethod
@@ -42,6 +46,6 @@ class OPItemFieldFactory:
         return obj
 
 
-def op_register_item_field_type(item_class):
-    OPItemFieldFactory.register_op_field_type(item_class)
+def op_register_new_item_field_type(item_class):
+    OPNewItemFieldFactory.register_op_field_type(item_class)
     return item_class

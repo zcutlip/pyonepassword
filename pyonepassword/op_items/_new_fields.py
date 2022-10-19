@@ -3,8 +3,9 @@ import binascii
 import urllib
 from typing import Any, Optional, Union
 
-from ._new_field_registry import op_register_item_field_type
-from .item_section import OPItemField, OPSection
+from ._new_field_registry import op_register_new_item_field_type
+from .item_field import OPItemField
+from .item_section import OPSection
 from .uuid import OPUniqueIdentifierBase32, is_uuid
 
 
@@ -58,12 +59,12 @@ class OPNewItemField(OPItemField):
         return new_field
 
 
-@op_register_item_field_type
+@op_register_new_item_field_type
 class OPNewStringField(OPNewItemField):
     FIELD_TYPE = "STRING"
 
 
-@op_register_item_field_type
+@op_register_new_item_field_type
 class OPNewConcealedField(OPNewItemField):
     FIELD_TYPE = "CONCEALED"
 
@@ -119,7 +120,7 @@ class OPNewTOTPUrl:
         return url_str
 
 
-@op_register_item_field_type
+@op_register_new_item_field_type
 class OPNewTOTPField(OPNewStringField):
     FIELD_TYPE = "OTP"
 

@@ -9,7 +9,7 @@ from .item_section import OPSection
 from .uuid import OPUniqueIdentifierBase32, is_uuid
 
 
-class OPNewTOTPUrlException(Exception):
+class OPNewTOTPUriException(Exception):
     pass
 
 
@@ -97,7 +97,7 @@ class OPNewTOTPUri:
         try:
             base64.b32decode(secret, casefold=True)
         except binascii.Error as e:
-            raise OPNewTOTPUrlException(
+            raise OPNewTOTPUriException(
                 f"Invalid secret string: base32 decoding {e}")
 
     def __str__(self):

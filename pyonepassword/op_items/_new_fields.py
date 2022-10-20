@@ -77,7 +77,7 @@ class OPNewPasswordField(OPNewConcealedField):
     FIELD_PURPOSE = "PASSWORD"
 
 
-class OPNewTOTPUrl:
+class OPNewTOTPUri:
     # otpauth://totp/<website>:<user>?secret=<secret>&issuer=<issuer>'
     # https://rootprojects.org/authenticator/
     def __init__(self,
@@ -126,9 +126,9 @@ class OPNewTOTPField(OPNewStringField):
 
     def __init__(self,
                  field_label: str,
-                 totp_value: Union[str, OPNewTOTPUrl],
+                 totp_value: Union[str, OPNewTOTPUri],
                  field_id=None,
                  section: OPSection = None):
-        if isinstance(totp_value, OPNewTOTPUrl):
+        if isinstance(totp_value, OPNewTOTPUri):
             totp_value = str(totp_value)
         super().__init__(field_label, totp_value, field_id, section)

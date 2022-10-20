@@ -8,7 +8,7 @@ from pyonepassword.api.object_types import (
     OPNewLoginItem,
     OPTOTPField
 )
-from pyonepassword.op_items._new_fields import OPNewTOTPField, OPNewTOTPUrl
+from pyonepassword.op_items._new_fields import OPNewTOTPField, OPNewTOTPUri
 from pyonepassword.op_items.password_recipe import (
     LETTERS_DIGITS_SYMBOLS_20,
     OPPasswordRecipe
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     account_name = "newuser@website"
     new_totp = "otpauth://totp/Example%20Website:newuser%40website?secret=EPW4UE4E7IKC2QMB&issuer=Example%20Website"
     # or...
-    new_totp = OPNewTOTPUrl(secret, account_name=account_name, issuer=issuer)
+    new_totp = OPNewTOTPUri(secret, account_name=account_name, issuer=issuer)
     print(str(new_totp))
 
     totp_field_label = "One-time Password"

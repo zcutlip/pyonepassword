@@ -51,6 +51,21 @@ def test_new_totp_uri_02(expected_item_field_data: ExpectedItemFieldData):
     assert str(new_uri) == expected_uri
 
 
+def test_new_totp_uri_03(expected_item_field_data: ExpectedItemFieldData):
+    """
+    Test creating an totp field without an issuer
+    """
+    expected_field: ExpectedItemField = expected_item_field_data.data_for_key(
+        "example-totp-field-no-issuer")
+    account_name = "newuser@website"
+    secret = "EPW4UE4E7IKC2QMB"
+    expected_uri = expected_field.value
+
+    new_uri = OPNewTOTPUri(secret, account_name=account_name)
+
+    assert str(new_uri) == expected_uri
+
+
 def test_new_totp_uri_invalid_secret_01(invalid_data: InvalidData):
     invalid_secret = invalid_data.data_for_name("invalid_base32_secret")
     issuer = "Example Website"

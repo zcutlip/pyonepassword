@@ -4,7 +4,12 @@ from typing import TYPE_CHECKING, List
 
 import pytest
 
-from pyonepassword.api.object_types import OPLoginItem
+from pyonepassword.api.object_types import (
+    OPConcealedField,
+    OPLoginItem,
+    OPStringField,
+    OPTOTPField
+)
 from pyonepassword.op_items.field_registry import OPItemFieldFactory
 
 if TYPE_CHECKING:
@@ -37,6 +42,7 @@ def test_item_field_01(valid_data: ValidData, expected_item_field_data: Expected
     expected = expected_item_field_data.data_for_key("example-login-username")
     field_dict = valid_data.data_for_name("login-item-field-username")
     field = OPItemFieldFactory.item_field(field_dict)
+    assert isinstance(field, OPStringField)
     assert field.field_id == expected.field_id
 
 
@@ -92,6 +98,7 @@ def test_item_field_11(valid_data: ValidData, expected_item_field_data: Expected
     expected = expected_item_field_data.data_for_key("example-login-password")
     field_dict = valid_data.data_for_name("login-item-field-password")
     field = OPItemFieldFactory.item_field(field_dict)
+    assert isinstance(field, OPConcealedField)
     assert field.field_id == expected.field_id
 
 
@@ -153,6 +160,28 @@ def test_item_field_17(valid_data: ValidData, expected_item_field_data: Expected
     low = expected_entropy * (1 - margin)
     assert field.entropy < high
     assert field.entropy > low
+
+
+def test_item_field_18(valid_data: ValidData, expected_item_field_data: ExpectedItemFieldData):
+    expected: ExpectedItemField
+
+    expected = expected_item_field_data.data_for_key(
+        "example-totp-field-no-issuer")
+    field_dict = valid_data.data_for_name("login-item-field-totp")
+    field: OPTOTPField = OPItemFieldFactory.item_field(field_dict)
+    assert isinstance(field, OPTOTPField)
+    assert field.totp == expected.totp
+
+
+def test_item_field_19(valid_data: ValidData, expected_item_field_data: ExpectedItemFieldData):
+    expected: ExpectedItemField
+
+    expected = expected_item_field_data.data_for_key(
+        "example-totp-field-no-issuer")
+    field_dict = valid_data.data_for_name("login-item-field-totp")
+    field: OPTOTPField = OPItemFieldFactory.item_field(field_dict)
+    assert isinstance(field, OPTOTPField)
+    assert field.totp_secret == expected.value
 
 
 def test_item_lookup_field_01(valid_data: ValidData, expected_login_item_data):

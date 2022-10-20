@@ -36,6 +36,10 @@ class ExpectedItemField:
     def entropy(self) -> float:
         return self._data["entropy"]
 
+    @property
+    def totp(self) -> str:
+        return self._data["totp"]
+
 
 class ExpectedItemFieldData:
 

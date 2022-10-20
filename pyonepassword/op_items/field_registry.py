@@ -1,10 +1,6 @@
-from json.decoder import JSONDecodeError
-from typing import Dict, Union
+from typing import Dict
 
 from pyonepassword.op_items.item_field_base import OPItemField
-
-from ..json import safe_unjson
-from ..py_op_exceptions import OPInvalidFieldException
 
 
 class OPItemFieldFactory:
@@ -31,13 +27,10 @@ class OPItemFieldFactory:
         return item_cls(field_dict)
 
     @classmethod
-    def item_field(cls, item_json_or_dict: Union[str, Dict], *args):
-        try:
-            field_dict = safe_unjson(item_json_or_dict)
-        except JSONDecodeError as jdce:
-            raise OPInvalidFieldException(
-                f"Failed to unserialize field JSON: {jdce}") from jdce
-        obj = cls._field_from_dict(field_dict, *args)
+    def item_field(cls, field_dict: Dict, *args):
+        item_cls = cls.field_type_lookup(field_dict)
+
+        obj = item_cls(field_dict)
         return obj
 
 

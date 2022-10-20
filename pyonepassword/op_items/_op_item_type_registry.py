@@ -17,7 +17,7 @@ class OPItemFactory:
     @classmethod
     def register_op_item_type(cls, item_type, item_class):
         if item_type in cls._TYPE_REGISTRY:
-            raise Exception(
+            raise Exception(  # pragma: no coverage
                 f"duplicate for item type {item_type}: {item_class}")
         cls._TYPE_REGISTRY[item_type] = item_class
 

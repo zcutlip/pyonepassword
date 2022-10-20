@@ -7,7 +7,7 @@ from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidFieldException
 
 if TYPE_CHECKING:
-    from .item_section import OPSection
+    from .item_section import OPSection  # pragma: no coverage
 
 
 class OPUnknownFieldTypeException(Exception):

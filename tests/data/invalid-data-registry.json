@@ -50,5 +50,10 @@
     "login-item-with-section-collision": {
         "name": "login-item-with-section-collision.json",
         "type": "json"
+    },
+    "invalid_base32_secret": {
+        "name": "invalid_base32_secret.txt",
+        "type": "text",
+        "strip": true
     }
 }

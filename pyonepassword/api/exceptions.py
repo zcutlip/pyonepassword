@@ -1,3 +1,4 @@
+from ..op_items._new_fields import OPNewTOTPUriException
 from ..op_items._op_item_type_registry import OPUnknownItemTypeException
 from ..op_items._op_items_base import (
     OPFieldNotFoundException,

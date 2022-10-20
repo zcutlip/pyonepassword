@@ -7,6 +7,10 @@
         "name": "login-item-field-username.json",
         "type": "json"
     },
+    "login-item-field-totp": {
+        "name": "login-item-field-totp.json",
+        "type": "json"
+    },
     "example-op-config": {
         "name": "example-op-config.json",
         "type": "text"

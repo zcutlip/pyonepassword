@@ -1,0 +1,8 @@
+{
+    "id": "TOTP_fsgftgqr6da6dl2civ4ktd7dze",
+    "type": "OTP",
+    "label": "One-time Password",
+    "value": "otpauth://totp/newuser%40website?secret=EPW4UE4E7IKC2QMB",
+    "totp": "649914",
+    "reference": "op://Test Data/New Login with TOTP/One-time Password"
+}

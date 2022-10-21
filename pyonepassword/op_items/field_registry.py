@@ -21,12 +21,6 @@ class OPItemFieldFactory:
         return field_class
 
     @classmethod
-    def _field_from_dict(cls, field_dict):
-        item_cls = cls.field_type_lookup(field_dict)
-
-        return item_cls(field_dict)
-
-    @classmethod
     def item_field(cls, field_dict: Dict, *args):
         item_cls = cls.field_type_lookup(field_dict)
 

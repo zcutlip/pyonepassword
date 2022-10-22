@@ -1,7 +1,7 @@
 try:
     # register colored_traceback hook if in a dev environment (dev-reqs.txt)
     import colored_traceback.auto
-except ImportError:
+except ImportError:  # pragma: no coverage
     # otherwise just stick to the basics
     pass
 

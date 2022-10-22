@@ -50,5 +50,9 @@
     "example-field-no-uuid-2": {
         "name": "example-field-no-uuid-2.json",
         "type": "json"
+    },
+    "example-login-one-tag": {
+        "name": "example-login-one-tag.json",
+        "type": "json"
     }
 }

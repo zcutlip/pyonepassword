@@ -1,0 +1,53 @@
+{
+  "id": "hnz7kyj346tt5m7krhvhsax5fq",
+  "title": "Login Item with 1 Tag",
+  "tags": ["example-tag-1"],
+  "version": 1,
+  "vault": {
+    "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+    "name": "Test Data"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+  "created_at": "2022-10-22T16:53:03Z",
+  "updated_at": "2022-10-22T16:53:03Z",
+  "additional_information": "example_user",
+  "urls": [
+    {
+      "label": "website",
+      "primary": true,
+      "href": "https://example-websitecom"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "example_user",
+      "reference": "op://Test Data/Login Item with 1 Tag/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "xZNNdHZadGQo8WRnbQ4Z",
+      "entropy": 115.5291519165039,
+      "reference": "op://Test Data/Login Item with 1 Tag/password",
+      "password_details": {
+        "entropy": 115,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data/Login Item with 1 Tag/notesPlain"
+    }
+  ]
+}

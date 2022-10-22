@@ -33,6 +33,7 @@ from .py_op_exceptions import (
     OPDocumentGetException,
     OPForgetException,
     OPInvalidDocumentException,
+    OPInvalidItemException,
     OPSignoutException
 )
 
@@ -407,6 +408,9 @@ class OP(_OPCommandInterface):
                     new_item: OPNewItemMixin,
                     password_recipe: OPPasswordRecipe = None,
                     vault=None):
+        if not isinstance(new_item, OPNewItemMixin):
+            raise OPInvalidItemException(
+                "Attempting to create item using object not from a template")
         result_str = super()._item_create(
             new_item, password_recipe=password_recipe, vault=vault)
         op_item = OPItemFactory.op_item(result_str)

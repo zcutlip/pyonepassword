@@ -3,7 +3,6 @@ from typing import List
 
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
-from .py_op_exceptions import OPInvalidItemException
 
 
 class _OPArgv(list):
@@ -264,9 +263,6 @@ class _OPArgv(list):
         """
         op item create --template ./new_item.json --vault "Test Data" --generate-password=20,letters,digits --dry-run --format json
         """
-        if not isinstance(item, OPNewItemMixin):
-            raise OPInvalidItemException(
-                "Attempting to create item using object not from a template")
 
         template_filename = item.secure_tempfile(
             encoding=encoding)

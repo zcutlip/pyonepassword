@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
+from pyonepassword.api.exceptions import OPNewLoginItemURLException
 from pyonepassword.api.object_types import (
     OPLoginItemNewPrimaryURL,
     OPLoginItemNewURL,
@@ -433,3 +434,62 @@ def test_new_login_item_14():
         new_login = None
     except Exception as e:
         assert False, f"new_login = None raised an exception {e}"
+
+
+def test_new_login_item_15():
+    """
+    Create:
+        - An OPNewLoginItem object with a URL string
+    Verify:
+        - OPNewLoginItemURLException is raised because URL must be a OPLoginItemUrl object
+    """
+    username = "test_username"
+    title = "Test Login Item"
+    primary_url = "https://example.com/index.html"
+
+    with pytest.raises(OPNewLoginItemURLException):
+        OPNewLoginItem(title, username,  url=primary_url)
+
+
+def test_new_login_item_16():
+    """
+    Create:
+        - An OPNewLoginItem object with a non-primary OPLoginItemUrl
+    Verify:
+        - OPNewLoginItemURLException is raised because url.primary must be true
+    """
+    username = "test_username"
+    title = "Test Login Item"
+    url = "https://example.com/index.html"
+
+    # create a url that is not primary
+    url = OPLoginItemNewURL(url, "Example URL")
+    with pytest.raises(OPNewLoginItemURLException):
+        OPNewLoginItem(title, username,  url=url)
+
+
+def test_new_login_item_17():
+    """
+    Create:
+        - An OPNewLoginItem object with a primary OPLoginItemUrl
+        - add a second primary OPLoginItemUrl
+    Verify:
+        - OPNewLoginItemURLException is raised because there can't be two primary OPLoginItemUrl objects
+    """
+    username = "test_username"
+    title = "Test Login Item"
+    primary_url = "https://example.com/index.html"
+    primary_url_label = "Example URL"
+
+    second_url = "https://second-example.com"
+    second_url_label = "Secondary URL"
+
+    primary_url = OPLoginItemNewPrimaryURL(primary_url, primary_url_label)
+
+    # create a second url that's also primary
+    second_url = OPLoginItemNewPrimaryURL(second_url, second_url_label)
+
+    new_login = OPNewLoginItem(title, username,  url=primary_url)
+
+    with pytest.raises(OPNewLoginItemURLException):
+        new_login.add_url(second_url)

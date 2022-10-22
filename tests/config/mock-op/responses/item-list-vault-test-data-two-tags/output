@@ -1,0 +1,46 @@
+[
+  {
+    "id": "hnz7kyj346tt5m7krhvhsax5fq",
+    "title": "Login Item with 1 Tag",
+    "tags": ["example-tag-1"],
+    "version": 1,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "LOGIN",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2022-10-22T16:53:03Z",
+    "updated_at": "2022-10-22T16:53:03Z",
+    "additional_information": "example_user",
+    "urls": [
+      {
+        "label": "website",
+        "primary": true,
+        "href": "https://example-websitecom"
+      }
+    ]
+  },
+  {
+    "id": "uyhtbpp342uzud35efyik7h35q",
+    "title": "Login Item with 2 Tags",
+    "tags": ["example-tag-1", "example-tag-2"],
+    "version": 1,
+    "vault": {
+      "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+      "name": "Test Data"
+    },
+    "category": "LOGIN",
+    "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+    "created_at": "2022-10-22T16:53:03Z",
+    "updated_at": "2022-10-22T16:53:36Z",
+    "additional_information": "example_user",
+    "urls": [
+      {
+        "label": "website",
+        "primary": true,
+        "href": "https://example-websitecom"
+      }
+    ]
+  }
+]

@@ -76,5 +76,5 @@ class _OPCLIExecute:
         print("logger has been set")
 
     @classmethod
-    def set_log_level(cls, log_level: int):
+    def set_log_level(cls, log_level: int):  # pragma: no coverage
         cls.logger.setLevel(log_level)

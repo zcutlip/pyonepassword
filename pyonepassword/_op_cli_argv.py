@@ -22,7 +22,7 @@ class _OPArgv(list):
         # maybe instead of an "args" array plus a bunch of named kwargs,
         # send in a dict that gets passed through tree of argv building logic?
         argv = [op_exe]
-        if encoding.lower() != "utf-8":
+        if encoding.lower() != "utf-8":  # pragma: no coverage
             global_args.extend(["--encoding", encoding])
         if cache:
             global_args.append("--cache")

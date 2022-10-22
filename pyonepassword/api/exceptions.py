@@ -5,6 +5,7 @@ from ..op_items._op_items_base import (
     OPSectionCollisionException,
     OPSectionNotFoundException
 )
+from ..op_items.login import OPNewLoginItemURLException
 from ..op_objects import (
     OPInvalidGroupException,
     OPInvalidGroupListException,

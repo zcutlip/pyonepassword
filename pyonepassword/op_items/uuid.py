@@ -20,7 +20,7 @@ class OPUniqueIdentifierBase32:
         return b32unique_id
 
 
-class OPUniqueIdentifierHex(OPUniqueIdentifierBase32):
+class OPUniqueIdentifierHex(OPUniqueIdentifierBase32):  # pragma: no coverage
     PREFIX = ""
 
     def __init__(self, uppercase=True):

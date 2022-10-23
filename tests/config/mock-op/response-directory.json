@@ -341,13 +341,6 @@
       "name": "whoami",
       "changes_state": false
     },
-    "--format|json|item|list|--tags|example-tag-1|--vault|Test Data": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-list-vault-test-data-single-tag",
-      "changes_state": false
-    },
     "--format|json|item|list|--tags|example-tag-1,example-tag-2|--vault|Test Data": {
       "exit_status": 0,
       "stdout": "output",

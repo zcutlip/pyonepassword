@@ -94,6 +94,7 @@ class OPLoginItem(OPAbstractItem):
 class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
     FIELD_ID_USERNAME = "username"
     FIELD_ID_PASSWORD = "password"
+    DEFAULT_URL_LABEL = "website"
 
     def __init__(self,
                  title: str,
@@ -111,12 +112,9 @@ class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
             fields = []
         else:
             fields = list(fields)
-        # were we provided a URL string intead of a OPLoginItemURL object?
-        # We can't just create an object because we don't know what the label should be
-        # TODO: should we just apply a standard primary URL label, like "website"?
-        if url is not None and not isinstance(url, OPLoginItemURL):
-            raise OPNewLoginItemURLException(
-                "URL must be in instance of OPLoginItemURL. Create a new one with OPLoginItemNewURL, or OPLoginItemNewPrimaryURL")
+
+        if isinstance(url, str):
+            url = OPLoginItemNewPrimaryURL(url, self.DEFAULT_URL_LABEL)
 
         username_field = OPNewUsernameField(
             self.FIELD_ID_USERNAME,

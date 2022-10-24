@@ -441,14 +441,14 @@ def test_new_login_item_15():
     Create:
         - An OPNewLoginItem object with a URL string
     Verify:
-        - OPNewLoginItemURLException is raised because URL must be a OPLoginItemUrl object
+        - new_login's primary url matches the URL string provided
     """
     username = "test_username"
     title = "Test Login Item"
     primary_url = "https://example.com/index.html"
 
-    with pytest.raises(OPNewLoginItemURLException):
-        OPNewLoginItem(title, username,  url=primary_url)
+    new_login = OPNewLoginItem(title, username,  url=primary_url)
+    assert new_login.primary_url.href == primary_url
 
 
 def test_new_login_item_16():

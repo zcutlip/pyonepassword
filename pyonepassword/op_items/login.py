@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._item_descriptor_registry import op_register_item_descriptor_type
@@ -92,6 +92,10 @@ class OPLoginItem(OPAbstractItem):
 
 
 class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
+    """
+    Class for creating a login item template that can be used to create a new login item in 1Password
+    """
+
     FIELD_ID_USERNAME = "username"
     FIELD_ID_PASSWORD = "password"
     DEFAULT_URL_LABEL = "website"
@@ -100,10 +104,35 @@ class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
                  title: str,
                  username: str,
                  password: str = None,
-                 url: OPLoginItemURL = None,
+                 url: Union[str, OPLoginItemURL] = None,
                  fields: List[OPItemField] = [],
                  sections: List[OPSection] = []):
+        """
+        Create an OPNewLoginItem object. That can be used to create a new login item entry
 
+        Parameters
+        ----------
+        Title : str
+            User viewable name of the login item to create
+        username : str
+            username string for the new login item
+        password : str, optional
+            password to set for this login item
+        url: Union[str, OPLoginItemURL] = None
+            If provided, set to the primary URL of the login item
+            If URL is a str, it is converted to OPLoginItemURL, with label="website"
+        fields: List[OPItemField]
+            List of OPItemField objects to associate with the item.
+            NOTE: If the fields are from an exisiting item, and the field IDs are UUIDs, the field IDs will be regenerated
+        sections: List[OPSection]
+            List of OPSection objects to associate with the item.
+            NOTE: If the sections are from an exisiting item, and the section IDs are UUIDs, the section IDs will be regenerated
+
+        Raises
+        ------
+        OPNewLoginItemURLException
+            If an OPUrlItem object is provided to the constructor, and it's not flagged as a primary URL
+        """
         if sections is None:  # pragma: no coverage
             sections = []
         else:
@@ -138,6 +167,19 @@ class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
         super().__init__(title, sections=sections, fields=fields, extra_data=extra_data)
 
     def add_url(self, url: OPLoginItemURL):
+        """
+        Add a URL to this login item
+
+        Parameters
+        ----------
+        url: OPLoginItemURL
+            The URL to add to this login item
+
+        Raises
+        ------
+        OPNewLoginItemURLException
+            If the URL object is a primary URL, and there is already a primary URL
+        """
         has_primary = False
         if self.primary_url:
             has_primary = True

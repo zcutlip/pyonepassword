@@ -108,7 +108,7 @@ class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
                  fields: List[OPItemField] = [],
                  sections: List[OPSection] = []):
         """
-        Create an OPNewLoginItem object. That can be used to create a new login item entry
+        Create an OPNewLoginItem object that can be used to create a new login item entry
 
         Parameters
         ----------

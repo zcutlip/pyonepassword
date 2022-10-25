@@ -37,7 +37,7 @@ class OPNewSection(OPSection):
 
 class OPNewItemMixin:
 
-    def __init__(self, title: str, sections: List[OPSection] = [], fields: List[OPItemField] = [], extra_data={}):
+    def __init__(self, title: str, fields: List[OPItemField] = [], sections: List[OPSection] = [], extra_data={}):
         if sections is None:  # pragma: no coverage
             sections = []
         else:

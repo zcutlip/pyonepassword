@@ -96,19 +96,31 @@ class OPNewItemField(OPItemField):
 
 @op_register_new_item_field_type
 class OPNewStringField(OPNewItemField):
+    """
+    A class for creating a new item field of type 'STRING'
+    """
     FIELD_TYPE = "STRING"
 
 
 @op_register_new_item_field_type
 class OPNewConcealedField(OPNewItemField):
+    """
+    A class for creating a new item field of type 'CONCEALED'
+    """
     FIELD_TYPE = "CONCEALED"
 
 
 class OPNewUsernameField(OPNewStringField):
+    """
+    A class for creating a new specialized item field of type 'STRING' and purpose 'USERNAME'
+    """
     FIELD_PURPOSE = "USERNAME"
 
 
 class OPNewPasswordField(OPNewConcealedField):
+    """
+    A class for creating a new specialized item field of type 'CONCEALED' and purpose 'PASSWORD'
+    """
     FIELD_PURPOSE = "PASSWORD"
 
 

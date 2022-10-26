@@ -1,6 +1,14 @@
 from ..account import OPAccount
 from ..op_items._item_list import OPItemList
-from ..op_items._new_fields import OPNewTOTPField, OPNewTOTPUri
+from ..op_items._new_fields import (
+    OPNewConcealedField,
+    OPNewItemField,
+    OPNewPasswordField,
+    OPNewStringField,
+    OPNewTOTPField,
+    OPNewTOTPUri,
+    OPNewUsernameField
+)
 from ..op_items.api_credential import OPAPICredentialItem
 from ..op_items.credit_card import OPCreditCardItem
 from ..op_items.document import OPDocumentFile, OPDocumentItem

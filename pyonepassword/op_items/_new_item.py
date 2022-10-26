@@ -16,7 +16,23 @@ class OPNewItemDataCollisionException(Exception):
 
 
 class OPNewSection(OPSection):
+    """
+    A class for creating new sections for use with new items
+
+    New sections may be created directly, or from existing sections
+    """
+
     def __init__(self, section_label: str, section_id: str = None):
+        """
+        Create a new section object
+
+        Parameters
+        ----------
+        section_label: str
+            The user-visible name of the section
+        section_id: str, optional
+            The unique identifier for this section. If none is provided, a random one will be generated
+        """
         if not section_id:
             unique_id = OPUniqueIdentifierBase32()
             section_id = str(unique_id)
@@ -28,6 +44,20 @@ class OPNewSection(OPSection):
 
     @classmethod
     def from_section(cls, section: OPSection):
+        """
+        Create a new section from an existing one
+
+        If the existing section's ID is a random ID, a new random ID will be generated
+
+        Parameters
+        ----------
+        section: OPSection
+            The section object to duplicate
+
+        Returns:
+        new_section: OPNewSection
+            The newly created section object
+        """
         section_id = section.section_id
         if is_uuid(section_id):
             section_id = str(OPUniqueIdentifierBase32())

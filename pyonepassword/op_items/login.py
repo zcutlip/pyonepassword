@@ -41,7 +41,24 @@ class OPLoginItemURL(dict):
 
 
 class OPLoginItemNewURL(OPLoginItemURL):
+    """
+    A class to create a new URL dictionary for use with OPNewLoginItem
+    """
+
     def __init__(self, url: str, label: str, primary: bool = False):
+        """
+        Create a new OPLoginItemNewURL object
+
+        Parameters
+        ----------
+        url: str
+            The URL for this object
+        label: str
+            The user-visible name of the URL entry
+        primary: bool, optional
+            Whether this URL should be flagged as primary. Defaults to False
+            NOTE: There can only be one primary URL in a login item
+        """
         url_dict = {
             "label": label,
             "primary": primary,
@@ -51,6 +68,10 @@ class OPLoginItemNewURL(OPLoginItemURL):
 
 
 class OPLoginItemNewPrimaryURL(OPLoginItemNewURL):
+    """
+    A class to create a new primary URL dictionary for use with OPNewLoginItem
+    """
+
     def __init__(self, url: str, label: str):
         super().__init__(url, label, primary=True)
 

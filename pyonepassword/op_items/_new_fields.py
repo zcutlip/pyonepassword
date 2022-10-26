@@ -14,10 +14,29 @@ class OPNewTOTPUriException(Exception):
 
 
 class OPNewItemField(OPItemField):
+    """
+    A class for creating new fields for use with new items
+
+    New fields may be created directly, or from existing fields
+    """
     FIELD_TYPE = None
     FIELD_PURPOSE = None
 
     def __init__(self, field_label: str, value: Any, field_id=None, section: OPSection = None):
+        """
+        Create a new field object
+
+        NOTE: This class must be subclassed and FIELD_TYPE overridden
+
+        Parameters
+        ----------
+        field_label: str
+            The user-visible name of the field
+        field_id: str, optional
+            The unique identifier for this field. If none is provided, a random one will be generated
+        section: OPSection, optional
+            The section this field should be associated with. Not all fields are in sections
+        """
         if not self.FIELD_TYPE:  # pragma: no cover
             raise TypeError(
                 f"{self.__class__.__name__} must be overridden and FIELD_TYPE set")
@@ -50,6 +69,22 @@ class OPNewItemField(OPItemField):
 
     @classmethod
     def from_field(cls, field: OPItemField, section: OPSection = None):
+        """
+        Create a new field from an existing one
+
+        If the existing field's ID is a random ID, a new random ID will be generated
+
+        Parameters
+        ----------
+        field: OPItemField
+            The field object to duplicate
+        section: OPSection, optional
+            The section this field should be associated with. Not all fields are in sections
+        Returns
+        -------
+        new_field: OPItemField
+            The newly created field object
+        """
         field_id = field["id"]
         if is_uuid(field_id):
             field_id = str(OPUniqueIdentifierBase32())

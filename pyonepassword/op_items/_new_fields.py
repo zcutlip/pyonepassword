@@ -125,18 +125,43 @@ class OPNewPasswordField(OPNewConcealedField):
 
 
 class OPNewTOTPUri:
+    """
+    A class for constructing a properly formed TOTP URI from a secret, account name, and issuer
+    """
     # otpauth://totp/<website>:<user>?secret=<secret>&issuer=<issuer>'
     # https://rootprojects.org/authenticator/
+
     def __init__(self,
                  secret: str,
                  account_name: Optional[str] = None,
                  issuer: Optional[str] = None):
+        """
+        Create a new OPNewTOTPUri object for use with a OPNewTOTPField
+
+        Parameters
+        ----------
+        secret: str
+            The base32-encoded secret seed for the TOTP generator.
+            The base32 padding should be stripped. This value will be
+            verified via base32 decoding
+        account_name: str, optional
+            The name of the account this TOTP is for. Defaults to "secret"
+        issuer: str, optional
+            The website or issuer for this TOTP object
+
+        Raises
+        ------
+        OPNewTOTPUriException
+            If the secret fails base32 decode verification
+        """
         self._secret = secret
         self._issuer = issuer
         self._account = account_name or "secret"
         self._verify_secret()
 
     def _verify_secret(self):
+        # Re-pad the secret and attempt to base32 decode it
+        # raise an exception if decoding fails
         secret = self._secret
         missing_padding = len(secret) % 8
         if missing_padding != 0:

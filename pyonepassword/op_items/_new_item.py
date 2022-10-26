@@ -66,8 +66,54 @@ class OPNewSection(OPSection):
 
 
 class OPNewItemMixin:
+    """
+    A class that, when subclassed along with one of the item classes (OPLogin, etc.), allows a
+    item of that type to be created from a template
+    E.g.,
+    class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
+        ...
+
+    NOTE: It is essential OPNewItemMixin be named first, so its `__init_()` gets called first
+    """
 
     def __init__(self, title: str, fields: List[OPItemField] = [], sections: List[OPSection] = [], extra_data={}):
+        """
+        Create an OPNewItemMixin object that can be used to create a new item entry
+
+        Parameters
+        ----------
+        Title : str
+            User viewable name of the item to create
+        fields: List[OPItemField], optional
+            List of OPItemField objects to associate with the item.
+            NOTE: If the fields are from an exisiting item, and the field IDs are UUIDs, the field IDs will be regenerated
+        sections: List[OPSection], optional
+            List of OPSection objects to associate with the item.
+            NOTE: If the sections are from an exisiting item, and the section IDs are UUIDs, the section IDs will be regenerated
+
+        extra_data: Dict[str, Any]
+            Dictionary of data not associated with any field or section, for example login item URLs:
+            {
+                "urls": [
+                    {
+                        "label": "example website 2",
+                        "href": "http://example2.website"
+                    },
+                    {
+                        "label": "example website 1",
+                        "primary": true,
+                        "href": "https://example.website"
+                    }
+                ]
+            }
+
+        Raises
+        ------
+        OPSectionCollisionException
+            If two or more sections have conflicting section IDs
+        OPNewItemDataCollisionException
+            If one or more keys in extra_data is already present in this item
+        """
         if sections is None:  # pragma: no coverage
             sections = []
         else:
@@ -127,6 +173,21 @@ class OPNewItemMixin:
         self._temp_files = []
 
     def secure_tempfile(self, encoding="utf8") -> str:
+        """
+        Serialize this item object to a secure temp file for use during 'op item create'
+
+        The temporary file is deleted when this object goes out of scope
+
+        Parameters
+        ----------
+        encoding: str, optional
+            Encoding to use when serializing to file. Defaults to "utf-8"
+
+        Returns
+        -------
+        temp.name: str
+            The name of the temporary file
+        """
         temp = tempfile.NamedTemporaryFile(
             mode="w", delete=False, encoding=encoding)
         self._temp_files.append(temp.name)

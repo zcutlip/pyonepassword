@@ -194,6 +194,9 @@ class OPNewTOTPUri:
 
 @op_register_new_item_field_type
 class OPNewTOTPField(OPNewStringField):
+    """
+    A class for creating a new item field of type 'OTP'
+    """
     FIELD_TYPE = "OTP"
 
     def __init__(self,
@@ -201,6 +204,21 @@ class OPNewTOTPField(OPNewStringField):
                  totp_value: Union[str, OPNewTOTPUri],
                  field_id=None,
                  section: OPSection = None):
+        """
+        Create a new TOTP field object
+
+
+        Parameters
+        ----------
+        field_label: str
+            The user-visible name of the field
+        totp_value: Union[str, OPNewTOTPUri]
+            The TOTP URI value for this field. May be a string or a OPNewTOTPUri object
+        field_id: str, optional
+            The unique identifier for this field. If none is provided, a random one will be generated
+        section: OPSection, optional
+            The section this field should be associated with. Not all fields are in sections
+        """
         if isinstance(totp_value, OPNewTOTPUri):
             totp_value = str(totp_value)
         super().__init__(field_label, totp_value, field_id, section)

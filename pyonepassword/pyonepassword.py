@@ -408,6 +408,15 @@ class OP(_OPCommandInterface):
                     new_item: OPNewItemMixin,
                     password_recipe: OPPasswordRecipe = None,
                     vault=None):
+        """
+        Create a new item in the authenticated 1Password account
+
+        Parameters
+        ----------
+        new_item: (OPNewItemMixin, OPAbstractItem)
+            An object inheriting from OPnewItemMixin and OPAbstractItem representing the populated template
+            of the new item to create
+        """
         if not isinstance(new_item, OPNewItemMixin):
             raise OPInvalidItemException(
                 "Attempting to create item using object not from a template")

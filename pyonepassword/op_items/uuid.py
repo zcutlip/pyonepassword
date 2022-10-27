@@ -1,13 +1,17 @@
 import base64
-import random
 import re
+import secrets
 
 
 class OPUniqueIdentifierBase32:
     BYTE_COUNT = 16
 
     def __init__(self, uppercase=False):
-        self._random_bytes = random.randbytes(self.BYTE_COUNT)
+        # use secrets.token_bytes() rather than random.randbytes()
+        # mainly because randbytes() isn't available < python 3.9
+        # It's also  better for cryptographic secrets, but
+        # that shouldn't matter here
+        self._random_bytes = secrets.token_bytes(self.BYTE_COUNT)
         self._upper = uppercase
 
     def __str__(self):

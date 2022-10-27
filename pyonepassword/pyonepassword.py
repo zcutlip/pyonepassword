@@ -423,6 +423,24 @@ class OP(_OPCommandInterface):
                           url: str = None,
                           url_label: str = "Website",
                           vault=None):
+        """
+        Create a new login item in the authenticated 1Password account
+
+        Parameters
+        ----------
+        Title : str
+            User viewable name of the login item to create
+        username : str
+            username string for the new login item
+        password : Union[str, OPPasswordRecipe], optional
+            May be one of:
+                - the literal password string to set for this login item
+                - a OPPasswordRecipe object that will be provided to '--generate-password='
+            If a password string is provided that password will be set for this login item
+            If an OPPasswordRecipe object is provided, it will ensure a well-formed password recipe string is provided to '--generate-password='
+        url: str, optional
+            If provided, set to the primary URL of the login item
+        """
         password_recipe = None
 
         # if password is actually a password recipe,

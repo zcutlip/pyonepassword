@@ -1,5 +1,5 @@
 import base64
-import random
+import secrets
 from pprint import pprint  # noqa: F401
 
 from pyonepassword import OP
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     recipe = OPPasswordRecipe(length=40, digits=False, symbols=False)
     # or...
     recipe = LETTERS_DIGITS_SYMBOLS_20
-    secret = random.randbytes(10)
+    secret = secrets.token_bytes(10)
     secret = base64.b32encode(secret).decode()
     secret = secret.rstrip("=")
 

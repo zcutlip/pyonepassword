@@ -29,13 +29,17 @@ then
     shift
 elif [ "$1" = "py310" ];
 then
-    container="docker_py38"
+    container="docker_py310"
+    shift
+elif [ "$1" = "py311" ];
+then
+    container="docker_py311"
     shift
 fi
 
 if [ -z "$container" ];
 then
-    quit "Speciy py38, py39, or py310" 1
+    quit "Speciy py38, py39, py310, or py311" 1
 fi
 
 

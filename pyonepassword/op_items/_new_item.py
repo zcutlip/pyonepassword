@@ -76,6 +76,10 @@ class OPNewItemMixin:
     NOTE: It is essential OPNewItemMixin be named first, so its `__init_()` gets called first
     """
 
+    # Whether this item type can have a password generated
+    # override for item types that do support passwords (e.g., Login)
+    PASSWORDS_SUPPORTED = False
+
     def __init__(self, title: str, fields: List[OPItemField] = [], sections: List[OPSection] = [], extra_data={}):
         """
         Create an OPNewItemMixin object that can be used to create a new item entry
@@ -194,6 +198,16 @@ class OPNewItemMixin:
         json.dump(self, temp)
         temp.close()
         return temp.name
+
+    def supports_passwords(self) -> bool:
+        """
+        Whether passwords are applicable items of this type
+
+        Returns
+        -------
+        password_supported: bool
+        """
+        return self.PASSWORDS_SUPPORTED
 
     def __del__(self):
 

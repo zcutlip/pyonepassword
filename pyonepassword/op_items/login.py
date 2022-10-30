@@ -117,6 +117,8 @@ class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
     Class for creating a login item template that can be used to create a new login item in 1Password
     """
 
+    PASSWORDS_SUPPORTED = True
+
     FIELD_ID_USERNAME = "username"
     FIELD_ID_PASSWORD = "password"
     DEFAULT_URL_LABEL = "website"

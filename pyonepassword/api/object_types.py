@@ -14,6 +14,7 @@ from ..op_items.credit_card import OPCreditCardItem
 from ..op_items.document import OPDocumentFile, OPDocumentItem
 from ..op_items.item_field import OPConcealedField, OPStringField, OPTOTPField
 from ..op_items.item_field_base import OPItemField
+from ..op_items.item_section import OPSection
 from ..op_items.login import (
     OPLoginItem,
     OPLoginItemNewPrimaryURL,

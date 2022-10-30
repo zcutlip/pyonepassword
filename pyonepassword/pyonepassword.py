@@ -420,6 +420,9 @@ class OP(_OPCommandInterface):
         if not isinstance(new_item, OPNewItemMixin):
             raise OPInvalidItemException(
                 "Attempting to create item using object not from a template")
+        if password_recipe and not new_item.supports_passwords():
+            raise OPInvalidItemException(
+                "Password recpipe provided for an item that doesn't support passwords")
         result_str = super()._item_create(
             new_item, password_recipe=password_recipe, vault=vault)
         op_item = OPItemFactory.op_item(result_str)

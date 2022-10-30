@@ -20,3 +20,9 @@ All notable changes to this project will be documented in this file.
 - The following kwargs to `OP()` are deprecated:
   - `use_existing_session`: use `existing_auth` instead
   - `account_shorthand`: use `account` instead
+
+## [3.2.1] - 2022-10-17
+
+### Changed
+
+- Bug where `op` config having no accounts was not handled properly (#43)

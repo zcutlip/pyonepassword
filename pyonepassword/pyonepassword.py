@@ -407,7 +407,7 @@ class OP(_OPCommandInterface):
     def item_create(self,
                     new_item: OPNewItemMixin,
                     password_recipe: OPPasswordRecipe = None,
-                    vault=None):
+                    vault: str = None):
         """
         Create a new item in the authenticated 1Password account
 
@@ -416,10 +416,30 @@ class OP(_OPCommandInterface):
         new_item: (OPNewItemMixin, OPAbstractItem)
             An object inheriting from OPnewItemMixin and OPAbstractItem representing the populated template
             of the new item to create
+        password_recipe: OPPasswordRecipe
+            Where appropriate, the password recipe to pass to '--password=' when creating the item
+        vault: str
+            Name of the vault to assign the item to
+        Raises
+        ------
+        OPInvalideItemException
+            - If new_item does not inherit from OPNewItemMixin
+            - if password_recipe is provided and new_item does not support passwords
+                (currently only Login and Password item types support passwords)
+
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The newly created item object
+
         """
         if not isinstance(new_item, OPNewItemMixin):
             raise OPInvalidItemException(
                 "Attempting to create item using object not from a template")
+
+        # Most items don't support passwords. Only login & password items do
+        # 'op' will fail if we provide a password recipe when creating an
+        # an item that doesn't support passwords
         if password_recipe and not new_item.supports_passwords():
             raise OPInvalidItemException(
                 "Password recpipe provided for an item that doesn't support passwords")

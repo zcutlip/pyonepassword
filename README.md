@@ -312,6 +312,10 @@ enhanced_login = op.item_get("Example Login", vault="Test Data")
 print(enhanced_login.custom_property)
 ```
 
+### Item Creation
+
+For details on creating new items in a 1Password vault, see [ITEM_CREATION.md](ITEM_CREATION.md)
+
 
 ### More Examples
 

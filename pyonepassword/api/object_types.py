@@ -22,11 +22,7 @@ from ..op_items.login import (
     OPNewLoginItem
 )
 from ..op_items.password import OPPasswordItem
-from ..op_items.password_recipe import (
-    LETTERS_DIGITS_25,
-    LETTERS_DIGITS_SYMBOLS_20,
-    OPPasswordRecipe
-)
+from ..op_items.password_recipe import OPPasswordRecipe
 from ..op_items.secure_note import OPSecureNoteItem
 from ..op_items.server import OPServerItem
 from ..op_items.ssh_key import OPSSHKeyItem

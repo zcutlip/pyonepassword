@@ -6,7 +6,7 @@ This document describes the process of item creation using `pyonpassword`, as we
 
 ## Basic item creation
 
-In the simplest case, use a convenience method on a signed-in `OP` object. Currently there is one for creating login items, but more will be added over time.
+In the simplest case, use a convenience method on a signed-in `OP` object. Currently there is one for creating login items, but more will be added over time. Use `op.login_item_create()`.
 
 ```python
 

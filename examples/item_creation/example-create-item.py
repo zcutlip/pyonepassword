@@ -1,29 +1,20 @@
 from pyonepassword import OP
 from pyonepassword.api.object_types import OPLoginItem
-from pyonepassword.op_items.password_recipe import (
-    LETTERS_DIGITS_SYMBOLS_20,
-    OPPasswordRecipe
-)
+
+from ..do_signin import do_signin
 
 if __name__ == "__main__":
+    # see README.md for sign-in process
+    op: OP = do_signin()
 
+    title = "Example Login Item"
     username = "test_username"
-    title = "Test Login Item"
+    great_password = "really-great-password"
 
-    op = OP()
-    recipe = OPPasswordRecipe(length=40, digits=False, symbols=False)
-    # or...
-    recipe = LETTERS_DIGITS_SYMBOLS_20
+    login_url = "https://website.example"
 
     new_item: OPLoginItem = op.login_item_create(title,
                                                  username,
-                                                 url="https://website.example",
-                                                 password=recipe,
+                                                 url=login_url,
+                                                 password=great_password,
                                                  vault="Test Data")
-    # pprint(new_item, indent=2)
-    # new_item_2 = op.login_item_create("New Login 2",
-    #                                   "new_user_2",
-    #                                   url="https://website.example",
-    #                                   password="correct-horse-battery-staple",
-    #                                   vault="Test Data")
-    # pprint(new_item_2, indent=2)

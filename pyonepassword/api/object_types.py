@@ -9,6 +9,7 @@ from ..op_items._new_fields import (
     OPNewTOTPUri,
     OPNewUsernameField
 )
+from ..op_items._new_item import OPNewSection
 from ..op_items.api_credential import OPAPICredentialItem
 from ..op_items.credit_card import OPCreditCardItem
 from ..op_items.document import OPDocumentFile, OPDocumentItem

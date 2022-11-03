@@ -99,9 +99,14 @@ def main():
                                    sections=[new_section], fields=[new_field])
 
     op: OP = do_signin()
+
+    # NOTE: only password recipes, not literal password strings are supported via item_create()
+    #       however, a password string can be provided to OPNewLoginItem()
     recipe = LETTERS_DIGITS_SYMBOLS_20
 
     # Use generic 'item_create()' API to pass in an item template object
+    # NOTE: item_create() will raise an exception if a password recipe is provided
+    # for item types that don't support passwords
     new_item: OPLoginItem = op.item_create(item_template, password_recipe=recipe)
     return new_item
 ```

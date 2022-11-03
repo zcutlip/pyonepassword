@@ -1,17 +1,15 @@
 import base64
 import secrets
-from pprint import pprint  # noqa: F401
 
 from pyonepassword import OP
+from pyonepassword.api.constants import LETTERS_DIGITS_SYMBOLS_20
 from pyonepassword.api.object_types import (
     OPLoginItem,
     OPNewLoginItem,
+    OPNewTOTPField,
+    OPNewTOTPUri,
+    OPPasswordRecipe,
     OPTOTPField
-)
-from pyonepassword.op_items._new_fields import OPNewTOTPField, OPNewTOTPUri
-from pyonepassword.op_items.password_recipe import (
-    LETTERS_DIGITS_SYMBOLS_20,
-    OPPasswordRecipe
 )
 
 

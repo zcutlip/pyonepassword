@@ -17,6 +17,7 @@ from .py_op_exceptions import (
     OPGroupGetException,
     OPGroupListException,
     OPItemCreateException,
+    OPItemDeleteException,
     OPItemGetException,
     OPItemListException,
     OPNotSignedInException,
@@ -326,6 +327,13 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, item_name_or_id, vault=vault_arg, fields=fields)
         return lookup_argv
 
+    def _item_delete_argv(self, item_name_or_id, vault=None, archive=False):
+        vault_arg = vault if vault else self.vault
+
+        delete_argv = _OPArgv.item_delete_argv(
+            self.op_path, item_name_or_id, vault=vault_arg, archive=archive)
+        return delete_argv
+
     def _item_get_totp_argv(self, item_name_or_id, vault=None):
         vault_arg = vault if vault else self.vault
 
@@ -379,6 +387,17 @@ class _OPCommandInterface(_OPCLIExecute):
                 get_item_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPItemGetException.from_opexception(ocfe) from ocfe
+
+        return output
+
+    def _item_delete(self, item_name_or_id, vault=None, archive=False, decode="utf-8"):
+        item_delete_argv = self._item_delete_argv(
+            item_name_or_id, vault=vault, archive=archive)
+        try:
+            output = self._run(
+                item_delete_argv, capture_stdout=True, decode=decode)
+        except OPCmdFailedException as ocfe:
+            raise OPItemDeleteException.from_opexception(ocfe)
 
         return output
 

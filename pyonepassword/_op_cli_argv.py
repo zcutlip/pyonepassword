@@ -283,7 +283,12 @@ class _OPArgv(list):
                          op_exe: str,
                          item_name_or_id: str,
                          vault: str = None,
-                         encoding: str = "utf-8"):
+                         archive: bool = False):
         sub_cmd_args = [item_name_or_id]
-        delete_argv = cls.item_generic_argv("op", "delete", sub_cmd_args)
+        if archive:
+            sub_cmd_args.append("--archive")
+        if vault:
+            sub_cmd_args.extend(["--vault", vault])
+        delete_argv = cls.item_generic_argv(op_exe, "delete", sub_cmd_args)
+
         return delete_argv

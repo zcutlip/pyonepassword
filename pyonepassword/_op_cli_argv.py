@@ -277,3 +277,13 @@ class _OPArgv(list):
         argv = cls.item_generic_argv(
             op_exe, "create", item_create_args)
         return argv
+
+    @classmethod
+    def item_delete_argv(cls,
+                         op_exe: str,
+                         item_name_or_id: str,
+                         vault: str = None,
+                         encoding: str = "utf-8"):
+        sub_cmd_args = [item_name_or_id]
+        delete_argv = cls.item_generic_argv("op", "delete", sub_cmd_args)
+        return delete_argv

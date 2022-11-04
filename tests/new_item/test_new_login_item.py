@@ -9,7 +9,7 @@ from pyonepassword.api.exceptions import OPNewLoginItemURLException
 from pyonepassword.api.object_types import (
     OPLoginItemNewPrimaryURL,
     OPLoginItemNewURL,
-    OPNewLoginItem
+    OPLoginItemTemplate
 )
 from pyonepassword.op_items._new_fields import OPNewStringField
 from pyonepassword.op_items.item_field_base import OPItemField
@@ -69,7 +69,7 @@ def test_new_login_item_01():
     url_label = "Example URL"
 
     new_url = OPLoginItemNewPrimaryURL(primary_url, url_label)
-    new_login = OPNewLoginItem(title, username,  url=new_url)
+    new_login = OPLoginItemTemplate(title, username,  url=new_url)
     assert new_login.username == username
 
 
@@ -80,7 +80,7 @@ def test_new_login_item_02():
     url_label = "Example URL"
 
     new_url = OPLoginItemNewPrimaryURL(primary_url, url_label)
-    new_login = OPNewLoginItem(title, username,  url=new_url)
+    new_login = OPLoginItemTemplate(title, username,  url=new_url)
     assert new_login.primary_url.href == new_url.href
 
 
@@ -96,7 +96,7 @@ def test_new_login_item_03():
     primary_url = OPLoginItemNewPrimaryURL(primary_url, primary_url_label)
     second_url = OPLoginItemNewURL(second_url, second_url_label)
 
-    new_login = OPNewLoginItem(title, username,  url=primary_url)
+    new_login = OPLoginItemTemplate(title, username,  url=primary_url)
 
     new_login.add_url(second_url)
     assert new_login.urls[1].href == second_url.href
@@ -114,7 +114,7 @@ def test_new_login_item_04():
     primary_url = OPLoginItemNewPrimaryURL(primary_url, primary_url_label)
     second_url = OPLoginItemNewURL(second_url, second_url_label)
 
-    new_login = OPNewLoginItem(title, username,  url=primary_url)
+    new_login = OPLoginItemTemplate(title, username,  url=primary_url)
 
     new_login.add_url(second_url)
     assert new_login.primary_url.href == primary_url.href
@@ -127,7 +127,7 @@ def test_new_login_item_05():
     primary_url_label = "Example URL"
     primary_url = OPLoginItemNewPrimaryURL(primary_url, primary_url_label)
 
-    new_login = OPNewLoginItem(title, username)
+    new_login = OPLoginItemTemplate(title, username)
 
     new_login.add_url(primary_url)
     assert new_login.primary_url.href == primary_url.href
@@ -138,7 +138,7 @@ def test_new_login_item_06(valid_data: ValidData):
     Create:
         - two new fields
         - A section associated with the fields
-        - An OPNewLoginItem object with the fields and the section
+        - An OPLoginItemTemplate object with the fields and the section
     Verify:
         - field_1 is property added to the login item
     """
@@ -159,7 +159,7 @@ def test_new_login_item_06(valid_data: ValidData):
     username = "test_username"
     title = "Test Login Item"
 
-    new_login = OPNewLoginItem(
+    new_login = OPLoginItemTemplate(
         title, username, fields=fields, sections=sections)
 
     result = new_login.field_by_id(new_field_1.field_id)
@@ -170,7 +170,7 @@ def test_new_login_item_07(valid_data: ValidData):
     """
     Create:
         - A section associated with existing (as opposed to new) fields
-        - An OPNewLoginItem object with the fields and the section
+        - An OPLoginItemTemplate object with the fields and the section
     Verify:
         - field_1 is properly added
     """
@@ -193,7 +193,7 @@ def test_new_login_item_07(valid_data: ValidData):
     username = "test_username"
     title = "Test Login Item"
 
-    new_login = OPNewLoginItem(
+    new_login = OPLoginItemTemplate(
         title, username, fields=fields, sections=sections)
 
     result = new_login.field_by_id(existing_field_1.field_id)
@@ -205,7 +205,7 @@ def test_new_login_item_08(valid_data: ValidData):
     Create:
         - two new fields with UUID IDs
         - A section associated with the fields
-        - An OPNewLoginItem object with the fields and the section
+        - An OPLoginItemTemplate object with the fields and the section
     Verify:
         - fields' IDs don't get regenerated after creating the login item
     """
@@ -226,7 +226,7 @@ def test_new_login_item_08(valid_data: ValidData):
     username = "test_username"
     title = "Test Login Item"
 
-    new_login = OPNewLoginItem(
+    new_login = OPLoginItemTemplate(
         title, username, fields=fields, sections=sections)
 
     result_1 = new_login.field_by_id(new_field_1.field_id)
@@ -245,7 +245,7 @@ def test_new_login_item_09(valid_data: ValidData):
     Create:
         - Two "non-new" fields with UUID IDs
         - A section associated the two fields
-        - An OPNewLoginItem object with the fields and the section
+        - An OPLoginItemTemplate object with the fields and the section
     Verify:
         - fields' IDs DO get regenerated after creating the login item
     """
@@ -268,7 +268,7 @@ def test_new_login_item_09(valid_data: ValidData):
     username = "test_username"
     title = "Test Login Item"
 
-    new_login = OPNewLoginItem(
+    new_login = OPLoginItemTemplate(
         title, username, fields=fields, sections=sections)
 
     # look up the field by its label, which returns a list, because
@@ -286,7 +286,7 @@ def test_new_login_item_10(valid_data: ValidData):
     Create:
         - An "existing" section that has a UUID
         - Set of existing fields registered with the section
-        - An OPNewLoginItem object with the fields and the section
+        - An OPLoginItemTemplate object with the fields and the section
         - Look up the section on the new item by its label
     Verify:
         - the newly added section's ID has been regenerated and does not match the "existing" section
@@ -310,7 +310,7 @@ def test_new_login_item_10(valid_data: ValidData):
     username = "test_username"
     title = "Test Login Item"
 
-    new_login = OPNewLoginItem(
+    new_login = OPLoginItemTemplate(
         title, username, fields=fields, sections=sections)
 
     # look up the section by its label, which returns a list, because
@@ -325,7 +325,7 @@ def test_new_login_item_11(valid_data: ValidData):
     """
     Create:
         - A section associated with existing (as opposed to new) fields, all with UUID IDs
-        - An OPNewLoginItem object with the fields and the section
+        - An OPLoginItemTemplate object with the fields and the section
     Verify:
         - Field's registered section ID matches the section's regenerated ID
         - The Field's new ID is regestered in the section's shadow fields map
@@ -349,7 +349,7 @@ def test_new_login_item_11(valid_data: ValidData):
     username = "test_username"
     title = "Test Login Item"
 
-    new_login = OPNewLoginItem(
+    new_login = OPLoginItemTemplate(
         title, username, fields=fields, sections=sections)
 
     result_fields = new_login.fields_by_label(existing_field_1.label)
@@ -372,9 +372,9 @@ def test_new_login_item_12(valid_data: ValidData):
     """
     Create:
         - Two sections with the same (non-UUID) section_id
-        - An OPNewLoginItem object with the sections
+        - An OPLoginItemTemplate object with the sections
     Verify:
-        - OPSectionCollisionException is raised during OPNewLoginItemCreation
+        - OPSectionCollisionException is raised during OPLoginItemTemplate creation
     """
     section_dict = valid_data.data_for_name("example-item-section-no-uuid")
 
@@ -387,13 +387,13 @@ def test_new_login_item_12(valid_data: ValidData):
     title = "Test Login Item"
 
     with pytest.raises(OPSectionCollisionException):
-        OPNewLoginItem(title, username, sections=sections)
+        OPLoginItemTemplate(title, username, sections=sections)
 
 
 def test_new_login_item_13():
     """
     Create:
-        - An OPNewLoginItemObject
+        - An OPLoginItemTemplate object
         - request a secure temp file with the object serialized as JSON
         - release the new object
     Verify:
@@ -403,7 +403,7 @@ def test_new_login_item_13():
     username = "test_username"
     title = "Test Login Item"
 
-    new_login = OPNewLoginItem(title, username)
+    new_login = OPLoginItemTemplate(title, username)
     temp_file_path = new_login.secure_tempfile()
     assert os.path.isfile(temp_file_path)
     new_login = None
@@ -413,7 +413,7 @@ def test_new_login_item_13():
 def test_new_login_item_14():
     """
     Create:
-        - An OPNewLoginItemObject
+        - An OPLoginItemTemplate object
         - request a secure temp file with the object serialized as JSON
         - delete the temp file from under the object
         - release the object
@@ -424,7 +424,7 @@ def test_new_login_item_14():
     username = "test_username"
     title = "Test Login Item"
 
-    new_login = OPNewLoginItem(title, username)
+    new_login = OPLoginItemTemplate(title, username)
     temp_file_path = new_login.secure_tempfile()
     assert os.path.isfile(temp_file_path)
 
@@ -439,7 +439,7 @@ def test_new_login_item_14():
 def test_new_login_item_15():
     """
     Create:
-        - An OPNewLoginItem object with a URL string
+        - An OPLoginItemTemplate object with a URL string
     Verify:
         - new_login's primary url matches the URL string provided
     """
@@ -447,14 +447,14 @@ def test_new_login_item_15():
     title = "Test Login Item"
     primary_url = "https://example.com/index.html"
 
-    new_login = OPNewLoginItem(title, username,  url=primary_url)
+    new_login = OPLoginItemTemplate(title, username,  url=primary_url)
     assert new_login.primary_url.href == primary_url
 
 
 def test_new_login_item_16():
     """
     Create:
-        - An OPNewLoginItem object with a non-primary OPLoginItemUrl
+        - An OPLoginItemTemplate object with a non-primary OPLoginItemUrl
     Verify:
         - OPNewLoginItemURLException is raised because url.primary must be true
     """
@@ -465,13 +465,13 @@ def test_new_login_item_16():
     # create a url that is not primary
     url = OPLoginItemNewURL(url, "Example URL")
     with pytest.raises(OPNewLoginItemURLException):
-        OPNewLoginItem(title, username,  url=url)
+        OPLoginItemTemplate(title, username,  url=url)
 
 
 def test_new_login_item_17():
     """
     Create:
-        - An OPNewLoginItem object with a primary OPLoginItemUrl
+        - An OPLoginItemTemplate object with a primary OPLoginItemUrl
         - add a second primary OPLoginItemUrl
     Verify:
         - OPNewLoginItemURLException is raised because there can't be two primary OPLoginItemUrl objects
@@ -489,7 +489,7 @@ def test_new_login_item_17():
     # create a second url that's also primary
     second_url = OPLoginItemNewPrimaryURL(second_url, second_url_label)
 
-    new_login = OPNewLoginItem(title, username,  url=primary_url)
+    new_login = OPLoginItemTemplate(title, username,  url=primary_url)
 
     with pytest.raises(OPNewLoginItemURLException):
         new_login.add_url(second_url)

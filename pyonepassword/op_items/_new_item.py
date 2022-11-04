@@ -70,7 +70,7 @@ class OPNewItemMixin:
     A class that, when subclassed along with one of the item classes (OPLogin, etc.), allows a
     item of that type to be created from a template
     E.g.,
-    class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
+    class OPLoginItemTemplate(OPNewItemMixin, OPLoginItem):
         ...
 
     NOTE: It is essential OPNewItemMixin be named first, so its `__init_()` gets called first

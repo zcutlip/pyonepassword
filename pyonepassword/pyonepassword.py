@@ -16,7 +16,7 @@ from .op_items._op_items_base import OPAbstractItem
 from .op_items.login import (
     OPLoginItem,
     OPLoginItemNewPrimaryURL,
-    OPNewLoginItem
+    OPLoginItemTemplate
 )
 from .op_items.password_recipe import OPPasswordRecipe
 from .op_items.totp import OPTOTPItem
@@ -477,7 +477,7 @@ class OP(_OPCommandInterface):
 
         # if password is actually a password recipe,
         # set passsword_recipe and set password to None
-        # that way we don't pass it into OPNewLoginItem
+        # that way we don't pass it into OPLoginItemTemplate
         # and instead pass it to _item_create() so it gets used on the command line
         if isinstance(password, OPPasswordRecipe):
             password_recipe = password
@@ -485,7 +485,8 @@ class OP(_OPCommandInterface):
 
         if url:
             url = OPLoginItemNewPrimaryURL(url, url_label)
-        new_item = OPNewLoginItem(title, username, password=password, url=url)
+        new_item = OPLoginItemTemplate(
+            title, username, password=password, url=url)
         login_item = self.item_create(
             new_item, password_recipe=password_recipe, vault=vault)
         return login_item

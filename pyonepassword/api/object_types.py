@@ -20,7 +20,7 @@ from ..op_items.login import (
     OPLoginItem,
     OPLoginItemNewPrimaryURL,
     OPLoginItemNewURL,
-    OPNewLoginItem
+    OPLoginItemTemplate
 )
 from ..op_items.password import OPPasswordItem
 from ..op_items.password_recipe import OPPasswordRecipe

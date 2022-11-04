@@ -42,7 +42,7 @@ class OPLoginItemURL(dict):
 
 class OPLoginItemNewURL(OPLoginItemURL):
     """
-    A class to create a new URL dictionary for use with OPNewLoginItem
+    A class to create a new URL dictionary for use with OPLoginItemTemplate
     """
 
     def __init__(self, url: str, label: str, primary: bool = False):
@@ -69,7 +69,7 @@ class OPLoginItemNewURL(OPLoginItemURL):
 
 class OPLoginItemNewPrimaryURL(OPLoginItemNewURL):
     """
-    A class to create a new primary URL dictionary for use with OPNewLoginItem
+    A class to create a new primary URL dictionary for use with OPLoginItemTemplate
     """
 
     def __init__(self, url: str, label: str):
@@ -112,7 +112,7 @@ class OPLoginItem(OPAbstractItem):
         return self._primary_url
 
 
-class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
+class OPLoginItemTemplate(OPNewItemMixin, OPLoginItem):
     """
     Class for creating a login item template that can be used to create a new login item in 1Password
     """
@@ -131,7 +131,7 @@ class OPNewLoginItem(OPNewItemMixin, OPLoginItem):
                  fields: List[OPItemField] = [],
                  sections: List[OPSection] = []):
         """
-        Create an OPNewLoginItem object that can be used to create a new login item entry
+        Create an OPLoginItemTemplate object that can be used to create a new login item entry
 
         Parameters
         ----------

@@ -5,7 +5,7 @@ from pyonepassword import OP
 from pyonepassword.api.constants import LETTERS_DIGITS_SYMBOLS_20
 from pyonepassword.api.object_types import (
     OPLoginItem,
-    OPNewLoginItem,
+    OPLoginItemTemplate,
     OPNewTOTPField,
     OPNewTOTPUri,
     OPPasswordRecipe,
@@ -50,7 +50,8 @@ def main():
     totp_field_label = "One-time Password"
     totp_field = OPNewTOTPField(totp_field_label, new_totp_uri)
 
-    new_item_template = OPNewLoginItem(title, username, fields=[totp_field])
+    new_item_template = OPLoginItemTemplate(
+        title, username, fields=[totp_field])
 
     new_item: OPLoginItem = op.item_create(
         new_item_template, password_recipe=recipe, vault="Test Data")

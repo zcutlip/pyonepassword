@@ -70,7 +70,7 @@ from pyonepassword import OP
 from pyonepassword.api.constants import LETTERS_DIGITS_SYMBOLS_20
 from pyonepassword.api.object_types import (
     OPLoginItem,
-    OPNewLoginItem,
+    OPLoginItemTemplate,
     OPNewSection,
     OPNewStringField
 )
@@ -95,13 +95,13 @@ def main():
     new_field = OPNewStringField(field_label, field_value, section=new_section)
 
     # add custom field and section to the new login item template
-    item_template = OPNewLoginItem(title, username, url=login_url,
+    item_template = OPLoginItemTemplate(title, username, url=login_url,
                                    sections=[new_section], fields=[new_field])
 
     op: OP = do_signin()
 
     # NOTE: only password recipes, not literal password strings are supported via item_create()
-    #       however, a password string can be provided to OPNewLoginItem()
+    #       however, a password string can be provided to OPLoginItemTemplate()
     recipe = LETTERS_DIGITS_SYMBOLS_20
 
     # Use generic 'item_create()' API to pass in an item template object
@@ -122,7 +122,7 @@ from pyonepassword import OP
 from pyonepassword.api.constants import LETTERS_DIGITS_SYMBOLS_20
 from pyonepassword.api.object_types import (
     OPLoginItem,
-    OPNewLoginItem,
+    OPLoginItemTemplate,
     OPNewTOTPField,
     OPNewTOTPUri,
     OPPasswordRecipe,
@@ -167,7 +167,7 @@ def main():
     totp_field_label = "One-time Password"
     totp_field = OPNewTOTPField(totp_field_label, new_totp_uri)
 
-    new_item_template = OPNewLoginItem(title, username, fields=[totp_field])
+    new_item_template = OPLoginItemTemplate(title, username, fields=[totp_field])
 
     new_item: OPLoginItem = op.item_create(
         new_item_template, password_recipe=recipe, vault="Test Data")

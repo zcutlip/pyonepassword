@@ -3,7 +3,7 @@ from typing import List
 from pyonepassword import OP  # noqa: F401
 from pyonepassword.api.object_types import (
     OPItemField,
-    OPNewLoginItem,
+    OPLoginItemTemplate,
     OPNewStringField,
     OPPasswordRecipe,
     OPSection,
@@ -15,7 +15,7 @@ username = "test_username"
 title = "Test Login Item"
 
 recipe = OPPasswordRecipe(length=40, digits=False, symbols=False)
-new_item_1 = OPNewLoginItem(title, username)
+new_item_1 = OPLoginItemTemplate(title, username)
 
 
 class OPNewSecureNoteItem(OPNewItemMixin, OPSecureNoteItem):

@@ -75,6 +75,13 @@ class OPItemListException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
+class OPItemDeleteException(OPCmdFailedException):
+    MSG = "1Password 'item delete' failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
+
 class OPDocumentGetException(OPCmdFailedException):
     MSG = "1Password 'get document' failed."
 

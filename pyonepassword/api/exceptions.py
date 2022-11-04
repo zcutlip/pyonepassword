@@ -24,6 +24,7 @@ from ..py_op_exceptions import (
     OPGroupListException,
     OPInvalidDocumentException,
     OPInvalidItemException,
+    OPItemDeleteException,
     OPItemGetException,
     OPItemListException,
     OPNotFoundException,

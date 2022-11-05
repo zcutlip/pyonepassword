@@ -65,7 +65,7 @@ class OP(_OPCommandInterface):
         password : str, optional
             If provided, the password will be piped to the 'op' command over stdin
         existing_auth : ExistingAuthEnum
-            Whether existing authentication should be must be used, used if possible, or ignored
+            Whether existing authentication must be used, used if possible, or ignored
             Valid values:
               - EXISTING_AUTH_AVAIL: Use existing authentication if available
               - EXISTING_AUTH_IGNORE: Reauthenticate, ignoring any existing authentication

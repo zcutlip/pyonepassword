@@ -59,7 +59,7 @@ class _OPCLIExecute:
         try:
             output, _, _ = cls._run_raw(
                 argv, input_string=input_string, capture_stdout=capture_stdout, env=env)
-            if decode:
+            if decode and output is not None:
                 output = output.decode(decode)
         except FileNotFoundError as err:
             cls.logger.error(

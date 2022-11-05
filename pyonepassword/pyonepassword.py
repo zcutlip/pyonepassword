@@ -491,6 +491,20 @@ class OP(_OPCommandInterface):
             new_item, password_recipe=password_recipe, vault=vault)
         return login_item
 
+    def item_delete(self, item_identifier: str, vault: str = None, archive: bool = False):
+        item = self.item_get(item_identifier, vault=vault)
+        # we want to return the explicit ID even if we were
+        # given an item title or other identifier
+        # that way the caller knows exactly what got deleted
+        # can match it up with what they expected to be deleted, if desired
+        item_id = item.unique_id
+
+        # 'op item delete' doesn't have any stdout, so we're not
+        # capturing any here
+        self._item_delete(item_id, vault=vault, archive=archive)
+
+        return item_id
+
     def signed_in_accounts(self, decode="utf-8") -> OPAccountList:
         account_list_json = super()._signed_in_accounts(self.op_path, decode=decode)
         account_list = OPAccountList(account_list_json)

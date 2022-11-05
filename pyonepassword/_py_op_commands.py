@@ -394,12 +394,13 @@ class _OPCommandInterface(_OPCLIExecute):
         item_delete_argv = self._item_delete_argv(
             item_name_or_id, vault=vault, archive=archive)
         try:
-            output = self._run(
-                item_delete_argv, capture_stdout=True, decode=decode)
+            # 'op item delete' doesn't have any output if successful
+            # if it fails, stderr will be in the exception object
+            self._run(item_delete_argv, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPItemDeleteException.from_opexception(ocfe)
 
-        return output
+        return
 
     def _item_get_totp(self, item_name_or_id, vault=None, decode="utf-8"):
         item_get_totp_argv = self._item_get_totp_argv(

@@ -101,9 +101,9 @@ class OP(_OPCommandInterface):
                          existing_auth=existing_auth,
                          password_prompt=password_prompt)
 
-    def item_get(self, item_name_or_id, vault=None) -> OPAbstractItem:
+    def item_get(self, item_identifier, vault=None) -> OPAbstractItem:
         """
-        Get an 'item' object from a 1Password vault by name or UUID.
+        Get an 'item' object from a 1Password vault.
         The returned object may be any of the item types extending OPAbstractItem.
         These currently include:
         - OPLoginItem (template id 1)
@@ -118,10 +118,15 @@ class OP(_OPCommandInterface):
 
         Parameters
         ----------
-        item_name_or_id: str
+        item_identifier: str
             Name or ID of the item to look up
         vault: str, optional
             The name or ID of a vault to override the object's default vault
+
+        Note:
+            If a non-unique item identifier is provided (e.g., item name/title), and there
+            is more than one item that matches, OPItemGetException will be raised. Check the
+            error message in OPItemGetException.err_output for details
 
         Raises
         ------
@@ -139,11 +144,11 @@ class OP(_OPCommandInterface):
             An item object of one of the types listed above
         """
 
-        output = super()._item_get(item_name_or_id, vault=vault, decode="utf-8")
+        output = super()._item_get(item_identifier, vault=vault, decode="utf-8")
         op_item = OPItemFactory.op_item(output)
         return op_item
 
-    def item_get_totp(self, item_name_or_id: str, vault=None) -> OPTOTPItem:
+    def item_get_totp(self, item_identifier: str, vault=None) -> OPTOTPItem:
         """
         Get a TOTP code from the item specified by name or UUID.
 
@@ -152,10 +157,15 @@ class OP(_OPCommandInterface):
 
         Parameters
         ----------
-        item_name_or_id: str
+        item_identifier: str
             Name or ID of the item to look up
         vault: str, optional
             The name or ID of a vault to override the object's default vault
+
+        Note:
+            If a non-unique item identifier is provided (e.g., item name/title), and there
+            is more than one item that matches, OPItemGetException will be raised. Check the
+            error message in OPItemGetException.err_output for details
 
         Raises
         ------
@@ -169,7 +179,7 @@ class OP(_OPCommandInterface):
         totp_code: str
             A string representing the TOTP code
         """
-        output = super()._item_get_totp(item_name_or_id, vault=vault, decode="utf-8")
+        output = super()._item_get_totp(item_identifier, vault=vault, decode="utf-8")
         # strip newline
         totp = OPTOTPItem(output)
         return totp
@@ -296,13 +306,13 @@ class OP(_OPCommandInterface):
         group_list = OPGroupDescriptorList(group_list)
         return group_list
 
-    def item_get_password(self, item_name_or_id, vault=None) -> str:
+    def item_get_password(self, item_identifier, vault=None) -> str:
         """
         Get the value of the password field from the item specified by name or UUID.
 
         Parameters
         ----------
-        item_name_or_id: str
+        item_identifier: str
             The item to look up
         vault: str, optional
             The name or ID of a vault to override the object's default vault
@@ -322,20 +332,25 @@ class OP(_OPCommandInterface):
             Value of the item's 'password' attribute
         """
         item: OPLoginItem
-        item = self.item_get(item_name_or_id, vault=vault)
+        item = self.item_get(item_identifier, vault=vault)
         password = item.password
         return password
 
-    def item_get_filename(self, item_name_or_id, vault=None):
+    def item_get_filename(self, item_identifier, vault=None):
         """
         Get the fileName attribute a document item from a 1Password vault by name or UUID.
 
         Parameters
         ----------
-        item_name_or_id : str
+        item_identifier: str
             The item to look up
         vault: str, optional
             The name or ID of a vault to override the object's default vault
+
+        Note:
+            If a non-unique item identifier is provided (e.g., item name/title), and there
+            is more than one item that matches, OPItemGetException will be raised. Check the
+            error message in OPItemGetException.err_output for details
 
         Raises
         ------
@@ -351,7 +366,7 @@ class OP(_OPCommandInterface):
         file_name: str
             Value of the item's 'fileName' attribute
         """
-        item = self.item_get(item_name_or_id, vault=vault)
+        item = self.item_get(item_identifier, vault=vault)
         # Will raise AttributeError if item isn't a OPDocumentItem
         file_name = item.file_name
 

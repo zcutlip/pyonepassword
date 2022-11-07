@@ -354,6 +354,20 @@
       "stderr": "error_output",
       "name": "item-list-vault-test-data-single-tag",
       "changes_state": false
+    },
+    "--format|json|item|get|Delete Me Unique|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-deleteme",
+      "changes_state": false
+    },
+    "--format|json|item|delete|gtxrpmywczl5agvlpwhpbsdale|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-delete-example-deleteme",
+      "changes_state": false
     }
   }
 }

@@ -34,6 +34,8 @@ from .py_op_exceptions import (
     OPForgetException,
     OPInvalidDocumentException,
     OPInvalidItemException,
+    OPItemDeleteException,
+    OPItemGetException,
     OPSignoutException
 )
 
@@ -536,7 +538,10 @@ class OP(_OPCommandInterface):
             Unique identifier of the item deleted
 
         """
-        item = self.item_get(item_identifier, vault=vault)
+        try:
+            item = self.item_get(item_identifier, vault=vault)
+        except OPItemGetException as e:
+            raise OPItemDeleteException.from_opexception(e)
         # we want to return the explicit ID even if we were
         # given an item title or other identifier
         # that way the caller knows exactly what got deleted

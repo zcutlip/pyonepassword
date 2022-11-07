@@ -507,6 +507,35 @@ class OP(_OPCommandInterface):
         return login_item
 
     def item_delete(self, item_identifier: str, vault: str = None, archive: bool = False):
+        """
+        Delete an item based on title or unique identifier
+
+        Parameters
+        ----------
+        item_identifier: str
+            Any item identifier accepted by 'op item delete'
+            Generally this includes item name/title, item ID, or share link
+            See 'op item get --help' for more information
+        vault: str, optional
+            The name or ID of a vault to override the object's default vault
+
+        Note:
+            If a non-unique item identifier is provided (e.g., item name/title), and there
+            is more than one item that matches, OPItemGetException will be raised. Check the
+            error message in OPItemGetException.err_output for details
+
+        Raises
+        ------
+        OPItemDeleteException
+            If the delete operation fails for any reason
+        OPNotFoundException
+            If the 1Password command can't be found
+        Returns
+        -------
+        item_id: str
+            Unique identifier of the item deleted
+
+        """
         item = self.item_get(item_identifier, vault=vault)
         # we want to return the explicit ID even if we were
         # given an item title or other identifier

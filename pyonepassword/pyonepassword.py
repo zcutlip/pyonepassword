@@ -437,7 +437,7 @@ class OP(_OPCommandInterface):
             Name of the vault to assign the item to
         Raises
         ------
-        OPInvalideItemException
+        OPInvalidItemException
             - If new_item does not inherit from OPNewItemMixin
             - if password_recipe is provided and new_item does not support passwords
                 (currently only Login and Password item types support passwords)

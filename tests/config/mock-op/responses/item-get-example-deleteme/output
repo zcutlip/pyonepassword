@@ -1,0 +1,44 @@
+{
+  "id": "gtxrpmywczl5agvlpwhpbsdale",
+  "title": "Delete Me Unique",
+  "version": 1,
+  "vault": {
+    "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
+    "name": "Test Data"
+  },
+  "category": "LOGIN",
+  "created_at": "2022-11-06T21:57:31.325057-08:00",
+  "updated_at": "2022-11-06T21:57:31.325058-08:00",
+  "additional_information": "username_1",
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "username_1",
+      "reference": "op://Test Data/Delete Me Unique/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "forgave-whoosh-stopover-inexpert",
+      "entropy": 56.59613037109375,
+      "reference": "op://Test Data/Delete Me Unique/password",
+      "password_details": {
+        "entropy": 56,
+        "generated": true,
+        "strength": "EXCELLENT"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data/Delete Me Unique/notesPlain"
+    }
+  ]
+}

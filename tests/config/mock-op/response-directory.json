@@ -403,6 +403,13 @@
       "stderr": "error_output",
       "name": "item-get-archive-example-deleteme-include-archive",
       "changes_state": false
+    },
+    "--format|json|item|delete|Delete Me|--vault|Test Data": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-delete-duplicate-titles",
+      "changes_state": false
     }
   }
 }

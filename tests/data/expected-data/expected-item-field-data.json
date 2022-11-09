@@ -27,7 +27,7 @@
         "id": "TOTP_gsdlhmqojtfusg23lzjvxtrnua",
         "type": "OTP",
         "label": "One-time Password",
-        "value": "otpauth://totp/Example%20Website:newuser%40website?secret=EPW4UE4E7IKC2QMB\u0026issuer=Example%20Website",
+        "value": "otpauth://totp/Example%20Website:newuser%40website?secret=EPW4UE4E7IKC2QMB&issuer=Example%20Website",
         "totp": "382192"
     },
     "example-totp-field-no-issuer": {
@@ -42,7 +42,7 @@
         "id": "TOTP_12_byte_key",
         "type": "OTP",
         "label": "One-time Password",
-        "value": "otpauth://totp/Example%20Company:newuser_2%40website?secret=36A5PPP5EG3H4JJPGO2A\u0026issuer=Example%20Company",
+        "value": "otpauth://totp/Example%20Company:newuser_2%40website?secret=36A5PPP5EG3H4JJPGO2A&issuer=Example%20Company",
         "totp": "123456"
     }
 }

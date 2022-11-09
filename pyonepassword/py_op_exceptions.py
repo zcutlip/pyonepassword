@@ -47,14 +47,14 @@ class OPSigninException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
-class OPSignoutException(OPCmdFailedException):
+class OPSignoutException(OPCmdFailedException):  # pragma: no coverage
     MSG = "1Password signout failed."
 
     def __init__(self, stderr_out, returncode):
         super().__init__(stderr_out, returncode)
 
 
-class OPForgetException(OPCmdFailedException):
+class OPForgetException(OPCmdFailedException):  # pragma: no coverage
     MSG = "1Password forget failed."
 
     def __init__(self, stderr_out, returncode):
@@ -131,7 +131,7 @@ class OPGroupListException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
-class OPItemCreateException(OPCmdFailedException):
+class OPItemCreateException(OPCmdFailedException):  # pragma: no coverage
     MSG = "1Password 'item create' failed."
 
     def __init__(self, stderr_out, returncode):

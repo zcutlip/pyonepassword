@@ -33,6 +33,33 @@ def test_item_delete_01(signed_in_op: OP, expected_login_item_data: ExpectedLogi
     assert result == expected_item_id
 
 
+def test_item_delete_02(signed_in_op: OP, expected_login_item_data: ExpectedLoginItemData):
+    """
+    Test deleting and archiving an item based on its non-unique title
+    """
+    login_name = "Delete and Archive Me"
+    vault = "Test Data"
+    expected = expected_login_item_data.data_for_login(login_name)
+    expected_item_id = expected.unique_id
+    result = signed_in_op.item_delete(login_name, vault=vault, archive=True)
+    assert result == expected_item_id
+
+
+def test_item_delete_03(signed_in_op: OP, expected_login_item_data: ExpectedLoginItemData):
+    """
+    Test:
+      - deleting and archiving an item based on its non-unique title
+      - fetching the item with include_archive=True
+    """
+    login_name = "Delete and Archive Me"
+    vault = "Test Data"
+    expected = expected_login_item_data.data_for_login(login_name)
+    expected_item_id = expected.unique_id
+    signed_in_op.item_delete(login_name, vault=vault, archive=True)
+    result = signed_in_op.item_get(login_name, include_archive=True)
+    assert result.unique_id == expected_item_id
+
+
 def test_item_delete_non_existent_01(signed_in_op: OP):
     """
     Test deleting a non-existent item

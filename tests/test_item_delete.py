@@ -22,6 +22,9 @@ pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def test_item_delete_01(signed_in_op: OP, expected_login_item_data: ExpectedLoginItemData):
+    """
+    Test deleting an item based on its non-unique title
+    """
     login_name = "Delete Me Unique"
     vault = "Test Data"
     expected = expected_login_item_data.data_for_login(login_name)
@@ -43,7 +46,7 @@ def test_item_delete_non_existent_01(signed_in_op: OP):
 
 def test_item_delete_non_existent_02(signed_in_op: OP):
     """
-    Test deleting a non-existent item
+    Test deleting a non-existent item, bypassing item_get()
     """
     login_name = "non-existent-item"
     vault = "Test Data"

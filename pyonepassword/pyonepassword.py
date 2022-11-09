@@ -422,10 +422,17 @@ class OP(_OPCommandInterface):
         item_list = OPItemList(item_list_json)
         return item_list
 
+    # TODO: Item creation is hard to test in an automated way since it results in changed
+    #   state. There are operations during item creation that expect state to change from
+    #   before to after item creation
+    #   There is ongoing work in mock-op and mock-cli-framework to simulate changed state
+    #   when this is complete these functions need to be tested
+    #
+    #   For now, ignore testing coverate
     def item_create(self,
                     new_item: OPNewItemMixin,
                     password_recipe: OPPasswordRecipe = None,
-                    vault: str = None):
+                    vault: str = None):  # pragma: no coverage
         """
         Create a new item in the authenticated 1Password account
 
@@ -472,7 +479,7 @@ class OP(_OPCommandInterface):
                           password: Union[str, OPPasswordRecipe] = None,
                           url: str = None,
                           url_label: str = "Website",
-                          vault=None):
+                          vault=None):  # pragma: no coverage
         """
         Create a new login item in the authenticated 1Password account
 

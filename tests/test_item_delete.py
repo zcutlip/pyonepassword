@@ -84,3 +84,16 @@ def test_item_delete_non_existent_02(signed_in_op: OP):
         # so in order to test delete operatation failing, we
         # need to call private ._item_delete() interface
         signed_in_op._item_delete(login_name, vault=vault)
+
+
+def test_item_delete_duplicate_01(signed_in_op: OP):
+    """
+    Test:
+      - deleting an item based on its non-unique title
+      - when there are two or more items sharing the same title
+    """
+    login_name = "Delete Me"
+    vault = "Test Data"
+
+    with pytest.raises(OPItemDeleteException):
+        signed_in_op.item_delete(login_name, vault=vault)

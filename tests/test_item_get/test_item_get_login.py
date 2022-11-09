@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from pyonepassword import OP
 
     from ..fixtures.expected_data import ExpectedData
-    from ..fixtures.expected_login import ExpectedLogin
+    from ..fixtures.expected_login import ExpectedLogin, ExpectedLoginItemData
 
 from pyonepassword.api.exceptions import OPItemGetException
 from pyonepassword.api.object_types import OPLoginItem
@@ -118,6 +118,21 @@ def test_item_get_login_09(signed_in_op: OP, expected_login_item_data):
     assert isinstance(result, OPLoginItem)
     # "favorite" is unset for Example Login 2
     assert result.favorite == expected.favorite
+
+
+def test_item_get_login_password_01(signed_in_op: OP,
+                                    expected_login_item_data: ExpectedLoginItemData):
+    """
+    Test:
+        - get password from login item via item_get_password() convenience method
+        - verify resulting password matches expected password
+    """
+    item_name = "Example Login 1"
+    vault = "Test Data"
+    expected = expected_login_item_data.data_for_login(item_name)
+    result = signed_in_op.item_get_password(item_name, vault=vault)
+
+    assert result == expected.password
 
 
 def test_item_get_login_by_uuid_01(signed_in_op: OP, expected_login_item_data):

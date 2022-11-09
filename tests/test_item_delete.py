@@ -6,6 +6,8 @@ from typing import TYPE_CHECKING
 
 import pytest
 
+from pyonepassword.api.exceptions import OPItemDeleteException
+
 # make imports for type-hinting disappear at run-time to avoid
 # circular imports.
 # this also reduced exercising tested code simply by importing
@@ -26,3 +28,29 @@ def test_item_delete_01(signed_in_op: OP, expected_login_item_data: ExpectedLogi
     expected_item_id = expected.unique_id
     result = signed_in_op.item_delete(login_name, vault=vault)
     assert result == expected_item_id
+
+
+def test_item_delete_non_existent_01(signed_in_op: OP):
+    """
+    Test deleting a non-existent item
+    """
+    login_name = "non-existent-item"
+    vault = "Test Data"
+
+    with pytest.raises(OPItemDeleteException):
+        signed_in_op.item_delete(login_name, vault=vault)
+
+
+def test_item_delete_non_existent_02(signed_in_op: OP):
+    """
+    Test deleting a non-existent item
+    """
+    login_name = "non-existent-item"
+    vault = "Test Data"
+
+    with pytest.raises(OPItemDeleteException):
+        # OP.item_delete() calls item_get() first
+        # which will fail on non-existent items
+        # so in order to test delete operatation failing, we
+        # need to call private ._item_delete() interface
+        signed_in_op._item_delete(login_name, vault=vault)

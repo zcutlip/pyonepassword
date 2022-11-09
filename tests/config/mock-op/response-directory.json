@@ -368,6 +368,20 @@
       "stderr": "error_output",
       "name": "item-delete-example-deleteme",
       "changes_state": false
+    },
+    "--format|json|item|delete|non-existent-item|--vault|Test Data": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-delete-nonexistant-item",
+      "changes_state": false
+    },
+    "--format|json|item|get|non-existent-item|--vault|Test Data": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-nonexistant-item",
+      "changes_state": false
     }
   }
 }

@@ -382,6 +382,27 @@
       "stderr": "error_output",
       "name": "item-get-nonexistant-item",
       "changes_state": false
+    },
+    "--format|json|item|get|Delete and Archive Me|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-archive-example-deleteme",
+      "changes_state": false
+    },
+    "--format|json|item|delete|wedfvavlwt7byc3zbif53u7omi|--archive|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-delete-archive-example-deleteme",
+      "changes_state": false
+    },
+    "--format|json|item|get|Delete and Archive Me|--include-archive": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-archive-example-deleteme-include-archive",
+      "changes_state": false
     }
   }
 }

@@ -58,13 +58,20 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_get_argv(cls, op_exe, item_name_or_id, vault=None, fields=None):
+    def item_get_argv(cls,
+                      op_exe,
+                      item_name_or_id,
+                      vault=None,
+                      fields=None,
+                      include_archive=False):
         sub_cmd_args = [item_name_or_id]
         if vault:
             sub_cmd_args.extend(["--vault", vault])
 
         if fields:
             sub_cmd_args.extend(["--fields", fields])
+        if include_archive:
+            sub_cmd_args.append("--include-archive")
         argv = cls.item_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 

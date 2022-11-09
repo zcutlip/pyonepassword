@@ -379,9 +379,9 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
         return vault_list_argv
 
-    def _item_get(self, item_name_or_id, vault=None, fields=None, decode="utf-8"):
+    def _item_get(self, item_name_or_id, vault=None, fields=None, include_archive=False, decode="utf-8"):
         get_item_argv = self._item_get_argv(
-            item_name_or_id, vault=vault, fields=fields)
+            item_name_or_id, vault=vault, fields=fields, include_archive=include_archive)
         try:
             output = self._run(
                 get_item_argv, capture_stdout=True, decode=decode)

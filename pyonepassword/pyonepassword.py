@@ -103,7 +103,7 @@ class OP(_OPCommandInterface):
                          existing_auth=existing_auth,
                          password_prompt=password_prompt)
 
-    def item_get(self, item_identifier, vault=None) -> OPAbstractItem:
+    def item_get(self, item_identifier, vault=None, include_archive=False) -> OPAbstractItem:
         """
         Get an 'item' object from a 1Password vault.
         The returned object may be any of the item types extending OPAbstractItem.
@@ -146,7 +146,8 @@ class OP(_OPCommandInterface):
             An item object of one of the types listed above
         """
 
-        output = super()._item_get(item_identifier, vault=vault, decode="utf-8")
+        output = super()._item_get(item_identifier, vault=vault,
+                                   decode="utf-8", include_archive=include_archive)
         op_item = OPItemFactory.op_item(output)
         return op_item
 

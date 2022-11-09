@@ -320,11 +320,11 @@ class _OPCommandInterface(_OPCLIExecute):
         argv = _OPArgv.account_list_argv(op_path, encoding=encoding)
         return argv
 
-    def _item_get_argv(self, item_name_or_id, vault=None, fields=None):
+    def _item_get_argv(self, item_name_or_id, vault=None, fields=None, include_archive=False):
         vault_arg = vault if vault else self.vault
 
         lookup_argv = _OPArgv.item_get_argv(
-            self.op_path, item_name_or_id, vault=vault_arg, fields=fields)
+            self.op_path, item_name_or_id, vault=vault_arg, fields=fields, include_archive=include_archive)
         return lookup_argv
 
     def _item_delete_argv(self, item_name_or_id, vault=None, archive=False):

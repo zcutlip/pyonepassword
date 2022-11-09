@@ -1,4 +1,4 @@
-# __future__.annotaitons, and typing.TYPE_CHECKING
+# __future__.annotations, and typing.TYPE_CHECKING
 # enable anything imported for type hinting to disappear at run time
 from __future__ import annotations
 

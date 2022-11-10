@@ -528,6 +528,8 @@ class OP(_OPCommandInterface):
             See 'op item get --help' for more information
         vault: str, optional
             The name or ID of a vault to override the object's default vault
+        archive: bool
+            Whether to archive or permanently delete the item
 
         Note:
             If a non-unique item identifier is provided (e.g., item name/title), and there

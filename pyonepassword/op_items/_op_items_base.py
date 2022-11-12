@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import List, Union
+from typing import List, Optional
 
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from .field_registry import OPItemFieldFactory
@@ -20,7 +20,7 @@ class OPFieldNotFoundException(Exception):
 
 
 class OPAbstractItem(OPAbstractItemDescriptor):
-    CATEGORY = None
+    CATEGORY: Optional[str] = None
 
     @abstractmethod
     def __init__(self, item_dict_or_json):
@@ -103,7 +103,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         value = field.value
         return value
 
-    def field_reference_by_id(self, field_id) -> Union[str, None]:
+    def field_reference_by_id(self, field_id) -> Optional[str]:
         field = self.field_by_id(field_id)
         ref = field.reference
         return ref

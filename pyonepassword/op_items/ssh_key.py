@@ -1,3 +1,5 @@
+from typing import Optional
+
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._item_descriptor_registry import op_register_item_descriptor_type
 from ._op_item_type_registry import op_register_item_type
@@ -29,7 +31,7 @@ class OPSSHKeyItem(OPAbstractItem):
         return password
 
     @property
-    def public_key_reference(self) -> str:
+    def public_key_reference(self) -> Optional[str]:
         password = self.field_reference_by_id("public_key")
         return password
 
@@ -38,7 +40,7 @@ class OPSSHKeyItem(OPAbstractItem):
         return self.field_value_by_id("fingerprint")
 
     @property
-    def fingerprint_reference(self) -> str:
+    def fingerprint_reference(self) -> Optional[str]:
         return self.field_reference_by_id("fingerprint")
 
     @property

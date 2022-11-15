@@ -537,6 +537,20 @@ class OP(_OPCommandInterface):
             If an OPPasswordRecipe object is provided, it will ensure a well-formed password recipe string is provided to '--generate-password='
         url: str, optional
             If provided, set to the primary URL of the login item
+
+        Raises
+        ------
+        OPInvalidItemException
+            - If new_item does not inherit from OPNewItemMixin
+            - if password_recipe is provided and new_item does not support passwords
+                (currently only Login and Password item types support passwords)
+        OPItemCreateException
+            If item creation fails for any reason during command execution
+
+        Returns
+        -------
+        login_item: OPLoginItem
+            The newly created login item object
         """
         password_recipe = None
 

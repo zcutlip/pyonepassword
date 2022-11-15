@@ -455,6 +455,32 @@ class OP(_OPCommandInterface):
         return (file_name, document_bytes)
 
     def item_list(self, categories=[], include_archive=False, tags=[], vault=None):
+        """
+        Return a list of items in an account.
+
+        Parameters
+        ----------
+        categories: List[str], optional
+            A list of category names to restrict list to
+        include_archive: bool, optional
+            Include items in the Archive in the list
+        tags: List[str], optional
+            A list of tags to restrict list to
+        vault: str, optional
+            The name or ID of a vault to override the object's default vault
+
+        Raises
+        ------
+        OPUserListException
+            If the user list operation for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        user: OPUserDescriptorList
+            An object representing a list of user descriptors
+        """
         item_list_json = self._item_list(
             categories, include_archive, tags, vault)
         item_list = OPItemList(item_list_json)

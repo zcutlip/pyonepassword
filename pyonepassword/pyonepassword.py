@@ -221,6 +221,18 @@ class OP(_OPCommandInterface):
             Name or ID of a group to restrict user listing to
         vault_name_or_id: str
             Name or ID of a vault to restrict user listing to
+
+        Raises
+        ------
+        OPUserListException
+            If the user list operation for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        user: OPUserDescriptorList
+            An object representing a list of user descriptors
         """
         user_list: OPUserDescriptorList
         user_list = self._user_list(
@@ -262,6 +274,18 @@ class OP(_OPCommandInterface):
             Name or ID of a group to restrict vault listing to
         user_name_or_id: str
             Name or ID of a user to restrict vault listing to
+
+        Raises
+        ------
+        OPVaultListException
+            If the vault list operation for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        user: OPVaultDescriptorList
+            An object representing a list of vault descriptors
         """
         vault_list_json = super()._vault_list(
             group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
@@ -302,6 +326,18 @@ class OP(_OPCommandInterface):
             Name or ID of a user to restrict vault listing to
         group_name_or_id: str
             Name or ID of a group to restrict vault listing to
+
+        Raises
+        ------
+        OPGroupListException
+            If the group list operation for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        user: OPGroupDescriptorList
+            An object representing a list of vault descriptors
         """
         group_list: OPUserDescriptorList
         group_list = self._group_list(
@@ -325,7 +361,7 @@ class OP(_OPCommandInterface):
         AttributeError
             If the item doesn't have a 'fileName' attribute.
         OPItemGetException
-            If the lookup fails for any reason.
+            If the lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found.
 
@@ -360,7 +396,7 @@ class OP(_OPCommandInterface):
         AttributeError
             If the item doesn't have a 'fileName' attribute
         OPItemGetException
-            If the lookup fails for any reason
+            If the lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
 

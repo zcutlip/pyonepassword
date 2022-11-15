@@ -248,6 +248,7 @@ class OP(_OPCommandInterface):
         ----------
         vault_name_or_id: str
             Name or UUID of the vault to look up
+
         Raises
         ------
         OPVaultGetException
@@ -300,6 +301,7 @@ class OP(_OPCommandInterface):
         ----------
         group_name_or_id: str
             Name or UUID of the group to look up
+
         Raises
         ------
         OPGroupGetException
@@ -318,7 +320,7 @@ class OP(_OPCommandInterface):
 
     def group_list(self, user_name_or_id=None, vault=None) -> OPUserDescriptorList:
         """
-        Return a list of vaults in an account.
+        Return a list of groups in an account.
 
         Parameters
         ----------
@@ -427,7 +429,7 @@ class OP(_OPCommandInterface):
         OPInvalidDocumentException
             If the retrieved item isn't a document object or lacks a documents expected attributes
         OPDocumentGetException
-            If the lookup fails for any reason
+            If document lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
 
@@ -487,6 +489,8 @@ class OP(_OPCommandInterface):
             - If new_item does not inherit from OPNewItemMixin
             - if password_recipe is provided and new_item does not support passwords
                 (currently only Login and Password item types support passwords)
+        OPItemCreateException
+            If item creation fails for any reason during command execution
 
         Returns
         -------

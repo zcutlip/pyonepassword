@@ -556,7 +556,7 @@ class OP(_OPCommandInterface):
             new_item, password_recipe=password_recipe, vault=vault)
         return login_item
 
-    def item_delete(self, item_identifier: str, vault: str = None, archive: bool = False):
+    def item_delete(self, item_identifier: str, vault: str = None, archive: bool = False) -> str:
         """
         Delete an item based on title or unique identifier
 
@@ -573,15 +573,16 @@ class OP(_OPCommandInterface):
 
         Note:
             If a non-unique item identifier is provided (e.g., item name/title), and there
-            is more than one item that matches, OPItemGetException will be raised. Check the
-            error message in OPItemGetException.err_output for details
+            is more than one item that matches, OPItemDeleteException will be raised. Check the
+            error message in OPItemDeleteException.err_output for details
 
         Raises
         ------
         OPItemDeleteException
-            If the delete operation fails for any reason
-        OPNotFoundException
-            If the 1Password command can't be found
+            - If the item to be deleted is not found
+            - If there is more than one item matching 'item_identifier'
+            - If the delete operation fails for any other reason
+
         Returns
         -------
         item_id: str

@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.3.0] - 2022-11-15
+
+### Added
+
+New item creation API!
+
+Primarily
+- OP.item_create()
+- OP.login_item_create()
+
+Additionally, there are a number of new types in support of item creation. See ITEM_CREATION.md for a variety of examples.
+
+Item deletion API:
+- OP.item_delete()
+
 ## [3.2.1] - 2022-10-17
 
 ### Changed

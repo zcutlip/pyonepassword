@@ -4,7 +4,7 @@
 
 This document describes the process of item creation using `pyonpassword`, as well as several relevant classes.
 
-## Basic item creation
+### Basic item creation
 
 In the simplest case, use a convenience method on a signed-in `OP` object. Currently there is one for creating login items, but more will be added over time. Use `op.login_item_create()`.
 
@@ -63,7 +63,9 @@ def main():
 
 ```
 
-If you want more control over the new item, such as adding custom fields or sections, you can create the new item object representing an item template, and pass that object to the more generic `op.item_create()`.
+## Advanced Item Creation
+
+If you want more control over the new item, such as adding custom fields or sections, you can create an item template object, and pass that object to the more generic `op.item_create()`.
 
 ```python
 from pyonepassword import OP
@@ -110,6 +112,8 @@ def main():
     new_item: OPLoginItem = op.item_create(item_template, password_recipe=recipe)
     return new_item
 ```
+
+## Login item with a TOTP field
 
 If you need to create a new login item that includes TOTP code generator, you can use the `OPNewTOTPField`, plus optionally the `OPNewTOTPUri` class:
 

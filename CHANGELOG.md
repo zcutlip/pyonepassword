@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.3.2] - 2022-11-16
+
+### Changed
+
+Minor updates to ITEM_CREATION.md
+
 ## [3.3.1] - 2022-11-15
 
 ### Added

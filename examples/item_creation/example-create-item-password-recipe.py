@@ -12,7 +12,7 @@ if __name__ == "__main__":
     username = "test_username"
     login_url = "https://website.example"
 
-    # Explicitly specify a recpie
+    # Explicitly specify a recipe
     # in this case, a 40-character alphabetic-only password
     recipe = OPPasswordRecipe(length=40, digits=False, symbols=False)
     # ... or use one of the predefined constants (pyonepassword.api.constants)

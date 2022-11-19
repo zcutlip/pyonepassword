@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.3.3] - 2022-11-18
+
+### Changed
+
+- Fix an issue where `op.item_delete()` would blow up if the item to be deleted was an unknown (to pyonepassword) type (gh-54)
+
 ## [3.3.2] - 2022-11-16
 
 ### Changed

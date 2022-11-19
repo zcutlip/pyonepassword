@@ -13,6 +13,7 @@ from .op_items._item_list import OPItemList
 from .op_items._new_item import OPNewItemMixin
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items._op_items_base import OPAbstractItem
+from .op_items.generic_item import _OPGenericItem
 from .op_items.login import (
     OPLoginItem,
     OPLoginItemNewPrimaryURL,
@@ -630,7 +631,8 @@ class OP(_OPCommandInterface):
 
         """
         try:
-            item = self.item_get(item_identifier, vault=vault)
+            output = super()._item_get(item_identifier, vault=vault)
+            item = _OPGenericItem(output)
         except OPItemGetException as e:
             raise OPItemDeleteException.from_opexception(e)
         # we want to return the explicit ID even if we were

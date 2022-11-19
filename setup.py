@@ -37,7 +37,7 @@ setup(
         # if python 3.8, need to install 3rd importlib-resources
         "importlib-resources>=5.2.0; python_version<'3.9'"
     ],
-    package_data={'pyonepassword': ['data/*']},
+    package_data={'pyonepassword': ['data/*', 'py.typed']},
     entry_points={"console_scripts":
                   ["opconfig=pyonepassword.opconfig_main:main"]},
     classifiers=[

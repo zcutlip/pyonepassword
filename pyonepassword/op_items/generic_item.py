@@ -1,7 +1,7 @@
 from ._op_items_base import OPAbstractItem
 
 
-class _OPGenericItem(OPAbstractItem):
+class _OPGenericItem(OPAbstractItem):  # pragma: no coverage
     """
     Generic item class
 

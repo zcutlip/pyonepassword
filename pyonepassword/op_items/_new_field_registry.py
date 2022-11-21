@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from json import JSONDecodeError
-from typing import TYPE_CHECKING, Dict, Union
+from typing import TYPE_CHECKING, Dict, Optional, Union
 
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidFieldException
@@ -36,7 +36,7 @@ class OPNewItemFieldFactory:
         return item_cls.from_field(field_dict, section=section)
 
     @classmethod
-    def item_field(cls, item_json_or_dict: Union[str, Dict], section: OPSection = None):
+    def item_field(cls, item_json_or_dict: Union[str, Dict], section: Optional[OPSection] = None):
         try:
             field_dict = safe_unjson(item_json_or_dict)
         except JSONDecodeError as jdce:

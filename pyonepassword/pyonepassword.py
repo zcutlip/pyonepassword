@@ -1,6 +1,6 @@
 import logging
 from os import environ as env
-from typing import Union
+from typing import Optional, Union
 
 from ._py_op_commands import (
     EXISTING_AUTH_IGNORE,
@@ -48,15 +48,15 @@ class OP(_OPCommandInterface):
     @deprecated_kwargs(use_existing_session='existing_auth',
                        account_shorthand='account')
     def __init__(self,
-                 account: str = None,
-                 account_shorthand: str = None,
-                 password: str = None,
+                 account: Optional[str] = None,
+                 account_shorthand: Optional[str] = None,
+                 password: Optional[str] = None,
                  existing_auth: ExistingAuthEnum = EXISTING_AUTH_IGNORE,
                  use_existing_session: bool = False,
                  password_prompt: bool = True,
-                 vault: str = None,
+                 vault: Optional[str] = None,
                  op_path: str = 'op',
-                 logger: logging.Logger = None):
+                 logger: Optional[logging.Logger] = None):
         """
         Create an OP object. The 1Password (non-initial) sign-in happens during object instantiation.
 
@@ -497,7 +497,7 @@ class OP(_OPCommandInterface):
     def item_create(self,
                     new_item: OPNewItemMixin,
                     password_recipe: OPPasswordRecipe = None,
-                    vault: str = None):  # pragma: no coverage
+                    vault: Optional[str] = None):  # pragma: no coverage
         """
         Create a new item in the authenticated 1Password account
 
@@ -544,7 +544,7 @@ class OP(_OPCommandInterface):
                           title: str,
                           username: str,
                           password: Union[str, OPPasswordRecipe] = None,
-                          url: str = None,
+                          url: Optional[str] = None,
                           url_label: str = "Website",
                           vault=None):  # pragma: no coverage
         """
@@ -597,7 +597,7 @@ class OP(_OPCommandInterface):
             new_item, password_recipe=password_recipe, vault=vault)
         return login_item
 
-    def item_delete(self, item_identifier: str, vault: str = None, archive: bool = False) -> str:
+    def item_delete(self, item_identifier: str, vault: Optional[str] = None, archive: bool = False) -> str:
         """
         Delete an item based on title or unique identifier
 

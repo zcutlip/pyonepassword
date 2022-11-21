@@ -2,7 +2,7 @@ import json
 import os
 import pathlib
 from json.decoder import JSONDecodeError
-from typing import List
+from typing import List, Optional
 
 from .py_op_exceptions import OPConfigNotFoundException
 
@@ -105,11 +105,11 @@ class OPCLIConfig(dict):
         return account_list
 
     @property
-    def latest_signin(self) -> str:
+    def latest_signin(self) -> Optional[str]:
         return self.get("latest_signin")
 
     @property
-    def latest_signin_uuid(self) -> str:
+    def latest_signin_uuid(self) -> Optional[str]:
         latest_uuid = None
         latest = self.latest_signin
         if latest:

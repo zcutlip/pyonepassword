@@ -187,8 +187,9 @@ class OPNewItemMixin:
         key_collisions = []
 
         for key in extra_data.keys():
-            if key in self:  # type: ignore   mypy doesn't like this even though it's fine later
-                #                             and if it isn't we should ust blow up anyway
+            if key in self:  # type: ignore
+                #                    mypy doesn't like this even though it's fine later
+                #                    and if it isn't we should ust blow up anyway
                 key_collisions.append(key)  # pragma: no coverage
         if key_collisions:
             raise OPNewItemDataCollisionException(  # pragma: no coverage

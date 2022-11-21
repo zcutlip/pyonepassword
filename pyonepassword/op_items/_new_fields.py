@@ -19,8 +19,8 @@ class OPNewItemField(OPItemField):
 
     New fields may be created directly, or from existing fields
     """
-    FIELD_TYPE = None
-    FIELD_PURPOSE = None
+    FIELD_TYPE = Optional[None]
+    FIELD_PURPOSE = Optional[None]
 
     def __init__(self, field_label: str, value: Any, field_id=None, section: Optional[OPSection] = None):
         """

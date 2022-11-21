@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, Dict, Optional, Union
 
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidFieldException
+from ._new_fields import OPItemField
 
 if TYPE_CHECKING:
     from .item_section import OPSection  # pragma: no coverage
@@ -17,7 +18,7 @@ class OPUnknownFieldTypeException(Exception):
 
 
 class OPNewItemFieldFactory:
-    _TYPE_REGISTRY = {}
+    _TYPE_REGISTRY: Dict[str, OPItemField] = {}
 
     @classmethod
     def register_op_field_type(cls, item_class):

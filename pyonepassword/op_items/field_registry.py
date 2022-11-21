@@ -4,7 +4,7 @@ from pyonepassword.op_items.item_field_base import OPItemField
 
 
 class OPItemFieldFactory:
-    _TYPE_REGISTRY = {}
+    _TYPE_REGISTRY: Dict[str, OPItemField] = {}
 
     @classmethod
     def register_op_field_type(cls, item_class):

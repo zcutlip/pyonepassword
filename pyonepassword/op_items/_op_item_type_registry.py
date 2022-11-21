@@ -3,6 +3,7 @@ from typing import Dict, Union
 
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidItemException
+from ._op_items_base import OPAbstractItem
 
 
 class OPUnknownItemTypeException(Exception):
@@ -12,7 +13,7 @@ class OPUnknownItemTypeException(Exception):
 
 
 class OPItemFactory:
-    _TYPE_REGISTRY = {}
+    _TYPE_REGISTRY: Dict[str, OPAbstractItem] = {}
 
     @classmethod
     def register_op_item_type(cls, item_type, item_class):

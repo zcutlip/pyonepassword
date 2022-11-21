@@ -22,7 +22,7 @@ class OPNewItemField(OPItemField):
     FIELD_TYPE = None
     FIELD_PURPOSE = None
 
-    def __init__(self, field_label: str, value: Any, field_id=None, section: OPSection = None):
+    def __init__(self, field_label: str, value: Any, field_id=None, section: Optional[OPSection] = None):
         """
         Create a new field object
 
@@ -68,7 +68,7 @@ class OPNewItemField(OPItemField):
             section.register_field(self)
 
     @classmethod
-    def from_field(cls, field: OPItemField, section: OPSection = None):
+    def from_field(cls, field: OPItemField, section: Optional[OPSection] = None):
         """
         Create a new field from an existing one
 
@@ -203,7 +203,7 @@ class OPNewTOTPField(OPNewStringField):
                  field_label: str,
                  totp_value: Union[str, OPNewTOTPUri],
                  field_id=None,
-                 section: OPSection = None):
+                 section: Optional[OPSection] = None):
         """
         Create a new TOTP field object
 

@@ -4,7 +4,7 @@ Description: A module that maps methods to to `op` commands and subcommands
 import enum
 import logging
 from os import environ
-from typing import Union
+from typing import Optional, Union
 
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
@@ -341,7 +341,7 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, item_name_or_id, vault=vault_arg)
         return lookup_argv
 
-    def _get_document_argv(self, document_name_or_id: str, vault: str = None):
+    def _get_document_argv(self, document_name_or_id: str, vault: Optional[str] = None):
         vault_arg = vault if vault else self.vault
 
         get_document_argv = _OPArgv.document_get_argv(
@@ -413,7 +413,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
-    def _document_get(self, document_name_or_id: str, vault: str = None):
+    def _document_get(self, document_name_or_id: str, vault: Optional[str] = None):
         """
         Download a document object from a 1Password vault by name or UUID.
 

@@ -59,7 +59,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
         return section
 
-    def first_section_by_label(self, label, case_sensitive=True) -> OPSection:
+    def first_section_by_label(self, label, case_sensitive=True) -> Optional[OPSection]:
         sections = self.sections_by_label(label, case_sensitive=case_sensitive)
         section = None
         if sections:

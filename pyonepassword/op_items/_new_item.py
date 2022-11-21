@@ -1,7 +1,7 @@
 import json
 import os
 import tempfile
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from ._new_field_registry import OPNewItemFieldFactory
 from ._new_fields import OPNewItemField
@@ -22,7 +22,7 @@ class OPNewSection(OPSection):
     New sections may be created directly, or from existing sections
     """
 
-    def __init__(self, section_label: str, section_id: str = None):
+    def __init__(self, section_label: str, section_id: Optional[str] = None):
         """
         Create a new section object
 
@@ -138,29 +138,35 @@ class OPNewItemMixin:
         new_sections = []
         new_fields = []
         old_to_new_sections = {}
-        for section in sections:
-            if not isinstance(section, OPNewSection):
-                old_id = section.section_id
-                section = OPNewSection.from_section(section)
+
+        for sect in sections:
+            if not isinstance(sect, OPNewSection):
+                old_id = sect.section_id
+                sect = OPNewSection.from_section(sect)
                 # create a mapping of old-to-new sections to keep
                 # up with the sections whose UUIDs get regenerated
-                old_to_new_sections[old_id] = section
-            if section.section_id in section_map:
+                old_to_new_sections[old_id] = sect
+            if sect.section_id in section_map:
                 raise OPSectionCollisionException(
-                    f"Duplicate section ID when creating new sections: {section.section_id}")
-            section_map[section.section_id] = section
-            new_sections.append(section)
+                    f"Duplicate section ID when creating new sections: {sect.section_id}")
+            section_map[sect.section_id] = sect
+            new_sections.append(sect)
 
         for field in fields:
             section_id = field.section_id
             if not isinstance(field, OPNewItemField):
-                section = old_to_new_sections.get(section_id)
-                field = OPNewItemFieldFactory.item_field(field, section)
+                section = None
+                if section_id:
+                    section = old_to_new_sections.get(section_id)
+                field = OPNewItemFieldFactory.item_field(
+                    field, section=section)
             else:
-                section = old_to_new_sections.get(section_id)
+
+                section = old_to_new_sections.get(
+                    section_id) if section_id else None
                 if section:
                     # If a section's UUID may have been regenerated, we need to re-link it to the field
-                    field.update_section(section)
+                    field.update_section(sect)
             new_fields.append(field)
         template_dict["sections"] = new_sections
         template_dict["fields"] = new_fields

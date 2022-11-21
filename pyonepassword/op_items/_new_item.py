@@ -171,16 +171,21 @@ class OPNewItemMixin:
         template_dict["sections"] = new_sections
         template_dict["fields"] = new_fields
         key_collisions = []
+
         for key in extra_data.keys():
-            if key in self:
+            if key in self:  # type: ignore   mypy doesn't like this even though it's fine later
+                #                             and if it isn't we should ust blow up anyway
                 key_collisions.append(key)  # pragma: no coverage
         if key_collisions:
             raise OPNewItemDataCollisionException(  # pragma: no coverage
                 f"Extra data key collisions: {key_collisions}")
         if extra_data:
             template_dict.update(extra_data)
-        super().__init__(template_dict)
-        self._temp_files = []
+
+        # Satisfy mypy: Too many arguments for "__init__" of "object"
+        args = [template_dict]
+        super().__init__(*args)
+        self._temp_files: List[str] = []
 
     def secure_tempfile(self, encoding="utf8") -> str:
         """

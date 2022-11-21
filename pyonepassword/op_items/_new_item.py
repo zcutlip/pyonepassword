@@ -3,6 +3,7 @@ import os
 import tempfile
 from typing import Dict, List, Optional
 
+from ..py_op_exceptions import OPInvalidItemException
 from ._new_field_registry import OPNewItemFieldFactory
 from ._new_fields import OPNewItemField
 from .item_field_base import OPItemField
@@ -117,6 +118,8 @@ class OPNewItemMixin:
             If two or more sections have conflicting section IDs
         OPNewItemDataCollisionException
             If one or more keys in extra_data is already present in this item
+        OPInvalidItemException
+            If the subclass does not also inherit from a valid OPAbstractItem implementation
         """
         if sections is None:  # pragma: no coverage
             sections = []
@@ -132,7 +135,18 @@ class OPNewItemMixin:
             extra_data = dict(extra_data)
 
         directory = OPTemplateDirectory()
-        template_dict: Dict = directory.template_for_category(self.CATEGORY)
+
+        # Mostly this satisfies mypy since OPNewItemMixin intentionally
+        # doesn't define a CATEGORY attribute
+        # my preference would be to not handle it and allow attribute error to blow
+        # things up, but since we do have to check first, lets just raise
+        # a descriptive OPInvalidItemException
+        if hasattr(self, "CATEGORY"):
+            template_dict: Dict = directory.template_for_category(
+                self.CATEGORY)
+        else:
+            raise OPInvalidItemException(
+                "Item template class inherit also from inherit a concreate OPAbstractItem implementation, overriding CATEGORY")
         template_dict["title"] = title
         section_map = {}
         new_sections = []

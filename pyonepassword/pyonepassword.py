@@ -319,7 +319,7 @@ class OP(_OPCommandInterface):
         group = OPGroup(group_json)
         return group
 
-    def group_list(self, user_name_or_id=None, vault=None) -> OPUserDescriptorList:
+    def group_list(self, user_name_or_id=None, vault=None) -> OPGroupDescriptorList:
         """
         Return a list of groups in an account.
 
@@ -342,7 +342,7 @@ class OP(_OPCommandInterface):
         user: OPGroupDescriptorList
             An object representing a list of vault descriptors
         """
-        group_list: OPUserDescriptorList
+        group_list: Union[str, OPGroupDescriptorList]
         group_list = self._group_list(
             user_name_or_id=user_name_or_id, vault=vault)
         group_list = OPGroupDescriptorList(group_list)

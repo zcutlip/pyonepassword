@@ -4,7 +4,7 @@ Description: A module that maps methods to to `op` commands and subcommands
 import enum
 import logging
 from os import environ
-from typing import Optional, Union
+from typing import Mapping, Optional, Union
 
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
@@ -95,9 +95,9 @@ class _OPCommandInterface(_OPCLIExecute):
         # contact to the 1Password account.
         # The next steps will attempt to talk to the 1Password account, and
         # failing that, may attempt to authenticate to the 1Password account
-        account, token = self._new_or_existing_signin(
+        account_obj, token = self._new_or_existing_signin(
             existing_auth, password, password_prompt)
-        self._signed_in_account: OPAccount = account
+        self._signed_in_account: OPAccount = account_obj
         self._token = token
         self.logger.debug(
             f"Signed in as User ID: {self._signed_in_account.user_uuid}")
@@ -107,7 +107,7 @@ class _OPCommandInterface(_OPCLIExecute):
                 # if we weren't provided an account identifier,
                 # we can now get it from the signed-in account object
                 # and compute the session environment variable name
-                self._account_identifier = account.user_uuid
+                self._account_identifier = account_obj.user_uuid
                 self._sess_var = self._compute_session_var_name()
             environ[self._sess_var] = self.token
 
@@ -139,7 +139,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
     def _gather_facts(self):
         self._op_config = OPCLIConfig()
-        self._cli_version: OPCLIVersion = self._get_cli_version(self.op_path)
+        self._cli_version = self._get_cli_version(self.op_path)
         self._account_list = self._get_account_list(self.op_path)
         self._uses_bio = self.uses_biometric(
             op_path=self.op_path, account_list=self._account_list)
@@ -228,8 +228,9 @@ class _OPCommandInterface(_OPCLIExecute):
             account = self._verify_signin(token=token)
         return (account, token)
 
-    def _verify_signin(self, token=None):
-        account: OPAccount = None
+    def _verify_signin(self, token: str = None):
+        env: Mapping
+        account = None
         if token and self._sess_var:
             # we need to pass an environment dictionary to subprocess.run() that contains
             # the session token we're trying to verify

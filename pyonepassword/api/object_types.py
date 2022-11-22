@@ -1,8 +1,8 @@
 from ..account import OPAccount
 from ..op_items._item_list import OPItemList
+from ..op_items._new_field_registry import OPNewItemField
 from ..op_items._new_fields import (
     OPNewConcealedField,
-    OPNewItemField,
     OPNewPasswordField,
     OPNewStringField,
     OPNewTOTPField,

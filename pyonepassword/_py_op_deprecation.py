@@ -34,7 +34,9 @@ class deprecated:  # pragma: no cover
 
         wrapped.__name__ = '__init__'
         wrapped.__doc__ = self._update_doc(init.__doc__)
-        wrapped.deprecated_original = init
+
+        # mypy doesn't like wrapped.deprecated_original = init
+        setattr(wrapped, "deprecated_original", init)
 
         return cls
 
@@ -51,9 +53,6 @@ class deprecated:  # pragma: no cover
             return fun(*args, **kwargs)
 
         wrapped.__doc__ = self._update_doc(wrapped.__doc__)
-        # Add a reference to the wrapped function so that we can introspect
-        # on function arguments in Python 2 (already works in Python 3)
-        wrapped.__wrapped__ = fun
 
         return wrapped
 

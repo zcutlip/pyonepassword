@@ -14,11 +14,7 @@ from .op_items._new_item import OPNewItemMixin
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items._op_items_base import OPAbstractItem
 from .op_items.generic_item import _OPGenericItem
-from .op_items.login import (
-    OPLoginItem,
-    OPLoginItemNewPrimaryURL,
-    OPLoginItemTemplate
-)
+from .op_items.login import OPLoginItemNewPrimaryURL, OPLoginItemTemplate
 from .op_items.password_recipe import OPPasswordRecipe
 from .op_items.totp import OPTOTPItem
 from .op_objects import (
@@ -235,7 +231,8 @@ class OP(_OPCommandInterface):
         user: OPUserDescriptorList
             An object representing a list of user descriptors
         """
-        user_list: OPUserDescriptorList
+        user_list: Union[str, OPUserDescriptorList]
+
         user_list = self._user_list(
             group_name_or_id=group_name_or_id, vault=vault_name_or_id)
         user_list = OPUserDescriptorList(user_list)
@@ -373,9 +370,15 @@ class OP(_OPCommandInterface):
         password: str
             Value of the item's 'password' attribute
         """
-        item: OPLoginItem
+        item: OPAbstractItem
         item = self.item_get(item_identifier, vault=vault)
-        password = item.password
+
+        # satisfy 'mypy': OPAbstractItem has no "password" attribute
+        if not hasattr(item, "password"):
+            raise OPInvalidItemException(
+                f"Item: {item.title} has no password attribute")
+        else:
+            password = item.password
         return password
 
     def item_get_filename(self, item_identifier, vault=None):
@@ -409,8 +412,15 @@ class OP(_OPCommandInterface):
             Value of the item's 'fileName' attribute
         """
         item = self.item_get(item_identifier, vault=vault)
-        # Will raise AttributeError if item isn't a OPDocumentItem
-        file_name = item.file_name
+
+        # raise AttributeError if item isn't a OPDocumentItem
+        # we have to raise it ourselves becuase mypy complains OPAbstractItem doesn't have
+        # '.file_name'
+        if hasattr(item, "file_name"):
+            file_name = item.file_name
+        else:
+            raise AttributeError(
+                f"{item.__class__.__name__} object has no attribute 'file_name'")
 
         return file_name
 
@@ -590,9 +600,9 @@ class OP(_OPCommandInterface):
             password = None
 
         if url:
-            url = OPLoginItemNewPrimaryURL(url, url_label)
+            url_obj = OPLoginItemNewPrimaryURL(url, url_label)
         new_item = OPLoginItemTemplate(
-            title, username, password=password, url=url)
+            title, username, password=password, url=url_obj)
         login_item = self.item_create(
             new_item, password_recipe=password_recipe, vault=vault)
         return login_item

@@ -127,7 +127,7 @@ class _OPCommandInterface(_OPCLIExecute):
         # if biometric is enabled, there will be no account shorthands in the output
         # if there are account shorthands, biometric is not enabled
         if account_list is None:
-            account_list = cls._get_account_list(op_path)
+            account_list = cls._get_account_list(op_path, decode=encoding)
         acct: OPAccount
         for acct in account_list:
             if not acct.shorthand:
@@ -154,8 +154,8 @@ class _OPCommandInterface(_OPCLIExecute):
         return cli_version
 
     @classmethod
-    def _get_account_list(cls, op_path) -> OPAccountList:
-        account_list_json = cls._signed_in_accounts(op_path)
+    def _get_account_list(cls, op_path, decode="utf-8") -> OPAccountList:
+        account_list_json = cls._signed_in_accounts(op_path, decode=decode)
         account_list = OPAccountList(account_list_json)
         return account_list
 
@@ -445,7 +445,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
     @classmethod
     def _signed_in_accounts(cls, op_path, decode="utf-8"):
-        account_list_argv = cls._account_list_argv(op_path)
+        account_list_argv = cls._account_list_argv(op_path, encoding=decode)
         output = cls._run(account_list_argv,
                           capture_stdout=True, decode=decode)
         return output

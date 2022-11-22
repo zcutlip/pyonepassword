@@ -200,7 +200,7 @@ class _OPArgv(list):
 
     @classmethod
     def whoami_argv(cls, op_exe, account=None):
-        args = []
+        args: List[str] = []
         global_args = []
         if account:
             global_args = ["--account", account]
@@ -210,7 +210,7 @@ class _OPArgv(list):
 
     @classmethod
     def cli_version_argv(cls, op_exe):
-        args = []
+        args: List[str] = []
         global_args = ["--version"]
         argv_obj = cls(op_exe, None, args, global_args=global_args)
         return argv_obj
@@ -253,7 +253,7 @@ class _OPArgv(list):
     @classmethod
     def account_list_argv(cls, op_exe, output_format="json", encoding="utf-8"):
         cmd = "account"
-        cmd_args = []
+        cmd_args: List[str] = []
         subcmd = "list"
         global_args = ["--format", output_format]
         argv = cls(op_exe, cmd, cmd_args, subcommand=subcmd,

@@ -56,13 +56,13 @@ class _OPCommandInterface(_OPCLIExecute):
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
     def __init__(self,
-                 account=None,
-                 password=None,
+                 account: str = None,
+                 password: str = None,
                  existing_auth: ExistingAuthEnum = EXISTING_AUTH_IGNORE,
-                 vault=None,
-                 password_prompt=True,
-                 op_path=OP_PATH,
-                 logger=None):
+                 vault: str = None,
+                 password_prompt: bool = True,
+                 op_path: str = OP_PATH,
+                 logger: logging.Logger = None):
         """
         Constructor to authenticate or verify existing authentication to `op`
         """
@@ -120,7 +120,7 @@ class _OPCommandInterface(_OPCLIExecute):
         return self._sess_var
 
     @classmethod
-    def uses_biometric(cls, op_path="op", encoding="utf-8", account_list=None):
+    def uses_biometric(cls, op_path: str = "op", encoding: str = "utf-8", account_list: OPAccountList = None):
         uses_bio = True
         # We can run 'op account list', which doesn't require talking (or authenticating)
         # to the 1Password account
@@ -146,7 +146,7 @@ class _OPCommandInterface(_OPCLIExecute):
         self._account_identifier = self._normalize_account_id()
         self._sess_var = self._compute_session_var_name()
 
-    def _get_cli_version(self, op_path):
+    def _get_cli_version(self, op_path: str) -> OPCLIVersion:
         argv = _OPArgv.cli_version_argv(op_path)
         output = self._run(argv, capture_stdout=True, decode="utf-8")
         output = output.rstrip()

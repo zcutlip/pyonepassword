@@ -1,6 +1,6 @@
 from typing import Dict
 
-from pyonepassword.op_items.item_field_base import OPItemField
+from .item_field_base import OPItemField
 
 
 class OPItemFieldFactory:

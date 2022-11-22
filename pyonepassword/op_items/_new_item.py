@@ -4,8 +4,7 @@ import tempfile
 from typing import Dict, List, Optional
 
 from ..py_op_exceptions import OPInvalidItemException
-from ._new_field_registry import OPNewItemFieldFactory
-from ._new_fields import OPNewItemField
+from ._new_field_registry import OPNewItemField, OPNewItemFieldFactory
 from .item_field_base import OPItemField
 from .item_section import OPSection, OPSectionCollisionException
 from .template_directory import OPTemplateDirectory

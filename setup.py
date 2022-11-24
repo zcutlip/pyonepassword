@@ -20,6 +20,9 @@ with open(os.path.join(proj_path, "pyonepassword", "__about__.py"), "r") as fp:
 with open(os.path.join(proj_path, "README.md"), "r") as fp:
     long_description = fp.read()
 
+
+packages = find_packages(where=".", include=["pyonepassword"])
+
 setup(
     name=about["__title__"],
     version=about["__version__"],
@@ -29,7 +32,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/zcutlip/pyonepassword",
-    packages=find_packages(),
+    packages=packages,
+
     # We need python3.9 in order to use importlib.resources.files in templates.py
     python_requires='>=3.8',
     install_requires=[

@@ -3,6 +3,7 @@ autopep8
 colored-traceback
 flake8
 ipython
+mypy
 pycodestyle
 -e .
 -r test-reqs.txt

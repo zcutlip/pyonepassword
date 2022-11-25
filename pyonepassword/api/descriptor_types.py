@@ -16,23 +16,3 @@ from ..op_objects import (
     OPVaultDescriptor,
     OPVaultDescriptorList
 )
-
-# This causes these types to properly re-exported
-# https://mypy.readthedocs.io/en/stable/config_file.html?highlight=export#confval-implicit_reexport
-# anything that gets imported needs to be added to this list
-__all__ = ["OPGroupDescriptor",
-           "OPGroupDescriptorList",
-           "OPUserDescriptor",
-           "OPUserDescriptorList",
-           "OPVaultDescriptor",
-           "OPVaultDescriptorList",
-           "OPAbstractItemDescriptor",
-           "OPAPICredentialItemDescriptor",
-           "OPCreditCardItemDescriptor",
-           "OPDocumentItemDescriptor",
-           "OPIdentityItemDescriptor",
-           "OPLoginDescriptorItem",
-           "OPPasswordItemDescriptor",
-           "OPSecureNoteItemDescriptor",
-           "OPServerItemDescriptor",
-           "OPSSHKeyItemDescriptor"]

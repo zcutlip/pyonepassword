@@ -48,7 +48,7 @@ class OPSSHKeyItem(OPAbstractItem):
         return self.field_value_by_id("private_key")
 
     @property
-    def private_key_reference(self) -> Optional[str]:
+    def private_key_reference(self) -> str:
         return self.field_reference_by_id("private_key")
 
     @property
@@ -56,5 +56,5 @@ class OPSSHKeyItem(OPAbstractItem):
         return self.field_value_by_id("key_type")
 
     @property
-    def key_type_reference(self) -> Optional[str]:
+    def key_type_reference(self) -> str:
         return self.field_reference_by_id("key_type")

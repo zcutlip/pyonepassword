@@ -302,10 +302,6 @@ class OPGroupDescriptor(OPAbstractObject):
     A dictionary describing a group as returned by 'op list groups'. This is a subset of a full OPGroupOboject.
     """
 
-    # Override __init__ since parent class is abstract
-    def __init__(self, dict_or_json: Union[str, dict]):
-        super().__init__(dict_or_json)
-
     @property
     def description(self) -> str:
         """

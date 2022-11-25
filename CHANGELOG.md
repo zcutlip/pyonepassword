@@ -2,21 +2,6 @@
 
 All notable changes to this project will be documented in this file.
 
-## [3.3.4] - 2022-11-24
-
-### Changed
-
-- Added `py.typed` marker for `mypy` type analysis when imported into other projects (gh-48)
-- Extensive improvements with type-hinting throughout project
-- Added `mypy` testing to `tox.ini`
-- Add `mypy` testing to Docker infrastructure
-
-### Fixed
-
-- A few bugs found by `mypy` where the wrong type was being passed to or returned from a method
-- A few cases where the wrong type being passed by a caller would have crashed rather than passed back up as a meaningful error
-- Properly export all symbols exposed under `pyonepassword.api`s
-
 ## [3.3.3] - 2022-11-18
 
 ### Changed

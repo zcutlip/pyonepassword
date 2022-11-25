@@ -1,5 +1,5 @@
 import shlex
-from typing import List
+from typing import List, Optional
 
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
@@ -14,7 +14,7 @@ class _OPArgv(list):
     as it allows the preciese set of command line arguments to be captured for later playback.
     """
 
-    def __init__(self, op_exe: str, command: str, args: List, subcommand: str = None, global_args=[], encoding="utf-8"):
+    def __init__(self, op_exe: str, command: str, args: List, subcommand: Optional[str] = None, global_args=[], encoding="utf-8"):
         # TODO: Refactor this
         # constructor is getting too many specialized kwargs tied to
         # specific commands/subcommands
@@ -200,7 +200,7 @@ class _OPArgv(list):
 
     @classmethod
     def whoami_argv(cls, op_exe, account=None):
-        args = []
+        args: List[str] = []
         global_args = []
         if account:
             global_args = ["--account", account]
@@ -210,7 +210,7 @@ class _OPArgv(list):
 
     @classmethod
     def cli_version_argv(cls, op_exe):
-        args = []
+        args: List[str] = []
         global_args = ["--version"]
         argv_obj = cls(op_exe, None, args, global_args=global_args)
         return argv_obj
@@ -253,7 +253,7 @@ class _OPArgv(list):
     @classmethod
     def account_list_argv(cls, op_exe, output_format="json", encoding="utf-8"):
         cmd = "account"
-        cmd_args = []
+        cmd_args: List[str] = []
         subcmd = "list"
         global_args = ["--format", output_format]
         argv = cls(op_exe, cmd, cmd_args, subcommand=subcmd,
@@ -264,8 +264,8 @@ class _OPArgv(list):
     def item_create_argv(cls,
                          op_exe,
                          item: OPNewItemMixin,
-                         password_recipe: OPPasswordRecipe = None,
-                         vault: str = None,
+                         password_recipe: Optional[OPPasswordRecipe] = None,
+                         vault: Optional[str] = None,
                          encoding="utf-8"):
         """
         op item create --template ./new_item.json --vault "Test Data" --generate-password=20,letters,digits --dry-run --format json
@@ -289,7 +289,7 @@ class _OPArgv(list):
     def item_delete_argv(cls,
                          op_exe: str,
                          item_name_or_id: str,
-                         vault: str = None,
+                         vault: Optional[str] = None,
                          archive: bool = False):
         sub_cmd_args = [item_name_or_id]
         if archive:

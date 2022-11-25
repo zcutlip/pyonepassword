@@ -1,6 +1,6 @@
 import logging
 from os import environ as env
-from typing import Union
+from typing import Optional, Union
 
 from ._py_op_commands import (
     EXISTING_AUTH_IGNORE,
@@ -14,11 +14,7 @@ from .op_items._new_item import OPNewItemMixin
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items._op_items_base import OPAbstractItem
 from .op_items.generic_item import _OPGenericItem
-from .op_items.login import (
-    OPLoginItem,
-    OPLoginItemNewPrimaryURL,
-    OPLoginItemTemplate
-)
+from .op_items.login import OPLoginItemNewPrimaryURL, OPLoginItemTemplate
 from .op_items.password_recipe import OPPasswordRecipe
 from .op_items.totp import OPTOTPItem
 from .op_objects import (
@@ -48,15 +44,15 @@ class OP(_OPCommandInterface):
     @deprecated_kwargs(use_existing_session='existing_auth',
                        account_shorthand='account')
     def __init__(self,
-                 account: str = None,
-                 account_shorthand: str = None,
-                 password: str = None,
+                 account: Optional[str] = None,
+                 account_shorthand: Optional[str] = None,
+                 password: Optional[str] = None,
                  existing_auth: ExistingAuthEnum = EXISTING_AUTH_IGNORE,
                  use_existing_session: bool = False,
                  password_prompt: bool = True,
-                 vault: str = None,
+                 vault: Optional[str] = None,
                  op_path: str = 'op',
-                 logger: logging.Logger = None):
+                 logger: Optional[logging.Logger] = None):
         """
         Create an OP object. The 1Password (non-initial) sign-in happens during object instantiation.
 
@@ -235,7 +231,8 @@ class OP(_OPCommandInterface):
         user: OPUserDescriptorList
             An object representing a list of user descriptors
         """
-        user_list: OPUserDescriptorList
+        user_list: Union[str, OPUserDescriptorList]
+
         user_list = self._user_list(
             group_name_or_id=group_name_or_id, vault=vault_name_or_id)
         user_list = OPUserDescriptorList(user_list)
@@ -319,7 +316,7 @@ class OP(_OPCommandInterface):
         group = OPGroup(group_json)
         return group
 
-    def group_list(self, user_name_or_id=None, vault=None) -> OPUserDescriptorList:
+    def group_list(self, user_name_or_id=None, vault=None) -> OPGroupDescriptorList:
         """
         Return a list of groups in an account.
 
@@ -342,7 +339,7 @@ class OP(_OPCommandInterface):
         user: OPGroupDescriptorList
             An object representing a list of vault descriptors
         """
-        group_list: OPUserDescriptorList
+        group_list: Union[str, OPGroupDescriptorList]
         group_list = self._group_list(
             user_name_or_id=user_name_or_id, vault=vault)
         group_list = OPGroupDescriptorList(group_list)
@@ -373,9 +370,15 @@ class OP(_OPCommandInterface):
         password: str
             Value of the item's 'password' attribute
         """
-        item: OPLoginItem
+        item: OPAbstractItem
         item = self.item_get(item_identifier, vault=vault)
-        password = item.password
+
+        # satisfy 'mypy': OPAbstractItem has no "password" attribute
+        if not hasattr(item, "password"):
+            raise OPInvalidItemException(
+                f"Item: {item.title} has no password attribute")
+        else:
+            password = item.password
         return password
 
     def item_get_filename(self, item_identifier, vault=None):
@@ -409,8 +412,15 @@ class OP(_OPCommandInterface):
             Value of the item's 'fileName' attribute
         """
         item = self.item_get(item_identifier, vault=vault)
-        # Will raise AttributeError if item isn't a OPDocumentItem
-        file_name = item.file_name
+
+        # raise AttributeError if item isn't a OPDocumentItem
+        # we have to raise it ourselves becuase mypy complains OPAbstractItem doesn't have
+        # '.file_name'
+        if hasattr(item, "file_name"):
+            file_name = item.file_name
+        else:
+            raise AttributeError(
+                f"{item.__class__.__name__} object has no attribute 'file_name'")
 
         return file_name
 
@@ -497,7 +507,7 @@ class OP(_OPCommandInterface):
     def item_create(self,
                     new_item: OPNewItemMixin,
                     password_recipe: OPPasswordRecipe = None,
-                    vault: str = None):  # pragma: no coverage
+                    vault: Optional[str] = None):  # pragma: no coverage
         """
         Create a new item in the authenticated 1Password account
 
@@ -544,7 +554,7 @@ class OP(_OPCommandInterface):
                           title: str,
                           username: str,
                           password: Union[str, OPPasswordRecipe] = None,
-                          url: str = None,
+                          url: Optional[str] = None,
                           url_label: str = "Website",
                           vault=None):  # pragma: no coverage
         """
@@ -590,14 +600,14 @@ class OP(_OPCommandInterface):
             password = None
 
         if url:
-            url = OPLoginItemNewPrimaryURL(url, url_label)
+            url_obj = OPLoginItemNewPrimaryURL(url, url_label)
         new_item = OPLoginItemTemplate(
-            title, username, password=password, url=url)
+            title, username, password=password, url=url_obj)
         login_item = self.item_create(
             new_item, password_recipe=password_recipe, vault=vault)
         return login_item
 
-    def item_delete(self, item_identifier: str, vault: str = None, archive: bool = False) -> str:
+    def item_delete(self, item_identifier: str, vault: Optional[str] = None, archive: bool = False) -> str:
         """
         Delete an item based on title or unique identifier
 

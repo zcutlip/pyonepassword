@@ -37,3 +37,40 @@ from ..py_op_exceptions import (
     OPVaultGetException,
     OPVaultListException
 )
+
+# This causes these types to properly re-exported
+# https://mypy.readthedocs.io/en/stable/config_file.html?highlight=export#confval-implicit_reexport
+# anything that gets imported needs to be added to this list
+__all__ = ["OPCmdFailedException",
+           "OPConfigNotFoundException",
+           "OPDocumentGetException",
+           "OPForgetException",
+           "OPGroupGetException",
+           "OPGroupListException",
+           "OPInvalidDocumentException",
+           "OPInvalidItemException",
+           "OPItemDeleteException",
+           "OPItemGetException",
+           "OPItemListException",
+           "OPNotFoundException",
+           "OPNotSignedInException",
+           "OPSigninException",
+           "OPSignoutException",
+           "OPUnknownAccountException",
+           "OPUserGetException",
+           "OPUserListException",
+           "OPVaultGetException",
+           "OPVaultListException",
+           "OPInvalidGroupException",
+           "OPInvalidGroupListException",
+           "OPInvalidObjectException",
+           "OPInvalidUserException",
+           "OPInvalidUserListException",
+           "OPInvalidVaultException",
+           "OPInvalidVaultListException",
+           "OPFieldNotFoundException",
+           "OPSectionCollisionException",
+           "OPSectionNotFoundException",
+           "OPNewLoginItemURLException",
+           "OPUnknownItemTypeException",
+           "OPNewTOTPUriException"]

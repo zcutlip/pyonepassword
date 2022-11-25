@@ -1,6 +1,5 @@
 import datetime
 from abc import ABCMeta, abstractmethod
-from typing import Optional
 
 from .._datetime import fromisoformat_z
 from ..json import safe_unjson
@@ -56,7 +55,7 @@ class OPAbstractItemDescriptor(dict):
         return self.vault.unique_id
 
     @property
-    def state(self) -> Optional[str]:
+    def state(self) -> str:
         return self.get("state")
 
     @property
@@ -64,7 +63,7 @@ class OPAbstractItemDescriptor(dict):
         return self.state == "ARCHIVED"
 
     @property
-    def favorite(self) -> Optional[bool]:
+    def favorite(self) -> bool:
         fav = self.get("favorite", False)
         return fav
 

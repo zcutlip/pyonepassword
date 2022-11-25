@@ -1,9 +1,8 @@
 from json.decoder import JSONDecodeError
-from typing import Any, Dict, Type, Union
+from typing import Dict, Union
 
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidItemException
-from ._op_items_base import OPAbstractItem
 
 
 class OPUnknownItemTypeException(Exception):
@@ -13,7 +12,7 @@ class OPUnknownItemTypeException(Exception):
 
 
 class OPItemFactory:
-    _TYPE_REGISTRY: Dict[str, Type[OPAbstractItem]] = {}
+    _TYPE_REGISTRY = {}
 
     @classmethod
     def register_op_item_type(cls, item_type, item_class):
@@ -23,7 +22,7 @@ class OPItemFactory:
         cls._TYPE_REGISTRY[item_type] = item_class
 
     @classmethod
-    def _item_from_dict(cls, item_dict: Dict[str, Any]):
+    def _item_from_dict(cls, item_dict):
         item_type = item_dict["category"]
         try:
             item_cls = cls._TYPE_REGISTRY[item_type]

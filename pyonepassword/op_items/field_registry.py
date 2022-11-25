@@ -1,27 +1,27 @@
-from typing import Any, Dict, Type
+from typing import Dict
 
-from .item_field_base import OPItemField
+from pyonepassword.op_items.item_field_base import OPItemField
 
 
 class OPItemFieldFactory:
-    _TYPE_REGISTRY: Dict[str, Type[OPItemField]] = {}
+    _TYPE_REGISTRY = {}
 
     @classmethod
     def register_op_field_type(cls, item_class):
         cls._TYPE_REGISTRY[item_class.FIELD_TYPE] = item_class
 
     @classmethod
-    def field_type_lookup(cls, field_dict: Dict[str, Any]):
+    def field_type_lookup(cls, field_dict):
         item_type = field_dict["type"]
-        field_class = OPItemField
+        field_class = None
         try:
             field_class = cls._TYPE_REGISTRY[item_type]
         except KeyError:
-            pass
+            field_class = OPItemField
         return field_class
 
     @classmethod
-    def item_field(cls, field_dict: Dict[str, Any], *args):
+    def item_field(cls, field_dict: Dict, *args):
         item_cls = cls.field_type_lookup(field_dict)
 
         obj = item_cls(field_dict)

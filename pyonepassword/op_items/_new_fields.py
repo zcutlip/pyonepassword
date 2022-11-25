@@ -1,97 +1,17 @@
 import base64
 import binascii
-import urllib
-from typing import Any, Optional, Union
+import urllib.parse
+from typing import Optional, Union
 
-from ._new_field_registry import op_register_new_item_field_type
-from .item_field import OPItemField
+from ._new_field_registry import (
+    OPNewItemField,
+    op_register_new_item_field_type
+)
 from .item_section import OPSection
-from .uuid import OPUniqueIdentifierBase32, is_uuid
 
 
 class OPNewTOTPUriException(Exception):
     pass
-
-
-class OPNewItemField(OPItemField):
-    """
-    A class for creating new fields for use with new items
-
-    New fields may be created directly, or from existing fields
-    """
-    FIELD_TYPE = None
-    FIELD_PURPOSE = None
-
-    def __init__(self, field_label: str, value: Any, field_id=None, section: OPSection = None):
-        """
-        Create a new field object
-
-        NOTE: This class must be subclassed and FIELD_TYPE overridden
-
-        Parameters
-        ----------
-        field_label: str
-            The user-visible name of the field
-        field_id: str, optional
-            The unique identifier for this field. If none is provided, a random one will be generated
-        section: OPSection, optional
-            The section this field should be associated with. Not all fields are in sections
-        """
-        if not self.FIELD_TYPE:  # pragma: no cover
-            raise TypeError(
-                f"{self.__class__.__name__} must be overridden and FIELD_TYPE set")
-
-        if not field_id:
-            unique_id = OPUniqueIdentifierBase32()
-            field_id = str(unique_id)
-        field_dict = {
-            "id": field_id,
-            "label": field_label,
-            "value": value,
-            "type": self.FIELD_TYPE
-        }
-        if self.FIELD_PURPOSE:
-            field_dict["purpose"] = self.FIELD_PURPOSE
-        if section:
-            field_dict["section"] = dict(section)
-        super().__init__(field_dict)
-        if section:
-            section.register_field(self)
-
-    def update_section(self, section: OPSection):
-        """
-        Update a field's associated section in the event
-        a section's UUID was regenerated
-        """
-        if self.section_id != section.section_id:
-            self["section"] = dict(section)
-            section.register_field(self)
-
-    @classmethod
-    def from_field(cls, field: OPItemField, section: OPSection = None):
-        """
-        Create a new field from an existing one
-
-        If the existing field's ID is a random ID, a new random ID will be generated
-
-        Parameters
-        ----------
-        field: OPItemField
-            The field object to duplicate
-        section: OPSection, optional
-            The section this field should be associated with. Not all fields are in sections
-        Returns
-        -------
-        new_field: OPItemField
-            The newly created field object
-        """
-        field_id = field["id"]
-        if is_uuid(field_id):
-            field_id = str(OPUniqueIdentifierBase32())
-        label = field["label"]
-        value = field["value"]
-        new_field = cls(label, value, field_id=field_id, section=section)
-        return new_field
 
 
 @op_register_new_item_field_type
@@ -182,12 +102,13 @@ class OPNewTOTPUri:
         else:
             label = account
 
-        params = {"secret": self._secret}
+        params_dict = {"secret": self._secret}
 
         if self._issuer:
-            params["issuer"] = self._issuer
+            params_dict["issuer"] = self._issuer
 
-        params = urllib.parse.urlencode(params, quote_via=urllib.parse.quote)
+        params = urllib.parse.urlencode(
+            params_dict, quote_via=urllib.parse.quote)
         url_str = f"otpauth://totp/{label}?{params}"
         return url_str
 
@@ -203,7 +124,7 @@ class OPNewTOTPField(OPNewStringField):
                  field_label: str,
                  totp_value: Union[str, OPNewTOTPUri],
                  field_id=None,
-                 section: OPSection = None):
+                 section: Optional[OPSection] = None):
         """
         Create a new TOTP field object
 

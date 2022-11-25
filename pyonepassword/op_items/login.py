@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Optional, Union
 
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._item_descriptor_registry import op_register_item_descriptor_type
@@ -27,11 +27,11 @@ class OPLoginItemURL(dict):
         super().__init__(url_dict)
 
     @property
-    def label(self) -> str:
+    def label(self) -> Optional[str]:
         return self.get("label")
 
     @property
-    def primary(self) -> bool:
+    def primary(self) -> Optional[bool]:
         primary = self.get("primary", False)
         return primary
 
@@ -126,8 +126,8 @@ class OPLoginItemTemplate(OPNewItemMixin, OPLoginItem):
     def __init__(self,
                  title: str,
                  username: str,
-                 password: str = None,
-                 url: Union[str, OPLoginItemURL] = None,
+                 password: Optional[str] = None,
+                 url: Union[str, OPLoginItemURL, None] = None,
                  fields: List[OPItemField] = [],
                  sections: List[OPSection] = []):
         """

@@ -2,7 +2,7 @@ from typing import Any, Union
 
 
 class OPItemField(dict):
-    FIELD_TYPE = None
+    FIELD_TYPE: Union[str, None] = None
 
     def __init__(self, field_dict):
         super().__init__(field_dict)

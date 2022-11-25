@@ -2,7 +2,7 @@ import json
 import os
 import pathlib
 from json.decoder import JSONDecodeError
-from typing import List
+from typing import List, Optional
 
 from .py_op_exceptions import OPConfigNotFoundException
 
@@ -71,11 +71,12 @@ class OPCLIConfig(dict):
             account_map[account.shorthand] = account
         self.account_map = account_map
 
-    def _get_config_path(self):
-        configpath = None
+    def _get_config_path(self) -> pathlib.Path:
+        configpath: pathlib.Path = None
         config_home = None
         try:
-            config_home = os.environ['XDG_CONFIG_HOME']
+            config_home = pathlib.Path(os.environ['XDG_CONFIG_HOME'])
+
         except KeyError:
             config_home = pathlib.Path.home()
 
@@ -105,11 +106,11 @@ class OPCLIConfig(dict):
         return account_list
 
     @property
-    def latest_signin(self) -> str:
+    def latest_signin(self) -> Optional[str]:
         return self.get("latest_signin")
 
     @property
-    def latest_signin_uuid(self) -> str:
+    def latest_signin_uuid(self) -> Optional[str]:
         latest_uuid = None
         latest = self.latest_signin
         if latest:

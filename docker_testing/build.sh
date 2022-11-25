@@ -6,3 +6,4 @@ docker build "$SCRIPT_DIR"/docker/ -f "$SCRIPT_DIR"/docker/py38.Dockerfile -t do
 docker build "$SCRIPT_DIR"/docker/ -f "$SCRIPT_DIR"/docker/py39.Dockerfile -t docker_py39 || exit
 docker build "$SCRIPT_DIR"/docker/ -f "$SCRIPT_DIR"/docker/py310.Dockerfile -t docker_py310 || exit
 docker build "$SCRIPT_DIR"/docker/ -f "$SCRIPT_DIR"/docker/py311.Dockerfile -t docker_py311 || exit
+docker build "$SCRIPT_DIR"/docker/ -f "$SCRIPT_DIR"/docker/mypy.Dockerfile -t docker_mypy || exit

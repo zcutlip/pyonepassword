@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 from json import JSONDecodeError
-from typing import TYPE_CHECKING, Dict, Union
+from typing import TYPE_CHECKING, Any, Dict, Optional, Type, Union
 
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidFieldException
+from .item_field_base import OPItemField
+from .uuid import OPUniqueIdentifierBase32, is_uuid
 
 if TYPE_CHECKING:
     from .item_section import OPSection  # pragma: no coverage
@@ -22,8 +24,8 @@ class OPNewItemField(OPItemField):
 
     New fields may be created directly, or from existing fields
     """
-    FIELD_TYPE = Optional[None]
-    FIELD_PURPOSE = Optional[None]
+    FIELD_TYPE: Optional[str] = None
+    FIELD_PURPOSE: Optional[str] = None
 
     def __init__(self, field_label: str, value: Any, field_id=None, section: Optional[OPSection] = None):
         """
@@ -98,7 +100,7 @@ class OPNewItemField(OPItemField):
 
 
 class OPNewItemFieldFactory:
-    _TYPE_REGISTRY = {}
+    _TYPE_REGISTRY: Dict[str, Type[OPNewItemField]] = {}
 
     @classmethod
     def register_op_field_type(cls, item_class):
@@ -117,7 +119,7 @@ class OPNewItemFieldFactory:
         return item_cls.from_field(field_dict, section=section)
 
     @classmethod
-    def item_field(cls, item_json_or_dict: Union[str, Dict], section: OPSection = None):
+    def item_field(cls, item_json_or_dict: Union[str, Dict], section: Optional[OPSection] = None):
         try:
             field_dict = safe_unjson(item_json_or_dict)
         except JSONDecodeError as jdce:

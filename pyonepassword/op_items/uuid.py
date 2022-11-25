@@ -16,10 +16,8 @@ class OPUniqueIdentifierBase32:
 
     def __str__(self):
         unique_id_bytes = self._random_bytes
-        # more mypy hax
-        # can't reuse b32unique_id, so need a separate bytes var
-        b32unique_id_bytes = base64.b32encode(unique_id_bytes)
-        b32unique_id = b32unique_id_bytes.decode("utf-8")
+        b32unique_id = base64.b32encode(unique_id_bytes)
+        b32unique_id = b32unique_id.decode("utf-8")
         b32unique_id = b32unique_id.rstrip('=')
         if not self._upper:
             b32unique_id = b32unique_id.lower()

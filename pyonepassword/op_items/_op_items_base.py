@@ -59,7 +59,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
         return section
 
-    def first_section_by_label(self, label, case_sensitive=True) -> OPSection:
+    def first_section_by_label(self, label, case_sensitive=True) -> Optional[OPSection]:
         sections = self.sections_by_label(label, case_sensitive=case_sensitive)
         section = None
         if sections:
@@ -68,7 +68,9 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
     def field_value_by_section_title(self, section_title: str, field_label: str):
         section = self.first_section_by_label(section_title)
-        value = self._field_value_from_section(section, field_label)
+        value = None
+        if section is not None:
+            value = self._field_value_from_section(section, field_label)
         return value
 
     def field_by_id(self, field_id) -> OPItemField:

@@ -4,7 +4,7 @@ Description: A module that maps methods to to `op` commands and subcommands
 import enum
 import logging
 from os import environ
-from typing import Union
+from typing import Mapping, Optional, Union
 
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
@@ -56,13 +56,13 @@ class _OPCommandInterface(_OPCLIExecute):
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
     def __init__(self,
-                 account=None,
-                 password=None,
+                 account: str = None,
+                 password: str = None,
                  existing_auth: ExistingAuthEnum = EXISTING_AUTH_IGNORE,
-                 vault=None,
-                 password_prompt=True,
-                 op_path=OP_PATH,
-                 logger=None):
+                 vault: str = None,
+                 password_prompt: bool = True,
+                 op_path: str = OP_PATH,
+                 logger: logging.Logger = None):
         """
         Constructor to authenticate or verify existing authentication to `op`
         """
@@ -95,9 +95,9 @@ class _OPCommandInterface(_OPCLIExecute):
         # contact to the 1Password account.
         # The next steps will attempt to talk to the 1Password account, and
         # failing that, may attempt to authenticate to the 1Password account
-        account, token = self._new_or_existing_signin(
+        account_obj, token = self._new_or_existing_signin(
             existing_auth, password, password_prompt)
-        self._signed_in_account: OPAccount = account
+        self._signed_in_account: OPAccount = account_obj
         self._token = token
         self.logger.debug(
             f"Signed in as User ID: {self._signed_in_account.user_uuid}")
@@ -107,7 +107,7 @@ class _OPCommandInterface(_OPCLIExecute):
                 # if we weren't provided an account identifier,
                 # we can now get it from the signed-in account object
                 # and compute the session environment variable name
-                self._account_identifier = account.user_uuid
+                self._account_identifier = account_obj.user_uuid
                 self._sess_var = self._compute_session_var_name()
             environ[self._sess_var] = self.token
 
@@ -120,14 +120,14 @@ class _OPCommandInterface(_OPCLIExecute):
         return self._sess_var
 
     @classmethod
-    def uses_biometric(cls, op_path="op", encoding="utf-8", account_list=None):
+    def uses_biometric(cls, op_path: str = "op", encoding: str = "utf-8", account_list: OPAccountList = None):
         uses_bio = True
         # We can run 'op account list', which doesn't require talking (or authenticating)
         # to the 1Password account
         # if biometric is enabled, there will be no account shorthands in the output
         # if there are account shorthands, biometric is not enabled
         if account_list is None:
-            account_list = cls._get_account_list(op_path)
+            account_list = cls._get_account_list(op_path, decode=encoding)
         acct: OPAccount
         for acct in account_list:
             if not acct.shorthand:
@@ -139,14 +139,14 @@ class _OPCommandInterface(_OPCLIExecute):
 
     def _gather_facts(self):
         self._op_config = OPCLIConfig()
-        self._cli_version: OPCLIVersion = self._get_cli_version(self.op_path)
+        self._cli_version = self._get_cli_version(self.op_path)
         self._account_list = self._get_account_list(self.op_path)
         self._uses_bio = self.uses_biometric(
             op_path=self.op_path, account_list=self._account_list)
         self._account_identifier = self._normalize_account_id()
         self._sess_var = self._compute_session_var_name()
 
-    def _get_cli_version(self, op_path):
+    def _get_cli_version(self, op_path: str) -> OPCLIVersion:
         argv = _OPArgv.cli_version_argv(op_path)
         output = self._run(argv, capture_stdout=True, decode="utf-8")
         output = output.rstrip()
@@ -154,8 +154,8 @@ class _OPCommandInterface(_OPCLIExecute):
         return cli_version
 
     @classmethod
-    def _get_account_list(cls, op_path) -> OPAccountList:
-        account_list_json = cls._signed_in_accounts(op_path)
+    def _get_account_list(cls, op_path, decode="utf-8") -> OPAccountList:
+        account_list_json = cls._signed_in_accounts(op_path, decode=decode)
         account_list = OPAccountList(account_list_json)
         return account_list
 
@@ -228,8 +228,9 @@ class _OPCommandInterface(_OPCLIExecute):
             account = self._verify_signin(token=token)
         return (account, token)
 
-    def _verify_signin(self, token=None):
-        account: OPAccount = None
+    def _verify_signin(self, token: str = None):
+        env: Mapping
+        account = None
         if token and self._sess_var:
             # we need to pass an environment dictionary to subprocess.run() that contains
             # the session token we're trying to verify
@@ -341,7 +342,7 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, item_name_or_id, vault=vault_arg)
         return lookup_argv
 
-    def _get_document_argv(self, document_name_or_id: str, vault: str = None):
+    def _get_document_argv(self, document_name_or_id: str, vault: Optional[str] = None):
         vault_arg = vault if vault else self.vault
 
         get_document_argv = _OPArgv.document_get_argv(
@@ -413,7 +414,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
-    def _document_get(self, document_name_or_id: str, vault: str = None):
+    def _document_get(self, document_name_or_id: str, vault: Optional[str] = None):
         """
         Download a document object from a 1Password vault by name or UUID.
 
@@ -445,7 +446,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
     @classmethod
     def _signed_in_accounts(cls, op_path, decode="utf-8"):
-        account_list_argv = cls._account_list_argv(op_path)
+        account_list_argv = cls._account_list_argv(op_path, encoding=decode)
         output = cls._run(account_list_argv,
                           capture_stdout=True, decode=decode)
         return output

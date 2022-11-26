@@ -3,6 +3,7 @@
   "extends": [
     "config:base"
   ],
+  "baseBranches": ["development"],
   "packageRules": [
     {
       "matchPaths": ["docker_testing/docker/py38.Dockerfile"],

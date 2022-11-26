@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.3.4.post0] - 2022-11-26
+
+### Changed
+
+- Updated Renovate bot's `rennovate.json` to target `development` branch rather than `main`
+
+### Note
+
+No release will be generated for this update
+
 ## [3.3.4] - 2022-11-24
 
 ### Changed

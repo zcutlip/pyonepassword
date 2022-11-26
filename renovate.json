@@ -3,6 +3,7 @@
   "extends": [
     "config:base"
   ],
+  "baseBranches": ["development"],
   "packageRules": [
     {
       "matchPaths": ["docker_testing/docker/py38.Dockerfile"],
@@ -16,6 +17,11 @@
     },
     {
       "matchPaths": ["docker_testing/docker/py310.Dockerfile"],
+      "matchPackageNames":["python"],
+      "allowedVersions": "3.10"
+    },
+    {
+      "matchPaths": ["docker_testing/docker/mypy.Dockerfile"],
       "matchPackageNames":["python"],
       "allowedVersions": "3.10"
     }

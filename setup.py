@@ -21,7 +21,7 @@ with open(os.path.join(proj_path, "README.md"), "r") as fp:
     long_description = fp.read()
 
 
-packages = find_packages(where=".", include=["pyonepassword"])
+packages = find_packages(where=".", include=["pyonepassword.*"])
 
 setup(
     name=about["__title__"],

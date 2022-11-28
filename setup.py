@@ -14,6 +14,9 @@ os.chdir(proj_path)
 
 about = {}
 
+# TODO: remove this when we get this working in github actions
+# In tox env, in githubaction, why are we not finding these files?
+os.listdir(".")
 with open(os.path.join(proj_path, "pyonepassword", "__about__.py"), "r") as fp:
     exec(fp.read(), about)
 
@@ -22,7 +25,6 @@ with open(os.path.join(proj_path, "README.md"), "r") as fp:
 
 
 packages = find_packages(where=".", include=["pyonepassword.*"])
-
 setup(
     name=about["__title__"],
     version=about["__version__"],

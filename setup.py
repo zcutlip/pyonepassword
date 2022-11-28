@@ -20,7 +20,9 @@ about = {}
 # TODO: remove this when we get this working in github actions
 # In tox env, in githubaction, why are we not finding these files?
 print("List dir:")
-print(os.listdir(os.path.abspath(os.path.curdir)))
+pyonepassword_dir = os.path.join(
+    os.path.abspath(os.path.curdir), "pyonepassword")
+print(os.listdir(pyonepassword_dir))
 
 with open(os.path.join(proj_path, "pyonepassword", "__about__.py"), "r") as fp:
     exec(fp.read(), about)

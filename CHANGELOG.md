@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.3.5] - 2022-11-27
+
+### Fixed
+
+- Include all `pyonepassword` subpackages by wildcard during build/installation
+- Clean `*.egg-info` during build/installation to ensure proper things get included/excluded
+
 ## [3.3.4.post0] - 2022-11-26
 
 ### Changed

@@ -1,6 +1,7 @@
 import os
 
 from setuptools import find_packages, setup
+from setuptools.command.egg_info import egg_info
 
 
 def project_path():
@@ -23,6 +24,22 @@ with open(os.path.join(proj_path, "README.md"), "r") as fp:
 
 packages = find_packages(
     where=".", include=["pyonepassword", "pyonepassword.*"])
+
+
+# Stale *.egg-info items don't get cleaned automatically
+# and can result in things being packaged that shouldn't be or not packaged
+# that should be
+class CleanEggInfoCommand(egg_info):
+    def run(self):
+        import glob
+        import shutil
+        rm_list = glob.glob('*.egg-info')
+        print("egg_info: removing egg-info")
+        for rm_path in rm_list:
+            print("rm_path")
+            shutil.rmtree(rm_path)
+        super().run()
+
 
 setup(
     name=about["__title__"],
@@ -50,6 +67,9 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    cmdclass={
+        'egg_info': CleanEggInfoCommand
+    },
 )
 
 os.chdir(old_cwd)

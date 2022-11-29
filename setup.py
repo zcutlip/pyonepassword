@@ -9,20 +9,10 @@ def project_path():
 
 
 old_cwd = os.getcwd()
-
-print(os.path.abspath(os.path.curdir))
 proj_path = project_path()
 os.chdir(proj_path)
-print(os.path.abspath(os.path.curdir))
 
 about = {}
-
-# TODO: remove this when we get this working in github actions
-# In tox env, in githubaction, why are we not finding these files?
-print("List dir:")
-pyonepassword_dir = os.path.join(
-    os.path.abspath(os.path.curdir), "pyonepassword")
-print(os.listdir(pyonepassword_dir))
 
 with open(os.path.join(proj_path, "pyonepassword", "__about__.py"), "r") as fp:
     exec(fp.read(), about)
@@ -32,6 +22,7 @@ with open(os.path.join(proj_path, "README.md"), "r") as fp:
 
 
 packages = find_packages(where=".", include=["pyonepassword.*"])
+
 setup(
     name=about["__title__"],
     version=about["__version__"],

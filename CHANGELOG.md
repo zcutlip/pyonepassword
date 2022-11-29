@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- Include all `pyonepassword` subpackages by wildcard during build/installation
+- Include all `pyonepassword` subpackages by wildcard during build/installation (gh-64)
 - Clean `*.egg-info` during build/installation to ensure proper things get included/excluded
 
 ## [3.3.4.post0] - 2022-11-26

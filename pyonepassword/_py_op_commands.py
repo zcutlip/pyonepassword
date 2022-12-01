@@ -99,8 +99,11 @@ class _OPCommandInterface(_OPCLIExecute):
             existing_auth, password, password_prompt)
         self._signed_in_account: OPAccount = account_obj
         self._token = token
-        self.logger.debug(
-            f"Signed in as User ID: {self._signed_in_account.user_uuid}")
+        if self._signed_in_account.is_service_account():
+            self.logger.debug("Signed in as a service account")
+        else:
+            self.logger.debug(
+                f"Signed in as User ID: {self._signed_in_account.user_uuid}")
         # export OP_SESSION_<use_id>
         if self.token:
             if not self._account_identifier:

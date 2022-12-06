@@ -25,3 +25,5 @@ repos:
       - id: isort
         name: isort (pyi)
         types: [pyi]
+ci:
+  autoupdate_branch: 'development'

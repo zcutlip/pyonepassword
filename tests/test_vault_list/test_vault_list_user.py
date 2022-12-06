@@ -45,7 +45,6 @@ def test_vault_list_example_user_01(signed_in_op: OP, expected_vault_list_data: 
 
 
 def test_vault_list_example_user_02(signed_in_op: OP, expected_vault_list_data: ExpectedVaultListData):
-    epected_vault_list: List[ExpectedVaultListEntry]
     expected: ExpectedVaultListEntry
 
     expected_vault_list = expected_vault_list_data.data_for_key(
@@ -62,7 +61,6 @@ def test_vault_list_example_user_02(signed_in_op: OP, expected_vault_list_data: 
 
 
 def test_vault_list_example_user_03(signed_in_op: OP, expected_vault_list_data: ExpectedVaultListData):
-    epected_vault_list: List[ExpectedVaultListEntry]
     expected: ExpectedVaultListEntry
 
     expected_vault_list = expected_vault_list_data.data_for_key(

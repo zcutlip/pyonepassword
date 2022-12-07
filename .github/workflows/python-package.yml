@@ -30,4 +30,4 @@ jobs:
         python -m pip install tox>=4.0
     - name: Run tox pytest env
       run: |
-        tox -e py
+        tox p

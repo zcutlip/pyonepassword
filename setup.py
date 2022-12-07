@@ -68,7 +68,9 @@ setup(
         "Operating System :: OS Independent",
     ],
     cmdclass={
-        'egg_info': CleanEggInfoCommand
+        # TODO: this breaks building in tox>=4.0
+        # disabling for now
+        # 'egg_info': CleanEggInfoCommand
     },
 )
 

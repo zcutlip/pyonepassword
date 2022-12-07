@@ -1,11 +1,14 @@
 FROM python:3.8
 
-RUN pip install tox
+RUN pip install tox>=4
 RUN useradd -ms /bin/bash unpriv
 
 USER unpriv
 ENV TOX_WORKDIR=.tox-docker
 ENV TESTDIR=/usr/src/testdir
-ENV PYTEST_ENV=py38
+# PYVER_FACTOR gets passed to:
+# tox run -f $PYVER_FACTOR
+# so e.g., all py311-{something,something-else} envs get run
+ENV PYVER_FACTOR=py38
 COPY test.sh /test.sh
 CMD [ "/test.sh" ]

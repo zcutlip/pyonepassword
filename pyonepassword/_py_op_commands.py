@@ -353,6 +353,14 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return document_get_argv
 
+    def _document_delete_argv(self, document_name_or_id: str, vault: Optional[str] = None, archive=False):
+        vault_arg = vault if vault else self.vault
+
+        document_delete_argv = _OPArgv.document_delete_argv(
+            self.op_path, document_name_or_id, vault=vault_arg, archive=archive)
+
+        return document_delete_argv
+
     def _user_get_argv(self, user_name_or_id: str):
         get_user_argv = _OPArgv.user_get_argv(self.op_path, user_name_or_id)
         return get_user_argv

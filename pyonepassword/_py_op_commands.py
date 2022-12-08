@@ -345,13 +345,13 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, item_name_or_id, vault=vault_arg)
         return lookup_argv
 
-    def _get_document_argv(self, document_name_or_id: str, vault: Optional[str] = None):
+    def _document_get_argv(self, document_name_or_id: str, vault: Optional[str] = None):
         vault_arg = vault if vault else self.vault
 
-        get_document_argv = _OPArgv.document_get_argv(
+        document_get_argv = _OPArgv.document_get_argv(
             self.op_path, document_name_or_id, vault=vault_arg)
 
-        return get_document_argv
+        return document_get_argv
 
     def _user_get_argv(self, user_name_or_id: str):
         get_user_argv = _OPArgv.user_get_argv(self.op_path, user_name_or_id)

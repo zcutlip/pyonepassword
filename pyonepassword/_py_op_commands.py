@@ -443,8 +443,7 @@ class _OPCommandInterface(_OPCLIExecute):
             # trim it off if its present
             if document_bytes[-1] == 0x0a:
                 document_bytes = document_bytes[:-1]
-        else:
-            print(self._cli_version)
+
         return document_bytes
 
     @classmethod

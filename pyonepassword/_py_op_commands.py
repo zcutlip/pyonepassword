@@ -13,6 +13,7 @@ from .account import OPAccount, OPAccountList
 from .op_cli_version import DOCUMENT_BYTES_BUG_VERSION, OPCLIVersion
 from .py_op_exceptions import (
     OPCmdFailedException,
+    OPDocumentDeleteException,
     OPDocumentGetException,
     OPGroupGetException,
     OPGroupListException,
@@ -453,6 +454,19 @@ class _OPCommandInterface(_OPCLIExecute):
                 document_bytes = document_bytes[:-1]
 
         return document_bytes
+
+    def _document_delete(self, document_name_or_id: str, vault: Optional[str] = None, archive=False):
+
+        document_delete_argv = self._document_delete_argv(
+            document_name_or_id, vault=vault, archive=archive)
+        try:
+            # 'op document delete' doesn't have any output if successful
+            # if it fails, stderr will be in the exception object
+            self._run(document_delete_argv)
+        except OPCmdFailedException as ocfe:
+            raise OPDocumentDeleteException.from_opexception(ocfe)
+
+        return
 
     @classmethod
     def _signed_in_accounts(cls, op_path, decode="utf-8"):

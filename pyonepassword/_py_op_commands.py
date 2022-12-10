@@ -438,7 +438,7 @@ class _OPCommandInterface(_OPCLIExecute):
             - Bytes: document bytes
         """
 
-        get_document_argv = self._get_document_argv(
+        get_document_argv = self._document_get_argv(
             document_name_or_id, vault=vault)
 
         try:

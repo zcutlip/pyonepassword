@@ -661,7 +661,7 @@ class OP(_OPCommandInterface):
             Generally this includes item name/title, item ID, or share link
             See 'op item get --help' for more information
         vault: str, optional
-            The name or ID of a vault to override the object's default vault
+            The name or ID of a vault to override the default vault
         archive: bool
             Whether to archive or permanently delete the item
 

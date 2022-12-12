@@ -9,3 +9,17 @@ class PyOPAbout:
 
     def __str__(self):
         return f"{self.title.upper()}: {self.summary}. Version {self.version}"
+
+
+class PyOPAboutMixin:
+    _about = PyOPAbout()
+
+    @classmethod
+    @property
+    def about(cls) -> str:
+        return str(cls._about)
+
+    @classmethod
+    @property
+    def version(cls) -> str:
+        return cls._about.version

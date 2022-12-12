@@ -36,9 +36,10 @@ from .py_op_exceptions import (
     OPItemGetException,
     OPSignoutException
 )
+from .version import PyOPAboutMixin
 
 
-class OP(_OPCommandInterface):
+class OP(_OPCommandInterface, PyOPAboutMixin):
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """

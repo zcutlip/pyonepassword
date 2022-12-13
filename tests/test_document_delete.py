@@ -29,3 +29,16 @@ def test_document_delete_01(signed_in_op: OP, expected_document_data: ExpectedDo
     expected_document_id = expected.item_id
     result = signed_in_op.document_delete(document_name, vault=vault)
     assert result == expected_document_id
+
+
+def test_document_delete_02(signed_in_op: OP, expected_document_data: ExpectedDocumentData):
+    """
+    Test deleting and archiving a document based on its non-unique title
+    """
+    document_name = "delete and archive this document"
+    vault = "Test Data"
+    expected = expected_document_data.data_for_document(document_name)
+    expected_item_id = expected.item_id
+    result = signed_in_op.document_delete(
+        document_name, vault=vault, archive=True)
+    assert result == expected_item_id

@@ -13,6 +13,10 @@ class ExpectedDocument:
         return self._data["file_id"]
 
     @property
+    def item_id(self) -> str:
+        return self._data["item_id"]
+
+    @property
     def content_path(self) -> str:
         return self._data["content_path"]
 

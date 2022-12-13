@@ -15,5 +15,15 @@
     "Example Attached File 2": {
         "filename": "Screen Shot 2021-11-23 at 7.49.17 AM.png",
         "returncode": 1
+    },
+    "delete this document": {
+        "item_id": "5273wlbqhjjjwbxwvmuvbcjg7a",
+        "file_id": "uscjfs2foqccsg7ww6o7swehcq",
+        "filename": "CHANGELOG.md"
+    },
+    "delete and archive this document": {
+        "item_id": "dtdcdkxwwhc6opi6uxtf3azh3m",
+        "file_id": "qx4c4b2l5zi32yy3pmquilubfa",
+        "filename": "CHANGELOG.md"
     }
 }

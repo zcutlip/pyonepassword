@@ -438,6 +438,20 @@
       "stderr": "error_output",
       "name": "document-archive-example",
       "changes_state": false
+    },
+    "--format|json|document|get|delete and archive this document|--vault|Test Data|--include-archive": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "document-get-example-document-include-archive",
+      "changes_state": false
+    },
+    "--format|json|item|get|delete and archive this document|--vault|Test Data|--include-archive": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "document-get-example-document-include-archive-filename",
+      "changes_state": false
     }
   }
 }

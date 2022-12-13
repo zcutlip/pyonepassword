@@ -346,11 +346,16 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, item_name_or_id, vault=vault_arg)
         return lookup_argv
 
-    def _document_get_argv(self, document_name_or_id: str, vault: Optional[str] = None):
+    def _document_get_argv(self,
+                           document_name_or_id: str,
+                           vault: Optional[str] = None,
+                           include_archive: Optional[bool] = False):
         vault_arg = vault if vault else self.vault
-
-        document_get_argv = _OPArgv.document_get_argv(
-            self.op_path, document_name_or_id, vault=vault_arg)
+        document_get_argv = _OPArgv.document_get_argv(self.op_path,
+                                                      document_name_or_id,
+                                                      vault=vault_arg,
+                                                      include_archive=include_archive)
+        print(document_get_argv)
 
         return document_get_argv
 
@@ -426,7 +431,10 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
-    def _document_get(self, document_name_or_id: str, vault: Optional[str] = None):
+    def _document_get(self,
+                      document_name_or_id: str,
+                      vault: Optional[str] = None,
+                      include_archive: Optional[bool] = False):
         """
         Download a document object from a 1Password vault by name or UUID.
 
@@ -440,7 +448,7 @@ class _OPCommandInterface(_OPCLIExecute):
         """
 
         get_document_argv = self._document_get_argv(
-            document_name_or_id, vault=vault)
+            document_name_or_id, vault=vault, include_archive=include_archive)
 
         try:
             document_bytes = self._run(get_document_argv, capture_stdout=True)

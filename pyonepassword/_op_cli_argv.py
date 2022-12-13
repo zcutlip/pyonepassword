@@ -97,10 +97,12 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def document_get_argv(cls, op_exe, document_name_or_id, vault=None):
+    def document_get_argv(cls, op_exe, document_name_or_id, vault=None, include_archive=False):
         sub_cmd_args = [document_name_or_id]
         if vault:
             sub_cmd_args.extend(["--vault", vault])
+        if include_archive:
+            sub_cmd_args.append("--include-archive")
         argv = cls.document_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 

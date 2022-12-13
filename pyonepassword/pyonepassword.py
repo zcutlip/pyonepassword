@@ -383,7 +383,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             password = item.password
         return password
 
-    def item_get_filename(self, item_identifier, vault=None):
+    def item_get_filename(self, item_identifier, vault=None, include_archive=False):
         """
         Get the fileName attribute a document item from a 1Password vault by name or UUID.
 
@@ -413,7 +413,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         file_name: str
             Value of the item's 'fileName' attribute
         """
-        item = self.item_get(item_identifier, vault=vault)
+        item = self.item_get(item_identifier, vault=vault,
+                             include_archive=include_archive)
 
         # raise AttributeError if item isn't a OPDocumentItem
         # we have to raise it ourselves becuase mypy complains OPAbstractItem doesn't have
@@ -426,7 +427,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return file_name
 
-    def document_get(self, document_name_or_id, vault=None):
+    def document_get(self, document_name_or_id, vault=None, include_archive=False):
         """
         Download a document object from a 1Password vault by name or UUID.
 
@@ -453,7 +454,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         """
         try:
             file_name = self.item_get_filename(
-                document_name_or_id, vault=vault)
+                document_name_or_id, vault=vault, include_archive=include_archive)
         except AttributeError as ae:
             raise OPInvalidDocumentException(
                 "Item has no 'fileName' attribute") from ae
@@ -461,7 +462,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
         try:
-            document_bytes = super()._document_get(document_name_or_id, vault=vault)
+            document_bytes = super()._document_get(document_name_or_id,
+                                                   vault=vault, include_archive=include_archive)
         except OPCmdFailedException as ocfe:
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 

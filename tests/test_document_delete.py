@@ -6,6 +6,8 @@ from typing import TYPE_CHECKING
 
 import pytest
 
+from pyonepassword.api.exceptions import OPDocumentDeleteException
+
 # make imports for type-hinting disappear at run-time to avoid
 # circular imports.
 # this also reduced exercising tested code simply by importing
@@ -64,3 +66,29 @@ def test_document_delete_03(signed_in_op: OP, expected_document_data: ExpectedDo
     assert filename == expected.filename
     assert len(data) == expected.size
     assert sha256_digest == expected.digest
+
+
+def test_document_delete_non_existent_01(signed_in_op: OP):
+    """
+    Test deleting a non-existent document
+    """
+    document_name = "non-existent-item"
+    vault = "Test Data"
+
+    with pytest.raises(OPDocumentDeleteException):
+        signed_in_op.document_delete(document_name, vault=vault)
+
+
+def test_document_delete_non_existent_02(signed_in_op: OP):
+    """
+    Test deleting a non-existent item, bypassing item_get()
+    """
+    document_name = "non-existent-item"
+    vault = "Test Data"
+
+    with pytest.raises(OPDocumentDeleteException):
+        # OP.document_delete() calls item_get() first
+        # which will fail on non-existent items
+        # so in order to test delete operatation failing, we
+        # need to call private ._document_delete() interface
+        signed_in_op._document_delete(document_name, vault=vault)

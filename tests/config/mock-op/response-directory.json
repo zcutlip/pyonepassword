@@ -452,6 +452,13 @@
       "stderr": "error_output",
       "name": "document-get-example-document-include-archive-filename",
       "changes_state": false
+    },
+    "--format|json|item|get|delete this duplicate document|--vault|Test Data": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "document-delete-duplicates",
+      "changes_state": false
     }
   }
 }

@@ -92,3 +92,16 @@ def test_document_delete_non_existent_02(signed_in_op: OP):
         # so in order to test delete operatation failing, we
         # need to call private ._document_delete() interface
         signed_in_op._document_delete(document_name, vault=vault)
+
+
+def test_document_delete_duplicate_01(signed_in_op: OP):
+    """
+    Test:
+      - deleting a document based on its non-unique title
+      - when there are two or more documents sharing the same title
+    """
+    document_name = "delete this duplicate document"
+    vault = "Test Data"
+
+    with pytest.raises(OPDocumentDeleteException):
+        signed_in_op.document_delete(document_name, vault=vault)

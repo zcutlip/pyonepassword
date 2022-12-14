@@ -1,13 +1,15 @@
 #!/bin/sh -e
 
-. "$(dirname "$0")"/functions.sh
-
-
 _readlink(){ readlink "$1" || echo "$1"; }
 
 # Don't shadow the 'realpath' executable which may be installed on
 # some systems (e.g., via homebrew)
 _realpath() { cd "$(dirname "$0")" && _readlink "$(pwd)"/"$(basename "$0")"; }
+real_path="$(_realpath "$0")"
+SRC_ROOT="$(cd "$(dirname "$real_path")" && dirname "$(pwd)")"
+# shellcheck source=./functions.sh
+. "$SRC_ROOT"/scripts/functions.sh
+OP_BINARY_PATH="$SRC_ROOT/op-binaries"
 
 md5check(){
     _file1="$1"
@@ -23,10 +25,6 @@ md5check(){
     fi
     return $ret
 }
-
-real_path="$(_realpath "$0")"
-SRC_ROOT="$(cd "$(dirname "$real_path")" && dirname "$(pwd)")"
-OP_BINARY_PATH="$SRC_ROOT/op-binaries"
 
 get_op_ver(){
     _version="$(/usr/local/bin/op --version)"

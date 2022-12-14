@@ -14,6 +14,7 @@ if TYPE_CHECKING:
 
     from .fixtures.expected_document_data import ExpectedDocumentData
 
+from .test_support.util import digest
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
@@ -42,3 +43,24 @@ def test_document_delete_02(signed_in_op: OP, expected_document_data: ExpectedDo
     result = signed_in_op.document_delete(
         document_name, vault=vault, archive=True)
     assert result == expected_item_id
+
+
+def test_document_delete_03(signed_in_op: OP, expected_document_data: ExpectedDocumentData):
+    """
+    Test:
+      - deleting and archiving a document based on its non-unique title
+      - fetching the item with include_archive=True
+    """
+    document_name = "delete and archive this document"
+    vault = "Test Data"
+    expected = expected_document_data.data_for_document(document_name)
+
+    signed_in_op.document_delete(
+        document_name, vault=vault, archive=True)
+    filename, data = signed_in_op.document_get(
+        document_name, vault=vault, include_archive=True)
+    sha256_digest = digest(data)
+
+    assert filename == expected.filename
+    assert len(data) == expected.size
+    assert sha256_digest == expected.digest

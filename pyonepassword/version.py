@@ -15,11 +15,9 @@ class PyOPAboutMixin:
     _about = PyOPAbout()
 
     @classmethod
-    @property
     def about(cls) -> str:
         return str(cls._about)
 
     @classmethod
-    @property
     def version(cls) -> str:
         return cls._about.version

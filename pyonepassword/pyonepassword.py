@@ -27,6 +27,7 @@ from .op_objects import (
 )
 from .py_op_exceptions import (
     OPCmdFailedException,
+    OPDocumentDeleteException,
     OPDocumentGetException,
     OPForgetException,
     OPInvalidDocumentException,
@@ -35,9 +36,10 @@ from .py_op_exceptions import (
     OPItemGetException,
     OPSignoutException
 )
+from .version import PyOPAboutMixin
 
 
-class OP(_OPCommandInterface):
+class OP(_OPCommandInterface, PyOPAboutMixin):
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
@@ -381,7 +383,7 @@ class OP(_OPCommandInterface):
             password = item.password
         return password
 
-    def item_get_filename(self, item_identifier, vault=None):
+    def item_get_filename(self, item_identifier, vault=None, include_archive=False):
         """
         Get the fileName attribute a document item from a 1Password vault by name or UUID.
 
@@ -411,7 +413,8 @@ class OP(_OPCommandInterface):
         file_name: str
             Value of the item's 'fileName' attribute
         """
-        item = self.item_get(item_identifier, vault=vault)
+        item = self.item_get(item_identifier, vault=vault,
+                             include_archive=include_archive)
 
         # raise AttributeError if item isn't a OPDocumentItem
         # we have to raise it ourselves becuase mypy complains OPAbstractItem doesn't have
@@ -424,7 +427,7 @@ class OP(_OPCommandInterface):
 
         return file_name
 
-    def document_get(self, document_name_or_id, vault=None):
+    def document_get(self, document_name_or_id, vault=None, include_archive=False):
         """
         Download a document object from a 1Password vault by name or UUID.
 
@@ -451,7 +454,7 @@ class OP(_OPCommandInterface):
         """
         try:
             file_name = self.item_get_filename(
-                document_name_or_id, vault=vault)
+                document_name_or_id, vault=vault, include_archive=include_archive)
         except AttributeError as ae:
             raise OPInvalidDocumentException(
                 "Item has no 'fileName' attribute") from ae
@@ -459,11 +462,54 @@ class OP(_OPCommandInterface):
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
         try:
-            document_bytes = super()._document_get(document_name_or_id, vault=vault)
+            document_bytes = super()._document_get(document_name_or_id,
+                                                   vault=vault, include_archive=include_archive)
         except OPCmdFailedException as ocfe:
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
         return (file_name, document_bytes)
+
+    def document_delete(self, document_identifier: str, vault: Optional[str] = None, archive: bool = False) -> str:
+        """
+        Delete a document object based on document name or unique identifier
+
+        Parameters
+        ----------
+        document_identifier : str
+            Name or identifier of the document to delete
+        vault : str, optional
+            The name or ID of a vault to override the default vault, by default None
+        archive : bool, optional
+            Whether to archive or permanently delete the item, by default False
+
+        Returns
+        -------
+        document_id: str
+            Unique identifier of the item deleted
+
+        Raises
+        ------
+        OPDocumentDeleteException
+            - If the document to be deleted is not found
+            - If there is more than one item matching 'document_identifier'
+            - If the delete operation fails for any other reason
+        """
+        try:
+            output = super()._item_get(document_identifier, vault=vault)
+            item = _OPGenericItem(output)
+        except OPItemGetException as e:
+            raise OPDocumentDeleteException.from_opexception(e)
+        # we want to return the explicit ID even if we were
+        # given an document name or other identifier
+        # that way the caller knows exactly what got deleted
+        # can match it up with what they expected to be deleted, if desired
+        document_id = item.unique_id
+
+        # 'op document delete' doesn't have any stdout, so we're not
+        # capturing any here
+        self._document_delete(document_id, vault=vault, archive=archive)
+
+        return document_id
 
     def item_list(self, categories=[], include_archive=False, tags=[], vault=None):
         """
@@ -618,7 +664,7 @@ class OP(_OPCommandInterface):
             Generally this includes item name/title, item ID, or share link
             See 'op item get --help' for more information
         vault: str, optional
-            The name or ID of a vault to override the object's default vault
+            The name or ID of a vault to override the default vault
         archive: bool
             Whether to archive or permanently delete the item
 

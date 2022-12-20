@@ -1,0 +1,29 @@
+{
+  "id": "dtdcdkxwwhc6opi6uxtf3azh3m",
+  "title": "delete and archive this document",
+  "version": 1,
+  "vault": {
+    "id": "gshlsjsajnawtnjynzgwmiebge",
+    "name": "Test Data"
+  },
+  "category": "DOCUMENT",
+  "created_at": "2022-12-11T22:08:37.106146-08:00",
+  "updated_at": "2022-12-11T22:08:37.106146-08:00",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data/delete and archive this document/notesPlain"
+    }
+  ],
+  "files": [
+    {
+      "id": "qx4c4b2l5zi32yy3pmquilubfa",
+      "name": "CHANGELOG.md",
+      "size": 2416,
+      "content_path": "/v1/vaults/gshlsjsajnawtnjynzgwmiebge/items/dtdcdkxwwhc6opi6uxtf3azh3m/files/qx4c4b2l5zi32yy3pmquilubfa/content"
+    }
+  ]
+}

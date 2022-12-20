@@ -20,7 +20,6 @@ class _OPCLIExecute:
 
     def __new__(cls, *args, logger=None, **kwargs):
         if logger:
-            print(f"setting logger on class: {cls}")
             cls.set_logger(logger)
         return super().__new__(cls)
     """
@@ -73,7 +72,6 @@ class _OPCLIExecute:
     @classmethod
     def set_logger(cls, logger: logging.Logger):
         cls.logger = logger
-        print("logger has been set")
 
     @classmethod
     def set_log_level(cls, log_level: int):  # pragma: no coverage

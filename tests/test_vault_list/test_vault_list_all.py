@@ -55,7 +55,6 @@ def test_vault_list_all_vaults_01(signed_in_op: OP, expected_vault_list_data: Ex
 
 
 def test_vault_list_all_vaults_02(signed_in_op: OP, expected_vault_list_data: ExpectedVaultListData):
-    epected_vault_list: List[ExpectedVaultListEntry]
     expected: ExpectedVaultListEntry
 
     # just pick one expected data entry. doesn't matter which
@@ -78,7 +77,6 @@ def test_vault_list_all_vaults_02(signed_in_op: OP, expected_vault_list_data: Ex
 
 
 def test_vault_list_all_vaults_03(signed_in_op: OP, expected_vault_list_data: ExpectedVaultListData):
-    epected_vault_list: List[ExpectedVaultListEntry]
     expected: ExpectedVaultListEntry
 
     # just pick one expected data entry. doesn't matter which

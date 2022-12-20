@@ -3,15 +3,16 @@ uname -a
 NUM_PROCS="$(nproc)"
 export NUM_PROCS
 
-python3 --version
+echo "python: $(python3 --version)"
+echo "tox: $(tox --version)"
 echo "Number of processors: $NUM_PROCS"
 
 cd "$TESTDIR" || exit
 
-if [ -z "$PYTEST_ENV" ];
+if [ -z "$PYVER_FACTOR" ];
 then
-    echo "PYTEST_ENV not set"
+    echo "PYVER_FACTOR not set"
     exit 1
 fi
-
-tox --parallel--safe-build -e "$PYTEST_ENV" --workdir "$TOX_WORKDIR" -- "$@"
+set -x
+tox p -f "$PYVER_FACTOR" --workdir "$TOX_WORKDIR" -- "$@"

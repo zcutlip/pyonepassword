@@ -13,6 +13,7 @@ from .account import OPAccount, OPAccountList
 from .op_cli_version import DOCUMENT_BYTES_BUG_VERSION, OPCLIVersion
 from .py_op_exceptions import (
     OPCmdFailedException,
+    OPDocumentDeleteException,
     OPDocumentGetException,
     OPGroupGetException,
     OPGroupListException,
@@ -345,13 +346,26 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, item_name_or_id, vault=vault_arg)
         return lookup_argv
 
-    def _get_document_argv(self, document_name_or_id: str, vault: Optional[str] = None):
+    def _document_get_argv(self,
+                           document_name_or_id: str,
+                           vault: Optional[str] = None,
+                           include_archive: Optional[bool] = False):
+        vault_arg = vault if vault else self.vault
+        document_get_argv = _OPArgv.document_get_argv(self.op_path,
+                                                      document_name_or_id,
+                                                      vault=vault_arg,
+                                                      include_archive=include_archive)
+        print(document_get_argv)
+
+        return document_get_argv
+
+    def _document_delete_argv(self, document_name_or_id: str, vault: Optional[str] = None, archive=False):
         vault_arg = vault if vault else self.vault
 
-        get_document_argv = _OPArgv.document_get_argv(
-            self.op_path, document_name_or_id, vault=vault_arg)
+        document_delete_argv = _OPArgv.document_delete_argv(
+            self.op_path, document_name_or_id, vault=vault_arg, archive=archive)
 
-        return get_document_argv
+        return document_delete_argv
 
     def _user_get_argv(self, user_name_or_id: str):
         get_user_argv = _OPArgv.user_get_argv(self.op_path, user_name_or_id)
@@ -417,7 +431,10 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
-    def _document_get(self, document_name_or_id: str, vault: Optional[str] = None):
+    def _document_get(self,
+                      document_name_or_id: str,
+                      vault: Optional[str] = None,
+                      include_archive: Optional[bool] = False):
         """
         Download a document object from a 1Password vault by name or UUID.
 
@@ -430,8 +447,8 @@ class _OPCommandInterface(_OPCLIExecute):
             - Bytes: document bytes
         """
 
-        get_document_argv = self._get_document_argv(
-            document_name_or_id, vault=vault)
+        get_document_argv = self._document_get_argv(
+            document_name_or_id, vault=vault, include_archive=include_archive)
 
         try:
             document_bytes = self._run(get_document_argv, capture_stdout=True)
@@ -445,6 +462,19 @@ class _OPCommandInterface(_OPCLIExecute):
                 document_bytes = document_bytes[:-1]
 
         return document_bytes
+
+    def _document_delete(self, document_name_or_id: str, vault: Optional[str] = None, archive=False):
+
+        document_delete_argv = self._document_delete_argv(
+            document_name_or_id, vault=vault, archive=archive)
+        try:
+            # 'op document delete' doesn't have any output if successful
+            # if it fails, stderr will be in the exception object
+            self._run(document_delete_argv)
+        except OPCmdFailedException as ocfe:
+            raise OPDocumentDeleteException.from_opexception(ocfe)
+
+        return
 
     @classmethod
     def _signed_in_accounts(cls, op_path, decode="utf-8"):

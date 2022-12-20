@@ -97,10 +97,12 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def document_get_argv(cls, op_exe, document_name_or_id, vault=None):
+    def document_get_argv(cls, op_exe, document_name_or_id, vault=None, include_archive=False):
         sub_cmd_args = [document_name_or_id]
         if vault:
             sub_cmd_args.extend(["--vault", vault])
+        if include_archive:
+            sub_cmd_args.append("--include-archive")
         argv = cls.document_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
@@ -297,5 +299,20 @@ class _OPArgv(list):
         if vault:
             sub_cmd_args.extend(["--vault", vault])
         delete_argv = cls.item_generic_argv(op_exe, "delete", sub_cmd_args)
+
+        return delete_argv
+
+    @classmethod
+    def document_delete_argv(cls,
+                             op_exe: str,
+                             document_name_or_id: str,
+                             vault: Optional[str] = None,
+                             archive: bool = False):
+        sub_cmd_args = [document_name_or_id]
+        if archive:
+            sub_cmd_args.append("--archive")
+        if vault:
+            sub_cmd_args.extend(["--vault", vault])
+        delete_argv = cls.document_generic_argv(op_exe, "delete", sub_cmd_args)
 
         return delete_argv

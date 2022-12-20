@@ -18,6 +18,7 @@ from ..op_objects import (
 from ..py_op_exceptions import (
     OPCmdFailedException,
     OPConfigNotFoundException,
+    OPDocumentDeleteException,
     OPDocumentGetException,
     OPForgetException,
     OPGroupGetException,
@@ -43,6 +44,7 @@ from ..py_op_exceptions import (
 # anything that gets imported needs to be added to this list
 __all__ = ["OPCmdFailedException",
            "OPConfigNotFoundException",
+           "OPDocumentDeleteException",
            "OPDocumentGetException",
            "OPForgetException",
            "OPGroupGetException",

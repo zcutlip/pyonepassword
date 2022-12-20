@@ -2,15 +2,6 @@
 
 All notable changes to this project will be documented in this file.
 
-## [3.4.0] - 2022-12-19
-
-### Added
-
-- OP.item_delete() method (gh-52)
-- about & version clas methods:
-  - OP.about()
-  - OP.version()
-
 ## [3.3.5] - 2022-11-27
 
 ### Fixed

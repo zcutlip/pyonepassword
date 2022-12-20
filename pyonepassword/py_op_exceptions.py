@@ -83,7 +83,14 @@ class OPItemDeleteException(OPCmdFailedException):
 
 
 class OPDocumentGetException(OPCmdFailedException):
-    MSG = "1Password 'get document' failed."
+    MSG = "1Password 'document get' failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
+
+class OPDocumentDeleteException(OPCmdFailedException):
+    MSG = "1Password 'document delete' failed."
 
     def __init__(self, stderr_out, returncode):
         super().__init__(stderr_out, returncode)

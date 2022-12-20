@@ -16,8 +16,27 @@ class PyOPAboutMixin:
 
     @classmethod
     def about(cls) -> str:
+        """
+        Class method to generate an "about" summary string for pyonepassword, which includes:
+            - project title
+            - project summary
+            - project version
+
+        Returns
+        -------
+        str
+            The about string
+        """
         return str(cls._about)
 
     @classmethod
     def version(cls) -> str:
+        """
+        Class method to return the version string for pyonepassword, e.g., 3.4.0
+
+        Returns
+        -------
+        str
+            The version string
+        """
         return cls._about.version

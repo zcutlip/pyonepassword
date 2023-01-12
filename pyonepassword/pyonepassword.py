@@ -645,6 +645,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             password_recipe = password
             password = None
 
+        url_obj = None
         if url:
             url_obj = OPLoginItemNewPrimaryURL(url, url_label)
         new_item = OPLoginItemTemplate(

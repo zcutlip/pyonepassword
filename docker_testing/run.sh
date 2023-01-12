@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# shellcheck disable=SC2317
+# shell-check can't see handle_sig() or quit()
+# since they get called via trap
 quit(){
     set -x
     if [ $# -ge 2 ];

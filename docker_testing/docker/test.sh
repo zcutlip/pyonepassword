@@ -15,4 +15,4 @@ then
     exit 1
 fi
 set -x
-tox p -f "$PYVER_FACTOR" --workdir "$TOX_WORKDIR" -- "$@"
+tox p -f "$PYVER_FACTOR"-pytest --workdir "$TOX_WORKDIR" -- "$@"

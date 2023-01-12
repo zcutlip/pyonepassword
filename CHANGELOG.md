@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.4.1] - 2023-01-11
+
+### Fixed
+
+- Initialize url_obj in `OP.login_item_create()` to not crash if no URL provided (gh-78)
+
+### Changed
+
+- minor tweaks to docker testing scripts
+
 ## [3.4.0] - 2022-12-19
 
 ### Added

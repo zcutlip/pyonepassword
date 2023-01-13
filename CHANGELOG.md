@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.4.1.post0] - 2023-01-12
+
+### Summary
+
+Missed a few housekeeping commits from the development branch
+
+### Fixed
+
+Fixed a shellcheck complaint in a docker testing script
+
+### Changed
+
+- update .pre-commit-config: bump isort 5.11.3 -> 5.11.4
+- refactor `pypi_password.py` script
+
+###
+
 ## [3.4.1] - 2023-01-11
 
 ### Fixed

@@ -1,7 +1,6 @@
 from typing import List, Union
 
 from ..json import safe_unjson
-from ..json import safe_unjson
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._item_descriptor_registry import OPItemDescriptorFactory
 
@@ -14,3 +13,7 @@ class OPItemList(List[OPAbstractItemDescriptor]):
             descriptor = OPItemDescriptorFactory.item_descriptor(
                 i_dict, generic_okay=generic_okay)
             self.append(descriptor)
+
+    def serialize(self, indent=None) -> str:
+        json_str = json.dumps(self, indent=indent)
+        return json_str

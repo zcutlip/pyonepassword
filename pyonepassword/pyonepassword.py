@@ -749,7 +749,14 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return item_id
 
-    def item_delete_batch(self, vault, categories=[], include_archive=False, tags=[], archive=False, name_glob=None, batch_size=25):
+    def item_delete_batch(self,
+                          vault,
+                          categories=[],
+                          include_archive=False,
+                          tags=[],
+                          archive=False,
+                          name_glob=None,
+                          batch_size=25):
         item_list = self.item_list(categories=categories,
                                    include_archive=include_archive,
                                    tags=tags,

@@ -1,3 +1,4 @@
+import fnmatch
 import logging
 from os import environ as env
 from typing import List, Optional, Type, Union
@@ -747,6 +748,31 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         self._item_delete(item_id, vault=vault, archive=archive)
 
         return item_id
+
+    def item_delete_batch(self, vault, categories=[], include_archive=False, tags=[], archive=False, name_glob=None, batch_size=25):
+        item_list = self.item_list(categories=categories,
+                                   include_archive=include_archive,
+                                   tags=tags,
+                                   vault=vault)
+        if name_glob:
+            _list = []
+            for obj in item_list:
+                if fnmatch.fnmatch(obj.title, name_glob):
+                    _list.append(obj)
+            item_list = OPItemList(_list)
+        batches: List[OPItemList] = []
+        start = 0
+        end = len(item_list)
+        for i in range(start, end, batch_size):
+            x = i
+            chunk = item_list[x:x+batch_size]
+            batches.append(OPItemList(chunk))
+        deleted_items = OPItemList([])
+        for batch in batches:
+            batch_json = batch.serialize()
+            self._item_delete_batch(batch_json, vault, archive=archive)
+            deleted_items.extend(batch)
+        return deleted_items
 
     def signed_in_accounts(self, decode="utf-8") -> OPAccountList:
         account_list_json = super()._signed_in_accounts(self.op_path, decode=decode)

@@ -420,7 +420,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return
 
-    def _item_delete_batch(self, batch_json, vault, archive=False):
+    def _item_delete_multiple(self, batch_json, vault, archive=False):
         # op item delete takes '-' for the item to delete if objects are
         # provided over stdin
         item_id = "-"

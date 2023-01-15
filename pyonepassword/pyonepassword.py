@@ -749,14 +749,14 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return item_id
 
-    def item_delete_batch(self,
-                          vault,
-                          categories=[],
-                          include_archive=False,
-                          tags=[],
-                          archive=False,
-                          name_glob=None,
-                          batch_size=25):
+    def item_delete_multiple(self,
+                             vault,
+                             categories=[],
+                             include_archive=False,
+                             tags=[],
+                             archive=False,
+                             name_glob=None,
+                             batch_size=25):
         item_list = self.item_list(categories=categories,
                                    include_archive=include_archive,
                                    tags=tags,
@@ -777,7 +777,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         deleted_items = OPItemList([])
         for batch in batches:
             batch_json = batch.serialize()
-            self._item_delete_batch(batch_json, vault, archive=archive)
+            self._item_delete_multiple(batch_json, vault, archive=archive)
             deleted_items.extend(batch)
         return deleted_items
 

@@ -779,18 +779,26 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                 if fnmatch.fnmatch(obj.title, name_glob):
                     _list.append(obj)
             item_list = OPItemList(_list)
+
         batches: List[OPItemList] = []
         start = 0
         end = len(item_list)
+
         for i in range(start, end, batch_size):
+            # split item list into chunks >= batch_size each
             x = i
             chunk = item_list[x:x+batch_size]
             batches.append(OPItemList(chunk))
 
         for batch in batches:
             batch_json = batch.serialize()
-            self._item_delete_multiple(batch_json, vault, archive=archive)
+            try:
+                self._item_delete_multiple(batch_json, vault, archive=archive)
+            except OPCmdFailedException as ope:
+                raise OPItemDeleteMultipleException.from_opexception(
+                    deleted_items, ope)
             deleted_items.extend(batch)
+
         return deleted_items
 
     def signed_in_accounts(self, decode="utf-8") -> OPAccountList:

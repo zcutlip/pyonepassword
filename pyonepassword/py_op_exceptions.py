@@ -2,6 +2,12 @@
 Various exception classes raised by ponepassword API
 TODO: Move other exception classes here
 """
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, List
+
+if TYPE_CHECKING:
+    from .op_items._item_list import OPItemList
 
 
 class OPBaseException(Exception):
@@ -78,6 +84,33 @@ class OPItemDeleteException(OPCmdFailedException):
 
     def __init__(self, stderr_out, returncode):
         super().__init__(stderr_out, returncode)
+
+
+class OPItemDeleteMultipleException(OPItemDeleteException):
+    """
+    Exception class for OP.item_delete_multiple() failures
+
+    Contains list of deleted items, if any, before the failure occured
+    """
+    MSG = "1Password 'item delete' for multiple objects failed."
+
+    def __init__(self, deleted_items: OPItemList, stderr_out, returncode):
+        """
+        Parameters
+        ----------
+        deleted_items : OPItemList
+            List of items that were deleted before the failure occured
+        stderr_out : str
+            Error output from the 'op' command
+        returncode : int
+            Exit status of the 'op' op command
+        """
+        self.deleted_items = deleted_items
+        super().__init__(stderr_out, returncode)
+
+    @classmethod
+    def from_opexception(cls, deleted_items: List, ope: OPCmdFailedException):
+        return cls(deleted_items, ope.err_output, ope.returncode)
 
 
 class OPDocumentGetException(OPCmdFailedException):

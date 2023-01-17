@@ -37,7 +37,9 @@ from .py_op_exceptions import (
     OPInvalidDocumentException,
     OPInvalidItemException,
     OPItemDeleteException,
+    OPItemDeleteMultipleException,
     OPItemGetException,
+    OPItemListException,
     OPSignoutException
 )
 from .version import PyOPAboutMixin
@@ -757,10 +759,20 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                              archive=False,
                              name_glob=None,
                              batch_size=25):
-        item_list = self.item_list(categories=categories,
-                                   include_archive=include_archive,
-                                   tags=tags,
-                                   vault=vault)
+
+        # track deleted items as we delete them so we can return
+        # that list to the caller
+        deleted_items = OPItemList([])
+
+        try:
+            item_list = self.item_list(categories=categories,
+                                       include_archive=include_archive,
+                                       tags=tags,
+                                       vault=vault)
+        except OPItemListException as e:
+            raise OPItemDeleteMultipleException.from_opexception(
+                deleted_items, e)
+
         if name_glob:
             _list = []
             for obj in item_list:
@@ -774,7 +786,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             x = i
             chunk = item_list[x:x+batch_size]
             batches.append(OPItemList(chunk))
-        deleted_items = OPItemList([])
+
         for batch in batches:
             batch_json = batch.serialize()
             self._item_delete_multiple(batch_json, vault, archive=archive)

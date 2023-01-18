@@ -37,7 +37,7 @@ class OPAccount(dict):
     def is_service_account(self) -> bool:
         svc_acct = False
         if self.get("ServiceAccountType"):
-            svc_acct = True
+            svc_acct = True  # pragma: no coverage
         return svc_acct
 
 

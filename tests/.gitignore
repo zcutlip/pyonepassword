@@ -1,2 +1,4 @@
 # temporarily ignore item creation tests
-test_item_create/
+test_item_create/*
+# except for this module
+!test_invalid_new_item_class.py

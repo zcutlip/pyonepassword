@@ -102,7 +102,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                          existing_auth=existing_auth,
                          password_prompt=password_prompt)
 
-    def item_get(self, item_identifier, vault=None, include_archive=False) -> OPAbstractItem:
+    def item_get(self, item_identifier, vault=None, include_archive=False, generic_okay=False) -> OPAbstractItem:
         """
         Get an 'item' object from a 1Password vault.
         The returned object may be any of the item types extending OPAbstractItem.
@@ -147,7 +147,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         output = super()._item_get(item_identifier, vault=vault,
                                    decode="utf-8", include_archive=include_archive)
-        op_item = OPItemFactory.op_item(output)
+        op_item = OPItemFactory.op_item(output, generic_okay=True)
         return op_item
 
     def item_get_totp(self, item_identifier: str, vault=None) -> OPTOTPItem:
@@ -511,7 +511,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return document_id
 
-    def item_list(self, categories=[], include_archive=False, tags=[], vault=None):
+    def item_list(self, categories=[], include_archive=False, tags=[], vault=None, generic_okay=True):
         """
         Return a list of items in an account.
 
@@ -540,7 +540,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         """
         item_list_json = self._item_list(
             categories, include_archive, tags, vault)
-        item_list = OPItemList(item_list_json)
+        item_list = OPItemList(item_list_json, generic_okay=generic_okay)
         return item_list
 
     # TODO: Item creation is hard to test in an automated way since it results in changed

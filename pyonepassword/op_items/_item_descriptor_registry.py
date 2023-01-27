@@ -8,8 +8,8 @@ class OPItemDescriptorFactory(OPItemFactory):
     _TYPE_REGISTRY = {}
 
     @classmethod
-    def item_descriptor(cls, item_json, generic_item=False) -> OPAbstractItemDescriptor:
-        obj = cls.op_item(item_json, generic_item=generic_item)
+    def item_descriptor(cls, item_json, generic_okay=False) -> OPAbstractItemDescriptor:
+        obj = cls.op_item(item_json, generic_okay=generic_okay)
         return obj
 
 

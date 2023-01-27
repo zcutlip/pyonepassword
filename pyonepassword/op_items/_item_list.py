@@ -11,5 +11,5 @@ class OPItemList(List[OPAbstractItemDescriptor]):
         item_list = json.loads(item_list_json)
         for i_dict in item_list:
             descriptor = OPItemDescriptorFactory.item_descriptor(
-                i_dict, generic_item=generic_okay)
+                i_dict, generic_okay=generic_okay)
             self.append(descriptor)

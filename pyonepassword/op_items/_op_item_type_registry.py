@@ -4,6 +4,7 @@ from typing import Any, Dict, Type, Union
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidItemException
 from ._op_items_base import OPAbstractItem
+from .generic_item import _OPGenericItem
 
 
 class OPUnknownItemTypeException(Exception):
@@ -13,6 +14,7 @@ class OPUnknownItemTypeException(Exception):
 
 
 class OPItemFactory:
+    _GENERIC_ITEM_CLASS = _OPGenericItem
     _TYPE_REGISTRY: Dict[str, Type[OPAbstractItem]] = {}
 
     @classmethod
@@ -23,24 +25,28 @@ class OPItemFactory:
         cls._TYPE_REGISTRY[item_type] = item_class
 
     @classmethod
-    def _item_from_dict(cls, item_dict: Dict[str, Any]):
+    def _item_from_dict(cls, item_dict: Dict[str, Any], generic_item=False):
         item_type = item_dict["category"]
         try:
             item_cls = cls._TYPE_REGISTRY[item_type]
         except KeyError as ke:
-            raise OPUnknownItemTypeException(
-                f"Unknown item type {item_type}", item_dict=item_dict) from ke
+            if generic_item:
+                item_cls = cls._GENERIC_ITEM_CLASS
+            else:
+                raise OPUnknownItemTypeException(
+                    f"Unknown item type {item_type}", item_dict=item_dict) from ke
 
         return item_cls(item_dict)
 
     @classmethod
-    def op_item(cls, item_json_or_dict: Union[str, Dict]):
+    def op_item(cls, item_json_or_dict: Union[str, Dict], generic_item: bool = False):
         try:
             item_dict = safe_unjson(item_json_or_dict)
         except JSONDecodeError as jdce:
             raise OPInvalidItemException(
                 f"Failed to unserialize item JSON: {jdce}") from jdce
-        obj = cls._item_from_dict(item_dict)
+        obj = cls._item_from_dict(
+            item_dict, generic_item=generic_item)
         return obj
 
 

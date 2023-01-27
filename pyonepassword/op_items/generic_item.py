@@ -1,4 +1,11 @@
+from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._op_items_base import OPAbstractItem
+
+
+class _OPGenericItemDescriptor(OPAbstractItemDescriptor):
+
+    def __init__(self, item_dict_or_json):
+        super().__init__(item_dict_or_json)
 
 
 class _OPGenericItem(OPAbstractItem):  # pragma: no coverage

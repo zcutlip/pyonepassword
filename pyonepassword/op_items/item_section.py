@@ -28,7 +28,10 @@ class OPSection(dict):
         Or it may be something completely opaque, like
         'Section_967FEBAC931841BCBD2DD7CFE0B8DC82'
         """
-        return self["id"]
+
+        # in rare instances sections may lack an "id" altogether
+        # For now, let's treat that as having an empty string instead: {"id": ""}
+        return self.get("id", "")
 
     @property
     def label(self) -> str:

@@ -75,6 +75,7 @@ class OPNewItemMixin:
 
     NOTE: It is essential OPNewItemMixin be named first, so its `__init_()` gets called first
     """
+    FROM_TEMPLATE = True
 
     # Whether this item type can have a password generated
     # override for item types that do support passwords (e.g., Login)

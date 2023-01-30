@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.4.1.post1] - 2023-01-29
+
+## Summary
+
+Minor update to .pre-commit-config.yaml.
+
+*Note*: No PyPI release will be generated for this update.
+
 ## [3.4.1.post0] - 2023-01-12
 
 ### Summary

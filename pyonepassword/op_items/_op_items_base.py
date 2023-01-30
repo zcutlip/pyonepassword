@@ -1,6 +1,6 @@
-from abc import abstractmethod
 from typing import Dict, List, Optional, Union
 
+from .._abc_meta import enforcedmethod
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from .field_registry import OPItemFieldFactory
 from .item_field_base import OPItemField
@@ -22,7 +22,7 @@ class OPFieldNotFoundException(Exception):
 class OPAbstractItem(OPAbstractItemDescriptor):
     CATEGORY: Optional[str] = None
 
-    @abstractmethod
+    @enforcedmethod
     def __init__(self, item_dict_or_json: Union[Dict, str]):
         super().__init__(item_dict_or_json)
         self._section_map = self._initialize_sections()

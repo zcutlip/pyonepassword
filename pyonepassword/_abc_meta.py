@@ -2,6 +2,10 @@ from abc import ABCMeta
 
 
 def enforcedmethod(func):
+    """
+    decorator similar to @abstractmethod
+    to enforce that a method be overridden
+    """
     func.__enforcedmethod__ = True
     return func
 
@@ -10,6 +14,17 @@ def enforcedmethod(func):
 # mypy incorrectly complains about metaclass conflict
 # https://github.com/python/mypy/issues/14182#issuecomment-1407216483
 class ABCMetaDict(ABCMeta):
+    """
+    Metaclass that enables a class descending from a concrete class
+    to still enforce the requirement that one or more methods be overridden
+    E.g.:
+
+    class _OPItemBase(dict):
+
+        @enforcedmethod
+        def __init__(self, *args, **kwargs):
+            # you must override this method, and then call this method via super()
+    """
 
     def __call__(cls, *args, **kwargs):
         enforced = set()

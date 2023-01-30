@@ -2,11 +2,11 @@
 Miscellaneous classes for objects return by 'op get' other than item or document objects
 """
 import json
-from abc import ABCMeta, abstractmethod
 from datetime import datetime
 from json.decoder import JSONDecodeError
 from typing import Dict, List, TypeVar, Union
 
+from ._abc_meta import ABCMetaDict, enforcedmethod
 from ._datetime import fromisoformat_z
 from .json import safe_unjson
 from .py_op_exceptions import _OPAbstractException
@@ -78,12 +78,12 @@ class _OPDescriptorList(List[DT]):
     pass
 
 
-class OPAbstractObject(dict, metaclass=ABCMeta):
+class OPAbstractObject(dict, metaclass=ABCMetaDict):
     """
     Abstract base class for 1Password objects as returned by 'op list|get <object class>'
     """
 
-    @abstractmethod
+    @enforcedmethod
     def __init__(self, dict_or_json: Union[str, dict]):
         obj_dict = safe_unjson(dict_or_json)
         super().__init__(obj_dict)

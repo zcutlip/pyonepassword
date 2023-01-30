@@ -2,12 +2,10 @@
 Various exception classes raised by ponepassword API
 TODO: Move other exception classes here
 """
-from abc import ABCMeta, abstractmethod
 
 
-class _OPAbstractException(Exception, metaclass=ABCMeta):
+class _OPAbstractException(Exception):
 
-    @abstractmethod
     def __init__(self, msg):
         super().__init__(msg)
 

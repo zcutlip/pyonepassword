@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import List, Optional
+from typing import Dict, List, Optional, Union
 
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from .field_registry import OPItemFieldFactory
@@ -23,7 +23,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
     CATEGORY: Optional[str] = None
 
     @abstractmethod
-    def __init__(self, item_dict_or_json):
+    def __init__(self, item_dict_or_json: Union[Dict, str]):
         super().__init__(item_dict_or_json)
         self._section_map = self._initialize_sections()
         self._field_map = self._initialize_fields()

@@ -146,7 +146,7 @@ class OPNewItemMixin:
                 self.CATEGORY)
         else:
             raise OPInvalidItemException(
-                "Item template class inherit also from inherit a concreate OPAbstractItem implementation, overriding CATEGORY")
+                "Item template class must also from inherit a concreate OPAbstractItem implementation, overriding CATEGORY")
         template_dict["title"] = title
         section_map = {}
         new_sections = []

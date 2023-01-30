@@ -1,9 +1,15 @@
+from abc import ABCMeta
+
+
 def enforcedmethod(func):
     func.__enforcedmethod__ = True
     return func
 
 
-class ABCMetaDict(type):
+# TODO: we really should be subclassing 'type' here, but
+# mypy incorrectly complains about metaclass conflict
+# https://github.com/python/mypy/issues/14182#issuecomment-1407216483
+class ABCMetaDict(ABCMeta):
 
     def __call__(cls, *args, **kwargs):
         enforced = set()

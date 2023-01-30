@@ -9,10 +9,10 @@ from typing import Dict, List, TypeVar, Union
 from ._abc_meta import ABCMetaDict, enforcedmethod
 from ._datetime import fromisoformat_z
 from .json import safe_unjson
-from .py_op_exceptions import _OPAbstractException
+from .py_op_exceptions import OPBaseException
 
 
-class OPInvalidObjectException(_OPAbstractException):
+class OPInvalidObjectException(OPBaseException):
     """
     The data provided to generate an OP query object failed to parse or validate
 

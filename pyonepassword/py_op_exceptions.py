@@ -4,13 +4,13 @@ TODO: Move other exception classes here
 """
 
 
-class _OPAbstractException(Exception):
+class OPBaseException(Exception):
 
     def __init__(self, msg):
         super().__init__(msg)
 
 
-class OPCmdFailedException(_OPAbstractException):
+class OPCmdFailedException(OPBaseException):
     """
     Generic Exception class for when an `op` command fails.
 
@@ -143,12 +143,12 @@ class OPItemCreateException(OPCmdFailedException):  # pragma: no coverage
         super().__init__(stderr_out, returncode)
 
 
-class OPInvalidItemException(_OPAbstractException):
+class OPInvalidItemException(OPBaseException):
     def __init__(self, msg):
         super().__init__(msg)
 
 
-class OPNotSignedInException(_OPAbstractException):
+class OPNotSignedInException(OPBaseException):
     def __init__(self, msg):
         super().__init__(msg)
 
@@ -171,11 +171,11 @@ class OPConfigNotFoundException(Exception):
     pass
 
 
-class OPInvalidFieldException(_OPAbstractException):
+class OPInvalidFieldException(OPBaseException):
     def __init__(self, msg):
         super().__init__(msg)
 
 
-class OPUnknownAccountException(_OPAbstractException):
+class OPUnknownAccountException(OPBaseException):
     def __init__(self, msg):
         super().__init__(msg)

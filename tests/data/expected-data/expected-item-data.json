@@ -217,6 +217,42 @@
             }
         ]
     },
+    "Login Item Duplicate Sections": {
+        "username": "test_user_id",
+        "password": "laskjdfaiwejlaksjdlfjas;ldfj",
+        "id": "nok7367v4vbsfgg2fczwu4ei44",
+        "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
+        "created_at": "2020-09-17T01:52:07Z",
+        "updated_at": "2020-09-17T01:54:59Z",
+        "vault_id": "gshlsjsajnawtnjynzgwmiebge",
+        "version": 4,
+        "urls": [
+            {
+                "label": "website",
+                "primary": true,
+                "href": "https://example.com/login"
+            }
+        ],
+        "sections": [
+            {
+                "id": "linked items",
+                "label": "Related Items"
+            },
+            {
+                "id": "Section_duplicate_id",
+                "label": "Duplicate Section"
+            },
+            {
+                "id": "Section_duplicate_id",
+                "label": "Duplicate Section"
+            },
+            {
+                "id": "Section_4BF92D24E2C54E16A4D24AD9F2EBCABE",
+                "label": "Security Question"
+            }
+        ],
+        "returncode": 0
+    },
     "Invalid Item": {
         "returncode": 1
     },

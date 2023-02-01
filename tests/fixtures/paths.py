@@ -13,6 +13,9 @@ VALID_DATA_REGISTRY_PATH = Path(TEST_DATA_PATH, "valid-data-registry.json")
 VALID_DATA_PATH = Path(TEST_DATA_PATH, "valid-data")
 INVALID_DATA_REGISTRY_PATH = Path(TEST_DATA_PATH, "invalid-data-registry.json")
 INVALID_DATA_PATH = Path(TEST_DATA_PATH, "invalid-data")
+NON_CONFORMANT_REGISTRY_PATH = Path(
+    TEST_DATA_PATH, "non-conformant-data-registry.json")
+NON_CONFORMANT_DATA_PATH = Path(TEST_DATA_PATH, "non-conformant-data")
 EXPECTED_DATA_REGISTRY_PATH = Path(
     TEST_DATA_PATH, "expected-data-registry.json")
 EXPECTED_DATA_PATH = Path(TEST_DATA_PATH, "expected-data")

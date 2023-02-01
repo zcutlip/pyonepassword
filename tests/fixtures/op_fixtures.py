@@ -32,6 +32,7 @@ from .invalid_op_cli_config import (
     MissingOPCLIConfig,
     UnreadableOPCLIConfig
 )
+from .non_comformant_data import NonConformantData
 from .paths import (
     ALT_RESP_DIRECTORY_PATH,
     RESP_DIRECTORY_PATH,
@@ -326,6 +327,12 @@ def invalid_data():
 @fixture
 def valid_data():
     data = ValidData()
+    return data
+
+
+@fixture
+def non_conformant_data():
+    data = NonConformantData()
     return data
 
 

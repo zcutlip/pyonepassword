@@ -1,0 +1,7 @@
+from .paths import NON_CONFORMANT_DATA_PATH, NON_CONFORMANT_REGISTRY_PATH
+from .valid_data import ValidData
+
+
+class NonConformantData(ValidData):
+    REGISTRY_PATH = NON_CONFORMANT_REGISTRY_PATH
+    DATA_PATH = NON_CONFORMANT_DATA_PATH

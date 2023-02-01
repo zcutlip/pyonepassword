@@ -1,5 +1,19 @@
 from typing import Set
 
+"""
+Module for classes & functions related to item valiation policy.
+
+In some cases `op` may return item JSON that is not strictly conforming.
+Examples include fields with empty-string IDs, duplicate sections, and
+other anomalies.
+
+In this case we have no control of the anomalous data, so we must relax validation
+in order to instantiate useful item objects without raising exceptions
+
+This module provides mechanisms to enable/disable relaxed validation globaly, or on a
+per-class basis
+"""
+
 
 class OPItemValidationPolicy:
     """

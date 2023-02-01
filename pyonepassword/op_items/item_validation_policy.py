@@ -121,4 +121,4 @@ def disable_relaxed_validation():
 
     Per-class relaxed validation policy still applies
     """
-    OPItemValidationPolicy
+    OPItemValidationPolicy.disable_relaxed_validation()

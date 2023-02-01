@@ -9,6 +9,7 @@ from .item_section import (
     OPSection,
     OPSectionCollisionException
 )
+from .item_validation_policy import OPItemValidationPolicy
 
 
 class OPSectionNotFoundException(Exception):
@@ -21,6 +22,11 @@ class OPFieldNotFoundException(Exception):
 
 class OPAbstractItem(OPAbstractItemDescriptor):
     CATEGORY: Optional[str] = None
+    FROM_TEMPLATE = False
+    # relaxed validation is disabled by default
+    # may be overridden in a "relaxed" sublcass
+    # E.g. OPLoginItemRelaxedValidation
+    _relaxed_validation: bool = False
 
     @enforcedmethod
     def __init__(self, item_dict_or_json: Union[Dict, str]):
@@ -32,6 +38,28 @@ class OPAbstractItem(OPAbstractItemDescriptor):
     def sections(self) -> List[OPSection]:
         section_list = self.get("sections", [])
         return section_list
+
+    def relaxed_validation(self) -> bool:
+        """
+        Get relaxed validation policy
+
+        May be determined by any of the following:
+        - This class has relaxed validation enabled (e.g., OPLoginItemRelaxedValidation)
+        - Relaxed validation is globally set for this class via OPItemValidationPolicy
+        - Relaxed validation is globally set for all op item classes
+
+        Returns
+        -------
+        bool
+            Whether relaxed validation policy is enabled
+        """
+        relaxed = False
+        if not self.FROM_TEMPLATE:
+            relaxed = self._relaxed_validation
+            if not relaxed:
+                relaxed = OPItemValidationPolicy.get_relaxed_validation(
+                    self.__class__)
+        return relaxed
 
     def sections_by_label(self, label, case_sensitive=True) -> List[OPSection]:
         """
@@ -124,8 +152,18 @@ class OPAbstractItem(OPAbstractItemDescriptor):
                 s = OPSection(section_dict)
                 section_id = s.section_id
                 if section_id in section_map:
-                    raise OPSectionCollisionException(
-                        f"Section {section_id} already registered")
+                    # NOTE: in rare cases 'op' will return items
+                    # that have multiple duplicated sections, including section ID
+                    # resulting in section ID collisions. In these cases
+                    # relaxed validation is required to parse the dictionary
+                    # and return a usable object
+                    # see:
+                    # tests/test_non_conformant_data/test_duplicate_sections.py
+                    # if relaxed validation is not enabled
+                    # raise an exception
+                    if not self.relaxed_validation():
+                        raise OPSectionCollisionException(
+                            f"Section {section_id} already registered")
                 section_map[section_id] = s
                 section_list.append(s)
         self["sections"] = section_list
@@ -139,8 +177,17 @@ class OPAbstractItem(OPAbstractItemDescriptor):
             field = OPItemFieldFactory.item_field(field_dict)
             field_id = field.field_id
             if field_id in field_map:
-                raise OPItemFieldCollisionException(
-                    f"Field {field_id} already registered")
+                # NOTE: in many cases 'op' will return items
+                # that have multiple fields with empty-string IDs
+                # resulting in field ID collisions. In these cases
+                # relaxed validation is required to parse the dictionary
+                # and return a usable object
+
+                # if relaxed validation is not enabled
+                # raise an exception
+                if not self.relaxed_validation():
+                    raise OPItemFieldCollisionException(
+                        f"Field {field_id} already registered")
             section_dict = field.get("section")
             if section_dict:
                 section_id = section_dict["id"]

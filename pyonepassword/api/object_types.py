@@ -21,6 +21,7 @@ from ..op_items.login import (
     OPLoginItem,
     OPLoginItemNewPrimaryURL,
     OPLoginItemNewURL,
+    OPLoginItemRelaxedValidation,
     OPLoginItemTemplate
 )
 from ..op_items.password import OPPasswordItem
@@ -58,6 +59,7 @@ __all__ = [
     "OPLoginItem",
     "OPLoginItemNewPrimaryURL",
     "OPLoginItemNewURL",
+    "OPLoginItemRelaxedValidation",
     "OPLoginItemTemplate",
     "OPPasswordItem",
     "OPPasswordRecipe",

@@ -1,6 +1,7 @@
 from typing import Dict, List, Optional, Union
 
 from .._abc_meta import enforcedmethod
+from ..py_op_exceptions import OPInvalidItemException
 from ._item_descriptor_base import OPAbstractItemDescriptor
 from .field_registry import OPItemFieldFactory
 from .item_field_base import OPItemField
@@ -150,7 +151,18 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         if _sections:
             for section_dict in _sections:
                 s = OPSection(section_dict)
-                section_id = s.section_id
+                try:
+                    section_id = s.section_id
+                except KeyError as e:
+                    # in rare instances sections may lack an "id" altogether
+                    # Let's treat that as having an empty string instead, since we have
+                    # logic to deal with that below, and sometimes that occurs as well
+                    if self.relaxed_validation():
+                        section_id = ""
+                    else:
+                        raise OPInvalidItemException(
+                            f"section has no ID {s}") from e
+
                 if section_id in section_map:
                     # NOTE: in rare cases 'op' will return items
                     # that have multiple duplicated sections, including section ID

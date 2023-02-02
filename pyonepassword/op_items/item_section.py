@@ -29,9 +29,7 @@ class OPSection(dict):
         'Section_967FEBAC931841BCBD2DD7CFE0B8DC82'
         """
 
-        # in rare instances sections may lack an "id" altogether
-        # For now, let's treat that as having an empty string instead: {"id": ""}
-        return self.get("id", "")
+        return self["id"]
 
     @property
     def label(self) -> str:

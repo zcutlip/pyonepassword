@@ -2,5 +2,9 @@
     "login-duplicate-section": {
         "name": "login-duplicate-section.json",
         "type": "json"
+    },
+    "server-section-missing-id": {
+        "name": "server-section-missing-id.json",
+        "type": "json"
     }
 }

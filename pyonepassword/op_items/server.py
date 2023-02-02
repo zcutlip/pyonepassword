@@ -56,3 +56,7 @@ class OPServerItem(OPAbstractItem):
         url = self.field_value_by_section_title(
             "Admin Console", "admin console URL")
         return url
+
+
+class OPServerItemRelaxedValidation(OPServerItem):
+    _relaxed_validation = True

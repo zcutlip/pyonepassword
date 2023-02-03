@@ -1,3 +1,12 @@
+"""
+Very rarely 'op' will return a non-conformant item where there are duplicate section
+dictionaries, including the "unique" section ID
+
+We need to (optionally) handle those situations gracefully
+This module contains test cases for that scenario
+"""
+
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

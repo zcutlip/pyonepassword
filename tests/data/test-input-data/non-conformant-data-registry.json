@@ -6,5 +6,9 @@
     "server-section-missing-id": {
         "name": "server-section-missing-id.json",
         "type": "json"
+    },
+    "login-item-fields-empty-string-ids": {
+        "name": "login-item-fields-empty-string-ids.json",
+        "type": "json"
     }
 }

@@ -14,37 +14,57 @@ class OPUnknownItemTypeException(Exception):
 
 
 class OPItemFactory:
+    # registry of item classes with strict validation
     _TYPE_REGISTRY: Dict[str, Type[OPAbstractItem]] = {}
+    # registry of item classes with relaxed validation
+    _RELAXED_TYPE_REGISTRY: Dict[str, Type[OPAbstractItem]] = {}
 
     @classmethod
-    def register_op_item_type(cls, item_type, item_class):
-        if item_type in cls._TYPE_REGISTRY:
+    def register_op_item_type(cls, item_type: str, item_class: Type[OPAbstractItem]):
+        """
+        Register an OP item type class
+
+        If the class has the _relaxed_validation attribute set to True, it will be added
+        to the registry of relaxed validation classes, otherwise it is added to the
+        normal registry
+
+        Parameters
+        ----------
+        item_type : str
+            The CATEGORY attribute of the class representing the item type, such as "LOGIN"
+        item_class : Type[OPAbstractItem]
+            The item type class to register
+
+        Raises
+        ------
+        Exception
+            If two item type classes with the same CATEGORY are registered
+        """
+        if getattr(item_class, "_relaxed_validation", False):
+            registry = cls._RELAXED_TYPE_REGISTRY
+        else:
+            registry = cls._TYPE_REGISTRY
+
+        if item_type in registry:
             raise Exception(  # pragma: no coverage
                 f"duplicate for item type {item_type}: {item_class}")
-        cls._TYPE_REGISTRY[item_type] = item_class
+        registry[item_type] = item_class
 
     @classmethod
     def _item_from_dict(cls, item_dict: Dict[str, Any], relaxed_validation: bool):
+        if relaxed_validation:
+            registry = cls._RELAXED_TYPE_REGISTRY
+        else:
+            registry = cls._TYPE_REGISTRY
+
         item_type = item_dict["category"]
         try:
-            item_cls = cls._TYPE_REGISTRY[item_type]
+            item_cls = registry[item_type]
         except KeyError as ke:
             raise OPUnknownItemTypeException(
                 f"Unknown item type {item_type}", item_dict=item_dict) from ke
 
-        # get the existing validation policy for item_cls so we can restore it later
-        saved_validation_policy = OPItemValidationPolicy.get_relaxed_validation_for_class(
-            item_cls)
-
-        if relaxed_validation:
-            # enable relaxed validation for this class if we were asked to
-            cls.item_class_relax_validation(item_cls)
-
         obj = item_cls(item_dict)
-        if relaxed_validation and not saved_validation_policy:
-            # if we were asked to relax validation, and it wasn't relaxed when we started
-            # set it back to stric
-            cls.item_class_strict_validation(item_cls)
 
         return obj
 
@@ -59,6 +79,7 @@ class OPItemFactory:
             JSON or dictionary representing an op item object
         relaxed_validation : bool, optional
             Whether relaxed validation should be enabled for this instance, by default False
+            If true, the item class will be looked up from the relaxed validation registry
 
         Returns
         -------

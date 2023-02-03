@@ -102,7 +102,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                          existing_auth=existing_auth,
                          password_prompt=password_prompt)
 
-    def item_get(self, item_identifier, vault=None, include_archive=False) -> OPAbstractItem:
+    def item_get(self, item_identifier, vault=None, include_archive=False, relaxed_validation=False) -> OPAbstractItem:
         """
         Get an 'item' object from a 1Password vault.
         The returned object may be any of the item types extending OPAbstractItem.
@@ -147,7 +147,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         output = super()._item_get(item_identifier, vault=vault,
                                    decode="utf-8", include_archive=include_archive)
-        op_item = OPItemFactory.op_item(output)
+        op_item = OPItemFactory.op_item(
+            output, relaxed_validation=relaxed_validation)
         return op_item
 
     def item_get_totp(self, item_identifier: str, vault=None) -> OPTOTPItem:

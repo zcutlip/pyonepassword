@@ -1,5 +1,5 @@
 import copy
-from typing import List
+from typing import List, Union
 
 from .item_field_base import OPItemField
 
@@ -43,7 +43,7 @@ class OPSection(dict):
         field_list = self.setdefault("fields", [])
         return field_list
 
-    def register_field(self, field_dict):
+    def register_field(self, field_dict: Union[OPItemField, dict], relaxed_validation: bool = False):
         if isinstance(field_dict, OPItemField):
             # make a copy of the field so we don't end up with a circular reference
             field = copy.copy(field_dict)
@@ -51,10 +51,12 @@ class OPSection(dict):
             field = OPItemField(field_dict)
         field_id = field.field_id
         if field_id in self._shadow_fields:
-            raise OPItemFieldCollisionException(
-                f"Field {field_id} already registered in section {self.section_id}")
+            if not relaxed_validation:
+                raise OPItemFieldCollisionException(
+                    f"Field {field_id} already registered in section {self.section_id}")
+        else:
+            self._shadow_fields[field_id] = field
         self.fields.append(field)
-        self._shadow_fields[field_id] = field
 
     def fields_by_label(self, label, case_sensitive=True) -> List[OPItemField]:
         """

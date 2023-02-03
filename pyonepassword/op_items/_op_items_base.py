@@ -182,6 +182,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         return section_map
 
     def _initialize_fields(self):
+        relaxed_validation = self.relaxed_validation()
         field_list = []
         field_map = {}
         _fields = self.get("fields", [])
@@ -197,14 +198,15 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
                 # if relaxed validation is not enabled
                 # raise an exception
-                if not self.relaxed_validation():
+                if not relaxed_validation:
                     raise OPItemFieldCollisionException(
                         f"Field {field_id} already registered")
             section_dict = field.get("section")
             if section_dict:
                 section_id = section_dict["id"]
                 section = self.section_by_id(section_id)
-                section.register_field(field_dict)
+                section.register_field(
+                    field_dict, relaxed_validation=relaxed_validation)
             field_list.append(field)
             field_map[field.field_id] = field
         self["fields"] = field_list

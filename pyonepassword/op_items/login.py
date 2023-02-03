@@ -112,6 +112,7 @@ class OPLoginItem(OPAbstractItem):
         return self._primary_url
 
 
+@op_register_item_type
 class OPLoginItemRelaxedValidation(OPLoginItem):
     _relaxed_validation = True
 

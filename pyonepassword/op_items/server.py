@@ -58,5 +58,6 @@ class OPServerItem(OPAbstractItem):
         return url
 
 
+@op_register_item_type
 class OPServerItemRelaxedValidation(OPServerItem):
     _relaxed_validation = True

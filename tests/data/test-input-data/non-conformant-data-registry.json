@@ -10,5 +10,9 @@
     "login-item-fields-empty-string-ids": {
         "name": "login-item-fields-empty-string-ids.json",
         "type": "json"
+    },
+    "login-duplicate-field": {
+        "name": "login-duplicate-field.json",
+        "type": "json"
     }
 }

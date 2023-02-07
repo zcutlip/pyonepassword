@@ -34,7 +34,7 @@ pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 @pytest.fixture(autouse=True)
-def init_item_validation_policy(request):
+def init_item_validation_policy():
     relaxed_classes = set(OPItemValidationPolicy._relaxed_item_classes)
     relaxed_flag = OPItemValidationPolicy._relaxed_validation
 

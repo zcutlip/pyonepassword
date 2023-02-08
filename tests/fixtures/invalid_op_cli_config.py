@@ -1,17 +1,18 @@
 import os
 
 from .invalid_data import InvalidData
+from .platform_support import HOME_ENV_VAR
 from .valid_op_cli_config import ValidOPCLIConfig
 
 
 class UnreadableOPCLIConfig(ValidOPCLIConfig):
-    def __init__(self, location_env_var='HOME'):
+    def __init__(self, location_env_var=HOME_ENV_VAR):
         super().__init__(location_env_var=location_env_var)
         os.chmod(self._op_config_path, 0o000)
 
 
 class MissingOPCLIConfig(ValidOPCLIConfig):
-    def __init__(self, location_env_var='HOME'):
+    def __init__(self, location_env_var=HOME_ENV_VAR):
         super().__init__(location_env_var=location_env_var)
         os.unlink(self._op_config_path)
 

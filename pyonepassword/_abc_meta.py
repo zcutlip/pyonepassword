@@ -53,10 +53,7 @@ class ABCMetaDict(ABCMeta):
                 else:
                     # this item isn't flagged as enforced, so add it to the unenforced list
                     unenforced.add(name)
-                    if name in enforced:
-                        # if the item was previously flagged as enforced, we can now remove it
-                        # since we've found an implementation
-                        enforced.remove(name)
+
         if enforced:
             raise TypeError("Can't instantiate abstract class {} "
                             "with enforced methods {}".format(

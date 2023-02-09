@@ -24,14 +24,14 @@ class _OPItemValidationPolicy:
     _relaxed_validation: bool = False
 
     @classmethod
-    def _enable_relaxed_validation(cls):
+    def _enable_relaxed_validation(cls) -> None:
         """
         Enable relaxed validation policy globally
         """
         cls._relaxed_validation = True
 
     @classmethod
-    def _disable_relaxed_validation(cls):
+    def _disable_relaxed_validation(cls) -> None:
         """
         Disable relaxe validation policy globally
 
@@ -40,7 +40,7 @@ class _OPItemValidationPolicy:
         cls._relaxed_validation = False
 
     @classmethod
-    def _get_relaxed_validation(cls, item_class: type = None):
+    def _get_relaxed_validation(cls, item_class: type = None) -> bool:
         """
         Get the validation policy taking into a account global policy and optionally 'item_class':
             True if either is true
@@ -66,7 +66,7 @@ class _OPItemValidationPolicy:
         return relaxed
 
     @classmethod
-    def _get_relaxed_validation_for_class(cls, item_class: type):
+    def _get_relaxed_validation_for_class(cls, item_class: type) -> bool:
         """
         Get the validation policy only for 'item_class'
 
@@ -88,7 +88,7 @@ class _OPItemValidationPolicy:
         return relaxed
 
     @classmethod
-    def _set_relaxed_validation_for_class(cls, item_class):
+    def _set_relaxed_validation_for_class(cls, item_class) -> None:
         """
         Enable relaxed validation policy for 'item_class'
 
@@ -100,7 +100,7 @@ class _OPItemValidationPolicy:
         cls._relaxed_item_classes.add(item_class)
 
     @classmethod
-    def _set_strict_validation_for_class(cls, item_class):
+    def _set_strict_validation_for_class(cls, item_class) -> None:
         """
         Disable relaxed validation policy for 'item_class'
 
@@ -113,14 +113,14 @@ class _OPItemValidationPolicy:
             cls._relaxed_item_classes.remove(item_class)
 
 
-def enable_relaxed_validation():
+def enable_relaxed_validation() -> None:
     """
     Convenience method to enable relaxed validation policy globally
     """
     _OPItemValidationPolicy._enable_relaxed_validation()
 
 
-def disable_relaxed_validation():
+def disable_relaxed_validation() -> None:
     """
     Convenience method to disable relaxed validation policy globally.
 
@@ -129,17 +129,17 @@ def disable_relaxed_validation():
     _OPItemValidationPolicy._disable_relaxed_validation()
 
 
-def get_relaxed_validation(item_class=None):
+def get_relaxed_validation(item_class=None) -> bool:
     return _OPItemValidationPolicy._get_relaxed_validation(item_class=item_class)
 
 
-def get_relaxed_validation_for_class(item_class):
+def get_relaxed_validation_for_class(item_class) -> bool:
     return _OPItemValidationPolicy._get_relaxed_validation_for_class(item_class)
 
 
-def set_relaxed_validation_for_class(item_class):
+def set_relaxed_validation_for_class(item_class) -> None:
     _OPItemValidationPolicy._set_relaxed_validation_for_class(item_class)
 
 
-def set_strict_validation_for_class(item_class):
+def set_strict_validation_for_class(item_class) -> None:
     _OPItemValidationPolicy._set_strict_validation_for_class(item_class)

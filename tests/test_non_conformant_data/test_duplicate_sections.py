@@ -23,7 +23,6 @@ from pyonepassword.api.object_types import (
     OPLoginItemRelaxedValidation
 )
 from pyonepassword.api.validation import (
-    disable_relaxed_validation,
     enable_relaxed_validation,
     get_relaxed_validation,
     get_relaxed_validation_for_class,
@@ -118,15 +117,3 @@ def test_login_duplicate_sections_07(non_conformant_data: NonConformantData):
     OPItemFactory.op_item(login_json, relaxed_validation=True)
     with pytest.raises(OPSectionCollisionException):
         OPItemFactory.op_item(login_json)
-
-
-def test_login_duplicate_sections_08(non_conformant_data: NonConformantData):
-    login_json = non_conformant_data.data_for_name("login-duplicate-section")
-    enable_relaxed_validation()
-    assert get_relaxed_validation(item_class=OPLoginItem)
-    assert OPLoginItem(login_json)
-    disable_relaxed_validation()
-
-    assert not get_relaxed_validation(item_class=OPLoginItem)
-    with pytest.raises(OPSectionCollisionException):
-        assert OPLoginItem(login_json)

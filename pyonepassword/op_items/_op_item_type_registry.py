@@ -4,10 +4,6 @@ from typing import Any, Dict, Type, Union
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidItemException
 from ._op_items_base import OPAbstractItem
-from .item_validation_policy import (
-    set_relaxed_validation_for_class,
-    set_strict_validation_for_class
-)
 
 
 class OPUnknownItemTypeException(Exception):
@@ -101,44 +97,6 @@ class OPItemFactory:
                 f"Failed to unserialize item JSON: {jdce}") from jdce
         obj = cls._item_from_dict(item_dict, relaxed_validation)
         return obj
-
-    @classmethod
-    def item_class_relax_validation(cls, item_class: type):
-        """
-        Method to have the factory enable relaxed validation for 'item_class'
-
-        Parameters
-        ----------
-        item_class : type
-            Any OPAbstractItem class
-        """
-        cls._validate_item_class(item_class)
-        set_relaxed_validation_for_class(item_class)
-
-    @classmethod
-    def item_class_strict_validation(cls, item_class: type):
-        """
-        Method to have the factory disable relaxed validation for 'item_class'
-
-        Parameters
-        ----------
-        item_class : type
-            any OPAbstractItem class
-        """
-        cls._validate_item_class(item_class)
-        set_strict_validation_for_class(item_class)
-
-    @classmethod
-    def _validate_item_class(cls, item_class):
-        # verify this is a registered item class
-        try:
-            item_class = cls._TYPE_REGISTRY[item_class.CATEGORY]
-        except KeyError as ke:
-            raise OPUnknownItemTypeException(
-                f"Unknown item type {item_class.CATEGORY}") from ke
-        except AttributeError:
-            raise OPUnknownItemTypeException(
-                f"Unknown item type: {item_class}")
 
 
 def op_register_item_type(item_class):

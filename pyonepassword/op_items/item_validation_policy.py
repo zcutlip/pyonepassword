@@ -130,16 +130,65 @@ def disable_relaxed_validation() -> None:
 
 
 def get_relaxed_validation(item_class=None) -> bool:
+    """
+    Get relaxed validation policy.
+
+    If optional 'item_class' is provided, the returned value represents the union of global
+    item validation policy, and the class-specific item validation policy.
+
+    This is to say True is returned if either is true
+
+    Parameters
+    ----------
+    item_class : type, optional
+        Any OPAbstractItem class, by default None
+
+    Returns
+    -------
+    bool
+        The union of the global item validation policy and the class's item validation policy
+    """
     return _OPItemValidationPolicy._get_relaxed_validation(item_class=item_class)
 
 
 def get_relaxed_validation_for_class(item_class) -> bool:
+    """
+    Get item validation policy for a specific op item class
+
+    Parameters
+    ----------
+    item_class : type
+        Any OPAbstractItem class
+
+    Returns
+    -------
+    bool
+        True of relaxed validation policy is set for this class
+    """
     return _OPItemValidationPolicy._get_relaxed_validation_for_class(item_class)
 
 
 def set_relaxed_validation_for_class(item_class) -> None:
+    """
+    Set item validation policy for the specified op item class
+
+    Parameters
+    ----------
+    item_class : type
+        Any OPAbstractItem class
+    """
     _OPItemValidationPolicy._set_relaxed_validation_for_class(item_class)
 
 
 def set_strict_validation_for_class(item_class) -> None:
+    """
+    Remove the specified op item class from the relaxed validation list
+
+    Note: relaxed validation may still occur if it has been set globally
+
+    Parameters
+    ----------
+    item_class : type
+        Any OPAbstractItem class
+    """
     _OPItemValidationPolicy._set_strict_validation_for_class(item_class)

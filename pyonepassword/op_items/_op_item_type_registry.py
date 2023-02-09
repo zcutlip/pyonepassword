@@ -4,7 +4,10 @@ from typing import Any, Dict, Type, Union
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidItemException
 from ._op_items_base import OPAbstractItem
-from .item_validation_policy import OPItemValidationPolicy
+from .item_validation_policy import (
+    set_relaxed_validation_for_class,
+    set_strict_validation_for_class
+)
 
 
 class OPUnknownItemTypeException(Exception):
@@ -110,7 +113,7 @@ class OPItemFactory:
             Any OPAbstractItem class
         """
         cls._validate_item_class(item_class)
-        OPItemValidationPolicy.set_relaxed_validation_for_class(item_class)
+        set_relaxed_validation_for_class(item_class)
 
     @classmethod
     def item_class_strict_validation(cls, item_class: type):
@@ -123,7 +126,7 @@ class OPItemFactory:
             any OPAbstractItem class
         """
         cls._validate_item_class(item_class)
-        OPItemValidationPolicy.set_strict_validation_for_class(item_class)
+        set_strict_validation_for_class(item_class)
 
     @classmethod
     def _validate_item_class(cls, item_class):

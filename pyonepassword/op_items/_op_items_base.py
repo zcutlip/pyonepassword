@@ -10,7 +10,7 @@ from .item_section import (
     OPSection,
     OPSectionCollisionException
 )
-from .item_validation_policy import OPItemValidationPolicy
+from .item_validation_policy import get_relaxed_validation
 
 
 class OPSectionNotFoundException(Exception):
@@ -58,8 +58,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         if not self.FROM_TEMPLATE:
             relaxed = self._relaxed_validation
             if not relaxed:
-                relaxed = OPItemValidationPolicy.get_relaxed_validation(
-                    self.__class__)
+                relaxed = get_relaxed_validation(item_class=self.__class__)
         return relaxed
 
     def sections_by_label(self, label, case_sensitive=True) -> List[OPSection]:

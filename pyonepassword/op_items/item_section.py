@@ -68,6 +68,9 @@ class OPSection(dict):
             if not relaxed_validation:
                 raise OPItemFieldCollisionException(
                     f"Field {field_id} already registered in section {self.section_id}")
+            else:
+                # for code coverage visibility
+                pass
         else:
             self._shadow_fields[field_id] = field
         self.fields.append(field)

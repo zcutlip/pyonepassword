@@ -175,6 +175,9 @@ class OPAbstractItem(OPAbstractItemDescriptor):
                     if not self.relaxed_validation():
                         raise OPSectionCollisionException(
                             f"Section {section_id} already registered")
+                    else:
+                        # for code coverage visibility
+                        pass
                 section_map[section_id] = s
                 section_list.append(s)
         self["sections"] = section_list
@@ -211,6 +214,9 @@ class OPAbstractItem(OPAbstractItemDescriptor):
                 if not relaxed_validation:
                     raise OPItemFieldCollisionException(
                         f"Field {field_id} already registered")
+                else:
+                    # for code coverage visibility
+                    pass
             section_dict = field.get("section")
             if section_dict:
                 section_id = section_dict["id"]

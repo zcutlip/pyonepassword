@@ -19,9 +19,10 @@ from pyonepassword.api.exceptions import OPInvalidItemException
 from pyonepassword.api.object_types import (  # OPServerItemRelaxedValidation
     OPServerItem
 )
+from pyonepassword.api.validation import set_relaxed_validation_for_class
 # from pyonepassword.op_items._op_item_type_registry import OPItemFactory
-from pyonepassword.op_items.item_validation_policy import (  # disable_relaxed_validation,; enable_relaxed_validation
-    OPItemValidationPolicy
+from pyonepassword.op_items.item_validation_policy import (
+    _OPItemValidationPolicy
 )
 
 # ensure HOME env variable is set, and there's a valid op config present
@@ -32,13 +33,13 @@ NON_CONFORMANT_ENTRY = "server-section-missing-id"
 
 @pytest.fixture(autouse=True)
 def init_item_validation_policy(request):
-    relaxed_classes = set(OPItemValidationPolicy._relaxed_item_classes)
-    relaxed_flag = OPItemValidationPolicy._relaxed_validation
+    relaxed_classes = set(_OPItemValidationPolicy._relaxed_item_classes)
+    relaxed_flag = _OPItemValidationPolicy._relaxed_validation
 
     yield  # clean up after each test
 
-    OPItemValidationPolicy._relaxed_item_classes = relaxed_classes
-    OPItemValidationPolicy._relaxed_validation = relaxed_flag
+    _OPItemValidationPolicy._relaxed_item_classes = relaxed_classes
+    _OPItemValidationPolicy._relaxed_validation = relaxed_flag
 
 
 def test_item_section_missing_id_01(non_conformant_data: NonConformantData):
@@ -49,7 +50,7 @@ def test_item_section_missing_id_01(non_conformant_data: NonConformantData):
 
 def test_item_section_missing_id_02(non_conformant_data: NonConformantData):
     item_json = non_conformant_data.data_for_name(NON_CONFORMANT_ENTRY)
-    OPItemValidationPolicy.set_relaxed_validation_for_class(OPServerItem)
+    set_relaxed_validation_for_class(OPServerItem)
     item = OPServerItem(item_json)
     # TODO: assert item properties
     assert item

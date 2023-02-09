@@ -57,12 +57,13 @@ class _OPItemValidationPolicy:
         bool
             Whether the relaxed validation policy is enabled
         """
-        relaxed = cls._relaxed_validation
-        if not relaxed:
-            relaxed = cls._get_relaxed_validation_for_class(item_class)
-        else:
-            # for code coverage visibility
-            pass
+        global_relaxed = cls._relaxed_validation
+
+        class_relaxed = cls._get_relaxed_validation_for_class(item_class)
+
+        # Union of global and class policy
+        relaxed = global_relaxed or class_relaxed
+
         return relaxed
 
     @classmethod

@@ -1,6 +1,7 @@
 import copy
 from typing import List, Union
 
+from ..py_op_exceptions import OPInvalidItemException
 from .item_field_base import OPItemField
 
 
@@ -49,7 +50,20 @@ class OPSection(dict):
             field = copy.copy(field_dict)
         else:
             field = OPItemField(field_dict)
-        field_id = field.field_id
+
+        try:
+            field_id = field.field_id
+        except KeyError as e:
+            # In theory there could be non-conformant data where
+            # a field dictionary is missing an "ID" element
+            # and we need to optionally be robust to that
+            if not relaxed_validation:
+                raise OPInvalidItemException(
+                    f"Field has no ID {field.label}") from e
+            else:
+                # if relaxed validation is enabled, set field_id to empty string
+                # since we have log below to handle that
+                field_id = ""
         if field_id in self._shadow_fields:
             if not relaxed_validation:
                 raise OPItemFieldCollisionException(

@@ -188,7 +188,18 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         _fields = self.get("fields", [])
         for field_dict in _fields:
             field = OPItemFieldFactory.item_field(field_dict)
-            field_id = field.field_id
+            try:
+                field_id = field.field_id
+            except KeyError as e:
+                # Based on evidence of sections occasionally lacking "id" elements,
+                # in theory there may be instances where fields also lack an "id"
+                # Let's treat that as having an empty string instead, since we have
+                # logic to deal with that below, and sometimes that occurs as well
+                if self.relaxed_validation():
+                    field_id = ""
+                else:
+                    raise OPInvalidItemException(
+                        f"Field has no ID: {field.label}") from e
             if field_id in field_map:
                 # NOTE: in many cases 'op' will return items
                 # that have multiple fields with empty-string IDs
@@ -208,6 +219,6 @@ class OPAbstractItem(OPAbstractItemDescriptor):
                 section.register_field(
                     field_dict, relaxed_validation=relaxed_validation)
             field_list.append(field)
-            field_map[field.field_id] = field
+            field_map[field_id] = field
         self["fields"] = field_list
         return field_map

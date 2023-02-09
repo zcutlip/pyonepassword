@@ -1,0 +1,98 @@
+{
+  "id": "o5cvnjvrwqqzi47sofqhm3k334",
+  "title": "Login Item with Field missing ID",
+  "version": 1,
+  "vault": {
+    "id": "gshlsjsajnawtnjynzgwmiebge",
+    "name": "Test Data"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
+  "created_at": "2023-02-09T01:36:35Z",
+  "updated_at": "2023-02-09T01:36:35Z",
+  "additional_information": "example_user",
+  "sections": [
+    {
+      "id": "dzlni6ida4r3yg2ukjsaueytlq",
+      "label": "Section 1"
+    },
+    {
+      "id": "vvw5zcbh4svbjyfomjvrbdv24q",
+      "label": "Section 2"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "example_user",
+      "reference": "op://Test Data/Login Item with Field missing ID/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "gravid-smolder-logy-arizona-befit",
+      "entropy": 70.73722076416016,
+      "reference": "op://Test Data/Login Item with Field missing ID/password",
+      "password_details": {
+        "entropy": 70,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data/Login Item with Field missing ID/notesPlain"
+    },
+    {
+      "id": "3rxzrjccb62gfsw6ivbm2muda4",
+      "section": {
+        "id": "dzlni6ida4r3yg2ukjsaueytlq",
+        "label": "Section 1"
+      },
+      "type": "STRING",
+      "label": "Field 1",
+      "value": "This is field 1 in section 1",
+      "reference": "op://Test Data/Login Item with Field missing ID/Section 1/Field 1"
+    },
+    {
+      "id": "zn6ud57aabychf6lpfxkxz3o4y",
+      "section": {
+        "id": "dzlni6ida4r3yg2ukjsaueytlq",
+        "label": "Section 1"
+      },
+      "type": "URL",
+      "label": "Field 2",
+      "value": "https://section_1.field_2",
+      "reference": "op://Test Data/Login Item with Field missing ID/Section 1/Field 2"
+    },
+    {
+      "id": "aqqgliky2lue7hfpjjo7v3c3gq",
+      "section": {
+        "id": "vvw5zcbh4svbjyfomjvrbdv24q",
+        "label": "Section 2"
+      },
+      "type": "STRING",
+      "label": "Field 1",
+      "value": "This is Field 1 in section 2",
+      "reference": "op://Test Data/Login Item with Field missing ID/Section 2/Field 1"
+    },
+    {
+      "section": {
+        "id": "vvw5zcbh4svbjyfomjvrbdv24q",
+        "label": "Section 2"
+      },
+      "type": "STRING",
+      "label": "Field 2",
+      "value": "This is field 2 in section 2. Why is its ID missing?",
+      "reference": "op://Test Data/Login Item with Field missing ID/Section 2/Field 2"
+    }
+  ]
+}

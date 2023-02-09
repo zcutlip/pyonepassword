@@ -14,5 +14,9 @@
     "login-duplicate-field": {
         "name": "login-duplicate-field.json",
         "type": "json"
+    },
+    "login-field-missing-id": {
+        "name": "login-field-missing-id.json",
+        "type": "json"
     }
 }

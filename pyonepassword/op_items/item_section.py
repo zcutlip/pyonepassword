@@ -57,8 +57,12 @@ class OPSection(dict):
             # In theory there could be non-conformant data where
             # a field dictionary is missing an "ID" element
             # and we need to optionally be robust to that
+            #
+            # In practice this case should never occur
+            # since the item object *should* raise an exception
+            # before this method is ever called
             if not relaxed_validation:
-                raise OPInvalidItemException(
+                raise OPInvalidItemException(  # pragma: no coverage
                     f"Field has no ID {field.label}") from e
             else:
                 # if relaxed validation is enabled, set field_id to empty string

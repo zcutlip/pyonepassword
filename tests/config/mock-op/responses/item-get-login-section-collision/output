@@ -1,0 +1,112 @@
+{
+  "id": "so3nncwr2l35gcpemjbqqcl5fa",
+  "title": "Login Item Section Collisions",
+  "version": 2,
+  "vault": {
+    "id": "gshlsjsajnawtnjynzgwmiebge",
+    "name": "Test Data"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
+  "created_at": "2020-09-17T01:52:07Z",
+  "updated_at": "2023-02-10T21:05:47Z",
+  "additional_information": "fake_zcutlip",
+  "urls": [
+    {
+      "label": "website",
+      "primary": true,
+      "href": "https://verizon.com/myverizon"
+    }
+  ],
+  "sections": [
+    {
+      "id": "linked items",
+      "label": "Related Items"
+    },
+    {
+      "id": "Section_453C35FE21C643AEAFAFA53BA89D7CF5",
+      "label": "Security Code"
+    },
+    {
+      "id": "Section_453C35FE21C643AEAFAFA53BA89D7CF5",
+      "label": "Security Code"
+    },
+    {
+      "id": "Section_4BF92D24E2C54E16A4D24AD9F2EBCABE",
+      "label": "Security Question"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "test_user_id",
+      "reference": "op://Test Data/Login Item Section Collisions/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "laskjdfaiwejlaksjdlfjas;ldfj",
+      "entropy": 86.58179473876953,
+      "reference": "op://Test Data/Login Item Section Collisions/password",
+      "password_details": {
+        "entropy": 86,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data/Login Item Section Collisions/notesPlain"
+    },
+    {
+      "id": "C7CBB8AEE4294064A4420196A81BD8B1",
+      "section": {
+        "id": "Section_4BF92D24E2C54E16A4D24AD9F2EBCABE",
+        "label": "Security Question"
+      },
+      "type": "STRING",
+      "label": "Question",
+      "value": "What was the first live concert you attended?",
+      "reference": "op://Test Data/Login Item Section Collisions/Security Question/Question"
+    },
+    {
+      "id": "4DD881F5C5094BEE9246DFA925098AEE",
+      "section": {
+        "id": "Section_4BF92D24E2C54E16A4D24AD9F2EBCABE",
+        "label": "Security Question"
+      },
+      "type": "CONCEALED",
+      "label": "Answer",
+      "value": "care resistor skimp undress octopus",
+      "reference": "op://Test Data/Login Item Section Collisions/Security Question/Answer"
+    },
+    {
+      "id": "399BE6B606F64D04AEF7516C8CB286BA",
+      "section": {
+        "id": "Section_453C35FE21C643AEAFAFA53BA89D7CF5",
+        "label": "Security Code"
+      },
+      "type": "CONCEALED",
+      "value": "8294",
+      "reference": "op://Test Data/Login Item Section Collisions/Security Code/399BE6B606F64D04AEF7516C8CB286BA"
+    },
+    {
+      "id": "399BE6B606F64D04AEF7516C8CB286BA",
+      "section": {
+        "id": "Section_453C35FE21C643AEAFAFA53BA89D7CF5",
+        "label": "Security Code"
+      },
+      "type": "CONCEALED",
+      "value": "8294",
+      "reference": "op://Test Data/Login Item Section Collisions/Security Code/399BE6B606F64D04AEF7516C8CB286BA"
+    }
+  ]
+}

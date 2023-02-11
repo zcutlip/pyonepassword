@@ -24,7 +24,7 @@ Similarly to fields, sections should conform to the following rules
 
 ## Exceptions
 
-When instantiating an item object from a dictionary, if the above rules are violated, one of the following sections will be raised:
+When instantiating an item object from a dictionary, if the above rules are violated, one of the following exceptions will be raised:
 
 - `OPSectionCollsionException`: if multiple sections are present with the same ID
 - `OPItemFieldCollisionException`: if multiple fields are present with the same ID
@@ -32,13 +32,15 @@ When instantiating an item object from a dictionary, if the above rules are viol
 
 ## Relaxed Item Validation Policy
 
-It has been observed that the `op` command occasionally returns item dictionaries that don't conform to the above rules. This is most likely to happen in 1Password accounts that pre-date existence of the `op` command and items have been created by number of different versions of the 1Password app.
+It has been observed that the `op` command occasionally returns item dictionaries that don't conform to the above rules. This is most likely to happen with 1Password accounts that pre-date the existence of the `op` command and items have been created by number of different versions of the 1Password app.
 
 In such cases, it is possible to relax validation, and use `pyonepassword` as normal. The relaxed validation API makes this possible. Here are the details of this API
 
+> **NOTE**: when enabling relaxed validation, `pyonepassword` item objects should still be generally usable and function mostly as normal, but there may be fields or sections that are inaccessible via normal methods (such as `section_by_id()`)
+
 **`OP` query methods**
 
-The item query methods of the op class all have an optional `relaxed_validation` kwarg that defaults to `False`. For example you can query an item object, enabling relaxed validation for that one request like so;
+The item query methods of the `OP` class all have an optional `relaxed_validation` kwarg that defaults to `False`. For example you can query an item object, enabling relaxed validation for that one request like so;
 
 ```python
 op = OP()
@@ -58,9 +60,9 @@ The following methods on `OP` objects all have this optional kwarg:
 
 **Item Validation Policy API**
 
-In addition to a query-by-query bases, item validaiton policy can be adjusted globally. There are methods to enable, disable, and query item validaiton policy either for a specific item type, or for all items.
+In addition to a query-by-query basis, item validaiton policy can be adjusted globally. There are methods to enable, disable, and query item validaiton policy either for a specific item type, or for all items.
 
-> *NOTE*: Even if item validation is relaxed global for one or even all item types, strict validation policy still applies when creating new 1Password items from template, such as `OPLoginItemTemplate`.
+> *NOTE*: Even if item validation is relaxed globally for one or even all item types, strict validation policy still applies when creating new 1Password items from template, such as `OPLoginItemTemplate`.
 
 
 The following functions, found in `pyonepassword.api.validation`, are available to set & query item validaiton policy for individual or for all classes globally:
@@ -69,6 +71,7 @@ The following functions, found in `pyonepassword.api.validation`, are available 
 
 - `enable_relaxed_validation()`: Set relaxed item validation for all item types, globally
 - `disable_relaxed_validation()`: Disable relaxed item validation for all item types, globally
+  - *NOTE*: If relaxed validation is enabled for specific classes, it will still apply to those classes
 - `get_relaxed_validation(item_class=None)`: Query relaxed item validation policy
   - If `item_class` is provided, the result is a union like so: (`global_relaxed` or `class_relaxed`)
   - This is to say the answer is `True` if either relaxed validaiton is enabled for all classes or just the one class

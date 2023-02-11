@@ -675,7 +675,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             new_item, password_recipe=password_recipe, vault=vault)
         return login_item
 
-    def item_delete(self, item_identifier: str, vault: Optional[str] = None, archive: bool = False) -> str:
+    def item_delete(self, item_identifier: str, vault: Optional[str] = None, archive: bool = False, relaxed_validation=False) -> str:
         """
         Delete an item based on title or unique identifier
 
@@ -708,9 +708,14 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             Unique identifier of the item deleted
 
         """
+        if relaxed_validation:
+            generic_item_class = _OPGenericItemRelaxedValidation
+        else:
+            generic_item_class = _OPGenericItem
+
         try:
             output = super()._item_get(item_identifier, vault=vault)
-            item = _OPGenericItem(output)
+            item = generic_item_class(output)
         except OPItemGetException as e:
             raise OPItemDeleteException.from_opexception(e)
         # we want to return the explicit ID even if we were

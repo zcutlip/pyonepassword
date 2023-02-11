@@ -47,7 +47,7 @@ op = OP()
 non_conformant_item = op.item_get("Example Login", relaxed_validation=True)
 ```
 
-Future queries will not have relaxed validaiton unless the caller continues to pass `relaxed_validation=True`.
+Future queries will not have relaxed validation unless the caller continues to pass `relaxed_validation=True`.
 
 The following methods on `OP` objects all have this optional kwarg:
 
@@ -60,12 +60,12 @@ The following methods on `OP` objects all have this optional kwarg:
 
 **Item Validation Policy API**
 
-In addition to a query-by-query basis, item validaiton policy can be adjusted globally. There are methods to enable, disable, and query item validaiton policy either for a specific item type, or for all items.
+In addition to a query-by-query basis, item validation policy can be adjusted globally. There are methods to enable, disable, and query item validation policy either for a specific item type, or for all items.
 
 > *NOTE*: Even if item validation is relaxed globally for one or even all item types, strict validation policy still applies when creating new 1Password items from template, such as `OPLoginItemTemplate`.
 
 
-The following functions, found in `pyonepassword.api.validation`, are available to set & query item validaiton policy for individual or for all classes globally:
+The following functions, found in `pyonepassword.api.validation`, are available to set & query item validation policy for individual or for all classes globally:
 
 **All Classes Global Policy**:
 
@@ -74,7 +74,7 @@ The following functions, found in `pyonepassword.api.validation`, are available 
   - *NOTE*: If relaxed validation is enabled for specific classes, it will still apply to those classes
 - `get_relaxed_validation(item_class=None)`: Query relaxed item validation policy
   - If `item_class` is provided, the result is a union like so: (`global_relaxed` or `class_relaxed`)
-  - This is to say the answer is `True` if either relaxed validaiton is enabled for all classes or just the one class
+  - This is to say the answer is `True` if either relaxed validation is enabled for all classes or just the one class
 
 
 **Per-class Global Policy**

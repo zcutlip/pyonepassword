@@ -58,3 +58,8 @@ class OPSSHKeyItem(OPAbstractItem):
     @property
     def key_type_reference(self) -> Optional[str]:
         return self.field_reference_by_id("key_type")
+
+
+@op_register_item_type
+class OPSSHKeyItemRelaxedValidation(OPSSHKeyItem):
+    _relaxed_validation = True

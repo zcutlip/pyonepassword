@@ -56,3 +56,8 @@ class OPDocumentItem(OPAbstractItem):
     @property
     def files(self) -> List[OPDocumentFile]:
         return self["files"]
+
+
+@op_register_item_type
+class OPDocumentItemRelaxedValidation(OPDocumentItem):
+    _relaxed_validation = True

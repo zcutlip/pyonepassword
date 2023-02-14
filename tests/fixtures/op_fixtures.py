@@ -32,11 +32,13 @@ from .invalid_op_cli_config import (
     MissingOPCLIConfig,
     UnreadableOPCLIConfig
 )
+from .non_comformant_data import NonConformantData
 from .paths import (
     ALT_RESP_DIRECTORY_PATH,
     RESP_DIRECTORY_PATH,
     UNAUTH_RESP_DIRECTORY_PATH
 )
+from .platform_support import HOME_ENV_VAR
 from .valid_data import ValidData
 from .valid_op_cli_config import (
     VALID_OP_CONFIG_NO_ACCOUNT_LIST_KEY,
@@ -70,16 +72,16 @@ def temp_home():
     If a test needs a valid op config/home directory, it should explicitly request
     one using a fixture
     """
-    old_home = os.environ.get('HOME')
+    old_home = os.environ.get(HOME_ENV_VAR)
     tmp_home = tempfile.TemporaryDirectory().name
-    os.environ['HOME'] = tmp_home
+    os.environ[HOME_ENV_VAR] = tmp_home
     yield
-    os.environ.pop('HOME', None)
+    os.environ.pop(HOME_ENV_VAR, None)
     if old_home is not None:
         # only restore HOME env variable if it was set to start with
         # in some minimal environments (e.g., some docker containers) there
         # is no $HOME env variable
-        os.environ['HOME'] = old_home
+        os.environ[HOME_ENV_VAR] = old_home
 
 
 def _setup_normal_env(signin_success="1"):
@@ -326,6 +328,12 @@ def invalid_data():
 @fixture
 def valid_data():
     data = ValidData()
+    return data
+
+
+@fixture
+def non_conformant_data():
+    data = NonConformantData()
     return data
 
 

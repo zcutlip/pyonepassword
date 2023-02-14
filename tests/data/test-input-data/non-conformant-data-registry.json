@@ -1,0 +1,22 @@
+{
+    "login-duplicate-section": {
+        "name": "login-duplicate-section.json",
+        "type": "json"
+    },
+    "server-section-missing-id": {
+        "name": "server-section-missing-id.json",
+        "type": "json"
+    },
+    "login-item-fields-empty-string-ids": {
+        "name": "login-item-fields-empty-string-ids.json",
+        "type": "json"
+    },
+    "login-duplicate-field": {
+        "name": "login-duplicate-field.json",
+        "type": "json"
+    },
+    "login-field-missing-id": {
+        "name": "login-field-missing-id.json",
+        "type": "json"
+    }
+}

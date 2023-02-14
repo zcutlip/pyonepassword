@@ -112,6 +112,11 @@ class OPLoginItem(OPAbstractItem):
         return self._primary_url
 
 
+@op_register_item_type
+class OPLoginItemRelaxedValidation(OPLoginItem):
+    _relaxed_validation = True
+
+
 class OPLoginItemTemplate(OPNewItemMixin, OPLoginItem):
     """
     Class for creating a login item template that can be used to create a new login item in 1Password

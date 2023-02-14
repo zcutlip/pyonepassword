@@ -49,3 +49,8 @@ class OPSecureNoteItem(OPAbstractItem):
     def note_text(self):
         text = self.field_value_by_id("notesPlain")
         return text
+
+
+@op_register_item_type
+class OPSecureNoteItemRelaxedValidation(OPSecureNoteItem):
+    _relaxed_validation = True

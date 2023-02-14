@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from pyonepassword import OP
     from pyonepassword.api.object_types import OPCreditCardItem
 
-    from .fixtures.expected_credit_card import ExpectedCreditCardData
+    from ..fixtures.expected_credit_card import ExpectedCreditCardData
 
 
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")

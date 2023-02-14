@@ -21,12 +21,13 @@ from ..op_items.login import (
     OPLoginItem,
     OPLoginItemNewPrimaryURL,
     OPLoginItemNewURL,
+    OPLoginItemRelaxedValidation,
     OPLoginItemTemplate
 )
 from ..op_items.password import OPPasswordItem
 from ..op_items.password_recipe import OPPasswordRecipe
 from ..op_items.secure_note import OPSecureNoteItem
-from ..op_items.server import OPServerItem
+from ..op_items.server import OPServerItem, OPServerItemRelaxedValidation
 from ..op_items.ssh_key import OPSSHKeyItem
 from ..op_items.totp import OPTOTPItem
 from ..op_objects import OPGroup, OPUser, OPVault
@@ -58,11 +59,13 @@ __all__ = [
     "OPLoginItem",
     "OPLoginItemNewPrimaryURL",
     "OPLoginItemNewURL",
+    "OPLoginItemRelaxedValidation",
     "OPLoginItemTemplate",
     "OPPasswordItem",
     "OPPasswordRecipe",
     "OPSecureNoteItem",
     "OPServerItem",
+    "OPServerItemRelaxedValidation",
     "OPSSHKeyItem",
     "OPTOTPItem",
     "OPGroup",

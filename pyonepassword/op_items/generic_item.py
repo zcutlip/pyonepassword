@@ -24,3 +24,7 @@ class _OPGenericItem(OPAbstractItem):  # pragma: no coverage
 
     def __init__(self, item_dict_or_json):
         super().__init__(item_dict_or_json)
+
+
+class _OPGenericItemRelaxedValidation(_OPGenericItem):
+    _relaxed_validation = True

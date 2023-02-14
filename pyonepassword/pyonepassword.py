@@ -1,6 +1,6 @@
 import logging
 from os import environ as env
-from typing import Optional, Union
+from typing import Optional, Type, Union
 
 from ._py_op_commands import (
     EXISTING_AUTH_IGNORE,
@@ -13,7 +13,10 @@ from .op_items._item_list import OPItemList
 from .op_items._new_item import OPNewItemMixin
 from .op_items._op_item_type_registry import OPItemFactory
 from .op_items._op_items_base import OPAbstractItem
-from .op_items.generic_item import _OPGenericItem
+from .op_items.generic_item import (
+    _OPGenericItem,
+    _OPGenericItemRelaxedValidation
+)
 from .op_items.login import OPLoginItemNewPrimaryURL, OPLoginItemTemplate
 from .op_items.password_recipe import OPPasswordRecipe
 from .op_items.totp import OPTOTPItem
@@ -102,7 +105,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                          existing_auth=existing_auth,
                          password_prompt=password_prompt)
 
-    def item_get(self, item_identifier, vault=None, include_archive=False, generic_okay=False) -> OPAbstractItem:
+    def item_get(self, item_identifier, vault=None, include_archive=False, generic_okay=False, relaxed_validation=False) -> OPAbstractItem:
         """
         Get an 'item' object from a 1Password vault.
         The returned object may be any of the item types extending OPAbstractItem.
@@ -123,7 +126,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             Name or ID of the item to look up
         vault: str, optional
             The name or ID of a vault to override the object's default vault
-
+        relaxed_validation: bool, optional
+            Whether to enable relaxed item validation for this query, in order to parse non-conformant data
+            by default False
         Note:
             If a non-unique item identifier is provided (e.g., item name/title), and there
             is more than one item that matches, OPItemGetException will be raised. Check the
@@ -147,7 +152,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         output = super()._item_get(item_identifier, vault=vault,
                                    decode="utf-8", include_archive=include_archive)
-        op_item = OPItemFactory.op_item(output, generic_okay=True)
+        op_item = OPItemFactory.op_item(
+            output, generic_okay=generic_okay, relaxed_validation=relaxed_validation)
         return op_item
 
     def item_get_totp(self, item_identifier: str, vault=None) -> OPTOTPItem:
@@ -347,7 +353,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         group_list = OPGroupDescriptorList(group_list)
         return group_list
 
-    def item_get_password(self, item_identifier, vault=None) -> str:
+    def item_get_password(self, item_identifier, vault=None, relaxed_validation=False) -> str:
         """
         Get the value of the password field from the item specified by name or UUID.
 
@@ -357,6 +363,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             The item to look up
         vault: str, optional
             The name or ID of a vault to override the object's default vault
+        relaxed_validation: bool, optional
+            Whether to enable relaxed item validation for this query, in order to parse non-conformant data
+            by default False
 
         Raises
         ------
@@ -373,7 +382,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             Value of the item's 'password' attribute
         """
         item: OPAbstractItem
-        item = self.item_get(item_identifier, vault=vault)
+        item = self.item_get(item_identifier, vault=vault,
+                             relaxed_validation=relaxed_validation)
 
         # satisfy 'mypy': OPAbstractItem has no "password" attribute
         if not hasattr(item, "password"):
@@ -383,7 +393,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             password = item.password
         return password
 
-    def item_get_filename(self, item_identifier, vault=None, include_archive=False):
+    def item_get_filename(self, item_identifier, vault=None, include_archive=False, relaxed_validation=False):
         """
         Get the fileName attribute a document item from a 1Password vault by name or UUID.
 
@@ -393,7 +403,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             The item to look up
         vault: str, optional
             The name or ID of a vault to override the object's default vault
-
+        relaxed_validation: bool, optional
+            Whether to enable relaxed item validation for this query, in order to parse non-conformant data
+            by default False
         Note:
             If a non-unique item identifier is provided (e.g., item name/title), and there
             is more than one item that matches, OPItemGetException will be raised. Check the
@@ -414,7 +426,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             Value of the item's 'fileName' attribute
         """
         item = self.item_get(item_identifier, vault=vault,
-                             include_archive=include_archive)
+                             include_archive=include_archive, relaxed_validation=relaxed_validation)
 
         # raise AttributeError if item isn't a OPDocumentItem
         # we have to raise it ourselves becuase mypy complains OPAbstractItem doesn't have
@@ -427,7 +439,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return file_name
 
-    def document_get(self, document_name_or_id, vault=None, include_archive=False):
+    def document_get(self, document_name_or_id, vault=None, include_archive=False, relaxed_validation=False):
         """
         Download a document object from a 1Password vault by name or UUID.
 
@@ -437,7 +449,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             The item to look up
         vault: str, optional
             The name or ID of a vault to override the object's default vault
-
+        relaxed_validation: bool, optional
+            Whether to enable relaxed item validation for this query, in order to parse non-conformant data
+            by default False
         Raises
         ------
         OPInvalidDocumentException
@@ -454,7 +468,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         """
         try:
             file_name = self.item_get_filename(
-                document_name_or_id, vault=vault, include_archive=include_archive)
+                document_name_or_id, vault=vault, include_archive=include_archive, relaxed_validation=relaxed_validation)
         except AttributeError as ae:
             raise OPInvalidDocumentException(
                 "Item has no 'fileName' attribute") from ae
@@ -469,7 +483,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return (file_name, document_bytes)
 
-    def document_delete(self, document_identifier: str, vault: Optional[str] = None, archive: bool = False) -> str:
+    def document_delete(self, document_identifier: str, vault: Optional[str] = None, archive: bool = False, relaxed_validation: bool = False) -> str:
         """
         Delete a document object based on document name or unique identifier
 
@@ -481,7 +495,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             The name or ID of a vault to override the default vault, by default None
         archive : bool, optional
             Whether to archive or permanently delete the item, by default False
-
+        relaxed_validation: bool, optional
+            Whether to enable relaxed item validation for this query, in order to parse non-conformant data
+            by default False
         Returns
         -------
         document_id: str
@@ -494,9 +510,17 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             - If there is more than one item matching 'document_identifier'
             - If the delete operation fails for any other reason
         """
+
+        # to satisfy mypy
+        generic_item_class: Type[_OPGenericItem]
+        if relaxed_validation:
+            generic_item_class = _OPGenericItemRelaxedValidation
+        else:
+            generic_item_class = _OPGenericItem
+
         try:
             output = super()._item_get(document_identifier, vault=vault)
-            item = _OPGenericItem(output)
+            item = generic_item_class(output)
         except OPItemGetException as e:
             raise OPDocumentDeleteException.from_opexception(e)
         # we want to return the explicit ID even if we were
@@ -511,7 +535,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return document_id
 
-    def item_list(self, categories=[], include_archive=False, tags=[], vault=None, generic_okay=True):
+    def item_list(self, categories=[], include_archive=False, tags=[], vault=None, generic_okay=True) -> OPItemList:
         """
         Return a list of items in an account.
 
@@ -654,7 +678,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             new_item, password_recipe=password_recipe, vault=vault)
         return login_item
 
-    def item_delete(self, item_identifier: str, vault: Optional[str] = None, archive: bool = False) -> str:
+    def item_delete(self, item_identifier: str, vault: Optional[str] = None, archive: bool = False, relaxed_validation=False) -> str:
         """
         Delete an item based on title or unique identifier
 
@@ -687,9 +711,17 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             Unique identifier of the item deleted
 
         """
+
+        # to satisfy mpyp
+        generic_item_class: Type[_OPGenericItem]
+        if relaxed_validation:
+            generic_item_class = _OPGenericItemRelaxedValidation
+        else:
+            generic_item_class = _OPGenericItem
+
         try:
             output = super()._item_get(item_identifier, vault=vault)
-            item = _OPGenericItem(output)
+            item = generic_item_class(output)
         except OPItemGetException as e:
             raise OPItemDeleteException.from_opexception(e)
         # we want to return the explicit ID even if we were

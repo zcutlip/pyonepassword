@@ -10,7 +10,7 @@ import pytest
 # circular imports.
 # this also reduced exercising tested code simply by importing
 if TYPE_CHECKING:
-    from .fixtures.expected_api_credential_data import ExpectedAPICredential, ExpectedAPICredentialData
+    from ..fixtures.expected_api_credential_data import ExpectedAPICredential, ExpectedAPICredentialData
     from pyonepassword import OP
 
 from pyonepassword.api.object_types import OPAPICredentialItem

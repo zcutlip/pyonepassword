@@ -3,9 +3,14 @@ uname -a
 NUM_PROCS="$(nproc)"
 export NUM_PROCS
 
+cd /usr/src/testdir || exit
+
 echo "python: $(python3 --version)"
 echo "tox: $(tox --version)"
 echo "Number of processors: $NUM_PROCS"
+echo "User: $(whoami)"
+echo "Path: $PATH"
+
 
 cd "$TESTDIR" || exit
 

@@ -6,16 +6,17 @@ from pyonepassword._op_cli_config import OPCLIConfig
 from pyonepassword.api.exceptions import OPConfigNotFoundException
 
 from .fixtures.expected_op_cli_config import ExpectedConfigData
+from .fixtures.platform_support import DEV_NULL, HOME_ENV_VAR, is_windows
 
 
 def _sanity_check_xdg_home_env():
     assert os.environ.get('XDG_CONFIG_HOME') is not None
-    assert os.environ.get('HOME') in ['/dev/null', None]
+    assert os.environ.get(HOME_ENV_VAR) in [DEV_NULL, None]
 
 
 def _sanity_check_standard_home_env():
     assert os.environ.get('XDG_CONFIG_HOME') is None
-    assert os.environ.get('HOME') not in ['/dev/null', None]
+    assert os.environ.get(HOME_ENV_VAR) not in [DEV_NULL, None]
 
 
 def test_op_cli_config_homedir_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):
@@ -171,8 +172,14 @@ def test_op_cli_config_xdg_07(expected_op_config_data: ExpectedConfigData, valid
 def test_op_cli_config_unreable_01(invalid_op_cli_config_unreable):
     # NOTE: This test will fail if run as root (e.g., in a docker container with no users)
     # there is no way to make a file unreadable to root
-    with pytest.raises(OPConfigNotFoundException):
-        OPCLIConfig()
+    if not is_windows():
+        # this test depends on creating a config file that's not readable
+        # this is not straightforward on windows via native python APIs
+        # so only run this test if not on windows
+        with pytest.raises(OPConfigNotFoundException):
+            OPCLIConfig()
+    else:
+        assert True
 
 
 def test_op_cli_config_missing_01(invalid_op_cli_config_missing):

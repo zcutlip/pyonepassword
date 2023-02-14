@@ -1,6 +1,6 @@
 import logging
 from os import environ as env
-from typing import Optional, Union
+from typing import Optional, Type, Union
 
 from ._py_op_commands import (
     EXISTING_AUTH_IGNORE,
@@ -510,6 +510,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             - If there is more than one item matching 'document_identifier'
             - If the delete operation fails for any other reason
         """
+
+        # to satisfy mypy
+        generic_item_class: Type[_OPGenericItem]
         if relaxed_validation:
             generic_item_class = _OPGenericItemRelaxedValidation
         else:
@@ -708,6 +711,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             Unique identifier of the item deleted
 
         """
+
+        # to satisfy mpyp
+        generic_item_class: Type[_OPGenericItem]
         if relaxed_validation:
             generic_item_class = _OPGenericItemRelaxedValidation
         else:

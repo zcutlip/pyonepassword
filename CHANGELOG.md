@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+
+## [3.5.0] - 2023-02-15
+
+### Summary
+
+Support creating item objects from non-conformant item data and unknown item types
+
+### Fixed
+
+Non-conformant item dictionaries returned by `op` can now optionally be parsed with relaxed validation (gh-85). See "Added" below.
+
+### Added
+
+- An API to relax validation of item dictionaries in the case that `op` returns non-conforming dictionaries. See `ITEM_VALIDATION.md`.
+- The ability to instantiate item objects and item descriptor lists (e.g., OP.item_get() & OP.item_list()) where an item is an unknown type.
+  - Where appropriate, a `generic_okay` kwargs has been added, enabling generic item objects to be returned
+
 ## [3.4.1.post1] - 2023-01-29
 
 ## Summary

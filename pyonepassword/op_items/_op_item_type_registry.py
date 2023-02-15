@@ -1,5 +1,5 @@
 from json.decoder import JSONDecodeError
-from typing import Any, Dict, Type, TypeAlias, Union
+from typing import Any, Dict, Type, Union
 
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidItemException
@@ -14,8 +14,8 @@ class OPUnknownItemTypeException(Exception):
         self.item_dict = item_dict
 
 
-GenericType: TypeAlias = Union[Type[_OPGenericItemDescriptor],
-                               Type[_OPGenericItem]]
+GenericType = Union[Type[_OPGenericItemDescriptor],
+                    Type[_OPGenericItem]]
 
 
 class OPItemFactory:

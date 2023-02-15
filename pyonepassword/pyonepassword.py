@@ -105,7 +105,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                          existing_auth=existing_auth,
                          password_prompt=password_prompt)
 
-    def item_get(self, item_identifier, vault=None, include_archive=False, relaxed_validation=False) -> OPAbstractItem:
+    def item_get(self, item_identifier, vault=None, include_archive=False, generic_okay=False, relaxed_validation=False) -> OPAbstractItem:
         """
         Get an 'item' object from a 1Password vault.
         The returned object may be any of the item types extending OPAbstractItem.
@@ -125,7 +125,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         item_identifier: str
             Name or ID of the item to look up
         vault: str, optional
-            The name or ID of a vault to override the object's default vault
+            The name or ID of a vault to override the object's default vault, by default None
+        include_archive: bool, optional
+            Include items in the Archive, by default False
+        generic_okay: bool, optional
+            Instantiate unknown item types as _OPGenericItem rather than raise OPUnknownItemException
         relaxed_validation: bool, optional
             Whether to enable relaxed item validation for this query, in order to parse non-conformant data
             by default False
@@ -141,7 +145,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         OPInvalidItemException
             If the item JSON fails to decode
         OPUnknownItemTypeException
-            If the item object returned by 1Password isn't a known type
+            If the item object returned by 1Password isn't a known type and generic_okay is False
         OPNotFoundException
             If the 1Password command can't be found
         Returns
@@ -153,7 +157,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         output = super()._item_get(item_identifier, vault=vault,
                                    decode="utf-8", include_archive=include_archive)
         op_item = OPItemFactory.op_item(
-            output, relaxed_validation=relaxed_validation)
+            output, generic_okay=generic_okay, relaxed_validation=relaxed_validation)
         return op_item
 
     def item_get_totp(self, item_identifier: str, vault=None) -> OPTOTPItem:
@@ -535,7 +539,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return document_id
 
-    def item_list(self, categories=[], include_archive=False, tags=[], vault=None) -> OPItemList:
+    def item_list(self, categories=[], include_archive=False, tags=[], vault=None, generic_okay=True) -> OPItemList:
         """
         Return a list of items in an account.
 
@@ -549,11 +553,16 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             A list of tags to restrict list to
         vault: str, optional
             The name or ID of a vault to override the object's default vault
+        generic_okay: bool, optional
+            Instantiate unknown item types as _OPGenericItem rather than raise OPUnknownItemException
 
         Raises
         ------
-        OPUserListException
+        OPItemListException
             If the user list operation for any reason during command execution
+        OPUnknownItemTypeException
+            If thelist returned by 1Password contains one or more item descriptors
+            that aren't a known type and generic_okay is False
         OPNotFoundException
             If the 1Password command can't be found
 
@@ -564,7 +573,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         """
         item_list_json = self._item_list(
             categories, include_archive, tags, vault)
-        item_list = OPItemList(item_list_json)
+        item_list = OPItemList(item_list_json, generic_okay=generic_okay)
         return item_list
 
     # TODO: Item creation is hard to test in an automated way since it results in changed
@@ -712,7 +721,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         """
 
-        # to satisfy mpyp
+        # to satisfy mypy
         generic_item_class: Type[_OPGenericItem]
         if relaxed_validation:
             generic_item_class = _OPGenericItemRelaxedValidation

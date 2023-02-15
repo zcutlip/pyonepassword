@@ -12,16 +12,24 @@ if parent_path not in sys.path:
 
 # isort: split
 from pyonepassword import OP  # noqa: E402
+from pyonepassword.api.authentication import (  # noqa: E402
+    EXISTING_AUTH_AVAIL,
+    EXISTING_AUTH_REQD
+)
 from pyonepassword.api.exceptions import OPNotSignedInException  # noqa: E402
 
 
 def do_signin(vault=None, op_path="op", use_existing_session=False, account=None):
+    existing_auth = EXISTING_AUTH_AVAIL
+    if use_existing_session:
+        existing_auth = EXISTING_AUTH_REQD
+
     # Let's check If biometric is enabled
     # If so, no need to provide a password
     uses_biometric = OP.uses_biometric(op_path=op_path)
     try:
         op = OP(vault=vault, op_path=op_path,
-                use_existing_session=True, password_prompt=False, account_shorthand=account)
+                existing_auth=existing_auth, password_prompt=False, account=account)
     except OPNotSignedInException as e:
         if uses_biometric:
             raise e
@@ -33,5 +41,5 @@ def do_signin(vault=None, op_path="op", use_existing_session=False, account=None
         # return OP(account_shorthand=shorthand, password=my_password)
         # Or we'll try to look up account shorthand from your latest sign-in in op's config file
         op = OP(vault=vault, password=my_password, op_path=op_path,
-                use_existing_session=use_existing_session, account_shorthand=account)
+                existing_auth=existing_auth, account=account)
     return op

@@ -3,7 +3,13 @@ from typing import Any, Dict, Type, Union
 
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidItemException
+from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._op_items_base import OPAbstractItem
+from .generic_item import (
+    _OPGenericItem,
+    _OPGenericItemDescriptor,
+    _OPGenericItemRelaxedValidation
+)
 
 
 class OPUnknownItemTypeException(Exception):
@@ -12,7 +18,18 @@ class OPUnknownItemTypeException(Exception):
         self.item_dict = item_dict
 
 
+GenericType = Union[Type[_OPGenericItemDescriptor],
+                    Type[_OPGenericItem]]
+
+
 class OPItemFactory:
+    # Fallback class for when item is an unknown types and caller
+    # has enabled generic items
+    _GENERIC_ITEM_CLASS: GenericType = _OPGenericItem
+
+    # Fallback class when caller has enabled generic items as well as
+    # relaxed item validation
+    _GENERIC_ITEM_CLASS_RELAXED_VALIDATION = _OPGenericItemRelaxedValidation
     # registry of item classes with strict validation
     _TYPE_REGISTRY: Dict[str, Type[OPAbstractItem]] = {}
     # registry of item classes with relaxed validation
@@ -50,25 +67,32 @@ class OPItemFactory:
         registry[item_type] = item_class
 
     @classmethod
-    def _item_from_dict(cls, item_dict: Dict[str, Any], relaxed_validation: bool):
+    def _item_from_dict(cls, item_dict: Dict[str, Any], generic_okay: bool = False, relaxed_validation: bool = False):
+        generic_item_class: GenericType
         if relaxed_validation:
             registry = cls._RELAXED_TYPE_REGISTRY
+            generic_item_class = cls._GENERIC_ITEM_CLASS_RELAXED_VALIDATION
         else:
             registry = cls._TYPE_REGISTRY
+            generic_item_class = cls._GENERIC_ITEM_CLASS
 
         item_type = item_dict["category"]
+        item_cls: Type[OPAbstractItemDescriptor]
         try:
             item_cls = registry[item_type]
         except KeyError as ke:
-            raise OPUnknownItemTypeException(
-                f"Unknown item type {item_type}", item_dict=item_dict) from ke
+            if generic_okay:
+                item_cls = generic_item_class
+            else:
+                raise OPUnknownItemTypeException(
+                    f"Unknown item type {item_type}", item_dict=item_dict) from ke
 
         obj = item_cls(item_dict)
 
         return obj
 
     @classmethod
-    def op_item(cls, item_json_or_dict: Union[str, Dict], relaxed_validation=False):
+    def op_item(cls, item_json_or_dict: Union[str, Dict], generic_okay: bool = False, relaxed_validation: bool = False):
         """
         Factory methiod to instantiate an op item from JSON or a dictionary
 
@@ -95,7 +119,8 @@ class OPItemFactory:
         except JSONDecodeError as jdce:
             raise OPInvalidItemException(
                 f"Failed to unserialize item JSON: {jdce}") from jdce
-        obj = cls._item_from_dict(item_dict, relaxed_validation)
+        obj = cls._item_from_dict(
+            item_dict, generic_okay=generic_okay, relaxed_validation=relaxed_validation)
         return obj
 
 

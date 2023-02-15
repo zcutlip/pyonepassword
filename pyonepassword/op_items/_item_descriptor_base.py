@@ -62,7 +62,7 @@ class OPAbstractItemDescriptor(dict, metaclass=ABCMetaDict):
         return self.state == "ARCHIVED"
 
     @property
-    def favorite(self) -> Optional[bool]:
+    def favorite(self) -> bool:
         fav = self.get("favorite", False)
         return fav
 

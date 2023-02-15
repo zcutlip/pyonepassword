@@ -1,18 +1,30 @@
+from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._op_items_base import OPAbstractItem
+
+"""
+This module contains classes that may optionally be used as stand-ins for unknown
+item and item descriptor types
+
+These classes are not exposed as API as they are not intended to be used directly
+
+Rather, the caller should pass the appropriate flags to API methods to enable their use
+"""
+
+
+class _OPGenericItemDescriptor(OPAbstractItemDescriptor):
+    """
+    A generic item descriptor class that can optionally be used as a fallback
+    when an item descriptor list contains an unknown item type
+    """
+
+    def __init__(self, item_dict_or_json):
+        super().__init__(item_dict_or_json)
 
 
 class _OPGenericItem(OPAbstractItem):  # pragma: no coverage
     """
-    Generic item class
-
-    This is a bit of a hack for instances when we need to 'item_get()' an item for which we
-    don't have specific class in op_items, such as OPLoginItem etc.
-
-    In those cases, OPItemFactory.op_item() will blow up when it encounters unknown item types
-
-    But in some cases we need an item object so we can access basic things common to all item types.
-
-    E.g., we need to access item.unique_id in order to resolve an item's title to its ID
+    A generic item class that can optionally be used as a fallback when
+    retrieving an item of unknown type
     """
 
     def __init__(self, item_dict_or_json):
@@ -20,4 +32,11 @@ class _OPGenericItem(OPAbstractItem):  # pragma: no coverage
 
 
 class _OPGenericItemRelaxedValidation(_OPGenericItem):
+    """
+    A relaxed validation of _OPGenericItem that will allow creation of item objects
+    from non-conformant item dictionaries
+
+    This class is not intended to be used directly (publically or internally). It
+    is registered with
+    """
     _relaxed_validation = True

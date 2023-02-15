@@ -75,6 +75,7 @@ class OPNewItemMixin:
 
     NOTE: It is essential OPNewItemMixin be named first, so its `__init_()` gets called first
     """
+    FROM_TEMPLATE = True
 
     # Whether this item type can have a password generated
     # override for item types that do support passwords (e.g., Login)
@@ -145,7 +146,7 @@ class OPNewItemMixin:
                 self.CATEGORY)
         else:
             raise OPInvalidItemException(
-                "Item template class inherit also from inherit a concreate OPAbstractItem implementation, overriding CATEGORY")
+                "Item template class must also from inherit a concreate OPAbstractItem implementation, overriding CATEGORY")
         template_dict["title"] = title
         section_map = {}
         new_sections = []

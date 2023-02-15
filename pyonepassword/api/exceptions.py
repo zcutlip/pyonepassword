@@ -2,8 +2,11 @@ from ..op_items._new_fields import OPNewTOTPUriException
 from ..op_items._op_item_type_registry import OPUnknownItemTypeException
 from ..op_items._op_items_base import (
     OPFieldNotFoundException,
-    OPSectionCollisionException,
     OPSectionNotFoundException
+)
+from ..op_items.item_section import (
+    OPItemFieldCollisionException,
+    OPSectionCollisionException
 )
 from ..op_items.login import OPNewLoginItemURLException
 from ..op_objects import (
@@ -71,6 +74,7 @@ __all__ = ["OPCmdFailedException",
            "OPInvalidVaultException",
            "OPInvalidVaultListException",
            "OPFieldNotFoundException",
+           "OPItemFieldCollisionException",
            "OPSectionCollisionException",
            "OPSectionNotFoundException",
            "OPNewLoginItemURLException",

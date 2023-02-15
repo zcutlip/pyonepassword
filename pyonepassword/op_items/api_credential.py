@@ -131,3 +131,8 @@ class OPAPICredentialItem(OPAbstractItem):
     @property
     def hostname(self) -> str:
         return self.field_value_by_id("hostname")
+
+
+@op_register_item_type
+class OPAPICredentialItemRelaxedValidation(OPAPICredentialItem):
+    _relaxed_validation = True

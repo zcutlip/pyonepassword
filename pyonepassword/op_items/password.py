@@ -58,3 +58,8 @@ class OPPasswordItem(OPAbstractItem):
     def password(self):
         password = self.field_value_by_id("password")
         return password
+
+
+@op_register_item_type
+class OPPasswordItemRelaxedValidation(OPPasswordItem):
+    _relaxed_validation = True

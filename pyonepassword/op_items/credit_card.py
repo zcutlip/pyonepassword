@@ -81,3 +81,8 @@ class OPCreditCardItem(OPAbstractItem):
         item_field: OPItemField = details.fields_by_label(field_label)[0]
         item_value = item_field.value
         return item_value
+
+
+@op_register_item_type
+class OPCreditCardItemRelaxedValidation(OPCreditCardItem):
+    _relaxed_validation = True

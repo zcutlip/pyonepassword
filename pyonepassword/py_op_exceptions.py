@@ -2,17 +2,15 @@
 Various exception classes raised by ponepassword API
 TODO: Move other exception classes here
 """
-from abc import ABCMeta, abstractmethod
 
 
-class _OPAbstractException(Exception, metaclass=ABCMeta):
+class OPBaseException(Exception):
 
-    @abstractmethod
     def __init__(self, msg):
         super().__init__(msg)
 
 
-class OPCmdFailedException(_OPAbstractException):
+class OPCmdFailedException(OPBaseException):
     """
     Generic Exception class for when an `op` command fails.
 
@@ -145,12 +143,12 @@ class OPItemCreateException(OPCmdFailedException):  # pragma: no coverage
         super().__init__(stderr_out, returncode)
 
 
-class OPInvalidItemException(_OPAbstractException):
+class OPInvalidItemException(OPBaseException):
     def __init__(self, msg):
         super().__init__(msg)
 
 
-class OPNotSignedInException(_OPAbstractException):
+class OPNotSignedInException(OPBaseException):
     def __init__(self, msg):
         super().__init__(msg)
 
@@ -173,11 +171,11 @@ class OPConfigNotFoundException(Exception):
     pass
 
 
-class OPInvalidFieldException(_OPAbstractException):
+class OPInvalidFieldException(OPBaseException):
     def __init__(self, msg):
         super().__init__(msg)
 
 
-class OPUnknownAccountException(_OPAbstractException):
+class OPUnknownAccountException(OPBaseException):
     def __init__(self, msg):
         super().__init__(msg)

@@ -1,6 +1,7 @@
 import copy
-from typing import List
+from typing import List, Union
 
+from ..py_op_exceptions import OPInvalidItemException
 from .item_field_base import OPItemField
 
 
@@ -28,6 +29,7 @@ class OPSection(dict):
         Or it may be something completely opaque, like
         'Section_967FEBAC931841BCBD2DD7CFE0B8DC82'
         """
+
         return self["id"]
 
     @property
@@ -42,18 +44,40 @@ class OPSection(dict):
         field_list = self.setdefault("fields", [])
         return field_list
 
-    def register_field(self, field_dict):
+    def register_field(self, field_dict: Union[OPItemField, dict], relaxed_validation: bool = False):
         if isinstance(field_dict, OPItemField):
             # make a copy of the field so we don't end up with a circular reference
             field = copy.copy(field_dict)
         else:
             field = OPItemField(field_dict)
-        field_id = field.field_id
+
+        try:
+            field_id = field.field_id
+        except KeyError as e:
+            # In theory there could be non-conformant data where
+            # a field dictionary is missing an "ID" element
+            # and we need to optionally be robust to that
+            #
+            # In practice this case should never occur
+            # since the item object *should* raise an exception
+            # before this method is ever called
+            if not relaxed_validation:
+                raise OPInvalidItemException(  # pragma: no coverage
+                    f"Field has no ID {field.label}") from e
+            else:
+                # if relaxed validation is enabled, set field_id to empty string
+                # since we have log below to handle that
+                field_id = ""
         if field_id in self._shadow_fields:
-            raise OPItemFieldCollisionException(
-                f"Field {field_id} already registered in section {self.section_id}")
+            if not relaxed_validation:
+                raise OPItemFieldCollisionException(
+                    f"Field {field_id} already registered in section {self.section_id}")
+            else:
+                # for code coverage visibility
+                pass
+        else:
+            self._shadow_fields[field_id] = field
         self.fields.append(field)
-        self._shadow_fields[field_id] = field
 
     def fields_by_label(self, label, case_sensitive=True) -> List[OPItemField]:
         """

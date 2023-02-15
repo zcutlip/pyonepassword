@@ -4,6 +4,7 @@ import pyonepassword.api.decorators
 import pyonepassword.api.descriptor_types
 import pyonepassword.api.exceptions
 import pyonepassword.api.object_types
+import pyonepassword.api.validation
 
 """
 Test that all symbols exported from pyonepassword.api are properly re-exported
@@ -74,3 +75,15 @@ def test_object_types_exports():
         if symbol.startswith("__"):
             continue
         assert symbol in object_types_all
+
+
+def test_object_validation_exports():
+    """
+    Verify all synmbols in pyonepassword.api.validation are properly re-exported
+    """
+    assert hasattr(pyonepassword.api.validation, "__all__")
+    validation_all = pyonepassword.api.validation.__all__
+    for symbol in dir(pyonepassword.api.validation):
+        if symbol.startswith("__"):
+            continue
+        assert symbol in validation_all

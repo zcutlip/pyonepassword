@@ -1,18 +1,16 @@
 import datetime
-from abc import ABCMeta, abstractmethod
 from typing import Optional
 
+from .._abc_meta import ABCMetaDict, enforcedmethod
 from .._datetime import fromisoformat_z
 from ..json import safe_unjson
 from ..op_objects import OPVaultDescriptor
 
 
-class OPAbstractItemDescriptor(dict):
-    __metaclass__ = ABCMeta
-    TEMPLATE_ID = None
+class OPAbstractItemDescriptor(dict, metaclass=ABCMetaDict):
     ITEM_CATEGORY = None
 
-    @abstractmethod
+    @enforcedmethod
     def __init__(self, item_dict_or_json):
         item_dict = safe_unjson(item_dict_or_json)
         super().__init__(item_dict)
@@ -64,7 +62,7 @@ class OPAbstractItemDescriptor(dict):
         return self.state == "ARCHIVED"
 
     @property
-    def favorite(self) -> Optional[bool]:
+    def favorite(self) -> bool:
         fav = self.get("favorite", False)
         return fav
 

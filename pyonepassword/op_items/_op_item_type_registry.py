@@ -1,10 +1,11 @@
 from json.decoder import JSONDecodeError
-from typing import Any, Dict, Type, Union
+from typing import Any, Dict, Type, TypeAlias, Union
 
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidItemException
+from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._op_items_base import OPAbstractItem
-from .generic_item import _OPGenericItem
+from .generic_item import _OPGenericItem, _OPGenericItemDescriptor
 
 
 class OPUnknownItemTypeException(Exception):
@@ -13,8 +14,12 @@ class OPUnknownItemTypeException(Exception):
         self.item_dict = item_dict
 
 
+GenericType: TypeAlias = Union[Type[_OPGenericItemDescriptor],
+                               Type[_OPGenericItem]]
+
+
 class OPItemFactory:
-    _GENERIC_ITEM_CLASS = _OPGenericItem
+    _GENERIC_ITEM_CLASS: GenericType = _OPGenericItem
     # registry of item classes with strict validation
     _TYPE_REGISTRY: Dict[str, Type[OPAbstractItem]] = {}
     # registry of item classes with relaxed validation
@@ -59,6 +64,7 @@ class OPItemFactory:
             registry = cls._TYPE_REGISTRY
 
         item_type = item_dict["category"]
+        item_cls: Type[OPAbstractItemDescriptor]
         try:
             item_cls = registry[item_type]
         except KeyError as ke:

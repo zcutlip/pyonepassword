@@ -30,4 +30,4 @@ jobs:
         pip install tox>=4.0
     - name: Run tox
       run: |
-        tox p -e py
+        tox -e py

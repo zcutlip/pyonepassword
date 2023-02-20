@@ -466,6 +466,69 @@
       "stderr": "error_output",
       "name": "item-get-login-section-collision",
       "changes_state": false
+    },
+    "--format|json|item|list|--vault|Test Data 3": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-batch-delete",
+      "changes_state": false
+    }
+  },
+  "commands_with_input": {
+    "5332bc2da676c319bcc2c81fd9d6e264": {
+      "--format|json|item|delete|-|--vault|Test Data 3": {
+        "exit_status": 0,
+        "stdout": "output",
+        "stderr": "error_output",
+        "name": "item-batch-delete",
+        "changes_state": false
+      }
+    },
+    "95de0849b2c89a15a80b8f08ef272833": {
+      "--format|json|item|delete|-|--vault|Test Data 3": {
+        "exit_status": 0,
+        "stdout": "output",
+        "stderr": "error_output",
+        "name": "item-batch-delete",
+        "changes_state": false
+      }
+    },
+    "36ce69d013e4eb70b49086f802c13aeb": {
+      "--format|json|item|delete|-|--vault|Test Data 3": {
+        "exit_status": 0,
+        "stdout": "output",
+        "stderr": "error_output",
+        "name": "item-batch-delete",
+        "changes_state": false
+      }
+    },
+    "7b847a19d68fe203c0117d25a8978534": {
+      "--format|json|item|delete|-|--vault|Test Data 3": {
+        "exit_status": 0,
+        "stdout": "output",
+        "stderr": "error_output",
+        "name": "item-batch-delete",
+        "changes_state": false
+      }
+    },
+    "6b8128cb344477d3064696801097d2ec": {
+      "--format|json|item|delete|-|--vault|Test Data 3": {
+        "exit_status": 0,
+        "stdout": "output",
+        "stderr": "error_output",
+        "name": "item-batch-delete",
+        "changes_state": false
+      }
+    },
+    "f10dd4d7521a6a2638bc57bd30aee716": {
+      "--format|json|item|delete|-|--vault|Test Data 3": {
+        "exit_status": 0,
+        "stdout": "output",
+        "stderr": "error_output",
+        "name": "item-batch-delete",
+        "changes_state": false
+      }
     }
   }
 }

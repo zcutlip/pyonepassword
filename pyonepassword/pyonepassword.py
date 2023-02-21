@@ -1,6 +1,6 @@
 import logging
 from os import environ as env
-from typing import Optional, Type, Union
+from typing import List, Optional, Type, Union
 
 from ._py_op_commands import (
     EXISTING_AUTH_IGNORE,
@@ -635,7 +635,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                           password: Union[str, OPPasswordRecipe] = None,
                           url: Optional[str] = None,
                           url_label: str = "Website",
-                          vault=None):  # pragma: no coverage
+                          tags: List[str] = [],
+                          vault=None,):  # pragma: no coverage
         """
         Create a new login item in the authenticated 1Password account
 
@@ -681,8 +682,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         url_obj = None
         if url:
             url_obj = OPLoginItemNewPrimaryURL(url, url_label)
+
         new_item = OPLoginItemTemplate(
-            title, username, password=password, url=url_obj)
+            title, username, password=password, url=url_obj, tags=tags)
+
         login_item = self.item_create(
             new_item, password_recipe=password_recipe, vault=vault)
         return login_item

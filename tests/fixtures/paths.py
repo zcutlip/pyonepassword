@@ -22,3 +22,8 @@ NON_CONFORMANT_DATA_PATH = Path(TEST_INPUT_DATA_PATH, "non-conformant-data")
 EXPECTED_DATA_REGISTRY_PATH = Path(
     TEST_DATA_PATH, "expected-data-registry.json")
 EXPECTED_DATA_PATH = Path(TEST_DATA_PATH, "expected-data")
+
+EXPECTED_ITEM_LIST_DATA_REGISTRY_PATH = Path(
+    EXPECTED_DATA_PATH, "expected-item-list-data.json")
+EXPECTED_ITEM_LIST_DATA_PATH = Path(
+    EXPECTED_DATA_PATH, "expected-item-list-data")

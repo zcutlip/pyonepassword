@@ -759,7 +759,49 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                              archive=False,
                              name_glob=None,
                              batch_size=25):
+        """
+        Delete multiple items at once from a specific vault. This may take place across
+        one or more 'op item delete' passes. A maximum "batch size" number of items to
+        delete in each pass may optionally be specified (defaulting to 25)
 
+        Parameters
+        ----------
+        vault: str
+            The name or ID of a vault to delete from. This parameter is mandatory to mitigate
+            the risk of deleting many items from the wrong vault
+        include_archive: bool, optional
+            Whether to include archived items for deleting
+            by default False
+        archive: bool
+            Whether to archive or permanently delete the items
+            by default False
+        tags: List[str], optional
+            A list of tags to restrict batch deletion to
+        name_glob: bool, optional
+            a shell-style glob pattern to match against item titles for deleting
+            by default None
+        batch_size: int, optional
+            Maximum number of items to delete in each pass
+            by default 25
+            NOTE: The default batch size is subject to change without notice
+
+        Note:
+            If a non-unique item identifier is provided (e.g., item name/title), and there
+            is more than one item that matches, OPItemDeleteException will be raised. Check the
+            error message in OPItemDeleteException.err_output for details
+
+        Raises
+        ------
+        OPItemDeleteMultipleException
+            - If the 'item list' operation fails
+            - If any of the 'item delete' operations fail
+
+        Returns
+        -------
+        item_id: str
+            Unique identifier of the item deleted
+
+        """
         # track deleted items as we delete them so we can return
         # that list to the caller
         deleted_items = OPItemList([])

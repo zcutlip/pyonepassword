@@ -160,7 +160,7 @@ Temporary Items
 /op-binaries
 /sanitize.cfg
 # ignore private response-generation configs
-/*private*cfg
+*private*cfg
 
 # Makefile stamps
 .*stamp

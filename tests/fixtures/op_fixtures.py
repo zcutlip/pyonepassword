@@ -74,7 +74,10 @@ def temp_home():
     one using a fixture
     """
     old_home = os.environ.get(HOME_ENV_VAR)
-    tmp_home = tempfile.TemporaryDirectory().name
+    # keep handle to temp_dir so it doesn't get auto-cleaned before we're done with it
+    # because we yield below rather than return, it should stay in scope
+    temp_dir = tempfile.TemporaryDirectory()
+    tmp_home = temp_dir.name
     os.environ[HOME_ENV_VAR] = tmp_home
     yield
     os.environ.pop(HOME_ENV_VAR, None)

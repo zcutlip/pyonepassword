@@ -1,5 +1,7 @@
 import os
+import shutil
 import tempfile
+from pathlib import Path
 
 from pytest import fixture
 
@@ -36,6 +38,7 @@ from .invalid_op_cli_config import (
 from .non_comformant_data import NonConformantData
 from .paths import (
     ALT_RESP_DIRECTORY_PATH,
+    ITEM_DELETE_MULTIPLE_STATE_CONFIG_PATH,
     RESP_DIRECTORY_PATH,
     UNAUTH_RESP_DIRECTORY_PATH
 )
@@ -119,6 +122,37 @@ def _setup_unauth_env():
     os.environ["MOCK_OP_SIGNIN_SUCCEED"] = "1"
     # os.environ["MOCK_OP_SIGNIN_USES_BIO"] = "1"
     os.environ["LOG_OP_ERR"] = "1"
+
+
+@fixture
+def setup_stateful_item_delete_multiple():
+    # set up normal mock-op env variables,
+    # including:
+    # MOCK_OP_SIGNIN_SUCCEED=1 and
+    # LOG_OP_ERR=1
+    # it also sets up MOCK_OP_RESPONSE_DIRECTORY, but we'll pop that off in a bit
+    _setup_normal_env()
+
+    # set up a temporary directory to copy the state config to, since it gets modified
+    # during state iteration
+    temp_dir = tempfile.TemporaryDirectory()
+    state_config_dir = temp_dir.name
+    state_config_path = Path(state_config_dir, "config.json")
+    shutil.copyfile(ITEM_DELETE_MULTIPLE_STATE_CONFIG_PATH, state_config_path)
+
+    # now pop MOCK_OP_RESPONSE_DIRECTORY to ensure it doesn't conflict with with
+    # the stateful config
+    old_mock_op_resp_dir = os.environ.pop("MOCK_OP_RESPONSE_DIRECTORY", None)
+    os.environ["MOCK_OP_STATE_DIR"] = state_config_dir
+    yield  # pytest will return us here after the test runs
+    # get rid of MOCK_OP_STATE_DIR
+    os.environ.pop("MOCK_OP_STATE_DIR")
+
+    # restore MOCK_OP_RESPONSE_DIRECTORY if it was previously set
+    if old_mock_op_resp_dir is not None:
+        os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = old_mock_op_resp_dir
+
+    # temp_dir will get cleaned up once we return
 
 
 def _get_signed_in_op(account_id, default_vault=None):

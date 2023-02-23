@@ -8,6 +8,12 @@ MOCK_OP_CONFIG_PATH = Path(TEST_CONFIG_PATH, "mock-op")
 RESP_DIRECTORY_PATH = Path(MOCK_OP_CONFIG_PATH, "response-directory.json")
 ALT_RESP_DIRECTORY_PATH = Path(
     MOCK_OP_CONFIG_PATH, "alternate-response-directory.json")
+
+ITEM_DELETE_MULTIPLE_RESP_PATH = Path(
+    MOCK_OP_CONFIG_PATH, "responses-item-delete-multiple")
+ITEM_DELETE_MULTIPLE_STATE_CONFIG_PATH = Path(
+    ITEM_DELETE_MULTIPLE_RESP_PATH, "mock-op-state-config.json")
+
 UNAUTH_RESP_DIRECTORY_PATH = Path(
     MOCK_OP_CONFIG_PATH, "unauth-response-directory.json")
 VALID_DATA_REGISTRY_PATH = Path(

@@ -130,12 +130,6 @@ def _setup_unauth_env():
 
 @fixture
 def setup_stateful_item_delete_multiple():
-    # set up normal mock-op env variables,
-    # including:
-    # MOCK_OP_SIGNIN_SUCCEED=1 and
-    # LOG_OP_ERR=1
-    # it also sets up MOCK_OP_RESPONSE_DIRECTORY, but we'll pop that off in a bit
-    _setup_normal_env()
 
     # set up a temporary directory to copy the state config to, since it gets modified
     # during state iteration

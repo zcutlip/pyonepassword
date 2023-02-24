@@ -92,7 +92,11 @@ def temp_home():
 
 
 def _setup_normal_env(signin_success="1"):
-    os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(RESP_DIRECTORY_PATH)
+    # don't set MOCK_OP_RESPONSE_DIRECTORY
+    # if we're using MOCK_OP_STATE_DIR
+    if not os.environ.get("MOCK_OP_STATE_DIR"):
+        os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(RESP_DIRECTORY_PATH)
+
     os.environ["MOCK_OP_SIGNIN_SUCCEED"] = str(signin_success)
     # os.environ["MOCK_OP_SIGNIN_USES_BIO"] = "1"
     os.environ["LOG_OP_ERR"] = "1"

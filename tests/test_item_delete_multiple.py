@@ -90,3 +90,31 @@ def test_item_delete_multiple_03(signed_in_op: OP):
 
     assert len(all_items_2)
     assert len(all_items_1) > len(all_items_2)
+
+
+@pytest.mark.usefixtures("setup_stateful_item_delete_multiple")
+def test_item_delete_categories_multiple_01(signed_in_op: OP):
+    """
+    A test to delete all items of a certain category and verify none of those items
+    remain afterwards
+
+    retrieve list of all items in the test vault of category 'password'
+    delete all items of category 'password'
+    retrieve a second list of all items in the test vault of category 'password'
+
+    verify:
+        - before deleting, there are one or more password items in the list
+        - after deleting, there are no password items
+    """
+    categories = ["password"]
+    vault_name = "Test Data 3"
+
+    orig_item_list = signed_in_op.item_list(
+        vault=vault_name, categories=categories)
+    assert len(orig_item_list)
+
+    signed_in_op.item_delete_multiple(vault_name, categories=categories)
+    new_item_list = signed_in_op.item_list(
+        vault=vault_name, categories=categories)
+
+    assert len(new_item_list) == 0

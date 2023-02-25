@@ -821,17 +821,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             item_list = self.item_list(categories=categories,
                                        include_archive=include_archive,
                                        tags=tags,
+                                       title_glob=name_glob,
                                        vault=vault)
         except OPItemListException as e:
             raise OPItemDeleteMultipleException.from_opexception(
                 deleted_items, e)
-
-        if name_glob:
-            _list = []
-            for obj in item_list:
-                if fnmatch.fnmatch(obj.title, name_glob):
-                    _list.append(obj)
-            item_list = OPItemList(_list)
 
         batches: List[OPItemList] = []
         start = 0

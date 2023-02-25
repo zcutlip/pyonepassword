@@ -45,6 +45,13 @@
       "stderr": "error_output",
       "name": "item-list-test-data-3-tag-2",
       "changes_state": false
+    },
+    "--format|json|item|list|--categories|password|--vault|Test Data 3": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-test-data-3-password",
+      "changes_state": false
     }
   },
   "commands_with_input": {}

@@ -542,7 +542,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return document_id
 
-    def item_list(self, categories=[], include_archive=False, tags=[], vault=None, generic_okay=True) -> OPItemList:
+    def item_list(self, categories=[], include_archive=False, tags=[], title_glob=None, vault=None, generic_okay=True) -> OPItemList:
         """
         Return a list of items in an account.
 
@@ -554,6 +554,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             Include items in the Archive in the list
         tags: List[str], optional
             A list of tags to restrict list to
+        title_glob: bool, optional
+            a shell-style glob pattern to match against item titles. If provided,
+            resulting list will include only matching items
+            by default None
         vault: str, optional
             The name or ID of a vault to override the object's default vault
         generic_okay: bool, optional
@@ -577,6 +581,13 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         item_list_json = self._item_list(
             categories, include_archive, tags, vault)
         item_list = OPItemList(item_list_json, generic_okay=generic_okay)
+
+        if title_glob:
+            _list = []
+            for obj in item_list:
+                if fnmatch.fnmatch(obj.title, title_glob):
+                    _list.append(obj)
+            item_list = OPItemList(_list)
         return item_list
 
     # TODO: Item creation is hard to test in an automated way since it results in changed

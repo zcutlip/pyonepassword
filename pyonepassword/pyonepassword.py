@@ -768,7 +768,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                              include_archive=False,
                              tags=[],
                              archive=False,
-                             name_glob=None,
+                             title_glob=None,
                              batch_size=25):
         """
         Delete multiple items at once from a specific vault. This may take place across
@@ -788,7 +788,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             by default False
         tags: List[str], optional
             A list of tags to restrict batch deletion to
-        name_glob: bool, optional
+        title_glob: bool, optional
             a shell-style glob pattern to match against item titles for deleting
             by default None
         batch_size: int, optional
@@ -821,7 +821,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             item_list = self.item_list(categories=categories,
                                        include_archive=include_archive,
                                        tags=tags,
-                                       title_glob=name_glob,
+                                       title_glob=title_glob,
                                        vault=vault)
         except OPItemListException as e:
             raise OPItemDeleteMultipleException.from_opexception(

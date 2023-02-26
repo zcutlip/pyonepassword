@@ -12,7 +12,7 @@ ALT_RESP_DIRECTORY_PATH = Path(
 ITEM_DELETE_MULTIPLE_RESP_PATH = Path(
     MOCK_OP_CONFIG_PATH, "responses-item-delete-multiple")
 ITEM_DELETE_MULTIPLE_STATE_CONFIG_PATH = Path(
-    ITEM_DELETE_MULTIPLE_RESP_PATH, "mock-op-state-config.json")
+    ITEM_DELETE_MULTIPLE_RESP_PATH, "mock-op-state-config-1.json")
 
 UNAUTH_RESP_DIRECTORY_PATH = Path(
     MOCK_OP_CONFIG_PATH, "unauth-response-directory.json")

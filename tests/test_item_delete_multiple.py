@@ -118,3 +118,63 @@ def test_item_delete_categories_multiple_01(signed_in_op: OP):
         vault=vault_name, categories=categories)
 
     assert len(new_item_list) == 0
+
+
+@pytest.mark.usefixtures("setup_stateful_item_delete_multiple_title_glob")
+def test_item_delete_title_glob_multiple_01(signed_in_op: OP):
+    """
+    A test to delete all items matching a title glob pattern and verify none of those items
+    remain afterwards
+
+    retrieve list of all items in the test vault matching pattern 'Example Login Item *2'
+    delete all items matching the glob pattern
+    retrieve a second list of all items in the test vault matching the glob pattern
+
+    verify:
+        - before deleting, there are one or more items in the list
+        - after deleting, there are no items matching the glob pattern
+    """
+    title_glob = "Example Login Item *2"
+    # title_glob_alt = "Example Login Item *3"
+
+    vault_name = "Test Data 3"
+
+    orig_item_list = signed_in_op.item_list(
+        vault=vault_name, title_glob=title_glob)
+    assert len(orig_item_list)
+
+    signed_in_op.item_delete_multiple(vault_name, title_glob=title_glob)
+    new_item_list = signed_in_op.item_list(
+        vault=vault_name, title_glob=title_glob)
+
+    assert len(new_item_list) == 0
+
+
+@pytest.mark.usefixtures("setup_stateful_item_delete_multiple_title_glob")
+def test_item_delete_title_glob_multiple_02(signed_in_op: OP):
+    """
+    A test to delete all items matching a title glob pattern and verify items not matching
+    the glob pattern are not deleted
+
+    retrieve list of all items in the test vault matching alternate pattern 'Example Login Item *3'
+    delete all items matching the glob pattern 'Example Login Item *2'
+    retrieve a second list of all items in the test vault matching the alternate glob pattern
+
+    verify:
+        - before deleting, there are one or more items in the list matching the alternate glob pattern
+        - after deleting, the same number of matching items remain
+    """
+    title_glob = "Example Login Item *2"
+    title_glob_alt = "Example Login Item *3"
+
+    vault_name = "Test Data 3"
+
+    orig_item_list = signed_in_op.item_list(
+        vault=vault_name, title_glob=title_glob_alt)
+    assert len(orig_item_list) == 4
+
+    signed_in_op.item_delete_multiple(vault_name, title_glob=title_glob)
+    new_item_list = signed_in_op.item_list(
+        vault=vault_name, title_glob=title_glob_alt)
+
+    assert len(new_item_list) == len(orig_item_list)

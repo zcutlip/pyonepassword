@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     from pyonepassword import OP
     from .fixtures.expected_item_list import ExpectedItemListData, ExpectedItemList
 
+from pyonepassword.api.exceptions import OPItemDeleteMultipleException
 from pyonepassword.api.object_types import OPItemList
 
 # ensure HOME env variable is set, and there's a valid op config present
@@ -178,3 +179,9 @@ def test_item_delete_title_glob_multiple_02(signed_in_op: OP):
         vault=vault_name, title_glob=title_glob_alt)
 
     assert len(new_item_list) == len(orig_item_list)
+
+
+def test_item_delete_multiple_non_existent_vault_01(signed_in_op: OP):
+    vault = "Invalid Vault"
+    with pytest.raises(OPItemDeleteMultipleException):
+        signed_in_op.item_delete_multiple(vault)

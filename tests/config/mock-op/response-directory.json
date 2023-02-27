@@ -473,6 +473,13 @@
       "stderr": "error_output",
       "name": "item-list-batch-delete",
       "changes_state": false
+    },
+    "--format|json|item|list|--vault|Invalid Vault": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-vault-invalid-vault",
+      "changes_state": false
     }
   },
   "commands_with_input": {

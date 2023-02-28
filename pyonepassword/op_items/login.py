@@ -156,7 +156,8 @@ class OPLoginItemTemplate(OPNewItemMixin, OPLoginItem):
         sections: List[OPSection]
             List of OPSection objects to associate with the item.
             NOTE: If the sections are from an exisiting item, and the section IDs are UUIDs, the section IDs will be regenerated
-
+        tags: List[str], optional
+            A list of tags to apply to the login item template
         Raises
         ------
         OPNewLoginItemURLException

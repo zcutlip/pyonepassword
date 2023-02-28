@@ -650,7 +650,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                           url: Optional[str] = None,
                           url_label: str = "Website",
                           tags: List[str] = [],
-                          vault=None,):  # pragma: no coverage
+                          vault: str = None):  # pragma: no coverage
         """
         Create a new login item in the authenticated 1Password account
 

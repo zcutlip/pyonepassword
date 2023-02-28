@@ -109,6 +109,7 @@ class OPItemDeleteMultipleException(OPItemDeleteException):
         super().__init__(stderr_out, returncode)
 
     @classmethod
+    # type: ignore[override]
     def from_opexception(cls, ope: OPCmdFailedException, deleted_items: OPItemList):
         return cls(deleted_items, ope.err_output, ope.returncode)
 

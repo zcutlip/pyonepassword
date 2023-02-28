@@ -40,7 +40,7 @@ class OPCmdFailedException(OPBaseException):
         self.returncode = returncode
 
     @classmethod
-    def from_opexception(cls, ope):
+    def from_opexception(cls, ope: OPCmdFailedException):
         return cls(ope.err_output, ope.returncode)
 
 

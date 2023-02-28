@@ -1,3 +1,4 @@
+import fnmatch
 import logging
 from os import environ as env
 from typing import List, Optional, Type, Union
@@ -36,7 +37,9 @@ from .py_op_exceptions import (
     OPInvalidDocumentException,
     OPInvalidItemException,
     OPItemDeleteException,
+    OPItemDeleteMultipleException,
     OPItemGetException,
+    OPItemListException,
     OPSignoutException
 )
 from .version import PyOPAboutMixin
@@ -539,7 +542,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return document_id
 
-    def item_list(self, categories=[], include_archive=False, tags=[], vault=None, generic_okay=True) -> OPItemList:
+    def item_list(self, categories=[], include_archive=False, tags=[], title_glob=None, vault=None, generic_okay=True) -> OPItemList:
         """
         Return a list of items in an account.
 
@@ -551,6 +554,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             Include items in the Archive in the list
         tags: List[str], optional
             A list of tags to restrict list to
+        title_glob: bool, optional
+            a shell-style glob pattern to match against item titles. If provided,
+            resulting list will include only matching items
+            by default None
         vault: str, optional
             The name or ID of a vault to override the object's default vault
         generic_okay: bool, optional
@@ -574,6 +581,13 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         item_list_json = self._item_list(
             categories, include_archive, tags, vault)
         item_list = OPItemList(item_list_json, generic_okay=generic_okay)
+
+        if title_glob:
+            _list = []
+            for obj in item_list:
+                if fnmatch.fnmatch(obj.title, title_glob):
+                    _list.append(obj)
+            item_list = OPItemList(_list)
         return item_list
 
     # TODO: Item creation is hard to test in an automated way since it results in changed
@@ -747,6 +761,92 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         self._item_delete(item_id, vault=vault, archive=archive)
 
         return item_id
+
+    def item_delete_multiple(self,
+                             vault,
+                             categories=[],
+                             include_archive=False,
+                             tags=[],
+                             archive=False,
+                             title_glob=None,
+                             batch_size=25):
+        """
+        Delete multiple items at once from a specific vault. This may take place across
+        one or more 'op item delete' passes. A maximum "batch size" number of items to
+        delete in each pass may optionally be specified (defaulting to 25)
+
+        Parameters
+        ----------
+        vault: str
+            The name or ID of a vault to delete from. This parameter is mandatory to mitigate
+            the risk of deleting many items from the wrong vault
+        include_archive: bool, optional
+            Whether to include archived items for deleting
+            by default False
+        archive: bool
+            Whether to archive or permanently delete the items
+            by default False
+        tags: List[str], optional
+            A list of tags to restrict batch deletion to
+        title_glob: bool, optional
+            a shell-style glob pattern to match against item titles for deleting
+            by default None
+        batch_size: int, optional
+            Maximum number of items to delete in each pass
+            by default 25
+            NOTE: The default batch size is subject to change without notice
+
+        Note:
+            If a non-unique item identifier is provided (e.g., item name/title), and there
+            is more than one item that matches, OPItemDeleteException will be raised. Check the
+            error message in OPItemDeleteException.err_output for details
+
+        Raises
+        ------
+        OPItemDeleteMultipleException
+            - If the 'item list' operation fails
+            - If any of the 'item delete' operations fail
+
+        Returns
+        -------
+        item_id: str
+            Unique identifier of the item deleted
+
+        """
+        # track deleted items as we delete them so we can return
+        # that list to the caller
+        deleted_items = OPItemList([])
+
+        try:
+            item_list = self.item_list(categories=categories,
+                                       include_archive=include_archive,
+                                       tags=tags,
+                                       title_glob=title_glob,
+                                       vault=vault)
+        except OPItemListException as e:
+            raise OPItemDeleteMultipleException.from_opexception(
+                e, deleted_items)
+
+        batches: List[OPItemList] = []
+        start = 0
+        end = len(item_list)
+
+        for i in range(start, end, batch_size):
+            # split item list into chunks >= batch_size each
+            x = i
+            chunk = item_list[x:x+batch_size]
+            batches.append(OPItemList(chunk))
+
+        for batch in batches:
+            batch_json = batch.serialize()
+            try:
+                self._item_delete_multiple(batch_json, vault, archive=archive)
+            except OPCmdFailedException as ope:  # pragma: no coverage
+                raise OPItemDeleteMultipleException.from_opexception(
+                    ope, deleted_items)
+            deleted_items.extend(batch)
+
+        return deleted_items
 
     def signed_in_accounts(self, decode="utf-8") -> OPAccountList:
         account_list_json = super()._signed_in_accounts(self.op_path, decode=decode)

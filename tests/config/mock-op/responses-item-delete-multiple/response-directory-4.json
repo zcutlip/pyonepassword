@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "response_dir": "tests/config/mock-op/responses-item-delete-multiple/responses-4",
+    "input_dir": "input"
+  },
+  "commands": {
+    "--version": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "cli-version",
+      "changes_state": false
+    },
+    "--format|json|account|list": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "list-signed-in-accounts",
+      "changes_state": false
+    },
+    "--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami",
+      "changes_state": false
+    },
+    "--format|json|item|list|--vault|Test Data 3": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-test-data-3-alt-title-glob",
+      "changes_state": false
+    }
+  },
+  "commands_with_input": {}
+}

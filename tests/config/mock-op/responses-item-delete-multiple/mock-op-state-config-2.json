@@ -1,0 +1,18 @@
+{
+    "iteration": 0,
+    "max-iterations": 2,
+    "response-directory-list": [
+        "tests/config/mock-op/responses-item-delete-multiple/response-directory-3.json",
+        "tests/config/mock-op/responses-item-delete-multiple/response-directory-4.json"
+    ],
+    "env-list": [
+        {
+            "set_vars": {},
+            "pop_vars": []
+        },
+        {
+            "set_vars": {},
+            "pop_vars": []
+        }
+    ]
+}

@@ -420,6 +420,21 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return
 
+    def _item_delete_multiple(self, batch_json, vault, archive=False):
+        # op item delete takes '-' for the item to delete if objects are
+        # provided over stdin
+        item_id = "-"
+        item_delete_argv = self._item_delete_argv(
+            item_id, vault=vault, archive=archive)
+        try:
+            # 'op item delete' doesn't have any output if successful
+            # if it fails, stderr will be in the exception object
+            self._run(item_delete_argv, input_string=batch_json)
+        except OPCmdFailedException as ocfe:
+            raise OPItemDeleteException.from_opexception(ocfe)
+
+        return
+
     def _item_get_totp(self, item_name_or_id, vault=None, decode="utf-8"):
         item_get_totp_argv = self._item_get_totp_argv(
             item_name_or_id, vault=vault)

@@ -4,7 +4,7 @@ TODO: Move other exception classes here
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .op_items._item_list import OPItemList
@@ -109,7 +109,7 @@ class OPItemDeleteMultipleException(OPItemDeleteException):
         super().__init__(stderr_out, returncode)
 
     @classmethod
-    def from_opexception(cls, deleted_items: List, ope: OPCmdFailedException):
+    def from_opexception(cls, ope: OPCmdFailedException, deleted_items: OPItemList):
         return cls(deleted_items, ope.err_output, ope.returncode)
 
 

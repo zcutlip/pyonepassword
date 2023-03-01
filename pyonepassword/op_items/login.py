@@ -168,16 +168,6 @@ class OPLoginItemTemplate(OPNewItemMixin, OPLoginItem):
         else:
             fields = list(fields)
 
-        if sections is None:  # pragma: no coverage
-            sections = []
-        else:
-            sections = list(sections)
-
-        if tags is None:
-            tags = []
-        else:
-            tags = list(tags)
-
         if isinstance(url, str):
             url = OPLoginItemNewPrimaryURL(url, self.DEFAULT_URL_LABEL)
 

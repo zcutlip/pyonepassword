@@ -135,7 +135,8 @@ class OPNewItemMixin:
         if tags is None:  # pragma: no coverage
             tags = []
         else:
-            tags = list(tags)
+            # remove duplicate tags
+            tags = list(set(tags))
 
         if extra_data is None:  # pragma: no coverage
             extra_data = {}

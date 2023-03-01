@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.6.0] - 2023-03-01
+
+## Added
+
+- Ability to delete multiple items at once via `OP.item_delete_multiple()`
+- Ability to create items with tags applied
+- `tags` property to all items and item descriptors
 
 ## [3.5.0] - 2023-02-15
 

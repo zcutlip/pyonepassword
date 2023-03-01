@@ -6,9 +6,9 @@ All notable changes to this project will be documented in this file.
 
 ## Added
 
-- Ability to delete multiple items at once via `OP.item_delete_multiple()`
-- Ability to create items with tags applied
-- `tags` property to all items and item descriptors
+- Ability to delete multiple items at once via `OP.item_delete_multiple()` (gh-82)
+- Ability to create items with tags applied (gh-83)
+- `tags` property to all items and item descriptors (gh-93)
 
 ## [3.5.0] - 2023-02-15
 

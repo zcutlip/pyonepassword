@@ -1,5 +1,5 @@
 import datetime
-from typing import Optional
+from typing import List, Optional
 
 from .._abc_meta import ABCMetaDict, enforcedmethod
 from .._datetime import fromisoformat_z
@@ -32,6 +32,10 @@ class OPAbstractItemDescriptor(dict, metaclass=ABCMetaDict):
     def title(self) -> str:
         title = self["title"]
         return title
+
+    @property
+    def tags(self) -> List[str]:
+        return self.get("tags", [])
 
     @property
     def created_at(self) -> datetime.datetime:

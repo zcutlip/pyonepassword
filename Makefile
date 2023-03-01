@@ -1,6 +1,5 @@
 HTML_COV_DIR=htmlcov
 COV_REPORT_FILE=coverage-report.txt
-NPROCS=$(shell nproc)
 
 COV_STAMP=.cov_stamp
 HTML_REPORT_STAMP=".html_report_stamp"
@@ -25,7 +24,7 @@ $(COV_STAMP): $(PYONEPASSWORD_SRC_FILES) $(PYONEPASSWORD_TEST_FILES)
 	# coverage can result in errors in some cases
 	# see https://coverage.readthedocs.io/en/latest/faq.html
 	coverage erase
-	pytest --cov=pyonepassword --cov-report= -n $(NPROCS)
+	pytest --cov=pyonepassword --cov-report= -n auto
 	touch $@
 
 

@@ -8,6 +8,14 @@ MOCK_OP_CONFIG_PATH = Path(TEST_CONFIG_PATH, "mock-op")
 RESP_DIRECTORY_PATH = Path(MOCK_OP_CONFIG_PATH, "response-directory.json")
 ALT_RESP_DIRECTORY_PATH = Path(
     MOCK_OP_CONFIG_PATH, "alternate-response-directory.json")
+
+ITEM_DELETE_MULTIPLE_RESP_PATH = Path(
+    MOCK_OP_CONFIG_PATH, "responses-item-delete-multiple")
+ITEM_DELETE_MULTIPLE_STATE_CONFIG_PATH = Path(
+    ITEM_DELETE_MULTIPLE_RESP_PATH, "mock-op-state-config-1.json")
+ITEM_DELETE_MULTIPLE_TITLE_GLOB_STATE_CONFIG_PATH = Path(
+    ITEM_DELETE_MULTIPLE_RESP_PATH, "mock-op-state-config-2.json")
+
 UNAUTH_RESP_DIRECTORY_PATH = Path(
     MOCK_OP_CONFIG_PATH, "unauth-response-directory.json")
 VALID_DATA_REGISTRY_PATH = Path(
@@ -22,3 +30,8 @@ NON_CONFORMANT_DATA_PATH = Path(TEST_INPUT_DATA_PATH, "non-conformant-data")
 EXPECTED_DATA_REGISTRY_PATH = Path(
     TEST_DATA_PATH, "expected-data-registry.json")
 EXPECTED_DATA_PATH = Path(TEST_DATA_PATH, "expected-data")
+
+EXPECTED_ITEM_LIST_DATA_REGISTRY_PATH = Path(
+    EXPECTED_DATA_PATH, "expected-item-list-data.json")
+EXPECTED_ITEM_LIST_DATA_PATH = Path(
+    EXPECTED_DATA_PATH, "expected-item-list-data")

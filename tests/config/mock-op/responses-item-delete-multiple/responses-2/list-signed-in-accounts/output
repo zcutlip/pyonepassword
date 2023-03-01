@@ -1,0 +1,14 @@
+[
+  {
+    "url": "example-account.1password.com",
+    "email": "example_user@example.email",
+    "user_uuid": "5GHHPJK5HZC5BAT7WDUXW57G44",
+    "account_uuid": "GRXJAN4BY5DPROISKYL55IRCPY"
+  },
+  {
+    "url": "my.1password.com",
+    "email": "guest_user@example.email",
+    "user_uuid": "DJGTGRFRM5C4BHNUXQLJXQJAOE",
+    "account_uuid": "6J7RFGQWONBVJHIHJUVICO2C3Q"
+  }
+]

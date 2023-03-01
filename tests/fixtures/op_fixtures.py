@@ -1,5 +1,7 @@
 import os
+import shutil
 import tempfile
+from pathlib import Path
 
 from pytest import fixture
 
@@ -15,6 +17,7 @@ from .expected_document_data import ExpectedDocumentData
 from .expected_group_data import ExpectedGroupData, ExpectedGroupListData
 from .expected_identity import ExpectedIdenityItemData
 from .expected_item_fields import ExpectedItemFieldData
+from .expected_item_list import ExpectedItemListData
 from .expected_item_sections import ExpectedItemSectionData
 from .expected_login import ExpectedLoginItemData
 from .expected_miscellaneous_data import ExpectedMiscData
@@ -35,6 +38,8 @@ from .invalid_op_cli_config import (
 from .non_comformant_data import NonConformantData
 from .paths import (
     ALT_RESP_DIRECTORY_PATH,
+    ITEM_DELETE_MULTIPLE_STATE_CONFIG_PATH,
+    ITEM_DELETE_MULTIPLE_TITLE_GLOB_STATE_CONFIG_PATH,
     RESP_DIRECTORY_PATH,
     UNAUTH_RESP_DIRECTORY_PATH
 )
@@ -73,7 +78,10 @@ def temp_home():
     one using a fixture
     """
     old_home = os.environ.get(HOME_ENV_VAR)
-    tmp_home = tempfile.TemporaryDirectory().name
+    # keep handle to temp_dir so it doesn't get auto-cleaned before we're done with it
+    # because we yield below rather than return, it should stay in scope
+    temp_dir = tempfile.TemporaryDirectory()
+    tmp_home = temp_dir.name
     os.environ[HOME_ENV_VAR] = tmp_home
     yield
     os.environ.pop(HOME_ENV_VAR, None)
@@ -85,7 +93,11 @@ def temp_home():
 
 
 def _setup_normal_env(signin_success="1"):
-    os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(RESP_DIRECTORY_PATH)
+    # don't set MOCK_OP_RESPONSE_DIRECTORY
+    # if we're using MOCK_OP_STATE_DIR
+    if not os.environ.get("MOCK_OP_STATE_DIR"):
+        os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(RESP_DIRECTORY_PATH)
+
     os.environ["MOCK_OP_SIGNIN_SUCCEED"] = str(signin_success)
     # os.environ["MOCK_OP_SIGNIN_USES_BIO"] = "1"
     os.environ["LOG_OP_ERR"] = "1"
@@ -115,6 +127,57 @@ def _setup_unauth_env():
     os.environ["MOCK_OP_SIGNIN_SUCCEED"] = "1"
     # os.environ["MOCK_OP_SIGNIN_USES_BIO"] = "1"
     os.environ["LOG_OP_ERR"] = "1"
+
+
+@fixture
+def setup_stateful_item_delete_multiple():
+
+    # set up a temporary directory to copy the state config to, since it gets modified
+    # during state iteration
+    temp_dir = tempfile.TemporaryDirectory()
+    state_config_dir = temp_dir.name
+    state_config_path = Path(state_config_dir, "config.json")
+    shutil.copyfile(ITEM_DELETE_MULTIPLE_STATE_CONFIG_PATH, state_config_path)
+
+    # now pop MOCK_OP_RESPONSE_DIRECTORY to ensure it doesn't conflict with with
+    # the stateful config
+    old_mock_op_resp_dir = os.environ.pop("MOCK_OP_RESPONSE_DIRECTORY", None)
+    os.environ["MOCK_OP_STATE_DIR"] = state_config_dir
+    yield  # pytest will return us here after the test runs
+    # get rid of MOCK_OP_STATE_DIR
+    os.environ.pop("MOCK_OP_STATE_DIR")
+
+    # restore MOCK_OP_RESPONSE_DIRECTORY if it was previously set
+    if old_mock_op_resp_dir is not None:
+        os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = old_mock_op_resp_dir
+
+    # temp_dir will get cleaned up once we return
+
+
+@fixture
+def setup_stateful_item_delete_multiple_title_glob():
+
+    # set up a temporary directory to copy the state config to, since it gets modified
+    # during state iteration
+    temp_dir = tempfile.TemporaryDirectory()
+    state_config_dir = temp_dir.name
+    state_config_path = Path(state_config_dir, "config.json")
+    shutil.copyfile(
+        ITEM_DELETE_MULTIPLE_TITLE_GLOB_STATE_CONFIG_PATH, state_config_path)
+
+    # now pop MOCK_OP_RESPONSE_DIRECTORY to ensure it doesn't conflict with with
+    # the stateful config
+    old_mock_op_resp_dir = os.environ.pop("MOCK_OP_RESPONSE_DIRECTORY", None)
+    os.environ["MOCK_OP_STATE_DIR"] = state_config_dir
+    yield  # pytest will return us here after the test runs
+    # get rid of MOCK_OP_STATE_DIR
+    os.environ.pop("MOCK_OP_STATE_DIR")
+
+    # restore MOCK_OP_RESPONSE_DIRECTORY if it was previously set
+    if old_mock_op_resp_dir is not None:
+        os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = old_mock_op_resp_dir
+
+    # temp_dir will get cleaned up once we return
 
 
 def _get_signed_in_op(account_id, default_vault=None):
@@ -316,6 +379,12 @@ def expected_ssh_key_data():
 @fixture
 def expected_identity_data():
     data = ExpectedIdenityItemData()
+    return data
+
+
+@fixture
+def expected_item_list_data():
+    data = ExpectedItemListData()
     return data
 
 

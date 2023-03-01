@@ -81,7 +81,7 @@ class OPNewItemMixin:
     # override for item types that do support passwords (e.g., Login)
     PASSWORDS_SUPPORTED = False
 
-    def __init__(self, title: str, fields: List[OPItemField] = [], sections: List[OPSection] = [], extra_data={}):
+    def __init__(self, title: str, fields: List[OPItemField] = [], sections: List[OPSection] = [], tags: List[str] = [], extra_data={}):
         """
         Create an OPNewItemMixin object that can be used to create a new item entry
 
@@ -95,7 +95,8 @@ class OPNewItemMixin:
         sections: List[OPSection], optional
             List of OPSection objects to associate with the item.
             NOTE: If the sections are from an exisiting item, and the section IDs are UUIDs, the section IDs will be regenerated
-
+        tags: List[str], optional
+            A list of tags to add to the "tags" field of the item template dictionary
         extra_data: Dict[str, Any]
             Dictionary of data not associated with any field or section, for example login item URLs:
             {
@@ -121,14 +122,22 @@ class OPNewItemMixin:
         OPInvalidItemException
             If the subclass does not also inherit from a valid OPAbstractItem implementation
         """
-        if sections is None:  # pragma: no coverage
-            sections = []
-        else:
-            sections = list(sections)
         if fields is None:  # pragma: no coverage
             fields = []
         else:
             fields = list(fields)
+
+        if sections is None:  # pragma: no coverage
+            sections = []
+        else:
+            sections = list(sections)
+
+        if tags is None:  # pragma: no coverage
+            tags = []
+        else:
+            # remove duplicate tags
+            tags = list(set(tags))
+
         if extra_data is None:  # pragma: no coverage
             extra_data = {}
         else:
@@ -184,6 +193,7 @@ class OPNewItemMixin:
             new_fields.append(field)
         template_dict["sections"] = new_sections
         template_dict["fields"] = new_fields
+        template_dict["tags"] = tags
         key_collisions = []
 
         for key in extra_data.keys():

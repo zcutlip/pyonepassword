@@ -134,7 +134,8 @@ class OPLoginItemTemplate(OPNewItemMixin, OPLoginItem):
                  password: Optional[str] = None,
                  url: Union[str, OPLoginItemURL, None] = None,
                  fields: List[OPItemField] = [],
-                 sections: List[OPSection] = []):
+                 sections: List[OPSection] = [],
+                 tags: List[str] = []):
         """
         Create an OPLoginItemTemplate object that can be used to create a new login item entry
 
@@ -155,16 +156,13 @@ class OPLoginItemTemplate(OPNewItemMixin, OPLoginItem):
         sections: List[OPSection]
             List of OPSection objects to associate with the item.
             NOTE: If the sections are from an exisiting item, and the section IDs are UUIDs, the section IDs will be regenerated
-
+        tags: List[str], optional
+            A list of tags to apply to the login item template
         Raises
         ------
         OPNewLoginItemURLException
             If an OPUrlItem object is provided to the constructor, and it's not flagged as a primary URL
         """
-        if sections is None:  # pragma: no coverage
-            sections = []
-        else:
-            sections = list(sections)
         if fields is None:  # pragma: no coverage
             fields = []
         else:
@@ -192,7 +190,8 @@ class OPLoginItemTemplate(OPNewItemMixin, OPLoginItem):
                 raise OPNewLoginItemURLException("Sole URL must be primary")
             urls.append(url)
         extra_data = {"urls": urls}
-        super().__init__(title, sections=sections, fields=fields, extra_data=extra_data)
+        super().__init__(title, fields=fields, sections=sections,
+                         tags=tags, extra_data=extra_data)
 
     def add_url(self, url: OPLoginItemURL):
         """

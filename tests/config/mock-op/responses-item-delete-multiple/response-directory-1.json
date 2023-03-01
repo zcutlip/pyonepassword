@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "response_dir": "tests/config/mock-op/responses-item-delete-multiple/responses-1",
+    "input_dir": "input"
+  },
+  "commands": {
+    "--account|5GHHPJK5HZC5BAT7WDUXW57G44|--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami-account-uuid",
+      "changes_state": false
+    },
+    "--version": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "cli-version",
+      "changes_state": false
+    },
+    "--format|json|account|list": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "list-signed-in-accounts",
+      "changes_state": false
+    },
+    "--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami",
+      "changes_state": false
+    },
+    "--format|json|item|list|--vault|Test Data 3": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-test-data-3",
+      "changes_state": false
+    },
+    "--format|json|item|list|--tags|tag_1|--vault|Test Data 3": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-test-data-3-tag-1",
+      "changes_state": false
+    },
+    "--format|json|item|list|--tags|tag_2|--vault|Test Data 3": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-test-data-3-tag-2",
+      "changes_state": false
+    },
+    "--format|json|item|list|--categories|password|--vault|Test Data 3": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-test-data-3-password",
+      "changes_state": false
+    }
+  },
+  "commands_with_input": {
+    "390cd969c240b16c28e49f8e74ca926a": {
+      "--format|json|item|delete|-|--vault|Test Data 3": {
+        "exit_status": 0,
+        "stdout": "output",
+        "stderr": "error_output",
+        "name": "item-batch-delete-tag-1_part_000",
+        "changes_state": false
+      }
+    },
+    "674e388ad179855330331c2dc866c21d": {
+      "--format|json|item|delete|-|--vault|Test Data 3": {
+        "exit_status": 0,
+        "stdout": "output",
+        "stderr": "error_output",
+        "name": "item-batch-delete-tag-1_part_025",
+        "changes_state": true
+      }
+    },
+    "a80e7927c2b56d4dffa2ee282eda95b1": {
+      "--format|json|item|delete|-|--vault|Test Data 3": {
+        "exit_status": 0,
+        "stdout": "output",
+        "stderr": "error_output",
+        "name": "item-batch-delete-password_part_000",
+        "changes_state": false
+      }
+    },
+    "7ed951330c499820daf25277617fdfd1": {
+      "--format|json|item|delete|-|--vault|Test Data 3": {
+        "exit_status": 0,
+        "stdout": "output",
+        "stderr": "error_output",
+        "name": "item-batch-delete-password_part_025",
+        "changes_state": true
+      }
+    }
+  }
+}

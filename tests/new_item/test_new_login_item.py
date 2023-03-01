@@ -493,3 +493,44 @@ def test_new_login_item_17():
 
     with pytest.raises(OPNewLoginItemURLException):
         new_login.add_url(second_url)
+
+
+def test_new_login_item_18():
+    """
+    Create:
+        - An OPLoginItemTemplate object with two tags
+    Verify:
+        - the resulting object has the same two tags
+    """
+    username = "test_username"
+    title = "Test Login Item"
+    tags = ["tag_1", "tag_2"]
+
+    new_login = OPLoginItemTemplate(title, username, tags=tags)
+    expected_tags = set(tags)
+
+    actual_tags = set(new_login.tags)
+    assert expected_tags == actual_tags
+
+
+def test_new_login_item_19():
+    """
+    Create:
+        - An OPLoginItemTemplate object with two duplicate tags
+    Verify:
+        - the resulting object has only the one expected tag
+    """
+    username = "test_username"
+    title = "Test Login Item"
+
+    # duplicate tags get removed in OPNewItemMixin
+    tags = ["tag_1", "tag_1"]
+
+    new_login = OPLoginItemTemplate(title, username, tags=tags)
+    expected_tags = set(tags)
+    # TODO: item objects don't have a tags property, so we we have to access them
+    # via the dictionary
+    actual_tags = set(new_login.tags)
+
+    assert len(actual_tags) == 1
+    assert expected_tags == actual_tags

@@ -650,7 +650,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                           url: Optional[str] = None,
                           url_label: str = "Website",
                           tags: List[str] = [],
-                          vault=None,):  # pragma: no coverage
+                          vault: str = None):  # pragma: no coverage
         """
         Create a new login item in the authenticated 1Password account
 
@@ -668,6 +668,12 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             If an OPPasswordRecipe object is provided, it will ensure a well-formed password recipe string is provided to '--generate-password='
         url: str, optional
             If provided, set to the primary URL of the login item
+        url_label: str, optional
+            If provided and a URL is provided, this bcomes the primary URL's label
+        tags: List[str], optional
+            A list of tags to apply to the item when creating
+        vault: str, optionsl
+            The vault in which to create the new item
 
         Raises
         ------

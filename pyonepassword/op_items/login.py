@@ -156,7 +156,8 @@ class OPLoginItemTemplate(OPNewItemMixin, OPLoginItem):
         sections: List[OPSection]
             List of OPSection objects to associate with the item.
             NOTE: If the sections are from an exisiting item, and the section IDs are UUIDs, the section IDs will be regenerated
-
+        tags: List[str], optional
+            A list of tags to apply to the login item template
         Raises
         ------
         OPNewLoginItemURLException
@@ -166,16 +167,6 @@ class OPLoginItemTemplate(OPNewItemMixin, OPLoginItem):
             fields = []
         else:
             fields = list(fields)
-
-        if sections is None:  # pragma: no coverage
-            sections = []
-        else:
-            sections = list(sections)
-
-        if tags is None:
-            tags = []
-        else:
-            tags = list(tags)
 
         if isinstance(url, str):
             url = OPLoginItemNewPrimaryURL(url, self.DEFAULT_URL_LABEL)

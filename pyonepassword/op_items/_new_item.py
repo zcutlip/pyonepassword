@@ -95,7 +95,8 @@ class OPNewItemMixin:
         sections: List[OPSection], optional
             List of OPSection objects to associate with the item.
             NOTE: If the sections are from an exisiting item, and the section IDs are UUIDs, the section IDs will be regenerated
-
+        tags: List[str], optional
+            A list of tags to add to the "tags" field of the item template dictionary
         extra_data: Dict[str, Any]
             Dictionary of data not associated with any field or section, for example login item URLs:
             {
@@ -134,7 +135,8 @@ class OPNewItemMixin:
         if tags is None:  # pragma: no coverage
             tags = []
         else:
-            tags = list(tags)
+            # remove duplicate tags
+            tags = list(set(tags))
 
         if extra_data is None:  # pragma: no coverage
             extra_data = {}

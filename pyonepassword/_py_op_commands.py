@@ -3,6 +3,7 @@ Description: A module that maps methods to to `op` commands and subcommands
 """
 import enum
 import logging
+from datetime import datetime, timedelta
 from os import environ
 from typing import Mapping, Optional, Union
 
@@ -54,6 +55,8 @@ class _OPCommandInterface(_OPCLIExecute):
     NO_SESSION_TOKEN_FOUND_TEXT = "could not find session token for account"
     ACCT_IS_NOT_SIGNED_IN_TEXT = "account is not signed in"
 
+    AUTH_RECHECK_PERIOD = timedelta(minutes=5)
+
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
     def __init__(self,
@@ -79,6 +82,10 @@ class _OPCommandInterface(_OPCLIExecute):
         # False -> ExistingAuthFlag.NONE, True -> ExistingAuthFlag.AVAILABLE
         existing_auth = ExistingAuthEnum(existing_auth)
 
+        # save user preference about whether to allow prompting for authentication
+        # so, if desired, we can raise an exception later if authentication expires
+        # and avoid triggering a prompt
+        self._existing_auth_preference = existing_auth
         self.op_path = op_path
         self._account_identifier = account
 
@@ -87,6 +94,10 @@ class _OPCommandInterface(_OPCLIExecute):
         self._account_list: OPAccountList = None
         self._uses_bio: bool = False
         self._sess_var: str = None
+        # initialize these to None so they can be checked in
+        # _auth_expired()
+        self._auth_check_time: datetime = None
+        self._signed_in_account: OPAccount = None
 
         # gathering facts will attempt to set the above instance variables
         # that got initialized to None or False
@@ -98,7 +109,8 @@ class _OPCommandInterface(_OPCLIExecute):
         # failing that, may attempt to authenticate to the 1Password account
         account_obj, token = self._new_or_existing_signin(
             existing_auth, password, password_prompt)
-        self._signed_in_account: OPAccount = account_obj
+        self._auth_check_time = datetime.now()
+        self._signed_in_account = account_obj
         self._token = token
         if self._signed_in_account.is_service_account():
             self.logger.debug("Signed in as a service account")
@@ -232,6 +244,14 @@ class _OPCommandInterface(_OPCLIExecute):
             account = self._verify_signin(token=token)
         return (account, token)
 
+    def _auth_expired(self):
+        expired = True
+        if self._signed_in_account and self._auth_check_time:
+            elapsed = datetime.now() - self._auth_check_time
+            if elapsed > self.AUTH_RECHECK_PERIOD:
+                expired = False
+        return expired
+
     def _verify_signin(self, token: str = None):
         env: Mapping
         account = None
@@ -320,6 +340,15 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
+    def _run_with_auth_check(self, argv, capture_stdout=False, input_string=None, decode=None, env=environ):
+        if self._auth_expired() and self._existing_auth_preference == EXISTING_AUTH_REQD:
+            raise OPNotSignedInException("Authentication has expired")
+        return self._run(argv,
+                         capture_stdout=capture_stdout,
+                         input_string=input_string,
+                         decode=decode,
+                         env=environ)
+
     @classmethod
     def _account_list_argv(cls, op_path="op", encoding="utf-8"):
         argv = _OPArgv.account_list_argv(op_path, encoding=encoding)
@@ -401,7 +430,7 @@ class _OPCommandInterface(_OPCLIExecute):
         get_item_argv = self._item_get_argv(
             item_name_or_id, vault=vault, fields=fields, include_archive=include_archive)
         try:
-            output = self._run(
+            output = self._run_with_auth_check(
                 get_item_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPItemGetException.from_opexception(ocfe) from ocfe

@@ -279,7 +279,7 @@ class _OPCommandInterface(_OPCLIExecute):
             account_json = self._run(
                 argv, capture_stdout=True, decode="utf-8", env=env)
             account = OPAccount(account_json)
-        except OPCmdFailedException as opfe:
+        except OPCmdFailedException as ocfe:
             # scrape error message about not being signed in
 
             fragments = [self.NO_ACTIVE_SESSION_FOUND_TEXT,
@@ -288,12 +288,12 @@ class _OPCommandInterface(_OPCLIExecute):
                          self.ACCT_IS_NOT_SIGNED_IN_TEXT]
             unknown_err = True
             for frag in fragments:
-                if frag in opfe.err_output:
+                if frag in ocfe.err_output:
                     unknown_err = False
                     break
             # there was a different error so raise the exception
             if unknown_err:  # pragma: no cover
-                raise opfe
+                raise ocfe
 
         return account
 
@@ -335,8 +335,8 @@ class _OPCommandInterface(_OPCLIExecute):
         try:
             output = self._run(argv, capture_stdout=True,
                                input_string=password, decode="utf-8")
-        except OPCmdFailedException as opfe:
-            raise OPSigninException.from_opexception(opfe) from opfe
+        except OPCmdFailedException as ocfe:
+            raise OPSigninException.from_opexception(ocfe) from ocfe
 
         return output
 

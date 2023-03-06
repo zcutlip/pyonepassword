@@ -5,7 +5,7 @@ import enum
 import logging
 from datetime import datetime, timedelta
 from os import environ
-from typing import Mapping, Optional, Union
+from typing import Dict, Mapping, Optional, Union
 
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
@@ -28,7 +28,8 @@ from .py_op_exceptions import (
     OPUserGetException,
     OPUserListException,
     OPVaultGetException,
-    OPVaultListException
+    OPVaultListException,
+    OPWhoAmiException
 )
 
 
@@ -425,6 +426,22 @@ class _OPCommandInterface(_OPCLIExecute):
         vault_list_argv = _OPArgv.vault_list_argv(
             self.op_path, group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
         return vault_list_argv
+
+    def _whoami(self, env: Dict[str, str] = None) -> OPAccount:
+        if not env:
+            env = environ
+        argv = _OPArgv.whoami_argv(
+            self.op_path, account=self._account_identifier)
+        try:
+            account_json = self._run(
+                argv, capture_stdout=True, decode="utf-8", env=env)
+        except OPCmdFailedException as ocfe:
+            # scrape error message about not being signed in
+
+            raise OPWhoAmiException.from_opexception(ocfe)
+
+        account = OPAccount(account_json)
+        return account
 
     def _item_get(self, item_name_or_id, vault=None, fields=None, include_archive=False, decode="utf-8"):
         get_item_argv = self._item_get_argv(

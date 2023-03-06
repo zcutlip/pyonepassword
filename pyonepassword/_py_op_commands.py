@@ -245,6 +245,18 @@ class _OPCommandInterface(_OPCLIExecute):
             account = self._verify_signin(token=token)
         return (account, token)
 
+    def _auth_check_time_elapsed(self):
+        # We don't want to unconditionally run 'op whoami'
+        # before every command, so let's run it only every few minutes
+        # op session expires after 10 minutes of activity
+        # so running it every 5 minutes should be safe
+        elapsed = True
+        if self._signed_in_account and self._auth_check_time:
+            since_auth_check = datetime.now() - self._auth_check_time
+            if since_auth_check < self.AUTH_RECHECK_PERIOD:
+                elapsed = False
+        return elapsed
+
     def _auth_expired(self):
         expired = True
         if self._signed_in_account and self._auth_check_time:

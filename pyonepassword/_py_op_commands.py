@@ -258,11 +258,21 @@ class _OPCommandInterface(_OPCLIExecute):
         return elapsed
 
     def _auth_expired(self):
+        # this is a test to see if the previously valid authentication
+        # is still valid, with the assumption that if it is not, then it
+        # has expired
+        # it is primarily for the following two purposes
+        # - avoid triggering an interactive prompt or GUI dialogue, if undesired and hanging indefinitely
+        # - being able to raise OPNotSignedInException to the caller rather than a generic
+        #   "command failed" exception
         expired = True
-        if self._signed_in_account and self._auth_check_time:
-            elapsed = datetime.now() - self._auth_check_time
-            if elapsed > self.AUTH_RECHECK_PERIOD:
-                expired = False
+        if self._auth_check_time_elapsed():
+            try:
+                if self._whoami():
+                    expired = False
+            except OPWhoAmiException:
+                pass
+            self._auth_check_time = datetime.now()
         return expired
 
     def _verify_signin(self, token: str = None):

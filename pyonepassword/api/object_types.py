@@ -13,6 +13,7 @@ from ..op_items._new_item import OPNewSection
 from ..op_items._op_items_base import OPAbstractItem
 from ..op_items.api_credential import OPAPICredentialItem
 from ..op_items.credit_card import OPCreditCardItem
+from ..op_items.database import OPDatabaseItem, OPDatabaseItemRelaxedValidation
 from ..op_items.document import OPDocumentFile, OPDocumentItem
 from ..op_items.item_field import OPConcealedField, OPStringField, OPTOTPField
 from ..op_items.item_field_base import OPItemField
@@ -24,7 +25,6 @@ from ..op_items.login import (
     OPLoginItemRelaxedValidation,
     OPLoginItemTemplate
 )
-from ..op_items.database import OPDatabaseItem
 from ..op_items.password import OPPasswordItem
 from ..op_items.password_recipe import OPPasswordRecipe
 from ..op_items.secure_note import OPSecureNoteItem
@@ -63,6 +63,7 @@ __all__ = [
     "OPLoginItemRelaxedValidation",
     "OPLoginItemTemplate",
     "OPDatabaseItem",
+    "OPDatabaseItemRelaxedValidation",
     "OPPasswordItem",
     "OPPasswordRecipe",
     "OPSecureNoteItem",

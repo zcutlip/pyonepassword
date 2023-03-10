@@ -1,4 +1,4 @@
-from typing import Dict, Union
+from typing import Dict, Optional, Union
 
 from .expected_data import ExpectedData
 
@@ -25,8 +25,8 @@ class ExpectedItemField:
         return self._data["label"]
 
     @property
-    def value(self) -> Union[str, Dict]:
-        return self._data["value"]
+    def value(self) -> Optional[Union[str, Dict]]:
+        return self._data.get("value")
 
     @property
     def reference(self) -> str:

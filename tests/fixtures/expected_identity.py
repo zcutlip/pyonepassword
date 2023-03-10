@@ -10,6 +10,6 @@ class ExpectedIdenity(ExpectedItemBase):
 class ExpectedIdenityItemData(ExpectedItemData):
 
     def data_for_identity(self, identity_identifier):
-        item_dict = self._data[identity_identifier]
+        item_dict = self.data_for_name(identity_identifier)
         identity_item = ExpectedIdenity(item_dict)
         return identity_item

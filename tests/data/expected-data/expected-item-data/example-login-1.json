@@ -1,0 +1,19 @@
+{
+  "username": "johndoe1999",
+  "password": "W9bZ@ZwGpRXCqnWt",
+  "id": "nnotgv5xwrhjbdj6bt3rugrijy",
+  "created_at": "2020-12-04T00:50:48Z",
+  "updated_at": "2021-03-15T17:15:37Z",
+  "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
+  "vault_id": "gshlsjsajnawtnjynzgwmiebge",
+  "version": 6,
+  "favorite": true,
+  "urls": [
+    {
+      "label": "website",
+      "primary": true,
+      "href": "https://example.cheeseburger/login.php"
+    }
+  ],
+  "returncode": 0
+}

@@ -30,8 +30,13 @@ class ExpectedData(ValidData):
 
     @property
     def item_data(self) -> Dict[str, Dict]:
-        data = self.data_for_name("expected-item-data")
-        return data
+        item_data_registry = self.data_for_name("expected-item-data")
+        return item_data_registry
+
+    @property
+    def item_list_data(self) -> Dict[str, Dict]:
+        item_list_data_registry = self.data_for_name("expected-item-list-data")
+        return item_list_data_registry
 
     @property
     def document_data(self) -> Dict[str, Dict]:

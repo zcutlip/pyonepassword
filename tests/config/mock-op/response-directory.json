@@ -183,12 +183,6 @@
       "stderr": "error_output",
       "name": "item-list-vault-test-data"
     },
-    "--format|json|item|list|--categories|login,identity|--vault|Test Data": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-list-vault-test-data-login-identity"
-    },
     "--format|json|item|list|--include-archive|--vault|Test Data": {
       "exit_status": 0,
       "stdout": "output",
@@ -479,6 +473,34 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "item-list-vault-invalid-vault",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Database Missing Fields|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-database-missing-fields",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Database 1|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-database-1",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Database 2|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-database-2",
+      "changes_state": false
+    },
+    "--format|json|item|list|--categories|login,identity,database|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-vault-test-data-login-identity-database",
       "changes_state": false
     }
   },

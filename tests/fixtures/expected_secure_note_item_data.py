@@ -11,6 +11,6 @@ class ExpectedSecureNoteItem(ExpectedItemBase):
 class ExpectedSecureNoteItemData(ExpectedItemData):
 
     def data_for_note(self, note_identifier):
-        item_dict = self._data[note_identifier]
+        item_dict = self.data_for_name(note_identifier)
         note_item = ExpectedSecureNoteItem(item_dict)
         return note_item

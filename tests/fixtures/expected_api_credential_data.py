@@ -69,6 +69,6 @@ class ExpectedAPICredential(ExpectedItemBase):
 class ExpectedAPICredentialData(ExpectedItemData):
 
     def api_cred_data_for_login(self, login_identifier):
-        item_dict = self._data[login_identifier]
+        item_dict = self.data_for_name(login_identifier)
         login_item = ExpectedAPICredential(item_dict)
         return login_item

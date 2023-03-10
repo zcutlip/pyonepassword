@@ -5,6 +5,7 @@ from ..test_support._datetime import fromisoformat_z
 from .expected_data import ExpectedData
 from .expected_item_fields import ExpectedItemField
 from .expected_item_sections import ExpectedItemSection
+from .valid_data import ValidData
 
 
 class ExpectedItemBase:
@@ -66,7 +67,8 @@ class ExpectedItemBase:
         field_dicts = self._data["fields"]
         for fd in field_dicts:
             f = ExpectedItemField(fd)
-            fields.append(f)
+            if f.label == label:
+                fields.append(f)
         return fields
 
     def section_by_id(self, section_id: str) -> ExpectedItemSection:
@@ -78,9 +80,23 @@ class ExpectedItemBase:
         section = ExpectedItemSection(section_dict)
         return section
 
+    def field_by_id(self, field_id: str) -> ExpectedItemField:
+        field_dicts = self._data["fields"]
+        matching_field = None
+        for fd in field_dicts:
+            f = ExpectedItemField(fd)
+            if f.field_id == field_id:
+                matching_field = f
+                break
+        if not matching_field:
+            raise Exception(f"No expected item field matching id: {field_id}")
+        return matching_field
 
-class ExpectedItemData:
+
+class ExpectedItemData(ValidData):
     def __init__(self):
         expected_data = ExpectedData()
-        item_data: Dict = expected_data.item_data
-        self._data: Dict = item_data
+        item_data_registry: Dict = expected_data.item_data
+        registry = item_data_registry["registry"]
+        super().__init__(registry=registry)
+        self._data_path = item_data_registry["data_path"]

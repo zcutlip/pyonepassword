@@ -12,10 +12,12 @@ from .expected_account_data import ExpectedAccountData
 from .expected_api_credential_data import ExpectedAPICredentialData
 from .expected_credit_card import ExpectedCreditCardData
 from .expected_data import ExpectedData
+from .expected_database import ExpectedDatabaseItemData
 from .expected_datetimes import ExpectedDatetimeData
 from .expected_document_data import ExpectedDocumentData
 from .expected_group_data import ExpectedGroupData, ExpectedGroupListData
 from .expected_identity import ExpectedIdenityItemData
+from .expected_item import ExpectedItemData
 from .expected_item_fields import ExpectedItemFieldData
 from .expected_item_list import ExpectedItemListData
 from .expected_item_sections import ExpectedItemSectionData
@@ -293,6 +295,12 @@ def expected_item_password_data():
 
 
 @fixture
+def expected_item_data():
+    data = ExpectedItemData()
+    return data
+
+
+@fixture
 def expected_secure_note_item_data():
     data = ExpectedSecureNoteItemData()
     return data
@@ -337,6 +345,12 @@ def expected_totp_data():
 @fixture
 def expected_api_credential_data():
     data = ExpectedAPICredentialData()
+    return data
+
+
+@fixture
+def expected_database_data():
+    data = ExpectedDatabaseItemData()
     return data
 
 

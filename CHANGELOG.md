@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.7.0] - 2023-03-10
+
+## Added
+
+  - `OPDatabaseItem` class for retrieving database 1Password items (gh-98)
+
+
+## Misc
+
+Substantial refactor of automated test expected data for item objects
+
+## Contributors
+
+- @Rom3dius: gh-97 pull request
+
+
 ## [3.6.0] - 2023-03-01
 
 ## Added

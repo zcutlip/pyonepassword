@@ -1,0 +1,19 @@
+{
+  "id": "rh4qlntrofdwfmpsoa7j4eang4",
+  "trashed": false,
+  "created_at": "2021-03-19T18:57:22Z",
+  "updated_at": "2022-05-05T21:13:48Z",
+  "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
+  "vault_id": "gshlsjsajnawtnjynzgwmiebge",
+  "credit_card_number": "3123456789012345",
+  "cvv": "1234",
+  "expiry_date": 204202,
+  "valid_from": 198001,
+  "pin": "9876",
+  "credit_limit": "50000",
+  "cash_withdrawal_limit": "3000",
+  "interest_rate": "8%",
+  "title": "Example Credit Card",
+  "issue_number": "0",
+  "returncode": 0
+}

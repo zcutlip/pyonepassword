@@ -118,5 +118,13 @@
   "Example Database 1": {
     "name": "example-database-1.json",
     "type": "json"
+  },
+  "Example Database 2": {
+    "name": "example-database-2.json",
+    "type": "json"
+  },
+  "Example Database Missing Fields": {
+    "name": "example-database-missing-fields.json",
+    "type": "json"
   }
 }

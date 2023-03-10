@@ -49,7 +49,7 @@ class OPDatabaseItem(OPAbstractItem):
     def database(self) -> Union[str, None]:
         try:
             database = self.field_value_by_id("database")
-        except OPFieldNotFoundException:
+        except OPFieldNotFoundException:  # pragma: no coverage
             database = None
         return database
 
@@ -65,7 +65,7 @@ class OPDatabaseItem(OPAbstractItem):
     def sid(self) -> Union[str, None]:
         try:
             sid = self.field_value_by_id("SID")
-        except OPFieldNotFoundException:
+        except OPFieldNotFoundException:  # pragma: no coverage
             sid = None
         return sid
 
@@ -73,7 +73,7 @@ class OPDatabaseItem(OPAbstractItem):
     def alias(self) -> Union[str, None]:
         try:
             alias = self.field_value_by_id("alias")
-        except OPFieldNotFoundException:
+        except OPFieldNotFoundException:  # pragma: no coverage
             alias = None
         return alias
 
@@ -81,7 +81,7 @@ class OPDatabaseItem(OPAbstractItem):
     def options(self) -> Union[str, None]:
         try:
             options = self.field_value_by_id("options")
-        except OPFieldNotFoundException:
+        except OPFieldNotFoundException:  # pragma: no coverage
             options = None
         return options
 

@@ -26,8 +26,14 @@ class OPDatabaseItem(OPAbstractItem):
         return self.field_value_by_id("type")
 
     @property
+    def hostname(self) -> str:
+        return self.field_value_by_id("hostname")
+
+    @property
     def server(self) -> str:
-        return self.field_value_by_id("server")
+        # convenience accessor for "hostname"
+        # label for "hostname" is "server"
+        return self.hostname
 
     @property
     def port(self) -> int:

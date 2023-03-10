@@ -114,5 +114,9 @@
   "Delete and Archive Me": {
     "name": "delete-and-archive-me.json",
     "type": "json"
+  },
+  "Example Database 1": {
+    "name": "example-database-1.json",
+    "type": "json"
   }
 }

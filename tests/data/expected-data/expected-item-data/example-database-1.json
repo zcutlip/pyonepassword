@@ -1,0 +1,83 @@
+{
+    "id": "vsysolsqvh6jexbibfv3lgoogi",
+    "title": "Example Database 1",
+    "version": 1,
+    "vault": {
+        "id": "gshlsjsajnawtnjynzgwmiebge",
+        "name": "Test Data"
+    },
+    "category": "DATABASE",
+    "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
+    "created_at": "2023-03-09T20:31:33Z",
+    "updated_at": "2023-03-09T20:31:33Z",
+    "additional_information": "db-server.local",
+    "fields": [
+        {
+            "id": "notesPlain",
+            "type": "STRING",
+            "purpose": "NOTES",
+            "label": "notesPlain",
+            "reference": "op://Test Data/Example Database 1/notesPlain"
+        },
+        {
+            "id": "database_type",
+            "type": "MENU",
+            "label": "type",
+            "value": "mysql",
+            "reference": "op://Test Data/Example Database 1/type"
+        },
+        {
+            "id": "hostname",
+            "type": "STRING",
+            "label": "server",
+            "value": "db-server.local",
+            "reference": "op://Test Data/Example Database 1/server"
+        },
+        {
+            "id": "port",
+            "type": "STRING",
+            "label": "port",
+            "value": "3306",
+            "reference": "op://Test Data/Example Database 1/port"
+        },
+        {
+            "id": "database",
+            "type": "STRING",
+            "label": "database",
+            "value": "example-db",
+            "reference": "op://Test Data/Example Database 1/database"
+        },
+        {
+            "id": "username",
+            "type": "STRING",
+            "label": "username",
+            "value": "db-user",
+            "reference": "op://Test Data/Example Database 1/username"
+        },
+        {
+            "id": "password",
+            "type": "CONCEALED",
+            "label": "password",
+            "value": "db-pass",
+            "reference": "op://Test Data/Example Database 1/password"
+        },
+        {
+            "id": "sid",
+            "type": "STRING",
+            "label": "SID",
+            "reference": "op://Test Data/Example Database 1/SID"
+        },
+        {
+            "id": "alias",
+            "type": "STRING",
+            "label": "alias",
+            "reference": "op://Test Data/Example Database 1/alias"
+        },
+        {
+            "id": "options",
+            "type": "STRING",
+            "label": "connection options",
+            "reference": "op://Test Data/Example Database 1/connection options"
+        }
+    ]
+}

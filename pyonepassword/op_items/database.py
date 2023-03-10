@@ -23,7 +23,11 @@ class OPDatabaseItem(OPAbstractItem):
 
     @property
     def database_type(self) -> str:
-        return self.field_value_by_id("database_type")
+        try:
+            database_type = self.field_value_by_id("database_type")
+        except OPFieldNotFoundException:  # pragma: no coverage
+            database_type = None
+        return database_type
 
     @property
     def type(self) -> str:
@@ -33,7 +37,11 @@ class OPDatabaseItem(OPAbstractItem):
 
     @property
     def hostname(self) -> str:
-        return self.field_value_by_id("hostname")
+        try:
+            hostname = self.field_value_by_id("hostname")
+        except OPFieldNotFoundException:
+            hostname = None
+        return hostname
 
     @property
     def server(self) -> str:
@@ -43,29 +51,41 @@ class OPDatabaseItem(OPAbstractItem):
 
     @property
     def port(self) -> int:
-        return self.field_value_by_id("port")
+        try:
+            port = self.field_value_by_id("port")
+        except OPFieldNotFoundException:
+            port = None
+        return port
 
     @property
     def database(self) -> Union[str, None]:
         try:
             database = self.field_value_by_id("database")
-        except OPFieldNotFoundException:  # pragma: no coverage
+        except OPFieldNotFoundException:
             database = None
         return database
 
     @property
     def username(self) -> str:
-        return self.field_value_by_id("username")
+        try:
+            username = self.field_value_by_id("username")
+        except OPFieldNotFoundException:
+            username = None
+        return username
 
     @property
     def password(self) -> str:
-        return self.field_value_by_id("password")
+        try:
+            password = self.field_value_by_id("password")
+        except OPFieldNotFoundException:
+            password = None
+        return password
 
     @property
     def sid(self) -> Union[str, None]:
         try:
             sid = self.field_value_by_id("SID")
-        except OPFieldNotFoundException:  # pragma: no coverage
+        except OPFieldNotFoundException:
             sid = None
         return sid
 
@@ -73,7 +93,7 @@ class OPDatabaseItem(OPAbstractItem):
     def alias(self) -> Union[str, None]:
         try:
             alias = self.field_value_by_id("alias")
-        except OPFieldNotFoundException:  # pragma: no coverage
+        except OPFieldNotFoundException:
             alias = None
         return alias
 
@@ -81,7 +101,7 @@ class OPDatabaseItem(OPAbstractItem):
     def options(self) -> Union[str, None]:
         try:
             options = self.field_value_by_id("options")
-        except OPFieldNotFoundException:  # pragma: no coverage
+        except OPFieldNotFoundException:
             options = None
         return options
 

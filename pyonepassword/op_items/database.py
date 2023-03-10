@@ -22,8 +22,14 @@ class OPDatabaseItem(OPAbstractItem):
         super().__init__(item_dict)
 
     @property
+    def database_type(self) -> str:
+        return self.field_value_by_id("database_type")
+
+    @property
     def type(self) -> str:
-        return self.field_value_by_id("type")
+        # convenience accessor for "database_type"
+        # label for "database_type" is "type"
+        return self.database_type
 
     @property
     def hostname(self) -> str:

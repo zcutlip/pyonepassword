@@ -1,0 +1,16 @@
+{
+  "username": "zcutlip",
+  "password": "doth-parrot-hid-tussock-veldt",
+  "urls": [
+    {
+      "label": "example website 2",
+      "href": "http://example2.website"
+    },
+    {
+      "label": "example website 1",
+      "primary": true,
+      "href": "https://example.website"
+    }
+  ],
+  "returncode": 0
+}

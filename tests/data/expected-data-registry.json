@@ -1,7 +1,7 @@
 {
     "expected-item-data": {
-        "name": "expected-item-data.json",
-        "type": "json"
+        "name": "expected-item-data",
+        "type": "registry"
     },
     "expected-document-data": {
         "name": "expected-document-data.json",

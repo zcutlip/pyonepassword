@@ -78,6 +78,6 @@ class ExpectedServer(ExpectedItemBase):
 class ExpectedServerItemData(ExpectedItemData):
 
     def data_for_server(self, note_identifier):
-        item_dict = self._data[note_identifier]
+        item_dict = self.data_for_name(note_identifier)
         server_item = ExpectedServer(item_dict)
         return server_item

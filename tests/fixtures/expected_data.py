@@ -34,6 +34,11 @@ class ExpectedData(ValidData):
         return item_data_registry
 
     @property
+    def item_list_data(self) -> Dict[str, Dict]:
+        item_list_data_registry = self.data_for_name("expected-item-list-data")
+        return item_list_data_registry
+
+    @property
     def document_data(self) -> Dict[str, Dict]:
         data = self.data_for_name("expected-document-data")
         return data

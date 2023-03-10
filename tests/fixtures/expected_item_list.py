@@ -2,10 +2,7 @@ import datetime
 from typing import Dict, List
 
 from ..test_support._datetime import fromisoformat_z
-from .paths import (
-    EXPECTED_ITEM_LIST_DATA_PATH,
-    EXPECTED_ITEM_LIST_DATA_REGISTRY_PATH
-)
+from .expected_data import ExpectedData
 from .valid_data import ValidData
 
 
@@ -75,8 +72,13 @@ class ExpectedItemList(List[_ItemEntry]):
 
 
 class ExpectedItemListData(ValidData):
-    REGISTRY_PATH = EXPECTED_ITEM_LIST_DATA_REGISTRY_PATH
-    DATA_PATH = EXPECTED_ITEM_LIST_DATA_PATH
+
+    def __init__(self):
+        expected_data = ExpectedData()
+        item_list_data_registry: Dict = expected_data.item_list_data
+        registry = item_list_data_registry["registry"]
+        super().__init__(registry=registry)
+        self._data_path = item_list_data_registry["data_path"]
 
     def data_for_name(self, entry_name) -> ExpectedItemList:
         data = super().data_for_name(entry_name)

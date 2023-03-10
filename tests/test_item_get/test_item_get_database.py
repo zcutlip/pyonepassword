@@ -207,3 +207,199 @@ def test_item_get_database_12(signed_in_op: OP, expected_database_data: Expected
     result: OPDatabaseItem = signed_in_op.item_get(item_name, vault=vault)
     assert isinstance(result, OPDatabaseItem)
     assert result.connection_options == expected.options
+
+
+def test_item_get_database_13(signed_in_op: OP, expected_database_data: ExpectedDatabaseItemData):
+    """
+    call OP.item_get() to get a database item
+
+    Verify:
+        expected username matches actual username
+    """
+    item_name = "Example Database 2"
+    vault = "Test Data"
+    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
+        item_name)
+    result = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPDatabaseItem)
+    assert result.username
+    assert result.username == expected.username
+
+
+def test_item_get_database_14(signed_in_op: OP, expected_database_data: ExpectedDatabaseItemData):
+    """
+    call OP.item_get() to get a database item
+
+    Verify:
+        expected password matches actual password
+    """
+    item_name = "Example Database 2"
+    vault = "Test Data"
+    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
+        item_name)
+    result = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPDatabaseItem)
+    assert result.password
+    assert result.password == expected.password
+
+
+def test_item_get_database_15(signed_in_op: OP, expected_database_data: ExpectedDatabaseItemData):
+    """
+    call OP.item_get() to get a database item
+
+    Verify:
+        expected database_type matches actual database_type
+    """
+    item_name = "Example Database 2"
+    vault = "Test Data"
+    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
+        item_name)
+    result = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPDatabaseItem)
+    assert result.database_type
+    assert result.database_type == expected.database_type
+
+
+def test_item_get_database_16(signed_in_op: OP, expected_database_data: ExpectedDatabaseItemData):
+    """
+    call OP.item_get() to get a database item
+
+    Verify:
+        expected databse_type matches actual convience property "type"
+    """
+    item_name = "Example Database 2"
+    vault = "Test Data"
+    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
+        item_name)
+    result = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPDatabaseItem)
+    assert result.type
+    assert result.type == expected.database_type
+
+
+def test_item_get_database_17(signed_in_op: OP, expected_database_data: ExpectedDatabaseItemData):
+    """
+    call OP.item_get() to get a database item
+
+    Verify:
+        expected hostname matches actual hostname
+    """
+    item_name = "Example Database 2"
+    vault = "Test Data"
+    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
+        item_name)
+    result: OPDatabaseItem = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPDatabaseItem)
+    assert result.hostname
+    assert result.hostname == expected.hostname
+
+
+def test_item_get_database_18(signed_in_op: OP, expected_database_data: ExpectedDatabaseItemData):
+    """
+    call OP.item_get() to get a database item
+
+    Verify:
+        expected hostname matches actual convenience property "server"
+    """
+    item_name = "Example Database 2"
+    vault = "Test Data"
+    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
+        item_name)
+    result: OPDatabaseItem = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPDatabaseItem)
+    assert result.server
+    assert result.server == expected.hostname
+
+
+def test_item_get_database_19(signed_in_op: OP, expected_database_data: ExpectedDatabaseItemData):
+    """
+    call OP.item_get() to get a database item
+
+    Verify:
+        expected port matches actual port
+    """
+    item_name = "Example Database 2"
+    vault = "Test Data"
+    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
+        item_name)
+    result: OPDatabaseItem = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPDatabaseItem)
+    assert result.port
+    assert result.port == expected.port
+
+
+def test_item_get_database_20(signed_in_op: OP, expected_database_data: ExpectedDatabaseItemData):
+    """
+    call OP.item_get() to get a database item
+
+    Verify:
+        expected database field matches actual database field
+    """
+    item_name = "Example Database 2"
+    vault = "Test Data"
+    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
+        item_name)
+    result: OPDatabaseItem = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPDatabaseItem)
+    assert result.database
+    assert result.database == expected.database
+
+
+def test_item_get_database_21(signed_in_op: OP):
+    """
+    call OP.item_get() to get a database item
+
+    Verify:
+        expected sid matches actual sid
+    """
+    item_name = "Example Database 2"
+    vault = "Test Data"
+
+    result: OPDatabaseItem = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPDatabaseItem)
+    assert result.sid is None
+
+
+def test_item_get_database_22(signed_in_op: OP):
+    """
+    call OP.item_get() to get a database item
+
+    Verify:
+        expected alias matches actual alias
+    """
+    item_name = "Example Database 2"
+    vault = "Test Data"
+
+    result: OPDatabaseItem = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPDatabaseItem)
+    assert result.alias is None
+
+
+def test_item_get_database_23(signed_in_op: OP):
+    """
+    call OP.item_get() to get a database item
+
+    Verify:
+        expected options matches actual options
+    """
+    item_name = "Example Database 2"
+    vault = "Test Data"
+
+    result: OPDatabaseItem = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPDatabaseItem)
+    assert result.options is None
+
+
+def test_item_get_database_24(signed_in_op: OP, expected_database_data: ExpectedDatabaseItemData):
+    """
+    call OP.item_get() to get a database item
+
+    Verify:
+        expected options matches actual convenience property "connection_options"
+    """
+    item_name = "Example Database 2"
+    vault = "Test Data"
+
+    result: OPDatabaseItem = signed_in_op.item_get(item_name, vault=vault)
+    assert isinstance(result, OPDatabaseItem)
+    assert result.connection_options is None

@@ -11,6 +11,6 @@ class ExpectedPasswordItem(ExpectedItemBase):
 class ExpectedPasswordItemData(ExpectedItemData):
 
     def data_for_password(self, password_identifier: str):
-        item_dict = self._data[password_identifier]
+        item_dict = self.data_for_name(password_identifier)
         password_item = ExpectedPasswordItem(item_dict)
         return password_item

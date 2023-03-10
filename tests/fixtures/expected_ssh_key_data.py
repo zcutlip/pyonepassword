@@ -60,6 +60,6 @@ class ExpectedSSHKey(ExpectedItemBase):
 class ExpectedSSHKeyData(ExpectedItemData):
 
     def data_for_ssh_key(self, ssh_key_identifier):
-        item_dict = self._data[ssh_key_identifier]
+        item_dict = self.data_for_name(ssh_key_identifier)
         ssh_key_item = ExpectedSSHKey(item_dict)
         return ssh_key_item

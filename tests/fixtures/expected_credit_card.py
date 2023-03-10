@@ -55,6 +55,6 @@ class ExpectedCreditCard(ExpectedItemBase):
 class ExpectedCreditCardData(ExpectedItemData):
 
     def data_for_credit_card(self, credit_card_identifier):
-        item_dict = self._data[credit_card_identifier]
+        item_dict = self.data_for_name(credit_card_identifier)
         note_item = ExpectedCreditCard(item_dict)
         return note_item

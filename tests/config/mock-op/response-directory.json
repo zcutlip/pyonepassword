@@ -481,6 +481,13 @@
       "stderr": "error_output",
       "name": "item-get-example-database-1",
       "changes_state": false
+    },
+    "--format|json|item|list|--categories|login,identity,database|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-list-vault-test-data-login-identity-database",
+      "changes_state": false
     }
   },
   "commands_with_input": {

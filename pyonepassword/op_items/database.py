@@ -72,12 +72,18 @@ class OPDatabaseItem(OPAbstractItem):
         return alias
 
     @property
-    def connection_options(self) -> Union[str, None]:
+    def options(self) -> Union[str, None]:
         try:
-            connection_options = self.field_value_by_id("options")
+            options = self.field_value_by_id("options")
         except OPFieldNotFoundException:
-            connection_options = None
-        return connection_options
+            options = None
+        return options
+
+    @property
+    def connection_options(self) -> Union[str, None]:
+        # convenience accessor for "options"
+        # label for "options" field is "connection options"
+        return self.options
 
 
 @op_register_item_type

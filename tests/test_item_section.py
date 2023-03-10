@@ -77,7 +77,7 @@ def test_item_section_02(valid_data: ValidData, expected_login_item_data: Expect
     """
     item_name = "Example Login with Fields"
     section_id = "vh4wk7qyw46urc7wuwczzhpm7u"
-    field_label = "EXAMPLE FIELD"
+    field_label = "Example Field"
     field_id = "ikr76mnggw767qwqoel624oqv4"
     expected_login: ExpectedLogin = expected_login_item_data.data_for_login(
         item_name)

@@ -68,7 +68,7 @@ class OPDatabaseItem(OPAbstractItem):
     @property
     def connection_options(self) -> Union[str, None]:
         try:
-            connection_options = self.field_value_by_id("connection options")
+            connection_options = self.field_value_by_id("options")
         except OPFieldNotFoundException:
             connection_options = None
         return connection_options

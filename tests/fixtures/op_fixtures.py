@@ -16,6 +16,7 @@ from .expected_datetimes import ExpectedDatetimeData
 from .expected_document_data import ExpectedDocumentData
 from .expected_group_data import ExpectedGroupData, ExpectedGroupListData
 from .expected_identity import ExpectedIdenityItemData
+from .expected_item import ExpectedItemData
 from .expected_item_fields import ExpectedItemFieldData
 from .expected_item_list import ExpectedItemListData
 from .expected_item_sections import ExpectedItemSectionData
@@ -289,6 +290,12 @@ def expected_group_list_data():
 @fixture
 def expected_item_password_data():
     data = ExpectedPasswordItemData()
+    return data
+
+
+@fixture
+def expected_item_data():
+    data = ExpectedItemData()
     return data
 
 

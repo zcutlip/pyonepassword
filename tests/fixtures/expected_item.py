@@ -5,6 +5,7 @@ from ..test_support._datetime import fromisoformat_z
 from .expected_data import ExpectedData
 from .expected_item_fields import ExpectedItemField
 from .expected_item_sections import ExpectedItemSection
+from .valid_data import ValidData
 
 
 class ExpectedItemBase:
@@ -79,8 +80,10 @@ class ExpectedItemBase:
         return section
 
 
-class ExpectedItemData:
+class ExpectedItemData(ValidData):
     def __init__(self):
         expected_data = ExpectedData()
-        item_data: Dict = expected_data.item_data
-        self._data: Dict = item_data
+        item_data_registry: Dict = expected_data.item_data
+        registry = item_data_registry["registry"]
+        super().__init__(registry=registry)
+        self._data_path = item_data_registry["data_path"]

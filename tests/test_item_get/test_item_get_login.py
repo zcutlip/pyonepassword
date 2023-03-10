@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict
+from typing import TYPE_CHECKING
 
 import pytest
 
 if TYPE_CHECKING:
     from pyonepassword import OP
 
-    from ..fixtures.expected_data import ExpectedData
+    from ..fixtures.expected_item import ExpectedItemData
     from ..fixtures.expected_login import ExpectedLogin, ExpectedLoginItemData
 
 from pyonepassword.api.exceptions import OPItemGetException
@@ -15,11 +15,6 @@ from pyonepassword.api.object_types import OPLoginItem
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
-
-
-def _lookup_item_data(data: ExpectedData, item_id: str) -> Dict:
-    item = data.lookup_item(item_id)
-    return item
 
 
 def test_item_get_login_01(signed_in_op: OP, expected_login_item_data):
@@ -174,9 +169,9 @@ def test_item_get_login_alt_vault_02(signed_in_op: OP, expected_login_item_data)
     assert result.password == expected.password
 
 
-def test_item_get_invalid_login_01(signed_in_op: OP, expected_data):
+def test_item_get_invalid_login_01(signed_in_op: OP, expected_item_data: ExpectedItemData):
     item_name = "Invalid Item"
-    expected = _lookup_item_data(expected_data, item_name)
+    expected = expected_item_data.data_for_name(item_name)
     try:
         _ = signed_in_op.item_get(item_name)
         assert False, "We should have caught an exception"

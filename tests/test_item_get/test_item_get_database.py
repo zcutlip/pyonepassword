@@ -157,6 +157,7 @@ def test_item_get_database_09(signed_in_op: OP, expected_database_data: Expected
         item_name)
     result: OPDatabaseItem = signed_in_op.item_get(item_name, vault=vault)
     assert isinstance(result, OPDatabaseItem)
+    assert result.sid is None
     assert result.sid == expected.sid
 
 

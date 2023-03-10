@@ -480,6 +480,13 @@
       "stderr": "error_output",
       "name": "item-list-vault-invalid-vault",
       "changes_state": false
+    },
+    "--format|json|item|get|Example Database 1|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-database-1",
+      "changes_state": false
     }
   },
   "commands_with_input": {

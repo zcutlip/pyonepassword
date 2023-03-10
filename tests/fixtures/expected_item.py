@@ -80,6 +80,18 @@ class ExpectedItemBase:
         section = ExpectedItemSection(section_dict)
         return section
 
+    def field_by_id(self, field_id: str) -> ExpectedItemField:
+        field_dicts = self._data["fields"]
+        matching_field = None
+        for fd in field_dicts:
+            f = ExpectedItemField(fd)
+            if f.field_id == field_id:
+                matching_field = f
+                break
+        if not matching_field:
+            raise Exception(f"No expected item field matching id: {field_id}")
+        return matching_field
+
 
 class ExpectedItemData(ValidData):
     def __init__(self):

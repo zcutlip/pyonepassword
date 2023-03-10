@@ -36,7 +36,7 @@ def _items_by_title(item_list: OPItemList, item_title):
 def test_items_list_multiple_01(signed_in_op: OP, expected_login_item_data):
     login_item_title = "Example Login 1"
     items: OPItemList = signed_in_op.item_list(
-        vault="Test Data", categories=["login", "identity"])
+        vault="Test Data", categories=["login", "identity", "database"])
     result = _items_by_title(items, login_item_title)
     result: OPLoginDescriptorItem = result[0]
     expected = expected_login_item_data.data_for_login(login_item_title)
@@ -48,7 +48,7 @@ def test_items_list_multiple_01(signed_in_op: OP, expected_login_item_data):
 def test_items_list_multiple_02(signed_in_op: OP, expected_identity_data):
     identity_item_title = "Example Identity"
     items: OPItemList = signed_in_op.item_list(
-        vault="Test Data", categories=["login", "identity"])
+        vault="Test Data", categories=["login", "identity", "database"])
     result = _items_by_title(items, identity_item_title)
     result: OPIdentityItemDescriptor = result[0]
     expected = expected_identity_data.data_for_identity(identity_item_title)

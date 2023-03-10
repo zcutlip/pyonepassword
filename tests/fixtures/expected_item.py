@@ -67,7 +67,8 @@ class ExpectedItemBase:
         field_dicts = self._data["fields"]
         for fd in field_dicts:
             f = ExpectedItemField(fd)
-            fields.append(f)
+            if f.label == label:
+                fields.append(f)
         return fields
 
     def section_by_id(self, section_id: str) -> ExpectedItemSection:

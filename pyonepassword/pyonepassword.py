@@ -13,12 +13,15 @@ from .account import OPAccountList
 from .op_items._item_list import OPItemList
 from .op_items._new_item import OPNewItemMixin
 from .op_items._op_item_type_registry import OPItemFactory
-from .op_items._op_items_base import OPAbstractItem
-from .op_items.generic_item import (
+from .op_items.item_types._op_items_base import OPAbstractItem
+from .op_items.item_types.generic_item import (
     _OPGenericItem,
     _OPGenericItemRelaxedValidation
 )
-from .op_items.login import OPLoginItemNewPrimaryURL, OPLoginItemTemplate
+from .op_items.item_types.login import (
+    OPLoginItemNewPrimaryURL,
+    OPLoginItemTemplate
+)
 from .op_items.password_recipe import OPPasswordRecipe
 from .op_items.totp import OPTOTPItem
 from .op_objects import (

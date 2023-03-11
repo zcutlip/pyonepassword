@@ -5,10 +5,10 @@ from typing import Dict, Union
 
 import pytest
 
-from pyonepassword.op_items._item_descriptor_base import (
+from pyonepassword.op_items.item_types._item_descriptor_base import (
     OPAbstractItemDescriptor
 )
-from pyonepassword.op_items._op_items_base import OPAbstractItem
+from pyonepassword.op_items.item_types._op_items_base import OPAbstractItem
 
 from .fixtures.valid_data import ValidData
 

@@ -3,9 +3,9 @@ from typing import Any, Dict, Type, Union
 
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidItemException
-from ._item_descriptor_base import OPAbstractItemDescriptor
-from ._op_items_base import OPAbstractItem
-from .generic_item import (
+from .item_types._item_descriptor_base import OPAbstractItemDescriptor
+from .item_types._op_items_base import OPAbstractItem
+from .item_types.generic_item import (
     _OPGenericItem,
     _OPGenericItemDescriptor,
     _OPGenericItemRelaxedValidation

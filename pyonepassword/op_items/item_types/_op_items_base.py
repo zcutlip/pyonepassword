@@ -1,16 +1,16 @@
 from typing import Dict, List, Optional, Union
 
-from .._abc_meta import enforcedmethod
-from ..py_op_exceptions import OPInvalidItemException
-from ._item_descriptor_base import OPAbstractItemDescriptor
-from .field_registry import OPItemFieldFactory
-from .item_field_base import OPItemField
-from .item_section import (
+from ..._abc_meta import enforcedmethod
+from ...py_op_exceptions import OPInvalidItemException
+from ..field_registry import OPItemFieldFactory
+from ..item_field_base import OPItemField
+from ..item_section import (
     OPItemFieldCollisionException,
     OPSection,
     OPSectionCollisionException
 )
-from .item_validation_policy import get_relaxed_validation
+from ..item_validation_policy import get_relaxed_validation
+from ._item_descriptor_base import OPAbstractItemDescriptor
 
 
 class OPSectionNotFoundException(Exception):

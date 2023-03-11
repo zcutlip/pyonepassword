@@ -1,6 +1,6 @@
-from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._op_item_type_registry import OPItemFactory
-from .generic_item import _OPGenericItemDescriptor
+from .item_types._item_descriptor_base import OPAbstractItemDescriptor
+from .item_types.generic_item import _OPGenericItemDescriptor
 
 
 class OPItemDescriptorFactory(OPItemFactory):

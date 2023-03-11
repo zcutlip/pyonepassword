@@ -11,7 +11,7 @@ from pyonepassword.api.object_types import (
     OPPasswordItem,
     OPSection
 )
-from pyonepassword.op_items.login import OPNewItemMixin
+from pyonepassword.op_items.item_types.login import OPNewItemMixin
 
 
 class OPPasswordItemTemplate(OPNewItemMixin, OPPasswordItem):

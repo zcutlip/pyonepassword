@@ -3,7 +3,7 @@ import binascii
 import urllib.parse
 from typing import Optional, Union
 
-from ._new_field_registry import (
+from .._new_field_registry import (
     OPNewItemField,
     op_register_new_item_field_type
 )

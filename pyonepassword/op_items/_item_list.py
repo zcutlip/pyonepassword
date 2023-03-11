@@ -2,8 +2,8 @@ import json
 from typing import List, Union
 
 from ..json import safe_unjson
+from ._item_descriptor_base import OPAbstractItemDescriptor
 from ._item_descriptor_registry import OPItemDescriptorFactory
-from .item_types._item_descriptor_base import OPAbstractItemDescriptor
 
 
 class OPItemList(List[OPAbstractItemDescriptor]):

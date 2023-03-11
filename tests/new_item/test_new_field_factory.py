@@ -8,8 +8,8 @@ from pyonepassword.op_items._new_field_registry import (
     OPNewItemFieldFactory,
     OPUnknownFieldTypeException
 )
-from pyonepassword.op_items.fields_sections._new_fields import OPNewStringField
-from pyonepassword.op_items.fields_sections.item_field_base import OPItemField
+from pyonepassword.op_items._new_fields import OPNewStringField
+from pyonepassword.op_items.item_field_base import OPItemField
 from pyonepassword.py_op_exceptions import OPInvalidFieldException
 
 if TYPE_CHECKING:

@@ -278,13 +278,9 @@ class _OPCommandInterface(_OPCLIExecute):
         # this step actually talks to the 1Password account
         # it uses "op whoami" which is a very non-intrusive
         # query that will fail without authentication
-        argv = _OPArgv.whoami_argv(
-            self.op_path, account=self._account_identifier)
         try:
-            account_json = self._run(
-                argv, capture_stdout=True, decode="utf-8", env=env)
-            account = OPAccount(account_json)
-        except OPCmdFailedException as ocfe:
+            account = self._whoami(self.op_path, env=env)
+        except OPWhoAmiException as ocfe:
             # scrape error message about not being signed in
 
             fragments = [self.NO_ACTIVE_SESSION_FOUND_TEXT,

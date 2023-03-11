@@ -1,6 +1,6 @@
 from typing import Any, Dict, Type
 
-from .item_field_base import OPItemField
+from .fields_sections.item_field_base import OPItemField
 
 
 class OPItemFieldFactory:

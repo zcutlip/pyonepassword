@@ -1,7 +1,7 @@
 from .._item_descriptor_registry import op_register_item_descriptor_type
 from .._op_item_type_registry import op_register_item_type
-from ..item_field_base import OPItemField
-from ..item_section import OPSection
+from ..fields_sections.item_field_base import OPItemField
+from ..fields_sections.item_section import OPSection
 from ._item_base import OPAbstractItem
 from ._item_descriptor_base import OPAbstractItemDescriptor
 

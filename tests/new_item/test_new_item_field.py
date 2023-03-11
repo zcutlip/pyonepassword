@@ -4,13 +4,15 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from pyonepassword.op_items._new_fields import (
+from pyonepassword.op_items._new_item import OPNewSection
+from pyonepassword.op_items.fields_sections._new_fields import (
     OPNewStringField,
     OPNewUsernameField
 )
-from pyonepassword.op_items._new_item import OPNewSection
-from pyonepassword.op_items.item_field_base import OPItemField
-from pyonepassword.op_items.item_section import OPItemFieldCollisionException
+from pyonepassword.op_items.fields_sections.item_field_base import OPItemField
+from pyonepassword.op_items.fields_sections.item_section import (
+    OPItemFieldCollisionException
+)
 
 if TYPE_CHECKING:
     from ..fixtures.expected_item_fields import (

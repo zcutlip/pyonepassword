@@ -3,8 +3,8 @@ from typing import Dict, List, Optional, Union
 from ..._abc_meta import enforcedmethod
 from ...py_op_exceptions import OPInvalidItemException
 from ..field_registry import OPItemFieldFactory
-from ..item_field_base import OPItemField
-from ..item_section import (
+from ..fields_sections.item_field_base import OPItemField
+from ..fields_sections.item_section import (
     OPItemFieldCollisionException,
     OPSection,
     OPSectionCollisionException

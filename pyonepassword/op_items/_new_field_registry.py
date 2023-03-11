@@ -5,11 +5,11 @@ from typing import TYPE_CHECKING, Any, Dict, Optional, Type, Union
 
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidFieldException
-from .item_field_base import OPItemField
+from .fields_sections.item_field_base import OPItemField
 from .uuid import OPUniqueIdentifierBase32, is_uuid
 
 if TYPE_CHECKING:
-    from .item_section import OPSection  # pragma: no coverage
+    from .fields_sections.item_section import OPSection  # pragma: no coverage
 
 
 class OPUnknownFieldTypeException(Exception):

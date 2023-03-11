@@ -8,7 +8,7 @@ from do_signin import do_signin
 
 from pyonepassword import OP
 from pyonepassword.api.exceptions import OPItemGetException
-from pyonepassword.op_items.item_section import (
+from pyonepassword.op_items.fields_sections.item_section import (
     OPItemFieldCollisionException,
     OPSectionCollisionException
 )

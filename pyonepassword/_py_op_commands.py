@@ -239,6 +239,7 @@ class _OPCommandInterface(_OPCLIExecute):
             account = self._verify_signin(token=token)
         return (account, token)
 
+    @classmethod
     def _auth_expired(cls, op_path, account):
         # this is a test to see if the previously valid authentication
         # is still valid, with the assumption that if it is not, then it
@@ -430,13 +431,13 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
         return vault_list_argv
 
-    def _whoami(self, env: Dict[str, str] = None) -> OPAccount:
+    @classmethod
+    def _whoami(cls, op_path, env: Dict[str, str] = None, account: str = None) -> OPAccount:
         if not env:
             env = environ
-        argv = _OPArgv.whoami_argv(
-            self.op_path, account=self._account_identifier)
+        argv = _OPArgv.whoami_argv(op_path, account=account)
         try:
-            account_json = self._run(
+            account_json = cls._run(
                 argv, capture_stdout=True, decode="utf-8", env=env)
         except OPCmdFailedException as ocfe:
             # scrape error message about not being signed in

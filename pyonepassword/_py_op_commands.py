@@ -3,7 +3,6 @@ Description: A module that maps methods to to `op` commands and subcommands
 """
 import enum
 import logging
-from datetime import datetime, timedelta
 from os import environ
 from typing import Dict, Mapping, Optional, Union
 
@@ -56,8 +55,6 @@ class _OPCommandInterface(_OPCLIExecute):
     NO_SESSION_TOKEN_FOUND_TEXT = "could not find session token for account"
     ACCT_IS_NOT_SIGNED_IN_TEXT = "account is not signed in"
 
-    AUTH_RECHECK_PERIOD = timedelta(minutes=5)
-
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
     def __init__(self,
@@ -95,9 +92,7 @@ class _OPCommandInterface(_OPCLIExecute):
         self._account_list: OPAccountList = None
         self._uses_bio: bool = False
         self._sess_var: str = None
-        # initialize these to None so they can be checked in
-        # _auth_expired()
-        self._auth_check_time: datetime = None
+
         self._signed_in_account: OPAccount = None
 
         # gathering facts will attempt to set the above instance variables
@@ -110,7 +105,6 @@ class _OPCommandInterface(_OPCLIExecute):
         # failing that, may attempt to authenticate to the 1Password account
         account_obj, token = self._new_or_existing_signin(
             existing_auth, password, password_prompt)
-        self._auth_check_time = datetime.now()
         self._signed_in_account = account_obj
         self._token = token
         if self._signed_in_account.is_service_account():
@@ -245,19 +239,7 @@ class _OPCommandInterface(_OPCLIExecute):
             account = self._verify_signin(token=token)
         return (account, token)
 
-    def _auth_check_time_elapsed(self):
-        # We don't want to unconditionally run 'op whoami'
-        # before every command, so let's run it only every few minutes
-        # op session expires after 10 minutes of activity
-        # so running it every 5 minutes should be safe
-        elapsed = True
-        if self._signed_in_account and self._auth_check_time:
-            since_auth_check = datetime.now() - self._auth_check_time
-            if since_auth_check < self.AUTH_RECHECK_PERIOD:
-                elapsed = False
-        return elapsed
-
-    def _auth_expired(self):
+    def _auth_expired(cls, op_path, account):
         # this is a test to see if the previously valid authentication
         # is still valid, with the assumption that if it is not, then it
         # has expired
@@ -265,14 +247,13 @@ class _OPCommandInterface(_OPCLIExecute):
         # - avoid triggering an interactive prompt or GUI dialogue, if undesired and hanging indefinitely
         # - being able to raise OPNotSignedInException to the caller rather than a generic
         #   "command failed" exception
-        expired = True
-        if self._auth_check_time_elapsed():
-            try:
-                if self._whoami():
-                    expired = False
-            except OPWhoAmiException:
-                pass
-            self._auth_check_time = datetime.now()
+        expired = False
+
+        try:
+            cls._whoami(op_path, account=account)
+        except OPWhoAmiException:
+            expired = True
+
         return expired
 
     def _verify_signin(self, token: str = None):

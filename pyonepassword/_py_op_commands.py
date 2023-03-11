@@ -345,14 +345,15 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
-    def _run_with_auth_check(self, argv, capture_stdout=False, input_string=None, decode=None, env=environ):
-        if self._auth_expired() and self._existing_auth_preference == EXISTING_AUTH_REQD:
+    @classmethod
+    def _run_with_auth_check(cls, op_path, account, argv, capture_stdout=False, input_string=None, decode=None, env=environ):
+        if cls._auth_expired(op_path, account):
             raise OPNotSignedInException("Authentication has expired")
-        return self._run(argv,
-                         capture_stdout=capture_stdout,
-                         input_string=input_string,
-                         decode=decode,
-                         env=environ)
+        return cls._run(argv,
+                        capture_stdout=capture_stdout,
+                        input_string=input_string,
+                        decode=decode,
+                        env=environ)
 
     @classmethod
     def _account_list_argv(cls, op_path="op", encoding="utf-8"):

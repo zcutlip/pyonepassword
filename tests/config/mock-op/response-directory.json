@@ -502,20 +502,6 @@
       "stderr": "error_output",
       "name": "item-list-vault-test-data-login-identity-database",
       "changes_state": false
-    },
-    "--format|json|item|get|Delete Me|--vault|Test Data": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-get-duplicate-titles",
-      "changes_state": false
-    },
-    "--format|json|document|delete|non-existent-item|--vault|Test Data": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "document-delete-nonexistant-item",
-      "changes_state": false
     }
   },
   "commands_with_input": {

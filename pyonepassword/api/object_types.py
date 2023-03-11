@@ -13,7 +13,7 @@ from ..op_items._new_item import OPNewSection
 from ..op_items.item_field import OPConcealedField, OPStringField, OPTOTPField
 from ..op_items.item_field_base import OPItemField
 from ..op_items.item_section import OPSection
-from ..op_items.item_types._op_items_base import OPAbstractItem
+from ..op_items.item_types._item_base import OPAbstractItem
 from ..op_items.item_types.api_credential import OPAPICredentialItem
 from ..op_items.item_types.credit_card import OPCreditCardItem
 from ..op_items.item_types.database import (

@@ -1,3 +1,3 @@
 from ._new_fields import OPNewConcealedField, OPNewStringField
 from ._op_item_type_registry import OPItemFactory, OPUnknownItemTypeException
-from .item_types._op_items_base import OPFieldNotFoundException
+from .item_types._item_base import OPFieldNotFoundException

@@ -4,7 +4,7 @@ from ..op_items.item_section import (
     OPItemFieldCollisionException,
     OPSectionCollisionException
 )
-from ..op_items.item_types._op_items_base import (
+from ..op_items.item_types._item_base import (
     OPFieldNotFoundException,
     OPSectionNotFoundException
 )

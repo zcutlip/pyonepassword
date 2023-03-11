@@ -13,7 +13,7 @@ from pyonepassword.op_items.item_section import (
     OPSectionCollisionException
 )
 # HACK: I need to export this but haven't yet, so we're using non-API
-from pyonepassword.op_items.item_types._op_items_base import (
+from pyonepassword.op_items.item_types._item_base import (
     OPAbstractItemDescriptor
 )
 # HACK: more non-API usage

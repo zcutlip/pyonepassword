@@ -3,8 +3,8 @@ from typing import Any, Dict, Type, Union
 
 from ..json import safe_unjson
 from ..py_op_exceptions import OPInvalidItemException
+from .item_types._item_base import OPAbstractItem
 from .item_types._item_descriptor_base import OPAbstractItemDescriptor
-from .item_types._op_items_base import OPAbstractItem
 from .item_types.generic_item import (
     _OPGenericItem,
     _OPGenericItemDescriptor,

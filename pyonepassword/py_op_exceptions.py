@@ -35,6 +35,11 @@ class OPCmdFailedException(OPBaseException):
     MSG = "'op' command failed"
 
     def __init__(self, stderr_out, returncode):
+        # HACK:
+        # mock-op returns -1 if it can't find a response
+        # but op (currently) only ever returns 1 on error
+        if returncode > 254 and "Error looking up response" in stderr_out:
+            raise Exception(f"Unknown return code {returncode}")
         super().__init__(self.MSG)
         self.err_output = stderr_out
         self.returncode = returncode

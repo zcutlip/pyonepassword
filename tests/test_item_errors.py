@@ -11,7 +11,9 @@ from pyonepassword.api.exceptions import (
     OPUnknownItemTypeException
 )
 from pyonepassword.op_items import OPItemFactory
-from pyonepassword.op_items.item_section import OPItemFieldCollisionException
+from pyonepassword.op_items.fields_sections.item_section import (
+    OPItemFieldCollisionException
+)
 
 if TYPE_CHECKING:
     from pyonepassword import OP

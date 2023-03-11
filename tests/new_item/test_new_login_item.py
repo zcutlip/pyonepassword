@@ -11,9 +11,9 @@ from pyonepassword.api.object_types import (
     OPLoginItemNewURL,
     OPLoginItemTemplate
 )
-from pyonepassword.op_items._new_fields import OPNewStringField
-from pyonepassword.op_items.item_field_base import OPItemField
-from pyonepassword.op_items.item_section import (
+from pyonepassword.op_items.fields_sections._new_fields import OPNewStringField
+from pyonepassword.op_items.fields_sections.item_field_base import OPItemField
+from pyonepassword.op_items.fields_sections.item_section import (
     OPSection,
     OPSectionCollisionException
 )

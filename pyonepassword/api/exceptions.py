@@ -1,4 +1,4 @@
-from ..op_items._op_item_type_registry import OPUnknownItemTypeException
+from ..op_items._item_type_registry import OPUnknownItemTypeException
 from ..op_items.fields_sections._new_fields import OPNewTOTPUriException
 from ..op_items.fields_sections.item_section import (
     OPItemFieldCollisionException,

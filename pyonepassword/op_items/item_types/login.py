@@ -1,8 +1,8 @@
 from typing import List, Optional, Union
 
 from .._item_descriptor_registry import op_register_item_descriptor_type
+from .._item_type_registry import op_register_item_type
 from .._new_item import OPNewItemMixin
-from .._op_item_type_registry import op_register_item_type
 from ..fields_sections._new_fields import (
     OPNewPasswordField,
     OPNewUsernameField

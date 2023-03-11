@@ -11,8 +11,8 @@ from ._py_op_commands import (
 from ._py_op_deprecation import deprecated_kwargs
 from .account import OPAccountList
 from .op_items._item_list import OPItemList
+from .op_items._item_type_registry import OPItemFactory
 from .op_items._new_item import OPNewItemMixin
-from .op_items._op_item_type_registry import OPItemFactory
 from .op_items.item_types._item_base import OPAbstractItem
 from .op_items.item_types.generic_item import (
     _OPGenericItem,

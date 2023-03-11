@@ -453,7 +453,7 @@ class _OPCommandInterface(_OPCLIExecute):
             item_name_or_id, vault=vault, fields=fields, include_archive=include_archive)
         try:
             output = self._run_with_auth_check(
-                get_item_argv, capture_stdout=True, decode=decode)
+                self.op_path, self._account_identifier, get_item_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPItemGetException.from_opexception(ocfe) from ocfe
 
@@ -465,7 +465,8 @@ class _OPCommandInterface(_OPCLIExecute):
         try:
             # 'op item delete' doesn't have any output if successful
             # if it fails, stderr will be in the exception object
-            self._run(item_delete_argv, decode=decode)
+            self._run_with_auth_check(
+                self.op_path, self._account_identifier, item_delete_argv, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPItemDeleteException.from_opexception(ocfe)
 
@@ -480,7 +481,8 @@ class _OPCommandInterface(_OPCLIExecute):
         try:
             # 'op item delete' doesn't have any output if successful
             # if it fails, stderr will be in the exception object
-            self._run(item_delete_argv, input_string=batch_json)
+            self._run_with_auth_check(
+                self.op_path, self._account_identifier, item_delete_argv, input_string=batch_json)
         except OPCmdFailedException as ocfe:
             raise OPItemDeleteException.from_opexception(ocfe)
 
@@ -490,8 +492,8 @@ class _OPCommandInterface(_OPCLIExecute):
         item_get_totp_argv = self._item_get_totp_argv(
             item_name_or_id, vault=vault)
         try:
-            output = self._run(
-                item_get_totp_argv, capture_stdout=True, decode=decode)
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               item_get_totp_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPItemGetException.from_opexception(ocfe) from ocfe
 
@@ -517,7 +519,8 @@ class _OPCommandInterface(_OPCLIExecute):
             document_name_or_id, vault=vault, include_archive=include_archive)
 
         try:
-            document_bytes = self._run(get_document_argv, capture_stdout=True)
+            document_bytes = self._run_with_auth_check(
+                self.op_path, self._account_identifier, get_document_argv, capture_stdout=True)
         except OPCmdFailedException as ocfe:
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
@@ -536,7 +539,8 @@ class _OPCommandInterface(_OPCLIExecute):
         try:
             # 'op document delete' doesn't have any output if successful
             # if it fails, stderr will be in the exception object
-            self._run(document_delete_argv)
+            self._run_with_auth_check(
+                self.op_path, self._account_identifier, document_delete_argv)
         except OPCmdFailedException as ocfe:
             raise OPDocumentDeleteException.from_opexception(ocfe)
 
@@ -552,9 +556,8 @@ class _OPCommandInterface(_OPCLIExecute):
     def _user_get(self, user_name_or_id: str, decode: str = "utf-8") -> str:
         get_user_argv = self._user_get_argv(user_name_or_id)
         try:
-            output = self._run(
-                get_user_argv, capture_stdout=True, decode=decode
-            )
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               get_user_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPUserGetException.from_opexception(ocfe) from ocfe
         return output
@@ -563,9 +566,8 @@ class _OPCommandInterface(_OPCLIExecute):
         user_list_argv = self._user_list_argv(
             group_name_or_id=group_name_or_id, vault=vault)
         try:
-            output = self._run(
-                user_list_argv, capture_stdout=True, decode=decode
-            )
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               user_list_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPUserListException.from_opexception(ocfe)
         return output
@@ -573,9 +575,8 @@ class _OPCommandInterface(_OPCLIExecute):
     def _group_get(self, group_name_or_id: str, decode: str = "utf-8") -> str:
         group_get_argv = self._group_get_argv(group_name_or_id)
         try:
-            output = self._run(
-                group_get_argv, capture_stdout=True, decode=decode
-            )
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               group_get_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPGroupGetException.from_opexception(ocfe) from ocfe
         return output
@@ -584,9 +585,8 @@ class _OPCommandInterface(_OPCLIExecute):
         group_list_argv = self._group_list_argv(
             user_name_or_id=user_name_or_id, vault=vault)
         try:
-            output = self._run(
-                group_list_argv, capture_stdout=True, decode=decode
-            )
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               group_list_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPGroupListException.from_opexception(ocfe)
         return output
@@ -594,9 +594,8 @@ class _OPCommandInterface(_OPCLIExecute):
     def _vault_get(self, vault_name_or_id: str, decode: str = "utf-8") -> str:
         vault_get_argv = self._vault_get_argv(vault_name_or_id)
         try:
-            output = self._run(
-                vault_get_argv, capture_stdout=True, decode=decode
-            )
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               vault_get_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPVaultGetException.from_opexception(ocfe)
         return output
@@ -605,8 +604,8 @@ class _OPCommandInterface(_OPCLIExecute):
         vault_list_argv = self._vault_list_argv(
             group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
         try:
-            output = self._run(
-                vault_list_argv, capture_stdout=True, decode=decode)
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               vault_list_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPVaultListException.from_opexception(ocfe)
         return output
@@ -636,7 +635,8 @@ class _OPCommandInterface(_OPCLIExecute):
         argv = self._item_list_argv(
             categories=categories, include_archive=include_archive, tags=tags, vault=vault)
         try:
-            output = self._run(argv, capture_stdout=True, decode=decode)
+            output = self._run_with_auth_check(
+                self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as e:
             raise OPItemListException.from_opexception(e)
         return output
@@ -651,7 +651,8 @@ class _OPCommandInterface(_OPCLIExecute):
     def _item_create(self, item, vault, password_recipe, decode="utf-8"):
         argv = self._item_create_argv(item, password_recipe, vault)
         try:
-            output = self._run(argv, capture_stdout=True, decode=decode)
+            output = self._run_with_auth_check(
+                self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as e:
             raise OPItemCreateException.from_opexception(e)
 

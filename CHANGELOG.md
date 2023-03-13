@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.7.1] - 2023-03-13
+
+## Fixed
+
+- Attempt to raise OPNotSignedInException if authentication has expired before an operation that would either fail or trigger an authentication prompt
+- Detect if an `op` command failing was actualy `mock-op` failing during a test because it lacks a query response
+  - This was masking tests that should have failed because proper input data wasn't provided
+
 ## [3.7.0] - 2023-03-10
 
 ## Added

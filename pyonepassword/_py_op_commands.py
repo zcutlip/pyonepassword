@@ -349,7 +349,7 @@ class _OPCommandInterface(_OPCLIExecute):
                         capture_stdout=capture_stdout,
                         input_string=input_string,
                         decode=decode,
-                        env=environ)
+                        env=env)
 
     @classmethod
     def _account_list_argv(cls, op_path="op", encoding="utf-8"):

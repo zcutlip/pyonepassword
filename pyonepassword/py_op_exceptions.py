@@ -45,6 +45,7 @@ class OPCmdFailedException(OPBaseException):
         # definition
         if returncode > 254 and "Error looking up response" in stderr_out:
             raise Exception(f"Unknown return code {returncode}")
+
         super().__init__(self.MSG)
         self.err_output = stderr_out
         self.returncode = returncode

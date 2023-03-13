@@ -1,4 +1,4 @@
-from ..field_registry import op_register_item_field_type
+from .field_registry import op_register_item_field_type
 from .item_field_base import OPItemField
 
 

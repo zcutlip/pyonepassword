@@ -5,11 +5,8 @@ from typing import Dict, List, Optional
 
 from ..py_op_exceptions import OPInvalidItemException
 from ._new_field_registry import OPNewItemField, OPNewItemFieldFactory
-from .fields_sections.item_field_base import OPItemField
-from .fields_sections.item_section import (
-    OPSection,
-    OPSectionCollisionException
-)
+from .item_field_base import OPItemField
+from .item_section import OPSection, OPSectionCollisionException
 from .template_directory import OPTemplateDirectory
 from .uuid import OPUniqueIdentifierBase32, is_uuid
 

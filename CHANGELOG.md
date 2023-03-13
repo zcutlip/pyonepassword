@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ## Fixed
 
-- Attempt to raise OPNotSignedInException if authentication has expired before an operation that would either fail or trigger an authentication prompt
+- Attempt to raise OPNotSignedInException if authentication has expired (gh-84)
+  - This is done before an operation that would either fail or trigger an authentication prompt
 - Detect if an `op` command failing was actualy `mock-op` failing during a test because it lacks a query response
   - This was masking tests that should have failed because proper input data wasn't provided
 

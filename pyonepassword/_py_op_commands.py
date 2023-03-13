@@ -343,6 +343,15 @@ class _OPCommandInterface(_OPCLIExecute):
 
     @classmethod
     def _run_with_auth_check(cls, op_path, account, argv, capture_stdout=False, input_string=None, decode=None, env=environ):
+        # this somewhat of a hack to detect if authentication has expired
+        # so that we can raise OPNotSignedInException rather than the generic OPCmdFailedException
+        # under the hood, it calls 'whoami' which will fail if not authenticated
+        #
+        # We need to remove this as soon as possible if a better way becomes available
+        # among the problems:
+        # - this method is racey, since authentication may expire between the check and the
+        #   operation
+        # - this adds roughly 20% overhead (as measured by the full sweet of pytest tests)
         if cls._auth_expired(op_path, account):
             raise OPNotSignedInException("Authentication has expired")
         return cls._run(argv,

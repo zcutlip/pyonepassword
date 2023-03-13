@@ -446,8 +446,8 @@ class _OPCommandInterface(_OPCLIExecute):
 
             raise OPWhoAmiException.from_opexception(ocfe)
 
-        account = OPAccount(account_json)
-        return account
+        account_obj = OPAccount(account_json)
+        return account_obj
 
     def _item_get(self, item_name_or_id, vault=None, fields=None, include_archive=False, decode="utf-8"):
         get_item_argv = self._item_get_argv(

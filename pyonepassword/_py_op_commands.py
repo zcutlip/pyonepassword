@@ -4,7 +4,7 @@ Description: A module that maps methods to to `op` commands and subcommands
 import enum
 import logging
 from os import environ
-from typing import Mapping, Optional, Union
+from typing import Dict, Mapping, Optional, Union
 
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
@@ -27,7 +27,8 @@ from .py_op_exceptions import (
     OPUserGetException,
     OPUserListException,
     OPVaultGetException,
-    OPVaultListException
+    OPVaultListException,
+    OPWhoAmiException
 )
 
 
@@ -79,6 +80,10 @@ class _OPCommandInterface(_OPCLIExecute):
         # False -> ExistingAuthFlag.NONE, True -> ExistingAuthFlag.AVAILABLE
         existing_auth = ExistingAuthEnum(existing_auth)
 
+        # save user preference about whether to allow prompting for authentication
+        # so, if desired, we can raise an exception later if authentication expires
+        # and avoid triggering a prompt
+        self._existing_auth_preference = existing_auth
         self.op_path = op_path
         self._account_identifier = account
 
@@ -87,6 +92,8 @@ class _OPCommandInterface(_OPCLIExecute):
         self._account_list: OPAccountList = None
         self._uses_bio: bool = False
         self._sess_var: str = None
+
+        self._signed_in_account: OPAccount = None
 
         # gathering facts will attempt to set the above instance variables
         # that got initialized to None or False
@@ -98,7 +105,7 @@ class _OPCommandInterface(_OPCLIExecute):
         # failing that, may attempt to authenticate to the 1Password account
         account_obj, token = self._new_or_existing_signin(
             existing_auth, password, password_prompt)
-        self._signed_in_account: OPAccount = account_obj
+        self._signed_in_account = account_obj
         self._token = token
         if self._signed_in_account.is_service_account():
             self.logger.debug("Signed in as a service account")
@@ -232,34 +239,44 @@ class _OPCommandInterface(_OPCLIExecute):
             account = self._verify_signin(token=token)
         return (account, token)
 
+    @classmethod
+    def _auth_expired(cls, op_path, account):
+        # this is a test to see if the previously valid authentication
+        # is still valid, with the assumption that if it is not, then it
+        # has expired
+        # it is primarily for the following two purposes
+        # - avoid triggering an interactive prompt or GUI dialogue, if undesired and hanging indefinitely
+        # - being able to raise OPNotSignedInException to the caller rather than a generic
+        #   "command failed" exception
+        expired = False
+
+        try:
+            cls._whoami(op_path, account=account)
+        except OPWhoAmiException:
+            expired = True
+
+        return expired
+
     def _verify_signin(self, token: str = None):
         env: Mapping
         account = None
+        # copy os.environ to a dict since its type is incompatible
+        # with Dict[str, str], as reported by mypy
+        env = dict(environ)
         if token and self._sess_var:
             # we need to pass an environment dictionary to subprocess.run() that contains
             # the session token we're trying to verify
             #
-            # make a copy of environment rather than modifying actual env
-            # in order to verify login
+            # Above we made a copy of os.environ, so we're not modifying it at this point
             # we'll offically set it once we know it works
-            env = dict(environ)
             env[self._sess_var] = token
-        else:
-            # we don't have a token to verify
-            # so no need to modify or copy the environment
-            # we can use it as-is
-            env = environ
 
         # this step actually talks to the 1Password account
         # it uses "op whoami" which is a very non-intrusive
         # query that will fail without authentication
-        argv = _OPArgv.whoami_argv(
-            self.op_path, account=self._account_identifier)
         try:
-            account_json = self._run(
-                argv, capture_stdout=True, decode="utf-8", env=env)
-            account = OPAccount(account_json)
-        except OPCmdFailedException as opfe:
+            account = self._whoami(self.op_path, env=env)
+        except OPWhoAmiException as ocfe:
             # scrape error message about not being signed in
 
             fragments = [self.NO_ACTIVE_SESSION_FOUND_TEXT,
@@ -268,12 +285,12 @@ class _OPCommandInterface(_OPCLIExecute):
                          self.ACCT_IS_NOT_SIGNED_IN_TEXT]
             unknown_err = True
             for frag in fragments:
-                if frag in opfe.err_output:
+                if frag in ocfe.err_output:
                     unknown_err = False
                     break
             # there was a different error so raise the exception
             if unknown_err:  # pragma: no cover
-                raise opfe
+                raise ocfe
 
         return account
 
@@ -315,10 +332,29 @@ class _OPCommandInterface(_OPCLIExecute):
         try:
             output = self._run(argv, capture_stdout=True,
                                input_string=password, decode="utf-8")
-        except OPCmdFailedException as opfe:
-            raise OPSigninException.from_opexception(opfe) from opfe
+        except OPCmdFailedException as ocfe:
+            raise OPSigninException.from_opexception(ocfe) from ocfe
 
         return output
+
+    @classmethod
+    def _run_with_auth_check(cls, op_path, account, argv, capture_stdout=False, input_string=None, decode=None, env=environ):
+        # this somewhat of a hack to detect if authentication has expired
+        # so that we can raise OPNotSignedInException rather than the generic OPCmdFailedException
+        # under the hood, it calls 'whoami' which will fail if not authenticated
+        #
+        # We need to remove this as soon as possible if a better way becomes available
+        # among the problems:
+        # - this method is racey, since authentication may expire between the check and the
+        #   operation
+        # - this adds roughly 20% overhead (as measured by the full sweet of pytest tests)
+        if cls._auth_expired(op_path, account):
+            raise OPNotSignedInException("Authentication has expired")
+        return cls._run(argv,
+                        capture_stdout=capture_stdout,
+                        input_string=input_string,
+                        decode=decode,
+                        env=env)
 
     @classmethod
     def _account_list_argv(cls, op_path="op", encoding="utf-8"):
@@ -397,12 +433,28 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
         return vault_list_argv
 
+    @classmethod
+    def _whoami(cls, op_path, env: Dict[str, str] = None, account: str = None) -> OPAccount:
+        if not env:
+            env = dict(environ)
+        argv = _OPArgv.whoami_argv(op_path, account=account)
+        try:
+            account_json = cls._run(
+                argv, capture_stdout=True, decode="utf-8", env=env)
+        except OPCmdFailedException as ocfe:
+            # scrape error message about not being signed in
+
+            raise OPWhoAmiException.from_opexception(ocfe)
+
+        account_obj = OPAccount(account_json)
+        return account_obj
+
     def _item_get(self, item_name_or_id, vault=None, fields=None, include_archive=False, decode="utf-8"):
         get_item_argv = self._item_get_argv(
             item_name_or_id, vault=vault, fields=fields, include_archive=include_archive)
         try:
-            output = self._run(
-                get_item_argv, capture_stdout=True, decode=decode)
+            output = self._run_with_auth_check(
+                self.op_path, self._account_identifier, get_item_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPItemGetException.from_opexception(ocfe) from ocfe
 
@@ -414,7 +466,8 @@ class _OPCommandInterface(_OPCLIExecute):
         try:
             # 'op item delete' doesn't have any output if successful
             # if it fails, stderr will be in the exception object
-            self._run(item_delete_argv, decode=decode)
+            self._run_with_auth_check(
+                self.op_path, self._account_identifier, item_delete_argv, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPItemDeleteException.from_opexception(ocfe)
 
@@ -429,7 +482,8 @@ class _OPCommandInterface(_OPCLIExecute):
         try:
             # 'op item delete' doesn't have any output if successful
             # if it fails, stderr will be in the exception object
-            self._run(item_delete_argv, input_string=batch_json)
+            self._run_with_auth_check(
+                self.op_path, self._account_identifier, item_delete_argv, input_string=batch_json)
         except OPCmdFailedException as ocfe:
             raise OPItemDeleteException.from_opexception(ocfe)
 
@@ -439,8 +493,8 @@ class _OPCommandInterface(_OPCLIExecute):
         item_get_totp_argv = self._item_get_totp_argv(
             item_name_or_id, vault=vault)
         try:
-            output = self._run(
-                item_get_totp_argv, capture_stdout=True, decode=decode)
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               item_get_totp_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPItemGetException.from_opexception(ocfe) from ocfe
 
@@ -466,7 +520,8 @@ class _OPCommandInterface(_OPCLIExecute):
             document_name_or_id, vault=vault, include_archive=include_archive)
 
         try:
-            document_bytes = self._run(get_document_argv, capture_stdout=True)
+            document_bytes = self._run_with_auth_check(
+                self.op_path, self._account_identifier, get_document_argv, capture_stdout=True)
         except OPCmdFailedException as ocfe:
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
@@ -485,7 +540,8 @@ class _OPCommandInterface(_OPCLIExecute):
         try:
             # 'op document delete' doesn't have any output if successful
             # if it fails, stderr will be in the exception object
-            self._run(document_delete_argv)
+            self._run_with_auth_check(
+                self.op_path, self._account_identifier, document_delete_argv)
         except OPCmdFailedException as ocfe:
             raise OPDocumentDeleteException.from_opexception(ocfe)
 
@@ -501,9 +557,8 @@ class _OPCommandInterface(_OPCLIExecute):
     def _user_get(self, user_name_or_id: str, decode: str = "utf-8") -> str:
         get_user_argv = self._user_get_argv(user_name_or_id)
         try:
-            output = self._run(
-                get_user_argv, capture_stdout=True, decode=decode
-            )
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               get_user_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPUserGetException.from_opexception(ocfe) from ocfe
         return output
@@ -512,9 +567,8 @@ class _OPCommandInterface(_OPCLIExecute):
         user_list_argv = self._user_list_argv(
             group_name_or_id=group_name_or_id, vault=vault)
         try:
-            output = self._run(
-                user_list_argv, capture_stdout=True, decode=decode
-            )
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               user_list_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPUserListException.from_opexception(ocfe)
         return output
@@ -522,9 +576,8 @@ class _OPCommandInterface(_OPCLIExecute):
     def _group_get(self, group_name_or_id: str, decode: str = "utf-8") -> str:
         group_get_argv = self._group_get_argv(group_name_or_id)
         try:
-            output = self._run(
-                group_get_argv, capture_stdout=True, decode=decode
-            )
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               group_get_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPGroupGetException.from_opexception(ocfe) from ocfe
         return output
@@ -533,9 +586,8 @@ class _OPCommandInterface(_OPCLIExecute):
         group_list_argv = self._group_list_argv(
             user_name_or_id=user_name_or_id, vault=vault)
         try:
-            output = self._run(
-                group_list_argv, capture_stdout=True, decode=decode
-            )
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               group_list_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPGroupListException.from_opexception(ocfe)
         return output
@@ -543,9 +595,8 @@ class _OPCommandInterface(_OPCLIExecute):
     def _vault_get(self, vault_name_or_id: str, decode: str = "utf-8") -> str:
         vault_get_argv = self._vault_get_argv(vault_name_or_id)
         try:
-            output = self._run(
-                vault_get_argv, capture_stdout=True, decode=decode
-            )
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               vault_get_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPVaultGetException.from_opexception(ocfe)
         return output
@@ -554,8 +605,8 @@ class _OPCommandInterface(_OPCLIExecute):
         vault_list_argv = self._vault_list_argv(
             group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
         try:
-            output = self._run(
-                vault_list_argv, capture_stdout=True, decode=decode)
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               vault_list_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPVaultListException.from_opexception(ocfe)
         return output
@@ -585,7 +636,8 @@ class _OPCommandInterface(_OPCLIExecute):
         argv = self._item_list_argv(
             categories=categories, include_archive=include_archive, tags=tags, vault=vault)
         try:
-            output = self._run(argv, capture_stdout=True, decode=decode)
+            output = self._run_with_auth_check(
+                self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as e:
             raise OPItemListException.from_opexception(e)
         return output
@@ -600,7 +652,8 @@ class _OPCommandInterface(_OPCLIExecute):
     def _item_create(self, item, vault, password_recipe, decode="utf-8"):
         argv = self._item_create_argv(item, password_recipe, vault)
         try:
-            output = self._run(argv, capture_stdout=True, decode=decode)
+            output = self._run_with_auth_check(
+                self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as e:
             raise OPItemCreateException.from_opexception(e)
 

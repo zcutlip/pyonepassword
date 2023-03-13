@@ -154,6 +154,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             If the item object returned by 1Password isn't a known type and generic_okay is False
         OPNotFoundException
             If the 1Password command can't be found
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
+
         Returns
         -------
         item: OPAbstractItem
@@ -191,6 +194,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             If the lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
 
         Returns
         -------
@@ -216,6 +221,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             If the lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
 
         Returns
         -------
@@ -243,6 +250,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             If the user list operation for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
 
         Returns
         -------
@@ -271,6 +280,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             If the lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
 
         Returns
         -------
@@ -298,6 +309,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             If the vault list operation for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
 
         Returns
         -------
@@ -324,6 +337,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             If the lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
 
         Returns
         -------
@@ -344,6 +359,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             Name or ID of a user to restrict vault listing to
         group_name_or_id: str
             Name or ID of a group to restrict vault listing to
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
 
         Raises
         ------
@@ -384,7 +401,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         OPItemGetException
             If the lookup fails for any reason during command execution
         OPNotFoundException
-            If the 1Password command can't be found.
+            If the 1Password command can't be found
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
 
         Returns
         -------
@@ -429,6 +448,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             If the lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
 
         Returns
         -------
@@ -470,7 +491,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             If document lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
-
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
         Returns
         -------
         file_name, document bytes: Tuple[str, bytes]
@@ -519,6 +541,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             - If the document to be deleted is not found
             - If there is more than one item matching 'document_identifier'
             - If the delete operation fails for any other reason
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
         """
 
         # to satisfy mypy
@@ -575,6 +599,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             that aren't a known type and generic_okay is False
         OPNotFoundException
             If the 1Password command can't be found
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
 
         Returns
         -------
@@ -624,6 +650,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                 (currently only Login and Password item types support passwords)
         OPItemCreateException
             If item creation fails for any reason during command execution
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
 
         Returns
         -------
@@ -686,6 +714,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                 (currently only Login and Password item types support passwords)
         OPItemCreateException
             If item creation fails for any reason during command execution
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
 
         Returns
         -------
@@ -739,6 +769,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             - If the item to be deleted is not found
             - If there is more than one item matching 'item_identifier'
             - If the delete operation fails for any other reason
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
 
         Returns
         -------
@@ -815,7 +847,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         OPItemDeleteMultipleException
             - If the 'item list' operation fails
             - If any of the 'item delete' operations fail
-
+        OPNotSignedInException
+            If the authenticated session has expired or the OP object is otherwise not signed in
         Returns
         -------
         item_id: str

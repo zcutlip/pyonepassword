@@ -260,20 +260,16 @@ class _OPCommandInterface(_OPCLIExecute):
     def _verify_signin(self, token: str = None):
         env: Mapping
         account = None
+        # copy os.environ to a dict since its type is incompatible
+        # with Dict[str, str], as reported by mypy
+        env = dict(environ)
         if token and self._sess_var:
             # we need to pass an environment dictionary to subprocess.run() that contains
             # the session token we're trying to verify
             #
-            # make a copy of environment rather than modifying actual env
-            # in order to verify login
+            # Above we made a copy of os.environ, so we're not modifying it at this point
             # we'll offically set it once we know it works
-            env = dict(environ)
             env[self._sess_var] = token
-        else:
-            # we don't have a token to verify
-            # so no need to modify or copy the environment
-            # we can use it as-is
-            env = environ
 
         # this step actually talks to the 1Password account
         # it uses "op whoami" which is a very non-intrusive
@@ -440,7 +436,7 @@ class _OPCommandInterface(_OPCLIExecute):
     @classmethod
     def _whoami(cls, op_path, env: Dict[str, str] = None, account: str = None) -> OPAccount:
         if not env:
-            env = environ
+            env = dict(environ)
         argv = _OPArgv.whoami_argv(op_path, account=account)
         try:
             account_json = cls._run(

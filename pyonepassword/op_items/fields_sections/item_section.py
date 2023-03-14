@@ -1,7 +1,7 @@
 import copy
 from typing import List, Union
 
-from ..py_op_exceptions import OPInvalidItemException
+from ...py_op_exceptions import OPInvalidItemException
 from .item_field_base import OPItemField
 
 

@@ -1,5 +1,5 @@
+from ._item_base import OPAbstractItem
 from ._item_descriptor_base import OPAbstractItemDescriptor
-from ._op_items_base import OPAbstractItem
 
 """
 This module contains classes that may optionally be used as stand-ins for unknown

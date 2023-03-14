@@ -15,6 +15,10 @@ TODO: Move other code that closely touches 'op' here
 
 
 class _OPCLIExecute:
+    # we need to detect if a command failure was actually a mock-op failure
+    MOCK_OP_ERR_EXIT = 255
+    MOCK_OP_RESP_ERR_MSG = "Error looking up response"
+
     logger = logging.getLogger("_OPCLIExecute")
     logger.setLevel(logging.INFO)
 
@@ -47,6 +51,17 @@ class _OPCLIExecute:
                 stderr_output = stderr.decode("utf-8").rstrip()
                 if environ.get(LOG_OP_ERR_ENV_NAME) == "1":
                     cls.logger.error(stderr_output)
+                # HACK:
+                # mock-op returns -1 (i.e., 255) if it can't find a response
+                # but op (currently) only ever returns 1 on error
+                #
+                # we need to check if this was a mock-op failure so that during
+                # testing we can distinguish between a simulated 'op' command failure
+                # and mock-op failing because we haven't provided an appropriate response
+                # definition
+                if (returncode >= cls.MOCK_OP_ERR_EXIT and
+                        cls.MOCK_OP_RESP_ERR_MSG in stderr_output):
+                    raise err
                 raise OPCmdFailedException(stderr_output, returncode) from err
 
         return (stdout, stderr, returncode)

@@ -1,14 +1,14 @@
-from ..op_items._new_fields import OPNewTOTPUriException
-from ..op_items._op_item_type_registry import OPUnknownItemTypeException
-from ..op_items._op_items_base import (
-    OPFieldNotFoundException,
-    OPSectionNotFoundException
-)
-from ..op_items.item_section import (
+from ..op_items._item_type_registry import OPUnknownItemTypeException
+from ..op_items.fields_sections._new_fields import OPNewTOTPUriException
+from ..op_items.fields_sections.item_section import (
     OPItemFieldCollisionException,
     OPSectionCollisionException
 )
-from ..op_items.login import OPNewLoginItemURLException
+from ..op_items.item_types._item_base import (
+    OPFieldNotFoundException,
+    OPSectionNotFoundException
+)
+from ..op_items.item_types.login import OPNewLoginItemURLException
 from ..op_objects import (
     OPInvalidGroupException,
     OPInvalidGroupListException,

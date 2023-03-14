@@ -144,7 +144,7 @@ If you want to fully automate connecting to and querying a 1Password account, th
 
 All of these methods return objects types as described above. Also, `item_get()` returns the appropriate object type for the item, such as `OPLoginItem` or `OPSecureNoteItem`, as long as `pyonepassword` has a class for the returned item type.
 
-> *Note*: In some cases the `op` command may return items that don't conform to the expected structure. When this happens, the item dictionary will fail to validate, an exception will be raised. There is API for relaxing item validation, globally, on a per-class basis, or a per-item basis. See [ITEM_VALIDATION.md](ITEM_CREATION.md) for more information.
+> *Note*: In some cases the `op` command may return items that don't conform to the expected structure. When this happens, the item dictionary will fail to validate, an exception will be raised. There is API for relaxing item validation, globally, on a per-class basis, or a per-item basis. See [ITEM_VALIDATION.md](ITEM_VALIDATION.md) for more information.
 
 ### Sign-in and item retrieval
 

@@ -1,4 +1,4 @@
-from ..op_items._op_item_type_registry import op_register_item_type
+from ..op_items._item_type_registry import op_register_item_type
 
 # This causes these types to properly re-exported
 # https://mypy.readthedocs.io/en/stable/config_file.html?highlight=export#confval-implicit_reexport

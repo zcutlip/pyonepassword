@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- Check if authorization has expired or is otherwise invalid before performing `op` operations
+- Check if authorization has expired or is otherwise invalid before performing `op` operations (gh-84)
   - Raise `OPNotSignedInException` rather than the generic `OPCmdFailedException`
 - Detect if an `op` command failure was actually `mock-op` failing to find a response definition
   - This was masking test failures that are expecting simulated command failures

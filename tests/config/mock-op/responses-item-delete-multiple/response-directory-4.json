@@ -31,6 +31,13 @@
       "stderr": "error_output",
       "name": "item-list-test-data-3-alt-title-glob",
       "changes_state": false
+    },
+    "--account|5GHHPJK5HZC5BAT7WDUXW57G44|--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami-account-uuid",
+      "changes_state": false
     }
   },
   "commands_with_input": {}

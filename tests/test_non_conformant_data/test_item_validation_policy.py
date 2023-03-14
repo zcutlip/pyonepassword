@@ -20,7 +20,7 @@ from pyonepassword.api.validation import (
     set_relaxed_validation_for_class,
     set_strict_validation_for_class
 )
-from pyonepassword.op_items._op_item_type_registry import OPItemFactory
+from pyonepassword.op_items._item_type_registry import OPItemFactory
 from pyonepassword.op_items.item_validation_policy import (
     _OPItemValidationPolicy
 )

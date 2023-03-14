@@ -622,7 +622,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
     #   There is ongoing work in mock-op and mock-cli-framework to simulate changed state
     #   when this is complete these functions need to be tested
     #
-    #   For now, ignore testing coverage
+    #   For now, ignore testing coverate
     def item_create(self,
                     new_item: OPNewItemMixin,
                     password_recipe: OPPasswordRecipe = None,

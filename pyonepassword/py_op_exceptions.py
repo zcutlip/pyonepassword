@@ -36,13 +36,8 @@ class OPCmdFailedException(OPBaseException):
 
     def __init__(self, stderr_out, returncode):
         # HACK:
-        # mock-op returns -1 (i.e., 255) if it can't find a response
+        # mock-op returns -1 if it can't find a response
         # but op (currently) only ever returns 1 on error
-        #
-        # we need to check if this was a mock-op failure so that during
-        # testing we can distinguish between a simulated 'op' command failure
-        # and mock-op failing because we haven't provided an appropriate response
-        # definition
         if returncode > 254 and "Error looking up response" in stderr_out:
             raise Exception(f"Unknown return code {returncode}")
 
@@ -183,13 +178,6 @@ class OPGroupListException(OPCmdFailedException):
 
 class OPItemCreateException(OPCmdFailedException):  # pragma: no coverage
     MSG = "1Password 'item create' failed."
-
-    def __init__(self, stderr_out, returncode):
-        super().__init__(stderr_out, returncode)
-
-
-class OPWhoAmiException(OPCmdFailedException):
-    MSG = "1Password 'whoami' failed."
 
     def __init__(self, stderr_out, returncode):
         super().__init__(stderr_out, returncode)

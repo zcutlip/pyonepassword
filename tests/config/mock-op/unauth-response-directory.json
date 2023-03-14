@@ -27,13 +27,6 @@
       "stderr": "error_output",
       "name": "whoami-account-uuid",
       "changes_state": false
-    },
-    "--format|json|whoami": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "whoami",
-      "changes_state": false
     }
   }
 }

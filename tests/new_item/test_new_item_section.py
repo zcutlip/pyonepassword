@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from pyonepassword.op_items._new_item import OPNewSection
-from pyonepassword.op_items.fields_sections.item_section import OPSection
+from pyonepassword.op_items.item_section import OPSection
 
 from ..test_support.util import is_uuid
 

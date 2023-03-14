@@ -8,13 +8,11 @@ from do_signin import do_signin
 
 from pyonepassword import OP
 from pyonepassword.api.exceptions import OPItemGetException
-from pyonepassword.op_items.fields_sections.item_section import (
+# HACK: I need to export this but haven't yet, so we're using non-API
+from pyonepassword.op_items._op_items_base import OPAbstractItemDescriptor
+from pyonepassword.op_items.item_section import (
     OPItemFieldCollisionException,
     OPSectionCollisionException
-)
-# HACK: I need to export this but haven't yet, so we're using non-API
-from pyonepassword.op_items.item_types._item_base import (
-    OPAbstractItemDescriptor
 )
 # HACK: more non-API usage
 from pyonepassword.op_objects import OPVaultDescriptor

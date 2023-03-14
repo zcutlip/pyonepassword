@@ -6,8 +6,8 @@ import pytest
 
 from pyonepassword.api.exceptions import OPSectionNotFoundException
 from pyonepassword.api.object_types import OPLoginItem
-from pyonepassword.op_items.fields_sections.item_field_base import OPItemField
-from pyonepassword.op_items.fields_sections.item_section import OPSection
+from pyonepassword.op_items.item_field_base import OPItemField
+from pyonepassword.op_items.item_section import OPSection
 
 if TYPE_CHECKING:
     from .fixtures.expected_item_fields import ExpectedItemField

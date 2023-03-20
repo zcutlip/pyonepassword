@@ -1,7 +1,15 @@
-from typing import Union
+from typing import List, Union
 
 from .._item_descriptor_registry import op_register_item_descriptor_type
 from .._item_type_registry import op_register_item_type
+from .._new_item import OPNewItemMixin
+from ..fields_sections._new_fields import (
+    OPNewConcealedField,
+    OPNewNetworkPortField,
+    OPNewStringField
+)
+from ..fields_sections.item_field import OPItemField
+from ..fields_sections.item_section import OPSection
 from ._item_base import OPAbstractItem, OPFieldNotFoundException
 from ._item_descriptor_base import OPAbstractItemDescriptor
 
@@ -116,3 +124,81 @@ class OPDatabaseItem(OPAbstractItem):
 class OPDatabaseItemRelaxedValidation(OPDatabaseItem):
     # see ITEM_VALIDATION.md
     _relaxed_validation = True
+
+
+class OPDatabaseItemTemplate(OPNewItemMixin, OPDatabaseItem):
+    # Not setting PASSWORDS_SUPPORTED = True
+    # because 'op' only supports password creation for LOGIN and PASSWORD
+    # item types
+
+    def __init__(self,
+                 title: str,
+                 database_type: str = None,
+                 hostname: str = None,
+                 port: Union[str, int] = None,
+                 database: str = None,
+                 username: str = None,
+                 password: str = None,
+                 sid: str = None,
+                 alias: str = None,
+                 options: str = None,
+                 fields: List[OPItemField] = [],
+                 sections: List[OPSection] = [],
+                 tags: List[str] = []):
+
+        if fields is None:  # pragma: no coverage
+            fields = []
+        else:
+            fields = list(fields)
+
+        if database_type:
+            # label for database_type is "type"
+            database_type_field = OPNewStringField(
+                "type", database_type, field_id="database_type")
+            fields.append(database_type_field)
+
+        if hostname:
+            # label for hostname field is "server"
+            hostname_field = OPNewStringField(
+                "server", hostname, field_id="hostname")
+            fields.append(hostname_field)
+
+        if port:
+            port_field = OPNewNetworkPortField("port", port, field_id="port")
+            fields.append(port_field)
+
+        if sid:
+            sid_field = OPNewStringField("SID", sid, field_id="sid")
+            fields.append(sid_field)
+
+        if database:
+            # database name
+            database_field = OPNewStringField(
+                "database", database, field_id="database")
+            fields.append(database_field)
+
+        if username:
+            # we don't use OPNewUsernameField because database username
+            # doesn't declare a FIELD_PURPOSE = "USERNAME"
+            username_field = OPNewStringField(
+                "username", username, field_id="username")
+            fields.append(username_field)
+
+        if password:
+            # we don't use OPNewPasswordField because database password
+            # doesn't declare a FIELD_PURPOSE = "PASSWORD"
+            password_field = OPNewConcealedField(
+                "password", password, field_id="password")
+            fields.append(password_field)
+
+        if alias:
+            alias_field = OPNewStringField("alias", alias, field_id="alias")
+            fields.append(alias_field)
+
+        if options:
+            # label for options field is "database options"
+            options_field = OPNewStringField(
+                "database options", options, field_id="options")
+            fields.append(options_field)
+
+        super().__init__(title, fields, sections, tags)

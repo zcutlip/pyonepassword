@@ -143,3 +143,23 @@ class OPNewTOTPField(OPNewStringField):
         if isinstance(totp_value, OPNewTOTPUri):
             totp_value = str(totp_value)
         super().__init__(field_label, totp_value, field_id, section)
+
+
+class OPNewNetworkPortField(OPNewStringField):
+    """
+    """
+
+    def __init__(self, field_label: str, value: Union[str, int], field_id=None, section: Optional[OPSection] = None):
+        if isinstance(value, str):
+            # convert to int for sanity checking
+            # accept any base. int() will raise ValueError if it can't
+            # be converted
+            value = int(value, 0)
+
+        # NOTE: we're not going to enforce valid, non-negative port ranges
+        # user can enter whatever number they like
+
+        # convert back to string because the field is a string type
+        value = str(value)
+
+        super().__init__(field_label, value, field_id, section)

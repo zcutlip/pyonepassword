@@ -114,4 +114,5 @@ class OPDatabaseItem(OPAbstractItem):
 
 @op_register_item_type
 class OPDatabaseItemRelaxedValidation(OPDatabaseItem):
+    # see ITEM_VALIDATION.md
     _relaxed_validation = True

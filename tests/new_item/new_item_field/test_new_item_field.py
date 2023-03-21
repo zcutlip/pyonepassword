@@ -15,11 +15,11 @@ from pyonepassword.op_items.fields_sections.item_section import (
 )
 
 if TYPE_CHECKING:
-    from ..fixtures.expected_item_fields import (
+    from ...fixtures.expected_item_fields import (
         ExpectedItemField,
         ExpectedItemFieldData
     )
-    from ..fixtures.valid_data import ValidData
+    from ...fixtures.valid_data import ValidData
 
 
 def test_new_username_field_01(valid_data: ValidData, expected_item_field_data: ExpectedItemFieldData):

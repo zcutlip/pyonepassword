@@ -154,12 +154,14 @@ class OPNewNetworkPortField(OPNewStringField):
             # convert to int for sanity checking
             # accept any base. int() will raise ValueError if it can't
             # be converted
-            value = int(value, 0)
+            _ = int(value, 0)
+        else:
+            # only convert 'value' to a string
+            # if it wasn't already, in order to preserve alternate base representations
+            # e.g., 0x4d2
+            value = str(value)
 
         # NOTE: we're not going to enforce valid, non-negative port ranges
         # user can enter whatever number they like
-
-        # convert back to string because the field is a string type
-        value = str(value)
 
         super().__init__(field_label, value, field_id, section)

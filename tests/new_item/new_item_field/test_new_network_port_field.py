@@ -34,7 +34,7 @@ def test_new_network_port_field_01(valid_data: ValidData, expected_item_field_da
         - is a valid representation of a numeric value >= 0
         - equals the input port string
     """
-    field_dict = valid_data.data_for_name("login-item-field-network-port-str")
+    field_dict = valid_data.data_for_name("item-field-network-port-str")
 
     expected: ExpectedItemField = expected_item_field_data.data_for_key(
         "example-network-port-field-1")
@@ -57,7 +57,7 @@ def test_new_network_port_field_02(valid_data: ValidData, expected_item_field_da
         - is equivalent to the input port string
     """
 
-    field_dict = valid_data.data_for_name("login-item-field-network-port-int")
+    field_dict = valid_data.data_for_name("item-field-network-port-int")
 
     expected: ExpectedItemField = expected_item_field_data.data_for_key(
         "example-network-port-field-2")
@@ -89,7 +89,7 @@ def test_new_network_port_field_03(valid_data: ValidData, expected_item_field_da
     """
 
     field_dict = valid_data.data_for_name(
-        "login-item-field-network-port-str-hex")
+        "item-field-network-port-str-hex")
 
     expected: ExpectedItemField = expected_item_field_data.data_for_key(
         "example-network-port-field-3")

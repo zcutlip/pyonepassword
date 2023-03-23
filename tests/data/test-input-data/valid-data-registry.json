@@ -1,14 +1,14 @@
 {
-    "login-item-field-network-port-int": {
-        "name": "login-item-field-network-port-int.json",
+    "item-field-network-port-int": {
+        "name": "item-field-network-port-int.json",
         "type": "json"
     },
-    "login-item-field-network-port-str": {
-        "name": "login-item-field-network-port-str.json",
+    "item-field-network-port-str": {
+        "name": "item-field-network-port-str.json",
         "type": "json"
     },
-    "login-item-field-network-port-str-hex": {
-        "name": "login-item-field-network-port-str-hex.json",
+    "item-field-network-port-str-hex": {
+        "name": "item-field-network-port-str-hex.json",
         "type": "json"
     },
     "login-item-field-password": {

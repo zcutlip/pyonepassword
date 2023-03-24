@@ -22,7 +22,8 @@ from ..op_items.item_types.api_credential import OPAPICredentialItem
 from ..op_items.item_types.credit_card import OPCreditCardItem
 from ..op_items.item_types.database import (
     OPDatabaseItem,
-    OPDatabaseItemRelaxedValidation
+    OPDatabaseItemRelaxedValidation,
+    OPDatabaseItemTemplate
 )
 from ..op_items.item_types.document import OPDocumentFile, OPDocumentItem
 from ..op_items.item_types.login import (

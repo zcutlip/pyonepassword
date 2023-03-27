@@ -75,6 +75,7 @@ __all__ = [
     "OPLoginItemTemplate",
     "OPDatabaseItem",
     "OPDatabaseItemRelaxedValidation",
+    "OPDatabaseItemTemplate",
     "OPPasswordItem",
     "OPPasswordRecipe",
     "OPSecureNoteItem",

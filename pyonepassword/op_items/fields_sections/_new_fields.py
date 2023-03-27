@@ -123,7 +123,7 @@ class OPNewTOTPField(OPNewStringField):
     def __init__(self,
                  field_label: str,
                  totp_value: Union[str, OPNewTOTPUri],
-                 field_id=None,
+                 field_id: str = None,
                  section: Optional[OPSection] = None):
         """
         Create a new TOTP field object
@@ -149,7 +149,7 @@ class OPNewNetworkPortField(OPNewStringField):
     """
     """
 
-    def __init__(self, field_label: str, value: Union[str, int], field_id=None, section: Optional[OPSection] = None):
+    def __init__(self, field_label: str, value: Union[str, int], field_id: str = None, section: Optional[OPSection] = None):
         if isinstance(value, str):
             # convert to int for sanity checking
             # accept any base. int() will raise ValueError if it can't

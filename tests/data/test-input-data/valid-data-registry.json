@@ -1,4 +1,12 @@
 {
+    "example-database-1": {
+        "name": "example-database-1.json",
+        "type": "json"
+    },
+    "example-database-2": {
+        "name": "example-database-2.json",
+        "type": "json"
+    },
     "item-field-network-port-int": {
         "name": "item-field-network-port-int.json",
         "type": "json"

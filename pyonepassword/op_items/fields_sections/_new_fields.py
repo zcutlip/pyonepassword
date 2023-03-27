@@ -186,11 +186,15 @@ class OPNewNetworkPortField(OPNewStringField):
             # accept any base. int() will raise ValueError if it can't
             # be converted
             _ = int(value, 0)
-        else:
+        elif isinstance(value, int):
             # only convert 'value' to a string
             # if it wasn't already, in order to preserve alternate base representations
             # e.g., 0x4d2
             value = str(value)
+        else:
+            # if we were passed any other object type this is an error
+            raise ValueError(
+                f"Invalid value for port: \"{value}\". Must be int or str")
 
         # NOTE: we're not going to enforce valid, non-negative port ranges
         # user can enter whatever number they like

@@ -127,6 +127,10 @@ class OPDatabaseItemRelaxedValidation(OPDatabaseItem):
 
 
 class OPDatabaseItemTemplate(OPNewItemMixin, OPDatabaseItem):
+    """
+    Class for creating a database item template that can be used to create a new database item in 1Password
+    """
+
     # Not setting PASSWORDS_SUPPORTED = True
     # because 'op' only supports password creation for LOGIN and PASSWORD
     # item types
@@ -145,6 +149,57 @@ class OPDatabaseItemTemplate(OPNewItemMixin, OPDatabaseItem):
                  fields: List[OPItemField] = [],
                  sections: List[OPSection] = [],
                  tags: List[str] = []):
+        """
+        Create an OPDatabaseItemTemplate object that can be used to create a new database item entry
+
+        Parameters
+        ----------
+        title : str
+            User viewable name of the database item to create
+        database_type : str, optional
+            Value for the database type field, by default None
+        hostname : str, optional
+            Value for the hostname/server field, by default None
+        port : Union[str, int], optional
+            port value for the new database item, by default None
+            Discussion:
+                The port value may be either an integer or a string representation of an integer.
+
+                If an integer is provided, it will be converted to a string via 'str(value)'
+
+                If a string is provided, it will be validated by converting it to an integer via 'int(value, 0)'.
+                If this fails, ValueError is raised.
+                The string may be any valid base representation. E.g., 1234 or 0x1234. This representation will
+                preserved.
+
+                No attempt is made to ensure the value is in a reasonable range for what a port should be
+
+        database : str, optional
+            Value for the database field, by default None
+        username : str, optional
+            Value for the username field, by default None
+        password : str, optional
+            Value for the password field, by default None
+        sid : str, optional
+            Value for the SID field, by default None
+        alias : str, optional
+            Value for the alias field, by default None
+        options : str, optional
+            Value for the connection options field, by default None
+        fields: List[OPItemField]
+            List of OPItemField objects to associate with the item.
+            NOTE: If the fields are from an exisiting item, and the field IDs are UUIDs, the field IDs will be regenerated
+        sections: List[OPSection]
+            List of OPSection objects to associate with the item.
+            NOTE: If the sections are from an exisiting item, and the section IDs are UUIDs, the section IDs will be regenerated
+        tags: List[str], optional
+            A list of tags to apply to the login item template
+
+        Raises
+        ------
+        ValueError
+            If the port value fails validation as described above
+        """
 
         if fields is None:  # pragma: no coverage
             fields = []

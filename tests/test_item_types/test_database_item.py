@@ -34,10 +34,10 @@ VALID_DATABASE_2 = "example-database-2"
 
 def test_database_item_010(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 1"
     Verify:
-        expected username matches actual username
+        - username property matches expected value
     """
     item_name = "Example Database 1"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -49,10 +49,10 @@ def test_database_item_010(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_020(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 1"
     Verify:
-        expected password matches actual password
+        - password property matches expected value
     """
     item_name = "Example Database 1"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -65,10 +65,10 @@ def test_database_item_020(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_030(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 1"
     Verify:
-        expected database_type matches actual database_type
+        - database_type property matches expected value
     """
     item_name = "Example Database 1"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -82,10 +82,10 @@ def test_database_item_030(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_04(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 1"
     Verify:
-        expected databse_type matches actual convenience property "type"
+        - type convenience property property matches database_type expected value
     """
     item_name = "Example Database 1"
 
@@ -99,10 +99,10 @@ def test_database_item_04(valid_data: ValidData, expected_database_data: Expecte
 
 def test_database_item_050(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 1"
     Verify:
-        expected hostname matches actual hostname
+        - hostname property matches expected value
     """
     item_name = "Example Database 1"
 
@@ -117,10 +117,10 @@ def test_database_item_050(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_060(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 1"
     Verify:
-        expected hostname matches actual convenience property "server"
+        - server convenience property property matches hostname expected value
     """
     item_name = "Example Database 1"
 
@@ -135,10 +135,10 @@ def test_database_item_060(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_070(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 1"
     Verify:
-        expected port matches actual port
+        - port property matches expected value
     """
     item_name = "Example Database 1"
 
@@ -152,10 +152,10 @@ def test_database_item_070(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_080(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 1"
     Verify:
-        expected database field matches actual database field
+        - database property matches expected value
     """
     item_name = "Example Database 1"
 
@@ -170,10 +170,10 @@ def test_database_item_080(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_090(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 1"
     Verify:
-        expected sid matches actual sid
+        - sid property is None
     """
     item_name = "Example Database 1"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -188,10 +188,10 @@ def test_database_item_090(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_100(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 1"
     Verify:
-        expected alias matches actual alias
+        - alias property matches expected value
     """
     item_name = "Example Database 1"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -205,10 +205,10 @@ def test_database_item_100(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_110(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 1"
     Verify:
-        expected options matches actual options
+        - options property matches expected value
     """
     item_name = "Example Database 1"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -222,10 +222,10 @@ def test_database_item_110(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_120(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 1"
     Verify:
-        expected options matches actual convenience property "connection_options"
+        - connection_options convenience property property matches options expected value
     """
     item_name = "Example Database 1"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -239,10 +239,11 @@ def test_database_item_120(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_130(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        expected username matches actual username
+        - username property is not None
+        - username property matches expected value
     """
     item_name = "Example Database 2"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -257,10 +258,11 @@ def test_database_item_130(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_140(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        expected password matches actual password
+        - password property is not None
+        - password property matches expected value
     """
     item_name = "Example Database 2"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -275,10 +277,11 @@ def test_database_item_140(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_150(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        expected database_type matches actual database_type
+        - database_type property is not None
+        - database_type property matches expected value
     """
     item_name = "Example Database 2"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -293,10 +296,11 @@ def test_database_item_150(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_160(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 1"
     Verify:
-        expected database_type matches actual convenience property "type"
+        - type convenience property is not None
+        - type convenience property property matches database_type expected value
     """
     item_name = "Example Database 2"
 
@@ -312,10 +316,11 @@ def test_database_item_160(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_170(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        expected hostname matches actual hostname
+        - hostname property is not None
+        - hostname property matches expected value
     """
     item_name = "Example Database 2"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -330,10 +335,11 @@ def test_database_item_170(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_180(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        expected hostname matches actual convenience property "server"
+        - server convenience property is not None
+        - server convenience property matches hostname expected value
     """
     item_name = "Example Database 2"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -348,10 +354,11 @@ def test_database_item_180(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_190(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        expected port matches actual port
+        - port property is not None
+        - port property matches expected value
     """
     item_name = "Example Database 2"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -366,10 +373,11 @@ def test_database_item_190(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_200(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        expected database field matches actual database field
+        - hostname property is not None
+        - hostname property matches expected value
     """
     item_name = "Example Database 2"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -384,10 +392,10 @@ def test_database_item_200(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_210(valid_data: ValidData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        expected sid matches actual sid
+        - sid property is None
     """
 
     item_dict = valid_data.data_for_name(VALID_DATABASE_2)
@@ -398,10 +406,10 @@ def test_database_item_210(valid_data: ValidData):
 
 def test_database_item_220(valid_data: ValidData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        expected alias matches actual alias
+        - alias property is None
     """
 
     item_dict = valid_data.data_for_name(VALID_DATABASE_2)
@@ -412,10 +420,10 @@ def test_database_item_220(valid_data: ValidData):
 
 def test_database_item_230(valid_data: ValidData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        expected options matches actual options
+        - options property is None
     """
 
     item_dict = valid_data.data_for_name(VALID_DATABASE_2)
@@ -426,10 +434,10 @@ def test_database_item_230(valid_data: ValidData):
 
 def test_database_item_240(valid_data: ValidData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        expected options matches actual convenience property "connection_options"
+        - connection_options convenience property is None
     """
 
     item_dict = valid_data.data_for_name(VALID_DATABASE_2)
@@ -444,10 +452,10 @@ def test_database_item_240(valid_data: ValidData):
 # these tests verify the field values returned are None
 def test_database_item_250(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        username is None
+        - username property matches expected value
     """
     item_name = "Example Database 2"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -460,10 +468,10 @@ def test_database_item_250(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_260(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        password is None
+        - password property matches expected value
     """
     item_name = "Example Database 2"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -477,10 +485,10 @@ def test_database_item_260(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_270(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        expected database_type matches actual database_type
+        - username property matches expected value
     """
     item_name = "Example Database Missing Fields"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -495,10 +503,10 @@ def test_database_item_270(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_280(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        hostname is None
+        - hostname property matches expected value
     """
     item_name = "Example Database 2"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -511,10 +519,10 @@ def test_database_item_280(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_290(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        convenience property "server" returns None
+        - server convenience property matches hostname expected value
     """
     item_name = "Example Database 2"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -527,10 +535,10 @@ def test_database_item_290(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_300(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        port is None
+        - port property matches expected value
     """
     item_name = "Example Database 2"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -543,10 +551,10 @@ def test_database_item_300(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_310(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        "database" property returns None
+        - database property matches expected value
     """
     item_name = "Example Database 2"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
@@ -559,10 +567,10 @@ def test_database_item_310(valid_data: ValidData, expected_database_data: Expect
 
 def test_database_item_320(valid_data: ValidData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        sid property returns None
+        - sid property returns None
     """
     item_dict = valid_data.data_for_name(VALID_DATABASE_2)
     result = OPDatabaseItem(item_dict)
@@ -572,10 +580,10 @@ def test_database_item_320(valid_data: ValidData):
 
 def test_database_item_330(valid_data: ValidData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        alias property returns None
+        - alias property returns None
     """
     item_dict = valid_data.data_for_name(VALID_DATABASE_2)
     result = OPDatabaseItem(item_dict)
@@ -585,10 +593,10 @@ def test_database_item_330(valid_data: ValidData):
 
 def test_database_item_340(valid_data: ValidData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        options property returns None
+        - options property returns None
     """
     item_dict = valid_data.data_for_name(VALID_DATABASE_2)
     result = OPDatabaseItem(item_dict)
@@ -597,10 +605,10 @@ def test_database_item_340(valid_data: ValidData):
 
 def test_database_item_350(valid_data: ValidData):
     """
-    call OP.item_get() to get a database item
-
+    Create:
+        - database item object from "example database 2"
     Verify:
-        convenience property "connection_options" returns None
+        - convenience property "connection_options" returns None
     """
     item_dict = valid_data.data_for_name(VALID_DATABASE_2)
     result = OPDatabaseItem(item_dict)

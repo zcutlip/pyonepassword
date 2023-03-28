@@ -150,9 +150,12 @@ def test_uses_biometric_class_method_01(console_logger):
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("setup_normal_op_env")
-def test_unknown_accound_identifier_01(console_logger):
+def test_unknown_account_identifier_01(console_logger):
     """
-    Test calling OP.uses_biometric() as a class method
+    Simulate signing in with a non-existent account
+
+    Verify:
+        - OPUnknownAccountException is raised
     """
     unknown_account = "made-up-account"
     with pytest.raises(OPUnknownAccountException):

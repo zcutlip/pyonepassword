@@ -115,13 +115,13 @@ def _setup_alt_env():
 def _setup_no_bio_normal_env():
     _setup_normal_env()
     os.environ["MOCK_OP_SIGNIN_USES_BIO"] = "0"
-    os.environ["MOCK_OP_SIGNIN_SHORTHAND"] = "5GHHPJK5HZC5BAT7WDUXW57G44"
+    os.environ["MOCK_OP_SIGNIN_ACCOUNT"] = "5GHHPJK5HZC5BAT7WDUXW57G44"
 
 
 def _setup_no_bio_alt_env():
     _setup_alt_env()
     os.environ["MOCK_OP_SIGNIN_USES_BIO"] = "0"
-    os.environ["MOCK_OP_SIGNIN_SHORTHAND"] = "5GHHPJK5HZC5BAT7WDUXW57G44"
+    os.environ["MOCK_OP_SIGNIN_ACCOUNT"] = "5GHHPJK5HZC5BAT7WDUXW57G44"
 
 
 def _setup_unauth_env():

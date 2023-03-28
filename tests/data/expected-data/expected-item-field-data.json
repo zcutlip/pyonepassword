@@ -44,5 +44,23 @@
         "label": "One-time Password",
         "value": "otpauth://totp/Example%20Company:newuser_2%40website?secret=36A5PPP5EG3H4JJPGO2A&issuer=Example%20Company",
         "totp": "123456"
+    },
+    "example-network-port-field-1": {
+        "id": "port",
+        "type": "STRING",
+        "label": "port",
+        "value": "1234"
+    },
+    "example-network-port-field-2": {
+        "id": "port",
+        "type": "STRING",
+        "label": "port",
+        "value": "5678"
+    },
+    "example-network-port-field-3": {
+        "id": "port",
+        "type": "STRING",
+        "label": "port",
+        "value": "0x4d2"
     }
 }

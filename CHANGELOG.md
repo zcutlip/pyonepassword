@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.8.0] - 2023-03-27
+
+## Added
+
+- Support for database item creation via `OPDatabaseItemTemplate` (gh-111)
+
 ## [3.7.1] - 2023-03-13
 
 ### Fixed

@@ -1,0 +1,6 @@
+{
+    "id": "port",
+    "type": "STRING",
+    "label": "port",
+    "value": 5678
+}

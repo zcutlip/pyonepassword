@@ -80,7 +80,7 @@ def test_database_item_030(valid_data: ValidData, expected_database_data: Expect
     assert result.database_type == expected.database_type
 
 
-def test_database_item_04(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_031(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 1"
@@ -97,7 +97,7 @@ def test_database_item_04(valid_data: ValidData, expected_database_data: Expecte
     assert result.type == expected.database_type
 
 
-def test_database_item_050(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_040(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 1"
@@ -115,7 +115,7 @@ def test_database_item_050(valid_data: ValidData, expected_database_data: Expect
     assert result.hostname == expected.hostname
 
 
-def test_database_item_060(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_041(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 1"
@@ -133,7 +133,7 @@ def test_database_item_060(valid_data: ValidData, expected_database_data: Expect
     assert result.server == expected.hostname
 
 
-def test_database_item_070(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_050(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 1"
@@ -150,7 +150,7 @@ def test_database_item_070(valid_data: ValidData, expected_database_data: Expect
     assert result.port == expected.port
 
 
-def test_database_item_080(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_060(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 1"
@@ -168,7 +168,7 @@ def test_database_item_080(valid_data: ValidData, expected_database_data: Expect
     assert result.database == expected.database
 
 
-def test_database_item_090(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_070(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 1"
@@ -186,7 +186,7 @@ def test_database_item_090(valid_data: ValidData, expected_database_data: Expect
     assert result.sid == expected.sid
 
 
-def test_database_item_100(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_080(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 1"
@@ -203,7 +203,7 @@ def test_database_item_100(valid_data: ValidData, expected_database_data: Expect
     assert result.alias == expected.alias
 
 
-def test_database_item_110(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_090(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 1"
@@ -220,7 +220,7 @@ def test_database_item_110(valid_data: ValidData, expected_database_data: Expect
     assert result.options == expected.options
 
 
-def test_database_item_120(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_091(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 1"
@@ -237,7 +237,7 @@ def test_database_item_120(valid_data: ValidData, expected_database_data: Expect
     assert result.connection_options == expected.options
 
 
-def test_database_item_130(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_100(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -256,7 +256,7 @@ def test_database_item_130(valid_data: ValidData, expected_database_data: Expect
     assert result.username == expected.username
 
 
-def test_database_item_140(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_110(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -275,7 +275,7 @@ def test_database_item_140(valid_data: ValidData, expected_database_data: Expect
     assert result.password == expected.password
 
 
-def test_database_item_150(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_120(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -294,7 +294,7 @@ def test_database_item_150(valid_data: ValidData, expected_database_data: Expect
     assert result.database_type == expected.database_type
 
 
-def test_database_item_160(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_121(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 1"
@@ -314,7 +314,7 @@ def test_database_item_160(valid_data: ValidData, expected_database_data: Expect
     assert result.type == expected.database_type
 
 
-def test_database_item_170(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_130(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -333,7 +333,7 @@ def test_database_item_170(valid_data: ValidData, expected_database_data: Expect
     assert result.hostname == expected.hostname
 
 
-def test_database_item_180(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_131(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -352,7 +352,7 @@ def test_database_item_180(valid_data: ValidData, expected_database_data: Expect
     assert result.server == expected.hostname
 
 
-def test_database_item_190(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_140(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -371,7 +371,7 @@ def test_database_item_190(valid_data: ValidData, expected_database_data: Expect
     assert result.port == expected.port
 
 
-def test_database_item_200(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_150(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -390,7 +390,7 @@ def test_database_item_200(valid_data: ValidData, expected_database_data: Expect
     assert result.database == expected.database
 
 
-def test_database_item_210(valid_data: ValidData):
+def test_database_item_160(valid_data: ValidData):
     """
     Create:
         - database item object from "example database 2"
@@ -404,7 +404,7 @@ def test_database_item_210(valid_data: ValidData):
     assert result.sid is None
 
 
-def test_database_item_220(valid_data: ValidData):
+def test_database_item_170(valid_data: ValidData):
     """
     Create:
         - database item object from "example database 2"
@@ -418,7 +418,7 @@ def test_database_item_220(valid_data: ValidData):
     assert result.alias is None
 
 
-def test_database_item_230(valid_data: ValidData):
+def test_database_item_180(valid_data: ValidData):
     """
     Create:
         - database item object from "example database 2"
@@ -432,7 +432,7 @@ def test_database_item_230(valid_data: ValidData):
     assert result.options is None
 
 
-def test_database_item_240(valid_data: ValidData):
+def test_database_item_181(valid_data: ValidData):
     """
     Create:
         - database item object from "example database 2"
@@ -450,7 +450,7 @@ def test_database_item_240(valid_data: ValidData):
 # was created from a template with most fields missing
 # as a result the resulting item has most fields missing
 # these tests verify the field values returned are None
-def test_database_item_250(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_190(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -466,7 +466,7 @@ def test_database_item_250(valid_data: ValidData, expected_database_data: Expect
     assert result.username == expected.username
 
 
-def test_database_item_260(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_200(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -483,7 +483,7 @@ def test_database_item_260(valid_data: ValidData, expected_database_data: Expect
     assert result.password == expected.password
 
 
-def test_database_item_270(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_210(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -501,7 +501,7 @@ def test_database_item_270(valid_data: ValidData, expected_database_data: Expect
     assert result.database_type == expected.database_type
 
 
-def test_database_item_280(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_220(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -517,7 +517,7 @@ def test_database_item_280(valid_data: ValidData, expected_database_data: Expect
     assert result.hostname == expected.hostname
 
 
-def test_database_item_290(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_221(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -533,7 +533,7 @@ def test_database_item_290(valid_data: ValidData, expected_database_data: Expect
     assert result.server == expected.hostname
 
 
-def test_database_item_300(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_230(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -549,7 +549,7 @@ def test_database_item_300(valid_data: ValidData, expected_database_data: Expect
     assert result.port == expected.port
 
 
-def test_database_item_310(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_240(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
     Create:
         - database item object from "example database 2"
@@ -565,7 +565,7 @@ def test_database_item_310(valid_data: ValidData, expected_database_data: Expect
     assert result.database == expected.database
 
 
-def test_database_item_320(valid_data: ValidData):
+def test_database_item_250(valid_data: ValidData):
     """
     Create:
         - database item object from "example database 2"
@@ -578,7 +578,7 @@ def test_database_item_320(valid_data: ValidData):
     assert result.sid is None
 
 
-def test_database_item_330(valid_data: ValidData):
+def test_database_item_260(valid_data: ValidData):
     """
     Create:
         - database item object from "example database 2"
@@ -591,7 +591,7 @@ def test_database_item_330(valid_data: ValidData):
     assert result.alias is None
 
 
-def test_database_item_340(valid_data: ValidData):
+def test_database_item_270(valid_data: ValidData):
     """
     Create:
         - database item object from "example database 2"
@@ -603,7 +603,7 @@ def test_database_item_340(valid_data: ValidData):
     assert result.options is None
 
 
-def test_database_item_350(valid_data: ValidData):
+def test_database_item_271(valid_data: ValidData):
     """
     Create:
         - database item object from "example database 2"

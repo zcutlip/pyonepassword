@@ -117,6 +117,7 @@ class OPLoginItem(OPAbstractItem):
 
 @op_register_item_type
 class OPLoginItemRelaxedValidation(OPLoginItem):
+    # see ITEM_VALIDATION.md
     _relaxed_validation = True
 
 

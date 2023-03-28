@@ -60,7 +60,7 @@ class _OPCLIExecute:
                 # and mock-op failing because we haven't provided an appropriate response
                 # definition
                 if (returncode >= cls.MOCK_OP_ERR_EXIT and
-                        cls.MOCK_OP_RESP_ERR_MSG in stderr_output):
+                        cls.MOCK_OP_RESP_ERR_MSG in stderr_output):  # pragma: no coverage
                     raise err
                 raise OPCmdFailedException(stderr_output, returncode) from err
 

@@ -123,7 +123,7 @@ class OPNewTOTPField(OPNewStringField):
     def __init__(self,
                  field_label: str,
                  totp_value: Union[str, OPNewTOTPUri],
-                 field_id=None,
+                 field_id: str = None,
                  section: Optional[OPSection] = None):
         """
         Create a new TOTP field object
@@ -143,3 +143,60 @@ class OPNewTOTPField(OPNewStringField):
         if isinstance(totp_value, OPNewTOTPUri):
             totp_value = str(totp_value)
         super().__init__(field_label, totp_value, field_id, section)
+
+
+class OPNewNetworkPortField(OPNewStringField):
+    """
+    A class for creating a new item string field for use with numeric port values.
+    """
+
+    def __init__(self, field_label: str, value: Union[str, int], field_id: str = None, section: Optional[OPSection] = None):
+        """
+        Create an OPNewNetworkPortField for use with new item template objects
+
+        Parameters
+        ----------
+        field_label : str
+            The user-visible name of the field
+        value : Union[str, int]
+            port value for the new database item, by default None
+            Discussion:
+                The port value may be either an integer or a string representation of an integer.
+
+                If an integer is provided, it will be converted to a string via 'str(value)'
+
+                If a string is provided, it will be validated by converting it to an integer via 'int(value, 0)'.
+                If this fails, ValueError is raised.
+                The string may be any valid base representation. E.g., 1234 or 0x1234. This representation will
+                preserved.
+
+                No attempt is made to ensure the value is in a reasonable range for what a port should be
+        field_id : str, optional
+            The unique identifier for this field. If none is provided, a random one will be generated. By default None
+        section : OPSection, optional
+            The section this field should be associated with. Not all fields are in sections, by default None
+
+        Raises
+        ------
+        ValueError
+            _description_
+        """
+        if isinstance(value, str):
+            # convert to int for sanity checking
+            # accept any base. int() will raise ValueError if it can't
+            # be converted
+            _ = int(value, 0)
+        elif isinstance(value, int):
+            # only convert 'value' to a string
+            # if it wasn't already, in order to preserve alternate base representations
+            # e.g., 0x4d2
+            value = str(value)
+        else:
+            # if we were passed any other object type this is an error
+            raise ValueError(
+                f"Invalid value for port: \"{value}\". Must be int or str")
+
+        # NOTE: we're not going to enforce valid, non-negative port ranges
+        # user can enter whatever number they like
+
+        super().__init__(field_label, value, field_id, section)

@@ -115,9 +115,9 @@ def process_vault(op: OP, vault: OPVaultDescriptor, options: Namespace):
     item_list = op.item_list(
         vault=vault.unique_id, include_archive=archive)
 
-    for item_descritor in item_list:
+    for item_descriptor in item_list:
         process_item(op,
-                     item_descritor,
+                     item_descriptor,
                      log_path,
                      vault_path,
                      archive=archive,

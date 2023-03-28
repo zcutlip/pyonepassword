@@ -27,7 +27,7 @@ class OPNewItemField(OPItemField):
     FIELD_TYPE: Optional[str] = None
     FIELD_PURPOSE: Optional[str] = None
 
-    def __init__(self, field_label: str, value: Any, field_id=None, section: Optional[OPSection] = None):
+    def __init__(self, field_label: str, value: Any, field_id: str = None, section: Optional[OPSection] = None):
         """
         Create a new field object
 

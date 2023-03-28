@@ -69,7 +69,7 @@ def test_item_get_database_04(signed_in_op: OP, expected_database_data: Expected
     call OP.item_get() to get a database item
 
     Verify:
-        expected databse_type matches actual convience property "type"
+        expected databse_type matches actual convenience property "type"
     """
     item_name = "Example Database 1"
     vault = "Test Data"
@@ -265,7 +265,7 @@ def test_item_get_database_16(signed_in_op: OP, expected_database_data: Expected
     call OP.item_get() to get a database item
 
     Verify:
-        expected databse_type matches actual convience property "type"
+        expected database_type matches actual convenience property "type"
     """
     item_name = "Example Database 2"
     vault = "Test Data"

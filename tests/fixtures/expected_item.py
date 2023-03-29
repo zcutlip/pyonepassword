@@ -100,3 +100,4 @@ class ExpectedItemData(ValidData):
         registry = item_data_registry["registry"]
         super().__init__(registry=registry)
         self._data_path = item_data_registry["data_path"]
+        self._registry_path = item_data_registry["registry_path"]

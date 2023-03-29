@@ -1,4 +1,7 @@
 import json
+import os
+import re
+import shutil
 from pathlib import Path
 from typing import Dict
 
@@ -10,8 +13,10 @@ class ValidData:
     DATA_PATH = VALID_DATA_PATH
 
     def __init__(self, registry=None):
+        self._registry_path = None
         if not registry:
             registry = json.load(open(self.REGISTRY_PATH, "r"))
+            self._registry_path = self.REGISTRY_PATH
         self._registry = registry
         self._data_path = self.DATA_PATH
 
@@ -19,7 +24,8 @@ class ValidData:
         registry_path = Path(item_path, "registry.json")
         with open(registry_path, "r") as f:
             reg_dict = json.load(f)
-        registry = {"data_path": item_path, "registry": reg_dict}
+        registry = {"data_path": item_path,
+                    "registry": reg_dict, "registry_path": registry_path}
         return registry
 
     def _load_text_or_json(self, item_path, item_type, strip):
@@ -48,3 +54,32 @@ class ValidData:
             data = self._load_text_or_json(item_path, item_type, strip)
 
         return data
+
+    def _detect_indent(self):
+        indent = None
+        lines = open(self._registry_path, "r").readlines()
+        if len(lines) >= 2:
+            second_line = lines[1]
+            match = re.match(r"^(\s+).+", second_line)
+            if match:
+                indent = match.groups()[0]
+        return indent
+
+    def sort_registry_to_disk(self):
+        indent = self._detect_indent()
+        registry = dict(sorted(self._registry.items(),
+                        key=lambda item: item[0]))
+        registry_path_tmp = f"{self._registry_path}.tmp"
+        print(f"Moving {self._registry_path} to {registry_path_tmp}")
+        shutil.move(self._registry_path, registry_path_tmp)
+
+        try:
+            print(f"Writing to {self._registry_path}")
+            with open(self._registry_path, "w") as f:
+                json.dump(registry, f, indent=indent)
+        except Exception as e:
+            print(f"Restoring {self._registry_path} from {registry_path_tmp}")
+            shutil.move(registry_path_tmp, self._registry_path)
+            raise e
+        print(f"Deleting {registry_path_tmp}")
+        os.unlink(registry_path_tmp)

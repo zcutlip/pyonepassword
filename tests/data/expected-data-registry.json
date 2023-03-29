@@ -1,18 +1,14 @@
 {
-    "expected-item-data": {
-        "name": "expected-item-data",
-        "type": "registry"
+    "expected-account-data": {
+        "name": "expected-account-data.json",
+        "type": "json"
+    },
+    "expected-datetime-data": {
+        "name": "expected-datetime-data.json",
+        "type": "json"
     },
     "expected-document-data": {
         "name": "expected-document-data.json",
-        "type": "json"
-    },
-    "expected-user-data": {
-        "name": "expected-user-data.json",
-        "type": "json"
-    },
-    "expected-user-list-data": {
-        "name": "expected-user-list-data.json",
         "type": "json"
     },
     "expected-group-data": {
@@ -23,6 +19,38 @@
         "name": "expected-group-list-data.json",
         "type": "json"
     },
+    "expected-item-data": {
+        "name": "expected-item-data",
+        "type": "registry"
+    },
+    "expected-item-field-data": {
+        "name": "expected-item-field-data.json",
+        "type": "json"
+    },
+    "expected-item-list-data": {
+        "name": "expected-item-list-data",
+        "type": "registry"
+    },
+    "expected-item-section-data": {
+        "name": "expected-item-section-data.json",
+        "type": "json"
+    },
+    "expected-misc-data": {
+        "name": "expected-misc-data.json",
+        "type": "json"
+    },
+    "expected-op-config-data": {
+        "name": "expected-op-config-data.json",
+        "type": "json"
+    },
+    "expected-user-data": {
+        "name": "expected-user-data.json",
+        "type": "json"
+    },
+    "expected-user-list-data": {
+        "name": "expected-user-list-data.json",
+        "type": "json"
+    },
     "expected-vault-data": {
         "name": "expected-vault-data.json",
         "type": "json"
@@ -30,33 +58,5 @@
     "expected-vault-list-data": {
         "name": "expected-vault-list-data.json",
         "type": "json"
-    },
-    "expected-account-data": {
-        "name": "expected-account-data.json",
-        "type": "json"
-    },
-    "expected-item-field-data": {
-        "name": "expected-item-field-data.json",
-        "type": "json"
-    },
-    "expected-op-config-data": {
-        "name": "expected-op-config-data.json",
-        "type": "json"
-    },
-    "expected-datetime-data": {
-        "name": "expected-datetime-data.json",
-        "type": "json"
-    },
-    "expected-misc-data": {
-        "name": "expected-misc-data.json",
-        "type": "json"
-    },
-    "expected-item-section-data": {
-        "name": "expected-item-section-data.json",
-        "type": "json"
-    },
-    "expected-item-list-data": {
-        "name": "expected-item-list-data",
-        "type": "registry"
     }
 }

@@ -35,6 +35,10 @@
         "name": "example-item-section-no-uuid.json",
         "type": "json"
     },
+    "example-login-1": {
+        "name": "example-login-1.json",
+        "type": "json"
+    },
     "example-login-with-fields": {
         "name": "example-login-with-fields.json",
         "type": "json"

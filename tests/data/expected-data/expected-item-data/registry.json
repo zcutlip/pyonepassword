@@ -1,60 +1,4 @@
 {
-  "Example Login 1": {
-    "name": "example-login-1.json",
-    "type": "json"
-  },
-  "Example Login 2": {
-    "name": "example-login-2.json",
-    "type": "json"
-  },
-  "Login Item with 1 Tag": {
-    "name": "login-item-with-1-tag.json",
-    "type": "json"
-  },
-  "Login Item with 2 Tags": {
-    "name": "login-item-with-2-tags.json",
-    "type": "json"
-  },
-  "nok7367v4vbsfgg2fczwu4ei44": {
-    "name": "nok7367v4vbsfgg2fczwu4ei44.json",
-    "type": "json"
-  },
-  "Example Login": {
-    "name": "example-login.json",
-    "type": "json"
-  },
-  "Example Login with Fields": {
-    "name": "example-login-with-fields.json",
-    "type": "json"
-  },
-  "Login Item Duplicate Sections": {
-    "name": "login-item-duplicate-sections.json",
-    "type": "json"
-  },
-  "Login Item Section Collisions": {
-    "name": "login-item-section-collisions.json",
-    "type": "json"
-  },
-  "Invalid Item": {
-    "name": "invalid-item.json",
-    "type": "json"
-  },
-  "Login Item Emtpy Field IDs": {
-    "name": "login-item-emtpy-field-ids.json",
-    "type": "json"
-  },
-  "Login Item with Field missing ID": {
-    "name": "login-item-with-field-missing-id.json",
-    "type": "json"
-  },
-  "Example Server": {
-    "name": "example-server.json",
-    "type": "json"
-  },
-  "Example Server 2": {
-    "name": "example-server-2.json",
-    "type": "json"
-  },
   "3wcd3zsps7fvij47fef6scznxq": {
     "name": "3wcd3zsps7fvij47fef6scznxq.json",
     "type": "json"
@@ -63,56 +7,20 @@
     "name": "archived-machine-with-ssh-keys.json",
     "type": "json"
   },
-  "Example Password": {
-    "name": "example-password.json",
-    "type": "json"
-  },
-  "Example Secure Note": {
-    "name": "example-secure-note.json",
-    "type": "json"
-  },
-  "Example Secure Note 2": {
-    "name": "example-secure-note-2.json",
-    "type": "json"
-  },
-  "t4gp6e7s6xtsiu35xq5cewxqpi": {
-    "name": "t4gp6e7s6xtsiu35xq5cewxqpi.json",
-    "type": "json"
-  },
-  "Example Secure Note 3": {
-    "name": "example-secure-note-3.json",
-    "type": "json"
-  },
-  "Example Secure Note 4": {
-    "name": "example-secure-note-4.json",
-    "type": "json"
-  },
-  "Example Credit Card": {
-    "name": "example-credit-card.json",
-    "type": "json"
-  },
-  "Login With TOTP": {
-    "name": "login-with-totp.json",
-    "type": "json"
-  },
-  "Example API Credential": {
-    "name": "example-api-credential.json",
-    "type": "json"
-  },
-  "Example SSH Key": {
-    "name": "example-ssh-key.json",
-    "type": "json"
-  },
-  "Example Identity": {
-    "name": "example-identity.json",
-    "type": "json"
-  },
   "Delete Me Unique": {
     "name": "delete-me-unique.json",
     "type": "json"
   },
   "Delete and Archive Me": {
     "name": "delete-and-archive-me.json",
+    "type": "json"
+  },
+  "Example API Credential": {
+    "name": "example-api-credential.json",
+    "type": "json"
+  },
+  "Example Credit Card": {
+    "name": "example-credit-card.json",
     "type": "json"
   },
   "Example Database 1": {
@@ -125,6 +33,98 @@
   },
   "Example Database Missing Fields": {
     "name": "example-database-missing-fields.json",
+    "type": "json"
+  },
+  "Example Identity": {
+    "name": "example-identity.json",
+    "type": "json"
+  },
+  "Example Login": {
+    "name": "example-login.json",
+    "type": "json"
+  },
+  "Example Login 1": {
+    "name": "example-login-1.json",
+    "type": "json"
+  },
+  "Example Login 2": {
+    "name": "example-login-2.json",
+    "type": "json"
+  },
+  "Example Login with Fields": {
+    "name": "example-login-with-fields.json",
+    "type": "json"
+  },
+  "Example Password": {
+    "name": "example-password.json",
+    "type": "json"
+  },
+  "Example SSH Key": {
+    "name": "example-ssh-key.json",
+    "type": "json"
+  },
+  "Example Secure Note": {
+    "name": "example-secure-note.json",
+    "type": "json"
+  },
+  "Example Secure Note 2": {
+    "name": "example-secure-note-2.json",
+    "type": "json"
+  },
+  "Example Secure Note 3": {
+    "name": "example-secure-note-3.json",
+    "type": "json"
+  },
+  "Example Secure Note 4": {
+    "name": "example-secure-note-4.json",
+    "type": "json"
+  },
+  "Example Server": {
+    "name": "example-server.json",
+    "type": "json"
+  },
+  "Example Server 2": {
+    "name": "example-server-2.json",
+    "type": "json"
+  },
+  "Invalid Item": {
+    "name": "invalid-item.json",
+    "type": "json"
+  },
+  "Login Item Duplicate Sections": {
+    "name": "login-item-duplicate-sections.json",
+    "type": "json"
+  },
+  "Login Item Emtpy Field IDs": {
+    "name": "login-item-emtpy-field-ids.json",
+    "type": "json"
+  },
+  "Login Item Section Collisions": {
+    "name": "login-item-section-collisions.json",
+    "type": "json"
+  },
+  "Login Item with 1 Tag": {
+    "name": "login-item-with-1-tag.json",
+    "type": "json"
+  },
+  "Login Item with 2 Tags": {
+    "name": "login-item-with-2-tags.json",
+    "type": "json"
+  },
+  "Login Item with Field missing ID": {
+    "name": "login-item-with-field-missing-id.json",
+    "type": "json"
+  },
+  "Login With TOTP": {
+    "name": "login-with-totp.json",
+    "type": "json"
+  },
+  "nok7367v4vbsfgg2fczwu4ei44": {
+    "name": "nok7367v4vbsfgg2fczwu4ei44.json",
+    "type": "json"
+  },
+  "t4gp6e7s6xtsiu35xq5cewxqpi": {
+    "name": "t4gp6e7s6xtsiu35xq5cewxqpi.json",
     "type": "json"
   }
 }

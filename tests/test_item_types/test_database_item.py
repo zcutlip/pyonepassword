@@ -31,6 +31,9 @@ VALID_DATABASE_1 = "example-database-1"
 # options
 VALID_DATABASE_2 = "example-database-2"
 
+# missing all fields excapt database_type
+VALID_DATABASE_MISSING_FIELDS = "example-database-missing-fields"
+
 
 def test_database_item_010(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
     """
@@ -450,37 +453,31 @@ def test_database_item_181(valid_data: ValidData):
 # was created from a template with most fields missing
 # as a result the resulting item has most fields missing
 # these tests verify the field values returned are None
-def test_database_item_190(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_190(valid_data: ValidData):
+    """
+    Create:
+        - database item object from "Example Database Missing Fields"
+    Verify:
+        - username property is None
+    """
+    item_dict = valid_data.data_for_name(VALID_DATABASE_MISSING_FIELDS)
+    result = OPDatabaseItem(item_dict)
+
+    assert result.username is None
+
+
+def test_database_item_200(valid_data: ValidData):
     """
     Create:
         - database item object from "example database 2"
     Verify:
-        - username property matches expected value
+        - password property is None
     """
-    item_name = "Example Database 2"
-    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
-        item_name)
-    item_dict = valid_data.data_for_name(VALID_DATABASE_2)
+
+    item_dict = valid_data.data_for_name(VALID_DATABASE_MISSING_FIELDS)
     result = OPDatabaseItem(item_dict)
 
-    assert result.username == expected.username
-
-
-def test_database_item_200(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
-    """
-    Create:
-        - database item object from "example database 2"
-    Verify:
-        - password property matches expected value
-    """
-    item_name = "Example Database 2"
-    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
-        item_name)
-
-    item_dict = valid_data.data_for_name(VALID_DATABASE_2)
-    result = OPDatabaseItem(item_dict)
-
-    assert result.password == expected.password
+    assert result.password is None
 
 
 def test_database_item_210(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
@@ -488,81 +485,72 @@ def test_database_item_210(valid_data: ValidData, expected_database_data: Expect
     Create:
         - database item object from "example database 2"
     Verify:
-        - username property matches expected value
+        - username property is None
     """
     item_name = "Example Database Missing Fields"
     expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
         item_name)
 
-    item_dict = valid_data.data_for_name(VALID_DATABASE_2)
+    item_dict = valid_data.data_for_name(VALID_DATABASE_MISSING_FIELDS)
     result = OPDatabaseItem(item_dict)
 
-    assert result.database_type
     assert result.database_type == expected.database_type
 
 
-def test_database_item_220(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_220(valid_data: ValidData):
     """
     Create:
         - database item object from "example database 2"
     Verify:
-        - hostname property matches expected value
+        - hostname property is None
     """
-    item_name = "Example Database 2"
-    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
-        item_name)
-    item_dict = valid_data.data_for_name(VALID_DATABASE_2)
+
+    item_dict = valid_data.data_for_name(VALID_DATABASE_MISSING_FIELDS)
     result = OPDatabaseItem(item_dict)
 
-    assert result.hostname == expected.hostname
+    assert result.hostname is None
 
 
-def test_database_item_221(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_221(valid_data: ValidData):
     """
     Create:
         - database item object from "example database 2"
     Verify:
         - server convenience property matches hostname expected value
     """
-    item_name = "Example Database 2"
-    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
-        item_name)
-    item_dict = valid_data.data_for_name(VALID_DATABASE_2)
+
+    item_dict = valid_data.data_for_name(VALID_DATABASE_MISSING_FIELDS)
     result = OPDatabaseItem(item_dict)
 
-    assert result.server == expected.hostname
+    assert result.server is None
 
 
-def test_database_item_230(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_230(valid_data: ValidData):
     """
     Create:
         - database item object from "example database 2"
     Verify:
-        - port property matches expected value
+        - port property is None
     """
-    item_name = "Example Database 2"
-    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
-        item_name)
-    item_dict = valid_data.data_for_name(VALID_DATABASE_2)
+
+    item_dict = valid_data.data_for_name(VALID_DATABASE_MISSING_FIELDS)
     result = OPDatabaseItem(item_dict)
 
-    assert result.port == expected.port
+    assert result.port is None
 
 
-def test_database_item_240(valid_data: ValidData, expected_database_data: ExpectedDatabaseItemData):
+def test_database_item_240(valid_data: ValidData):
     """
     Create:
         - database item object from "example database 2"
     Verify:
-        - database property matches expected value
+        - database property is None
     """
-    item_name = "Example Database 2"
-    expected: ExpectedDatabaseItem = expected_database_data.data_for_database(
-        item_name)
-    item_dict = valid_data.data_for_name(VALID_DATABASE_2)
+
+    item_dict = valid_data.data_for_name(VALID_DATABASE_MISSING_FIELDS)
     result = OPDatabaseItem(item_dict)
 
-    assert result.database == expected.database
+    assert result.database is None
 
 
 def test_database_item_250(valid_data: ValidData):
@@ -572,7 +560,7 @@ def test_database_item_250(valid_data: ValidData):
     Verify:
         - sid property returns None
     """
-    item_dict = valid_data.data_for_name(VALID_DATABASE_2)
+    item_dict = valid_data.data_for_name(VALID_DATABASE_MISSING_FIELDS)
     result = OPDatabaseItem(item_dict)
 
     assert result.sid is None
@@ -585,7 +573,7 @@ def test_database_item_260(valid_data: ValidData):
     Verify:
         - alias property returns None
     """
-    item_dict = valid_data.data_for_name(VALID_DATABASE_2)
+    item_dict = valid_data.data_for_name(VALID_DATABASE_MISSING_FIELDS)
     result = OPDatabaseItem(item_dict)
 
     assert result.alias is None
@@ -598,7 +586,7 @@ def test_database_item_270(valid_data: ValidData):
     Verify:
         - options property returns None
     """
-    item_dict = valid_data.data_for_name(VALID_DATABASE_2)
+    item_dict = valid_data.data_for_name(VALID_DATABASE_MISSING_FIELDS)
     result = OPDatabaseItem(item_dict)
     assert result.options is None
 
@@ -610,7 +598,7 @@ def test_database_item_271(valid_data: ValidData):
     Verify:
         - convenience property "connection_options" returns None
     """
-    item_dict = valid_data.data_for_name(VALID_DATABASE_2)
+    item_dict = valid_data.data_for_name(VALID_DATABASE_MISSING_FIELDS)
     result = OPDatabaseItem(item_dict)
 
     assert result.connection_options is None

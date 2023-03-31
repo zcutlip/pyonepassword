@@ -11,13 +11,12 @@ from pyonepassword.api.exceptions import (
     OPSectionCollisionException,
     OPUnknownItemTypeException
 )
+from pyonepassword.api.object_types import OPLoginItem
 from pyonepassword.op_items import OPItemFactory
 
 if TYPE_CHECKING:
-    from pyonepassword import OP
-    from pyonepassword.api.object_types import OPLoginItem
-
     from .fixtures.invalid_data import InvalidData
+    from .fixtures.valid_data import ValidData
 
 
 # ensure HOME env variable is set, and there's a valid op config present
@@ -36,11 +35,10 @@ def test_malformed_item_json_01(invalid_data):
         _ = OPItemFactory.op_item(malformed_json)
 
 
-def test_item_field_not_found_01(signed_in_op: OP):
-    item_name = "Example Login 1"
-    vault = "Test Data"
-    result: OPLoginItem
-    result = signed_in_op.item_get(item_name, vault=vault)
+def test_item_field_not_found_01(valid_data: ValidData):
+    item_dict = valid_data.data_for_name("example-login-1")
+    result = OPLoginItem(item_dict)
+
     with pytest.raises(OPFieldNotFoundException):
         result.field_by_id("Non-existent-field")
 

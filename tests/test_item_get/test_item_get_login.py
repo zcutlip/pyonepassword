@@ -8,37 +8,13 @@ if TYPE_CHECKING:
     from pyonepassword import OP
 
     from ..fixtures.expected_item import ExpectedItemData
-    from ..fixtures.expected_login import ExpectedLogin, ExpectedLoginItemData
+    from ..fixtures.expected_login import ExpectedLoginItemData
 
 from pyonepassword.api.exceptions import OPItemGetException
 from pyonepassword.api.object_types import OPLoginItem
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
-
-
-def test_item_get_login_08(signed_in_op: OP, expected_login_item_data):
-    # get item "Example Login 1" --vault "Test Data"
-    item_name = "Example Login 2"
-    vault = "Test Data"
-    expected: ExpectedLogin = expected_login_item_data.data_for_login(
-        item_name)
-    result = signed_in_op.item_get(item_name, vault=vault)
-    assert isinstance(result, OPLoginItem)
-    # "favorite" is unset for Example Login 2
-    assert result.version == expected.version
-
-
-def test_item_get_login_09(signed_in_op: OP, expected_login_item_data):
-    # get item "Example Login 1" --vault "Test Data"
-    item_name = "Example Login 2"
-    vault = "Test Data"
-    expected: ExpectedLogin = expected_login_item_data.data_for_login(
-        item_name)
-    result = signed_in_op.item_get(item_name, vault=vault)
-    assert isinstance(result, OPLoginItem)
-    # "favorite" is unset for Example Login 2
-    assert result.favorite == expected.favorite
 
 
 def test_item_get_login_password_01(signed_in_op: OP,

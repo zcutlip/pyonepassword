@@ -16,6 +16,7 @@ pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 VALID_LOGIN_1 = "example-login-1"
+VALID_LOGIN_2 = "example-login-2"
 
 
 def test_item_get_login_01(valid_data: ValidData, expected_login_item_data: ExpectedLoginItemData):
@@ -88,3 +89,27 @@ def test_item_get_login_07(valid_data: ValidData, expected_login_item_data):
     result = OPLoginItem(item_dict)
 
     assert result.version == expected.version
+
+
+# Example Login 2 has no URLs and favorite is not set
+
+def test_login_item_08(valid_data: ValidData):
+    item_dict = valid_data.data_for_name(VALID_LOGIN_2)
+    result = OPLoginItem(item_dict)
+
+    assert result.urls == []
+
+
+def test_login_item_09(valid_data: ValidData):
+    item_dict = valid_data.data_for_name(VALID_LOGIN_2)
+    result = OPLoginItem(item_dict)
+
+    assert result.primary_url is None
+
+
+def test_login_item_10(valid_data: ValidData):
+    item_dict = valid_data.data_for_name(VALID_LOGIN_2)
+    result = OPLoginItem(item_dict)
+
+    # "favorite" is unset for Example Login 2
+    assert result.favorite is False

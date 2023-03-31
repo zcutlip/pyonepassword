@@ -55,6 +55,19 @@ def test_login_item_040(valid_data: ValidData, expected_login_item_data):
     assert result.primary_url.label == expected.primary_url.label
 
 
+def test_login_item_041(valid_data: ValidData, expected_login_item_data):
+    item_name = "Example Login 1"
+    item_dict = valid_data.data_for_name(VALID_LOGIN_1)
+    expected = expected_login_item_data.data_for_login(item_name)
+    result = OPLoginItem(item_dict)
+
+    url_list = result.urls
+    url = url_list[0]
+    assert url.primary
+    assert url.href == expected.primary_url.href
+    assert url.label == expected.primary_url.label
+
+
 def test_login_item_050(valid_data: ValidData, expected_login_item_data):
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)

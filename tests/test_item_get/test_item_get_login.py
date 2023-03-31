@@ -81,15 +81,3 @@ def test_item_get_invalid_login_01(signed_in_op: OP, expected_item_data: Expecte
         print(e)
         print(e.err_output)
         assert e.returncode == expected["returncode"]
-
-
-def test_item_getlogin_url_list_01(signed_in_op: OP, expected_login_item_data):
-    item_name = "Example Login 1"
-    vault = "Test Data"
-    expected = expected_login_item_data.data_for_login(item_name)
-    result: OPLoginItem = signed_in_op.item_get(item_name, vault=vault)
-    url_list = result.urls
-    url = url_list[0]
-    assert url.primary
-    assert url.href == expected.primary_url.href
-    assert url.label == expected.primary_url.label

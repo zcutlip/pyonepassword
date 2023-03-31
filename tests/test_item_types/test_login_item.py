@@ -2,18 +2,12 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import pytest
-
 if TYPE_CHECKING:
     from ..fixtures.valid_data import ValidData
 
     from ..fixtures.expected_login import ExpectedLogin, ExpectedLoginItemData
 
 from pyonepassword.api.object_types import OPLoginItem
-
-# ensure HOME env variable is set, and there's a valid op config present
-pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
-
 
 VALID_LOGIN_1 = "example-login-1"
 VALID_LOGIN_2 = "example-login-2"

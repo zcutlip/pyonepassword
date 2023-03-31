@@ -17,6 +17,17 @@ from pyonepassword.api.object_types import OPLoginItem
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
+# TODO: All of the tests that were essentially just testing OPLoginItem have been moved
+# to test_item_types/test_login_item.py
+# what remains doesn't really fit there
+# most of these remaining tests are kind of dumb and don't appear to test anything meaninful
+# so what we need to do is:
+# - figure out what if anything they were intended to test
+# - update the tests to meaninfully test those things
+# - move the tests to proper test modules
+# - remove whatever tests that aren't meaningful
+
+
 def test_item_get_login_password_01(signed_in_op: OP,
                                     expected_login_item_data: ExpectedLoginItemData):
     """

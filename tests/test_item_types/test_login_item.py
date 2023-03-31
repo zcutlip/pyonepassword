@@ -29,7 +29,6 @@ def test_login_item_010(valid_data: ValidData, expected_login_item_data: Expecte
 
 
 def test_login_item_020(valid_data: ValidData, expected_login_item_data):
-    # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)
     expected = expected_login_item_data.data_for_login(item_name)
@@ -39,7 +38,6 @@ def test_login_item_020(valid_data: ValidData, expected_login_item_data):
 
 
 def test_login_item_030(valid_data: ValidData, expected_login_item_data):
-    # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)
     expected = expected_login_item_data.data_for_login(item_name)
@@ -49,7 +47,6 @@ def test_login_item_030(valid_data: ValidData, expected_login_item_data):
 
 
 def test_login_item_040(valid_data: ValidData, expected_login_item_data):
-    # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)
     expected = expected_login_item_data.data_for_login(item_name)
@@ -59,7 +56,6 @@ def test_login_item_040(valid_data: ValidData, expected_login_item_data):
 
 
 def test_login_item_050(valid_data: ValidData, expected_login_item_data):
-    # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)
     expected = expected_login_item_data.data_for_login(item_name)
@@ -69,7 +65,6 @@ def test_login_item_050(valid_data: ValidData, expected_login_item_data):
 
 
 def test_login_item_060(valid_data: ValidData, expected_login_item_data):
-    # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)
     expected: ExpectedLogin = expected_login_item_data.data_for_login(
@@ -81,7 +76,6 @@ def test_login_item_060(valid_data: ValidData, expected_login_item_data):
 
 
 def test_login_item_070(valid_data: ValidData, expected_login_item_data):
-    # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)
     expected: ExpectedLogin = expected_login_item_data.data_for_login(

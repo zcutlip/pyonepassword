@@ -39,6 +39,10 @@
         "name": "example-login-1.json",
         "type": "json"
     },
+    "example-login-2": {
+        "name": "example-login-2.json",
+        "type": "json"
+    },
     "example-login-with-fields": {
         "name": "example-login-with-fields.json",
         "type": "json"

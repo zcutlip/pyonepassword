@@ -19,7 +19,7 @@ VALID_LOGIN_1 = "example-login-1"
 VALID_LOGIN_2 = "example-login-2"
 
 
-def test_item_get_login_01(valid_data: ValidData, expected_login_item_data: ExpectedLoginItemData):
+def test_login_item_01(valid_data: ValidData, expected_login_item_data: ExpectedLoginItemData):
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)
     expected = expected_login_item_data.data_for_login(item_name)
@@ -28,7 +28,7 @@ def test_item_get_login_01(valid_data: ValidData, expected_login_item_data: Expe
     assert result.username == expected.username
 
 
-def test_item_get_login_02(valid_data: ValidData, expected_login_item_data):
+def test_login_item_02(valid_data: ValidData, expected_login_item_data):
     # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)
@@ -38,7 +38,7 @@ def test_item_get_login_02(valid_data: ValidData, expected_login_item_data):
     assert result.password == expected.password
 
 
-def test_item_get_login_03(valid_data: ValidData, expected_login_item_data):
+def test_login_item_03(valid_data: ValidData, expected_login_item_data):
     # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)
@@ -48,7 +48,7 @@ def test_item_get_login_03(valid_data: ValidData, expected_login_item_data):
     assert result.primary_url.href == expected.primary_url.href
 
 
-def test_item_get_login_04(valid_data: ValidData, expected_login_item_data):
+def test_login_item_04(valid_data: ValidData, expected_login_item_data):
     # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)
@@ -58,7 +58,7 @@ def test_item_get_login_04(valid_data: ValidData, expected_login_item_data):
     assert result.primary_url.label == expected.primary_url.label
 
 
-def test_item_get_login_05(valid_data: ValidData, expected_login_item_data):
+def test_login_item_05(valid_data: ValidData, expected_login_item_data):
     # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)
@@ -68,7 +68,7 @@ def test_item_get_login_05(valid_data: ValidData, expected_login_item_data):
     assert result.primary_url.label == expected.primary_url.label
 
 
-def test_item_get_login_06(valid_data: ValidData, expected_login_item_data):
+def test_login_item_06(valid_data: ValidData, expected_login_item_data):
     # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)
@@ -80,7 +80,7 @@ def test_item_get_login_06(valid_data: ValidData, expected_login_item_data):
     assert result.favorite == expected.favorite
 
 
-def test_item_get_login_07(valid_data: ValidData, expected_login_item_data):
+def test_login_item_07(valid_data: ValidData, expected_login_item_data):
     # get item "Example Login 1" --vault "Test Data"
     item_name = "Example Login 1"
     item_dict = valid_data.data_for_name(VALID_LOGIN_1)

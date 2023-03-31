@@ -57,6 +57,10 @@ TEST_DATA_VAULT = "Test Data"
 OP_MASTER_PASSWORD = "made-up-password"
 ACCOUNT_ID = "5GHHPJK5HZC5BAT7WDUXW57G44"
 
+# set up console logger early, because pytest comes behind and messes with sys.stderr/sys.stdout
+# otherwise anomolies happen like duplicated log messages, etc.
+op_console_logger = logging.console_logger("pytest", logging.DEBUG)
+
 
 @fixture(autouse=True, scope='function')
 def save_restore_env():
@@ -183,11 +187,12 @@ def setup_stateful_item_delete_multiple_title_glob():
 
 
 def _get_signed_in_op(account_id, default_vault=None):
-    logger = logging.console_logger("pytest", logging.DEBUG)
+    # don't create a new console logger. use the module-level op_console_logger
+    # to avoid problems with the way pytest captures sys.stderr/sys.stdout
     _setup_normal_env()
     try:
         op = OP(vault=default_vault, account=account_id,
-                password=OP_MASTER_PASSWORD, op_path='mock-op', logger=logger)
+                password=OP_MASTER_PASSWORD, op_path='mock-op', logger=op_console_logger)
     except OPCmdFailedException as e:
         print(f"OP() failed: {e.err_output}")
         raise e
@@ -469,5 +474,6 @@ def invalid_op_cli_config_malformed():
 
 @fixture
 def console_logger():
-    logger = logging.console_logger("pytest", logging.DEBUG)
-    return logger
+    # don't create a new console logger. use the module-level op_console_logger
+    # to avoid problems with the way pytest captures sys.stderr/sys.stdout
+    return op_console_logger

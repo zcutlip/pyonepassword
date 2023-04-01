@@ -59,6 +59,10 @@
         "name": "example-op-config-no-latest-shorthand.json",
         "type": "text"
     },
+    "example-password": {
+        "name": "example-password.json",
+        "type": "json"
+    },
     "item-field-network-port-int": {
         "name": "item-field-network-port-int.json",
         "type": "json"

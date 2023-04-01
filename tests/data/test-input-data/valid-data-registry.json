@@ -1,4 +1,8 @@
 {
+    "example-credit-card": {
+        "name": "example-credit-card.json",
+        "type": "json"
+    },
     "example-api-credential": {
         "name": "example-api-credential.json",
         "type": "json"

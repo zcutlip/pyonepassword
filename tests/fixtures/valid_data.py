@@ -57,12 +57,18 @@ class ValidData:
 
     def _detect_indent(self):
         indent = None
+        # split input into separate lines
         lines = open(self._registry_path, "r").readlines()
+        # we've got to have at least two lines
         if len(lines) >= 2:
             second_line = lines[1]
+            # presumably 2nd line is indented exactly one level
             match = re.match(r"^(\s+).+", second_line)
             if match:
+                # grab the actual indentation blob
                 indent = match.groups()[0]
+            # if we didn't find a match, return None
+            # and let the caller decide what to do
         return indent
 
     def sort_registry_to_disk(self):

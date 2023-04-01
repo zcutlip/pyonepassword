@@ -18,7 +18,7 @@ def _lookup_password_data(data, password_identifier: str):
     return item
 
 
-def test_item_password_010(valid_data: ValidData, expected_item_password_data):
+def test_password_item_010(valid_data: ValidData, expected_item_password_data):
     item_dict = valid_data.data_for_name("example-password")
     password_identifier = "Example Password"
 
@@ -29,7 +29,7 @@ def test_item_password_010(valid_data: ValidData, expected_item_password_data):
     assert result.password == expected.password
 
 
-def test_item_password_020(valid_data: ValidData, expected_item_password_data):
+def test_password_item_020(valid_data: ValidData, expected_item_password_data):
     item_dict = valid_data.data_for_name("example-password")
     password_identifier = "Example Password"
 
@@ -40,7 +40,7 @@ def test_item_password_020(valid_data: ValidData, expected_item_password_data):
     assert result.unique_id == expected.unique_id
 
 
-def test_item_password_030(valid_data: ValidData, expected_item_password_data):
+def test_password_item_030(valid_data: ValidData, expected_item_password_data):
     item_dict = valid_data.data_for_name("example-password")
     password_identifier = "Example Password"
 
@@ -51,7 +51,7 @@ def test_item_password_030(valid_data: ValidData, expected_item_password_data):
     assert result.title == expected.title
 
 
-def test_item_password_040(valid_data: ValidData, expected_item_password_data):
+def test_password_item_040(valid_data: ValidData, expected_item_password_data):
     item_dict = valid_data.data_for_name("example-password")
     password_identifier = "Example Password"
 
@@ -62,7 +62,7 @@ def test_item_password_040(valid_data: ValidData, expected_item_password_data):
     assert result.created_at == expected.created_at
 
 
-def test_item_password_050(valid_data: ValidData, expected_item_password_data):
+def test_password_item_050(valid_data: ValidData, expected_item_password_data):
     item_dict = valid_data.data_for_name("example-password")
     password_identifier = "Example Password"
 
@@ -73,7 +73,7 @@ def test_item_password_050(valid_data: ValidData, expected_item_password_data):
     assert result.updated_at == expected.updated_at
 
 
-def test_item_password_060(valid_data: ValidData, expected_item_password_data):
+def test_password_item_060(valid_data: ValidData, expected_item_password_data):
     item_dict = valid_data.data_for_name("example-password")
     password_identifier = "Example Password"
 
@@ -84,7 +84,7 @@ def test_item_password_060(valid_data: ValidData, expected_item_password_data):
     assert result.last_edited_by == expected.last_edited_by
 
 
-def test_item_password_070(valid_data: ValidData, expected_item_password_data):
+def test_password_item_070(valid_data: ValidData, expected_item_password_data):
     item_dict = valid_data.data_for_name("example-password")
     password_identifier = "Example Password"
 

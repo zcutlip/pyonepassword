@@ -1,3 +1,5 @@
+from typing import Dict, Union
+
 from .._item_descriptor_registry import op_register_item_descriptor_type
 from .._item_type_registry import op_register_item_type
 from ..fields_sections.item_field_base import OPItemField
@@ -18,7 +20,7 @@ class OPCreditCardItemDescriptor(OPAbstractItemDescriptor):
 class OPCreditCardItem(OPAbstractItem):
     CATEGORY = "CREDIT_CARD"
 
-    def __init__(self, item_dict):
+    def __init__(self, item_dict: Union[Dict, str]):
         super().__init__(item_dict)
 
     def additional_details(self) -> OPSection:

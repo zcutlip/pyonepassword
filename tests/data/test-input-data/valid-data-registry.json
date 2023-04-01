@@ -1,4 +1,8 @@
 {
+    "example-api-credential": {
+        "name": "example-api-credential.json",
+        "type": "json"
+    },
     "example-database-1": {
         "name": "example-database-1.json",
         "type": "json"

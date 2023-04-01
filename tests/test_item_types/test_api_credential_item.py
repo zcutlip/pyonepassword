@@ -18,7 +18,7 @@ from pyonepassword.api.object_types import OPAPICredentialItem
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
-def test_item_get_api_cred_01(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
+def test_api_credential_item_01(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
     api_cred_name = "Example API Credential"
     result: OPAPICredentialItem
     expected: ExpectedAPICredential
@@ -32,7 +32,7 @@ def test_item_get_api_cred_01(signed_in_op: OP, expected_api_credential_data: Ex
     assert result.unique_id == expected.unique_id
 
 
-def test_item_get_api_cred_02(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
+def test_api_credential_item_02(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
     api_cred_name = "Example API Credential"
     result: OPAPICredentialItem
     expected: ExpectedAPICredential
@@ -46,7 +46,7 @@ def test_item_get_api_cred_02(signed_in_op: OP, expected_api_credential_data: Ex
     assert result.username == expected.username
 
 
-def test_item_get_api_cred_03(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
+def test_api_credential_item_03(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
     api_cred_name = "Example API Credential"
     result: OPAPICredentialItem
     expected: ExpectedAPICredential
@@ -60,7 +60,7 @@ def test_item_get_api_cred_03(signed_in_op: OP, expected_api_credential_data: Ex
     assert result.credential == expected.credential
 
 
-def test_item_get_api_cred_04(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
+def test_api_credential_item_04(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
     api_cred_name = "Example API Credential"
     result: OPAPICredentialItem
     expected: ExpectedAPICredential
@@ -74,7 +74,7 @@ def test_item_get_api_cred_04(signed_in_op: OP, expected_api_credential_data: Ex
     assert result.credential == expected.credential
 
 
-def test_item_get_api_cred_05(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
+def test_api_credential_item_05(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
     api_cred_name = "Example API Credential"
     result: OPAPICredentialItem
     expected: ExpectedAPICredential
@@ -88,7 +88,7 @@ def test_item_get_api_cred_05(signed_in_op: OP, expected_api_credential_data: Ex
     assert result.type == expected.type
 
 
-def test_item_get_api_cred_06(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
+def test_api_credential_item_06(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
     api_cred_name = "Example API Credential"
     result: OPAPICredentialItem
     expected: ExpectedAPICredential
@@ -102,7 +102,7 @@ def test_item_get_api_cred_06(signed_in_op: OP, expected_api_credential_data: Ex
     assert result.filename == expected.filename
 
 
-def test_item_get_api_cred_07(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
+def test_api_credential_item_07(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
     api_cred_name = "Example API Credential"
     result: OPAPICredentialItem
     expected: ExpectedAPICredential
@@ -118,7 +118,7 @@ def test_item_get_api_cred_07(signed_in_op: OP, expected_api_credential_data: Ex
     assert valid_from == expected.valid_from
 
 
-def test_item_get_api_cred_08(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
+def test_api_credential_item_08(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
     api_cred_name = "Example API Credential"
     result: OPAPICredentialItem
     expected: ExpectedAPICredential
@@ -134,7 +134,7 @@ def test_item_get_api_cred_08(signed_in_op: OP, expected_api_credential_data: Ex
     assert expires == expected.expires
 
 
-def test_item_get_api_cred_09(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
+def test_api_credential_item_09(signed_in_op: OP, expected_api_credential_data: ExpectedAPICredentialData):
     api_cred_name = "Example API Credential"
     result: OPAPICredentialItem
     expected: ExpectedAPICredential

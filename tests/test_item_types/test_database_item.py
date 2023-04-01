@@ -2,17 +2,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import pytest
-
 if TYPE_CHECKING:
     from ..fixtures.expected_database import ExpectedDatabaseItem, ExpectedDatabaseItemData
     from ..fixtures.valid_data import ValidData
 
 from pyonepassword.api.object_types import OPDatabaseItem
-
-# ensure HOME env variable is set, and there's a valid op config present
-pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
-
 
 # database 1 is a postgres database the following fields populated
 # database_type

@@ -123,12 +123,6 @@
       "stderr": "error_output",
       "name": "item-get-invalid-secure-note-wrong-vault"
     },
-    "--format|json|item|get|Example Credit Card|--vault|Test Data": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-get-example-credit-card"
-    },
     "--format|json|vault|get|Test Data": {
       "exit_status": 0,
       "stdout": "output",

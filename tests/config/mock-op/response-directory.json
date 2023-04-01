@@ -129,12 +129,6 @@
       "stderr": "error_output",
       "name": "item-get-example-credit-card"
     },
-    "--format|json|item|get|Example Password|--vault|Test Data": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-get-example-password"
-    },
     "--format|json|vault|get|Test Data": {
       "exit_status": 0,
       "stdout": "output",

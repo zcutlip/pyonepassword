@@ -1,59 +1,59 @@
 {
-    "field-collision": {
-        "name": "field-collision.json",
-        "type": "text"
-    },
-    "invalid-item": {
-        "name": "invalid-item.json",
-        "type": "text"
-    },
-    "invalid_base32_secret": {
-        "name": "invalid_base32_secret.txt",
-        "type": "text",
-        "strip": true
-    },
-    "login-item-with-section-collision": {
-        "name": "login-item-with-section-collision.json",
-        "type": "json"
-    },
-    "malformed-field-json": {
-        "name": "malformed-field-json.txt",
-        "type": "text"
-    },
-    "malformed-group-json": {
-        "name": "malformed-group-json.txt",
-        "type": "text"
-    },
-    "malformed-group-list-json": {
-        "name": "malformed-group-list-json.txt",
-        "type": "text"
-    },
-    "malformed-item-json": {
-        "name": "malformed-item-json.txt",
-        "type": "text"
-    },
-    "malformed-op-config-json": {
-        "name": "malformed-op-config-json.txt",
-        "type": "text"
-    },
-    "malformed-user-json": {
-        "name": "malformed-user-json.txt",
-        "type": "text"
-    },
-    "malformed-user-list-json": {
-        "name": "malformed-user-list-json.txt",
-        "type": "text"
-    },
-    "malformed-vault-json": {
-        "name": "malformed-vault-json.txt",
-        "type": "text"
-    },
-    "malformed-vault-list-json": {
-        "name": "malformed-vault-list-json.txt",
-        "type": "text"
-    },
-    "unknown-field-type": {
-        "name": "unknown-field-type.json",
-        "type": "json"
-    }
+  "field-collision": {
+    "name": "field-collision.json",
+    "type": "text"
+  },
+  "invalid-item": {
+    "name": "invalid-item.json",
+    "type": "text"
+  },
+  "invalid_base32_secret": {
+    "name": "invalid_base32_secret.txt",
+    "type": "text",
+    "strip": true
+  },
+  "login-item-with-section-collision": {
+    "name": "login-item-with-section-collision.json",
+    "type": "json"
+  },
+  "malformed-field-json": {
+    "name": "malformed-field-json.txt",
+    "type": "text"
+  },
+  "malformed-group-json": {
+    "name": "malformed-group-json.txt",
+    "type": "text"
+  },
+  "malformed-group-list-json": {
+    "name": "malformed-group-list-json.txt",
+    "type": "text"
+  },
+  "malformed-item-json": {
+    "name": "malformed-item-json.txt",
+    "type": "text"
+  },
+  "malformed-op-config-json": {
+    "name": "malformed-op-config-json.txt",
+    "type": "text"
+  },
+  "malformed-user-json": {
+    "name": "malformed-user-json.txt",
+    "type": "text"
+  },
+  "malformed-user-list-json": {
+    "name": "malformed-user-list-json.txt",
+    "type": "text"
+  },
+  "malformed-vault-json": {
+    "name": "malformed-vault-json.txt",
+    "type": "text"
+  },
+  "malformed-vault-list-json": {
+    "name": "malformed-vault-list-json.txt",
+    "type": "text"
+  },
+  "unknown-field-type": {
+    "name": "unknown-field-type.json",
+    "type": "json"
+  }
 }

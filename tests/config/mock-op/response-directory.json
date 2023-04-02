@@ -255,12 +255,6 @@
       "stderr": "error_output",
       "name": "item-get-not-a-document"
     },
-    "--format|json|item|get|Example SSH Key": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-get-example-ssh-key"
-    },
     "--format|json|item|get|Example Identity": {
       "exit_status": 0,
       "stdout": "output",

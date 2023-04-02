@@ -93,36 +93,6 @@
       "stderr": "error_output",
       "name": "item-get-example-server"
     },
-    "--format|json|item|get|Example Secure Note|--vault|Test Data": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-get-example-secure-note"
-    },
-    "--format|json|item|get|Example Secure Note 2": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-get-example-secure-note-no-vault"
-    },
-    "--format|json|item|get|t4gp6e7s6xtsiu35xq5cewxqpi": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-get-by-uuid-example-secure-note-2"
-    },
-    "--format|json|item|get|Example Secure Note 3": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-get-invalid-secure-note-no-vault"
-    },
-    "--format|json|item|get|Example Secure Note 4|--vault|Test Data": {
-      "exit_status": 1,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-get-invalid-secure-note-wrong-vault"
-    },
     "--format|json|vault|get|Test Data": {
       "exit_status": 0,
       "stdout": "output",

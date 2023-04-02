@@ -1,98 +1,98 @@
 {
-    "example-credit-card": {
-        "name": "example-credit-card.json",
-        "type": "json"
-    },
-    "example-api-credential": {
-        "name": "example-api-credential.json",
-        "type": "json"
-    },
-    "example-database-1": {
-        "name": "example-database-1.json",
-        "type": "json"
-    },
-    "example-database-2": {
-        "name": "example-database-2.json",
-        "type": "json"
-    },
-    "example-database-missing-fields": {
-        "name": "example-database-missing-fields.json",
-        "type": "json"
-    },
-    "example-field-no-uuid-1": {
-        "name": "example-field-no-uuid-1.json",
-        "type": "json"
-    },
-    "example-field-no-uuid-2": {
-        "name": "example-field-no-uuid-2.json",
-        "type": "json"
-    },
-    "example-field-with-uuid-1": {
-        "name": "example-field-with-uuid-1.json",
-        "type": "json"
-    },
-    "example-field-with-uuid-2": {
-        "name": "example-field-with-uuid-2.json",
-        "type": "json"
-    },
-    "example-item-section-1": {
-        "name": "example-item-section-1.json",
-        "type": "json"
-    },
-    "example-item-section-no-uuid": {
-        "name": "example-item-section-no-uuid.json",
-        "type": "json"
-    },
-    "example-login-1": {
-        "name": "example-login-1.json",
-        "type": "json"
-    },
-    "example-login-2": {
-        "name": "example-login-2.json",
-        "type": "json"
-    },
-    "example-login-with-fields": {
-        "name": "example-login-with-fields.json",
-        "type": "json"
-    },
-    "example-op-config": {
-        "name": "example-op-config.json",
-        "type": "text"
-    },
-    "example-op-config-no-account-list": {
-        "name": "example-op-config-no-account-list.json",
-        "type": "text"
-    },
-    "example-op-config-no-latest-shorthand": {
-        "name": "example-op-config-no-latest-shorthand.json",
-        "type": "text"
-    },
-    "example-password": {
-        "name": "example-password.json",
-        "type": "json"
-    },
-    "item-field-network-port-int": {
-        "name": "item-field-network-port-int.json",
-        "type": "json"
-    },
-    "item-field-network-port-str": {
-        "name": "item-field-network-port-str.json",
-        "type": "json"
-    },
-    "item-field-network-port-str-hex": {
-        "name": "item-field-network-port-str-hex.json",
-        "type": "json"
-    },
-    "login-item-field-password": {
-        "name": "login-item-field-password.json",
-        "type": "json"
-    },
-    "login-item-field-totp": {
-        "name": "login-item-field-totp.json",
-        "type": "json"
-    },
-    "login-item-field-username": {
-        "name": "login-item-field-username.json",
-        "type": "json"
-    }
+  "example-credit-card": {
+    "name": "example-credit-card.json",
+    "type": "json"
+  },
+  "example-api-credential": {
+    "name": "example-api-credential.json",
+    "type": "json"
+  },
+  "example-database-1": {
+    "name": "example-database-1.json",
+    "type": "json"
+  },
+  "example-database-2": {
+    "name": "example-database-2.json",
+    "type": "json"
+  },
+  "example-database-missing-fields": {
+    "name": "example-database-missing-fields.json",
+    "type": "json"
+  },
+  "example-field-no-uuid-1": {
+    "name": "example-field-no-uuid-1.json",
+    "type": "json"
+  },
+  "example-field-no-uuid-2": {
+    "name": "example-field-no-uuid-2.json",
+    "type": "json"
+  },
+  "example-field-with-uuid-1": {
+    "name": "example-field-with-uuid-1.json",
+    "type": "json"
+  },
+  "example-field-with-uuid-2": {
+    "name": "example-field-with-uuid-2.json",
+    "type": "json"
+  },
+  "example-item-section-1": {
+    "name": "example-item-section-1.json",
+    "type": "json"
+  },
+  "example-item-section-no-uuid": {
+    "name": "example-item-section-no-uuid.json",
+    "type": "json"
+  },
+  "example-login-1": {
+    "name": "example-login-1.json",
+    "type": "json"
+  },
+  "example-login-2": {
+    "name": "example-login-2.json",
+    "type": "json"
+  },
+  "example-login-with-fields": {
+    "name": "example-login-with-fields.json",
+    "type": "json"
+  },
+  "example-op-config": {
+    "name": "example-op-config.json",
+    "type": "text"
+  },
+  "example-op-config-no-account-list": {
+    "name": "example-op-config-no-account-list.json",
+    "type": "text"
+  },
+  "example-op-config-no-latest-shorthand": {
+    "name": "example-op-config-no-latest-shorthand.json",
+    "type": "text"
+  },
+  "example-password": {
+    "name": "example-password.json",
+    "type": "json"
+  },
+  "item-field-network-port-int": {
+    "name": "item-field-network-port-int.json",
+    "type": "json"
+  },
+  "item-field-network-port-str": {
+    "name": "item-field-network-port-str.json",
+    "type": "json"
+  },
+  "item-field-network-port-str-hex": {
+    "name": "item-field-network-port-str-hex.json",
+    "type": "json"
+  },
+  "login-item-field-password": {
+    "name": "login-item-field-password.json",
+    "type": "json"
+  },
+  "login-item-field-totp": {
+    "name": "login-item-field-totp.json",
+    "type": "json"
+  },
+  "login-item-field-username": {
+    "name": "login-item-field-username.json",
+    "type": "json"
+  }
 }

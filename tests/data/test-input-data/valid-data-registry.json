@@ -1,4 +1,8 @@
 {
+  "example-ssh-key": {
+    "name": "example-ssh-key.json",
+    "type": "json"
+  },
   "example-secure-note": {
     "name": "example-secure-note.json",
     "type": "json"

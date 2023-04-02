@@ -14,6 +14,12 @@ pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def test_secure_note_item_010(valid_data: ValidData, expected_secure_note_item_data):
+    """
+    Create:
+        - secure note item object from "example secure note"
+    Verify:
+        - note_text property matches expected value
+    """
     expected = expected_secure_note_item_data.data_for_note(
         "Example Secure Note")
     item_dict = valid_data.data_for_name("example-secure-note")
@@ -23,6 +29,12 @@ def test_secure_note_item_010(valid_data: ValidData, expected_secure_note_item_d
 
 
 def test_secure_note_item_020(valid_data: ValidData, expected_secure_note_item_data):
+    """
+    Create:
+        - secure note item object from "example secure note"
+    Verify:
+        - unique_id property matches expected value
+    """
     expected = expected_secure_note_item_data.data_for_note(
         "Example Secure Note")
     item_dict = valid_data.data_for_name("example-secure-note")
@@ -31,6 +43,12 @@ def test_secure_note_item_020(valid_data: ValidData, expected_secure_note_item_d
 
 
 def test_secure_note_item_030(valid_data: ValidData, expected_secure_note_item_data):
+    """
+    Create:
+        - secure note item object from "example secure note"
+    Verify:
+        - title property matches expected value
+    """
     expected = expected_secure_note_item_data.data_for_note(
         "Example Secure Note")
     item_dict = valid_data.data_for_name("example-secure-note")
@@ -39,6 +57,12 @@ def test_secure_note_item_030(valid_data: ValidData, expected_secure_note_item_d
 
 
 def test_secure_note_item_040(valid_data: ValidData, expected_secure_note_item_data):
+    """
+    Create:
+        - secure note item object from "example secure note"
+    Verify:
+        - created_at property matches expected value
+    """
     expected = expected_secure_note_item_data.data_for_note(
         "Example Secure Note")
     item_dict = valid_data.data_for_name("example-secure-note")
@@ -47,6 +71,12 @@ def test_secure_note_item_040(valid_data: ValidData, expected_secure_note_item_d
 
 
 def test_secure_note_item_050(valid_data: ValidData, expected_secure_note_item_data):
+    """
+    Create:
+        - secure note item object from "example secure note"
+    Verify:
+        - updated_at property matches expected value
+    """
     expected = expected_secure_note_item_data.data_for_note(
         "Example Secure Note")
     item_dict = valid_data.data_for_name("example-secure-note")
@@ -55,6 +85,12 @@ def test_secure_note_item_050(valid_data: ValidData, expected_secure_note_item_d
 
 
 def test_secure_note_item_060(valid_data: ValidData, expected_secure_note_item_data):
+    """
+    Create:
+        - secure note item object from "example secure note"
+    Verify:
+        - last_edited_by property matches expected value
+    """
     expected = expected_secure_note_item_data.data_for_note(
         "Example Secure Note")
     item_dict = valid_data.data_for_name("example-secure-note")
@@ -63,6 +99,12 @@ def test_secure_note_item_060(valid_data: ValidData, expected_secure_note_item_d
 
 
 def test_secure_note_item_070(valid_data: ValidData, expected_secure_note_item_data):
+    """
+    Create:
+        - secure note item object from "example secure note"
+    Verify:
+        - vault_id property matches expected value
+    """
     expected = expected_secure_note_item_data.data_for_note(
         "Example Secure Note")
     item_dict = valid_data.data_for_name("example-secure-note")

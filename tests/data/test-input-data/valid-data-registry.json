@@ -1,4 +1,8 @@
 {
+  "example-secure-note": {
+    "name": "example-secure-note.json",
+    "type": "json"
+  },
   "example-credit-card": {
     "name": "example-credit-card.json",
     "type": "json"

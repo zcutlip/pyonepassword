@@ -15,7 +15,12 @@ from pyonepassword.api.object_types import OPServerItem
 
 
 def test_server_item_010(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
-
+    """
+    Create:
+        - OPServerItem object from example-server-1 input data
+    Verify:
+        - username property matches expected value
+    """
     server_name = "Example Server"
 
     item_dict = valid_data.data_for_name("example-server-1")
@@ -26,6 +31,12 @@ def test_server_item_010(valid_data: ValidData, expected_server_data: ExpectedSe
 
 
 def test_server_item_020(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+    """
+    Create:
+        - OPServerItem object from example-server-1 input data
+    Verify:
+        - password property matches expected value
+    """
     server_name = "Example Server"
 
     item_dict = valid_data.data_for_name("example-server-1")
@@ -36,6 +47,13 @@ def test_server_item_020(valid_data: ValidData, expected_server_data: ExpectedSe
 
 
 def test_server_item_030(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+    """
+    Create:
+        - OPServerItem object from example-server-1 input data
+    Verify:
+        - url property matches expected value
+    """
+
     server_name = "Example Server"
     item_dict = valid_data.data_for_name("example-server-1")
     expected = expected_server_data.data_for_server(server_name)
@@ -44,6 +62,12 @@ def test_server_item_030(valid_data: ValidData, expected_server_data: ExpectedSe
 
 
 def test_server_item_040(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+    """
+    Create:
+        - OPServerItem object from example-server-2 input data
+    Verify:
+        - url property matches expected value
+    """
     server_name = "Example Server 2"
 
     item_dict = valid_data.data_for_name("example-server-2")
@@ -54,6 +78,12 @@ def test_server_item_040(valid_data: ValidData, expected_server_data: ExpectedSe
 
 
 def test_server_item_050(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+    """
+    Create:
+        - OPServerItem object from example-server-2 input data
+    Verify:
+        - admin_console_username property matches expected value
+    """
     server_name = "Example Server 2"
 
     item_dict = valid_data.data_for_name("example-server-2")
@@ -64,6 +94,12 @@ def test_server_item_050(valid_data: ValidData, expected_server_data: ExpectedSe
 
 
 def test_server_item_060(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+    """
+    Create:
+        - OPServerItem object from example-server-2 input data
+    Verify:
+        - admin_console_password property matches expected value
+    """
     server_name = "Example Server 2"
 
     item_dict = valid_data.data_for_name("example-server-2")
@@ -74,6 +110,12 @@ def test_server_item_060(valid_data: ValidData, expected_server_data: ExpectedSe
 
 
 def test_server_item_070(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+    """
+    Create:
+        - OPServerItem object from example-server-2 input data
+    Verify:
+        - admin_console_url property matches expected value
+    """
     server_name = "Example Server 2"
 
     item_dict = valid_data.data_for_name("example-server-2")

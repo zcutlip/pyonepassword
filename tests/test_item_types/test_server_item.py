@@ -35,11 +35,12 @@ def test_server_item_020(valid_data: ValidData, expected_server_data: ExpectedSe
     assert result.password == expected.password
 
 
-def test_server_item_030(valid_data: ValidData):
+def test_server_item_030(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+    server_name = "Example Server"
     item_dict = valid_data.data_for_name("example-server-1")
-
+    expected = expected_server_data.data_for_server(server_name)
     result = OPServerItem(item_dict)
-    assert result.url is None
+    assert result.url == expected.url
 
 
 def test_server_item_040(valid_data: ValidData, expected_server_data: ExpectedServerItemData):

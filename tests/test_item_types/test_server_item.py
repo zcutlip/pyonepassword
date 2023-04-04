@@ -10,8 +10,8 @@ import pytest
 # circular imports.
 # this also reduced exercising tested code simply by importing
 if TYPE_CHECKING:
-    from ..fixtures.expected_server import ExpectedServer, ExpectedServerItemData
-    from pyonepassword import OP
+    from ..fixtures.expected_server import ExpectedServerItemData
+    from ..fixtures.valid_data import ValidData
 
 from pyonepassword.api.object_types import OPServerItem
 
@@ -19,84 +19,70 @@ from pyonepassword.api.object_types import OPServerItem
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
-def test_admin_user_01(signed_in_op: OP, expected_server_data: ExpectedServerItemData):
-    # get item "Example Login 1" --vault "Test Data"
+def test_server_item_010(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+
     server_name = "Example Server"
-    vault = "Test Data"
-    expected: ExpectedServer
-    result: OPServerItem
-    expected = expected_server_data.data_for_server(
-        server_name)
-    result = signed_in_op.item_get(server_name, vault=vault)
+
+    item_dict = valid_data.data_for_name("example-server-1")
+    expected = expected_server_data.data_for_server(server_name)
+
+    result = OPServerItem(item_dict)
     assert result.username == expected.username
 
 
-def test_admin_password_01(signed_in_op: OP, expected_server_data: ExpectedServerItemData):
+def test_server_item_020(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
     server_name = "Example Server"
-    vault = "Test Data"
-    expected: ExpectedServer
-    result: OPServerItem
 
+    item_dict = valid_data.data_for_name("example-server-1")
     expected = expected_server_data.data_for_server(server_name)
-    result = signed_in_op.item_get(server_name, vault=vault)
+
+    result = OPServerItem(item_dict)
     assert result.password == expected.password
 
 
-def test_server_url_01(signed_in_op: OP, expected_server_data: ExpectedServerItemData):
-    server_name = "Example Server"
-    vault = "Test Data"
-    result: OPServerItem
+def test_server_item_030(valid_data: ValidData):
+    item_dict = valid_data.data_for_name("example-server-1")
 
-    result = signed_in_op.item_get(server_name, vault=vault)
-    assert isinstance(result, OPServerItem)
+    result = OPServerItem(item_dict)
     assert result.url is None
 
 
-def test_server_url_02(signed_in_op: OP, expected_server_data: ExpectedServerItemData):
-    server_id = "3wcd3zsps7fvij47fef6scznxq"
-    result: OPServerItem
-    expected: ExpectedServer
-    expected = expected_server_data.data_for_server(server_id)
-    result = signed_in_op.item_get(server_id)
-    assert isinstance(result, OPServerItem)
+def test_server_item_040(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+    server_name = "Example Server 2"
+
+    item_dict = valid_data.data_for_name("example-server-2")
+    expected = expected_server_data.data_for_server(server_name)
+
+    result = OPServerItem(item_dict)
     assert result.url == expected.url
 
 
-def test_server_admin_console_01(signed_in_op: OP, expected_server_data: ExpectedServerItemData):
-    expected: ExpectedServer
-    result: OPServerItem
+def test_server_item_050(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
     server_name = "Example Server 2"
 
+    item_dict = valid_data.data_for_name("example-server-2")
     expected = expected_server_data.data_for_server(server_name)
 
-    result = signed_in_op.item_get(server_name, vault="Test Data")
-
-    assert isinstance(result, OPServerItem)
+    result = OPServerItem(item_dict)
     assert result.admin_console_username == expected.admin_console_username
 
 
-def test_server_admin_console_02(signed_in_op: OP, expected_server_data: ExpectedServerItemData):
-    expected: ExpectedServer
-    result: OPServerItem
+def test_server_item_060(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
     server_name = "Example Server 2"
 
+    item_dict = valid_data.data_for_name("example-server-2")
     expected = expected_server_data.data_for_server(server_name)
 
-    result = signed_in_op.item_get(server_name, vault="Test Data")
-
-    assert isinstance(result, OPServerItem)
+    result = OPServerItem(item_dict)
     assert result.admin_console_password == expected.admin_console_password
 
 
-def test_server_get_url_field_01(signed_in_op: OP, expected_server_data: ExpectedServerItemData):
-    expected: ExpectedServer
-    result: OPServerItem
+def test_server_item_070(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
     server_name = "Example Server 2"
 
+    item_dict = valid_data.data_for_name("example-server-2")
     expected = expected_server_data.data_for_server(server_name)
 
-    result = signed_in_op.item_get(server_name, vault="Test Data")
+    result = OPServerItem(item_dict)
 
-    assert isinstance(result, OPServerItem)
-    assert result.admin_console_url is not None
     assert result.admin_console_url == expected.admin_console_url

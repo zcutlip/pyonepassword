@@ -87,12 +87,6 @@
       "stderr": "error_output",
       "name": "document-get-missing-bytes-filename"
     },
-    "--format|json|item|get|Example Server|--vault|Test Data": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-get-example-server"
-    },
     "--format|json|vault|get|Test Data": {
       "exit_status": 0,
       "stdout": "output",
@@ -152,18 +146,6 @@
       "stdout": "output",
       "stderr": "error_output",
       "name": "item-get-login-with-totp"
-    },
-    "--format|json|item|get|3wcd3zsps7fvij47fef6scznxq": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-get-example-server-3-by-id"
-    },
-    "--format|json|item|get|Example Server 2|--vault|Test Data": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-get-example-server-2"
     },
     "--format|json|user|list|--vault|Test Data": {
       "exit_status": 0,

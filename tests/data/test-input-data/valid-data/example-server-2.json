@@ -1,15 +1,16 @@
 {
   "id": "ag5i6ftzkdbkruy6i6zxrkkiqq",
   "title": "Example Server 2",
-  "version": 2,
+  "version": 4,
   "vault": {
-    "id": "gshlsjsajnawtnjynzgwmiebge",
+    "id": "yhdg6ovhkjcfhn3u25cp2bnl6e",
     "name": "Test Data"
   },
   "category": "SERVER",
-  "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
+  "last_edited_by": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
   "created_at": "2020-12-15T18:32:04Z",
-  "updated_at": "2022-05-06T22:16:00Z",
+  "updated_at": "2023-04-04T18:23:12Z",
+  "additional_information": "admin",
   "sections": [
     {
       "id": "admin_console",
@@ -18,10 +19,6 @@
     {
       "id": "hosting_provider_details",
       "label": "Hosting Provider"
-    },
-    {
-      "id": "ssh_keys",
-      "label": "SSH Keys"
     }
   ],
   "fields": [
@@ -36,18 +33,21 @@
       "id": "url",
       "type": "STRING",
       "label": "URL",
+      "value": "ssh://admin@server-hostname",
       "reference": "op://Test Data/Example Server 2/URL"
     },
     {
       "id": "username",
       "type": "STRING",
       "label": "username",
+      "value": "admin",
       "reference": "op://Test Data/Example Server 2/username"
     },
     {
       "id": "password",
       "type": "CONCEALED",
       "label": "password",
+      "value": "sari-myrmidon-bequest-apse",
       "reference": "op://Test Data/Example Server 2/password"
     },
     {
@@ -122,17 +122,6 @@
       "type": "STRING",
       "label": "support phone",
       "reference": "op://Test Data/Example Server 2/Hosting Provider/support phone"
-    },
-    {
-      "id": "id_ed25519",
-      "section": {
-        "id": "ssh_keys",
-        "label": "SSH Keys"
-      },
-      "type": "CONCEALED",
-      "label": "id_ed25519",
-      "value": "foobar123",
-      "reference": "op://Test Data/Example Server 2/SSH Keys/id_ed25519"
     }
   ]
 }

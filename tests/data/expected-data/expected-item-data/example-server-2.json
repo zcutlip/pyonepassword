@@ -10,5 +10,6 @@
   "admin_console_username": "console-admin",
   "admin_console_password": "mention-accuse-aflutter-stately",
   "admin_console_url": "https://example/admin_console",
+  "url": "ssh://admin@server-hostname",
   "returncode": 0
 }

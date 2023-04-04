@@ -1,0 +1,154 @@
+{
+  "id": "hqnf5vpzc5mg4x4asrpbvoi54u",
+  "title": "Example Server",
+  "version": 1,
+  "vault": {
+    "id": "gshlsjsajnawtnjynzgwmiebge",
+    "name": "Test Data"
+  },
+  "category": "SERVER",
+  "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
+  "created_at": "2021-06-29T18:31:30Z",
+  "updated_at": "2021-06-29T18:31:30Z",
+  "additional_information": "admin",
+  "sections": [
+    {
+      "id": "admin_console",
+      "label": "Admin Console"
+    },
+    {
+      "id": "hosting_provider_details",
+      "label": "Hosting Provider"
+    },
+    {
+      "id": "ssh_keys",
+      "label": "SSH Keys"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data/Example Server/notesPlain"
+    },
+    {
+      "id": "username",
+      "type": "STRING",
+      "label": "username",
+      "value": "admin",
+      "reference": "op://Test Data/Example Server/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "label": "password",
+      "value": "example_admin_password",
+      "reference": "op://Test Data/Example Server/password"
+    },
+    {
+      "id": "admin_console_url",
+      "section": {
+        "id": "admin_console",
+        "label": "Admin Console"
+      },
+      "type": "STRING",
+      "label": "admin console URL",
+      "reference": "op://Test Data/Example Server/Admin Console/admin console URL"
+    },
+    {
+      "id": "admin_console_username",
+      "section": {
+        "id": "admin_console",
+        "label": "Admin Console"
+      },
+      "type": "STRING",
+      "label": "admin console username",
+      "reference": "op://Test Data/Example Server/Admin Console/admin console username"
+    },
+    {
+      "id": "admin_console_password",
+      "section": {
+        "id": "admin_console",
+        "label": "Admin Console"
+      },
+      "type": "CONCEALED",
+      "label": "console password",
+      "reference": "op://Test Data/Example Server/Admin Console/console password"
+    },
+    {
+      "id": "name",
+      "section": {
+        "id": "hosting_provider_details",
+        "label": "Hosting Provider"
+      },
+      "type": "STRING",
+      "label": "name",
+      "reference": "op://Test Data/Example Server/Hosting Provider/name"
+    },
+    {
+      "id": "website",
+      "section": {
+        "id": "hosting_provider_details",
+        "label": "Hosting Provider"
+      },
+      "type": "STRING",
+      "label": "website",
+      "reference": "op://Test Data/Example Server/Hosting Provider/website"
+    },
+    {
+      "id": "support_contact_url",
+      "section": {
+        "id": "hosting_provider_details",
+        "label": "Hosting Provider"
+      },
+      "type": "STRING",
+      "label": "support URL",
+      "reference": "op://Test Data/Example Server/Hosting Provider/support URL"
+    },
+    {
+      "id": "support_contact_phone",
+      "section": {
+        "id": "hosting_provider_details",
+        "label": "Hosting Provider"
+      },
+      "type": "STRING",
+      "label": "support phone",
+      "reference": "op://Test Data/Example Server/Hosting Provider/support phone"
+    },
+    {
+      "id": "id_ed25519_passphrase",
+      "section": {
+        "id": "ssh_keys",
+        "label": "SSH Keys"
+      },
+      "type": "CONCEALED",
+      "label": "id_ed25519 passphrase",
+      "value": "example_ssh_key_password",
+      "reference": "op://Test Data/Example Server/SSH Keys/id_ed25519 passphrase"
+    },
+    {
+      "id": "id_ed25519",
+      "section": {
+        "id": "ssh_keys",
+        "label": "SSH Keys"
+      },
+      "type": "CONCEALED",
+      "label": "id_ed25519",
+      "value": "-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABCZ99q1Tu\nYQRYc3DIi1w5lMAAAAEAAAAAEAAAAzAAAAC3NzaC1lZDI1NTE5AAAAIENR/mD7vZJxwb+f\nsrGBLslkHhTCN5VuaclSDxvncjFDAAAAkK/t845cMoqOU5UI6biE+aGBO725DjwIF/QItC\ngpUbSMEAR4+pl7e07/r4vx9A4TO6VTDFPCQY2FMYOuwfasVoSlooMrrz5lyj0yJ1tJAoUL\ne4Zvo1Hv+rruUXjHy/18bibKzpCRfbALbgz2txH0AON4AYM00mLW1xXpZyk02hSL3G9byK\nH2vZj/ahN9cqv+TA==\n-----END OPENSSH PRIVATE KEY-----\n",
+      "reference": "op://Test Data/Example Server/SSH Keys/id_ed25519"
+    },
+    {
+      "id": "id_ed25519_pub",
+      "section": {
+        "id": "ssh_keys",
+        "label": "SSH Keys"
+      },
+      "type": "STRING",
+      "label": "id_ed25519.pub",
+      "value": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIENR/mD7vZJxwb+fsrGBLslkHhTCN5VuaclSDxvncjFD zach@osarian\n",
+      "reference": "op://Test Data/Example Server/SSH Keys/id_ed25519.pub"
+    }
+  ]
+}

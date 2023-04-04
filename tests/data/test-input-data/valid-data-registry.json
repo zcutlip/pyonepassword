@@ -1,4 +1,12 @@
 {
+  "example-server-1": {
+    "name": "example-server-1.json",
+    "type": "json"
+  },
+  "example-server-2": {
+    "name": "example-server-2.json",
+    "type": "json"
+  },
   "example-ssh-key": {
     "name": "example-ssh-key.json",
     "type": "json"

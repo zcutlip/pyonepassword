@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import pytest
-
 # make imports for type-hinting disappear at run-time to avoid
 # circular imports.
 # this also reduced exercising tested code simply by importing
@@ -14,9 +12,6 @@ if TYPE_CHECKING:
     from ..fixtures.valid_data import ValidData
 
 from pyonepassword.api.object_types import OPServerItem
-
-# ensure HOME env variable is set, and there's a valid op config present
-pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def test_server_item_010(valid_data: ValidData, expected_server_data: ExpectedServerItemData):

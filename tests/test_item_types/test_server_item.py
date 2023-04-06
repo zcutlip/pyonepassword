@@ -112,15 +112,66 @@ def test_server_item_060(valid_data: ValidData, expected_server_data: ExpectedSe
 def test_server_item_070(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
     """
     Create:
-        - OPServerItem object from example-server-2 input data
+        - OPServerItem object from example-server-1 input data
     Verify:
-        - admin_console_url property matches expected value
+        - hosting_provider_name property matches expected value
     """
-    server_name = "Example Server 2"
+    server_name = "Example Server"
 
-    item_dict = valid_data.data_for_name("example-server-2")
+    item_dict = valid_data.data_for_name("example-server-1")
     expected = expected_server_data.data_for_server(server_name)
 
     result = OPServerItem(item_dict)
 
-    assert result.admin_console_url == expected.admin_console_url
+    assert result.hosting_provider_name == expected.hosting_provider_name
+
+
+def test_server_item_080(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+    """
+    Create:
+        - OPServerItem object from example-server-1 input data
+    Verify:
+        - hosting_provider_website property matches expected value
+    """
+    server_name = "Example Server"
+
+    item_dict = valid_data.data_for_name("example-server-1")
+    expected = expected_server_data.data_for_server(server_name)
+
+    result = OPServerItem(item_dict)
+
+    assert result.hosting_provider_website == expected.hosting_provider_website
+
+
+def test_server_item_090(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+    """
+    Create:
+        - OPServerItem object from example-server-1 input data
+    Verify:
+        - support_contact_url property matches expected value
+    """
+    server_name = "Example Server"
+
+    item_dict = valid_data.data_for_name("example-server-1")
+    expected = expected_server_data.data_for_server(server_name)
+
+    result = OPServerItem(item_dict)
+
+    assert result.support_contact_url == expected.support_contact_url
+
+
+def test_server_item_100(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+    """
+    Create:
+        - OPServerItem object from example-server-1 input data
+    Verify:
+        - support_contact_phone property matches expected value
+    """
+    server_name = "Example Server"
+
+    item_dict = valid_data.data_for_name("example-server-1")
+    expected = expected_server_data.data_for_server(server_name)
+
+    result = OPServerItem(item_dict)
+
+    assert result.support_contact_phone == expected.support_contact_phone

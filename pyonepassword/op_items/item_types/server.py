@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Optional
 
 from .._item_descriptor_registry import op_register_item_descriptor_type
 from .._item_type_registry import op_register_item_type
@@ -22,17 +22,17 @@ class OPServerItem(OPAbstractItem):
         super().__init__(item_dict)
 
     @property
-    def password(self):
+    def password(self) -> Optional[str]:
         password = self.field_value_by_id("password")
         return password
 
     @property
-    def username(self):
+    def username(self) -> Optional[str]:
         username = self.field_value_by_id("username")
         return username
 
     @property
-    def url(self) -> Union[str, None]:
+    def url(self) -> Optional[str]:
         try:
             url = self.field_value_by_id("url")
         except OPFieldNotFoundException:
@@ -40,19 +40,19 @@ class OPServerItem(OPAbstractItem):
         return url
 
     @property
-    def admin_console_password(self):
+    def admin_console_password(self) -> Optional[str]:
         password = self.field_value_by_section_title(
             "Admin Console", "console password")
         return password
 
     @property
-    def admin_console_username(self):
+    def admin_console_username(self) -> Optional[str]:
         username = self.field_value_by_section_title(
             "Admin Console", "admin console username")
         return username
 
     @property
-    def admin_console_url(self):
+    def admin_console_url(self) -> Optional[str]:
         url = self.field_value_by_section_title(
             "Admin Console", "admin console URL")
         return url

@@ -64,49 +64,50 @@ def test_server_item_030(valid_data: ValidData, expected_server_data: ExpectedSe
 def test_server_item_040(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
     """
     Create:
-        - OPServerItem object from example-server-2 input data
-    Verify:
-        - url property matches expected value
-    """
-    server_name = "Example Server 2"
-
-    item_dict = valid_data.data_for_name("example-server-2")
-    expected = expected_server_data.data_for_server(server_name)
-
-    result = OPServerItem(item_dict)
-    assert result.url == expected.url
-
-
-def test_server_item_050(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
-    """
-    Create:
-        - OPServerItem object from example-server-2 input data
+        - OPServerItem object from example-server-1 input data
     Verify:
         - admin_console_username property matches expected value
     """
-    server_name = "Example Server 2"
+    server_name = "Example Server"
 
-    item_dict = valid_data.data_for_name("example-server-2")
+    item_dict = valid_data.data_for_name("example-server-1")
     expected = expected_server_data.data_for_server(server_name)
 
     result = OPServerItem(item_dict)
     assert result.admin_console_username == expected.admin_console_username
 
 
-def test_server_item_060(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+def test_server_item_050(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
     """
     Create:
-        - OPServerItem object from example-server-2 input data
+        - OPServerItem object from example-server-1 input data
     Verify:
         - admin_console_password property matches expected value
     """
-    server_name = "Example Server 2"
+    server_name = "Example Server"
 
-    item_dict = valid_data.data_for_name("example-server-2")
+    item_dict = valid_data.data_for_name("example-server-1")
     expected = expected_server_data.data_for_server(server_name)
 
     result = OPServerItem(item_dict)
     assert result.admin_console_password == expected.admin_console_password
+
+
+def test_server_item_060(valid_data: ValidData, expected_server_data: ExpectedServerItemData):
+    """
+    Create:
+        - OPServerItem object from example-server-1 input data
+    Verify:
+        - admin_console_url property matches expected value
+    """
+    server_name = "Example Server"
+
+    item_dict = valid_data.data_for_name("example-server-1")
+    expected = expected_server_data.data_for_server(server_name)
+
+    result = OPServerItem(item_dict)
+
+    assert result.admin_console_url == expected.admin_console_url
 
 
 def test_server_item_070(valid_data: ValidData, expected_server_data: ExpectedServerItemData):

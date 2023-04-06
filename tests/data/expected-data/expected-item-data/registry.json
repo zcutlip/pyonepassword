@@ -83,10 +83,6 @@
     "name": "example-server.json",
     "type": "json"
   },
-  "Example Server 2": {
-    "name": "example-server-2.json",
-    "type": "json"
-  },
   "Invalid Item": {
     "name": "invalid-item.json",
     "type": "json"

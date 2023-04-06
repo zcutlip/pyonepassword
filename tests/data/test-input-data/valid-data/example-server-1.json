@@ -117,7 +117,7 @@
       },
       "type": "STRING",
       "label": "support phone",
-      "value": "-1-888-555-1212",
+      "value": "+1-888-555-1212",
       "reference": "op://Test Data/Example Server/Hosting Provider/support phone"
     }
   ]

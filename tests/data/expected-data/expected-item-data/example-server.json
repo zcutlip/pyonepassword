@@ -1,11 +1,17 @@
 {
   "id": "hqnf5vpzc5mg4x4asrpbvoi54u",
   "title": "Example Server",
-  "username": "admin",
-  "password": "example_admin_password",
   "created_at": "2021-06-29T18:31:30Z",
   "updated_at": "2021-06-29T18:31:30Z",
   "last_edited_by": "5GHHPJK5HZC5BAT7WDUXW57G44",
   "vault_id": "gshlsjsajnawtnjynzgwmiebge",
-  "returncode": 0
+  "username": "admin",
+  "password": "example_admin_password",
+  "admin_console_username": "admin",
+  "admin_console_password": "example_admin_password",
+  "admin_console_url": "https://example-server/admin-console.html",
+  "hosting_provider_name": "Awesome Provider",
+  "hosting_provider_website": "https://awesome-provider.lol",
+  "support_contact_url": "https://awesome-provider.lol/support",
+  "support_contact_phone": "+1-888-555-1212"
 }

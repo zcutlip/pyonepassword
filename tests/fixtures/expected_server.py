@@ -49,18 +49,8 @@ class ExpectedServer(ExpectedItemBase):
         return self._data["password"]
 
     @property
-    def ssh_keys(self) -> Dict[str, Dict[str, str]]:
-        return self._data["ssh_keys"]
-
-    @property
     def url(self) -> Union[str, None]:
         return self._data.get("url")
-
-    def ssh_keys_for_id(self, ssh_key_id) -> ExpectedServerSSHKeys:
-        all_keys = self.ssh_keys
-        key_dict = all_keys[ssh_key_id]
-        key_obj = ExpectedServerSSHKeys(key_dict)
-        return key_obj
 
     @property
     def admin_console_url(self) -> str:
@@ -73,6 +63,22 @@ class ExpectedServer(ExpectedItemBase):
     @property
     def admin_console_password(self) -> str:
         return self._data["admin_console_password"]
+
+    @property
+    def hosting_provider_name(self) -> str:
+        return self._data["hosting_provider_name"]
+
+    @property
+    def hosting_provider_website(self) -> str:
+        return self._data["hosting_provider_website"]
+
+    @property
+    def support_contact_url(self) -> str:
+        return self._data["support_contact_url"]
+
+    @property
+    def support_contact_phone(self) -> str:
+        return self._data["support_contact_phone"]
 
 
 class ExpectedServerItemData(ExpectedItemData):

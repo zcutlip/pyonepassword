@@ -13,6 +13,12 @@ from pyonepassword.api.object_types import OPUser
 
 
 def test_op_user_01(valid_data: ValidData, expected_user_data: ExpectedUserData):
+    """
+    Create:
+        - OPUser object from "example-user"
+    Verify:
+        - unique_id property matches expected value
+    """
     expected = expected_user_data.data_for_user("Example User")
     user_dict = valid_data.data_for_name("example-user")
     result = OPUser(user_dict)
@@ -21,6 +27,12 @@ def test_op_user_01(valid_data: ValidData, expected_user_data: ExpectedUserData)
 
 
 def test_op_user_02(valid_data: ValidData, expected_user_data: ExpectedUserData):
+    """
+    Create:
+        - OPUser object from "example-user"
+    Verify:
+        - name property matches expected value
+    """
     expected = expected_user_data.data_for_user("Example User")
     user_dict = valid_data.data_for_name("example-user")
     result = OPUser(user_dict)
@@ -29,6 +41,12 @@ def test_op_user_02(valid_data: ValidData, expected_user_data: ExpectedUserData)
 
 
 def test_op_user_03(valid_data: ValidData, expected_user_data: ExpectedUserData):
+    """
+    Create:
+        - OPUser object from "example-user"
+    Verify:
+        - email property matches expected value
+    """
     expected = expected_user_data.data_for_user("Example User")
     user_dict = valid_data.data_for_name("example-user")
     result = OPUser(user_dict)
@@ -37,6 +55,12 @@ def test_op_user_03(valid_data: ValidData, expected_user_data: ExpectedUserData)
 
 
 def test_op_user_04(valid_data: ValidData, expected_user_data: ExpectedUserData):
+    """
+    Create:
+        - OPUser object from "example-user"
+    Verify:
+        - updated_at property matches expected value
+    """
     expected = expected_user_data.data_for_user("Example User")
     user_dict = valid_data.data_for_name("example-user")
     result = OPUser(user_dict)
@@ -45,6 +69,12 @@ def test_op_user_04(valid_data: ValidData, expected_user_data: ExpectedUserData)
 
 
 def test_op_user_05(valid_data: ValidData, expected_user_data: ExpectedUserData):
+    """
+    Create:
+        - OPUser object from "example-user"
+    Verify:
+        - created_at property matches expected value
+    """
     expected = expected_user_data.data_for_user("Example User")
     user_dict = valid_data.data_for_name("example-user")
     result = OPUser(user_dict)
@@ -53,6 +83,12 @@ def test_op_user_05(valid_data: ValidData, expected_user_data: ExpectedUserData)
 
 
 def test_op_user_06(valid_data: ValidData, expected_user_data: ExpectedUserData):
+    """
+    Create:
+        - OPUser object from "example-user"
+    Verify:
+        - last_auth_at property matches expected value
+    """
     expected = expected_user_data.data_for_user("Example User")
     user_dict = valid_data.data_for_name("example-user")
     result = OPUser(user_dict)
@@ -61,6 +97,12 @@ def test_op_user_06(valid_data: ValidData, expected_user_data: ExpectedUserData)
 
 
 def test_op_user_07(valid_data: ValidData, expected_user_data: ExpectedUserData):
+    """
+    Create:
+        - OPUser object from "example-user"
+    Verify:
+        - state property matches expected value
+    """
     expected = expected_user_data.data_for_user("Example User")
     user_dict = valid_data.data_for_name("example-user")
     result = OPUser(user_dict)
@@ -69,6 +111,12 @@ def test_op_user_07(valid_data: ValidData, expected_user_data: ExpectedUserData)
 
 
 def test_op_user_08(valid_data: ValidData, expected_user_data: ExpectedUserData):
+    """
+    Create:
+        - OPUser object from "example-user"
+    Verify:
+        - type property matches expected value
+    """
     expected = expected_user_data.data_for_user("Example User")
     user_dict = valid_data.data_for_name("example-user")
     result = OPUser(user_dict)
@@ -77,6 +125,12 @@ def test_op_user_08(valid_data: ValidData, expected_user_data: ExpectedUserData)
 
 
 def test_op_user_malformed_json_01(invalid_data):
+    """
+    Attempt to create OPUser object from malformed group JSON
+
+    Verify:
+        OPInvalidUserException is raised
+    """
     malformed_json = invalid_data.data_for_name("malformed-user-json")
     with pytest.raises(OPInvalidUserException):
         OPUser(malformed_json)

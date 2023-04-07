@@ -2,9 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.9.0] - 2023-04-06
+
+### Added
+
+- OPServerItem properties corresponding to "hosting provider" fields (gh-115)
+
+### Misc
+
+- Significant refactor of testing of item types (`tests/test_item_types`) (gh-41)
+
 ## [3.8.0] - 2023-03-27
 
-## Added
+### Added
 
 - Support for database item creation via `OPDatabaseItemTemplate` (gh-111)
 

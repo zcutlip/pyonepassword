@@ -15,7 +15,7 @@ from pyonepassword.api.object_types import OPGroup
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
-def test_group_get_01(valid_data: ValidData, expected_group_data: ExpectedGroupData):
+def test_op_group_01(valid_data: ValidData, expected_group_data: ExpectedGroupData):
     """
     Create:
         - OPGroup object from "example-login"
@@ -32,7 +32,7 @@ def test_group_get_01(valid_data: ValidData, expected_group_data: ExpectedGroupD
     assert result.unique_id == expected.unique_id
 
 
-def test_group_get_02(valid_data: ValidData, expected_group_data):
+def test_op_group_02(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-login"
@@ -49,7 +49,7 @@ def test_group_get_02(valid_data: ValidData, expected_group_data):
     assert result.name == expected.name
 
 
-def test_group_get_03(valid_data: ValidData, expected_group_data):
+def test_op_group_03(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-login"
@@ -66,7 +66,7 @@ def test_group_get_03(valid_data: ValidData, expected_group_data):
     assert result.description == expected.description
 
 
-def test_group_get_04(valid_data: ValidData, expected_group_data):
+def test_op_group_04(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-login"
@@ -83,7 +83,7 @@ def test_group_get_04(valid_data: ValidData, expected_group_data):
     assert result.updated_at == expected.updated_at
 
 
-def test_group_get_05(valid_data: ValidData, expected_group_data):
+def test_op_group_05(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-login"
@@ -100,7 +100,7 @@ def test_group_get_05(valid_data: ValidData, expected_group_data):
     assert result.created_at == expected.created_at
 
 
-def test_group_get_06(valid_data: ValidData, expected_group_data):
+def test_op_group_06(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-login"
@@ -117,7 +117,7 @@ def test_group_get_06(valid_data: ValidData, expected_group_data):
     assert result.state == expected.state
 
 
-def test_group_get_07(valid_data: ValidData, expected_group_data):
+def test_op_group_07(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-login"
@@ -134,7 +134,7 @@ def test_group_get_07(valid_data: ValidData, expected_group_data):
     assert result.type == expected.type
 
 
-def test_group_get_08(valid_data: ValidData, expected_group_data):
+def test_op_group_08(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-login"
@@ -154,7 +154,7 @@ def test_group_get_08(valid_data: ValidData, expected_group_data):
     assert set(group_perms) == set(expected.permissions)
 
 
-def test_group_get_malformed_json_01(invalid_data):
+def test_op_group_malformed_json_01(invalid_data):
     """
     Attempt to create OPGroup object from malformed group JSON
 

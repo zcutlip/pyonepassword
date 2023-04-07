@@ -15,7 +15,7 @@ from pyonepassword.api.object_types import OPGroup
 def test_op_group_01(valid_data: ValidData, expected_group_data: ExpectedGroupData):
     """
     Create:
-        - OPGroup object from "example-login"
+        - OPGroup object from "example-group"
     Verify:
         - unique_id property matches expected value
     """
@@ -32,7 +32,7 @@ def test_op_group_01(valid_data: ValidData, expected_group_data: ExpectedGroupDa
 def test_op_group_02(valid_data: ValidData, expected_group_data):
     """
     Create:
-        - OPGroup object from "example-login"
+        - OPGroup object from "example-group"
     Verify:
         - name property matches expected value
     """
@@ -49,7 +49,7 @@ def test_op_group_02(valid_data: ValidData, expected_group_data):
 def test_op_group_03(valid_data: ValidData, expected_group_data):
     """
     Create:
-        - OPGroup object from "example-login"
+        - OPGroup object from "example-group"
     Verify:
         - name property matches expected value
     """
@@ -66,7 +66,7 @@ def test_op_group_03(valid_data: ValidData, expected_group_data):
 def test_op_group_04(valid_data: ValidData, expected_group_data):
     """
     Create:
-        - OPGroup object from "example-login"
+        - OPGroup object from "example-group"
     Verify:
         - name property matches expected value
     """
@@ -83,7 +83,7 @@ def test_op_group_04(valid_data: ValidData, expected_group_data):
 def test_op_group_05(valid_data: ValidData, expected_group_data):
     """
     Create:
-        - OPGroup object from "example-login"
+        - OPGroup object from "example-group"
     Verify:
         - name property matches expected value
     """
@@ -100,7 +100,7 @@ def test_op_group_05(valid_data: ValidData, expected_group_data):
 def test_op_group_06(valid_data: ValidData, expected_group_data):
     """
     Create:
-        - OPGroup object from "example-login"
+        - OPGroup object from "example-group"
     Verify:
         - name property matches expected value
     """
@@ -117,7 +117,7 @@ def test_op_group_06(valid_data: ValidData, expected_group_data):
 def test_op_group_07(valid_data: ValidData, expected_group_data):
     """
     Create:
-        - OPGroup object from "example-login"
+        - OPGroup object from "example-group"
     Verify:
         - name property matches expected value
     """
@@ -134,7 +134,7 @@ def test_op_group_07(valid_data: ValidData, expected_group_data):
 def test_op_group_08(valid_data: ValidData, expected_group_data):
     """
     Create:
-        - OPGroup object from "example-login"
+        - OPGroup object from "example-group"
     Verify:
         - name property matches expected value
     """

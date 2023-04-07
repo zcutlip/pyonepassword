@@ -12,7 +12,7 @@ from pyonepassword.api.exceptions import OPInvalidGroupException
 from pyonepassword.api.object_types import OPGroup
 
 
-def test_op_group_01(valid_data: ValidData, expected_group_data: ExpectedGroupData):
+def test_op_group_010(valid_data: ValidData, expected_group_data: ExpectedGroupData):
     """
     Create:
         - OPGroup object from "example-group"
@@ -29,7 +29,7 @@ def test_op_group_01(valid_data: ValidData, expected_group_data: ExpectedGroupDa
     assert result.unique_id == expected.unique_id
 
 
-def test_op_group_02(valid_data: ValidData, expected_group_data):
+def test_op_group_020(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-group"
@@ -46,7 +46,7 @@ def test_op_group_02(valid_data: ValidData, expected_group_data):
     assert result.name == expected.name
 
 
-def test_op_group_03(valid_data: ValidData, expected_group_data):
+def test_op_group_030(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-group"
@@ -63,7 +63,7 @@ def test_op_group_03(valid_data: ValidData, expected_group_data):
     assert result.description == expected.description
 
 
-def test_op_group_04(valid_data: ValidData, expected_group_data):
+def test_op_group_040(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-group"
@@ -80,7 +80,7 @@ def test_op_group_04(valid_data: ValidData, expected_group_data):
     assert result.updated_at == expected.updated_at
 
 
-def test_op_group_05(valid_data: ValidData, expected_group_data):
+def test_op_group_050(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-group"
@@ -97,7 +97,7 @@ def test_op_group_05(valid_data: ValidData, expected_group_data):
     assert result.created_at == expected.created_at
 
 
-def test_op_group_06(valid_data: ValidData, expected_group_data):
+def test_op_group_060(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-group"
@@ -114,7 +114,7 @@ def test_op_group_06(valid_data: ValidData, expected_group_data):
     assert result.state == expected.state
 
 
-def test_op_group_07(valid_data: ValidData, expected_group_data):
+def test_op_group_070(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-group"
@@ -131,7 +131,7 @@ def test_op_group_07(valid_data: ValidData, expected_group_data):
     assert result.type == expected.type
 
 
-def test_op_group_08(valid_data: ValidData, expected_group_data):
+def test_op_group_080(valid_data: ValidData, expected_group_data):
     """
     Create:
         - OPGroup object from "example-group"

@@ -79,6 +79,7 @@ class ExpectedItemListData(ValidData):
         registry = item_list_data_registry["registry"]
         super().__init__(registry=registry)
         self._data_path = item_list_data_registry["data_path"]
+        self._registry_path = item_list_data_registry["registry_path"]
 
     def data_for_name(self, entry_name) -> ExpectedItemList:
         data = super().data_for_name(entry_name)

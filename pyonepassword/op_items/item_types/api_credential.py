@@ -1,4 +1,5 @@
 import datetime
+from typing import Dict, Union
 
 from .._item_descriptor_registry import op_register_item_descriptor_type
 from .._item_type_registry import op_register_item_type
@@ -93,7 +94,7 @@ class OPAPICredentialItemDescriptor(OPAbstractItemDescriptor):
 class OPAPICredentialItem(OPAbstractItem):
     CATEGORY = "API_CREDENTIAL"
 
-    def __init__(self, item_dict):
+    def __init__(self, item_dict: Union[Dict, str]):
         super().__init__(item_dict)
 
     @property

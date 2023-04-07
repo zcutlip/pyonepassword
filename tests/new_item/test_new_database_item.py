@@ -87,7 +87,7 @@ def test_new_database_item_011(valid_data: ValidData, expected_database_data: Ex
     Create:
         - database template from "example database 1"
     Verify:
-        - type convenience property property matches databas_type expected value
+        - type convenience property property matches database_type expected value
     """
     item_dict = valid_data.data_for_name(VALID_DATABASE_1)
     field_dicts = item_dict["fields"]

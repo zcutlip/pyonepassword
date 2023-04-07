@@ -35,6 +35,10 @@
     "name": "example-field-with-uuid-2.json",
     "type": "json"
   },
+  "example-group": {
+    "name": "example-group.json",
+    "type": "json"
+  },
   "example-item-section-1": {
     "name": "example-item-section-1.json",
     "type": "json"

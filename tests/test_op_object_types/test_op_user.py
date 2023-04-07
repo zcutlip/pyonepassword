@@ -12,7 +12,7 @@ from pyonepassword.api.exceptions import OPInvalidUserException
 from pyonepassword.api.object_types import OPUser
 
 
-def test_op_user_01(valid_data: ValidData, expected_user_data: ExpectedUserData):
+def test_op_user_010(valid_data: ValidData, expected_user_data: ExpectedUserData):
     """
     Create:
         - OPUser object from "example-user"
@@ -26,7 +26,7 @@ def test_op_user_01(valid_data: ValidData, expected_user_data: ExpectedUserData)
     assert result.unique_id == expected.unique_id
 
 
-def test_op_user_02(valid_data: ValidData, expected_user_data: ExpectedUserData):
+def test_op_user_020(valid_data: ValidData, expected_user_data: ExpectedUserData):
     """
     Create:
         - OPUser object from "example-user"
@@ -40,7 +40,7 @@ def test_op_user_02(valid_data: ValidData, expected_user_data: ExpectedUserData)
     assert result.name == expected.name
 
 
-def test_op_user_03(valid_data: ValidData, expected_user_data: ExpectedUserData):
+def test_op_user_030(valid_data: ValidData, expected_user_data: ExpectedUserData):
     """
     Create:
         - OPUser object from "example-user"
@@ -54,7 +54,7 @@ def test_op_user_03(valid_data: ValidData, expected_user_data: ExpectedUserData)
     assert result.email == expected.email
 
 
-def test_op_user_04(valid_data: ValidData, expected_user_data: ExpectedUserData):
+def test_op_user_040(valid_data: ValidData, expected_user_data: ExpectedUserData):
     """
     Create:
         - OPUser object from "example-user"
@@ -68,7 +68,7 @@ def test_op_user_04(valid_data: ValidData, expected_user_data: ExpectedUserData)
     assert result.updated_at == expected.updated_at
 
 
-def test_op_user_05(valid_data: ValidData, expected_user_data: ExpectedUserData):
+def test_op_user_050(valid_data: ValidData, expected_user_data: ExpectedUserData):
     """
     Create:
         - OPUser object from "example-user"
@@ -82,7 +82,7 @@ def test_op_user_05(valid_data: ValidData, expected_user_data: ExpectedUserData)
     assert result.created_at == expected.created_at
 
 
-def test_op_user_06(valid_data: ValidData, expected_user_data: ExpectedUserData):
+def test_op_user_060(valid_data: ValidData, expected_user_data: ExpectedUserData):
     """
     Create:
         - OPUser object from "example-user"
@@ -96,7 +96,7 @@ def test_op_user_06(valid_data: ValidData, expected_user_data: ExpectedUserData)
     assert result.last_auth_at == expected.last_auth_at
 
 
-def test_op_user_07(valid_data: ValidData, expected_user_data: ExpectedUserData):
+def test_op_user_070(valid_data: ValidData, expected_user_data: ExpectedUserData):
     """
     Create:
         - OPUser object from "example-user"
@@ -110,7 +110,7 @@ def test_op_user_07(valid_data: ValidData, expected_user_data: ExpectedUserData)
     assert result.state == expected.state
 
 
-def test_op_user_08(valid_data: ValidData, expected_user_data: ExpectedUserData):
+def test_op_user_080(valid_data: ValidData, expected_user_data: ExpectedUserData):
     """
     Create:
         - OPUser object from "example-user"

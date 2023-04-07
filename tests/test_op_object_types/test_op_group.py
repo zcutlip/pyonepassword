@@ -11,9 +11,6 @@ if TYPE_CHECKING:
 from pyonepassword.api.exceptions import OPInvalidGroupException
 from pyonepassword.api.object_types import OPGroup
 
-# ensure HOME env variable is set, and there's a valid op config present
-pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
-
 
 def test_op_group_01(valid_data: ValidData, expected_group_data: ExpectedGroupData):
     """

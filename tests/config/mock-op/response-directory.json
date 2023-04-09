@@ -105,6 +105,12 @@
       "stderr": "error_output",
       "name": "vault-get-invalid-vault"
     },
+    "--format|json|user|get|Example User": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-get-example-user"
+    },
     "--format|json|user|get|No Such User": {
       "exit_status": 1,
       "stdout": "output",

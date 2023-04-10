@@ -117,6 +117,12 @@
       "stderr": "error_output",
       "name": "user-get-nonexistant-user"
     },
+    "--format|json|group|get|Team Members": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "group-get-example-group"
+    },
     "--format|json|group|get|No Such group": {
       "exit_status": 1,
       "stdout": "output",

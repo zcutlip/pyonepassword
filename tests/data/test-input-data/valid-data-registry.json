@@ -114,5 +114,9 @@
   "login-item-field-username": {
     "name": "login-item-field-username.json",
     "type": "json"
+  },
+  "example-vault-test-data": {
+    "name": "example-vault-test-data.json",
+    "type": "json"
   }
 }

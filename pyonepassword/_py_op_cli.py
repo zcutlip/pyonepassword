@@ -50,7 +50,7 @@ class _OPCLIExecute:
             except subprocess.CalledProcessError as err:
                 stderr_output = stderr.decode("utf-8").rstrip()
                 if environ.get(LOG_OP_ERR_ENV_NAME) == "1":
-                    cls.logger.error(stderr_output)
+                    cls.logger.error(f"'op' command error: {stderr_output}")
                 # HACK:
                 # mock-op returns -1 (i.e., 255) if it can't find a response
                 # but op (currently) only ever returns 1 on error

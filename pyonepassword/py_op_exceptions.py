@@ -178,7 +178,7 @@ class OPItemCreateException(OPCmdFailedException):  # pragma: no coverage
 
 
 class OPWhoAmiException(OPCmdFailedException):
-    MSG = "1Password 'whoami' failed."
+    MSG = "1Password 'whoami' failed"
 
     def __init__(self, stderr_out, returncode):
         super().__init__(stderr_out, returncode)

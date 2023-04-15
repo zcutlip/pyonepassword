@@ -184,6 +184,16 @@ class OPWhoAmiException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
+class OPMalformedSvcAcctTokenException(OPCmdFailedException):
+    # Although raised from OP._whoami(), this shouldn't extend OPWhoAmiException
+    # callers need to be able to catch OPWhoAmiException independently of this
+    # exception
+    MSG = "1Password 'whoami' failed due to malformed service account token"
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
+
 class OPInvalidItemException(OPBaseException):
     def __init__(self, msg):
         super().__init__(msg)

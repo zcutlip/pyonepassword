@@ -57,6 +57,7 @@ class _OPCommandInterface(_OPCLIExecute):
     ACCT_IS_NOT_SIGNED_IN_TEXT = "account is not signed in"
     MALFORMED_SVC_ACCT_TEXT = "failed to DecodeSACCredentials"
 
+    OP_SVC_ACCOUNT_ENV_VAR = "OP_SERVICE_ACCOUNT_TOKEN"
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
     def __init__(self,
@@ -82,10 +83,15 @@ class _OPCommandInterface(_OPCLIExecute):
         # False -> ExistingAuthFlag.NONE, True -> ExistingAuthFlag.AVAILABLE
         existing_auth = ExistingAuthEnum(existing_auth)
 
-        # save user preference about whether to allow prompting for authentication
-        # so, if desired, we can raise an exception later if authentication expires
-        # and avoid triggering a prompt
-        self._existing_auth_preference = existing_auth
+        if environ.get(self.OP_SVC_ACCOUNT_ENV_VAR):
+            # - 'op' won't prompt for authentication of OP_SERVICE_ACCOUNT_TOKEN is set
+            # - Even if we explicitly call signin and succeed, it ignores that authentication
+            # so we need to suppress any path that tries to or expects to authenticate
+            if existing_auth != EXISTING_AUTH_REQD:
+                self.logger.info(
+                    f"{self.OP_SVC_ACCOUNT_ENV_VAR} was set. Upgrading existing auth flag to REQUIRED")
+                existing_auth = EXISTING_AUTH_REQD
+
         self.op_path = op_path
         self._account_identifier = account
 

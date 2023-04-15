@@ -21,6 +21,7 @@ from .py_op_exceptions import (
     OPItemDeleteException,
     OPItemGetException,
     OPItemListException,
+    OPMalformedSvcAcctTokenException,
     OPNotSignedInException,
     OPSigninException,
     OPUnknownAccountException,
@@ -54,6 +55,7 @@ class _OPCommandInterface(_OPCLIExecute):
     NO_ACTIVE_SESSION_FOUND_TEXT = "no active session found for account"
     NO_SESSION_TOKEN_FOUND_TEXT = "could not find session token for account"
     ACCT_IS_NOT_SIGNED_IN_TEXT = "account is not signed in"
+    MALFORMED_SVC_ACCT_TEXT = "failed to DecodeSACCredentials"
 
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
@@ -444,7 +446,12 @@ class _OPCommandInterface(_OPCLIExecute):
         except OPCmdFailedException as ocfe:
             # scrape error message about not being signed in
 
-            raise OPWhoAmiException.from_opexception(ocfe)
+            if cls.MALFORMED_SVC_ACCT_TEXT in ocfe.err_output:
+                # OP_SERVICE_ACCOUNT_TOKEN got set to something malformed
+                # so raise a specific exception for that
+                raise OPMalformedSvcAcctTokenException.from_opexception(ocfe)
+            else:
+                raise OPWhoAmiException.from_opexception(ocfe)
 
         account_obj = OPAccount(account_json)
         return account_obj

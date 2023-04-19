@@ -101,6 +101,9 @@ class _OPArgv(list):
                       vault=None,
                       fields=None,
                       include_archive=False):
+        vault_arg_provided = False
+        if vault:
+            vault_arg_provided = True
         sub_cmd_args = [item_name_or_id]
         if vault:
             sub_cmd_args.extend(["--vault", vault])
@@ -109,7 +112,8 @@ class _OPArgv(list):
             sub_cmd_args.extend(["--fields", fields])
         if include_archive:
             sub_cmd_args.append("--include-archive")
-        argv = cls.item_generic_argv(op_exe, "get", sub_cmd_args)
+        argv = cls.item_generic_argv(
+            op_exe, "get", sub_cmd_args, vault_arg_provided)
         return argv
 
     @classmethod
@@ -316,7 +320,9 @@ class _OPArgv(list):
         """
         op item create --template ./new_item.json --vault "Test Data" --generate-password=20,letters,digits --dry-run --format json
         """
-
+        vault_arg_provided = False
+        if vault:
+            vault_arg_provided = True
         template_filename = item.secure_tempfile(
             encoding=encoding)
 
@@ -328,7 +334,7 @@ class _OPArgv(list):
         if vault:
             item_create_args.extend(["--vault", vault])
         argv = cls.item_generic_argv(
-            op_exe, "create", item_create_args)
+            op_exe, "create", item_create_args, vault_arg_provided)
         return argv
 
     @classmethod
@@ -338,12 +344,16 @@ class _OPArgv(list):
                          item_name_or_id: str,
                          vault: Optional[str] = None,
                          archive: bool = False):
+        vault_arg_provided = False
+        if vault:
+            vault_arg_provided = True
         sub_cmd_args = [item_name_or_id]
         if archive:
             sub_cmd_args.append("--archive")
         if vault:
             sub_cmd_args.extend(["--vault", vault])
-        delete_argv = cls.item_generic_argv(op_exe, "delete", sub_cmd_args)
+        delete_argv = cls.item_generic_argv(
+            op_exe, "delete", sub_cmd_args, vault_arg_provided)
 
         return delete_argv
 

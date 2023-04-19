@@ -1,6 +1,7 @@
 import shlex
 from typing import List, Optional
 
+from ._op_svc_account import svc_account_support
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
 
@@ -58,6 +59,7 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    @svc_account_support("item", subcommands=["get"], vault_required=True)
     def item_get_argv(cls,
                       op_exe,
                       item_name_or_id,
@@ -87,7 +89,7 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def document_generic_argv(cls, op_exe, doc_subcommand, sub_cmd_args):
+    def document_generic_argv(cls, op_exe, doc_subcommand, sub_cmd_args, vault_arg):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
@@ -97,6 +99,7 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    @svc_account_support("document", subcommands=["get"], vault_required=True)
     def document_get_argv(cls, op_exe, document_name_or_id, vault=None, include_archive=False):
         sub_cmd_args = [document_name_or_id]
         if vault:
@@ -117,12 +120,14 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    @svc_account_support("vault", subcommands=["get"])
     def vault_get_argv(cls, op_exe, vault_name_or_id):
         sub_cmd_args = [vault_name_or_id]
         argv = cls.vault_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
     @classmethod
+    @svc_account_support("vault", subcommands=["list"])
     def vault_list_argv(cls, op_exe, group_name_or_id=None, user_name_or_id=None):
         sub_cmd_args = []
         if group_name_or_id:
@@ -143,12 +148,14 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    @svc_account_support("user", subcommands=["get"])
     def user_get_argv(cls, op_exe, user_name_or_id):
         sub_cmd_args = [user_name_or_id]
         argv = cls.user_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
     @classmethod
+    @svc_account_support("user", subcommands=["list"])
     def user_list_argv(cls, op_exe, group_name_or_id=None, vault=None):
         sub_cmd_args = []
         if group_name_or_id:
@@ -169,12 +176,14 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    @svc_account_support("group", subcommands=["get"])
     def group_get_argv(cls, op_exe, user_name_or_id):
         sub_cmd_args = [user_name_or_id]
         argv = cls.group_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
     @classmethod
+    @svc_account_support("group", subcommands=["list"])
     def group_list_argv(cls, op_exe, user_name_or_id=None, vault=None):
         sub_cmd_args = []
         if user_name_or_id:
@@ -193,6 +202,7 @@ class _OPArgv(list):
         return cls(op_exe, "signin", argv, global_args=global_args)
 
     @classmethod
+    @svc_account_support("item", subcommands=["template", "list"])
     def item_template_list_argv(cls, op_exe):  # pragma: no cover
         sub_command = "template"
         sub_cmd_args = ["list"]
@@ -201,6 +211,7 @@ class _OPArgv(list):
         return argv_obj
 
     @classmethod
+    @svc_account_support("whoami")
     def whoami_argv(cls, op_exe, account=None):
         args: List[str] = []
         global_args = []
@@ -218,6 +229,7 @@ class _OPArgv(list):
         return argv_obj
 
     @classmethod
+    @svc_account_support("signout")
     def signout_argv(cls, op_exe, account_shorthand: str, session: str, forget=False, uses_bio=False):  # pragma: no cover
         global_args = []
         if not uses_bio:
@@ -230,6 +242,7 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    @svc_account_support("signout", subcommands=["list"])
     def item_list_argv(cls, op_exe, categories=[], include_archive=False, tags=[], vault=None):
         item_list_args = []
         if categories:
@@ -247,6 +260,7 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    @svc_account_support("account", subcommands=["list"])
     def account_list_argv(cls, op_exe, output_format="json", encoding="utf-8"):
         cmd = "account"
         cmd_args: List[str] = []
@@ -257,6 +271,7 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    @svc_account_support("item", subcommands=["create"], vault_required=True)
     def item_create_argv(cls,
                          op_exe,
                          item: OPNewItemMixin,
@@ -282,6 +297,7 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    @svc_account_support("item", subcommands=["delete"], vault_required=True)
     def item_delete_argv(cls,
                          op_exe: str,
                          item_name_or_id: str,
@@ -297,6 +313,7 @@ class _OPArgv(list):
         return delete_argv
 
     @classmethod
+    @svc_account_support("document", subcommands=["delete"], vault_required=True)
     def document_delete_argv(cls,
                              op_exe: str,
                              document_name_or_id: str,

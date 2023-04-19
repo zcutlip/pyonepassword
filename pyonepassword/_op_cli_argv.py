@@ -118,7 +118,8 @@ class _OPArgv(list):
 
     @classmethod
     def item_get_totp_argv(cls, op_exe, item_name_or_id, vault=None):
-
+        # we don't need the @svc_account_support decorator
+        # because this just gets passed through to item_get_argv() which already has it
         field_arg = "type=otp"
 
         argv = cls.item_get_argv(
@@ -275,6 +276,8 @@ class _OPArgv(list):
 
     @classmethod
     def cli_version_argv(cls, op_exe):
+        # we don't need the @svc_account_support decorator
+        # command-less options will pass the command_supported() check
         args: List[str] = []
         global_args = ["--version"]
         argv_obj = cls(op_exe, None, args, global_args=global_args)

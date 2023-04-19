@@ -128,13 +128,21 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def document_generic_argv(cls, op_exe, doc_subcommand, sub_cmd_args, vault_arg):
+    def document_generic_argv(cls,
+                              op_exe: str,
+                              subcommands: Optional[Union[str, List[str]]],
+                              sub_cmd_args: Optional[List[str]],
+                              vault_arg_provided: bool):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "document", args,
-                   subcommand=doc_subcommand, global_args=global_args)
+        argv = cls(op_exe,
+                   "document",
+                   args,
+                   subcommands=subcommands,
+                   global_args=global_args,
+                   vault_arg_provided=vault_arg_provided)
         return argv
 
     @classmethod

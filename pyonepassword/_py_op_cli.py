@@ -31,6 +31,13 @@ class _OPCLIExecute:
     """
 
     @classmethod
+    def _should_log_op_errors(cls) -> bool:
+        should_log = False
+        if environ.get(LOG_OP_ERR_ENV_NAME) == "1":
+            should_log = True
+        return should_log
+
+    @classmethod
     def _run_raw(cls, argv, input_string=None, capture_stdout=False, ignore_error=False, env=environ):
         stdout = subprocess.PIPE if capture_stdout else None
         if input_string:
@@ -49,7 +56,7 @@ class _OPCLIExecute:
                 _ran.check_returncode()
             except subprocess.CalledProcessError as err:
                 stderr_output = stderr.decode("utf-8").rstrip()
-                if environ.get(LOG_OP_ERR_ENV_NAME) == "1":
+                if cls._should_log_op_errors():
                     cls.logger.error(f"'op' command error: {stderr_output}")
                 # HACK:
                 # mock-op returns -1 (i.e., 255) if it can't find a response

@@ -1,5 +1,5 @@
 import shlex
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from ._op_svc_account import svc_account_support
 from .op_items._new_item import OPNewItemMixin
@@ -15,7 +15,13 @@ class _OPArgv(list):
     as it allows the preciese set of command line arguments to be captured for later playback.
     """
 
-    def __init__(self, op_exe: str, command: str, args: List, subcommand: Optional[str] = None, global_args=[], encoding="utf-8"):
+    def __init__(self,
+                 op_exe: str,
+                 command: str,
+                 args: List[str],
+                 subcommands: Optional[Union[str, List[str]]] = None,
+                 global_args: List[str] = [],
+                 encoding="utf-8"):
         # TODO: Refactor this
         # constructor is getting too many specialized kwargs tied to
         # specific commands/subcommands
@@ -30,14 +36,14 @@ class _OPArgv(list):
         if command:
             argv.append(command)
         self.command = command
-        self.subcommand = None
+        self.subcommands = None
 
         # whatever flags the command or subcommand take, plust global flags
         self.args_to_command = args
 
-        if subcommand:
-            self.subcommand = subcommand
-            argv.extend([subcommand])
+        if subcommands:
+            self.subcommands = subcommands
+            argv.extend([subcommands])
         argv.extend(args)
         super().__init__(argv)
 

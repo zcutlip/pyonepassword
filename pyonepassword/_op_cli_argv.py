@@ -49,8 +49,12 @@ class _OPArgv(list):
         self.args_to_command = args
 
         if subcommands:
+            if isinstance(subcommands, str):
+                subcommands = [subcommands]
+            else:
+                subcommands = list(subcommands)
             self.subcommands = subcommands
-            argv.extend([subcommands])
+            argv.extend(subcommands)
         argv.extend(args)
         super().__init__(argv)
 

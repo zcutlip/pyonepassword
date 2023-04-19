@@ -21,12 +21,14 @@ class _OPArgv(list):
                  args: List[str],
                  subcommands: Optional[Union[str, List[str]]] = None,
                  global_args: List[str] = [],
-                 encoding="utf-8"):
+                 encoding="utf-8",
+                 vault_arg_provided: bool = False):
         # TODO: Refactor this
         # constructor is getting too many specialized kwargs tied to
         # specific commands/subcommands
         # maybe instead of an "args" array plus a bunch of named kwargs,
         # send in a dict that gets passed through tree of argv building logic?
+        self.vault_arg_provided = vault_arg_provided
         argv = [op_exe]
         if encoding.lower() != "utf-8":  # pragma: no coverage
             global_args.extend(["--encoding", encoding])

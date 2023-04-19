@@ -1,7 +1,11 @@
 import shlex
 from typing import List, Optional, Union
 
-from ._op_svc_account import svc_account_support
+from ._op_svc_account import (
+    OPSvcAccountSupportedEnum,
+    OPSvcAcctSupportRegistry,
+    svc_account_support
+)
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
 
@@ -64,6 +68,12 @@ class _OPArgv(list):
         """
         cmd_str = shlex.join(self)
         return cmd_str
+
+    def svc_account_supported(self) -> OPSvcAccountSupportedEnum:
+        supported = OPSvcAcctSupportRegistry.command_supported(self.command,
+                                                               subcommands=self.subcommands,
+                                                               vault_provided=self.vault_arg_provided)
+        return supported
 
     @classmethod
     def item_generic_argv(cls, op_exe, item_subcommand, sub_cmd_args):

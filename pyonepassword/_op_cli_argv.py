@@ -148,12 +148,16 @@ class _OPArgv(list):
     @classmethod
     @svc_account_support("document", subcommands=["get"], vault_required=True)
     def document_get_argv(cls, op_exe, document_name_or_id, vault=None, include_archive=False):
+        vault_arg_provided = False
+        if vault:
+            vault_arg_provided = True
         sub_cmd_args = [document_name_or_id]
         if vault:
             sub_cmd_args.extend(["--vault", vault])
         if include_archive:
             sub_cmd_args.append("--include-archive")
-        argv = cls.document_generic_argv(op_exe, "get", sub_cmd_args)
+        argv = cls.document_generic_argv(
+            op_exe, "get", sub_cmd_args, vault_arg_provided)
         return argv
 
     @classmethod
@@ -162,7 +166,7 @@ class _OPArgv(list):
         global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "vault", args, subcommand=vault_subcommand,
+        argv = cls(op_exe, "vault", args, subcommands=vault_subcommand,
                    global_args=global_args)
         return argv
 
@@ -372,11 +376,15 @@ class _OPArgv(list):
                              document_name_or_id: str,
                              vault: Optional[str] = None,
                              archive: bool = False):
+        vault_arg_provided = False
+        if vault:
+            vault_arg_provided = True
         sub_cmd_args = [document_name_or_id]
         if archive:
             sub_cmd_args.append("--archive")
         if vault:
             sub_cmd_args.extend(["--vault", vault])
-        delete_argv = cls.document_generic_argv(op_exe, "delete", sub_cmd_args)
+        delete_argv = cls.document_generic_argv(
+            op_exe, "delete", sub_cmd_args, vault_arg_provided)
 
         return delete_argv

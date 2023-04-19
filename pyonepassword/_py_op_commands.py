@@ -353,7 +353,14 @@ class _OPCommandInterface(_OPCLIExecute):
         return output
 
     @classmethod
-    def _run_with_auth_check(cls, op_path, account, argv, capture_stdout=False, input_string=None, decode=None, env=environ):
+    def _run_with_auth_check(cls,
+                             op_path: str,
+                             account: str,
+                             argv: _OPArgv,
+                             capture_stdout: bool = False,
+                             input_string: str = None,
+                             decode: str = None,
+                             env: Mapping = environ):
         # this somewhat of a hack to detect if authentication has expired
         # so that we can raise OPNotSignedInException rather than the generic OPCmdFailedException
         # under the hood, it calls 'whoami' which will fail if not authenticated

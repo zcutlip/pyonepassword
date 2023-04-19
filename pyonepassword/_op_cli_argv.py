@@ -192,7 +192,7 @@ class _OPArgv(list):
         global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "user", args, subcommand=vault_subcommand,
+        argv = cls(op_exe, "user", args, subcommands=vault_subcommand,
                    global_args=global_args)
         return argv
 
@@ -220,7 +220,7 @@ class _OPArgv(list):
         global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "group", args, subcommand=vault_subcommand,
+        argv = cls(op_exe, "group", args, subcommands=vault_subcommand,
                    global_args=global_args)
         return argv
 
@@ -253,10 +253,13 @@ class _OPArgv(list):
     @classmethod
     @svc_account_support("item", subcommands=["template", "list"])
     def item_template_list_argv(cls, op_exe):  # pragma: no cover
-        sub_command = "template"
-        sub_cmd_args = ["list"]
+        # subcommands may be a string or list
+        # so no need to put the sub-subcommand
+        # into an arg list
+        sub_commands = ["template", "list"]
+        sub_cmd_args = []
 
-        argv_obj = cls.item_generic_argv(op_exe, sub_command, sub_cmd_args)
+        argv_obj = cls.item_generic_argv(op_exe, sub_commands, sub_cmd_args)
         return argv_obj
 
     @classmethod
@@ -315,7 +318,7 @@ class _OPArgv(list):
         cmd_args: List[str] = []
         subcmd = "list"
         global_args = ["--format", output_format]
-        argv = cls(op_exe, cmd, cmd_args, subcommand=subcmd,
+        argv = cls(op_exe, cmd, cmd_args, subcommands=subcmd,
                    global_args=global_args, encoding=encoding)
         return argv
 

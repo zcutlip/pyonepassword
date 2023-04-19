@@ -30,6 +30,11 @@ class _OPArgv(list):
         # send in a dict that gets passed through tree of argv building logic?
         self.vault_arg_provided = vault_arg_provided
         argv = [op_exe]
+        if not global_args:
+            global_args = []
+        else:
+            global_args = list(global_args)
+
         if encoding.lower() != "utf-8":  # pragma: no coverage
             global_args.extend(["--encoding", encoding])
 

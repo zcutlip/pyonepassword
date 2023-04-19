@@ -83,7 +83,7 @@ class _OPCommandInterface(_OPCLIExecute):
         # False -> ExistingAuthFlag.NONE, True -> ExistingAuthFlag.AVAILABLE
         existing_auth = ExistingAuthEnum(existing_auth)
 
-        if environ.get(self.OP_SVC_ACCOUNT_ENV_VAR):
+        if self.svc_account_env_var_set():
             # - 'op' won't prompt for authentication of OP_SERVICE_ACCOUNT_TOKEN is set
             # - Even if we explicitly call signin and succeed, it ignores that authentication
             # so we need to suppress any path that tries to or expects to authenticate
@@ -137,6 +137,13 @@ class _OPCommandInterface(_OPCLIExecute):
     @property
     def session_var(self) -> str:
         return self._sess_var
+
+    @classmethod
+    def svc_account_env_var_set(cls):
+        svc_acct_set = False
+        if environ.get(cls.OP_SVC_ACCOUNT_ENV_VAR):
+            svc_acct_set = True
+        return svc_acct_set
 
     @classmethod
     def uses_biometric(cls, op_path: str = "op", encoding: str = "utf-8", account_list: OPAccountList = None):

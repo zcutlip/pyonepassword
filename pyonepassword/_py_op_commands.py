@@ -8,6 +8,12 @@ from typing import Dict, Mapping, Optional, Union
 
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
+from ._op_svc_account import (
+    SVC_ACCT_NOT_SUPPORTED,
+    SVC_ACCT_SUPPORTED,
+    SVC_ACCT_VAULT_REQD,
+    OPSvcAccountCommandNotSupportedException
+)
 from ._py_op_cli import _OPCLIExecute
 from .account import OPAccount, OPAccountList
 from .op_cli_version import DOCUMENT_BYTES_BUG_VERSION, OPCLIVersion
@@ -372,6 +378,25 @@ class _OPCommandInterface(_OPCLIExecute):
         # - this adds roughly 20% overhead (as measured by the full sweet of pytest tests)
         if cls._auth_expired(op_path, account):
             raise OPNotSignedInException("Authentication has expired")
+
+        if cls.svc_account_env_var_set():
+            err_msg = None
+            supported = argv.svc_account_supported()
+            if supported == SVC_ACCT_NOT_SUPPORTED:
+                err_msg = f"Command not supported with service accounts: {argv.cmd_str()}"
+            elif supported == SVC_ACCT_VAULT_REQD:
+                err_msg = f"Command requires vault argument for use with service accounts: {argv.cmd_str()}"
+            elif supported == SVC_ACCT_SUPPORTED:
+                cls.logger.debug("Command supported with service accounts")
+            else:
+                raise Exception(
+                    f"Unknown service account support code {supported}")
+
+            if err_msg:
+                if cls._should_log_op_errors():
+                    cls.logger.error(err_msg)
+                raise OPSvcAccountCommandNotSupportedException(err_msg)
+
         return cls._run(argv,
                         capture_stdout=capture_stdout,
                         input_string=input_string,

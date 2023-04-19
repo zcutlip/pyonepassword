@@ -76,13 +76,21 @@ class _OPArgv(list):
         return supported
 
     @classmethod
-    def item_generic_argv(cls, op_exe, item_subcommand, sub_cmd_args):
+    def item_generic_argv(cls,
+                          op_exe: str,
+                          subcommands: Optional[Union[str, List[str]]],
+                          sub_cmd_args: Optional[List[str]],
+                          vault_arg_provided: bool):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "item", args, subcommand=item_subcommand,
-                   global_args=global_args)
+        argv = cls(op_exe,
+                   "item",
+                   args,
+                   subcommands=subcommands,
+                   global_args=global_args,
+                   vault_arg_provided=vault_arg_provided)
         return argv
 
     @classmethod

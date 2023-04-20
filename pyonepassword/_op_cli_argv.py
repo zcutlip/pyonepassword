@@ -299,6 +299,9 @@ class _OPArgv(list):
     @classmethod
     @svc_account_support("signout", subcommands=["list"])
     def item_list_argv(cls, op_exe, categories=[], include_archive=False, tags=[], vault=None):
+        vault_arg_provided = False
+        if vault:
+            vault_arg_provided = True
         item_list_args = []
         if categories:
             categories_arg = ",".join(categories)
@@ -311,7 +314,8 @@ class _OPArgv(list):
         if vault:
             item_list_args.extend(["--vault", vault])
 
-        argv = cls.item_generic_argv(op_exe, "list", item_list_args)
+        argv = cls.item_generic_argv(
+            op_exe, "list", item_list_args, vault_arg_provided=vault_arg_provided)
         return argv
 
     @classmethod

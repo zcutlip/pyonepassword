@@ -297,7 +297,7 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    @svc_account_support("signout", subcommands=["list"])
+    @svc_account_support("item", subcommands=["list"])
     def item_list_argv(cls, op_exe, categories=[], include_archive=False, tags=[], vault=None):
         vault_arg_provided = False
         if vault:

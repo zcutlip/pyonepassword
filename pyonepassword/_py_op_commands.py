@@ -8,13 +8,13 @@ from typing import Dict, Mapping, Optional, Union
 
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
-from ._op_svc_account import (
+from ._py_op_cli import _OPCLIExecute
+from ._svc_account import (
     SVC_ACCT_NOT_SUPPORTED,
     SVC_ACCT_SUPPORTED,
     SVC_ACCT_VAULT_REQD,
     OPSvcAccountCommandNotSupportedException
 )
-from ._py_op_cli import _OPCLIExecute
 from .account import OPAccount, OPAccountList
 from .op_cli_version import DOCUMENT_BYTES_BUG_VERSION, OPCLIVersion
 from .py_op_exceptions import (

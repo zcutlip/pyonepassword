@@ -1,7 +1,7 @@
 import shlex
 from typing import List, Optional, Union
 
-from ._op_svc_account import (
+from ._svc_account import (
     OPSvcAccountSupportedEnum,
     OPSvcAcctSupportRegistry,
     svc_account_support

@@ -1,5 +1,14 @@
 import enum
-from typing import List, Optional
+import json
+from pathlib import Path
+from typing import Dict, List, Optional, Set, Union
+
+from pysingleton import PySingleton
+
+from . import data
+from .pkg_resources import pkgfiles
+
+OptStrList = Optional[List[str]]
 
 
 class OPSvcAccountCmdCollisionException(Exception):
@@ -11,99 +20,177 @@ class OPSvcAccountCommandNotSupportedException(Exception):
 
 
 class OPSvcAccountSupportedEnum(enum.IntEnum):
+    NOT_VALIDATED = -1
     SUPPORTED = 0  # the command is supported by service accounts as-is
-    VAULT_REQUIRED = 1  # the command is supported by service accounts,
+    INCOMPAT_OPTIONS = 1  # the command is supported by service accounts,
     # but the required vault argument is missing
     NOT_SUPPORTED = 2  # the command is not supported by service accounts
 
 
 SVC_ACCT_SUPPORTED = OPSvcAccountSupportedEnum.SUPPORTED
-SVC_ACCT_VAULT_REQD = OPSvcAccountSupportedEnum.VAULT_REQUIRED
-SVC_ACCT_NOT_SUPPORTED = OPSvcAccountSupportedEnum.NOT_SUPPORTED
+SVC_ACCT_INCOMPAT_OPTIONS = OPSvcAccountSupportedEnum.INCOMPAT_OPTIONS
+SVC_ACCT_CMD_NOT_SUPPORTED = OPSvcAccountSupportedEnum.NOT_SUPPORTED
 
 
-class OPSvcAcctSupportRegistry:
+class _CmdSpec(dict):
 
-    _supported_commands = {}
+    def __init__(self, cmd_dict):
+        super().__init__(cmd_dict)
 
-    @classmethod
-    def add_supported_command(cls,
-                              command: str,
-                              subcommands: Optional[List[str]] = None,
-                              vault_required: bool = False):
-        collision = True
-        if subcommands is None:
-            subcommands = []
-        command_dict = cls._supported_commands.setdefault(command, dict())
+    @property
+    def command_name(self) -> str:
+        return self["meta"]["command_name"]
 
-        for sub in subcommands:
-            command_dict = command_dict.setdefault(sub, dict())
+    def subcommand_lookup(self, subcommand_list: List[str]):
+        subcmd_dict = self["subcommands"]
+        found = {}
+        for subcmd in subcommand_list:
+            subcmd_dict = subcmd_dict[subcmd]
+            if "has_arg" in subcmd_dict:
+                found = subcmd_dict
+                break
 
-        if "vault_required" not in command_dict:
-            command_dict["vault_required"] = vault_required
-            collision = False
+        return found
 
-        if collision:
-            cmd_list = [command]
-            cmd_list.extend(subcommands)
-            msg = " ".join(cmd_list)
-            msg += f" [vault_required={vault_required}]"
-            raise OPSvcAccountCmdCollisionException(msg)
 
-    @classmethod
-    def command_supported(cls,
-                          command: str,
-                          subcommands: Optional[List[str]] = None,
-                          vault_provided: bool = False) -> OPSvcAccountSupportedEnum:
-        # default to unsupported
-        supported = SVC_ACCT_NOT_SUPPORTED
+# Make the registry a singleton to avoid
+# loading all the JSON files from disk each time
+# it gets instantiated
+class OPSvcAcctSupportRegistry(metaclass=PySingleton):
+    """
+    A registry of supported commands, subcommands, and required & prohibited options
+    in the context of service accounts
+    """
+
+    def __init__(self):
+        self._supported_commands = {}
+        data_path: Path = pkgfiles(data).joinpath(data.SVC_ACCOUNT_COMMANDS)
+        for json_file in data_path.glob("*.json"):
+            cmd_dict = json.load(open(json_file, "r"))
+            self._process(cmd_dict)
+
+    def _process(self, cmd_dict: Dict):
+        cmd_spec = _CmdSpec(cmd_dict)
+        cmd = cmd_spec.command_name
+        self._supported_commands[cmd] = cmd_spec
+
+    def command_supported(self, _argv: List[str]) -> Dict:
+        # This function is much more complex than I'd like, but most of the complexity is
+        # around building necessary context for a meaningful exception message
+        _support_code = OPSvcAccountSupportedEnum.NOT_VALIDATED
+        _support_msg: str = None
+        supported: Dict[str, Union[str, OPSvcAccountSupportedEnum, None]]
+
+        # for testing of all required options are provided
+        # and for generating error message
+        reqd_opt_diff: Set[str] = set()
+        required_opt_satified = False
+        # for generating error message if any prohibted options are found
+        prohib_opt_diff: Set[str] = set()
+        prohibited_opt_satisfied = False
+        # copy argv so we don't modify the original
+        argv_list: List[str] = list(_argv)
+        # [op_exe, [global options, ...], [subcommands, ...], [--sub-cmd-options, ...]]
+        cmd_spec: _CmdSpec
+        # pop op_exe
+
+        argv_list.pop(0)
+
+        # pop global options
+        while argv_list and argv_list[0].startswith("--"):
+            argv_list.pop(0)
+            if argv_list[0] == "json":
+                argv_list.pop(0)
+
+        # get primary command
+        command = None
+        if argv_list:
+            command = argv_list.pop(0)
+
+        # build subcommands:
+        subcommands = []
+        while argv_list and not argv_list[0].startswith("--"):
+            subcommands.append(argv_list.pop(0))
+
+        # build subcommand option list
+        subcmd_options = []
+        while argv_list:
+            # pop off all subcommand options, ignoring option-arguments
+            # e.g, save "--vault", but skip argument "Test Data"
+            option = argv_list.pop(0)
+            if option.startswith("--"):
+                subcmd_options.append(option)
+
         if command is None:
             # command-less options such as --version are always supported
-            supported = True
-            cmd_dict = None
+            _support_code = SVC_ACCT_SUPPORTED
+            _support_msg = None
+            cmd_spec = None
+            required_opt_satified = True
+            prohibited_opt_satisfied = True
         else:
-            cmd_dict = cls._supported_commands.get(command)
+            cmd_spec = self._supported_commands.get(command)
 
-        if cmd_dict:
-            for sub in subcommands:
-                try:
-                    cmd_dict = cmd_dict[sub]
-                except KeyError:
-                    cmd_dict = {}
-                    break
+        if cmd_spec:
+            try:
+                cmd_dict = cmd_spec.subcommand_lookup(subcommands)
+            except KeyError:
+                cmd_dict = {}
 
-            if "vault_required" in cmd_dict:
-                vault_satisfied = False
-                if cmd_dict["vault_required"]:
-                    vault_satisfied = vault_provided
-                else:
-                    vault_satisfied = True
-                if vault_satisfied:
-                    # command is supported as-is
-                    supported = SVC_ACCT_SUPPORTED
-                else:
-                    # command is registered, but vault requirement is not met
-                    supported = SVC_ACCT_VAULT_REQD
+            if not cmd_dict:
+                _support_msg = f"Command or subcommand not supported: [{command} {' '.join(subcommands)}]"
+                _support_code = SVC_ACCT_CMD_NOT_SUPPORTED
 
+        if cmd_dict and _support_code == OPSvcAccountSupportedEnum.NOT_VALIDATED:
+            required_options = set(cmd_dict["required_options"])
+
+            # how many required options remain after we mask out
+            # the provided options? Hopefully none
+            # we use the diff for two purposes:
+            # 1. to test if any required options were omitted
+            # 2. to generate a meaninful error message if needed
+            reqd_opt_diff = required_options - set(subcmd_options)
+
+            if not reqd_opt_diff:
+                # all required options were in use, so we're good here
+                required_opt_satified = True
+            else:
+                _support_code = SVC_ACCT_INCOMPAT_OPTIONS
+
+            prohibited_options = set(cmd_dict["prohibited_options"])
+
+            # how many probited options remain after we mask out
+            # the provided options? Hopefully all of them
+            remaining = prohibited_options - set(subcmd_options)
+
+            if remaining == prohibited_options:
+                # didn't use any prohbited options, so we're good here
+                prohibited_opt_satisfied = True
+            else:
+                # which prohibted options were actually used?
+                # we need this to generate the error message
+                prohib_opt_diff = prohibited_options - remaining
+                _support_code = SVC_ACCT_INCOMPAT_OPTIONS
+
+            if required_opt_satified and prohibited_opt_satisfied:
+                # if both
+                _support_code = SVC_ACCT_SUPPORTED
+
+        if _support_code == SVC_ACCT_INCOMPAT_OPTIONS:
+            _support_msg = ""
+            if not required_opt_satified:
+                _support_msg += f"Required options not provided: [{','.join(list(reqd_opt_diff))}]"
+
+            if not prohibited_opt_satisfied:
+                _support_msg += f" Prohibited options found: [{','.join(list(prohib_opt_diff))}]"
+
+            _support_msg = _support_msg.lstrip()
+
+        if _support_code == OPSvcAccountSupportedEnum.NOT_VALIDATED:
+            raise Exception("Failed to validate service account compatibility")
+
+        supported = {
+            "code": _support_code,
+            "msg": _support_msg
+        }
         return supported
-
-
-def svc_account_support(command, subcommands=None, vault_required=False):
-    OPSvcAcctSupportRegistry.add_supported_command(
-        command, subcommands=subcommands, vault_required=vault_required)
-
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            return func(*args, **kwargs)
-        return wrapper
-    return decorator
-
-
-def _svc_account_supported(command, subcommand, vault):
-    pass
-
-
-class OPSvcAcctSupported:
-
-    def __init__(self, command: str, subcommand: str, vault_provided: bool = False):
-        pass

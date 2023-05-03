@@ -21,14 +21,13 @@ class _OPArgv(list):
                  args: List[str],
                  subcommands: Optional[Union[str, List[str]]] = None,
                  global_args: List[str] = [],
-                 encoding="utf-8",
-                 vault_arg_provided: bool = False):
+                 encoding="utf-8"):
         # TODO: Refactor this
         # constructor is getting too many specialized kwargs tied to
         # specific commands/subcommands
         # maybe instead of an "args" array plus a bunch of named kwargs,
         # send in a dict that gets passed through tree of argv building logic?
-        self.vault_arg_provided = vault_arg_provided
+
         argv = [op_exe]
         if not global_args:
             global_args = []
@@ -66,17 +65,14 @@ class _OPArgv(list):
         return cmd_str
 
     def svc_account_supported(self) -> OPSvcAccountSupportedEnum:
-        supported = OPSvcAcctSupportRegistry.command_supported(self.command,
-                                                               subcommands=self.subcommands,
-                                                               vault_provided=self.vault_arg_provided)
+        supported = OPSvcAcctSupportRegistry.command_supported(self)
         return supported
 
     @classmethod
     def item_generic_argv(cls,
                           op_exe: str,
                           subcommands: Optional[Union[str, List[str]]],
-                          sub_cmd_args: Optional[List[str]],
-                          vault_arg_provided: bool):
+                          sub_cmd_args: Optional[List[str]]):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
@@ -85,8 +81,7 @@ class _OPArgv(list):
                    "item",
                    args,
                    subcommands=subcommands,
-                   global_args=global_args,
-                   vault_arg_provided=vault_arg_provided)
+                   global_args=global_args)
         return argv
 
     @classmethod
@@ -96,9 +91,6 @@ class _OPArgv(list):
                       vault=None,
                       fields=None,
                       include_archive=False):
-        vault_arg_provided = False
-        if vault:
-            vault_arg_provided = True
         sub_cmd_args = [item_name_or_id]
         if vault:
             sub_cmd_args.extend(["--vault", vault])
@@ -107,8 +99,7 @@ class _OPArgv(list):
             sub_cmd_args.extend(["--fields", fields])
         if include_archive:
             sub_cmd_args.append("--include-archive")
-        argv = cls.item_generic_argv(
-            op_exe, "get", sub_cmd_args, vault_arg_provided)
+        argv = cls.item_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
     @classmethod
@@ -123,8 +114,7 @@ class _OPArgv(list):
     def document_generic_argv(cls,
                               op_exe: str,
                               subcommands: Optional[Union[str, List[str]]],
-                              sub_cmd_args: Optional[List[str]],
-                              vault_arg_provided: bool):
+                              sub_cmd_args: Optional[List[str]]):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
@@ -133,22 +123,18 @@ class _OPArgv(list):
                    "document",
                    args,
                    subcommands=subcommands,
-                   global_args=global_args,
-                   vault_arg_provided=vault_arg_provided)
+                   global_args=global_args)
         return argv
 
     @classmethod
     def document_get_argv(cls, op_exe, document_name_or_id, vault=None, include_archive=False):
-        vault_arg_provided = False
-        if vault:
-            vault_arg_provided = True
+
         sub_cmd_args = [document_name_or_id]
         if vault:
             sub_cmd_args.extend(["--vault", vault])
         if include_archive:
             sub_cmd_args.append("--include-archive")
-        argv = cls.document_generic_argv(
-            op_exe, "get", sub_cmd_args, vault_arg_provided)
+        argv = cls.document_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
     @classmethod
@@ -279,9 +265,6 @@ class _OPArgv(list):
 
     @classmethod
     def item_list_argv(cls, op_exe, categories=[], include_archive=False, tags=[], vault=None):
-        vault_arg_provided = False
-        if vault:
-            vault_arg_provided = True
         item_list_args = []
         if categories:
             categories_arg = ",".join(categories)
@@ -294,8 +277,7 @@ class _OPArgv(list):
         if vault:
             item_list_args.extend(["--vault", vault])
 
-        argv = cls.item_generic_argv(
-            op_exe, "list", item_list_args, vault_arg_provided=vault_arg_provided)
+        argv = cls.item_generic_argv(op_exe, "list", item_list_args)
         return argv
 
     @classmethod
@@ -318,9 +300,6 @@ class _OPArgv(list):
         """
         op item create --template ./new_item.json --vault "Test Data" --generate-password=20,letters,digits --dry-run --format json
         """
-        vault_arg_provided = False
-        if vault:
-            vault_arg_provided = True
         template_filename = item.secure_tempfile(
             encoding=encoding)
 
@@ -331,8 +310,7 @@ class _OPArgv(list):
             item_create_args.append(f"--generate-password={password_recipe}")
         if vault:
             item_create_args.extend(["--vault", vault])
-        argv = cls.item_generic_argv(
-            op_exe, "create", item_create_args, vault_arg_provided)
+        argv = cls.item_generic_argv(op_exe, "create")
         return argv
 
     @classmethod
@@ -341,16 +319,12 @@ class _OPArgv(list):
                          item_name_or_id: str,
                          vault: Optional[str] = None,
                          archive: bool = False):
-        vault_arg_provided = False
-        if vault:
-            vault_arg_provided = True
         sub_cmd_args = [item_name_or_id]
         if archive:
             sub_cmd_args.append("--archive")
         if vault:
             sub_cmd_args.extend(["--vault", vault])
-        delete_argv = cls.item_generic_argv(
-            op_exe, "delete", sub_cmd_args, vault_arg_provided)
+        delete_argv = cls.item_generic_argv(op_exe, "delete", sub_cmd_args)
 
         return delete_argv
 
@@ -360,15 +334,11 @@ class _OPArgv(list):
                              document_name_or_id: str,
                              vault: Optional[str] = None,
                              archive: bool = False):
-        vault_arg_provided = False
-        if vault:
-            vault_arg_provided = True
         sub_cmd_args = [document_name_or_id]
         if archive:
             sub_cmd_args.append("--archive")
         if vault:
             sub_cmd_args.extend(["--vault", vault])
-        delete_argv = cls.document_generic_argv(
-            op_exe, "delete", sub_cmd_args, vault_arg_provided)
+        delete_argv = cls.document_generic_argv(op_exe, "delete", sub_cmd_args)
 
         return delete_argv

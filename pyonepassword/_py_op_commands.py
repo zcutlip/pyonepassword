@@ -10,9 +10,9 @@ from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
 from ._py_op_cli import _OPCLIExecute
 from ._svc_account import (
-    SVC_ACCT_NOT_SUPPORTED,
+    SVC_ACCT_CMD_NOT_SUPPORTED,
+    SVC_ACCT_INCOMPAT_OPTIONS,
     SVC_ACCT_SUPPORTED,
-    SVC_ACCT_VAULT_REQD,
     OPSvcAccountCommandNotSupportedException
 )
 from .account import OPAccount, OPAccountList
@@ -381,16 +381,14 @@ class _OPCommandInterface(_OPCLIExecute):
 
         if cls.svc_account_env_var_set():
             err_msg = None
-            supported = argv.svc_account_supported()
-            if supported == SVC_ACCT_NOT_SUPPORTED:
-                err_msg = f"Command not supported with service accounts: {argv.cmd_str()}"
-            elif supported == SVC_ACCT_VAULT_REQD:
-                err_msg = f"Command requires vault argument for use with service accounts: {argv.cmd_str()}"
-            elif supported == SVC_ACCT_SUPPORTED:
+            support_dict = argv.svc_account_supported()
+            if support_dict["code"] in [SVC_ACCT_INCOMPAT_OPTIONS, SVC_ACCT_CMD_NOT_SUPPORTED]:
+                err_msg = support_dict["msg"]
+            elif support_dict["code"] == SVC_ACCT_SUPPORTED:
                 cls.logger.debug("Command supported with service accounts")
             else:
                 raise Exception(
-                    f"Unknown service account support code {supported}")
+                    f"Unknown service account support code {support_dict['code']}")
 
             if err_msg:
                 if cls._should_log_op_errors():

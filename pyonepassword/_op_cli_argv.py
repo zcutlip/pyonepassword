@@ -1,11 +1,7 @@
 import shlex
 from typing import List, Optional, Union
 
-from ._svc_account import (
-    OPSvcAccountSupportedEnum,
-    OPSvcAcctSupportRegistry,
-    svc_account_support
-)
+from ._svc_account import OPSvcAccountSupportedEnum, OPSvcAcctSupportRegistry
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
 
@@ -94,7 +90,6 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    @svc_account_support("item", subcommands=["get"], vault_required=True)
     def item_get_argv(cls,
                       op_exe,
                       item_name_or_id,
@@ -118,8 +113,6 @@ class _OPArgv(list):
 
     @classmethod
     def item_get_totp_argv(cls, op_exe, item_name_or_id, vault=None):
-        # we don't need the @svc_account_support decorator
-        # because this just gets passed through to item_get_argv() which already has it
         field_arg = "type=otp"
 
         argv = cls.item_get_argv(
@@ -145,7 +138,6 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    @svc_account_support("document", subcommands=["get"], vault_required=True)
     def document_get_argv(cls, op_exe, document_name_or_id, vault=None, include_archive=False):
         vault_arg_provided = False
         if vault:
@@ -170,14 +162,12 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    @svc_account_support("vault", subcommands=["get"])
     def vault_get_argv(cls, op_exe, vault_name_or_id):
         sub_cmd_args = [vault_name_or_id]
         argv = cls.vault_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
     @classmethod
-    @svc_account_support("vault", subcommands=["list"])
     def vault_list_argv(cls, op_exe, group_name_or_id=None, user_name_or_id=None):
         sub_cmd_args = []
         if group_name_or_id:
@@ -198,14 +188,12 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    @svc_account_support("user", subcommands=["get"])
     def user_get_argv(cls, op_exe, user_name_or_id):
         sub_cmd_args = [user_name_or_id]
         argv = cls.user_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
     @classmethod
-    @svc_account_support("user", subcommands=["list"])
     def user_list_argv(cls, op_exe, group_name_or_id=None, vault=None):
         sub_cmd_args = []
         if group_name_or_id:
@@ -226,14 +214,12 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    @svc_account_support("group", subcommands=["get"])
     def group_get_argv(cls, op_exe, user_name_or_id):
         sub_cmd_args = [user_name_or_id]
         argv = cls.group_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
     @classmethod
-    @svc_account_support("group", subcommands=["list"])
     def group_list_argv(cls, op_exe, user_name_or_id=None, vault=None):
         sub_cmd_args = []
         if user_name_or_id:
@@ -252,7 +238,6 @@ class _OPArgv(list):
         return cls(op_exe, "signin", argv, global_args=global_args)
 
     @classmethod
-    @svc_account_support("item", subcommands=["template", "list"])
     def item_template_list_argv(cls, op_exe):  # pragma: no cover
         # subcommands may be a string or list
         # so no need to put the sub-subcommand
@@ -264,7 +249,6 @@ class _OPArgv(list):
         return argv_obj
 
     @classmethod
-    @svc_account_support("whoami")
     def whoami_argv(cls, op_exe, account=None):
         args: List[str] = []
         global_args = []
@@ -276,15 +260,12 @@ class _OPArgv(list):
 
     @classmethod
     def cli_version_argv(cls, op_exe):
-        # we don't need the @svc_account_support decorator
-        # command-less options will pass the command_supported() check
         args: List[str] = []
         global_args = ["--version"]
         argv_obj = cls(op_exe, None, args, global_args=global_args)
         return argv_obj
 
     @classmethod
-    @svc_account_support("signout")
     def signout_argv(cls, op_exe, account_shorthand: str, session: str, forget=False, uses_bio=False):  # pragma: no cover
         global_args = []
         if not uses_bio:
@@ -297,7 +278,6 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    @svc_account_support("item", subcommands=["list"])
     def item_list_argv(cls, op_exe, categories=[], include_archive=False, tags=[], vault=None):
         vault_arg_provided = False
         if vault:
@@ -319,7 +299,6 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    @svc_account_support("account", subcommands=["list"])
     def account_list_argv(cls, op_exe, output_format="json", encoding="utf-8"):
         cmd = "account"
         cmd_args: List[str] = []
@@ -330,7 +309,6 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    @svc_account_support("item", subcommands=["create"], vault_required=True)
     def item_create_argv(cls,
                          op_exe,
                          item: OPNewItemMixin,
@@ -358,7 +336,6 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    @svc_account_support("item", subcommands=["delete"], vault_required=True)
     def item_delete_argv(cls,
                          op_exe: str,
                          item_name_or_id: str,
@@ -378,7 +355,6 @@ class _OPArgv(list):
         return delete_argv
 
     @classmethod
-    @svc_account_support("document", subcommands=["delete"], vault_required=True)
     def document_delete_argv(cls,
                              op_exe: str,
                              document_name_or_id: str,

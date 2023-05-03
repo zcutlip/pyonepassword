@@ -65,7 +65,10 @@ class _OPArgv(list):
         return cmd_str
 
     def svc_account_supported(self) -> OPSvcAccountSupportedEnum:
-        supported = OPSvcAcctSupportRegistry.command_supported(self)
+        # OPSvcAcctSupportRegistry is a singleton
+        # so this is fine
+        reg = OPSvcAcctSupportRegistry()
+        supported = reg.command_supported(self)
         return supported
 
     @classmethod

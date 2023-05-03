@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "version": 1,
+    "command_name": "item"
+  },
+  "subcommands":{
+    "get": {
+      "has_arg": true,
+      "required_options": ["--vault"],
+      "prohibited_options": []
+    },
+    "template": {
+      "list": {
+        "has_arg": false,
+        "required_options": [],
+        "prohibited_options": []
+      }
+    },
+    "list": {
+      "has_arg": false,
+      "required_options": [],
+      "prohibited_options": []
+    },
+    "create": {
+      "has_arg": false,
+      "required_options": [
+        "--vault"
+      ],
+      "prohibited_options": []
+    },
+    "delete": {
+      "has_arg": true,
+      "required_options": [
+        "--vault"
+      ],
+      "prohibited_options": []
+    }
+  }
+}

@@ -30,6 +30,7 @@ class OPSvcAccountSupportedEnum(enum.IntEnum):
 SVC_ACCT_SUPPORTED = OPSvcAccountSupportedEnum.SUPPORTED
 SVC_ACCT_INCOMPAT_OPTIONS = OPSvcAccountSupportedEnum.INCOMPAT_OPTIONS
 SVC_ACCT_CMD_NOT_SUPPORTED = OPSvcAccountSupportedEnum.NOT_SUPPORTED
+_SVC_ACCT_CMD_NOT_VALIDATED = OPSvcAccountSupportedEnum.NOT_VALIDATED
 
 
 class _CmdSpec(dict):
@@ -77,7 +78,7 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
     def command_supported(self, _argv: List[str]) -> Dict:
         # This function is much more complex than I'd like, but most of the complexity is
         # around building necessary context for a meaningful exception message
-        _support_code = OPSvcAccountSupportedEnum.NOT_VALIDATED
+        _support_code = _SVC_ACCT_CMD_NOT_VALIDATED
         _support_msg: str = None
         supported: Dict[str, Union[str, OPSvcAccountSupportedEnum, None]]
 
@@ -141,7 +142,7 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
                 _support_msg = f"Command or subcommand not supported: [{command} {' '.join(subcommands)}]"
                 _support_code = SVC_ACCT_CMD_NOT_SUPPORTED
 
-        if cmd_dict and _support_code == OPSvcAccountSupportedEnum.NOT_VALIDATED:
+        if cmd_dict and _support_code == _SVC_ACCT_CMD_NOT_VALIDATED:
             required_options = set(cmd_dict["required_options"])
 
             # how many required options remain after we mask out
@@ -186,7 +187,7 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
 
             _support_msg = _support_msg.lstrip()
 
-        if _support_code == OPSvcAccountSupportedEnum.NOT_VALIDATED:
+        if _support_code == _SVC_ACCT_CMD_NOT_VALIDATED:
             raise Exception("Failed to validate service account compatibility")
 
         supported = {

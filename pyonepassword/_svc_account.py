@@ -132,15 +132,20 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
         else:
             cmd_spec = self._supported_commands.get(command)
 
+        cmd_dict = {}
         if cmd_spec:
             try:
                 cmd_dict = cmd_spec.subcommand_lookup(subcommands)
             except KeyError:
-                cmd_dict = {}
+                pass
 
-            if not cmd_dict:
-                _support_msg = f"Command or subcommand not supported: [{command} {' '.join(subcommands)}]"
-                _support_code = SVC_ACCT_CMD_NOT_SUPPORTED
+        # if we either failed to find a command spec or
+        # we found a command spec but not a subcommand dictionary
+        # then command is not supported
+        _cmd_not_found = command is not None and cmd_spec is None
+        if (cmd_spec and not cmd_dict) or _cmd_not_found:
+            _support_msg = f"Command or subcommand not supported: [{command} {' '.join(subcommands)}]"
+            _support_code = SVC_ACCT_CMD_NOT_SUPPORTED
 
         if cmd_dict and _support_code == _SVC_ACCT_CMD_NOT_VALIDATED:
             required_options = set(cmd_dict["required_options"])

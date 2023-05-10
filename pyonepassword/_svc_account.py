@@ -55,7 +55,7 @@ class _CmdSpec(dict):
         # - get (e.g., op item get <item>)
         # - template list (e.g., op item template list <item_type>)
         subcmd_dict = self.get("subcommands", {})
-        found: Dict[Any, Any]
+        found: Dict[Any, Any] = {}
 
         if subcommand_list:
             # if we were given a subcommand list with one or more items

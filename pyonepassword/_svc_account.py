@@ -1,14 +1,14 @@
 import enum
 import json
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Union
+from typing import Any, Dict, List, Optional, Set, Union
 
 from pysingleton import PySingleton
 
 from . import data
 from .pkg_resources import pkgfiles
 
-OptStrList = Optional[List[str]]
+OptionalStrList = Optional[List[str]]
 
 
 class OPSvcAccountCmdCollisionException(Exception):
@@ -42,14 +42,37 @@ class _CmdSpec(dict):
     def command_name(self) -> str:
         return self["meta"]["command_name"]
 
-    def subcommand_lookup(self, subcommand_list: List[str]):
-        subcmd_dict = self["subcommands"]
-        found = {}
-        for subcmd in subcommand_list:
-            subcmd_dict = subcmd_dict[subcmd]
-            if "has_arg" in subcmd_dict:
-                found = subcmd_dict
-                break
+    def _main_command_dict(self) -> Dict:
+        # Return command dict for the top-level command
+        # if there is one
+        # else empty dict
+        cmd_dict = self.get("cmd_dict", {})
+        return cmd_dict
+
+    def command_lookup(self, subcommand_list: OptionalStrList = None):
+        # subcommand_list, if provided, is a subcommand chain of one or more items
+        # e.g, the "op item" command has the following subcommands (not exhaustive):
+        # - get (e.g., op item get <item>)
+        # - template list (e.g., op item template list <item_type>)
+        subcmd_dict = self.get("subcommands", {})
+        found: Dict[Any, Any]
+
+        if subcommand_list:
+            # if we were given a subcommand list with one or more items
+            # then try to find the command dict for the subcommand chain
+            for subcmd in subcommand_list:
+                subcmd_dict = subcmd_dict.get(subcmd, {})
+                if "has_arg" in subcmd_dict:
+                    # check if current subcommand is the most deeply nested,
+                    # if so, the next entry in our list may be a positional
+                    # argument argument and not another subcommand,
+                    # so stop processing here
+                    found = subcmd_dict
+                    break
+        else:
+            # there was no subcommand list (e.g., in the case of op whoami)
+            # so get the top-level command dict
+            found = self._main_command_dict()
 
         return found
 
@@ -58,6 +81,9 @@ class _CmdSpec(dict):
 # loading all the JSON files from disk each time
 # it gets instantiated
 class OPSvcAcctSupportRegistry(metaclass=PySingleton):
+    # This allows the instance to be freed & reinitialized
+    # once the last reference released
+    _PYSINGLETON_WEAKREF = True
     """
     A registry of supported commands, subcommands, and required & prohibited options
     in the context of service accounts
@@ -134,10 +160,7 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
 
         cmd_dict = {}
         if cmd_spec:
-            try:
-                cmd_dict = cmd_spec.subcommand_lookup(subcommands)
-            except KeyError:
-                pass
+            cmd_dict = cmd_spec.command_lookup(subcommand_list=subcommands)
 
         # if we either failed to find a command spec or
         # we found a command spec but not a subcommand dictionary

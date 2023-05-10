@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "version": 1,
+    "command_name": "document"
+  },
+  "subcommands": {
+    "get": {
+      "has_arg": true,
+      "required_options": [
+        "--vault"
+      ],
+      "prohibited_options": []
+    },
+    "delete": {
+      "has_arg": true,
+      "required_options": [
+        "--vault"
+      ],
+      "prohibited_options": []
+    }
+  }
+}

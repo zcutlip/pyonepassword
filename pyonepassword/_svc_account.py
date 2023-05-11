@@ -119,14 +119,23 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
         argv_list: List[str] = list(_argv)
         # [op_exe, [global options, ...], [subcommands, ...], [--sub-cmd-options, ...]]
         cmd_spec: _CmdSpec
-        # pop op_exe
 
+        # pop argv[0], the op exe path
         argv_list.pop(0)
+
+        # the following global options each take an argument
+        # e.g., "--format json"
+        global_options_with_args = ["--format",
+                                    "--encoding", "--session", "--config"]
 
         # pop global options
         while argv_list and argv_list[0].startswith("--"):
-            argv_list.pop(0)
-            if argv_list[0] == "json":
+            arg = argv_list.pop(0)
+            # does the option have an argument that also
+            # needs to be popped?
+            # e.g., if we popped "--format", we also
+            # need to pop its argument, "json"
+            if arg in global_options_with_args:
                 argv_list.pop(0)
 
         # get primary command

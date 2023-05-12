@@ -224,7 +224,8 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
 
             _support_msg = _support_msg.lstrip()
 
-        if _support_code == _SVC_ACCT_CMD_NOT_VALIDATED:
+        if _support_code == _SVC_ACCT_CMD_NOT_VALIDATED:  # pragma: no cover
+            # something's gone wrong if we reach this point
             raise Exception("Failed to validate service account compatibility")
 
         supported = {

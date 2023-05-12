@@ -51,7 +51,7 @@ class _OPArgv(list):
             if isinstance(subcommands, str):
                 subcommands = [subcommands]
             else:
-                subcommands = list(subcommands)
+                subcommands = list(subcommands)  # pragma: no cover
             self.subcommands = subcommands
             argv.extend(subcommands)
         argv.extend(args)
@@ -141,12 +141,15 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def vault_generic_argv(cls, op_exe, vault_subcommand, sub_cmd_args):
+    def vault_generic_argv(cls,
+                           op_exe: str,
+                           subcommands: Optional[Union[str, List[str]]],
+                           sub_cmd_args: Optional[List[str]]):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "vault", args, subcommands=vault_subcommand,
+        argv = cls(op_exe, "vault", args, subcommands=subcommands,
                    global_args=global_args)
         return argv
 
@@ -167,12 +170,15 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def user_generic_argv(cls, op_exe, vault_subcommand, sub_cmd_args):
+    def user_generic_argv(cls,
+                          op_exe: str,
+                          subcommands: Optional[Union[str, List[str]]],
+                          sub_cmd_args: Optional[List[str]]):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "user", args, subcommands=vault_subcommand,
+        argv = cls(op_exe, "user", args, subcommands=subcommands,
                    global_args=global_args)
         return argv
 
@@ -193,12 +199,15 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def group_generic_argv(cls, op_exe, vault_subcommand, sub_cmd_args):
+    def group_generic_argv(cls,
+                           op_exe: str,
+                           subcommands: Optional[Union[str, List[str]]],
+                           sub_cmd_args: Optional[List[str]]):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "group", args, subcommands=vault_subcommand,
+        argv = cls(op_exe, "group", args, subcommands=subcommands,
                    global_args=global_args)
         return argv
 

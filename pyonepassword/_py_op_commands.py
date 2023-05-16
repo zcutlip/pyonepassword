@@ -266,14 +266,14 @@ class _OPCommandInterface(_OPCLIExecute):
         # is still valid, with the assumption that if it is not, then it
         # has expired
         # it is primarily for the following two purposes
-        # - avoid triggering an interactive prompt or GUI dialogue, if undesired and hanging indefinitely
+        # - avoid triggering an interactive prompt or GUI dialogue (if undesired) and hanging indefinitely
         # - being able to raise OPNotSignedInException to the caller rather than a generic
         #   "command failed" exception
         expired = False
 
         try:
             cls._whoami(op_path, account=account)
-        except OPWhoAmiException:
+        except OPWhoAmiException:  # pragma: no cover
             expired = True
 
         return expired
@@ -377,7 +377,8 @@ class _OPCommandInterface(_OPCLIExecute):
         #   operation
         # - this adds roughly 20% overhead (as measured by the full suite of pytest tests)
         if cls._auth_expired(op_path, account):
-            raise OPNotSignedInException("Authentication has expired")
+            raise OPNotSignedInException(
+                "Authentication has expired")  # pragma: no cover
 
         if cls.svc_account_env_var_set():
             err_msg = None
@@ -387,7 +388,7 @@ class _OPCommandInterface(_OPCLIExecute):
             elif support_dict["code"] == SVC_ACCT_SUPPORTED:
                 cls.logger.debug("Command supported with service accounts")
             else:
-                raise Exception(
+                raise Exception(  # pragma: no cover
                     f"Unknown service account support code {support_dict['code']}")
 
             if err_msg:

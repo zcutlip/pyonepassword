@@ -375,7 +375,7 @@ class _OPCommandInterface(_OPCLIExecute):
         # among the problems:
         # - this method is racey, since authentication may expire between the check and the
         #   operation
-        # - this adds roughly 20% overhead (as measured by the full sweet of pytest tests)
+        # - this adds roughly 20% overhead (as measured by the full suite of pytest tests)
         if cls._auth_expired(op_path, account):
             raise OPNotSignedInException("Authentication has expired")
 

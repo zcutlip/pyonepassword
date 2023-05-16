@@ -43,6 +43,7 @@ from .paths import (
     ITEM_DELETE_MULTIPLE_STATE_CONFIG_PATH,
     ITEM_DELETE_MULTIPLE_TITLE_GLOB_STATE_CONFIG_PATH,
     RESP_DIRECTORY_PATH,
+    SVC_ACCT_RESP_DIRECTORY_PATH,
     UNAUTH_RESP_DIRECTORY_PATH
 )
 from .platform_support import HOME_ENV_VAR
@@ -135,6 +136,19 @@ def _setup_unauth_env():
     os.environ["LOG_OP_ERR"] = "1"
 
 
+def _setup_svc_acct_env():
+    svc_account_token = os.environ["PYTEST_SVC_ACCT_TOKEN"]
+    os.environ["OP_SERVICE_ACCOUNT_TOKEN"] = svc_account_token
+    # don't set MOCK_OP_RESPONSE_DIRECTORY
+    # if we're using MOCK_OP_STATE_DIR
+    if not os.environ.get("MOCK_OP_STATE_DIR"):
+        os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(
+            SVC_ACCT_RESP_DIRECTORY_PATH)
+
+    os.environ["MOCK_OP_SIGNIN_SUCCEED"] = "1"
+    os.environ["LOG_OP_ERR"] = "1"
+
+
 @fixture
 def setup_stateful_item_delete_multiple():
 
@@ -207,6 +221,11 @@ def setup_normal_op_env():
 @fixture
 def setup_no_bio_normal_op_env():
     _setup_no_bio_normal_env()
+
+
+@fixture
+def setup_svc_acct_env():
+    _setup_svc_acct_env()
 
 
 @fixture

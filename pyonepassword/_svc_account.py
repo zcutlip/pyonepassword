@@ -1,6 +1,6 @@
 import enum
 import json
-from typing import Any, Dict, List, Optional, Set, Union
+from typing import Any, Dict, List, NamedTuple, Optional, Set, Union
 
 from pysingleton import PySingleton
 
@@ -30,6 +30,11 @@ SVC_ACCT_SUPPORTED = OPSvcAccountSupportedEnum.SUPPORTED
 SVC_ACCT_INCOMPAT_OPTIONS = OPSvcAccountSupportedEnum.INCOMPAT_OPTIONS
 SVC_ACCT_CMD_NOT_SUPPORTED = OPSvcAccountSupportedEnum.NOT_SUPPORTED
 _SVC_ACCT_CMD_NOT_VALIDATED = OPSvcAccountSupportedEnum.NOT_VALIDATED
+
+
+class OPSvcAccountSupportCode(NamedTuple):
+    code: OPSvcAccountSupportedEnum
+    msg: Optional[str]
 
 
 class _CmdSpec(dict):

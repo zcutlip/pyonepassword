@@ -1,6 +1,6 @@
 import enum
 import json
-from typing import Any, Dict, List, NamedTuple, Optional, Set, Union
+from typing import Any, Dict, List, NamedTuple, Optional, Set
 
 from pysingleton import PySingleton
 
@@ -108,12 +108,12 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
         cmd = cmd_spec.command_name
         self._supported_commands[cmd] = cmd_spec
 
-    def command_supported(self, _argv: List[str]) -> Dict:
+    def command_supported(self, _argv: List[str]) -> OPSvcAccountSupportCode:
         # This function is much more complex than I'd like, but most of the complexity is
         # around building necessary context for a meaningful exception message
+
         _support_code = _SVC_ACCT_CMD_NOT_VALIDATED
         _support_msg: str = None
-        supported: Dict[str, Union[str, OPSvcAccountSupportedEnum, None]]
 
         # for testing of all required options are provided
         # and for generating error message
@@ -235,8 +235,6 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
             # something's gone wrong if we reach this point
             raise Exception("Failed to validate service account compatibility")
 
-        supported = {
-            "code": _support_code,
-            "msg": _support_msg
-        }
+        supported = OPSvcAccountSupportCode(_support_code, _support_msg)
+
         return supported

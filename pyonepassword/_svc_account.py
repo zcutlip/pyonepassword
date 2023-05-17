@@ -1,12 +1,11 @@
 import enum
 import json
-from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Union
 
 from pysingleton import PySingleton
 
 from . import data
-from .pkg_resources import pkgfiles
+from .pkg_resources import data_location_as_path
 
 OptionalStrList = Optional[List[str]]
 
@@ -91,7 +90,10 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
 
     def __init__(self):
         self._supported_commands = {}
-        data_path: Path = pkgfiles(data).joinpath(data.SVC_ACCOUNT_COMMANDS)
+        # data_location_as_path() satisfies mypy
+        # by returning a Path instead of a Traversable
+        data_path = data_location_as_path(data, data.SVC_ACCOUNT_COMMANDS)
+
         for json_file in data_path.glob("*.json"):
             cmd_dict = json.load(open(json_file, "r"))
             self._process(cmd_dict)

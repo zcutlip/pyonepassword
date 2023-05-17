@@ -45,6 +45,8 @@ def test_svc_acct_item_get_02(signed_in_op: OP):
     """
     Service account command test: "op item get"
 
+    This excercises the supported commands missing required arguments code paths
+
     Set service account token via fixture
     call OP.item_get() without required vault argument
 

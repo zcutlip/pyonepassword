@@ -2,7 +2,7 @@ import enum
 import json
 from typing import Any, Dict, List, NamedTuple, Optional, Set
 
-from pysingleton import PySingleton
+from pysingleton import PySingleton  # type: ignore
 
 from . import data
 from .pkg_resources import data_location_as_path

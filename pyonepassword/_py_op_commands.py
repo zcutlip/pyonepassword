@@ -382,14 +382,14 @@ class _OPCommandInterface(_OPCLIExecute):
 
         if cls.svc_account_env_var_set():
             err_msg = None
-            support_dict = argv.svc_account_supported()
-            if support_dict["code"] in [SVC_ACCT_INCOMPAT_OPTIONS, SVC_ACCT_CMD_NOT_SUPPORTED]:
-                err_msg = support_dict["msg"]
-            elif support_dict["code"] == SVC_ACCT_SUPPORTED:
+            supported = argv.svc_account_supported()
+            if supported.code in [SVC_ACCT_INCOMPAT_OPTIONS, SVC_ACCT_CMD_NOT_SUPPORTED]:
+                err_msg = supported.msg
+            elif supported.code == SVC_ACCT_SUPPORTED:
                 cls.logger.debug("Command supported with service accounts")
             else:
                 raise Exception(  # pragma: no cover
-                    f"Unknown service account support code {support_dict['code']}")
+                    f"Unknown service account support code {supported.code}")
 
             if err_msg:
                 if cls._should_log_op_errors():

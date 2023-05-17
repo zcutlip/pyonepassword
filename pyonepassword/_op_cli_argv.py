@@ -1,7 +1,7 @@
 import shlex
 from typing import List, Optional, Union
 
-from ._svc_account import OPSvcAccountSupportedEnum, OPSvcAcctSupportRegistry
+from ._svc_account import OPSvcAccountSupportCode, OPSvcAcctSupportRegistry
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
 
@@ -64,7 +64,7 @@ class _OPArgv(list):
         cmd_str = shlex.join(self)
         return cmd_str
 
-    def svc_account_supported(self) -> OPSvcAccountSupportedEnum:
+    def svc_account_supported(self) -> OPSvcAccountSupportCode:
         # OPSvcAcctSupportRegistry is a singleton
         # so this is fine
         reg = OPSvcAcctSupportRegistry()
@@ -75,7 +75,7 @@ class _OPArgv(list):
     def item_generic_argv(cls,
                           op_exe: str,
                           subcommands: Optional[Union[str, List[str]]],
-                          sub_cmd_args: Optional[List[str]]):
+                          sub_cmd_args: Optional[List[str]] = None):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
@@ -241,7 +241,7 @@ class _OPArgv(list):
         # so no need to put the sub-subcommand
         # into an arg list
         sub_commands = ["template", "list"]
-        sub_cmd_args = []
+        sub_cmd_args: List[str] = []
 
         argv_obj = cls.item_generic_argv(op_exe, sub_commands, sub_cmd_args)
         return argv_obj

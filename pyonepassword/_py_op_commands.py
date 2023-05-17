@@ -493,7 +493,12 @@ class _OPCommandInterface(_OPCLIExecute):
             if cls.MALFORMED_SVC_ACCT_TEXT in ocfe.err_output:
                 # OP_SERVICE_ACCOUNT_TOKEN got set to something malformed
                 # so raise a specific exception for that
-                raise OPMalformedSvcAcctTokenException.from_opexception(ocfe)
+                raise OPMalformedSvcAcctTokenException.from_opexception(
+                    ocfe)  # pragma: no cover
+                # Although we could simulate this for testing, the tests
+                # wouldn't be meaningful, because they wouldn't be tied to
+                # an actual malformed token
+                # disabling testing coverage
             else:
                 raise OPWhoAmiException.from_opexception(ocfe)
 

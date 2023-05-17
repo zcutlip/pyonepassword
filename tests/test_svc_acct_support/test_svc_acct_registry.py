@@ -25,7 +25,7 @@ def test_svc_acct_command_support_01():
                      'get', 'example item', '--vault', 'test data']
     reg = OPSvcAcctSupportRegistry()
     support = reg.command_supported(item_get_argv)
-    assert support["code"] == SVC_ACCT_SUPPORTED
+    assert support.code == SVC_ACCT_SUPPORTED
 
 
 def test_svc_acct_command_support_02():
@@ -37,7 +37,7 @@ def test_svc_acct_command_support_02():
     item_get_argv = ['op', 'whoami']
     reg = OPSvcAcctSupportRegistry()
     support = reg.command_supported(item_get_argv)
-    assert support["code"] == SVC_ACCT_SUPPORTED
+    assert support.code == SVC_ACCT_SUPPORTED
 
 
 def test_svc_acct_command_support_03():
@@ -49,7 +49,7 @@ def test_svc_acct_command_support_03():
     item_get_argv = ['op', '--version']
     reg = OPSvcAcctSupportRegistry()
     support = reg.command_supported(item_get_argv)
-    assert support["code"] == SVC_ACCT_SUPPORTED
+    assert support.code == SVC_ACCT_SUPPORTED
 
 
 def test_svc_acct_command_support_04():
@@ -61,7 +61,7 @@ def test_svc_acct_command_support_04():
     item_get_argv = ['op', 'unknown_command']
     reg = OPSvcAcctSupportRegistry()
     support = reg.command_supported(item_get_argv)
-    assert support["code"] == SVC_ACCT_CMD_NOT_SUPPORTED
+    assert support.code == SVC_ACCT_CMD_NOT_SUPPORTED
 
 
 def test_svc_acct_command_support_05():
@@ -77,7 +77,7 @@ def test_svc_acct_command_support_05():
     item_get_argv = ['op', '--format', 'json', 'item', 'get', 'example item']
     reg = OPSvcAcctSupportRegistry()
     support = reg.command_supported(item_get_argv)
-    assert support["code"] == SVC_ACCT_INCOMPAT_OPTIONS
+    assert support.code == SVC_ACCT_INCOMPAT_OPTIONS
 
 
 def test_svc_acct_command_support_06():
@@ -94,4 +94,4 @@ def test_svc_acct_command_support_06():
                      'vault', 'list', '--user', "test user"]
     reg = OPSvcAcctSupportRegistry()
     support = reg.command_supported(item_get_argv)
-    assert support["code"] == SVC_ACCT_INCOMPAT_OPTIONS
+    assert support.code == SVC_ACCT_INCOMPAT_OPTIONS

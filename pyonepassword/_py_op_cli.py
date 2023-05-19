@@ -2,7 +2,11 @@ import logging
 import subprocess
 from os import environ
 
-from .py_op_exceptions import OPCmdFailedException, OPNotFoundException
+from .py_op_exceptions import (
+    OPCLIPanicException,
+    OPCmdFailedException,
+    OPNotFoundException
+)
 
 # Mainly for use in automated testing
 LOG_OP_ERR_ENV_NAME = "LOG_OP_ERR"
@@ -18,7 +22,7 @@ class _OPCLIExecute:
     # we need to detect if a command failure was actually a mock-op failure
     MOCK_OP_ERR_EXIT = 255
     MOCK_OP_RESP_ERR_MSG = "Error looking up response"
-
+    GO_RUNTIME_PANIC_MSG = "panic: runtime error:"
     logger = logging.getLogger("_OPCLIExecute")
     logger.setLevel(logging.INFO)
 
@@ -69,6 +73,10 @@ class _OPCLIExecute:
                 if (returncode >= cls.MOCK_OP_ERR_EXIT and
                         cls.MOCK_OP_RESP_ERR_MSG in stderr_output):  # pragma: no coverage
                     raise err
+                elif cls.GO_RUNTIME_PANIC_MSG in stderr_output:
+                    # If we made 'op' crash, raise a special exception
+                    raise OPCLIPanicException(stderr_output, returncode, argv)
+
                 raise OPCmdFailedException(stderr_output, returncode) from err
 
         return (stdout, stderr, returncode)

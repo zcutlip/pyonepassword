@@ -20,6 +20,7 @@ from ..op_objects import (
     OPInvalidVaultListException
 )
 from ..py_op_exceptions import (
+    OPCLIPanicException,
     OPCmdFailedException,
     OPConfigNotFoundException,
     OPDocumentDeleteException,
@@ -46,7 +47,8 @@ from ..py_op_exceptions import (
 # This causes these types to properly re-exported
 # https://mypy.readthedocs.io/en/stable/config_file.html?highlight=export#confval-implicit_reexport
 # anything that gets imported needs to be added to this list
-__all__ = ["OPCmdFailedException",
+__all__ = ["OPCLIPanicException",
+           "OPCmdFailedException",
            "OPConfigNotFoundException",
            "OPDocumentDeleteException",
            "OPDocumentGetException",

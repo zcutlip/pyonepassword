@@ -22,6 +22,9 @@ UNAUTH_RESP_DIRECTORY_PATH = Path(
 SVC_ACCT_RESP_DIRECTORY_PATH = Path(
     MOCK_OP_CONFIG_PATH, "svc-acct-response-directory.json"
 )
+SVC_ACCT_CORRUPT_RESP_DIRECTORY_PATH = Path(
+    MOCK_OP_CONFIG_PATH, "svc-acct-corrupt-response-directory.json"
+)
 
 VALID_DATA_REGISTRY_PATH = Path(
     TEST_INPUT_DATA_PATH, "valid-data-registry.json")

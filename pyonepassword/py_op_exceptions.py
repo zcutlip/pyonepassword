@@ -4,7 +4,7 @@ TODO: Move other exception classes here
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 if TYPE_CHECKING:
     from .op_items._item_list import OPItemList
@@ -42,6 +42,24 @@ class OPCmdFailedException(OPBaseException):
     @classmethod
     def from_opexception(cls, ope: OPCmdFailedException):
         return cls(ope.err_output, ope.returncode)
+
+
+class OPCLIPanicException(OPBaseException):
+    """
+    Occasionally we're able to trigger a panic in the go runtime when executing 'op'
+
+    When that happens, we want to raise a special exception in order to report it
+
+    This class intentionally mirrors but does not extend OPCmdFailedException. We
+    don't want to mask any 'op' crashes with code that handles OPCmdFailedException
+    """
+    MSG = "1Password CLI command crashed"
+
+    def __init__(self, stderr_out: str, returncode: int, argv: List[str]):
+        super().__init__(self.MSG)
+        self.err_output = stderr_out
+        self.returncode = returncode
+        self.argv = list(argv)
 
 
 class OPSigninException(OPCmdFailedException):

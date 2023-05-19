@@ -1,8 +1,8 @@
 # `pyonepassword` Authentication
 
-This document an attempt to describe how `pyonepassword`, specifically the `OP` class handles authenticaiton to the caller's 1Password account via the `op` CLI command. Authentication with `op` has become sufficiently complex that in-lin pydoc documentation is no longer sufficient.
+This document an attempt to describe how `pyonepassword`, specifically the `OP` class, handles authentication to the user's 1Password account via the `op` CLI command. Authentication with `op` has become sufficiently complex that in-line pydoc documentation is no longer sufficient.
 
-As the `op` command has evolved, it has added additional support scenarios for authentication. As such, `pyonepassword` has eveolved to support those scenarious as closely as possible. As those two evolve together, this document should also be kept up to date to reflect the
+As the `op` command has evolved, it has added additional support scenarios for authentication. As such, `pyonepassword` has evolved to support those scenarious as closely as possible. As those two evolve together, this document should also be kept up to date to reflect the
 
 ## Authentication Scenarios
 
@@ -15,7 +15,7 @@ The following scenarios are supported by `op`:
 - With biometric enabled:
   - Biometric prompt via `op signin`
   - `op` previously authenticated via biometric and has not timed out
-- (coming soon) An OP_SERVICE_ACCOUNT_TOKEN environment variable is set to a valid sevice account token
+- An OP_SERVICE_ACCOUNT_TOKEN environment variable is set to a valid sevice account token
 
 If there is more than one account configured, you can either tell `op` which to use, or let it choose. How it chooses depends on circumstances and is not documented. In some cases it will prompt on the console with an interactive menu.
 

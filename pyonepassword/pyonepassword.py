@@ -115,12 +115,13 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         Get an 'item' object from a 1Password vault.
         The returned object may be any of the item types extending OPAbstractItem.
         These currently include:
-        - OPLoginItem (template id 1)
-        - OPCreditCardItem (template id 2)
-        - OPSecureNoteItem (template id 3)
-        - OPPasswordItem (template id 5)
-        - OPDocumentItem (template id 6)
-        - OPServerItem (template id 110)
+        - OPLoginItem
+        - OPCreditCardItem
+        - OPSecureNoteItem
+        - OPPasswordItem
+        - OPDocumentItem
+        - OPServerItem
+        - OPDatabaseItem
 
         Note that getting a document item is not the same as getting the document itself. The
         item only contains metadata about the document such as filename.

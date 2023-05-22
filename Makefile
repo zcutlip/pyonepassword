@@ -6,6 +6,7 @@ COV_REPORT_DIR=coverage-reports
 
 
 COV_STAMP=.cov_stamp
+TOX_STAMP=.tox_stamp
 HTML_REPORT_STAMP=".html_report_stamp"
 
 PYONEPASSWORD_SRC_FILES=$(shell find ./pyonepassword -name \*\.py -print)
@@ -15,6 +16,8 @@ all:
 	@echo "make pytest-coverage for coverage report"
 
 pytest-coverage: $(HTML_REPORT_STAMP)
+
+tox: $(TOX_STAMP)
 
 $(HTML_REPORT_STAMP): $(COV_STAMP)
 	coverage html
@@ -44,6 +47,10 @@ $(COV_STAMP): $(PYONEPASSWORD_SRC_FILES) $(PYONEPASSWORD_TEST_FILES)
 	pytest --cov=pyonepassword --cov-report= -n auto
 	touch $@
 
+$(TOX_STAMP): $(PYONEPASSWORD_SRC_FILES) $(PYONEPASSWORD_TEST_FILES)
+	# run tox in parallel mode, recreating tox environment every time
+	tox p -r
+	touch $@
 
 clean-coverage:
 	coverage erase

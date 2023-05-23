@@ -16,6 +16,24 @@ class OPBaseException(Exception):
         super().__init__(msg)
 
 
+class _OPCalledProcessException(OPBaseException):
+    """
+    Base class to represent 'op' command failure.
+    No code should handle this exception directly.
+
+    Override this class and set MSG
+    """
+    MSG = None
+
+    def __init__(self, stderr_out, returncode):
+        if not self.MSG:
+            raise Exception(
+                "subclass _OPCalledProcessException and override MSG")
+        super().__init__(self.MSG)
+        self.err_output = stderr_out
+        self.returncode = returncode
+
+
 class OPCmdFailedException(OPBaseException):
     """
     Generic Exception class for when an `op` command fails.

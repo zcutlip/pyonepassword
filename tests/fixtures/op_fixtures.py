@@ -203,14 +203,19 @@ def setup_stateful_item_delete_multiple_title_glob():
     # temp_dir will get cleaned up once we return
 
 
-def _get_signed_in_op(account_id=None, default_vault=None, skip_env=False):
+def _get_signed_in_op(account_id=None, default_vault=None, skip_env=False, no_password=False):
     # don't create a new console logger. use the module-level op_console_logger
     # to avoid problems with the way pytest captures sys.stderr/sys.stdout
+    if no_password:
+        op_password = None
+    else:
+        op_password = OP_MASTER_PASSWORD
+
     if not skip_env:
         _setup_normal_env()
     try:
         op = OP(vault=default_vault, account=account_id,
-                password=OP_MASTER_PASSWORD, op_path='mock-op', logger=op_console_logger)
+                password=op_password, op_path='mock-op', logger=op_console_logger)
     except OPCmdFailedException as e:
         print(f"OP() failed: {e.err_output}")
         raise e
@@ -286,7 +291,7 @@ def signed_in_op():
 
 @fixture
 def signed_in_op_svc_acct():
-    op = _get_signed_in_op(account_id=None, skip_env=True)
+    op = _get_signed_in_op(account_id=None, skip_env=True, no_password=True)
     return op
 
 

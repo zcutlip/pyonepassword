@@ -232,6 +232,23 @@ class OPInvalidItemException(OPBaseException):
 
 
 class OPNotSignedInException(OPBaseException):
+    # TODO: deprecate this class
+    # such that deprecation warning is generated
+    # which someone tries to catch it
+    # possibly here's an idea how:
+    # https://stackoverflow.com/questions/40545005/is-it-possible-to-deprecate-an-exception-class
+    def __init__(self, msg):
+        super().__init__(msg)
+
+
+class OPAuthenticationException(OPNotSignedInException):
+    # TODO: inherit from OPBaseException once
+    # OPNotSignedInException removed
+    """
+    Exception indicating a problem with authentication-related
+    parameters provided by the caller
+    """
+
     def __init__(self, msg):
         super().__init__(msg)
 

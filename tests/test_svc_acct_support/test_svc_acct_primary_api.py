@@ -16,6 +16,7 @@ from pyonepassword import OP
 from pyonepassword.api.descriptor_types import OPVaultDescriptorList
 from pyonepassword.api.exceptions import (
     OPItemGetException,
+    OPRevokedServiceAcctTokenException,
     OPSvcAccountCommandNotSupportedException
 )
 from pyonepassword.api.object_types import OPLoginItem
@@ -73,6 +74,24 @@ def test_svc_acct_item_get_025(signed_in_op_svc_acct: OP):
     # unauthorized vault
     vault = "Local"
     with pytest.raises(OPItemGetException):
+        signed_in_op_svc_acct.item_get(item_name, vault=vault)
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+@pytest.mark.usefixtures("setup_svc_account_revoked_env")
+def test_svc_acct_item_get_027(signed_in_op_svc_acct: OP):
+    """
+    Service account command test: "op item get"
+
+    Set revoked service account token via fixture
+    call OP.item_get() with appropriate arguments
+
+    Verify the call fails with OPRevokedServiceAcctTokenException
+    """
+    item_name = "Example Login 1"
+    vault = "Test Data"
+
+    with pytest.raises(OPRevokedServiceAcctTokenException):
         signed_in_op_svc_acct.item_get(item_name, vault=vault)
 
 

@@ -60,7 +60,7 @@ class OPCmdFailedException(_OPCalledProcessException):
         return cls(ope.err_output, ope.returncode)
 
 
-class OPCLIPanicException(OPBaseException):
+class OPCLIPanicException(_OPCalledProcessException):
     """
     Occasionally we're able to trigger a panic in the go runtime when executing 'op'
 
@@ -72,9 +72,7 @@ class OPCLIPanicException(OPBaseException):
     MSG = "1Password CLI command crashed"
 
     def __init__(self, stderr_out: str, returncode: int, argv: List[str]):
-        super().__init__(self.MSG)
-        self.err_output = stderr_out
-        self.returncode = returncode
+        super().__init__(stderr_out, returncode)
         self.argv = list(argv)
 
 

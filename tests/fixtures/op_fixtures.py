@@ -151,19 +151,6 @@ def _setup_svc_acct_env(resp_dir_path=None):
     os.environ["LOG_OP_ERR"] = "1"
 
 
-def _setup_svc_acct_corrupt_env():
-    svc_account_token = os.environ["PYTEST_SVC_ACCT_TOKEN"]
-    os.environ["OP_SERVICE_ACCOUNT_TOKEN"] = svc_account_token
-    # don't set MOCK_OP_RESPONSE_DIRECTORY
-    # if we're using MOCK_OP_STATE_DIR
-    if not os.environ.get("MOCK_OP_STATE_DIR"):
-        os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(
-            SVC_ACCT_CORRUPT_RESP_DIRECTORY_PATH)
-
-    os.environ["MOCK_OP_SIGNIN_SUCCEED"] = "1"
-    os.environ["LOG_OP_ERR"] = "1"
-
-
 @fixture
 def setup_stateful_item_delete_multiple():
 
@@ -246,7 +233,7 @@ def setup_svc_acct_env():
 
 @fixture
 def setup_svc_acct_corrupt_env():
-    _setup_svc_acct_corrupt_env()
+    _setup_svc_acct_env(resp_dir_path=SVC_ACCT_CORRUPT_RESP_DIRECTORY_PATH)
 
 
 @fixture

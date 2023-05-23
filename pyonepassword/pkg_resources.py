@@ -14,7 +14,7 @@ def data_location_as_path(package, sub_path) -> Path:
     # joinpath() returns a Traversable
     # to turn it into Path we first turn it into a string
     if not isinstance(sub_path, str):
-        sub_path = str(sub_path)
+        sub_path = str(sub_path)  # pragma: no coverage
     _data_path = pkgfiles(package).joinpath(sub_path)
     _data_path_str = str(_data_path)
     data_path = Path(_data_path_str)

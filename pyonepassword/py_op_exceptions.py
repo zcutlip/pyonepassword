@@ -7,7 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, List, Optional
 
 if TYPE_CHECKING:
-    from .op_items._item_list import OPItemList
+    from .op_items._item_list import OPItemList  # pragma: no coverage
 
 
 class OPBaseException(Exception):
@@ -26,7 +26,7 @@ class _OPCalledProcessException(OPBaseException):
     MSG: Optional[str] = None
 
     def __init__(self, stderr_out, returncode):
-        if not self.MSG:
+        if not self.MSG:  # pragma: no coverage
             raise Exception(
                 "subclass _OPCalledProcessException and override MSG")
         super().__init__(self.MSG)
@@ -209,7 +209,7 @@ class OPWhoAmiException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
-class OPMalformedSvcAcctTokenException(OPCmdFailedException):
+class OPMalformedSvcAcctTokenException(OPCmdFailedException):  # pragma: no coverage
     # Although raised from OP._whoami(), this shouldn't extend OPWhoAmiException
     # callers need to be able to catch OPWhoAmiException independently of this
     # exception

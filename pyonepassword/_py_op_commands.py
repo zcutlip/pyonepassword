@@ -89,14 +89,25 @@ class _OPCommandInterface(_OPCLIExecute):
         # False -> ExistingAuthFlag.NONE, True -> ExistingAuthFlag.AVAILABLE
         existing_auth = ExistingAuthEnum(existing_auth)
 
+        # part of exception message in case incompatible authentication parameters
+        # are provided
+        auth_pref_source = "preference passed as argument"
         if self.svc_account_env_var_set():
             # - 'op' won't prompt for authentication of OP_SERVICE_ACCOUNT_TOKEN is set
             # - Even if we explicitly call signin and succeed, it ignores that authentication
             # so we need to suppress any path that tries to or expects to authenticate
             if existing_auth != EXISTING_AUTH_REQD:
+                auth_pref_source = "preference upgraded due to service account environment variable"
                 self.logger.info(
                     f"{self.OP_SVC_ACCOUNT_ENV_VAR} was set. Upgrading existing auth flag to REQUIRED")
                 existing_auth = EXISTING_AUTH_REQD
+
+        if existing_auth == EXISTING_AUTH_REQD and password is not None:
+            # if a password is passed in but existing_auth is required, caller may be confused:
+            # - intentionally passed in incompatible options
+            # - possibly has OP_SERVICE_ACCOUNT_TOKEN set accidentally
+            msg = f"Password argument passed but EXISTING_AUTH_REQD flag is set. flag source: {auth_pref_source}"
+            raise OPAuthenticationException(msg)
 
         self.op_path = op_path
         self._account_identifier = account

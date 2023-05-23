@@ -34,7 +34,7 @@ class _OPCalledProcessException(OPBaseException):
         self.returncode = returncode
 
 
-class OPCmdFailedException(OPBaseException):
+class OPCmdFailedException(_OPCalledProcessException):
     """
     Generic Exception class for when an `op` command fails.
 
@@ -53,9 +53,7 @@ class OPCmdFailedException(OPBaseException):
     MSG = "'op' command failed"
 
     def __init__(self, stderr_out, returncode):
-        super().__init__(self.MSG)
-        self.err_output = stderr_out
-        self.returncode = returncode
+        super().__init__(stderr_out, returncode)
 
     @classmethod
     def from_opexception(cls, ope: OPCmdFailedException):

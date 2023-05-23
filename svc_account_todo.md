@@ -25,7 +25,9 @@ github issue: [38](https://github.com/zcutlip/pyonepassword/issues/38)
   - [x] System for checking if an operation and its options are/are not supported *before* executing the command
     - [x] This is done via `OPSvcAcctSupportRegistry` and the JSON registry under `pyonepassword/data/svc_acct_commands`
 - [ ] proper behavior if caller to `OP()` provides a password or other parameter not compatible with service accounts
-  - [ ] Probably raise an exception since caller may be confused about proper API use, or not realize they have a service account token set
+  - [x] Probably raise an exception since caller may be confused about proper API use, or not realize they have a service account token set
+    * Now raising OPAuthenticationException if existing_auth == EXISTING_AUTH_REQD and password != None
+  - [ ] Test above behavior
 - [ ] Document service account support
   - [x] API docstrings
   - [ ] README or other .md doc

@@ -107,6 +107,7 @@ class _OPCommandInterface(_OPCLIExecute):
             # - intentionally passed in incompatible options
             # - possibly has OP_SERVICE_ACCOUNT_TOKEN set accidentally
             msg = f"Password argument passed but EXISTING_AUTH_REQD flag is set. flag source: {auth_pref_source}"
+            self.logger.error(msg)
             raise OPAuthenticationException(msg)
 
         self.op_path = op_path

@@ -137,14 +137,15 @@ def _setup_unauth_env():
     os.environ["LOG_OP_ERR"] = "1"
 
 
-def _setup_svc_acct_env():
+def _setup_svc_acct_env(resp_dir_path=None):
+    if not resp_dir_path:
+        resp_dir_path = SVC_ACCT_RESP_DIRECTORY_PATH
     svc_account_token = os.environ["PYTEST_SVC_ACCT_TOKEN"]
     os.environ["OP_SERVICE_ACCOUNT_TOKEN"] = svc_account_token
     # don't set MOCK_OP_RESPONSE_DIRECTORY
     # if we're using MOCK_OP_STATE_DIR
     if not os.environ.get("MOCK_OP_STATE_DIR"):
-        os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(
-            SVC_ACCT_RESP_DIRECTORY_PATH)
+        os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(resp_dir_path)
 
     os.environ["MOCK_OP_SIGNIN_SUCCEED"] = "1"
     os.environ["LOG_OP_ERR"] = "1"

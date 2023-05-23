@@ -18,6 +18,7 @@ from ._svc_account import (
 from .account import OPAccount, OPAccountList
 from .op_cli_version import DOCUMENT_BYTES_BUG_VERSION, OPCLIVersion
 from .py_op_exceptions import (
+    OPAuthenticationException,
     OPCmdFailedException,
     OPDocumentDeleteException,
     OPDocumentGetException,
@@ -28,7 +29,6 @@ from .py_op_exceptions import (
     OPItemGetException,
     OPItemListException,
     OPMalformedSvcAcctTokenException,
-    OPNotSignedInException,
     OPSigninException,
     OPUnknownAccountException,
     OPUserGetException,
@@ -249,7 +249,7 @@ class _OPCommandInterface(_OPCLIExecute):
             if existing_auth == EXISTING_AUTH_REQD:
                 # we were told to only use existing authentication but verificaiton failed
                 # this is a hard error
-                raise OPNotSignedInException(
+                raise OPAuthenticationException(
                     "Existing authentication specified as required, but could not be verified.")
 
             # we couldn't verify being signed in (or weren't told to try)
@@ -330,7 +330,7 @@ class _OPCommandInterface(_OPCLIExecute):
             # - we were told not to let 'op' prompt for a password, and
             # - biometric is not enabled
             # so we can't sign in
-            raise OPNotSignedInException(
+            raise OPAuthenticationException(
                 "No existing session and no password provided.")
         signin_argv = _OPArgv.normal_signin_argv(
             self.op_path, account=self._account_identifier)
@@ -377,7 +377,7 @@ class _OPCommandInterface(_OPCLIExecute):
         #   operation
         # - this adds roughly 20% overhead (as measured by the full suite of pytest tests)
         if cls._auth_expired(op_path, account):
-            raise OPNotSignedInException(
+            raise OPAuthenticationException(
                 "Authentication has expired")  # pragma: no cover
 
         if cls.svc_account_env_var_set():

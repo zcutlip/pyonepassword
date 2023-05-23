@@ -22,7 +22,7 @@ from pyonepassword.api.object_types import OPLoginItem
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("setup_svc_acct_env")
-def test_svc_acct_item_get_01(signed_in_op: OP):
+def test_svc_acct_item_get_010(signed_in_op_svc_acct: OP):
     """
     Service account command test: "op item get --vault"
 
@@ -34,14 +34,14 @@ def test_svc_acct_item_get_01(signed_in_op: OP):
     item_name = "Example Login 1"
     vault = "Test Data"
 
-    result = signed_in_op.item_get(item_name, vault=vault)
+    result = signed_in_op_svc_acct.item_get(item_name, vault=vault)
 
     assert isinstance(result, OPLoginItem)
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("setup_svc_acct_env")
-def test_svc_acct_item_get_02(signed_in_op: OP):
+def test_svc_acct_item_get_020(signed_in_op_svc_acct: OP):
     """
     Service account command test: "op item get"
 
@@ -54,21 +54,21 @@ def test_svc_acct_item_get_02(signed_in_op: OP):
     """
     item_name = "Example Login 1"
     with pytest.raises(OPSvcAccountCommandNotSupportedException):
-        signed_in_op.item_get(item_name)
+        signed_in_op_svc_acct.item_get(item_name)
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("setup_svc_acct_env")
-def test_svc_acct_item_get_03(signed_in_op: OP):
+def test_svc_acct_vault_list_030(signed_in_op_svc_acct: OP):
     """
     """
-    result = signed_in_op.vault_list()
+    result = signed_in_op_svc_acct.vault_list()
     assert isinstance(result, OPVaultDescriptorList)
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("setup_svc_acct_env")
-def test_svc_acct_item_get_04(signed_in_op: OP):
+def test_svc_acct_vault_list_040(signed_in_op_svc_acct: OP):
     """
     Service account command test: "op vault list --group 'Team Members'"
 
@@ -82,7 +82,7 @@ def test_svc_acct_item_get_04(signed_in_op: OP):
     group = "Team Members"
 
     with pytest.raises(OPSvcAccountCommandNotSupportedException):
-        signed_in_op.vault_list(group_name_or_id=group)
+        signed_in_op_svc_acct.vault_list(group_name_or_id=group)
 
 
 def test_svc_account_primary_api_docstrings():

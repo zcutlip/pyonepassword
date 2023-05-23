@@ -45,6 +45,7 @@ from .paths import (
     RESP_DIRECTORY_PATH,
     SVC_ACCT_CORRUPT_RESP_DIRECTORY_PATH,
     SVC_ACCT_RESP_DIRECTORY_PATH,
+    SVC_ACCT_REVOKED_RESP_DIRECTORY_PATH,
     UNAUTH_RESP_DIRECTORY_PATH
 )
 from .platform_support import HOME_ENV_VAR
@@ -234,6 +235,11 @@ def setup_svc_acct_env():
 @fixture
 def setup_svc_acct_corrupt_env():
     _setup_svc_acct_env(resp_dir_path=SVC_ACCT_CORRUPT_RESP_DIRECTORY_PATH)
+
+
+@fixture
+def setup_svc_account_revoked_env():
+    _setup_svc_acct_env(resp_dir_path=SVC_ACCT_REVOKED_RESP_DIRECTORY_PATH)
 
 
 @fixture

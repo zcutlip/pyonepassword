@@ -26,4 +26,8 @@ github issue: [38](https://github.com/zcutlip/pyonepassword/issues/38)
     - [x] This is done via `OPSvcAcctSupportRegistry` and the JSON registry under `pyonepassword/data/svc_acct_commands`
 - [ ] proper behavior if caller to `OP()` provides a password or other parameter not compatible with service accounts
   - [ ] Probably raise an exception since caller may be confused about proper API use, or not realize they have a service account token set
+- [ ] Document service account support
+  - [x] API docstrings
+  - [ ] README or other .md doc
+  - [ ] example code in `examples`
 - [ ] delete this list when everything above is done

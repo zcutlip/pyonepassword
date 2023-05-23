@@ -291,6 +291,12 @@ def signed_in_op():
 
 
 @fixture
+def signed_in_op_svc_acct():
+    op = _get_signed_in_op(account_id=None, skip_env=True)
+    return op
+
+
+@fixture
 def expected_data():
     data = ExpectedData()
     return data

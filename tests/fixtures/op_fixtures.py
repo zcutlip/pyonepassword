@@ -286,7 +286,7 @@ def setup_op_sess_var_unauth_env(setup_unauth_op_env):
 
 @fixture
 def signed_in_op():
-    op = _get_signed_in_op(ACCOUNT_ID)
+    op = _get_signed_in_op(account_id=ACCOUNT_ID)
     return op
 
 

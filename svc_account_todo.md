@@ -15,7 +15,7 @@ github issue: [38](https://github.com/zcutlip/pyonepassword/issues/38)
   - [x] service account token is valid
     * This is done in `test_svc_acct_support/test_svc_acct_primary_api.py`
   - [ ] simulate a service account token having been revoked
-  - [ ] simulate a valid service account token, but non-permitted vault
+  - [x] simulate a valid service account token, but non-permitted vault
 - [x] raise meaningful exception if caller attempts an operation not supported by service accounts
   * supported/unsupported operations break down into the following categories:
     * operation is supported unconditionally, e.g., `op item list`

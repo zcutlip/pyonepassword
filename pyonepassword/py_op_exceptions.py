@@ -4,7 +4,7 @@ TODO: Move other exception classes here
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, List, Optional
 
 if TYPE_CHECKING:
     from .op_items._item_list import OPItemList
@@ -23,7 +23,7 @@ class _OPCalledProcessException(OPBaseException):
 
     Override this class and set MSG
     """
-    MSG = None
+    MSG: Optional[str] = None
 
     def __init__(self, stderr_out, returncode):
         if not self.MSG:

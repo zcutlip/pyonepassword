@@ -84,7 +84,7 @@ class OPCLIVersion:
     def __str__(self):
         beta_part = None
         if self.is_beta:
-            beta_part = f"-beta.{self._beta_num}"
+            beta_part = f"-beta.{self._beta_num:02d}"
         _str = ".".join([str(i) for i in self._parts])
         if beta_part:
             _str += beta_part

@@ -42,9 +42,13 @@ class OPCLIVersion:
         beta_num = None
         match = re.match(regex, version_string)
         if match:
+            # get "-beta.01"
             beta_string = match.groups()[0]
+            # strip -beta.01 from the end of version_string, leaving "2.18.0"
             version_string = re.sub(beta_string, '', version_string)
+            # extract '01' from '-beta.01'
             beta_num = beta_string.split(".")[1]
+            # convert beta num to an int
             beta_num = int(beta_num)
         return version_string, beta_num
 

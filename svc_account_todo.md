@@ -32,4 +32,5 @@ github issue: [38](https://github.com/zcutlip/pyonepassword/issues/38)
   - [x] API docstrings
   - [ ] README or other .md doc
   - [ ] example code in `examples`
+- [ ] Minimum version check
 - [ ] delete this list when everything above is done

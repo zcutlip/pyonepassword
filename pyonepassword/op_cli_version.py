@@ -43,8 +43,8 @@ class OPCLIVersion:
         match = re.match(regex, version_string)
         if match:
             beta_string = match.groups()[0]
-            version_string = version_string.rstrip(beta_string)
-            beta_num = beta_string.lstrip("-beta.")
+            version_string = re.sub(beta_string, '', version_string)
+            beta_num = beta_string.split(".")[1]
             beta_num = int(beta_num)
         return version_string, beta_num
 

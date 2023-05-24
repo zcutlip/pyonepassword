@@ -16,7 +16,11 @@ from ._svc_account import (
     OPSvcAccountCommandNotSupportedException
 )
 from .account import OPAccount, OPAccountList
-from .op_cli_version import DOCUMENT_BYTES_BUG_VERSION, OPCLIVersion
+from .op_cli_version import (
+    DOCUMENT_BYTES_BUG_VERSION,
+    MINIMUM_SERVICE_ACCOUNT_VERSION,
+    OPCLIVersion
+)
 from .py_op_exceptions import (
     OPAuthenticationException,
     OPCmdFailedException,
@@ -84,6 +88,18 @@ class _OPCommandInterface(_OPCLIExecute):
 
         self.vault = vault
         self.logger = logger
+        self.op_path = op_path
+        self._account_identifier = account
+        self._signed_in_account: OPAccount = None
+
+        self._op_config: OPCLIConfig = None
+        self._cli_version: OPCLIVersion = None
+        self._account_list: OPAccountList = None
+        self._uses_bio: bool = False
+        self._sess_var: str = None
+        # gathering facts will attempt to set the above instance variables
+        # that got initialized to None or False
+        self._gather_facts()
 
         # Coerce existing_auth to an Enum in case it was passed in as a legacy bool
         # False -> ExistingAuthFlag.NONE, True -> ExistingAuthFlag.AVAILABLE
@@ -96,6 +112,9 @@ class _OPCommandInterface(_OPCLIExecute):
             # - 'op' won't prompt for authentication of OP_SERVICE_ACCOUNT_TOKEN is set
             # - Even if we explicitly call signin and succeed, it ignores that authentication
             # so we need to suppress any path that tries to or expects to authenticate
+            if self._cli_version < MINIMUM_SERVICE_ACCOUNT_VERSION:
+                raise OPAuthenticationException(
+                    f"Version {self._cli_version} not supported with service accounts. Minimum version: {MINIMUM_SERVICE_ACCOUNT_VERSION}")
             if existing_auth != EXISTING_AUTH_REQD:
                 auth_pref_source = "preference upgraded due to service account environment variable"
                 self.logger.info(
@@ -109,21 +128,6 @@ class _OPCommandInterface(_OPCLIExecute):
             msg = f"Password argument passed but EXISTING_AUTH_REQD flag is set. flag source: {auth_pref_source}"
             self.logger.error(msg)
             raise OPAuthenticationException(msg)
-
-        self.op_path = op_path
-        self._account_identifier = account
-
-        self._op_config: OPCLIConfig = None
-        self._cli_version: OPCLIVersion = None
-        self._account_list: OPAccountList = None
-        self._uses_bio: bool = False
-        self._sess_var: str = None
-
-        self._signed_in_account: OPAccount = None
-
-        # gathering facts will attempt to set the above instance variables
-        # that got initialized to None or False
-        self._gather_facts()
 
         # So far everything above has been fairly lightweight, with no remote
         # contact to the 1Password account.

@@ -10,11 +10,11 @@ from .pkg_resources import data_location_as_path
 OptionalStrList = Optional[List[str]]
 
 
-class OPSvcAccountCommandNotSupportedException(Exception):
+class OPSvcAcctCommandNotSupportedException(Exception):
     pass
 
 
-class OPSvcAccountSupportedEnum(enum.IntEnum):
+class OPSvcAcctSupportedEnum(enum.IntEnum):
     NOT_VALIDATED = -1
     SUPPORTED = 0  # the command is supported by service accounts as-is
     INCOMPAT_OPTIONS = 1  # the command is supported by service accounts,
@@ -22,14 +22,14 @@ class OPSvcAccountSupportedEnum(enum.IntEnum):
     NOT_SUPPORTED = 2  # the command is not supported by service accounts
 
 
-SVC_ACCT_SUPPORTED = OPSvcAccountSupportedEnum.SUPPORTED
-SVC_ACCT_INCOMPAT_OPTIONS = OPSvcAccountSupportedEnum.INCOMPAT_OPTIONS
-SVC_ACCT_CMD_NOT_SUPPORTED = OPSvcAccountSupportedEnum.NOT_SUPPORTED
-_SVC_ACCT_CMD_NOT_VALIDATED = OPSvcAccountSupportedEnum.NOT_VALIDATED
+SVC_ACCT_SUPPORTED = OPSvcAcctSupportedEnum.SUPPORTED
+SVC_ACCT_INCOMPAT_OPTIONS = OPSvcAcctSupportedEnum.INCOMPAT_OPTIONS
+SVC_ACCT_CMD_NOT_SUPPORTED = OPSvcAcctSupportedEnum.NOT_SUPPORTED
+_SVC_ACCT_CMD_NOT_VALIDATED = OPSvcAcctSupportedEnum.NOT_VALIDATED
 
 
-class OPSvcAccountSupportCode(NamedTuple):
-    code: OPSvcAccountSupportedEnum
+class OPSvcAcctSupportCode(NamedTuple):
+    code: OPSvcAcctSupportedEnum
     msg: Optional[str]
 
 
@@ -104,7 +104,7 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
         cmd = cmd_spec.command_name
         self._supported_commands[cmd] = cmd_spec
 
-    def command_supported(self, _argv: List[str]) -> OPSvcAccountSupportCode:
+    def command_supported(self, _argv: List[str]) -> OPSvcAcctSupportCode:
         # This function is much more complex than I'd like, but most of the complexity is
         # around building necessary context for a meaningful exception message
 
@@ -231,6 +231,6 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
             # something's gone wrong if we reach this point
             raise Exception("Failed to validate service account compatibility")
 
-        supported = OPSvcAccountSupportCode(_support_code, _support_msg)
+        supported = OPSvcAcctSupportCode(_support_code, _support_msg)
 
         return supported

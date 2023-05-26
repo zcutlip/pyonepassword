@@ -6,7 +6,7 @@ from .py_op_exceptions import (
     OPCLIPanicException,
     OPCmdFailedException,
     OPNotFoundException,
-    OPRevokedServiceAcctTokenException
+    OPRevokedSvcAcctTokenException
 )
 
 # Mainly for use in automated testing
@@ -24,7 +24,7 @@ class _OPCLIExecute:
     MOCK_OP_ERR_EXIT = 255
     MOCK_OP_RESP_ERR_MSG = "Error looking up response"
     GO_RUNTIME_PANIC_MSG = "panic: runtime error:"
-    SVC_ACCOUNT_REVOKED_MSG = "The Service Account used in this integration has been deleted"
+    SVC_ACCT_REVOKED_MSG = "The Service Account used in this integration has been deleted"
     logger = logging.getLogger("_OPCLIExecute")
     logger.setLevel(logging.INFO)
 
@@ -78,11 +78,11 @@ class _OPCLIExecute:
                 elif cls.GO_RUNTIME_PANIC_MSG in stderr_output:
                     # If we made 'op' crash, raise a special exception
                     raise OPCLIPanicException(stderr_output, returncode, argv)
-                elif cls.SVC_ACCOUNT_REVOKED_MSG in stderr_output:
+                elif cls.SVC_ACCT_REVOKED_MSG in stderr_output:
                     # do this unconditionally without checking if we're authed as
                     # a service account
                     # in case caller is accidentally running with OP_SERVICE_ACCOUNT_TOKEN
-                    raise OPRevokedServiceAcctTokenException(
+                    raise OPRevokedSvcAcctTokenException(
                         stderr_output, returncode)
 
                 raise OPCmdFailedException(stderr_output, returncode) from err

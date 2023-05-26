@@ -1,7 +1,7 @@
 import shlex
 from typing import List, Optional, Union
 
-from ._svc_account import OPSvcAccountSupportCode, OPSvcAcctSupportRegistry
+from ._svc_account import OPSvcAcctSupportCode, OPSvcAcctSupportRegistry
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
 
@@ -64,7 +64,7 @@ class _OPArgv(list):
         cmd_str = shlex.join(self)
         return cmd_str
 
-    def svc_account_supported(self) -> OPSvcAccountSupportCode:
+    def svc_account_supported(self) -> OPSvcAcctSupportCode:
         # OPSvcAcctSupportRegistry is a singleton
         # so this is fine
         reg = OPSvcAcctSupportRegistry()

@@ -13,7 +13,7 @@ from ._svc_account import (
     SVC_ACCT_CMD_NOT_SUPPORTED,
     SVC_ACCT_INCOMPAT_OPTIONS,
     SVC_ACCT_SUPPORTED,
-    OPSvcAccountCommandNotSupportedException
+    OPSvcAcctCommandNotSupportedException
 )
 from .account import OPAccount, OPAccountList
 from .op_cli_version import (
@@ -410,7 +410,7 @@ class _OPCommandInterface(_OPCLIExecute):
             if err_msg:
                 if cls._should_log_op_errors():
                     cls.logger.error(err_msg)
-                raise OPSvcAccountCommandNotSupportedException(err_msg)
+                raise OPSvcAcctCommandNotSupportedException(err_msg)
 
         return cls._run(argv,
                         capture_stdout=capture_stdout,

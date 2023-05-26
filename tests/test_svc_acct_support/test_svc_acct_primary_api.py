@@ -16,8 +16,8 @@ from pyonepassword import OP
 from pyonepassword.api.descriptor_types import OPVaultDescriptorList
 from pyonepassword.api.exceptions import (
     OPItemGetException,
-    OPRevokedServiceAcctTokenException,
-    OPSvcAccountCommandNotSupportedException
+    OPRevokedSvcAcctTokenException,
+    OPSvcAcctCommandNotSupportedException
 )
 from pyonepassword.api.object_types import OPLoginItem
 
@@ -52,10 +52,10 @@ def test_svc_acct_item_get_020(signed_in_op_svc_acct: OP):
     Set service account token via fixture
     call OP.item_get() without required vault argument
 
-    Verify the call fails with OPSvcAccountCommandNotSupportedException
+    Verify the call fails with OPSvcAcctCommandNotSupportedException
     """
     item_name = "Example Login 1"
-    with pytest.raises(OPSvcAccountCommandNotSupportedException):
+    with pytest.raises(OPSvcAcctCommandNotSupportedException):
         signed_in_op_svc_acct.item_get(item_name)
 
 
@@ -86,12 +86,12 @@ def test_svc_acct_item_get_027(signed_in_op_svc_acct: OP):
     Set revoked service account token via fixture
     call OP.item_get() with appropriate arguments
 
-    Verify the call fails with OPRevokedServiceAcctTokenException
+    Verify the call fails with OPRevokedSvcAcctTokenException
     """
     item_name = "Example Login 1"
     vault = "Test Data"
 
-    with pytest.raises(OPRevokedServiceAcctTokenException):
+    with pytest.raises(OPRevokedSvcAcctTokenException):
         signed_in_op_svc_acct.item_get(item_name, vault=vault)
 
 
@@ -115,11 +115,11 @@ def test_svc_acct_vault_list_040(signed_in_op_svc_acct: OP):
     Set service account token via fixture
     call OP.vault_list() with the prohibited group argument
 
-    Verify the call fails with OPSvcAccountCommandNotSupportedException
+    Verify the call fails with OPSvcAcctCommandNotSupportedException
     """
     group = "Team Members"
 
-    with pytest.raises(OPSvcAccountCommandNotSupportedException):
+    with pytest.raises(OPSvcAcctCommandNotSupportedException):
         signed_in_op_svc_acct.vault_list(group_name_or_id=group)
 
 

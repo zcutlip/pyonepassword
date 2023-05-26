@@ -1,4 +1,4 @@
-from .._svc_account import OPSvcAccountCommandNotSupportedException
+from .._svc_account import OPSvcAcctCommandNotSupportedException
 from ..op_items._item_type_registry import OPUnknownItemTypeException
 from ..op_items.fields_sections._new_fields import OPNewTOTPUriException
 from ..op_items.fields_sections.item_section import (
@@ -36,7 +36,7 @@ from ..py_op_exceptions import (
     OPItemListException,
     OPNotFoundException,
     OPNotSignedInException,
-    OPRevokedServiceAcctTokenException,
+    OPRevokedSvcAcctTokenException,
     OPSigninException,
     OPSignoutException,
     OPUnknownAccountException,
@@ -78,10 +78,10 @@ __all__ = ["OPAuthenticationException",
            "OPNotSignedInException",
            "OPSectionCollisionException",
            "OPSectionNotFoundException",
-           "OPRevokedServiceAcctTokenException",
+           "OPRevokedSvcAcctTokenException",
            "OPSigninException",
            "OPSignoutException",
-           "OPSvcAccountCommandNotSupportedException",
+           "OPSvcAcctCommandNotSupportedException",
            "OPUnknownAccountException",
            "OPUnknownItemTypeException",
            "OPUserGetException",

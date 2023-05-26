@@ -209,7 +209,10 @@ class OPWhoAmiException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
-class OPMalformedSvcAcctTokenException(OPCmdFailedException):  # pragma: no coverage
+class OPCmdMalformedSvcAcctTokenException(OPCmdFailedException):  # pragma: no coverage
+    """
+    The 'op' CLI command failed to parse a service account token
+    """
     # Although raised from OP._whoami(), this shouldn't extend OPWhoAmiException
     # callers need to be able to catch OPWhoAmiException independently of this
     # exception

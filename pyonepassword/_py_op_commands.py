@@ -24,6 +24,7 @@ from .op_cli_version import (
 from .py_op_exceptions import (
     OPAuthenticationException,
     OPCmdFailedException,
+    OPCmdMalformedSvcAcctTokenException,
     OPDocumentDeleteException,
     OPDocumentGetException,
     OPGroupGetException,
@@ -32,7 +33,6 @@ from .py_op_exceptions import (
     OPItemDeleteException,
     OPItemGetException,
     OPItemListException,
-    OPMalformedSvcAcctTokenException,
     OPSigninException,
     OPUnknownAccountException,
     OPUserGetException,
@@ -509,7 +509,7 @@ class _OPCommandInterface(_OPCLIExecute):
             if cls.MALFORMED_SVC_ACCT_TEXT in ocfe.err_output:
                 # OP_SERVICE_ACCOUNT_TOKEN got set to something malformed
                 # so raise a specific exception for that
-                raise OPMalformedSvcAcctTokenException.from_opexception(
+                raise OPCmdMalformedSvcAcctTokenException.from_opexception(
                     ocfe)  # pragma: no cover
                 # Although we could simulate this for testing, the tests
                 # wouldn't be meaningful, because they wouldn't be tied to

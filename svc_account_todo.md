@@ -33,4 +33,8 @@ github issue: [38](https://github.com/zcutlip/pyonepassword/issues/38)
   - [ ] README or other .md doc
   - [ ] example code in `examples`
 - [x] Minimum version check
+- [ ] Name all service account related classes and other symbols consistently
+  * SvcAcct?
+  * SvcAccount?
+  * ServiceAcct?
 - [ ] delete this list when everything above is done

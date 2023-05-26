@@ -30,10 +30,10 @@ github issue: [38](https://github.com/zcutlip/pyonepassword/issues/38)
   - [x] Test above behavior
 - [ ] Document service account support
   - [x] API docstrings
-  - [ ] README or other .md doc
+  - [x] README or other .md doc
   - [ ] example code in `examples`
 - [x] Minimum version check
-- [ ] Name all service account related classes and other symbols consistently
+- [x] Name all service account related classes and other symbols consistently
   * SvcAcct?
   * SvcAccount?
   * ServiceAcct?

@@ -35,3 +35,56 @@ If you tell `op` which account to use via the `--account` flag, the identifier m
   - `EXISTING_AUTH_REQD`: Use existing authentication, failing if there isn't a valid session available
 - `password_prompt`: allow `1Password` to prompt interactively for the master password
   - If biometric is enabled, this has no effect
+
+## Service Accounts
+
+As of version 3.10.0 `pyonepassword` supports service accounts. You can read more about 1Password service accounts [here](https://developer.1password.com/docs/service-accounts).
+
+Using service accounts with `pyonepassword` is straightforward. In the simplest case, do one of the following:
+
+- set your `OP_SERVICE_ACCOUNT_TOKEN` environment variable outside of your Python environment
+- create an environment file protected with appropriate permissions and use the Python package `python-dotenv` to load it from within your script
+
+
+Having set your service account token, you should be able to create and use an `OP` object with no further authentication.
+
+There are a few restricitons to be aware of, however.
+
+- The minimum `op` CLI version supported with service accounts is 2.18.0-beta.01
+  - Any earlier version will cause an exception to be raised if `OP_SERVICE_ACCOUNT_TOKEN` is set
+- Certain `op` operations are either not allowed with service accounts or allowed with restrictions. See more below.
+- It is an error to pass the `password=` kwarg to `OP()` if a service account token is set
+
+### Service Account Supported Operations
+
+Operation support with service accounts breaks down into following four categories:
+
+- Supported
+- Supported with one or more required options (e.g., `--vault`)
+- Supported with one or more prohibited options
+- Not supported
+
+An example of a supported operation is `OP.item_list()`. This method works with service accounts without caveat.
+
+A supported operation requiring a specific option is `OP.item_get()` which requires the `vault=` kwarg to be specified.
+
+A supported option that prohibits specific options is `OP.vault_list()`. When authenticated as a service account, this operation cannot be used with the `group_name_or_id=` or `user_name_or_id=` kwargs
+
+Currently none of `pyonepassword`'s operations are strictly unsupported with service accounts.
+
+If the `OP_SERVICE_ACCOUNT_TOKEN` environment variable is set and an unsupported operation (or an operation with an unsupported set of options) is requested, an exception will be raised (more below).
+
+### Service Account-Related Exceptions
+
+There are a number of circumstances that result in exceptions specifically when a service account token is set. The are:
+
+- `OPAuthenticationException`:
+  - if the version of the `op` CLI command is less than the minimum supported version, currently 2.18.0-beta.01
+  - if a `password=` kwarg is provided, since sign-in authentication has no effect
+- `OPSvcAcctCommandNotSupportedException`:
+  - if an unsupported operation is requested
+  - if a supported operation is reqested that has unsatisfied option constraints
+- `OPCmdMalformedSvcAcctTokenException`:
+  - if the `op` command fails to decode a service account token
+- `OPRevokedSvcAcctTokenException`:
+  - if the `op` command reports the service account token has been revoked

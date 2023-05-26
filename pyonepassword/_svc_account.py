@@ -10,10 +10,6 @@ from .pkg_resources import data_location_as_path
 OptionalStrList = Optional[List[str]]
 
 
-class OPSvcAccountCmdCollisionException(Exception):
-    pass
-
-
 class OPSvcAccountCommandNotSupportedException(Exception):
     pass
 

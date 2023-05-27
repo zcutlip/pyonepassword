@@ -26,6 +26,7 @@ from pyonepassword.api.exceptions import \
 
 def do_pprint(obj):
     pprint(obj, sort_dicts=False, indent=2)
+    print("")
 
 
 def do_signin():
@@ -40,6 +41,7 @@ if __name__ == "__main__":
     op = do_signin()
     # vault_list on its own is pefectly fine
     vault_list = op.vault_list()
+    print("Vault list:")
     do_pprint(vault_list)
 
     try:

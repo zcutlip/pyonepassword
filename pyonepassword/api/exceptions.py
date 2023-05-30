@@ -1,3 +1,6 @@
+# needed so we can pass getattr() logic
+# through to module for deprecation warnings
+from .. import py_op_exceptions as __py_op_exceptions
 from .._svc_account import OPSvcAcctCommandNotSupportedException
 from ..op_items._item_type_registry import OPUnknownItemTypeException
 from ..op_items.fields_sections._new_fields import OPNewTOTPUriException
@@ -36,7 +39,6 @@ from ..py_op_exceptions import (
     OPItemGetException,
     OPItemListException,
     OPNotFoundException,
-    OPNotSignedInException,
     OPRevokedSvcAcctTokenException,
     OPSigninException,
     OPSignoutException,
@@ -77,7 +79,6 @@ __all__ = ["OPAuthenticationException",
            "OPNewLoginItemURLException",
            "OPNewTOTPUriException",
            "OPNotFoundException",
-           "OPNotSignedInException",
            "OPSectionCollisionException",
            "OPSectionNotFoundException",
            "OPRevokedSvcAcctTokenException",
@@ -90,3 +91,16 @@ __all__ = ["OPAuthenticationException",
            "OPUserListException",
            "OPVaultGetException",
            "OPVaultListException"]
+
+
+def __getattr__(name: str):
+    return getattr(__py_op_exceptions, name)
+
+    # if name in _deprecated_exceptions:
+    #     _deprecated_name = f"_{name}"
+    #     alternate = _deprecated_exceptions[name]
+    #     warnings.warn(
+    #         f"Exception class {name} is deprecated. Use {alternate}", category=FutureWarning)
+    #     return globals()[_deprecated_name]
+
+    # raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

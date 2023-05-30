@@ -270,7 +270,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
             # we couldn't verify being signed in (or weren't told to try)
             # let's try a normal sign-in
-            # _do_normal_signin() will raise OPNotSignedInException if
+            # _do_normal_signin() will raise OPAuthenticationException if
             # _uses_bio is false, no password given, and password prompt not allowed
             token = self._do_normal_signin(password, password_prompt)
             account = self._verify_signin(token=token)
@@ -283,7 +283,7 @@ class _OPCommandInterface(_OPCLIExecute):
         # has expired
         # it is primarily for the following two purposes
         # - avoid triggering an interactive prompt or GUI dialogue (if undesired) and hanging indefinitely
-        # - being able to raise OPNotSignedInException to the caller rather than a generic
+        # - being able to raise OPAuthenticationException to the caller rather than a generic
         #   "command failed" exception
         expired = False
 
@@ -384,7 +384,7 @@ class _OPCommandInterface(_OPCLIExecute):
                              decode: str = None,
                              env: Mapping = environ):
         # this somewhat of a hack to detect if authentication has expired
-        # so that we can raise OPNotSignedInException rather than the generic OPCmdFailedException
+        # so that we can raise OPAuthenticationException rather than the generic OPCmdFailedException
         # under the hood, it calls 'whoami' which will fail if not authenticated
         #
         # We need to remove this as soon as possible if a better way becomes available

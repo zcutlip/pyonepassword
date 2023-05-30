@@ -176,7 +176,7 @@ def do_signin():
         try:
             # no need to provide any authentication parameters if biometric is enabled
             op = OP()
-        except OPNotSignedInException:
+        except OPAuthenticationException:
             print("Uh oh! Sign-in failed")
             exit(-1)
     else:

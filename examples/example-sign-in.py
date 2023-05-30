@@ -13,7 +13,7 @@ if parent_path not in sys.path:
 # isort: split
 from pyonepassword import OP  # noqa: E402
 from pyonepassword.api.exceptions import (  # noqa: E402
-    OPNotSignedInException,
+    OPAuthenticationException,
     OPSigninException
 )
 
@@ -25,7 +25,7 @@ def do_signin():
         try:
             # no need to provide any authentication parameters if biometric is enabled
             op = OP()
-        except OPNotSignedInException:
+        except OPAuthenticationException:
             print("Uh oh! Sign-in failed")
             exit(-1)
     else:
@@ -47,7 +47,7 @@ def signin_existing_session():
     # if no session is found
     try:
         op = OP(use_existing_session=True, password_prompt=False)
-    except OPNotSignedInException:
+    except OPAuthenticationException:
         print("Uh oh! Sign-in failed")
         exit(-1)
     return op

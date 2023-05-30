@@ -93,9 +93,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         ------
         OPSigninException
             If 1Password sign-in fails for any reason.
-        OPNotSignedInException
+        OPAuthenticationException
             if:
-                - No session is available for reuse (or session reuse not requested), and
+                - No previous authentication (e.g., existing session or service account otken) is available
                 - no password provided,
                 - interactive password prompt is supressed, and
                 - biometric authenticaiotn is disabled

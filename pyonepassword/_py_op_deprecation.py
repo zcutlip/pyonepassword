@@ -27,9 +27,10 @@ class deprecated:  # pragma: no cover
 
         init = cls.__init__
 
-        def wrapped(*args, **kwargs):
-            warnings.warn(msg, category=FutureWarning)
-            return init(*args, **kwargs)
+        def wrapped(_self, *args, **kwargs):
+            if not getattr(_self, "_skip_drecation_warn", False):
+                warnings.warn(msg, category=FutureWarning)
+            return init(_self, *args, **kwargs)
         cls.__init__ = wrapped
 
         wrapped.__name__ = '__init__'

@@ -20,19 +20,15 @@ from pyonepassword.api.exceptions import \
     OPAuthenticationException  # noqa: E402
 
 
-def do_signin(vault=None, op_path="op", use_existing_session=False, account=None):
-    existing_auth = EXISTING_AUTH_AVAIL
-    if use_existing_session:
-        existing_auth = EXISTING_AUTH_REQD
-
+def do_signin(vault=None, op_path="op", existing_auth=EXISTING_AUTH_AVAIL, account=None, logger=None):
     # Let's check If biometric is enabled
     # If so, no need to provide a password
     uses_biometric = OP.uses_biometric(op_path=op_path)
     try:
         op = OP(vault=vault, op_path=op_path,
-                existing_auth=existing_auth, password_prompt=False, account=account)
+                existing_auth=existing_auth, password_prompt=False, account=account, logger=logger)
     except OPAuthenticationException as e:
-        if uses_biometric:
+        if uses_biometric or existing_auth == EXISTING_AUTH_REQD:
             raise e
         # If you've already signed in at least once, you don't need to provide all
         # account details on future sign-ins. Just master password

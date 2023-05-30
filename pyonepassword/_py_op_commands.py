@@ -92,8 +92,8 @@ class _OPCommandInterface(_OPCLIExecute):
         self._account_identifier = account
         self._signed_in_account: OPAccount = None
 
+        self._cli_version: OPCLIVersion
         self._op_config: OPCLIConfig = None
-        self._cli_version: OPCLIVersion = None
         self._account_list: OPAccountList = None
         self._uses_bio: bool = False
         self._sess_var: str = None

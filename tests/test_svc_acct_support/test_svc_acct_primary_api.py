@@ -137,8 +137,15 @@ def test_svc_account_primary_api_docstrings():
         r"Service Account Support.\s+-----------------------", re.DOTALL)
 
     # get all class and instance methods
-    api_method_dict = {fn_name: attr for fn_name, attr in vars(
-        OP).items() if inspect.isfunction(attr) or isinstance(attr, classmethod)}
+    op_vars = vars(OP)
+    api_method_dict = {}
+    for fn_name, attr in op_vars.items():
+        if isinstance(attr, classmethod):
+            # we should be able to use attr directly
+            # but for some reason this doesn't always have the proper __doc__
+            api_method_dict[fn_name] = getattr(OP, fn_name)
+        elif inspect.isfunction(attr):
+            api_method_dict[fn_name] = attr
 
     # filter out "private" methods
     api_method_dict = {fn_name: attr for fn_name,

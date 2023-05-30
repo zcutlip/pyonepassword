@@ -1017,6 +1017,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         Returns
         -------
         None
+
+        Service Account Support
+        -----------------------
+        Not supported
         """
 
         try:

@@ -8,7 +8,7 @@ parent_path = os.path.dirname(
     )
 )
 if parent_path not in sys.path:
-    sys.path.append(parent_path)
+    sys.path.insert(0, parent_path)
 
 # isort: split
 from pyonepassword import OP  # noqa: E402

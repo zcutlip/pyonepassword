@@ -276,6 +276,12 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    def forget_argv(cls, op_exe, account_shorthand):  # pragma: no cover
+        forget_args = [account_shorthand]
+        argv = cls(op_exe, "forget", forget_args)
+        return argv
+
+    @classmethod
     def item_list_argv(cls, op_exe, categories=[], include_archive=False, tags=[], vault=None):
         item_list_args = []
         if categories:

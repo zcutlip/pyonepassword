@@ -93,6 +93,13 @@ class OPSignoutException(OPCmdFailedException):  # pragma: no coverage
         super().__init__(stderr_out, returncode)
 
 
+class OPForgetException(OPCmdFailedException):  # pragma: no coverage
+    MSG = "1Password forget failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
+
 class OPItemGetException(OPCmdFailedException):
     MSG = "1Password 'get item' failed."
 

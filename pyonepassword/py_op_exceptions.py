@@ -4,7 +4,10 @@ TODO: Move other exception classes here
 """
 from __future__ import annotations
 
+import warnings
 from typing import TYPE_CHECKING, List, Optional
+
+from ._py_op_deprecation import deprecated
 
 if TYPE_CHECKING:
     from .op_items._item_list import OPItemList  # pragma: no coverage
@@ -234,12 +237,17 @@ class OPInvalidItemException(OPBaseException):
         super().__init__(msg)
 
 
+@deprecated("Use OPAuthenticationException")
 class OPNotSignedInException(OPBaseException):
-    # TODO: deprecate this class
-    # such that deprecation warning is generated
-    # which someone tries to catch it
-    # possibly here's an idea how:
-    # https://stackoverflow.com/questions/40545005/is-it-possible-to-deprecate-an-exception-class
+    """
+    DEPRECATION NOTE:
+    This exception class is deprecated in favor of OPAuthenticationException
+    and will be removed in a future version
+
+    Exception indicating the `op` command is not authenticated or is unable to complete
+    authentication
+    """
+
     def __init__(self, msg):
         super().__init__(msg)
 
@@ -248,9 +256,10 @@ class OPAuthenticationException(OPNotSignedInException):
     # TODO: inherit from OPBaseException once
     # OPNotSignedInException removed
     """
-    Exception indicating a problem with authentication-related
-    parameters provided by the caller
+    Exception indicating the `op` command is not authenticated or is unable to complete
+    authentication
     """
+    _skip_drecation_warn = True
 
     def __init__(self, msg):
         super().__init__(msg)
@@ -282,3 +291,27 @@ class OPInvalidFieldException(OPBaseException):
 class OPUnknownAccountException(OPBaseException):
     def __init__(self, msg):
         super().__init__(msg)
+
+
+_deprecated_exceptions = {
+    OPNotSignedInException.__name__: OPAuthenticationException.__name__
+}
+
+# replace OPNotSignedInException with _OPNotSignedInException
+# in order to trigger deprecation warnings
+_OPNotSignedInException = OPNotSignedInException
+del OPNotSignedInException
+
+
+def __getattr__(name: str):
+    # module level __getattr__() is valid as of python 3.7, pep-562
+    # handling deprecation warnings on import is a key use-case
+    # https://peps.python.org/pep-0562/
+    if name in _deprecated_exceptions:
+        _deprecated_name = f"_{name}"
+        alternate = _deprecated_exceptions[name]
+        warnings.warn(
+            f"Exception class {name} is deprecated. Use {alternate}", category=FutureWarning)
+        return globals()[_deprecated_name]
+
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

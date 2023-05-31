@@ -7,7 +7,7 @@ from __future__ import annotations
 import pytest
 
 from pyonepassword import OP
-from pyonepassword.api.exceptions import OPNotSignedInException
+from pyonepassword.api.exceptions import OPAuthenticationException
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
@@ -52,5 +52,5 @@ def test_no_bio_no_account_02(console_logger):
       - biometric is not enabled
       - no password provided
     """
-    with pytest.raises(OPNotSignedInException):
+    with pytest.raises(OPAuthenticationException):
         OP(op_path='mock-op', password_prompt=False, logger=console_logger)

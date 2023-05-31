@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "version": 1,
+    "command_name": "vault"
+  },
+  "subcommands": {
+    "get": {
+      "has_arg": true,
+      "required_options": [],
+      "prohibited_options": []
+    },
+    "list": {
+      "has_arg": false,
+      "required_options": [],
+      "prohibited_options": [
+        "--group",
+        "--user"
+      ]
+    }
+  }
+}

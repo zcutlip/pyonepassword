@@ -1,0 +1,18 @@
+panic: runtime error: invalid memory address or nil pointer dereference
+[signal SIGSEGV: segmentation violation code=0x2 addr=0x0 pc=0x102a1ff44]
+
+goroutine 1 [running]:
+go.1password.io/op/core/sof.UserManagedServiceAccountInfoFromSAToken({0x14000044199?, 0x102742554?})
+	/Users/iosdev/GitLab_CI_Builds/QNhFsVqy/0/dev/b5/op/core/sof/service_account.go:196 +0x24
+go.1password.io/op/op-cli/command.(*whoamiCommand).Run(0x140003f9f60)
+	/Users/iosdev/GitLab_CI_Builds/QNhFsVqy/0/dev/b5/op/op-cli/command/whoami.go:53 +0x30
+go.1password.io/op/op-cli/command.Bind.func3(0x1400040ab00?, {0x140002dba00?, 0x0?, 0x2?})
+	/Users/iosdev/GitLab_CI_Builds/QNhFsVqy/0/dev/b5/op/op-cli/command/command.go:71 +0x54
+github.com/spf13/cobra.(*Command).execute(0x1400040ab00, {0x140002db9e0, 0x2, 0x2})
+	/Users/iosdev/GitLab_CI_Builds/QNhFsVqy/0/dev/b5/op/vendor/github.com/spf13/cobra/command.go:844 +0x4c4
+github.com/spf13/cobra.(*Command).ExecuteC(0x1038ecc00)
+	/Users/iosdev/GitLab_CI_Builds/QNhFsVqy/0/dev/b5/op/vendor/github.com/spf13/cobra/command.go:952 +0x34c
+go.1password.io/op/op-cli/command.Execute()
+	/Users/iosdev/GitLab_CI_Builds/QNhFsVqy/0/dev/b5/op/op-cli/command/root.go:331 +0x64
+main.main()
+	/Users/iosdev/GitLab_CI_Builds/QNhFsVqy/0/dev/b5/op/op-cli/main.go:15 +0x34

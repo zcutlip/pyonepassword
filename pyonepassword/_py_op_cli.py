@@ -2,7 +2,12 @@ import logging
 import subprocess
 from os import environ
 
-from .py_op_exceptions import OPCmdFailedException, OPNotFoundException
+from .py_op_exceptions import (
+    OPCLIPanicException,
+    OPCmdFailedException,
+    OPNotFoundException,
+    OPRevokedSvcAcctTokenException
+)
 
 # Mainly for use in automated testing
 LOG_OP_ERR_ENV_NAME = "LOG_OP_ERR"
@@ -18,7 +23,8 @@ class _OPCLIExecute:
     # we need to detect if a command failure was actually a mock-op failure
     MOCK_OP_ERR_EXIT = 255
     MOCK_OP_RESP_ERR_MSG = "Error looking up response"
-
+    GO_RUNTIME_PANIC_MSG = "panic: runtime error:"
+    SVC_ACCT_REVOKED_MSG = "The Service Account used in this integration has been deleted"
     logger = logging.getLogger("_OPCLIExecute")
     logger.setLevel(logging.INFO)
 
@@ -29,6 +35,13 @@ class _OPCLIExecute:
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
+
+    @classmethod
+    def _should_log_op_errors(cls) -> bool:
+        should_log = False
+        if environ.get(LOG_OP_ERR_ENV_NAME) == "1":
+            should_log = True
+        return should_log
 
     @classmethod
     def _run_raw(cls, argv, input_string=None, capture_stdout=False, ignore_error=False, env=environ):
@@ -49,8 +62,8 @@ class _OPCLIExecute:
                 _ran.check_returncode()
             except subprocess.CalledProcessError as err:
                 stderr_output = stderr.decode("utf-8").rstrip()
-                if environ.get(LOG_OP_ERR_ENV_NAME) == "1":
-                    cls.logger.error(stderr_output)
+                if cls._should_log_op_errors():
+                    cls.logger.error(f"'op' command error: {stderr_output}")
                 # HACK:
                 # mock-op returns -1 (i.e., 255) if it can't find a response
                 # but op (currently) only ever returns 1 on error
@@ -62,6 +75,16 @@ class _OPCLIExecute:
                 if (returncode >= cls.MOCK_OP_ERR_EXIT and
                         cls.MOCK_OP_RESP_ERR_MSG in stderr_output):  # pragma: no coverage
                     raise err
+                elif cls.GO_RUNTIME_PANIC_MSG in stderr_output:
+                    # If we made 'op' crash, raise a special exception
+                    raise OPCLIPanicException(stderr_output, returncode, argv)
+                elif cls.SVC_ACCT_REVOKED_MSG in stderr_output:
+                    # do this unconditionally without checking if we're authed as
+                    # a service account
+                    # in case caller is accidentally running with OP_SERVICE_ACCOUNT_TOKEN
+                    raise OPRevokedSvcAcctTokenException(
+                        stderr_output, returncode)
+
                 raise OPCmdFailedException(stderr_output, returncode) from err
 
         return (stdout, stderr, returncode)

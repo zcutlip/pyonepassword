@@ -4,10 +4,13 @@ TODO: Move other exception classes here
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+import warnings
+from typing import TYPE_CHECKING, List, Optional
+
+from ._py_op_deprecation import deprecated
 
 if TYPE_CHECKING:
-    from .op_items._item_list import OPItemList
+    from .op_items._item_list import OPItemList  # pragma: no coverage
 
 
 class OPBaseException(Exception):
@@ -16,7 +19,25 @@ class OPBaseException(Exception):
         super().__init__(msg)
 
 
-class OPCmdFailedException(OPBaseException):
+class _OPCalledProcessException(OPBaseException):
+    """
+    Base class to represent 'op' command failure.
+    No code should handle this exception directly.
+
+    Override this class and set MSG
+    """
+    MSG: Optional[str] = None
+
+    def __init__(self, stderr_out, returncode):
+        if not self.MSG:  # pragma: no coverage
+            raise Exception(
+                "subclass _OPCalledProcessException and override MSG")
+        super().__init__(self.MSG)
+        self.err_output = stderr_out
+        self.returncode = returncode
+
+
+class OPCmdFailedException(_OPCalledProcessException):
     """
     Generic Exception class for when an `op` command fails.
 
@@ -35,13 +56,27 @@ class OPCmdFailedException(OPBaseException):
     MSG = "'op' command failed"
 
     def __init__(self, stderr_out, returncode):
-        super().__init__(self.MSG)
-        self.err_output = stderr_out
-        self.returncode = returncode
+        super().__init__(stderr_out, returncode)
 
     @classmethod
     def from_opexception(cls, ope: OPCmdFailedException):
         return cls(ope.err_output, ope.returncode)
+
+
+class OPCLIPanicException(_OPCalledProcessException):
+    """
+    Occasionally we're able to trigger a panic in the go runtime when executing 'op'
+
+    When that happens, we want to raise a special exception in order to report it
+
+    This class intentionally mirrors but does not extend OPCmdFailedException. We
+    don't want to mask any 'op' crashes with code that handles OPCmdFailedException
+    """
+    MSG = "1Password CLI command crashed"
+
+    def __init__(self, stderr_out: str, returncode: int, argv: List[str]):
+        super().__init__(stderr_out, returncode)
+        self.argv = list(argv)
 
 
 class OPSigninException(OPCmdFailedException):
@@ -178,7 +213,27 @@ class OPItemCreateException(OPCmdFailedException):  # pragma: no coverage
 
 
 class OPWhoAmiException(OPCmdFailedException):
-    MSG = "1Password 'whoami' failed."
+    MSG = "1Password 'whoami' failed"
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
+
+class OPCmdMalformedSvcAcctTokenException(OPCmdFailedException):  # pragma: no coverage
+    """
+    The 'op' CLI command failed to parse a service account token
+    """
+    # Although raised from OP._whoami(), this shouldn't extend OPWhoAmiException
+    # callers need to be able to catch OPWhoAmiException independently of this
+    # exception
+    MSG = "1Password 'whoami' failed due to malformed service account token"
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
+
+class OPRevokedSvcAcctTokenException(_OPCalledProcessException):
+    MSG = "1Password operation failed due to a revoked service account token"
 
     def __init__(self, stderr_out, returncode):
         super().__init__(stderr_out, returncode)
@@ -189,7 +244,30 @@ class OPInvalidItemException(OPBaseException):
         super().__init__(msg)
 
 
+@deprecated("Use OPAuthenticationException")
 class OPNotSignedInException(OPBaseException):
+    """
+    DEPRECATION NOTE:
+    This exception class is deprecated in favor of OPAuthenticationException
+    and will be removed in a future version
+
+    Exception indicating the `op` command is not authenticated or is unable to complete
+    authentication
+    """
+
+    def __init__(self, msg):
+        super().__init__(msg)
+
+
+class OPAuthenticationException(OPNotSignedInException):
+    # TODO: inherit from OPBaseException once
+    # OPNotSignedInException removed
+    """
+    Exception indicating the `op` command is not authenticated or is unable to complete
+    authentication
+    """
+    _skip_drecation_warn = True
+
     def __init__(self, msg):
         super().__init__(msg)
 
@@ -220,3 +298,27 @@ class OPInvalidFieldException(OPBaseException):
 class OPUnknownAccountException(OPBaseException):
     def __init__(self, msg):
         super().__init__(msg)
+
+
+_deprecated_exceptions = {
+    OPNotSignedInException.__name__: OPAuthenticationException.__name__
+}
+
+# replace OPNotSignedInException with _OPNotSignedInException
+# in order to trigger deprecation warnings
+_OPNotSignedInException = OPNotSignedInException
+del OPNotSignedInException
+
+
+def __getattr__(name: str):
+    # module level __getattr__() is valid as of python 3.7, pep-562
+    # handling deprecation warnings on import is a key use-case
+    # https://peps.python.org/pep-0562/
+    if name in _deprecated_exceptions:
+        _deprecated_name = f"_{name}"
+        alternate = _deprecated_exceptions[name]
+        warnings.warn(
+            f"Exception class {name} is deprecated. Use {alternate}", category=FutureWarning)
+        return globals()[_deprecated_name]
+
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

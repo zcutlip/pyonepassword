@@ -94,9 +94,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         ------
         OPSigninException
             If 1Password sign-in fails for any reason.
-        OPNotSignedInException
+        OPAuthenticationException
             if:
-                - No session is available for reuse (or session reuse not requested), and
+                - No previous authentication (e.g., existing session or service account otken) is available
                 - no password provided,
                 - interactive password prompt is supressed, and
                 - biometric authenticaiotn is disabled
@@ -116,12 +116,13 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         Get an 'item' object from a 1Password vault.
         The returned object may be any of the item types extending OPAbstractItem.
         These currently include:
-        - OPLoginItem (template id 1)
-        - OPCreditCardItem (template id 2)
-        - OPSecureNoteItem (template id 3)
-        - OPPasswordItem (template id 5)
-        - OPDocumentItem (template id 6)
-        - OPServerItem (template id 110)
+        - OPLoginItem
+        - OPCreditCardItem
+        - OPSecureNoteItem
+        - OPPasswordItem
+        - OPDocumentItem
+        - OPServerItem
+        - OPDatabaseItem
 
         Note that getting a document item is not the same as getting the document itself. The
         item only contains metadata about the document such as filename.
@@ -158,6 +159,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         item: OPAbstractItem
             An item object of one of the types listed above
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
         """
 
         output = super()._item_get(item_identifier, vault=vault,
@@ -196,6 +202,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         totp_code: str
             A string representing the TOTP code
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
         """
         output = super()._item_get_totp(item_identifier, vault=vault, decode="utf-8")
         # strip newline
@@ -221,6 +232,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         user: OPuser
             An object representing the details of the requested user
+
+        Service Account Support
+        -----------------------
+        Supported
         """
         user_json = super()._user_get(user_name_or_id)
         user = OPUser(user_json)
@@ -248,6 +263,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         user: OPUserDescriptorList
             An object representing a list of user descriptors
+
+        Service Account Support
+        -----------------------
+        Supported
         """
         user_list: Union[str, OPUserDescriptorList]
 
@@ -276,6 +295,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         vault: OPVault
             An object representing the details of the requested vault
+
+        Service Account Support
+        -----------------------
+        Supported
+            prohibited keyword arguments: group, user
         """
         vault_json = super()._vault_get(vault_name_or_id, decode="utf-8")
         vault = OPVault(vault_json)
@@ -303,6 +327,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         user: OPVaultDescriptorList
             An object representing a list of vault descriptors
+
+        Service Account Support
+        -----------------------
+        Supported
         """
         vault_list_json = super()._vault_list(
             group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
@@ -329,6 +357,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         user: OPGroup
             An object representing the details of the requested group
+
+        Service Account Support
+        -----------------------
+        Supported
         """
         group_json = super()._group_get(group_name_or_id, decode="utf-8")
         group = OPGroup(group_json)
@@ -356,6 +388,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         user: OPGroupDescriptorList
             An object representing a list of vault descriptors
+
+        Service Account Support
+        -----------------------
+        Supported
         """
         group_list: Union[str, OPGroupDescriptorList]
         group_list = self._group_list(
@@ -390,6 +426,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         password: str
             Value of the item's 'password' attribute
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
         """
         item: OPAbstractItem
         item = self.item_get(item_identifier, vault=vault,
@@ -434,6 +475,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         file_name: str
             Value of the item's 'fileName' attribute
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
         """
         item = self.item_get(item_identifier, vault=vault,
                              include_archive=include_archive, relaxed_validation=relaxed_validation)
@@ -475,6 +521,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         file_name, document bytes: Tuple[str, bytes]
             A tuple consisting of the filename and bytes of the specified document
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
         """
         try:
             file_name = self.item_get_filename(
@@ -519,6 +570,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             - If the document to be deleted is not found
             - If there is more than one item matching 'document_identifier'
             - If the delete operation fails for any other reason
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
         """
 
         # to satisfy mypy
@@ -580,6 +636,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         user: OPUserDescriptorList
             An object representing a list of user descriptors
+
+        Service Account Support
+        -----------------------
+        Supported
         """
         item_list_json = self._item_list(
             categories, include_archive, tags, vault)
@@ -630,6 +690,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         op_item: OPAbstractItem
             The newly created item object
 
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
         """
         if not isinstance(new_item, OPNewItemMixin):
             raise OPInvalidItemException(
@@ -691,6 +755,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         login_item: OPLoginItem
             The newly created login item object
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
         """
         password_recipe = None
 
@@ -745,6 +814,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         item_id: str
             Unique identifier of the item deleted
 
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
         """
 
         # to satisfy mypy
@@ -821,6 +894,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         item_id: str
             Unique identifier of the item deleted
 
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
         """
         # track deleted items as we delete them so we can return
         # that list to the caller
@@ -858,6 +935,18 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         return deleted_items
 
     def signed_in_accounts(self, decode="utf-8") -> OPAccountList:
+        """
+        Retrieve a users and accounts set up on this device
+
+        Returns
+        -------
+        OPAccountList
+            List of accounts (subclass of List)
+
+        Service Account Support
+        -----------------------
+        Supported
+        """
         account_list_json = super()._signed_in_accounts(self.op_path, decode=decode)
         account_list = OPAccountList(account_list_json)
         return account_list
@@ -882,6 +971,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         Returns
         -------
         None
+
+        Service Account Support
+        -----------------------
+        Supported
+            Note: Has no effect on the authentication status of the service account currently in use
         """
         account = self._account_identifier
         token = self.token
@@ -923,6 +1017,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         Returns
         -------
         None
+
+        Service Account Support
+        -----------------------
+        Not supported
         """
 
         try:

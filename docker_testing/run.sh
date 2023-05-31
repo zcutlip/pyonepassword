@@ -10,7 +10,7 @@ quit(){
         echo "$1"
         shift
     fi
-    kill -TERM -$$
+    kill -TERM $$
 }
 
 handle_sig(){

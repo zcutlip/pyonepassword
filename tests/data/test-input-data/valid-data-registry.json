@@ -1,22 +1,10 @@
 {
-  "example-server-1": {
-    "name": "example-server-1.json",
-    "type": "json"
-  },
-  "example-ssh-key": {
-    "name": "example-ssh-key.json",
-    "type": "json"
-  },
-  "example-secure-note": {
-    "name": "example-secure-note.json",
+  "example-api-credential": {
+    "name": "example-api-credential.json",
     "type": "json"
   },
   "example-credit-card": {
     "name": "example-credit-card.json",
-    "type": "json"
-  },
-  "example-api-credential": {
-    "name": "example-api-credential.json",
     "type": "json"
   },
   "example-database-1": {
@@ -45,6 +33,14 @@
   },
   "example-field-with-uuid-2": {
     "name": "example-field-with-uuid-2.json",
+    "type": "json"
+  },
+  "example-group": {
+    "name": "example-group.json",
+    "type": "json"
+  },
+  "example-user": {
+    "name": "example-user.json",
     "type": "json"
   },
   "example-item-section-1": {
@@ -83,6 +79,18 @@
     "name": "example-password.json",
     "type": "json"
   },
+  "example-secure-note": {
+    "name": "example-secure-note.json",
+    "type": "json"
+  },
+  "example-server-1": {
+    "name": "example-server-1.json",
+    "type": "json"
+  },
+  "example-ssh-key": {
+    "name": "example-ssh-key.json",
+    "type": "json"
+  },
   "item-field-network-port-int": {
     "name": "item-field-network-port-int.json",
     "type": "json"
@@ -105,6 +113,10 @@
   },
   "login-item-field-username": {
     "name": "login-item-field-username.json",
+    "type": "json"
+  },
+  "example-vault-test-data": {
+    "name": "example-vault-test-data.json",
     "type": "json"
   }
 }

@@ -42,9 +42,13 @@ class OPCLIVersion:
         beta_num = None
         match = re.match(regex, version_string)
         if match:
+            # get "-beta.01"
             beta_string = match.groups()[0]
-            version_string = version_string.rstrip(beta_string)
-            beta_num = beta_string.lstrip("-beta.")
+            # strip -beta.01 from the end of version_string, leaving "2.18.0"
+            version_string = re.sub(beta_string, '', version_string)
+            # extract '01' from '-beta.01'
+            beta_num = beta_string.split(".")[1]
+            # convert beta num to an int
             beta_num = int(beta_num)
         return version_string, beta_num
 
@@ -84,7 +88,7 @@ class OPCLIVersion:
     def __str__(self):
         beta_part = None
         if self.is_beta:
-            beta_part = f"-beta.{self._beta_num}"
+            beta_part = f"-beta.{self._beta_num:02d}"
         _str = ".".join([str(i) for i in self._parts])
         if beta_part:
             _str += beta_part
@@ -136,5 +140,5 @@ class OPCLIVersion:
         return le
 
 
-MINIMUM_ITEM_CREATION_VERSION = OPCLIVersion('1.12.1')
+MINIMUM_SERVICE_ACCOUNT_VERSION = OPCLIVersion('2.18.0-beta.01')
 DOCUMENT_BYTES_BUG_VERSION = OPCLIVersion('2.2.0')

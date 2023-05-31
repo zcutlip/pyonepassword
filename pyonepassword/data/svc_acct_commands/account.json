@@ -1,0 +1,13 @@
+{
+  "meta": {
+    "version": 1,
+    "command_name": "account"
+  },
+  "subcommands": {
+    "list": {
+      "has_arg": false,
+      "required_options": [],
+      "prohibited_options": []
+    }
+  }
+}

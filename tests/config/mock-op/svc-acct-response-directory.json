@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "response_dir": "tests/config/mock-op/responses-svc-acct",
+    "input_dir": "input"
+  },
+  "commands": {
+    "--version": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "cli-version",
+      "changes_state": false
+    },
+    "--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami",
+      "changes_state": false
+    },
+    "--format|json|account|list": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "list-signed-in-accounts",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login 1|--vault|Test Data": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-1-vault-test-data",
+      "changes_state": false
+    },
+    "--format|json|vault|list": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "vault-list-all-vaults",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login 1|--vault|Local": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-1-vault-local",
+      "changes_state": false
+    }
+  },
+  "commands_with_input": {}
+}

@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.10.0] - 2023-05-30
+
+### Added
+
+Support for authentication via service accounts: Set `OP_SERVICE_ACCOUNT_TOKEN` prior to initializing `OP` object. See `docs/AUTHENTICATION.md` for more details.
+
+**Note:** The minimum supported `op` command version is 2.18.0-beta.01.
+
+- New exception classes:
+  - `OPAuthenticationException`
+    - For any issue with authentication during `OP()` initialization
+    - If authentication has exipired prior to performing an operation
+  - `OPCLIPanicException`
+    - the rare case the `op` command itself crashes
+  - `OPCmdMalformedSvcAcctTokenException`
+    - in the case that the `op` command is unable to parse a service account token
+  - `OPRevokedSvcAcctTokenException`
+    - The service account token in use has been revoked and is no longer valid
+
+### Deprecated
+
+- The exception class `OPNotSignedInException` is now deprecated:
+  - handle `OPAuthenticationException` instead
+
 ## [3.9.0] - 2023-04-06
 
 ### Added

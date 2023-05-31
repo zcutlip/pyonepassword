@@ -21,8 +21,8 @@ from pyonepassword.api.authentication import (  # noqa: E402
     EXISTING_AUTH_IGNORE
 )
 from pyonepassword.api.exceptions import (  # noqa: E402
+    OPAuthenticationException,
     OPItemGetException,
-    OPNotSignedInException,
     OPSigninException
 )
 
@@ -37,7 +37,7 @@ def do_signin(vault=None, op_path="op", use_existing_session=False, account=None
     try:
         op = OP(vault=vault, op_path=op_path,
                 existing_auth=auth, password_prompt=False, account=account)
-    except OPNotSignedInException as e:
+    except OPAuthenticationException as e:
         if uses_biometric:
             raise e
         # If you've already signed in at least once, you don't need to provide all

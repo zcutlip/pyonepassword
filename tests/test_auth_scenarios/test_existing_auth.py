@@ -12,7 +12,7 @@ from pyonepassword.api.authentication import (
     EXISTING_AUTH_AVAIL,
     EXISTING_AUTH_REQD
 )
-from pyonepassword.api.exceptions import OPNotSignedInException
+from pyonepassword.api.exceptions import OPAuthenticationException
 
 # ensure HOME env variable is set, and there's a valid op config present
 # pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
@@ -26,7 +26,7 @@ def test_use_existing_session_01():
     OP_SESSION_<session ID> env variable set
     check that OP() fails with OPNotSignedIn
     """
-    with pytest.raises(OPNotSignedInException):
+    with pytest.raises(OPAuthenticationException):
         OP(op_path='mock-op', existing_auth=EXISTING_AUTH_AVAIL, password_prompt=False)
 
 
@@ -54,7 +54,7 @@ def test_use_existing_session_03():
 
     Check that OP(use_existing_session=True) fails
     """
-    with pytest.raises(OPNotSignedInException):
+    with pytest.raises(OPAuthenticationException):
         _ = OP(op_path='mock-op', existing_auth=EXISTING_AUTH_AVAIL,
                account="example_shorthand", password_prompt=False)
 
@@ -86,6 +86,6 @@ def test_use_existing_session_05():
     Tell OP it MUST use an existing session.
     Check that OP(use_existing_session=True) fails
     """
-    with pytest.raises(OPNotSignedInException):
+    with pytest.raises(OPAuthenticationException):
         OP(op_path='mock-op', existing_auth=EXISTING_AUTH_REQD,
            account="example_shorthand")

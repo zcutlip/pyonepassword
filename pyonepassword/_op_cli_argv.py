@@ -1,6 +1,7 @@
 import shlex
-from typing import List, Optional
+from typing import List, Optional, Union
 
+from ._svc_account import OPSvcAcctSupportCode, OPSvcAcctSupportRegistry
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
 
@@ -14,13 +15,25 @@ class _OPArgv(list):
     as it allows the preciese set of command line arguments to be captured for later playback.
     """
 
-    def __init__(self, op_exe: str, command: str, args: List, subcommand: Optional[str] = None, global_args=[], encoding="utf-8"):
+    def __init__(self,
+                 op_exe: str,
+                 command: str,
+                 args: List[str],
+                 subcommands: Optional[Union[str, List[str]]] = None,
+                 global_args: List[str] = [],
+                 encoding="utf-8"):
         # TODO: Refactor this
         # constructor is getting too many specialized kwargs tied to
         # specific commands/subcommands
         # maybe instead of an "args" array plus a bunch of named kwargs,
         # send in a dict that gets passed through tree of argv building logic?
+
         argv = [op_exe]
+        if not global_args:
+            global_args = []
+        else:
+            global_args = list(global_args)
+
         if encoding.lower() != "utf-8":  # pragma: no coverage
             global_args.extend(["--encoding", encoding])
 
@@ -29,14 +42,18 @@ class _OPArgv(list):
         if command:
             argv.append(command)
         self.command = command
-        self.subcommand = None
+        self.subcommands = None
 
         # whatever flags the command or subcommand take, plust global flags
         self.args_to_command = args
 
-        if subcommand:
-            self.subcommand = subcommand
-            argv.extend([subcommand])
+        if subcommands:
+            if isinstance(subcommands, str):
+                subcommands = [subcommands]
+            else:
+                subcommands = list(subcommands)  # pragma: no cover
+            self.subcommands = subcommands
+            argv.extend(subcommands)
         argv.extend(args)
         super().__init__(argv)
 
@@ -47,13 +64,26 @@ class _OPArgv(list):
         cmd_str = shlex.join(self)
         return cmd_str
 
+    def svc_account_supported(self) -> OPSvcAcctSupportCode:
+        # OPSvcAcctSupportRegistry is a singleton
+        # so this is fine
+        reg = OPSvcAcctSupportRegistry()
+        supported = reg.command_supported(self)
+        return supported
+
     @classmethod
-    def item_generic_argv(cls, op_exe, item_subcommand, sub_cmd_args):
+    def item_generic_argv(cls,
+                          op_exe: str,
+                          subcommands: Optional[Union[str, List[str]]],
+                          sub_cmd_args: Optional[List[str]] = None):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "item", args, subcommand=item_subcommand,
+        argv = cls(op_exe,
+                   "item",
+                   args,
+                   subcommands=subcommands,
                    global_args=global_args)
         return argv
 
@@ -77,27 +107,31 @@ class _OPArgv(list):
 
     @classmethod
     def item_get_totp_argv(cls, op_exe, item_name_or_id, vault=None):
-        sub_cmd_args = []
         field_arg = "type=otp"
-        if vault:
-            sub_cmd_args.extend(["--vault", vault])
 
         argv = cls.item_get_argv(
             op_exe, item_name_or_id, vault=vault, fields=field_arg)
         return argv
 
     @classmethod
-    def document_generic_argv(cls, op_exe, doc_subcommand, sub_cmd_args):
+    def document_generic_argv(cls,
+                              op_exe: str,
+                              subcommands: Optional[Union[str, List[str]]],
+                              sub_cmd_args: Optional[List[str]]):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "document", args,
-                   subcommand=doc_subcommand, global_args=global_args)
+        argv = cls(op_exe,
+                   "document",
+                   args,
+                   subcommands=subcommands,
+                   global_args=global_args)
         return argv
 
     @classmethod
     def document_get_argv(cls, op_exe, document_name_or_id, vault=None, include_archive=False):
+
         sub_cmd_args = [document_name_or_id]
         if vault:
             sub_cmd_args.extend(["--vault", vault])
@@ -107,12 +141,15 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def vault_generic_argv(cls, op_exe, vault_subcommand, sub_cmd_args):
+    def vault_generic_argv(cls,
+                           op_exe: str,
+                           subcommands: Optional[Union[str, List[str]]],
+                           sub_cmd_args: Optional[List[str]]):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "vault", args, subcommand=vault_subcommand,
+        argv = cls(op_exe, "vault", args, subcommands=subcommands,
                    global_args=global_args)
         return argv
 
@@ -133,12 +170,15 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def user_generic_argv(cls, op_exe, vault_subcommand, sub_cmd_args):
+    def user_generic_argv(cls,
+                          op_exe: str,
+                          subcommands: Optional[Union[str, List[str]]],
+                          sub_cmd_args: Optional[List[str]]):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "user", args, subcommand=vault_subcommand,
+        argv = cls(op_exe, "user", args, subcommands=subcommands,
                    global_args=global_args)
         return argv
 
@@ -159,12 +199,15 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def group_generic_argv(cls, op_exe, vault_subcommand, sub_cmd_args):
+    def group_generic_argv(cls,
+                           op_exe: str,
+                           subcommands: Optional[Union[str, List[str]]],
+                           sub_cmd_args: Optional[List[str]]):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
             args.extend(sub_cmd_args)
-        argv = cls(op_exe, "group", args, subcommand=vault_subcommand,
+        argv = cls(op_exe, "group", args, subcommands=subcommands,
                    global_args=global_args)
         return argv
 
@@ -194,10 +237,13 @@ class _OPArgv(list):
 
     @classmethod
     def item_template_list_argv(cls, op_exe):  # pragma: no cover
-        sub_command = "template"
-        sub_cmd_args = ["list"]
+        # subcommands may be a string or list
+        # so no need to put the sub-subcommand
+        # into an arg list
+        sub_commands = ["template", "list"]
+        sub_cmd_args: List[str] = []
 
-        argv_obj = cls.item_generic_argv(op_exe, sub_command, sub_cmd_args)
+        argv_obj = cls.item_generic_argv(op_exe, sub_commands, sub_cmd_args)
         return argv_obj
 
     @classmethod
@@ -258,7 +304,7 @@ class _OPArgv(list):
         cmd_args: List[str] = []
         subcmd = "list"
         global_args = ["--format", output_format]
-        argv = cls(op_exe, cmd, cmd_args, subcommand=subcmd,
+        argv = cls(op_exe, cmd, cmd_args, subcommands=subcmd,
                    global_args=global_args, encoding=encoding)
         return argv
 
@@ -272,7 +318,6 @@ class _OPArgv(list):
         """
         op item create --template ./new_item.json --vault "Test Data" --generate-password=20,letters,digits --dry-run --format json
         """
-
         template_filename = item.secure_tempfile(
             encoding=encoding)
 
@@ -283,8 +328,7 @@ class _OPArgv(list):
             item_create_args.append(f"--generate-password={password_recipe}")
         if vault:
             item_create_args.extend(["--vault", vault])
-        argv = cls.item_generic_argv(
-            op_exe, "create", item_create_args)
+        argv = cls.item_generic_argv(op_exe, "create")
         return argv
 
     @classmethod

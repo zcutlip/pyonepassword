@@ -1,0 +1,7 @@
+# this is a corrupted service account token that in op 2.18.0-beta.01 will
+# cause the go runtime to panic due to segfault
+# the encoded JSON dictionary looks like:
+# {
+#     "example-key": "example_value"
+# }
+OP_SERVICE_ACCOUNT_TOKEN=ops_ewogICAgImV4YW1wbGUta2V5IjogImV4YW1wbGVfdmFsdWUiCn0K

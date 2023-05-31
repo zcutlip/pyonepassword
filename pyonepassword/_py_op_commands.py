@@ -9,10 +9,22 @@ from typing import Dict, Mapping, Optional, Union
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
 from ._py_op_cli import _OPCLIExecute
+from ._svc_account import (
+    SVC_ACCT_CMD_NOT_SUPPORTED,
+    SVC_ACCT_INCOMPAT_OPTIONS,
+    SVC_ACCT_SUPPORTED,
+    OPSvcAcctCommandNotSupportedException
+)
 from .account import OPAccount, OPAccountList
-from .op_cli_version import DOCUMENT_BYTES_BUG_VERSION, OPCLIVersion
+from .op_cli_version import (
+    DOCUMENT_BYTES_BUG_VERSION,
+    MINIMUM_SERVICE_ACCOUNT_VERSION,
+    OPCLIVersion
+)
 from .py_op_exceptions import (
+    OPAuthenticationException,
     OPCmdFailedException,
+    OPCmdMalformedSvcAcctTokenException,
     OPDocumentDeleteException,
     OPDocumentGetException,
     OPGroupGetException,
@@ -21,7 +33,6 @@ from .py_op_exceptions import (
     OPItemDeleteException,
     OPItemGetException,
     OPItemListException,
-    OPNotSignedInException,
     OPSigninException,
     OPUnknownAccountException,
     OPUserGetException,
@@ -54,7 +65,9 @@ class _OPCommandInterface(_OPCLIExecute):
     NO_ACTIVE_SESSION_FOUND_TEXT = "no active session found for account"
     NO_SESSION_TOKEN_FOUND_TEXT = "could not find session token for account"
     ACCT_IS_NOT_SIGNED_IN_TEXT = "account is not signed in"
+    MALFORMED_SVC_ACCT_TEXT = "failed to DecodeSACCredentials"
 
+    OP_SVC_ACCOUNT_ENV_VAR = "OP_SERVICE_ACCOUNT_TOKEN"
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
     def __init__(self,
@@ -75,29 +88,46 @@ class _OPCommandInterface(_OPCLIExecute):
 
         self.vault = vault
         self.logger = logger
+        self.op_path = op_path
+        self._account_identifier = account
+        self._signed_in_account: OPAccount = None
+
+        self._cli_version: OPCLIVersion
+        self._op_config: OPCLIConfig = None
+        self._account_list: OPAccountList = None
+        self._uses_bio: bool = False
+        self._sess_var: str = None
+        # gathering facts will attempt to set the above instance variables
+        # that got initialized to None or False
+        self._gather_facts()
 
         # Coerce existing_auth to an Enum in case it was passed in as a legacy bool
         # False -> ExistingAuthFlag.NONE, True -> ExistingAuthFlag.AVAILABLE
         existing_auth = ExistingAuthEnum(existing_auth)
 
-        # save user preference about whether to allow prompting for authentication
-        # so, if desired, we can raise an exception later if authentication expires
-        # and avoid triggering a prompt
-        self._existing_auth_preference = existing_auth
-        self.op_path = op_path
-        self._account_identifier = account
+        # part of exception message in case incompatible authentication parameters
+        # are provided
+        auth_pref_source = "preference passed as argument"
+        if self.svc_account_env_var_set():
+            # - 'op' won't prompt for authentication of OP_SERVICE_ACCOUNT_TOKEN is set
+            # - Even if we explicitly call signin and succeed, it ignores that authentication
+            # so we need to suppress any path that tries to or expects to authenticate
+            if self._cli_version < MINIMUM_SERVICE_ACCOUNT_VERSION:
+                raise OPAuthenticationException(
+                    f"Version {self._cli_version} not supported with service accounts. Minimum version: {MINIMUM_SERVICE_ACCOUNT_VERSION}")
+            if existing_auth != EXISTING_AUTH_REQD:
+                auth_pref_source = "preference upgraded due to service account environment variable"
+                self.logger.info(
+                    f"{self.OP_SVC_ACCOUNT_ENV_VAR} was set. Upgrading existing auth flag to REQUIRED")
+                existing_auth = EXISTING_AUTH_REQD
 
-        self._op_config: OPCLIConfig = None
-        self._cli_version: OPCLIVersion = None
-        self._account_list: OPAccountList = None
-        self._uses_bio: bool = False
-        self._sess_var: str = None
-
-        self._signed_in_account: OPAccount = None
-
-        # gathering facts will attempt to set the above instance variables
-        # that got initialized to None or False
-        self._gather_facts()
+        if existing_auth == EXISTING_AUTH_REQD and password is not None:
+            # if a password is passed in but existing_auth is required, caller may be confused:
+            # - intentionally passed in incompatible options
+            # - possibly has OP_SERVICE_ACCOUNT_TOKEN set accidentally
+            msg = f"Password argument passed but EXISTING_AUTH_REQD flag is set. flag source: {auth_pref_source}"
+            self.logger.error(msg)
+            raise OPAuthenticationException(msg)
 
         # So far everything above has been fairly lightweight, with no remote
         # contact to the 1Password account.
@@ -129,6 +159,13 @@ class _OPCommandInterface(_OPCLIExecute):
     @property
     def session_var(self) -> str:
         return self._sess_var
+
+    @classmethod
+    def svc_account_env_var_set(cls):
+        svc_acct_set = False
+        if environ.get(cls.OP_SVC_ACCOUNT_ENV_VAR):
+            svc_acct_set = True
+        return svc_acct_set
 
     @classmethod
     def uses_biometric(cls, op_path: str = "op", encoding: str = "utf-8", account_list: OPAccountList = None):
@@ -228,12 +265,12 @@ class _OPCommandInterface(_OPCLIExecute):
             if existing_auth == EXISTING_AUTH_REQD:
                 # we were told to only use existing authentication but verificaiton failed
                 # this is a hard error
-                raise OPNotSignedInException(
+                raise OPAuthenticationException(
                     "Existing authentication specified as required, but could not be verified.")
 
             # we couldn't verify being signed in (or weren't told to try)
             # let's try a normal sign-in
-            # _do_normal_signin() will raise OPNotSignedInException if
+            # _do_normal_signin() will raise OPAuthenticationException if
             # _uses_bio is false, no password given, and password prompt not allowed
             token = self._do_normal_signin(password, password_prompt)
             account = self._verify_signin(token=token)
@@ -245,14 +282,14 @@ class _OPCommandInterface(_OPCLIExecute):
         # is still valid, with the assumption that if it is not, then it
         # has expired
         # it is primarily for the following two purposes
-        # - avoid triggering an interactive prompt or GUI dialogue, if undesired and hanging indefinitely
-        # - being able to raise OPNotSignedInException to the caller rather than a generic
+        # - avoid triggering an interactive prompt or GUI dialogue (if undesired) and hanging indefinitely
+        # - being able to raise OPAuthenticationException to the caller rather than a generic
         #   "command failed" exception
         expired = False
 
         try:
             cls._whoami(op_path, account=account)
-        except OPWhoAmiException:
+        except OPWhoAmiException:  # pragma: no cover
             expired = True
 
         return expired
@@ -309,7 +346,7 @@ class _OPCommandInterface(_OPCLIExecute):
             # - we were told not to let 'op' prompt for a password, and
             # - biometric is not enabled
             # so we can't sign in
-            raise OPNotSignedInException(
+            raise OPAuthenticationException(
                 "No existing session and no password provided.")
         signin_argv = _OPArgv.normal_signin_argv(
             self.op_path, account=self._account_identifier)
@@ -338,18 +375,43 @@ class _OPCommandInterface(_OPCLIExecute):
         return output
 
     @classmethod
-    def _run_with_auth_check(cls, op_path, account, argv, capture_stdout=False, input_string=None, decode=None, env=environ):
+    def _run_with_auth_check(cls,
+                             op_path: str,
+                             account: str,
+                             argv: _OPArgv,
+                             capture_stdout: bool = False,
+                             input_string: str = None,
+                             decode: str = None,
+                             env: Mapping = environ):
         # this somewhat of a hack to detect if authentication has expired
-        # so that we can raise OPNotSignedInException rather than the generic OPCmdFailedException
+        # so that we can raise OPAuthenticationException rather than the generic OPCmdFailedException
         # under the hood, it calls 'whoami' which will fail if not authenticated
         #
         # We need to remove this as soon as possible if a better way becomes available
         # among the problems:
         # - this method is racey, since authentication may expire between the check and the
         #   operation
-        # - this adds roughly 20% overhead (as measured by the full sweet of pytest tests)
+        # - this adds roughly 20% overhead (as measured by the full suite of pytest tests)
         if cls._auth_expired(op_path, account):
-            raise OPNotSignedInException("Authentication has expired")
+            raise OPAuthenticationException(
+                "Authentication has expired")  # pragma: no cover
+
+        if cls.svc_account_env_var_set():
+            err_msg = None
+            supported = argv.svc_account_supported()
+            if supported.code in [SVC_ACCT_INCOMPAT_OPTIONS, SVC_ACCT_CMD_NOT_SUPPORTED]:
+                err_msg = supported.msg
+            elif supported.code == SVC_ACCT_SUPPORTED:
+                cls.logger.debug("Command supported with service accounts")
+            else:
+                raise Exception(  # pragma: no cover
+                    f"Unknown service account support code {supported.code}")
+
+            if err_msg:
+                if cls._should_log_op_errors():
+                    cls.logger.error(err_msg)
+                raise OPSvcAcctCommandNotSupportedException(err_msg)
+
         return cls._run(argv,
                         capture_stdout=capture_stdout,
                         input_string=input_string,
@@ -444,7 +506,17 @@ class _OPCommandInterface(_OPCLIExecute):
         except OPCmdFailedException as ocfe:
             # scrape error message about not being signed in
 
-            raise OPWhoAmiException.from_opexception(ocfe)
+            if cls.MALFORMED_SVC_ACCT_TEXT in ocfe.err_output:
+                # OP_SERVICE_ACCOUNT_TOKEN got set to something malformed
+                # so raise a specific exception for that
+                raise OPCmdMalformedSvcAcctTokenException.from_opexception(
+                    ocfe)  # pragma: no cover
+                # Although we could simulate this for testing, the tests
+                # wouldn't be meaningful, because they wouldn't be tied to
+                # an actual malformed token
+                # disabling testing coverage
+            else:
+                raise OPWhoAmiException.from_opexception(ocfe)
 
         account_obj = OPAccount(account_json)
         return account_obj

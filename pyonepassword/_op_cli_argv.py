@@ -299,13 +299,26 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def account_list_argv(cls, op_exe, output_format="json", encoding="utf-8"):
+    def account_generic_argv(cls,
+                             op_exe: str,
+                             subcommands: Optional[Union[str, List[str]]],
+                             sub_cmd_args: Optional[List[str]],
+                             encoding):
+        args = []
         cmd = "account"
-        cmd_args: List[str] = []
-        subcmd = "list"
-        global_args = ["--format", output_format]
-        argv = cls(op_exe, cmd, cmd_args, subcommands=subcmd,
+        global_args = ["--format", "json"]
+        if sub_cmd_args:
+            args.extend(sub_cmd_args)
+        argv = cls(op_exe, cmd, args, subcommands=subcommands,
                    global_args=global_args, encoding=encoding)
+        return argv
+
+    @classmethod
+    def account_list_argv(cls, op_exe, encoding="utf-8"):
+        subcmd = "list"
+        sub_cmd_args = []
+        argv = cls.account_generic_argv(
+            op_exe, subcmd, sub_cmd_args, encoding=encoding)
         return argv
 
     @classmethod

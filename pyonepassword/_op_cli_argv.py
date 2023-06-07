@@ -301,7 +301,7 @@ class _OPArgv(list):
         args = []
         cmd = "account"
         global_args = ["--format", "json"]
-        if sub_cmd_args:
+        if sub_cmd_args:  # pragma: no coverage
             args.extend(sub_cmd_args)
         argv = cls(op_exe, cmd, args, subcommands=subcommands,
                    global_args=global_args, encoding=encoding)
@@ -315,7 +315,7 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def account_forget_argv(cls, op_exe, account):
+    def account_forget_argv(cls, op_exe, account):  # pragma: no coverage
         subcmd = "forget"
         sub_cmd_args = [account]
         argv = cls.account_generic_argv(

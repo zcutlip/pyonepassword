@@ -303,7 +303,7 @@ class _OPArgv(list):
                              op_exe: str,
                              subcommands: Optional[Union[str, List[str]]],
                              sub_cmd_args: Optional[List[str]],
-                             encoding):
+                             encoding="utf-8"):
         args = []
         cmd = "account"
         global_args = ["--format", "json"]

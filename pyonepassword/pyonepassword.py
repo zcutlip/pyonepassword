@@ -992,13 +992,16 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         self._sanitize()
 
     @classmethod
-    def forget(cls, account: str, op_path=None):  # pragma: no coverage
+    def account_forget(cls, account: str, op_path=None):  # pragma: no coverage
         """
-        Remove details for the specified account from this device
-        This is equivalent to the command 'op forget <account>'
+        Remove a 1Password account from this device
+        This is equivalent to the command 'op account forget <account_id>'
 
         Note: this is a class method, so there is no need to have an OP instance or to have
         an active, signed-in session
+
+        Note 2: this only removes accounts that have been added using 'op account add'.
+        It has no effect on accounts accessed through 1Password app integration
 
         Parameters
         ----------
@@ -1024,7 +1027,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         """
 
         try:
-            cls._forget(account, op_path=op_path)
+            cls._account_forget(account, op_path=op_path)
         except OPCmdFailedException as ocfe:
             raise OPForgetException.from_opexception(ocfe) from ocfe
 

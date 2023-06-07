@@ -276,12 +276,6 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def forget_argv(cls, op_exe, account_shorthand):  # pragma: no cover
-        forget_args = [account_shorthand]
-        argv = cls(op_exe, "forget", forget_args)
-        return argv
-
-    @classmethod
     def item_list_argv(cls, op_exe, categories=[], include_archive=False, tags=[], vault=None):
         item_list_args = []
         if categories:
@@ -299,13 +293,34 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def account_list_argv(cls, op_exe, output_format="json", encoding="utf-8"):
+    def account_generic_argv(cls,
+                             op_exe: str,
+                             subcommands: Optional[Union[str, List[str]]],
+                             sub_cmd_args: Optional[List[str]] = None,
+                             encoding: str = "utf-8"):
+        args = []
         cmd = "account"
-        cmd_args: List[str] = []
-        subcmd = "list"
-        global_args = ["--format", output_format]
-        argv = cls(op_exe, cmd, cmd_args, subcommands=subcmd,
+        global_args = ["--format", "json"]
+        if sub_cmd_args:  # pragma: no coverage
+            args.extend(sub_cmd_args)
+        argv = cls(op_exe, cmd, args, subcommands=subcommands,
                    global_args=global_args, encoding=encoding)
+        return argv
+
+    @classmethod
+    def account_list_argv(cls, op_exe, encoding="utf-8"):
+        subcmd = "list"
+        argv = cls.account_generic_argv(
+            op_exe, subcmd, encoding=encoding)
+        return argv
+
+    @classmethod
+    def account_forget_argv(cls, op_exe, account):  # pragma: no coverage
+        subcmd = "forget"
+        sub_cmd_args = [account]
+        argv = cls.account_generic_argv(
+            op_exe, subcmd, sub_cmd_args=sub_cmd_args)
+
         return argv
 
     @classmethod

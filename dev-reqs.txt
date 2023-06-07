@@ -1,5 +1,6 @@
 --find-links=file:./deps
 autopep8
+build
 colored-traceback
 flake8
 ipython

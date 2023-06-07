@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [branch: dev/121-update-opforget-to-support-op-version-2]
+
+Fix support for removing an account from the `op` CLI config (gh-121)
+
+### Added
+
+- `OP.account_forget()` method with support for `op account forget` in CLI version >= 2
+
+### Removed
+- `OP.forget()`
+  - This has been broken since the CLI version 2 refactor in `pyonepassword` version 3.0.0
+
 ## [3.10.0] - 2023-05-30
 
 ### Added

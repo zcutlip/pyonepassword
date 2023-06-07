@@ -692,10 +692,10 @@ class _OPCommandInterface(_OPCLIExecute):
         self._run(argv)
 
     @classmethod
-    def _forget(cls, account: str, op_path=None):   # pragma: no cover
+    def _account_forget(cls, account: str, op_path=None):   # pragma: no cover
         if not op_path:
             op_path = cls.OP_PATH
-        argv = _OPArgv.forget_argv(op_path, account)
+        argv = _OPArgv.account_forget_argv(op_path, account)
         cls._run(argv)
 
     def _item_list_argv(self, categories=[], include_archive=False, tags=[], vault=None):

@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [branch: dev/121-update-opforget-to-support-op-version-2]
 
-Fix support for removing an account from the `op` CLI config
+Fix support for removing an account from the `op` CLI config (gh-121)
 
 ### Added
 

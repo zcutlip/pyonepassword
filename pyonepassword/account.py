@@ -4,6 +4,10 @@ from .json import safe_unjson
 
 
 class OPAccount(dict):
+
+    # portion of unique IDs to leave unmasked
+    UNMASK_LEN = 5
+
     def __init__(self, account_dict_or_json):
         account_dict = safe_unjson(account_dict_or_json)
         super().__init__(account_dict)
@@ -39,6 +43,27 @@ class OPAccount(dict):
         if self.get("ServiceAccountType"):
             svc_acct = True  # pragma: no coverage
         return svc_acct
+
+    def _sanitized_uuid(self, uuid_str: str) -> str:
+        # This aims to turn:
+        # 5GHHPJK5HZC5BAT7WDUXW57G44 into
+        # *********************57G44
+
+        if len(uuid_str) <= self.UNMASK_LEN:
+            # the thing is too short, so replace everything
+            uuid_str = "*" * len(uuid_str)
+        else:
+            # get the length of the portion we're trying to mask
+            star_count = len(uuid_str) - self.UNMASK_LEN
+
+            # make the star mask
+            stars = "*" * star_count
+            # get the bit we want to leave unmasked
+            _last_five = self.user_uuid[-(self.UNMASK_LEN):]
+
+            # join the mask with the end part we're leaving unmasked
+            uuid_str = stars + _last_five
+        return uuid_str
 
 
 class OPAccountList(List[OPAccount]):

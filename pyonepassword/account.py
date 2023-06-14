@@ -4,6 +4,7 @@ from typing import List, Union
 from .json import safe_unjson
 
 USER_UUID_UNMASK_ENV_VAR = "PYOP_UNMASK_USER_UUID"
+ACCT_UUID_UNMASK_ENV_VAR = "PYOP_UNMASK_ACCOUNT_UUID"
 
 
 class OPAccount(dict):
@@ -46,6 +47,13 @@ class OPAccount(dict):
         if self.get("ServiceAccountType"):
             svc_acct = True  # pragma: no coverage
         return svc_acct
+
+    @property
+    def sanitized_account_uuid(self) -> str:
+        _uuid = self.account_uuid
+        if os.environ.get(ACCT_UUID_UNMASK_ENV_VAR, "0") != "1":
+            _uuid = self._sanitized_uuid(_uuid)
+        return _uuid
 
     @property
     def sanitized_user_uuid(self) -> str:

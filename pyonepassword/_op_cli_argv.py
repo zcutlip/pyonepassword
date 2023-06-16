@@ -4,6 +4,7 @@ from typing import List, Optional, Union
 from ._svc_account import OPSvcAcctSupportCode, OPSvcAcctSupportRegistry
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
+from .string import RedactableString
 
 
 class _OPArgv(list):
@@ -61,7 +62,11 @@ class _OPArgv(list):
         """
         return a shell-escaped command string from this argv
         """
-        cmd_str = shlex.join(self)
+
+        # ensure we get redacted versions of any strings where
+        # applicable
+        args = [str(arg) for arg in self]
+        cmd_str = shlex.join(args)
         return cmd_str
 
     def svc_account_supported(self) -> OPSvcAcctSupportCode:
@@ -231,6 +236,7 @@ class _OPArgv(list):
     def normal_signin_argv(cls, op_exe, account=None):
         global_args = []
         if account:
+            account = RedactableString(account)
             global_args = ["--account", account]
         argv = ["--raw"]
         return cls(op_exe, "signin", argv, global_args=global_args)
@@ -251,6 +257,7 @@ class _OPArgv(list):
         args: List[str] = []
         global_args = []
         if account:
+            account = RedactableString(account)
             global_args = ["--account", account]
         global_args.extend(["--format", "json"])
         argv_obj = cls(op_exe, "whoami", args, global_args=global_args)
@@ -266,6 +273,8 @@ class _OPArgv(list):
     @classmethod
     def signout_argv(cls, op_exe, account_shorthand: str, session: str, forget=False, uses_bio=False):  # pragma: no cover
         global_args = []
+        if account_shorthand:
+            account_shorthand = RedactableString(account_shorthand)
         if not uses_bio:
             global_args = ["--account",
                            account_shorthand, "--session", session]
@@ -317,6 +326,7 @@ class _OPArgv(list):
     @classmethod
     def account_forget_argv(cls, op_exe, account):  # pragma: no coverage
         subcmd = "forget"
+        account = RedactableString(account)
         sub_cmd_args = [account]
         argv = cls.account_generic_argv(
             op_exe, subcmd, sub_cmd_args=sub_cmd_args)

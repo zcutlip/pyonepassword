@@ -2,6 +2,7 @@ import os
 from typing import List, Union
 
 from .json import safe_unjson
+from .string import RedactableString
 
 USER_UUID_UNMASK_ENV_VAR = "PYOP_UNMASK_USER_UUID"
 ACCT_UUID_UNMASK_ENV_VAR = "PYOP_UNMASK_ACCOUNT_UUID"
@@ -52,36 +53,15 @@ class OPAccount(dict):
     def sanitized_account_uuid(self) -> str:
         _uuid = self.account_uuid
         if os.environ.get(ACCT_UUID_UNMASK_ENV_VAR, "0") != "1":
-            _uuid = self._sanitized_uuid(_uuid)
+            _uuid = RedactableString(_uuid)
         return _uuid
 
     @property
     def sanitized_user_uuid(self) -> str:
         _uuid = self.user_uuid
         if os.environ.get(USER_UUID_UNMASK_ENV_VAR, "0") != "1":
-            _uuid = self._sanitized_uuid(_uuid)
+            _uuid = RedactableString(_uuid)
         return _uuid
-
-    def _sanitized_uuid(self, uuid_str: str) -> str:
-        # This aims to turn:
-        # 5GHHPJK5HZC5BAT7WDUXW57G44 into
-        # *********************57G44
-
-        if len(uuid_str) <= self.UNMASK_LEN:
-            # the thing is too short, so replace everything
-            uuid_str = "*" * len(uuid_str)
-        else:
-            # get the length of the portion we're trying to mask
-            star_count = len(uuid_str) - self.UNMASK_LEN
-
-            # make the star mask
-            stars = "*" * star_count
-            # get the bit we want to leave unmasked
-            _last_five = self.user_uuid[-(self.UNMASK_LEN):]
-
-            # join the mask with the end part we're leaving unmasked
-            uuid_str = stars + _last_five
-        return uuid_str
 
 
 class OPAccountList(List[OPAccount]):

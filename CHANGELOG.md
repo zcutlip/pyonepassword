@@ -2,12 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## [3.11.1.dev0]
+## [3.11.1] - 2023-06-21
 
 ### Fixed
 
 - Properly package up JSON data files under `data/svc_acct_commands` (gh-131)
-- Change `pytest` behavior under `tox` to better detect files not properly packaged
+- Change `pytest` behavior under `tox` to better detect files not properly packaged (gh-131)
 
 ## [3.11.0] - 2023-06-07
 

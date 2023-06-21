@@ -60,7 +60,7 @@ setup(
         "importlib-resources>=5.2.0; python_version<'3.9'",
         "python-singleton-metaclasses"
     ],
-    package_data={'pyonepassword': ['data/*', 'py.typed']},
+    package_data={'pyonepassword': ['data/**', 'py.typed']},
     entry_points={"console_scripts":
                   ["opconfig=pyonepassword.opconfig_main:main"]},
     classifiers=[

@@ -1,4 +1,4 @@
-class RedactableString(str):
+class RedactedString(str):
     """
     A string subclass that automatically self-redacts when printed, logged or passed to str()
 
@@ -19,7 +19,7 @@ class RedactableString(str):
 
     def __new__(cls, string, *args, unmask_len=-1, **kwargs):
         """
-        Create a new RedactableString object
+        Create a new RedactedString object
 
         Parameters
         ----------
@@ -62,9 +62,9 @@ class RedactableString(str):
         return self.__add__(other)
 
     def __add__(self, other):
-        if isinstance(other, RedactableString):
+        if isinstance(other, RedactedString):
             other = other._orig_string
-        new_str = RedactableString(self._orig_string + other)
+        new_str = RedactedString(self._orig_string + other)
         return new_str
 
     @property

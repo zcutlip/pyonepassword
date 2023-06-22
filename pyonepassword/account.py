@@ -2,7 +2,7 @@ import os
 from typing import List, Union
 
 from .json import safe_unjson
-from .string import RedactableString
+from .string import RedactedString
 
 USER_UUID_UNMASK_ENV_VAR = "PYOP_UNMASK_USER_UUID"
 ACCT_UUID_UNMASK_ENV_VAR = "PYOP_UNMASK_ACCOUNT_UUID"
@@ -53,14 +53,14 @@ class OPAccount(dict):
     def sanitized_account_uuid(self) -> str:
         _uuid = self.account_uuid
         if os.environ.get(ACCT_UUID_UNMASK_ENV_VAR, "0") != "1":
-            _uuid = RedactableString(_uuid)
+            _uuid = RedactedString(_uuid)
         return _uuid
 
     @property
     def sanitized_user_uuid(self) -> str:
         _uuid = self.user_uuid
         if os.environ.get(USER_UUID_UNMASK_ENV_VAR, "0") != "1":
-            _uuid = RedactableString(_uuid)
+            _uuid = RedactedString(_uuid)
         return _uuid
 
 

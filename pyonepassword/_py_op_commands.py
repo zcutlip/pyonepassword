@@ -141,7 +141,7 @@ class _OPCommandInterface(_OPCLIExecute):
             self.logger.debug("Signed in as a service account")
         else:
             self.logger.debug(
-                f"Signed in as User ID: {self._signed_in_account.user_uuid}")
+                f"Signed in as User ID: {self._signed_in_account.sanitized_user_uuid}")
         # export OP_SESSION_<use_id>
         if self.token:
             if not self._account_identifier:

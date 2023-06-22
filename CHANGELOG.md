@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.12.0.dev1]
+
+### Added
+
+- Account and user UUIDs are now partially masked when logged
+- New class, RedactedString, for automatically redacting strings when appropriate
+
 ## [3.11.1] - 2023-06-21
 
 ### Fixed

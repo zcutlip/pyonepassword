@@ -1,8 +1,13 @@
 class RedactableString(str):
     """
-    A string subclass that automatically self-redacts when printed, logged or cast to a str()
+    A string subclass that automatically self-redacts when printed, logged or passed to str()
 
-    When interacted with directly, it behaves as a typical string
+    A portion at the end of the string will be unmasked by default. The unmasked lenght is configurable,
+    per the following conditions:
+
+    - The default unmask length is 5 characters
+    - The maximum unmasked portion is 20% of the overall length
+    - Strings fewer than 5 characters will remain completely masked
     """
     # how much to leave unmasked at the end
     UNMASK_LEN = 5
@@ -13,6 +18,20 @@ class RedactableString(str):
     _redacted_string: str
 
     def __new__(cls, string, *args, unmask_len=-1, **kwargs):
+        """
+        Create a new RedactableString object
+
+        Parameters
+        ----------
+        string : str
+            The unredacted string
+        unmask_len : int, optional
+            The amount of the end of the string to leave unmasked, by default -1
+            Notes:
+                A maximum of 20% of the string length may be unmasked
+                Strings of 5 characters or fewer will remain completely masked
+
+        """
         if len(string) <= cls.MIN_STR_LEN:
             unmask_len = 0
         elif unmask_len < 0:

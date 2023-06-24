@@ -353,7 +353,8 @@ class _OPArgv(list):
             item_create_args.append(f"--generate-password={password_recipe}")
         if vault:
             item_create_args.extend(["--vault", vault])
-        argv = cls.item_generic_argv(op_exe, "create")
+        argv = cls.item_generic_argv(
+            op_exe, "create", sub_cmd_args=item_create_args)
         return argv
 
     @classmethod

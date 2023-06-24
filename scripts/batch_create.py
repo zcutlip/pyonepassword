@@ -84,7 +84,7 @@ def create_items(options: Namespace):
         password = LETTERS_DIGITS_SYMBOLS_20
         if category == "login":
             username = f"{username_base}{i:02d}"
-            item_template = OPLoginItemTemplate(title, username, tags=tags)
+            item_template = OPLoginItemTemplate(title, username, tags=_tags)
         elif category == "password":
             item_template = OPPasswordItemTemplate(title, tags=_tags)
         else:

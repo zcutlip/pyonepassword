@@ -5,6 +5,7 @@ colored-traceback
 flake8
 ipython
 pycodestyle
+twine
 -e .
 -r test-reqs.txt
 -r requirements.txt

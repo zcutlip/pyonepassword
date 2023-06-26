@@ -2,7 +2,7 @@
 from argparse import ArgumentParser, Namespace
 from typing import List, Optional
 
-from pyonepassword import OP
+from pyonepassword import OP, logging
 from pyonepassword.api.constants import LETTERS_DIGITS_SYMBOLS_20
 from pyonepassword.api.object_types import (
     OPItemField,
@@ -59,7 +59,8 @@ def batch_create_parse_args():
 
 def create_items(options: Namespace):
     # 1password will prompt for auth, either biometric or on the console
-    op = OP()
+    logger = logging.console_logger("batch_create", level=logging.DEBUG)
+    op = OP(logger=logger)
     count = options.count
     vault = options.vault
     item_name_base = options.name
@@ -83,7 +84,7 @@ def create_items(options: Namespace):
         password = LETTERS_DIGITS_SYMBOLS_20
         if category == "login":
             username = f"{username_base}{i:02d}"
-            item_template = OPLoginItemTemplate(title, username, tags=tags)
+            item_template = OPLoginItemTemplate(title, username, tags=_tags)
         elif category == "password":
             item_template = OPPasswordItemTemplate(title, tags=_tags)
         else:

@@ -1,5 +1,5 @@
 __title__ = "pyonepassword"
-__version__ = "3.12.0"
+__version__ = "3.12.1"
 __summary__ = "A python API to query a 1Password account using the 'op' command-line tool"
 
 """

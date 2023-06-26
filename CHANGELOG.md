@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.12.1] 2023-06-26
+
+### Fixed
+
+- `OP.item_create()` broken due to subcommand args not added to arugment list (gh-136)
+
+### Miscellaneous
+
+- Fixed `scripts/batch_create.py` not setting tags properly
+- Enable console debug logging in `scripts/batch_create.py`
+
+
 ## [3.12.0] 2023-06-22
 
 ### Added

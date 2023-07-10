@@ -1,13 +1,88 @@
+#!/usr/bin/env python3
+
 import fnmatch
+import hashlib
 import json
 import os
 import re
+import shutil
 from argparse import ArgumentParser
 from configparser import ConfigParser
 from pathlib import Path
 from typing import Dict
 
-WHITELIST = ["*/output", "*.txt", "*.json", "*.py"]
+WHITELIST = ["*/output", "*.txt", "*.json", "*.py", "*/input/**"]
+
+
+def digest_file(file_path):
+    data = open(file_path, "rb").read()
+    digest = None
+    # ignore input if None or if empty string
+    if data:
+        if isinstance(data, str):
+            data = data.encode()
+        hash = hashlib.md5(data)
+        digest = hash.hexdigest()
+    return digest
+
+
+class InputHashes:
+    """
+    A class to track changes to input data to 'mock-op' so that response
+    directories can be updated allowing responses to be looked up by
+    the input's new hash
+
+    This addresses the problem where this script santizes mock-op output that
+    would later be used as input to another mock-op invocation.
+
+    If the previous command's output has changed the hash of the next command's
+    input will have changed as well, and can't be located in the response
+    directory by its hash
+    """
+    INPUT_FILE_BASENAME = "input.bin"
+
+    def __init__(self):
+        self._input_paths = {}
+        self._updated_hashes = {}
+
+    def add_input_path(self, input_path):
+        input_path = Path(input_path)
+        if input_path.name == self.INPUT_FILE_BASENAME:
+            original_hash = digest_file(input_path)
+            parent_base = input_path.parent.name
+            if parent_base == original_hash:
+                print(
+                    f"Adding input file: {input_path}, hash: {original_hash}")
+                self._input_paths[input_path] = {"orig_hash": original_hash}
+
+    def update_input_paths(self):
+        for key, pathdict in self._input_paths.items():
+            input_path = Path(key)
+            file_base = input_path.name
+            parent = input_path.parent
+            parent_base = input_path.parent.name
+            containing_path = parent.parent
+
+            orig_hash = pathdict["orig_hash"]
+            if orig_hash != parent_base:
+                continue
+
+            new_hash = digest_file(input_path)
+            if new_hash == orig_hash:
+                continue
+            new_path = Path(containing_path, new_hash, file_base)
+            new_parent = new_path.parent
+            new_parent.mkdir(parents=True, exist_ok=True)
+            print(f"moving: {input_path}")
+            print(f"to: {new_path}")
+            shutil.move(input_path, new_path)
+            parent.rmdir()
+
+            self._updated_hashes[orig_hash] = new_hash
+
+    @property
+    def updated_hashes(self) -> Dict[str, str]:
+        return self._updated_hashes
 
 
 class TextFile:
@@ -109,7 +184,7 @@ class JSONFile(TextFile):
         return new_list
 
 
-def _santize_single(filepath, sanitization_map, whitelist):
+def _santize_single(filepath, sanitization_map, whitelist, input_hashes=None):
     changed = False
     considered = False
     for pattern in whitelist:
@@ -120,12 +195,14 @@ def _santize_single(filepath, sanitization_map, whitelist):
             else:
                 textfile = TextFile(filepath, sanitization_map)
             considered = True
+            if input_hashes:
+                input_hashes.add_input_path(filepath)
             changed = textfile.sanitize()
             break
     return (considered, changed)
 
 
-def sanitize_files(sanitize_path, sanitization_map):
+def sanitize_files(sanitize_path, sanitization_map, input_hashes=None):
     changed_count = 0
     file_count = 0
     sanitize_path = Path(sanitize_path)
@@ -143,7 +220,7 @@ def sanitize_files(sanitize_path, sanitization_map):
             for file in files:
                 filepath = Path(root, file)
                 considered, changed = _santize_single(
-                    filepath, sanitization_map, local_whitelist)
+                    filepath, sanitization_map, local_whitelist, input_hashes=input_hashes)
                 if considered:
                     file_count += 1
                 if changed:
@@ -176,7 +253,18 @@ def main():
     print(f"Sanitizing: {sanitize_path}")
     replacement_map = dict(config['replacements'])
 
-    sanitize_files(sanitize_path, replacement_map)
+    input_hashes = InputHashes()
+    sanitize_files(sanitize_path, replacement_map, input_hashes=input_hashes)
+
+    # calculate new hashes of all 'input.bin' files and move them to their new directories
+    # and track all old_hash:new_hash pairs in a dictionary
+    input_hashes.update_input_paths()
+
+    # Run the sanitization again, this time with the {old_hash:new_hash}
+    # map for any changed input files
+    # If any changed, this should result in the corresponding response directory JSON
+    # files being updated accordingly.
+    sanitize_files(sanitize_path, input_hashes.updated_hashes)
 
 
 if __name__ == "__main__":

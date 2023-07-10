@@ -41,7 +41,7 @@
     }
   },
   "commands_with_input": {
-    "8f8301cb36cbd4065b80ccb4fd3aaffb": {
+    "ec4aabbc316a739fe93c5c954ea54543": {
       "--format|json|item|delete|-|--vault|Test Data 3": {
         "exit_status": 0,
         "stdout": "output",

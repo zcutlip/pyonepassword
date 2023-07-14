@@ -98,6 +98,7 @@ celerybeat-schedule
 
 # Environments
 .env
+.env_secret*
 .venv
 env/
 venv/
@@ -161,6 +162,7 @@ Temporary Items
 /sanitize.cfg
 # ignore private response-generation configs
 *private*cfg
+/responses_archive
 
 # Makefile stamps
 .*stamp

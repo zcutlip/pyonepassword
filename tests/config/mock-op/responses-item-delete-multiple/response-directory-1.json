@@ -62,7 +62,7 @@
     }
   },
   "commands_with_input": {
-    "390cd969c240b16c28e49f8e74ca926a": {
+    "fc4bcec96b5abaca5effb19e02d128a3": {
       "--format|json|item|delete|-|--vault|Test Data 3": {
         "exit_status": 0,
         "stdout": "output",
@@ -71,7 +71,7 @@
         "changes_state": false
       }
     },
-    "674e388ad179855330331c2dc866c21d": {
+    "4e9a7cde972525b611899b999d4c155f": {
       "--format|json|item|delete|-|--vault|Test Data 3": {
         "exit_status": 0,
         "stdout": "output",
@@ -80,7 +80,7 @@
         "changes_state": true
       }
     },
-    "a80e7927c2b56d4dffa2ee282eda95b1": {
+    "c49d5d926ae1f2787e7e3854c18e5ed5": {
       "--format|json|item|delete|-|--vault|Test Data 3": {
         "exit_status": 0,
         "stdout": "output",
@@ -89,7 +89,7 @@
         "changes_state": false
       }
     },
-    "7ed951330c499820daf25277617fdfd1": {
+    "308a7e0293452e7e18bea5e68eb17040": {
       "--format|json|item|delete|-|--vault|Test Data 3": {
         "exit_status": 0,
         "stdout": "output",

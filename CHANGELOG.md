@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [DEVELOPMENT]
+
+### Misc
+
+- Updated testing configuration in conjucton with refactored `mock-op`
+
 ## [3.12.1] 2023-06-26
 
 ### Fixed

@@ -157,15 +157,17 @@ def setup_stateful_item_delete_multiple():
 
     # set up a temporary directory to copy the state config to, since it gets modified
     # during state iteration
+    config_file_name = ITEM_DELETE_MULTIPLE_STATE_CONFIG_PATH.name
     temp_dir = tempfile.TemporaryDirectory()
     state_config_dir = temp_dir.name
-    state_config_path = Path(state_config_dir, "config.json")
+    state_config_path = Path(state_config_dir, config_file_name)
     shutil.copyfile(ITEM_DELETE_MULTIPLE_STATE_CONFIG_PATH, state_config_path)
 
     # now pop MOCK_OP_RESPONSE_DIRECTORY to ensure it doesn't conflict with with
     # the stateful config
     old_mock_op_resp_dir = os.environ.pop("MOCK_OP_RESPONSE_DIRECTORY", None)
-    os.environ["MOCK_OP_STATE_DIR"] = state_config_dir
+
+    os.environ["MOCK_OP_STATE_DIR"] = str(state_config_path)
     yield  # pytest will return us here after the test runs
     # get rid of MOCK_OP_STATE_DIR
     os.environ.pop("MOCK_OP_STATE_DIR")
@@ -182,16 +184,17 @@ def setup_stateful_item_delete_multiple_title_glob():
 
     # set up a temporary directory to copy the state config to, since it gets modified
     # during state iteration
+    config_file_name = ITEM_DELETE_MULTIPLE_TITLE_GLOB_STATE_CONFIG_PATH.name
     temp_dir = tempfile.TemporaryDirectory()
     state_config_dir = temp_dir.name
-    state_config_path = Path(state_config_dir, "config.json")
+    state_config_path = Path(state_config_dir, config_file_name)
     shutil.copyfile(
         ITEM_DELETE_MULTIPLE_TITLE_GLOB_STATE_CONFIG_PATH, state_config_path)
 
     # now pop MOCK_OP_RESPONSE_DIRECTORY to ensure it doesn't conflict with with
     # the stateful config
     old_mock_op_resp_dir = os.environ.pop("MOCK_OP_RESPONSE_DIRECTORY", None)
-    os.environ["MOCK_OP_STATE_DIR"] = state_config_dir
+    os.environ["MOCK_OP_STATE_DIR"] = str(state_config_path)
     yield  # pytest will return us here after the test runs
     # get rid of MOCK_OP_STATE_DIR
     os.environ.pop("MOCK_OP_STATE_DIR")

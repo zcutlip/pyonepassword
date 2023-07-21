@@ -18,6 +18,7 @@ from ..op_items.fields_sections.item_field import (
 )
 from ..op_items.fields_sections.item_field_base import OPItemField
 from ..op_items.fields_sections.item_section import OPSection
+from ..op_items.item_types._file_obj import OPDocumentFile
 from ..op_items.item_types._item_base import OPAbstractItem
 from ..op_items.item_types.api_credential import OPAPICredentialItem
 from ..op_items.item_types.credit_card import OPCreditCardItem
@@ -26,7 +27,7 @@ from ..op_items.item_types.database import (
     OPDatabaseItemRelaxedValidation,
     OPDatabaseItemTemplate
 )
-from ..op_items.item_types.document import OPDocumentFile, OPDocumentItem
+from ..op_items.item_types.document import OPDocumentItem
 from ..op_items.item_types.login import (
     OPLoginItem,
     OPLoginItemNewPrimaryURL,

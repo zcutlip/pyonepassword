@@ -12,6 +12,7 @@ from ..fields_sections.item_section import (
     OPSectionCollisionException
 )
 from ..item_validation_policy import get_relaxed_validation
+from ._file_obj import OPDocumentFile
 from ._item_descriptor_base import OPAbstractItemDescriptor
 
 
@@ -37,6 +38,14 @@ class OPAbstractItem(OPAbstractItemDescriptor):
     def sections(self) -> List[OPSection]:
         section_list = self.get("sections", [])
         return section_list
+
+    @property
+    def files(self) -> List[OPDocumentFile]:
+        files = []
+        for file_dict in self.get("files", []):
+            file_obj = OPDocumentFile(file_dict)
+            files.append(file_obj)
+        return files
 
     def relaxed_validation(self) -> bool:
         """

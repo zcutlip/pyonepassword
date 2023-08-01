@@ -166,8 +166,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
           required keyword arguments: vault
         """
 
-        output = super()._item_get(item_identifier, vault=vault,
-                                   decode="utf-8", include_archive=include_archive)
+        output = self._item_get(item_identifier, vault=vault,
+                                decode="utf-8", include_archive=include_archive)
         op_item = OPItemFactory.op_item(
             output, generic_okay=generic_okay, relaxed_validation=relaxed_validation)
         return op_item
@@ -208,7 +208,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         Supported
           required keyword arguments: vault
         """
-        output = super()._item_get_totp(item_identifier, vault=vault, decode="utf-8")
+        output = self._item_get_totp(
+            item_identifier, vault=vault, decode="utf-8")
         # strip newline
         totp = OPTOTPItem(output)
         return totp
@@ -237,7 +238,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -----------------------
         Supported
         """
-        user_json = super()._user_get(user_name_or_id)
+        user_json = self._user_get(user_name_or_id)
         user = OPUser(user_json)
         return user
 
@@ -301,7 +302,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         Supported
             prohibited keyword arguments: group, user
         """
-        vault_json = super()._vault_get(vault_name_or_id, decode="utf-8")
+        vault_json = self._vault_get(vault_name_or_id, decode="utf-8")
         vault = OPVault(vault_json)
         return vault
 
@@ -332,7 +333,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -----------------------
         Supported
         """
-        vault_list_json = super()._vault_list(
+        vault_list_json = self._vault_list(
             group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
         vault_list = OPVaultDescriptorList(vault_list_json)
         return vault_list
@@ -362,7 +363,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -----------------------
         Supported
         """
-        group_json = super()._group_get(group_name_or_id, decode="utf-8")
+        group_json = self._group_get(group_name_or_id, decode="utf-8")
         group = OPGroup(group_json)
         return group
 
@@ -537,8 +538,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
         try:
-            document_bytes = super()._document_get(document_name_or_id,
-                                                   vault=vault, include_archive=include_archive)
+            document_bytes = self._document_get(document_name_or_id,
+                                                vault=vault, include_archive=include_archive)
         except OPCmdFailedException as ocfe:
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
@@ -585,7 +586,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             generic_item_class = _OPGenericItem
 
         try:
-            output = super()._item_get(document_identifier, vault=vault)
+            output = self._item_get(document_identifier, vault=vault)
             item = generic_item_class(output)
         except OPItemGetException as e:
             raise OPDocumentDeleteException.from_opexception(e)
@@ -705,7 +706,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         if password_recipe and not new_item.supports_passwords():
             raise OPInvalidItemException(
                 "Password recpipe provided for an item that doesn't support passwords")
-        result_str = super()._item_create(
+        result_str = self._item_create(
             new_item, password_recipe=password_recipe, vault=vault)
         op_item = OPItemFactory.op_item(result_str)
         return op_item
@@ -828,7 +829,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             generic_item_class = _OPGenericItem
 
         try:
-            output = super()._item_get(item_identifier, vault=vault)
+            output = self._item_get(item_identifier, vault=vault)
             item = generic_item_class(output)
         except OPItemGetException as e:
             raise OPItemDeleteException.from_opexception(e)
@@ -947,7 +948,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -----------------------
         Supported
         """
-        account_list_json = super()._signed_in_accounts(self.op_path, decode=decode)
+        account_list_json = self._signed_in_accounts(
+            self.op_path, decode=decode)
         account_list = OPAccountList(account_list_json)
         return account_list
 
@@ -983,7 +985,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             return
 
         try:
-            super()._signout(account, token, forget=forget)
+            self._signout(account, token, forget=forget)
         except OPCmdFailedException as ocfe:
             raise OPSignoutException.from_opexception(ocfe) from ocfe
 

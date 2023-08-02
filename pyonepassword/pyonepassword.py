@@ -711,6 +711,44 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         op_item = OPItemFactory.op_item(result_str)
         return op_item
 
+    def item_edit_generate_password(self,
+                                    item_identifier: str,
+                                    password_recipe: OPPasswordRecipe,
+                                    vault: Optional[str] = None):
+        """
+        Generate and assign a new password for an existing item
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to edit
+        password_recipe: OPPasswordRecipe
+            The password recipe to apply when generating a new passwod
+        vault: str, optional
+            The name or ID of a vault containing the item to edit.
+            Overrides the OP object's default vault, if set
+
+        Raises
+        ------
+        OPItemEditException
+            If the item edit operation fails for any reason
+
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The edited version of the item
+
+        Service Account Support
+        -----------------------
+        TODO placeholder text to satisfy pytest docstring checks
+        """
+
+        result_str = self._item_edit_generate_password(item_identifier,
+                                                       password_recipe,
+                                                       vault)
+        op_item = OPItemFactory.op_item(result_str)
+        return op_item
+
     def login_item_create(self,
                           title: str,
                           username: str,

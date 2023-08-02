@@ -522,11 +522,11 @@ class _OPCommandInterface(_OPCLIExecute):
         return account_obj
 
     def _item_get(self, item_name_or_id, vault=None, fields=None, include_archive=False, decode="utf-8"):
-        get_item_argv = self._item_get_argv(
+        item_get_argv = self._item_get_argv(
             item_name_or_id, vault=vault, fields=fields, include_archive=include_archive)
         try:
             output = self._run_with_auth_check(
-                self.op_path, self._account_identifier, get_item_argv, capture_stdout=True, decode=decode)
+                self.op_path, self._account_identifier, item_get_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPItemGetException.from_opexception(ocfe) from ocfe
 
@@ -719,10 +719,10 @@ class _OPCommandInterface(_OPCLIExecute):
 
     def _item_create_argv(self, item, password_recipe, vault):
         vault_arg = vault if vault else self.vault
-        create_item_argv = _OPArgv.item_create_argv(
+        item_create_argv = _OPArgv.item_create_argv(
             self.op_path, item, password_recipe=password_recipe, vault=vault_arg
         )
-        return create_item_argv
+        return item_create_argv
 
     def _item_create(self, item, vault, password_recipe, decode="utf-8"):
         argv = self._item_create_argv(item, password_recipe, vault)

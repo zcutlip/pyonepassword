@@ -358,6 +358,22 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    def item_edit_generate_password(cls,
+                                    op_exe,
+                                    item_identifier: str,
+                                    password_recipe: OPPasswordRecipe,
+                                    vault: Optional[str] = None):
+        item_edit_args = [item_identifier, f"--generate-password={password_recipe}"]
+
+        if vault:
+            item_edit_args.extend(["--vault", vault])
+
+        argv = cls.item_generic_argv(
+            op_exe, "edit", sub_cmd_args=item_edit_args)
+
+        return argv
+
+    @classmethod
     def item_delete_argv(cls,
                          op_exe: str,
                          item_name_or_id: str,

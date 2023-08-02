@@ -740,7 +740,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             If provided and a URL is provided, this bcomes the primary URL's label
         tags: List[str], optional
             A list of tags to apply to the item when creating
-        vault: str, optionsl
+        vault: str, optional
             The vault in which to create the new item
 
         Raises

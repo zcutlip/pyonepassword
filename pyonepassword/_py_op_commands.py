@@ -15,6 +15,8 @@ from ._svc_account import (
     SVC_ACCT_SUPPORTED,
     OPSvcAcctCommandNotSupportedException
 )
+from .op_items.password_recipe import OPPasswordRecipe
+
 from .account import OPAccount, OPAccountList
 from .op_cli_version import (
     DOCUMENT_BYTES_BUG_VERSION,
@@ -30,6 +32,7 @@ from .py_op_exceptions import (
     OPGroupGetException,
     OPGroupListException,
     OPItemCreateException,
+    OPItemEditException,
     OPItemDeleteException,
     OPItemGetException,
     OPItemListException,
@@ -724,6 +727,18 @@ class _OPCommandInterface(_OPCLIExecute):
         )
         return item_create_argv
 
+    def _item_edit_generate_password_argv(self,
+                                          item_identifier: str,
+                                          password_recipe: OPPasswordRecipe,
+                                          vault: Optional[str]):
+
+        vault_arg = vault if vault else self.vault
+        item_edit_argv = _OPArgv.item_edit_generate_password(self.op_path,
+                                                             item_identifier,
+                                                             password_recipe,
+                                                             vault=vault_arg)
+        return item_edit_argv
+
     def _item_create(self, item, vault, password_recipe, decode="utf-8"):
         argv = self._item_create_argv(item, password_recipe, vault)
         try:
@@ -731,5 +746,20 @@ class _OPCommandInterface(_OPCLIExecute):
                 self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as e:
             raise OPItemCreateException.from_opexception(e)
+
+        return output
+
+    def _item_edit_generate_password(self,
+                                     item_identifier: str,
+                                     password_recipe: OPPasswordRecipe,
+                                     vault=None,
+                                     decode="utf-8") -> str:
+        argv = self._item_edit_generate_password_argv(item_identifier, password_recipe, vault)
+
+        try:
+            output = self._run_with_auth_check(
+                self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
+        except OPCmdFailedException as e:
+            raise OPItemEditException.from_opexception(e)
 
         return output

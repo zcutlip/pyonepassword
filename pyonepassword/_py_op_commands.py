@@ -598,10 +598,13 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
         if self._cli_version <= DOCUMENT_BYTES_BUG_VERSION:  # pragma: no cover
-            # op v2.x appends an erroneous \x0a ('\n') byte to document bytes
+            # op versions 2.0.0 - 2.2.0 append an erroneous \x0a ('\n') byte to document bytes
             # trim it off if its present
             if document_bytes[-1] == 0x0a:
                 document_bytes = document_bytes[:-1]
+            else:
+                # this shouldn't happen but maybe an edge case?
+                pass
 
         return document_bytes
 

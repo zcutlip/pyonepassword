@@ -37,6 +37,7 @@ from .py_op_exceptions import (
     OPDocumentDeleteException,
     OPDocumentGetException,
     OPForgetException,
+    OPInsecureOperationException,
     OPInvalidDocumentException,
     OPInvalidItemException,
     OPItemDeleteException,
@@ -754,7 +755,13 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                password: str,
                                field_label: str = "password",
                                section_label: Optional[str] = None,
+                               insecure_operation: bool = False,
                                vault: Optional[str] = None):
+        if not insecure_operation:
+            msg = "Password assignment via 'op item edit' is inherently insecure. Pass 'insecure_operation=True' to override. For more information, see https://developer.1password.com/docs/cli/reference/management-commands/item#item-edit"
+            self.logger.fatal(msg)
+            raise OPInsecureOperationException(msg)
+
         result_str = self._item_edit_set_password(item_identifier,
                                                   password,
                                                   field_label,

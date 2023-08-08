@@ -726,6 +726,21 @@ class _OPCommandInterface(_OPCLIExecute):
         )
         return item_create_argv
 
+    def _item_edit_set_password_argv(self,
+                                     item_identifier: str,
+                                     password: str,
+                                     field_label: str,
+                                     section_label: Optional[str],
+                                     vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+        item_edit_argv = _OPArgv.item_edit_set_password_argv(self.op_path,
+                                                             item_identifier,
+                                                             password,
+                                                             field_label=field_label,
+                                                             section_label=section_label,
+                                                             vault=vault_arg)
+        return item_edit_argv
+
     def _item_edit_generate_password_argv(self,
                                           item_identifier: str,
                                           password_recipe: OPPasswordRecipe,

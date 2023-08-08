@@ -1,6 +1,7 @@
 import shlex
 from typing import List, Optional, Union
 
+from ._field_assignment import FieldTypeEnum, _FieldAssignment
 from ._svc_account import OPSvcAcctSupportCode, OPSvcAcctSupportRegistry
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe

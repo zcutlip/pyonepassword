@@ -386,7 +386,6 @@ class _OPArgv(list):
         field_assignment = _FieldAssignment(
             field_label, value, field_type=field_type, section_label=section_label)
         if isinstance(value, RedactedString):
-            value._
             field_assignment = RedactedString(field_assignment)
         item_edit_args = [field_assignment]
 
@@ -417,7 +416,8 @@ class _OPArgv(list):
                                          vault: Optional[str] = None):
         item_edit_args = [f"--generate-password={password_recipe}"]
 
-        argv = cls.item_edit_generic_argv(op_exe, item_identifier, item_edit_args, vault=vault)
+        argv = cls.item_edit_generic_argv(
+            op_exe, item_identifier, item_edit_args, vault=vault)
 
         return argv
 

@@ -15,14 +15,13 @@ from ._svc_account import (
     SVC_ACCT_SUPPORTED,
     OPSvcAcctCommandNotSupportedException
 )
-from .op_items.password_recipe import OPPasswordRecipe
-
 from .account import OPAccount, OPAccountList
 from .op_cli_version import (
     DOCUMENT_BYTES_BUG_VERSION,
     MINIMUM_SERVICE_ACCOUNT_VERSION,
     OPCLIVersion
 )
+from .op_items.password_recipe import OPPasswordRecipe
 from .py_op_exceptions import (
     OPAuthenticationException,
     OPCmdFailedException,
@@ -32,8 +31,8 @@ from .py_op_exceptions import (
     OPGroupGetException,
     OPGroupListException,
     OPItemCreateException,
-    OPItemEditException,
     OPItemDeleteException,
+    OPItemEditException,
     OPItemGetException,
     OPItemListException,
     OPSigninException,
@@ -733,10 +732,10 @@ class _OPCommandInterface(_OPCLIExecute):
                                           vault: Optional[str]):
 
         vault_arg = vault if vault else self.vault
-        item_edit_argv = _OPArgv.item_edit_generate_password(self.op_path,
-                                                             item_identifier,
-                                                             password_recipe,
-                                                             vault=vault_arg)
+        item_edit_argv = _OPArgv.item_edit_generate_password_argv(self.op_path,
+                                                                  item_identifier,
+                                                                  password_recipe,
+                                                                  vault=vault_arg)
         return item_edit_argv
 
     def _item_create(self, item, vault, password_recipe, decode="utf-8"):
@@ -754,7 +753,8 @@ class _OPCommandInterface(_OPCLIExecute):
                                      password_recipe: OPPasswordRecipe,
                                      vault=None,
                                      decode="utf-8") -> str:
-        argv = self._item_edit_generate_password_argv(item_identifier, password_recipe, vault)
+        argv = self._item_edit_generate_password_argv(
+            item_identifier, password_recipe, vault)
 
         try:
             output = self._run_with_auth_check(

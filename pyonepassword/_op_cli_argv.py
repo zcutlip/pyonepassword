@@ -358,18 +358,65 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_edit_generate_password(cls,
-                                    op_exe,
-                                    item_identifier: str,
-                                    password_recipe: OPPasswordRecipe,
-                                    vault: Optional[str] = None):
-        item_edit_args = [item_identifier, f"--generate-password={password_recipe}"]
+    def item_edit_generic_argv(cls,
+                               op_exe: str,
+                               item_identifier: str,
+                               item_edit_args: List[str],
+                               vault: Optional[str] = None):
+
+        item_edit_args = [item_identifier] + item_edit_args
 
         if vault:
             item_edit_args.extend(["--vault", vault])
 
         argv = cls.item_generic_argv(
             op_exe, "edit", sub_cmd_args=item_edit_args)
+        return argv
+
+    @classmethod
+    def item_edit_with_field_assignment_argv(cls,
+                                             op_exe: str,
+                                             item_identifier: str,
+                                             field_label: str,
+                                             value: str,
+                                             field_type: FieldTypeEnum,
+                                             section_label: Optional[str] = None,
+                                             vault: Optional[str] = None):
+        field_assignment = _FieldAssignment(
+            field_label, value, field_type=field_type, section_label=section_label)
+        if isinstance(value, RedactedString):
+            value._
+            field_assignment = RedactedString(field_assignment)
+        item_edit_args = [field_assignment]
+
+        argv = cls.item_edit_generic_argv(
+            op_exe, item_identifier, item_edit_args, vault=vault)
+        return argv
+
+    @classmethod
+    def item_edit_set_password_argv(cls,
+                                    op_exe: str,
+                                    item_identifier: str,
+                                    password: str,
+                                    field_label: str = "password",
+                                    section_label: Optional[str] = None,
+                                    vault: Optional[str] = None):
+        password = RedactedString(password)
+
+        field_type = FieldTypeEnum.PASSWORD
+        argv = cls.item_edit_with_field_assignment_argv(
+            op_exe, item_identifier, field_label, password, field_type, section_label=section_label, vault=vault)
+        return argv
+
+    @classmethod
+    def item_edit_generate_password_argv(cls,
+                                         op_exe,
+                                         item_identifier: str,
+                                         password_recipe: OPPasswordRecipe,
+                                         vault: Optional[str] = None):
+        item_edit_args = [f"--generate-password={password_recipe}"]
+
+        argv = cls.item_edit_generic_argv(op_exe, item_identifier, item_edit_args, vault=vault)
 
         return argv
 

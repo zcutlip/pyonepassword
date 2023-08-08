@@ -763,6 +763,26 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
+    def _item_edit_set_password(self,
+                                item_identifier: str,
+                                password: str,
+                                field_label: str,
+                                section_label: Optional[str] = None,
+                                vault: Optional[str] = None,
+                                decode: str = "utf-8") -> str:
+        argv = self._item_edit_set_password_argv(item_identifier,
+                                                 password,
+                                                 field_label=field_label,
+                                                 section_label=section_label,
+                                                 vault=vault)
+        try:
+            output = self._run_with_auth_check(
+                self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
+        except OPCmdFailedException as e:
+            raise OPItemEditException.from_opexception(e)
+
+        return output
+
     def _item_edit_generate_password(self,
                                      item_identifier: str,
                                      password_recipe: OPPasswordRecipe,

@@ -307,6 +307,22 @@ class OPUnknownAccountException(OPBaseException):
         super().__init__(msg)
 
 
+class OPInsecureOperationException(OPBaseException):
+    """
+    An exception class to prevent inadvertent insecure operations.
+
+    This class should be used in conjuction with an override argument
+    so that the caller may acknowledge and accept the risk
+
+    e.g., op.item_edit_set_password(item_name,
+                                    new_password,
+                                    insecure_operation=True)
+    """
+
+    def __init__(self, msg):
+        super().__init__(msg)
+
+
 _deprecated_exceptions = {
     OPNotSignedInException.__name__: OPAuthenticationException.__name__
 }

@@ -749,6 +749,20 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         op_item = OPItemFactory.op_item(result_str)
         return op_item
 
+    def item_edit_set_password(self,
+                               item_identifier: str,
+                               password: str,
+                               field_label: str = "password",
+                               section_label: Optional[str] = None,
+                               vault: Optional[str] = None):
+        result_str = self._item_edit_set_password(item_identifier,
+                                                  password,
+                                                  field_label,
+                                                  section_label=section_label,
+                                                  vault=vault)
+        op_item = OPItemFactory.op_item(result_str)
+        return op_item
+
     def login_item_create(self,
                           title: str,
                           username: str,

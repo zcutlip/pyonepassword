@@ -19,6 +19,9 @@ class _FieldAssignment(str):
             assignment_str = f"{section_label}."
 
         assignment_str += f"{field_label}[{field_type_string}]="
+        # intentionally not using string formatting to assign value
+        # in some cases value will be a RedactedString, so concatenation
+        # will prevent it from self-redacting
         assignment_str += value
         return super().__new__(cls, assignment_str)
 

@@ -35,6 +35,8 @@ class _FieldAssignment(str):
 
 
 class PasswordFieldAssignment(_FieldAssignment):
-    def __init__(self, field_label: str, value: str, section_label: str = None):
+    def __new__(cls, field_label: str, value: str, section_label: str = None):
         field_type = FieldTypeEnum.PASSWORD
-        super().__init__(field_label, value, field_type=field_type, section_label=section_label)
+        obj = super().__new__(cls, field_label, value,
+                              field_type=field_type, section_label=section_label)
+        return obj

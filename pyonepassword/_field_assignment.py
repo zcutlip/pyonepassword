@@ -47,6 +47,9 @@ class PasswordFieldAssignment(_FieldAssignment):
         self._redacted_assignment = redacted
 
     def __str__(self):
+        # NOTE: this is only intended to affect printing/logging of this string
+        # It DOES NOT make `op item edit` operations more secure. The cleartext password assignment
+        # is still passed as an argument and visible to other processes
         return self._redacted_assignment
 
     def _redact(self):

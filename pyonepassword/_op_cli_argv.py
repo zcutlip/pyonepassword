@@ -1,7 +1,7 @@
 import shlex
 from typing import List, Optional, Union
 
-from ._field_assignment import FieldTypeEnum, _FieldAssignment
+from ._field_assignment import PasswordFieldAssignment
 from ._svc_account import OPSvcAcctSupportCode, OPSvcAcctSupportRegistry
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
@@ -375,25 +375,6 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_edit_with_field_assignment_argv(cls,
-                                             op_exe: str,
-                                             item_identifier: str,
-                                             field_label: str,
-                                             value: str,
-                                             field_type: FieldTypeEnum,
-                                             section_label: Optional[str] = None,
-                                             vault: Optional[str] = None):
-        field_assignment = _FieldAssignment(
-            field_label, value, field_type=field_type, section_label=section_label)
-        if isinstance(value, RedactedString):
-            field_assignment = RedactedString(field_assignment)
-        item_edit_args = [field_assignment]
-
-        argv = cls.item_edit_generic_argv(
-            op_exe, item_identifier, item_edit_args, vault=vault)
-        return argv
-
-    @classmethod
     def item_edit_set_password_argv(cls,
                                     op_exe: str,
                                     item_identifier: str,
@@ -403,9 +384,13 @@ class _OPArgv(list):
                                     vault: Optional[str] = None):
         password = RedactedString(password)
 
-        field_type = FieldTypeEnum.PASSWORD
-        argv = cls.item_edit_with_field_assignment_argv(
-            op_exe, item_identifier, field_label, password, field_type, section_label=section_label, vault=vault)
+        field_assignment = PasswordFieldAssignment(
+            field_label, password, section_label=section_label)
+
+        item_edit_args = [field_assignment]
+
+        argv = cls.item_edit_generic_argv(
+            op_exe, item_identifier, item_edit_args, vault=vault)
         return argv
 
     @classmethod

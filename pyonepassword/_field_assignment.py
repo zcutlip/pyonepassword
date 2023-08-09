@@ -40,3 +40,25 @@ class PasswordFieldAssignment(_FieldAssignment):
         obj = super().__new__(cls, field_label, value,
                               field_type=field_type, section_label=section_label)
         return obj
+
+    def __init__(self, *args, **kwargs):
+        super().__init__()
+        redacted = self._redact()
+        self._redacted_assignment = redacted
+
+    def __str__(self):
+        return self._redacted_assignment
+
+    def _redact(self):
+        lhs, rhs = self.rsplit("=", maxsplit=1)
+        mask = "*" * len(rhs)
+
+        # introduce an intentional syntax error here
+        # in case we try to use this redacted string as the actual
+        # assignment during execution
+        # This should generate an error
+        # we don't want to accidentaly set someone's password
+        # to "*************"
+        # this is an equals emoji rather than an equals sign
+        redacted = f"{lhs}🟰{mask}"
+        return redacted

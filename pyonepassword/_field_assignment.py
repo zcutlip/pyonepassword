@@ -10,7 +10,7 @@ class FieldTypeEnum(Enum):
 
 class _FieldAssignment(str):
 
-    def __new__(cls, field_label: str, value: str, *args, field_type=FieldTypeEnum.PASSWORD, section_label: str = None, **kwargs) -> None:
+    def __new__(cls, field_label: str, value: str, field_type, * args, section_label: str = None, **kwargs) -> None:
         assignment_str = ""
         field_label = cls._field_assignment_escape(field_label)
         field_type_string = field_type.value

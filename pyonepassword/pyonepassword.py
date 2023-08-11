@@ -757,6 +757,48 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                section_label: Optional[str] = None,
                                insecure_operation: bool = False,
                                vault: Optional[str] = None):
+        """
+        Assign a new password for an existing item
+
+        SECURITY NOTE: This operation will include the provided password in cleartext as a command line argument
+        to the 'op' command. On most platforms, the arguments, including the password, will be visible to other
+        processes, including processes owned by other users
+        In order to use this operaton, this insecurity must be acknowledged by passing the insecure_operation=True kwarg
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to edit
+        password: str
+            The password value to set
+        field_label: str
+            The human readable label of the field to edit
+            by default "password"
+        section_label: str, optional
+            If provided, the human readable section label the field is associated with
+        insecure_operation: bool
+            Caller acknowledgement of the insecure nature of this operation
+            by default, False
+        vault: str, optional
+            The name or ID of a vault containing the item to edit
+            Overrides the OP object's default vault, if set
+
+        Raises
+        ------
+        OPItemEditException
+            If the item edit operation fails for any reason
+        OPInsecureOperationException
+            If the caller does not pass insecure_operation=True, failing to ackonowledge the
+            insecure nature of this operation
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The edited version of the item
+
+        Service Account Support
+        -----------------------
+        TODO placeholder text to satisfy pytest docstring checks
+        """
         if not insecure_operation:
             msg = "Password assignment via 'op item edit' is inherently insecure. Pass 'insecure_operation=True' to override. For more information, see https://developer.1password.com/docs/cli/reference/management-commands/item#item-edit"
             self.logger.fatal(msg)

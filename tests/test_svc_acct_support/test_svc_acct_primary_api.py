@@ -153,14 +153,18 @@ def test_svc_account_primary_api_docstrings():
 
     failures = []
     for meth_name, method_obj in api_method_dict.items():
-        matches = re.search(svc_account_string_re, method_obj.__doc__)
-        if not matches:
-            # we didn't find service account support in the docstring
+        if not method_obj.__doc__:
+            # no docstring at all
             failures.append(f"OP.{meth_name}()")
         else:
-            # we found mention of service account support but it was incomplete or not formatted properly
-            if len(matches[0].splitlines()) != 2:
+            matches = re.search(svc_account_string_re, method_obj.__doc__)
+            if not matches:
+                # we didn't find service account support in the docstring
                 failures.append(f"OP.{meth_name}()")
+            else:
+                # we found mention of service account support but it was incomplete or not formatted properly
+                if len(matches[0].splitlines()) != 2:
+                    failures.append(f"OP.{meth_name}()")
 
     # len(failures) should == 0
     # if not generate failure message from list of failures

@@ -101,7 +101,7 @@ def test_field_assignment_escape_100():
         - PasswordFieldAssignment class
     Verify:
         - The resulting field assignment contains properly escaped '=' characters in the section label
-        - The '=' characters in the password are not
+        - The '=' characters in the password are not escaped
 
     Note: Part of the purpose of this test case is to exercise character escaping in section labels
         separately from character escaping in field labels
@@ -126,7 +126,7 @@ def test_field_assignment_escape_110():
         - PasswordFieldAssignment class
     Verify:
         - The resulting field assignment contains properly escaped '=' characters in the field label
-        - The '=' characters in the password are not
+        - The '=' characters in the password are not escaped
     Note: Part of the purpose of this test case is to exercise character escaping in field labels
         separately from character escaping in section labels
     """

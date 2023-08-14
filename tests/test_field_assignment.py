@@ -92,8 +92,6 @@ def test_field_type_password_040():
     assert expected_assignment_str == assignment
 
 
-#     field_type = FieldTypeEnum.PASSWORD
-
 def test_field_assignment_escape_100():
     """
     Create a field assignment string using:

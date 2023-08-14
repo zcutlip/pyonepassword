@@ -91,4 +91,53 @@ def test_field_type_password_040():
 
     assert expected_assignment_str == assignment
 
+
 #     field_type = FieldTypeEnum.PASSWORD
+
+def test_field_assignment_escape_100():
+    """
+    Create a field assignment string using:
+        - a section label containing '=' characters
+        - a field label
+        - a password containing '=' characters
+        - PasswordFieldAssignment class
+    Verify:
+        - The resulting field assignment contains properly escaped '=' characters in the section label
+        - The '=' characters in the password are not
+
+    Note: Part of the purpose of this test case is to exercise character escaping in section labels
+        separately from character escaping in field labels
+    """
+    section_label = "Section=With=Equals"
+    field_label = "Field 100"
+    value = "Password=With=Equals 100"
+
+    expected_escaped_string = r"Section\=With\=Equals.Field 100[password]=Password=With=Equals 100"
+    assignment = PasswordFieldAssignment(
+        field_label, value, section_label=section_label)
+
+    assert expected_escaped_string == assignment
+
+
+def test_field_assignment_escape_110():
+    """
+    Create a field assignment string using:
+        - a section label
+        - a field label containting '=' characters
+        - a password containing '=' characters
+        - PasswordFieldAssignment class
+    Verify:
+        - The resulting field assignment contains properly escaped '=' characters in the field label
+        - The '=' characters in the password are not
+    Note: Part of the purpose of this test case is to exercise character escaping in field labels
+        separately from character escaping in section labels
+    """
+    section_label = "Section 110"
+    field_label = "Field=With=Equals 110"
+    value = "Password=With=Equals 110"
+
+    expected_escaped_string = r"Section 110.Field\=With\=Equals 110[password]=Password=With=Equals 110"
+    assignment = PasswordFieldAssignment(
+        field_label, value, section_label=section_label)
+
+    assert expected_escaped_string == assignment

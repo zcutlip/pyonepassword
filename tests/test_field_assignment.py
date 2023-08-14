@@ -2,6 +2,14 @@ from pyonepassword._field_assignment import FieldTypeEnum, _FieldAssignment
 
 
 def test_field_type_010():
+    """
+    Create a field assignment string using:
+        - a section name
+        - a field name
+        - field type "password"
+    Verify:
+        the resulting field assignment string matches the expected string
+    """
     expected_assignment_str = "Section 010.Field 010[password]=Password 010"
 
     section_label = "Section 010"
@@ -16,6 +24,14 @@ def test_field_type_010():
 
 
 def test_field_type_020():
+    """
+    Create a field assignment string using:
+        - a section name
+        - a field name
+        - field type "text"
+    Verify:
+        the resulting field assignment string matches the expected string
+    """
     expected_assignment_str = "Section 020.Field 020[text]=text string 020"
 
     section_label = "Section 020"

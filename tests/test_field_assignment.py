@@ -8,8 +8,8 @@ from pyonepassword._field_assignment import (
 def test_field_type_010():
     """
     Create a field assignment string using:
-        - a section name
-        - a field name
+        - a section label
+        - a field label
         - field type "password"
     Verify:
         the resulting field assignment string matches the expected string
@@ -30,8 +30,8 @@ def test_field_type_010():
 def test_field_type_020():
     """
     Create a field assignment string using:
-        - a section name
-        - a field name
+        - a section label
+        - a field label
         - field type "text"
     Verify:
         the resulting field assignment string matches the expected string
@@ -52,8 +52,8 @@ def test_field_type_020():
 def test_field_type_030():
     """
     Create a field assignment string using:
-        - a section name
-        - a field name
+        - a section label
+        - a field label
         - field type "url"
     Verify:
         the resulting field assignment string matches the expected string
@@ -74,8 +74,8 @@ def test_field_type_030():
 def test_field_type_password_040():
     """
     Create a field assignment string using:
-        - a section name
-        - a field name
+        - a section label
+        - a field label
         - PasswordFieldAssignment class
     Verify:
         the resulting field assignment string matches the expected string

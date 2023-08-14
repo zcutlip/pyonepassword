@@ -92,6 +92,25 @@ def test_field_type_password_040():
     assert expected_assignment_str == assignment
 
 
+def test_field_type_password_050():
+    """
+    Create a field assignment string using:
+        - No section label
+        - a field label
+        - PasswordFieldAssignment class
+    Verify:
+        the resulting field assignment string matches the expected string
+    """
+    expected_assignment_str = "Field 050[password]=Password 050"
+
+    field_label = "Field 050"
+    value = "Password 050"
+
+    assignment = PasswordFieldAssignment(field_label, value)
+
+    assert expected_assignment_str == assignment
+
+
 def test_field_assignment_escape_100():
     """
     Create a field assignment string using:

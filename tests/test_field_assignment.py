@@ -158,3 +158,25 @@ def test_field_assignment_escape_110():
         field_label, value, section_label=section_label)
 
     assert expected_escaped_string == assignment
+
+
+def test_field_assignment_escape_120():
+    """
+    Create a field assignment string using:
+        - a section label containing '.' characters
+        - a field label containting '.' characters
+        - PasswordFieldAssignment class
+    Verify:
+        - The resulting field assignment contains properly escaped '.' characters in the
+          field and section labels
+    """
+    section_label = "Section.With.Periods 120"
+    field_label = "Field.With.Periods 120"
+    value = "Password 120"
+
+    expected_escaped_string = r"Section\.With\.Periods 120.Field\.With\.Periods 120[password]=Password 120"
+
+    assignment = PasswordFieldAssignment(
+        field_label, value, section_label=section_label)
+
+    assert expected_escaped_string == assignment

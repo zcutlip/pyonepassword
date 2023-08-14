@@ -1,4 +1,8 @@
-from pyonepassword._field_assignment import FieldTypeEnum, _FieldAssignment
+from pyonepassword._field_assignment import (
+    FieldTypeEnum,
+    PasswordFieldAssignment,
+    _FieldAssignment
+)
 
 
 def test_field_type_010():
@@ -66,5 +70,25 @@ def test_field_type_030():
 
     assert expected_assignment_str == assignment
 
+
+def test_field_type_password_040():
+    """
+    Create a field assignment string using:
+        - a section name
+        - a field name
+        - PasswordFieldAssignment class
+    Verify:
+        the resulting field assignment string matches the expected string
+    """
+    expected_assignment_str = "Section 040.Field 040[password]=Password 040"
+
+    section_label = "Section 040"
+    field_label = "Field 040"
+    value = "Password 040"
+
+    assignment = PasswordFieldAssignment(
+        field_label, value, section_label=section_label)
+
+    assert expected_assignment_str == assignment
 
 #     field_type = FieldTypeEnum.PASSWORD

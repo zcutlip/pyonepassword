@@ -45,8 +45,26 @@ def test_field_type_020():
     assert expected_assignment_str == assignment
 
 
-# def test_field_assignment_escape_01():
-#     section_label = "Section=With=Equals"
-#     field_label = "Field 01"
-#     value = "New Password"
+def test_field_type_030():
+    """
+    Create a field assignment string using:
+        - a section name
+        - a field name
+        - field type "url"
+    Verify:
+        the resulting field assignment string matches the expected string
+    """
+    expected_assignment_str = "Section 030.Field 030[url]=https://fake-url/etc.etc.etc."
+
+    section_label = "Section 030"
+    field_label = "Field 030"
+    value = "https://fake-url/etc.etc.etc."
+    field_type = FieldTypeEnum.URL
+
+    assignment = _FieldAssignment(
+        field_label, value, field_type, section_label=section_label)
+
+    assert expected_assignment_str == assignment
+
+
 #     field_type = FieldTypeEnum.PASSWORD

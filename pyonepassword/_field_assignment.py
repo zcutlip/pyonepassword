@@ -34,7 +34,7 @@ class _OPFieldAssignment(str):
         return escaped_string
 
 
-class PasswordFieldAssignment(_OPFieldAssignment):
+class OPFieldAssignmentPassword(_OPFieldAssignment):
     def __new__(cls, field_label: str, value: str, section_label: str = None):
         field_type = FieldTypeEnum.PASSWORD
         obj = super().__new__(cls, field_label, value,

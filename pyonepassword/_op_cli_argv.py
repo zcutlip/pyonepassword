@@ -1,7 +1,7 @@
 import shlex
 from typing import List, Optional, Union
 
-from ._field_assignment import PasswordFieldAssignment
+from ._field_assignment import OPFieldAssignmentPassword
 from ._svc_account import OPSvcAcctSupportCode, OPSvcAcctSupportRegistry
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
@@ -384,7 +384,7 @@ class _OPArgv(list):
                                     vault: Optional[str] = None):
         password = RedactedString(password)
 
-        field_assignment = PasswordFieldAssignment(
+        field_assignment = OPFieldAssignmentPassword(
             field_label, password, section_label=section_label)
 
         item_edit_args = [field_assignment]

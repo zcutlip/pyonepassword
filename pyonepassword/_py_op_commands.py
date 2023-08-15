@@ -810,3 +810,19 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPItemEditException.from_opexception(e)
 
         return output
+
+    def _item_edit_set_title(self,
+                             item_identifier: str,
+                             item_title: str,
+                             vault: Optional[str] = None,
+                             decode: str = "utf-8"):
+        argv = self._item_edit_set_title_argv(
+            item_identifier, item_title, vault=vault)
+
+        try:
+            output = self._run_with_auth_check(
+                self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
+        except OPCmdFailedException as e:
+            raise OPItemEditException.from_opexception(e)
+
+        return output

@@ -1,6 +1,6 @@
 from pyonepassword._field_assignment import (
     FieldTypeEnum,
-    PasswordFieldAssignment,
+    OPFieldAssignmentPassword,
     _OPFieldAssignment
 )
 
@@ -86,7 +86,7 @@ def test_field_type_password_040():
     field_label = "Field 040"
     value = "Password 040"
 
-    assignment = PasswordFieldAssignment(
+    assignment = OPFieldAssignmentPassword(
         field_label, value, section_label=section_label)
 
     assert expected_assignment_str == assignment
@@ -106,7 +106,7 @@ def test_field_type_password_050():
     field_label = "Field 050"
     value = "Password 050"
 
-    assignment = PasswordFieldAssignment(field_label, value)
+    assignment = OPFieldAssignmentPassword(field_label, value)
 
     assert expected_assignment_str == assignment
 
@@ -130,7 +130,7 @@ def test_field_assignment_escape_100():
     value = "Password=With=Equals 100"
 
     expected_escaped_string = r"Section\=With\=Equals.Field 100[password]=Password=With=Equals 100"
-    assignment = PasswordFieldAssignment(
+    assignment = OPFieldAssignmentPassword(
         field_label, value, section_label=section_label)
 
     assert expected_escaped_string == assignment
@@ -154,7 +154,7 @@ def test_field_assignment_escape_110():
     value = "Password=With=Equals 110"
 
     expected_escaped_string = r"Section 110.Field\=With\=Equals 110[password]=Password=With=Equals 110"
-    assignment = PasswordFieldAssignment(
+    assignment = OPFieldAssignmentPassword(
         field_label, value, section_label=section_label)
 
     assert expected_escaped_string == assignment
@@ -176,7 +176,7 @@ def test_field_assignment_escape_120():
 
     expected_escaped_string = r"Section\.With\.Periods 120.Field\.With\.Periods 120[password]=Password 120"
 
-    assignment = PasswordFieldAssignment(
+    assignment = OPFieldAssignmentPassword(
         field_label, value, section_label=section_label)
 
     assert expected_escaped_string == assignment
@@ -199,7 +199,7 @@ def test_field_assignment_escape_130():
 
     expected_escaped_string = r"Section\\With\\Backslashes 120.Field\\With\\Backslashes 120[password]=Password 120"
 
-    assignment = PasswordFieldAssignment(
+    assignment = OPFieldAssignmentPassword(
         field_label, value, section_label=section_label)
 
     assert expected_escaped_string == assignment

@@ -812,6 +812,17 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         op_item = OPItemFactory.op_item(result_str)
         return op_item
 
+    def item_edit_set_title(self,
+                            item_identifier: str,
+                            item_title: str,
+                            vault: Optional[str] = None):
+        result_str = self._item_edit_set_title(item_identifier,
+                                               item_title,
+                                               vault=vault)
+        op_item = OPItemFactory.op_item(result_str)
+
+        return op_item
+
     def login_item_create(self,
                           title: str,
                           username: str,

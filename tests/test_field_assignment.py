@@ -1,7 +1,7 @@
 from pyonepassword._field_assignment import (
     FieldTypeEnum,
     PasswordFieldAssignment,
-    _FieldAssignment
+    _OPFieldAssignment
 )
 
 
@@ -21,7 +21,7 @@ def test_field_type_010():
     value = "Password 010"
     field_type = FieldTypeEnum.PASSWORD
 
-    assignment = _FieldAssignment(
+    assignment = _OPFieldAssignment(
         field_label, value, field_type, section_label=section_label)
 
     assert expected_assignment_str == assignment
@@ -43,7 +43,7 @@ def test_field_type_020():
     value = "text string 020"
     field_type = FieldTypeEnum.TEXT
 
-    assignment = _FieldAssignment(
+    assignment = _OPFieldAssignment(
         field_label, value, field_type, section_label=section_label)
 
     assert expected_assignment_str == assignment
@@ -65,7 +65,7 @@ def test_field_type_030():
     value = "https://fake-url/etc.etc.etc."
     field_type = FieldTypeEnum.URL
 
-    assignment = _FieldAssignment(
+    assignment = _OPFieldAssignment(
         field_label, value, field_type, section_label=section_label)
 
     assert expected_assignment_str == assignment

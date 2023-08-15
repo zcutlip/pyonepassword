@@ -8,7 +8,7 @@ class FieldTypeEnum(Enum):
     URL = "url"
 
 
-class _FieldAssignment(str):
+class _OPFieldAssignment(str):
 
     def __new__(cls, field_label: str, value: str, field_type, * args, section_label: str = None, **kwargs) -> None:
         assignment_str = ""
@@ -34,7 +34,7 @@ class _FieldAssignment(str):
         return escaped_string
 
 
-class PasswordFieldAssignment(_FieldAssignment):
+class PasswordFieldAssignment(_OPFieldAssignment):
     def __new__(cls, field_label: str, value: str, section_label: str = None):
         field_type = FieldTypeEnum.PASSWORD
         obj = super().__new__(cls, field_label, value,

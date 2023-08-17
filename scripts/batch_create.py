@@ -2,6 +2,8 @@
 from argparse import ArgumentParser, Namespace
 from typing import List, Optional
 
+import dotenv
+
 from pyonepassword import OP, logging
 from pyonepassword.api.constants import LETTERS_DIGITS_SYMBOLS_20
 from pyonepassword.api.object_types import (
@@ -53,6 +55,7 @@ def batch_create_parse_args():
     parser.add_argument(
         "--alternating-tags", help="Comma-separated list of tags to alternate between when creating items")
     parser.add_argument("--category", help="Category of item to create")
+    parser.add_argument("--env-file", help="Path to a .env file to load")
     parsed = parser.parse_args()
     return parsed
 
@@ -95,12 +98,18 @@ def create_items(options: Namespace):
 
 def main():
     options = batch_create_parse_args()
+    if options.env_file:
+        loaded = dotenv.load_dotenv(options.env_file)
+        if not loaded:
+            print(f"Failed to load env file {options.env_file}")
+            return -1
     create_items(options)
+    return 0
 
 
 if __name__ == "__main__":
     try:
-        main()
+        exit(main())
     except KeyboardInterrupt:
         print("Interruped. terminating")
         exit(130)

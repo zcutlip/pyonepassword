@@ -66,6 +66,48 @@ class OPPasswordRecipe:
         recipe_str = ",".join(self.recipe)
         return recipe_str
 
+    @classmethod
+    def from_string(cls, password_recipe: str):
+        """
+        Class method for transforming a password recipe string into a OPPasswordRecipe object
+
+        Primarily for validating password recipe strings
+
+        Parameters
+        ----------
+        password_recipe : str
+            The password recipe string to parse and validate
+
+        Raises
+        ------
+        OPInvalidPasswordRecipeException
+            If:
+              - The recipe contains a component not recognized by 'op'
+              - The recipe is not valid per OPPasswordRecipe's initializer (see constructor docstring)
+        """
+        letters = False
+        digits = False
+        symbols = False
+
+        parts = password_recipe.split(",")
+
+        # password length will be validated in __init__()
+        passwd_len = int(parts.pop(0))
+
+        for part in parts:
+            if part == "letters":
+                letters = True
+            elif part == "digits":
+                digits = True
+            elif part == "symbols":
+                symbols = True
+            else:
+                raise OPInvalidPasswordRecipeException(
+                    f"Invalid password recipe component: {part}")
+        recipe = cls(length=passwd_len, letters=letters,
+                     digits=digits, symbols=symbols)
+        return recipe
+
 
 LETTERS_DIGITS_SYMBOLS_20 = OPPasswordRecipe()
 LETTERS_DIGITS_25 = OPPasswordRecipe(length=25, symbols=False)

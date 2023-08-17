@@ -100,3 +100,39 @@ def test_password_recipe_exception_060():
     symbols = False
     with pytest.raises(OPInvalidPasswordRecipeException):
         OPPasswordRecipe(letters=letters, digits=digits, symbols=symbols)
+
+
+def test_password_recipe_exception_070():
+    """
+    Create a password recipe with:
+        - Length value less than the minimum of 1
+    Verify:
+        OPInvalidPasswordRecipeException is raised
+    """
+    length = 0
+    with pytest.raises(OPInvalidPasswordRecipeException):
+        OPPasswordRecipe(length=length)
+
+
+def test_password_recipe_exception_080():
+    """
+    Create a password recipe with:
+        - Length value greater than the maximum 64
+    Verify:
+        OPInvalidPasswordRecipeException is raised
+    """
+    length = 65
+    with pytest.raises(OPInvalidPasswordRecipeException):
+        OPPasswordRecipe(length=length)
+
+
+def test_password_recipe_exception_090():
+    """
+    Create a password recipe with:
+        - Negative length value
+    Verify:
+        OPInvalidPasswordRecipeException is raised
+    """
+    length = -127
+    with pytest.raises(OPInvalidPasswordRecipeException):
+        OPPasswordRecipe(length=length)

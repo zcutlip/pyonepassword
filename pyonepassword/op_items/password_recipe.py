@@ -18,6 +18,8 @@ class OPPasswordRecipe:
     - '1' - '64' for password length
 
     """
+    MIN_PASSWD_LEN = 1
+    MAX_PASSWD_LEN = 64
 
     def __init__(self, length: int = 20, letters=True, digits=True, symbols=True):
         """
@@ -41,6 +43,10 @@ class OPPasswordRecipe:
               - The specified length is outside the range (1-64) accepted by the 'op' command
               - If at least one of letters, digits, or symbols is not requested
         """
+        if length < self.MIN_PASSWD_LEN or length > self.MAX_PASSWD_LEN:
+            raise OPInvalidPasswordRecipeException(
+                f"Invalid password length: {length}")
+
         recipe_parts = [str(length)]
 
         if True not in [letters, digits, symbols]:

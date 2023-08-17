@@ -92,7 +92,11 @@ class OPPasswordRecipe:
         parts = password_recipe.split(",")
 
         # password length will be validated in __init__()
-        passwd_len = int(parts.pop(0))
+        try:
+            passwd_len = int(parts.pop(0))
+        except ValueError:
+            raise OPInvalidPasswordRecipeException(
+                "Recipe must start with password length in the range 1-64")
 
         for part in parts:
             if part == "letters":

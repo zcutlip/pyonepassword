@@ -816,6 +816,33 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                             item_identifier: str,
                             item_title: str,
                             vault: Optional[str] = None):
+        """
+        Assign a new title for an existing item
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to edit
+        item_title: str
+            The new title to assign to the item
+        vault: str, optional
+            The name or ID of a vault containing the item to edit.
+            Overrides the OP object's default vault, if set
+
+        Raises
+        ------
+        OPItemEditException
+            If the item edit operation fails for any reason
+
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The edited version of the item
+
+        Service Account Support
+        -----------------------
+        TODO placeholder text to satisfy pytest docstring checks
+        """
         result_str = self._item_edit_set_title(item_identifier,
                                                item_title,
                                                vault=vault)

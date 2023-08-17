@@ -136,3 +136,39 @@ def test_password_recipe_exception_090():
     length = -127
     with pytest.raises(OPInvalidPasswordRecipeException):
         OPPasswordRecipe(length=length)
+
+
+def test_password_recipe_from_string_100():
+
+    input_string = "64,letters,digits,symbols"
+    expected_recipe = "64,letters,digits,symbols"
+
+    recipe = OPPasswordRecipe.from_string(input_string)
+
+    assert expected_recipe == str(recipe)
+
+
+def test_password_recipe_from_string_110():
+
+    input_string = "20,letters,digits"
+    expected_recipe = "20,letters,digits"
+
+    recipe = OPPasswordRecipe.from_string(input_string)
+
+    assert expected_recipe == str(recipe)
+
+
+def test_password_recipe_from_string_120():
+
+    input_string = "65,letters,digits"
+
+    with pytest.raises(OPInvalidPasswordRecipeException):
+        OPPasswordRecipe.from_string(input_string)
+
+
+def test_password_recipe_from_string_130():
+
+    input_string = "letters,digits"
+
+    with pytest.raises(OPInvalidPasswordRecipeException):
+        OPPasswordRecipe.from_string(input_string)

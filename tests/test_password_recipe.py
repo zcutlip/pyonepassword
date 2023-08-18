@@ -198,3 +198,29 @@ def test_password_recipe_from_string_130():
 
     with pytest.raises(OPInvalidPasswordRecipeException):
         OPPasswordRecipe.from_string(input_string)
+
+
+def test_password_recipe_from_string_140():
+    """
+    Create a password recipe using from_string(), with:
+        - an illegal string consisting of emojis
+    Verify:
+        OPInvalidPasswordRecipeException is raised
+    """
+    input_string = "🍆🍆🍆"
+
+    with pytest.raises(OPInvalidPasswordRecipeException):
+        OPPasswordRecipe.from_string(input_string)
+
+
+def test_password_recipe_from_string_150():
+    """
+    Create a password recipe using from_string(), with:
+        - an illegal string consisting of length, letters, digits, and an emoji
+    Verify:
+        OPInvalidPasswordRecipeException is raised
+    """
+    input_string = "25,letters,digits,🙃"
+
+    with pytest.raises(OPInvalidPasswordRecipeException):
+        OPPasswordRecipe.from_string(input_string)

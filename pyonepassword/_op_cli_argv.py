@@ -1,5 +1,5 @@
 import shlex
-from typing import List, Optional, Union
+from typing import List, Optional, Sequence, Union
 
 from ._field_assignment import OPFieldAssignmentPassword
 from ._svc_account import OPSvcAcctSupportCode, OPSvcAcctSupportRegistry
@@ -362,10 +362,20 @@ class _OPArgv(list):
     def item_edit_generic_argv(cls,
                                op_exe: str,
                                item_identifier: str,
-                               item_edit_args: List[str],
+                               item_edit_args: Sequence[str],
                                vault: Optional[str] = None):
 
-        item_edit_args = [item_identifier] + item_edit_args
+        # We have to type the item_edit_args param as a Sequence
+        # not a list because Lists are invariant, and mypy prevents
+        # us from passing in a subypte like List[SubTypeOfStr]
+        #
+        # However, mypy complains if we work with item_edit_args as if
+        # it's a list without first making it a list,
+        # hence the list(item_edit_args)
+        # https://mypy.readthedocs.io/en/latest/generics.html#variance-of-generic-types
+        # and also:
+        # https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)#Arrays
+        item_edit_args = [item_identifier] + list(item_edit_args)
 
         if vault:
             item_edit_args.extend(["--vault", vault])

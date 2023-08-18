@@ -203,3 +203,27 @@ def test_field_assignment_escape_130():
         field_label, value, section_label=section_label)
 
     assert expected_escaped_string == assignment
+
+
+def test_field_type_password_redaction_140():
+    """
+    Create a field assignment string using:
+        - A section label
+        - A field label
+        - PasswordFieldAssignment class
+    Verify:
+        A string copy of the resulting field assignment appropriately redacts the password
+    """
+    # this is intentially an equals emoji
+    # to prevent the redacted string from
+    # accidentally being used as an assignment -------------v
+    expected_redacted_str = "Section 140.Field 140[password]🟰************"
+
+    section_label = "Section 140"
+    field_label = "Field 140"
+    value = "Password 140"
+
+    assignment = OPFieldAssignmentPassword(
+        field_label, value, section_label=section_label)
+
+    assert expected_redacted_str == str(assignment)

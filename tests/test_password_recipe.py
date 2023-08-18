@@ -139,6 +139,13 @@ def test_password_recipe_exception_090():
 
 
 def test_password_recipe_from_string_100():
+    """
+    Create a password recipe using from_string(), with:
+        - Custom length greater than the maximum 64
+        - letters, digits, & symbols
+    Verify:
+        the resulting recipe matches the expected recipe
+    """
 
     input_string = "64,letters,digits,symbols"
     expected_recipe = "64,letters,digits,symbols"
@@ -149,6 +156,13 @@ def test_password_recipe_from_string_100():
 
 
 def test_password_recipe_from_string_110():
+    """
+    Create a password recipe using from_string(), with:
+        - custom length
+        - letters & digits
+    Verify:
+        the resulting recipe matches the expected recipe
+    """
 
     input_string = "20,letters,digits"
     expected_recipe = "20,letters,digits"
@@ -159,6 +173,13 @@ def test_password_recipe_from_string_110():
 
 
 def test_password_recipe_from_string_120():
+    """
+    Create a password recipe using from_string(), with:
+        - Custom length larger the maximum
+        - letters, digits, & symbols
+    Verify:
+        the resulting recipe matches the expected recipe
+    """
 
     input_string = "65,letters,digits"
 
@@ -167,7 +188,12 @@ def test_password_recipe_from_string_120():
 
 
 def test_password_recipe_from_string_130():
-
+    """
+    Create a password recipe using from_string(), with:
+        - Omitted length, only letters & digits specified
+    Verify:
+        OPInvalidPasswordRecipeException is raised
+    """
     input_string = "letters,digits"
 
     with pytest.raises(OPInvalidPasswordRecipeException):

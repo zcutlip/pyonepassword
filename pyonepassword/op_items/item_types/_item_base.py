@@ -58,7 +58,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
                 relaxed = get_relaxed_validation(item_class=self.__class__)
         return relaxed
 
-    def sections_by_label(self, label, case_sensitive=True) -> List[OPSection]:
+    def sections_by_label(self, section_label, case_sensitive=True) -> List[OPSection]:
         """
         Returns a list of zero or more sections matching the given title.
         Sections are not required to have unique titles, so there may be more than one match.
@@ -69,8 +69,8 @@ class OPAbstractItem(OPAbstractItemDescriptor):
             s_label = sect.label
             if not case_sensitive:
                 s_label = s_label.lower()
-                label = label.lower()
-            if s_label == label:
+                section_label = section_label.lower()
+            if s_label == section_label:
                 matching_sections.append(sect)
 
         return matching_sections
@@ -84,8 +84,9 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
         return section
 
-    def first_section_by_label(self, label, case_sensitive=True) -> Optional[OPSection]:
-        sections = self.sections_by_label(label, case_sensitive=case_sensitive)
+    def first_section_by_label(self, section_label, case_sensitive=True) -> Optional[OPSection]:
+        sections = self.sections_by_label(
+            section_label, case_sensitive=case_sensitive)
         section = None
         if sections:
             section = sections[0]

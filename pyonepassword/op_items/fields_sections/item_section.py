@@ -97,6 +97,9 @@ class OPSection(dict):
                 label = label.lower()
             if f_label == label:
                 matching_fields.append(f)
+        if not matching_fields:
+            raise OPFieldNotFoundException(
+                f"No fields found by label '{label}'")
         return matching_fields
 
     def first_field_by_label(self, label: str, case_sensitive=True):

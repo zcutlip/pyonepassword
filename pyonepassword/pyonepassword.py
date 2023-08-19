@@ -804,6 +804,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             self.logger.fatal(msg)
             raise OPInsecureOperationException(msg)
 
+        # TODO: look up item and validate section and field
+
         result_str = self._item_edit_set_password(item_identifier,
                                                   password,
                                                   field_label,

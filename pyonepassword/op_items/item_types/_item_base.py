@@ -73,6 +73,9 @@ class OPAbstractItem(OPAbstractItemDescriptor):
             if s_label == section_label:
                 matching_sections.append(sect)
 
+        if not matching_sections:
+            raise OPSectionNotFoundException(
+                f"No sections found with label '{section_label}'")
         return matching_sections
 
     def section_by_id(self, section_id) -> OPSection:

@@ -5,6 +5,7 @@ from ...py_op_exceptions import OPInvalidItemException
 from ..field_registry import OPItemFieldFactory
 from ..fields_sections.item_field_base import OPItemField
 from ..fields_sections.item_section import (
+    OPFieldNotFoundException,
     OPItemFieldCollisionException,
     OPSection,
     OPSectionCollisionException
@@ -14,10 +15,6 @@ from ._item_descriptor_base import OPAbstractItemDescriptor
 
 
 class OPSectionNotFoundException(Exception):
-    pass
-
-
-class OPFieldNotFoundException(Exception):
     pass
 
 

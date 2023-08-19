@@ -13,6 +13,10 @@ class OPSectionCollisionException(Exception):
     pass
 
 
+class OPFieldNotFoundException(Exception):
+    pass
+
+
 class OPSection(dict):
     def __init__(self, section_dict):
         super().__init__(section_dict)

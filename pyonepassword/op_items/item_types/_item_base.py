@@ -121,6 +121,9 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
             if f_label == field_label:
                 fields.append(f)
+        if not fields:
+            raise OPFieldNotFoundException(
+                f"No fields found by label '{field_label}'")
         return fields
 
     def first_field_by_label(self, field_label: str, case_sensitive=True) -> OPItemField:

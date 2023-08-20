@@ -61,6 +61,38 @@ def test_item_field_not_found_01(valid_data: ValidData):
         result.field_by_id("Non-existent-field")
 
 
+def test_item_field_not_found_02(valid_data: ValidData):
+    """
+    Create:
+        - a valid OPLoginItem object
+
+    Attempt to look up a non-existent field via fields_by_label()
+
+    Verify OPFieldNotFoundException is raised
+    """
+    item_dict = valid_data.data_for_name("example-login-1")
+    result = OPLoginItem(item_dict)
+
+    with pytest.raises(OPFieldNotFoundException):
+        result.fields_by_label("Non-existent-field")
+
+
+def test_item_field_not_found_03(valid_data: ValidData):
+    """
+    Create:
+        - a valid OPLoginItem object
+
+    Attempt to look up a non-existent field via first_field_by_label()
+
+    Verify OPFieldNotFoundException is raised
+    """
+    item_dict = valid_data.data_for_name("example-login-1")
+    result = OPLoginItem(item_dict)
+
+    with pytest.raises(OPFieldNotFoundException):
+        result.first_field_by_label("Non-existent-field")
+
+
 def test_item_field_collision_01(invalid_data):
     """
     Test item creation with colliding sections

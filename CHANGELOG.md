@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ## [DEVELOPMENT]
 
+
+### Added
+- `OPAbstractItem.field_value_by_section_label()` as a replacement for poorly named `field_value_by_section_title()`
+
+### Changed
+
+- Ensure all methods for section lookup by label raise `OPSectionNotFound` if no section is found matching the given label
+- Ensure all methods for field lookup by label rais `OPFieldNotFound` if no field is found matching the given label
+
+### Deprecated
+
+- `OPAbstractItem.field_value_by_section_title()`
+  - call `OPAbstractItem.field_value_by_section_label()` instead
 ### Misc
 
 - Updated testing configuration in conjucton with refactored `mock-op`

@@ -59,10 +59,28 @@ class OPAbstractItem(OPAbstractItemDescriptor):
                 relaxed = get_relaxed_validation(item_class=self.__class__)
         return relaxed
 
-    def sections_by_label(self, section_label, case_sensitive=True) -> List[OPSection]:
+    def sections_by_label(self, section_label: str, case_sensitive: bool = True) -> List[OPSection]:
         """
-        Returns a list of zero or more sections matching the given title.
-        Sections are not required to have unique titles, so there may be more than one match.
+        Returns a list of one or more sections matching the given label.
+
+        Note: Sections are not required to have unique labels, so there may be more than one match.
+
+        Parameters
+        ----------
+        section_label : str
+            The user-visible label string to search for
+        case_sensitive : bool, optional
+            Match section labels case-sensitively, by default True
+
+        Returns
+        -------
+        List[OPSection]
+            The list of matching sections
+
+        Raises
+        ------
+        OPSectionNotFoundException
+            If no sections are found matching the given label
         """
         matching_sections = []
         sect: OPSection
@@ -89,6 +107,27 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         return section
 
     def first_section_by_label(self, section_label, case_sensitive=True) -> Optional[OPSection]:
+        """
+        Convenience function to return the first matching section
+
+        Note: Sections are not required to have unique labels, so there may be more than one match.
+
+        Parameters
+        ----------
+        label : str
+            The user-visible label string to search for
+        case_sensitive : bool, optional
+            Match section labels case-insensitively, by default True
+
+        Returns
+        -------
+        OPSection
+            The matching section
+        Raises
+        ------
+        OPSectionNotFoundException
+            If no matching sections are found
+        """
         sections = self.sections_by_label(
             section_label, case_sensitive=case_sensitive)
         section = None
@@ -116,6 +155,27 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         return field
 
     def fields_by_label(self, field_label: str, case_sensitive=True) -> List[OPItemField]:
+        """
+        Returns a list of one or more fields matching the given label
+
+        Note: Field labels are not guaranteed to be unique, so more than one field may be returned
+        Parameters
+        ----------
+        label : str
+            The user-visible label string to search for
+        case_sensitive : bool, optional
+            Match field labels case-sensitively, by default True
+
+        Returns
+        -------
+        List[OPItemField]
+            The list of matching fields
+
+        Raises
+        ------
+        OPFieldNotFoundException
+            If no matching fields are found
+        """
         fields = []
         f: OPItemField
         for _, f in self._field_map.items():
@@ -132,6 +192,28 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         return fields
 
     def first_field_by_label(self, field_label: str, case_sensitive=True) -> OPItemField:
+        """
+        Convenience function to return the first matching field
+
+        Note: field labels are not guaranteed to be unique, or in a particular order, so there may
+        be more than one match, in which case the first is returned
+
+        Parameters
+        ----------
+        label : str
+            The user-visible label string to search for
+        case_sensitive : bool, optional
+            Match field labels case-insensitively, by default True
+
+        Returns
+        -------
+        OPItemField
+            The matching field
+        Raises
+        ------
+        OPFieldNotFoundException
+            If no matching fields are found
+        """
         fields = self.fields_by_label(
             field_label, case_sensitive=case_sensitive)
         f = fields[0]

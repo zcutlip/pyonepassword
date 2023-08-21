@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, List
 
 import pytest
 
+from pyonepassword.api.exceptions import OPFieldNotFoundException
 from pyonepassword.api.object_types import OPLoginItem
 from pyonepassword.op_items.fields_sections.item_field_base import OPItemField
 from pyonepassword.op_items.fields_sections.item_section import OPSection
@@ -127,3 +128,16 @@ def test_item_section_03(valid_data: ValidData, expected_login_item_data: Expect
 
     assert isinstance(result, OPSection)
     assert result.label == expected_section.label
+
+
+def test_section_field_not_found_01(valid_data: ValidData):
+    section_id = "vh4wk7qyw46urc7wuwczzhpm7u"
+    field_label = "No Such Field"
+
+    valid_item_dict = valid_data.data_for_name("example-login-with-fields")
+
+    result_login_item = OPLoginItem(valid_item_dict)
+    result_section = result_login_item.section_by_id(section_id)
+
+    with pytest.raises(OPFieldNotFoundException):
+        result_section.fields_by_label(field_label)

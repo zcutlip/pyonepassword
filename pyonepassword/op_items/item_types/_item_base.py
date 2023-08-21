@@ -1,6 +1,7 @@
 from typing import Dict, List, Optional, Union
 
 from ..._abc_meta import enforcedmethod
+from ..._py_op_deprecation import deprecated
 from ...py_op_exceptions import OPInvalidItemException
 from ..field_registry import OPItemFieldFactory
 from ..fields_sections.item_field_base import OPItemField
@@ -95,12 +96,16 @@ class OPAbstractItem(OPAbstractItemDescriptor):
             section = sections[0]
         return section
 
-    def field_value_by_section_title(self, section_title: str, field_label: str):
-        section = self.first_section_by_label(section_title)
+    def field_value_by_section_label(self, section_label: str, field_label: str):
+        section = self.first_section_by_label(section_label)
         value = None
         if section is not None:
             value = self._field_value_from_section(section, field_label)
         return value
+
+    @deprecated("use item.field_value_by_section_label")
+    def field_value_by_section_title(self, section_title: str, field_label: str):
+        return self.field_value_by_section_label(section_title, field_label)
 
     def field_by_id(self, field_id) -> OPItemField:
         try:

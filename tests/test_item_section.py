@@ -141,3 +141,16 @@ def test_section_field_not_found_01(valid_data: ValidData):
 
     with pytest.raises(OPFieldNotFoundException):
         result_section.fields_by_label(field_label)
+
+
+def test_section_field_not_found_02(valid_data: ValidData):
+    section_id = "vh4wk7qyw46urc7wuwczzhpm7u"
+    field_label = "No Such Field"
+
+    valid_item_dict = valid_data.data_for_name("example-login-with-fields")
+
+    result_login_item = OPLoginItem(valid_item_dict)
+    result_section = result_login_item.section_by_id(section_id)
+
+    with pytest.raises(OPFieldNotFoundException):
+        result_section.first_field_by_label(field_label)

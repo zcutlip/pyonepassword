@@ -13,8 +13,24 @@ class OPSectionCollisionException(Exception):
     pass
 
 
+class OPFieldNotFoundException(Exception):
+    pass
+
+
 class OPSection(dict):
+    """
+    Object type representing a section dictionary in a 1Password item
+    """
+
     def __init__(self, section_dict):
+        """
+        Initialize an OPSection object
+
+        Parameters
+        ----------
+        section_dict : Dict[str, Any]
+            The section dictionary found inside an item dictionary
+        """
         super().__init__(section_dict)
         # shadow fields map makes it easy to detect collisions
         # by looking up a field's ID to see if it's already been registered
@@ -24,7 +40,7 @@ class OPSection(dict):
     def section_id(self) -> str:
         """
         Returns the section ID which may or may not be related to
-        the user-visible title.
+        the user-visible label
         It may be a lower-case transformation, like 'additional passwords'
         Or it may be something completely opaque, like
         'Section_967FEBAC931841BCBD2DD7CFE0B8DC82'
@@ -41,6 +57,14 @@ class OPSection(dict):
 
     @property
     def fields(self) -> List[OPItemField]:
+        """
+        Property representing the list of OPItemField objects associated with this section
+
+        Returns
+        -------
+        List[OPItemField]
+            The list of field objects
+        """
         field_list = self.setdefault("fields", [])
         return field_list
 
@@ -79,10 +103,27 @@ class OPSection(dict):
             self._shadow_fields[field_id] = field
         self.fields.append(field)
 
-    def fields_by_label(self, label, case_sensitive=True) -> List[OPItemField]:
+    def fields_by_label(self, label: str, case_sensitive: bool = True) -> List[OPItemField]:
         """
-        Returns all fields in a section matching the given label.
-        Fields are not required to have unique labels, so there may be more than one match.
+        Returns a list of one or more fields matching the given label
+
+        Note: Field labels are not guaranteed to be unique, so more than one field may be returned
+        Parameters
+        ----------
+        label : str
+            The user-visible label string to search for
+        case_sensitive : bool, optional
+            Match field labels case-sensitively, by default True
+
+        Returns
+        -------
+        List[OPItemField]
+            The list of matching fields
+
+        Raises
+        ------
+        OPFieldNotFoundException
+            If no matching fields are found
         """
         matching_fields = []
         f: OPItemField
@@ -93,12 +134,33 @@ class OPSection(dict):
                 label = label.lower()
             if f_label == label:
                 matching_fields.append(f)
+        if not matching_fields:
+            raise OPFieldNotFoundException(
+                f"No fields found by label '{label}'")
         return matching_fields
 
-    def first_field_by_label(self, label: str, case_sensitive=True):
+    def first_field_by_label(self, label: str, case_sensitive: bool = True):
         """
-        Convenience function for when you're certain there's only one field
-        by a given label, or don't really care for whatever reason
+        Convenience function to return the first matching field
+
+        Note: field labels are not guaranteed to be unique, or in a particular order, so there may
+        be more than one match, in which case the first is returned
+
+        Parameters
+        ----------
+        label : str
+            The user-visible label string to search for
+        case_sensitive : bool, optional
+            Match field labels case-insensitively, by default True
+
+        Returns
+        -------
+        OPItemField
+            The matching field
+        Raises
+        ------
+        OPFieldNotFoundException
+            If no matching fields are found
         """
         fields = self.fields_by_label(label, case_sensitive=case_sensitive)
         f = fields[0]

@@ -1,10 +1,12 @@
 from typing import Dict, List, Optional, Union
 
 from ..._abc_meta import enforcedmethod
+from ..._py_op_deprecation import deprecated
 from ...py_op_exceptions import OPInvalidItemException
 from ..field_registry import OPItemFieldFactory
 from ..fields_sections.item_field_base import OPItemField
 from ..fields_sections.item_section import (
+    OPFieldNotFoundException,
     OPItemFieldCollisionException,
     OPSection,
     OPSectionCollisionException
@@ -14,10 +16,6 @@ from ._item_descriptor_base import OPAbstractItemDescriptor
 
 
 class OPSectionNotFoundException(Exception):
-    pass
-
-
-class OPFieldNotFoundException(Exception):
     pass
 
 
@@ -61,10 +59,28 @@ class OPAbstractItem(OPAbstractItemDescriptor):
                 relaxed = get_relaxed_validation(item_class=self.__class__)
         return relaxed
 
-    def sections_by_label(self, label, case_sensitive=True) -> List[OPSection]:
+    def sections_by_label(self, section_label: str, case_sensitive: bool = True) -> List[OPSection]:
         """
-        Returns a list of zero or more sections matching the given title.
-        Sections are not required to have unique titles, so there may be more than one match.
+        Returns a list of one or more sections matching the given label.
+
+        Note: Sections are not required to have unique labels, so there may be more than one match.
+
+        Parameters
+        ----------
+        section_label : str
+            The user-visible label string to search for
+        case_sensitive : bool, optional
+            Match section labels case-sensitively, by default True
+
+        Returns
+        -------
+        List[OPSection]
+            The list of matching sections
+
+        Raises
+        ------
+        OPSectionNotFoundException
+            If no sections are found matching the given label
         """
         matching_sections = []
         sect: OPSection
@@ -72,10 +88,13 @@ class OPAbstractItem(OPAbstractItemDescriptor):
             s_label = sect.label
             if not case_sensitive:
                 s_label = s_label.lower()
-                label = label.lower()
-            if s_label == label:
+                section_label = section_label.lower()
+            if s_label == section_label:
                 matching_sections.append(sect)
 
+        if not matching_sections:
+            raise OPSectionNotFoundException(
+                f"No sections found with label '{section_label}'")
         return matching_sections
 
     def section_by_id(self, section_id) -> OPSection:
@@ -87,19 +106,45 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
         return section
 
-    def first_section_by_label(self, label, case_sensitive=True) -> Optional[OPSection]:
-        sections = self.sections_by_label(label, case_sensitive=case_sensitive)
+    def first_section_by_label(self, section_label, case_sensitive=True) -> Optional[OPSection]:
+        """
+        Convenience function to return the first matching section
+
+        Note: Sections are not required to have unique labels, so there may be more than one match.
+
+        Parameters
+        ----------
+        label : str
+            The user-visible label string to search for
+        case_sensitive : bool, optional
+            Match section labels case-insensitively, by default True
+
+        Returns
+        -------
+        OPSection
+            The matching section
+        Raises
+        ------
+        OPSectionNotFoundException
+            If no matching sections are found
+        """
+        sections = self.sections_by_label(
+            section_label, case_sensitive=case_sensitive)
         section = None
         if sections:
             section = sections[0]
         return section
 
-    def field_value_by_section_title(self, section_title: str, field_label: str):
-        section = self.first_section_by_label(section_title)
+    def field_value_by_section_label(self, section_label: str, field_label: str):
+        section = self.first_section_by_label(section_label)
         value = None
         if section is not None:
             value = self._field_value_from_section(section, field_label)
         return value
+
+    @deprecated("use item.field_value_by_section_label")
+    def field_value_by_section_title(self, section_title: str, field_label: str):
+        return self.field_value_by_section_label(section_title, field_label)
 
     def field_by_id(self, field_id) -> OPItemField:
         try:
@@ -110,6 +155,27 @@ class OPAbstractItem(OPAbstractItemDescriptor):
         return field
 
     def fields_by_label(self, field_label: str, case_sensitive=True) -> List[OPItemField]:
+        """
+        Returns a list of one or more fields matching the given label
+
+        Note: Field labels are not guaranteed to be unique, so more than one field may be returned
+        Parameters
+        ----------
+        label : str
+            The user-visible label string to search for
+        case_sensitive : bool, optional
+            Match field labels case-sensitively, by default True
+
+        Returns
+        -------
+        List[OPItemField]
+            The list of matching fields
+
+        Raises
+        ------
+        OPFieldNotFoundException
+            If no matching fields are found
+        """
         fields = []
         f: OPItemField
         for _, f in self._field_map.items():
@@ -120,9 +186,34 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
             if f_label == field_label:
                 fields.append(f)
+        if not fields:
+            raise OPFieldNotFoundException(
+                f"No fields found by label '{field_label}'")
         return fields
 
     def first_field_by_label(self, field_label: str, case_sensitive=True) -> OPItemField:
+        """
+        Convenience function to return the first matching field
+
+        Note: field labels are not guaranteed to be unique, or in a particular order, so there may
+        be more than one match, in which case the first is returned
+
+        Parameters
+        ----------
+        label : str
+            The user-visible label string to search for
+        case_sensitive : bool, optional
+            Match field labels case-insensitively, by default True
+
+        Returns
+        -------
+        OPItemField
+            The matching field
+        Raises
+        ------
+        OPFieldNotFoundException
+            If no matching fields are found
+        """
         fields = self.fields_by_label(
             field_label, case_sensitive=case_sensitive)
         f = fields[0]

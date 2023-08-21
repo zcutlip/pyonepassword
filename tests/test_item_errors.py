@@ -140,3 +140,41 @@ def test_item_section_not_found_01(valid_data: ValidData):
 
     with pytest.raises(OPSectionNotFoundException):
         result_login_item.section_by_id(section_id)
+
+
+def test_item_section_not_found_02(valid_data: ValidData):
+    """
+    Test looking up a section on a login item by an invalid section ID
+
+    Create:
+        - A login item object with fields and sections
+        - Look up an invalid section ID via section_by_id()
+    Verify:
+        - OPSectionNotFoundException is raised
+    """
+    section_label = "No Such Section"
+
+    valid_item_dict = valid_data.data_for_name("example-login-with-fields")
+    result_login_item = OPLoginItem(valid_item_dict)
+
+    with pytest.raises(OPSectionNotFoundException):
+        result_login_item.sections_by_label(section_label)
+
+
+def test_item_section_not_found_03(valid_data: ValidData):
+    """
+    Test looking up a section on a login item by an invalid section ID
+
+    Create:
+        - A login item object with fields and sections
+        - Look up an invalid section ID via section_by_id()
+    Verify:
+        - OPSectionNotFoundException is raised
+    """
+    section_label = "No Such Section"
+
+    valid_item_dict = valid_data.data_for_name("example-login-with-fields")
+    result_login_item = OPLoginItem(valid_item_dict)
+
+    with pytest.raises(OPSectionNotFoundException):
+        result_login_item.first_section_by_label(section_label)

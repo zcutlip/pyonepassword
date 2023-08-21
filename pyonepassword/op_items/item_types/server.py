@@ -41,19 +41,19 @@ class OPServerItem(OPAbstractItem):
 
     @property
     def admin_console_password(self) -> Optional[str]:
-        password = self.field_value_by_section_title(
+        password = self.field_value_by_section_label(
             "Admin Console", "console password")
         return password
 
     @property
     def admin_console_username(self) -> Optional[str]:
-        username = self.field_value_by_section_title(
+        username = self.field_value_by_section_label(
             "Admin Console", "admin console username")
         return username
 
     @property
     def admin_console_url(self) -> Optional[str]:
-        url = self.field_value_by_section_title(
+        url = self.field_value_by_section_label(
             "Admin Console", "admin console URL")
         return url
 
@@ -69,7 +69,7 @@ class OPServerItem(OPAbstractItem):
         """
         # Note: the actual field ID and label are "name"
         # so we look it up by section to be sure
-        return self.field_value_by_section_title("Hosting Provider", "name")
+        return self.field_value_by_section_label("Hosting Provider", "name")
 
     @property
     def hosting_provider_website(self) -> Optional[str]:
@@ -83,7 +83,7 @@ class OPServerItem(OPAbstractItem):
         """
         # Note: the actual field ID and label are "name"
         # so we look it up by section to be sure
-        return self.field_value_by_section_title("Hosting Provider", "website")
+        return self.field_value_by_section_label("Hosting Provider", "website")
 
     @property
     def support_contact_url(self) -> Optional[str]:

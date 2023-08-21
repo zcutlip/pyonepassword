@@ -40,7 +40,7 @@ class OPSection(dict):
     def section_id(self) -> str:
         """
         Returns the section ID which may or may not be related to
-        the user-visible title.
+        the user-visible label
         It may be a lower-case transformation, like 'additional passwords'
         Or it may be something completely opaque, like
         'Section_967FEBAC931841BCBD2DD7CFE0B8DC82'
@@ -105,14 +105,13 @@ class OPSection(dict):
 
     def fields_by_label(self, label: str, case_sensitive: bool = True) -> List[OPItemField]:
         """
-        Returns all fields in a section matching the given label.
-        Fields are not required to have unique labels, so there may be more than one match.
+        Returns a list of one or more fields matching the given label
 
         Note: Field labels are not guaranteed to be unique, so more than one field may be returned
         Parameters
         ----------
         label : str
-            The user-visible label tring to search for
+            The user-visible label string to search for
         case_sensitive : bool, optional
             Match field labels case-sensitively, by default True
 

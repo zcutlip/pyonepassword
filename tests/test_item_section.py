@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING, List
 
 import pytest
 
-from pyonepassword.api.exceptions import OPSectionNotFoundException
 from pyonepassword.api.object_types import OPLoginItem
 from pyonepassword.op_items.fields_sections.item_field_base import OPItemField
 from pyonepassword.op_items.fields_sections.item_section import OPSection
@@ -98,25 +97,6 @@ def test_item_section_02(valid_data: ValidData, expected_login_item_data: Expect
 
 
 def test_item_section_03(valid_data: ValidData, expected_login_item_data: ExpectedLoginItemData):
-    """
-    Test looking up a section on a login item by an invalid section ID
-
-    Create:
-        - A login item object with fields and sections
-        - Look up an invalid section ID via section_by_id()
-    Verify:
-        - OPSectionNotFoundException is raised
-    """
-    section_id = "no_such_section"
-
-    valid_item_dict = valid_data.data_for_name("example-login-with-fields")
-    result_login_item = OPLoginItem(valid_item_dict)
-
-    with pytest.raises(OPSectionNotFoundException):
-        result_login_item.section_by_id(section_id)
-
-
-def test_item_section_04(valid_data: ValidData, expected_login_item_data: ExpectedLoginItemData):
     """
     Test case-insensitive search for sections by label
 

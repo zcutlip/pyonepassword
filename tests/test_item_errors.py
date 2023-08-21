@@ -9,6 +9,7 @@ from pyonepassword.api.exceptions import (
     OPInvalidItemException,
     OPItemFieldCollisionException,
     OPSectionCollisionException,
+    OPSectionNotFoundException,
     OPUnknownItemTypeException
 )
 from pyonepassword.api.object_types import OPLoginItem
@@ -120,3 +121,22 @@ def test_item_section_collision_01(invalid_data: InvalidData):
         "login-item-with-section-collision")
     with pytest.raises(OPSectionCollisionException):
         OPItemFactory.op_item(invalid_item_dict)
+
+
+def test_item_section_not_found_01(valid_data: ValidData):
+    """
+    Test looking up a section on a login item by an invalid section ID
+
+    Create:
+        - A login item object with fields and sections
+        - Look up an invalid section ID via section_by_id()
+    Verify:
+        - OPSectionNotFoundException is raised
+    """
+    section_id = "no_such_section"
+
+    valid_item_dict = valid_data.data_for_name("example-login-with-fields")
+    result_login_item = OPLoginItem(valid_item_dict)
+
+    with pytest.raises(OPSectionNotFoundException):
+        result_login_item.section_by_id(section_id)

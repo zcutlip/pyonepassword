@@ -1,0 +1,20 @@
+{
+  "iteration": 0,
+  "max-iterations": 6,
+  "state-list": [
+    {
+      "response-directory": "tests/config/mock-op/responses-item-edit/response-directory-1.json",
+      "env-vars": {
+        "set": {},
+        "pop": []
+      }
+    },
+    {
+      "response-directory": "tests/config/mock-op/responses-item-edit/response-directory-2.json",
+      "env-vars": {
+        "set": {},
+        "pop": []
+      }
+    }
+  ]
+}

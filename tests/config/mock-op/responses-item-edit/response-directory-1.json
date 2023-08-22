@@ -18,6 +18,20 @@
       "name": "cli-version",
       "changes_state": false
     },
+    "--format|json|account|list": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "list-signed-in-accounts",
+      "changes_state": false
+    },
+    "--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami",
+      "changes_state": false
+    },
     "--format|json|item|get|Example Login Item 00|--vault|Test Data 2": {
       "exit_status": 0,
       "stdout": "output",
@@ -32,6 +46,13 @@
       "name": "item-edit-example-login-00-set-password",
       "changes_state": true
     },
+    "--format|json|item|get|Example Login Item 01|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-01",
+      "changes_state": false
+    },
     "--format|json|item|edit|Example Login Item 01|--generate-password=20,letters,digits|--vault|Test Data 2": {
       "exit_status": 0,
       "stdout": "output",
@@ -39,26 +60,19 @@
       "name": "item-edit-example-login-01-generate-password",
       "changes_state": true
     },
+    "--format|json|item|get|Example Login Item 02|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-02",
+      "changes_state": false
+    },
     "--format|json|item|edit|Example Login Item 02|--title|Example Login Item 02 (New Title)|--vault|Test Data 2": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
       "name": "item-edit-example-login-02-set-title",
       "changes_state": true
-    },
-    "--format|json|account|list": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "list-signed-in-accounts",
-      "changes_state": false
-    },
-    "--format|json|whoami": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "whoami",
-      "changes_state": false
     }
   },
   "commands_with_input": {}

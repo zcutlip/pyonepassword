@@ -1,6 +1,6 @@
 {
   "iteration": 0,
-  "max-iterations": 6,
+  "max-iterations": 2,
   "state-list": [
     {
       "response-directory": "tests/config/mock-op/responses-item-edit/response-directory-1.json",

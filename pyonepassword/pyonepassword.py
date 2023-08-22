@@ -792,6 +792,12 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         Raises
         ------
+        OPItemGetException
+            If the item lookup fails for any reason
+        OPSectionNotFoundException
+            If a section label is specified but can't be looked up on the item object
+        OPFieldNotFoundException
+            If the field label can't be looked up on the item object
         OPItemEditException
             If the item edit operation fails for any reason
         OPInsecureOperationException
@@ -812,6 +818,14 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             raise OPInsecureOperationException(msg)
 
         # TODO: look up item and validate section and field
+
+        op_item = self.item_get(item_identifier, vault=vault)
+
+        # If section or field not found, will raise
+        # OPSectionNotFoundException, or
+        # OPFieldNotFoundException
+        self._item_edit_validate_section_field(
+            op_item, field_label, section_label)
 
         result_str = self._item_edit_set_password(item_identifier,
                                                   password,

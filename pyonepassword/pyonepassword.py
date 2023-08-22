@@ -1,7 +1,13 @@
+from __future__ import annotations
+
 import fnmatch
 import logging
 from os import environ as env
-from typing import List, Optional, Type, Union
+from typing import TYPE_CHECKING, List, Optional, Tuple, Type, Union
+
+if TYPE_CHECKING:
+    from .op_items.fields_sections.item_field import OPItemField
+    from .op_items.fields_sections.item_section import OPSection
 
 from ._py_op_commands import (
     EXISTING_AUTH_IGNORE,
@@ -13,6 +19,7 @@ from .account import OPAccountList
 from .op_items._item_list import OPItemList
 from .op_items._item_type_registry import OPItemFactory
 from .op_items._new_item import OPNewItemMixin
+from .op_items.fields_sections.item_section import OPFieldNotFoundException
 from .op_items.item_types._item_base import OPAbstractItem
 from .op_items.item_types.generic_item import (
     _OPGenericItem,
@@ -1181,3 +1188,25 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                 env.pop(self._sess_var)
             except KeyError:
                 pass
+
+    def _item_edit_validate_section_field(self,
+                                          item: OPAbstractItem,
+                                          field_label: str,
+                                          section_label: Optional[str]) -> Tuple[OPSection, OPItemField]:
+        section = None
+        field = None
+        if section_label:
+            # this may raise OPSectionNotFound if there is no match
+            # this is expected. It is up to the caller ot handle its
+            section = item.first_section_by_label(section_label)
+
+        if section:
+            try:
+                field = section.first_field_by_label(field_label)
+            except OPFieldNotFoundException:
+                raise OPFieldNotFoundException(
+                    f"No field found '{field_label}' belonging ot section '{section_label}'")
+        else:
+            field = item.first_field_by_label(field_label)
+
+        return (section, field)

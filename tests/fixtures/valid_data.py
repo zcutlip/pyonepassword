@@ -41,8 +41,11 @@ class ValidData:
             data = data.rstrip()
         return data
 
-    def data_for_name(self, entry_name):
+    def data_for_name(self, entry_name, version=0):
         entry: Dict = self._registry[entry_name]
+        if "versions" in entry:
+            entry = entry["versions"][version]
+
         item_filename = entry["name"]
         item_type = entry["type"]
         strip = entry.get("strip", False)

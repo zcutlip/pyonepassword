@@ -43,7 +43,7 @@ class ExpectedLogin(ExpectedItemBase):
 
 class ExpectedLoginItemData(ExpectedItemData):
 
-    def data_for_login(self, login_identifier) -> ExpectedLogin:
-        item_dict = self.data_for_name(login_identifier)
+    def data_for_login(self, login_identifier, version=0) -> ExpectedLogin:
+        item_dict = self.data_for_name(login_identifier, version=version)
         login_item = ExpectedLogin(item_dict)
         return login_item

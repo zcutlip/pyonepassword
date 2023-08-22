@@ -25,7 +25,15 @@ class ExpectedLogin(ExpectedItemBase):
 
     @property
     def password(self) -> str:
-        return self._data["password"]
+        password = None
+        try:
+            self._data["password"]
+        except KeyError:
+            # some expected data objects may not have a "password" key
+            # but may have a passsword field dictionary
+            password_field = self.field_by_id("password")
+            password = password_field.value
+        return password
 
     @property
     def urls(self):

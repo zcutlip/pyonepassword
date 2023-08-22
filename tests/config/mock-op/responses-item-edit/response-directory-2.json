@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "response_dir": "tests/config/mock-op/responses-item-edit/responses-2",
+    "input_dir": "input"
+  },
+  "commands": {
+    "--account|5GHHPJK5HZC5BAT7WDUXW57G44|--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami-account-uuid",
+      "changes_state": false
+    },
+    "--version": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "cli-version",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 00|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-00",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 01|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-01",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 02 (New Title)|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-02",
+      "changes_state": false
+    }
+  },
+  "commands_with_input": {}
+}

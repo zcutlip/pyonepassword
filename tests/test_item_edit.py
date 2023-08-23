@@ -94,3 +94,37 @@ def test_item_edit_gen_password_020(signed_in_op: OP,
 
     assert edited_item.password != item_get_1.password
     assert item_get_2.password == expected_item_edited.password
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_set_title_030(signed_in_op: OP):
+    """
+    Test: OP.item_edit_set_title()
+        - Retrieve an item via OP.item_get() using the original title
+        - Call item_edit_set_title(), saving returned object
+        - Retreive the same item a second time using the new title
+
+    Verify:
+        - The original item's password matches the expected original password
+        - The returned edited item's password is not the same as the original item's password
+        - The newly retrieved item's password matches the expected edited item's password
+    """
+    item_name = "Example Login Item 02"
+    item_name_new = "Example Login Item 02 (New Title)"
+    vault = "Test Data 2"
+
+    # stateful response directory
+    # state 1: responses-item-edit/response-directory-1.json
+    item_get_1 = signed_in_op.item_get(item_name, vault=vault)
+
+    # sort of obvious since we retrieved using the old title, but for the sake of completeness
+    assert item_get_1.title != item_name_new
+    edited_item = signed_in_op.item_edit_set_title(
+        item_name, item_name_new, vault=vault)
+
+    # state changed with item_edit above
+    # state 2: responses-item-edit/response-directory-2.json
+    item_get_2 = signed_in_op.item_get(item_name_new, vault=vault)
+
+    assert edited_item.title == item_get_2.title
+    assert item_get_2.title == item_name_new

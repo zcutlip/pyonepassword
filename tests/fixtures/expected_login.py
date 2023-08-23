@@ -27,7 +27,7 @@ class ExpectedLogin(ExpectedItemBase):
     def password(self) -> str:
         password = None
         try:
-            self._data["password"]
+            password = self._data["password"]
         except KeyError:
             # some expected data objects may not have a "password" key
             # but may have a passsword field dictionary

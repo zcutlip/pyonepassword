@@ -71,6 +71,56 @@ def test_item_edit_set_password_010(signed_in_op: OP):
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_set_password_015(signed_in_op: OP):
+    """
+    Test: OP.item_edit_set_password()
+        - Retrieve an item via OP.item_get()
+        - Call item_edit_set_password(), saving returned object
+        - Retreive the same item a second time
+
+    Verify:
+        - The original item's password is not equal to the desired new password
+        - The returned edited item's password is the same as newly retrieved item's password
+        - The newly retrieved item's password is the same as the desired new password
+
+    """
+
+    item_name = "Example Login Item 03"
+    section_label = "Example Section"
+    field_label = "password in a section"
+    new_password = "new password in a section"
+    vault = "Test Data 2"
+
+    # stateful response directory
+    # state 1: responses-item-edit/response-directory-1.json
+    item_get_1 = signed_in_op.item_get(item_name, vault=vault)
+
+    item_get_password_1 = _get_item_password(
+        item_get_1, field_label=field_label, section_label=section_label)
+
+    assert item_get_password_1 != new_password
+
+    edited_item = signed_in_op.item_edit_set_password(item_name,
+                                                      new_password,
+                                                      field_label=field_label,
+                                                      section_label=section_label,
+                                                      insecure_operation=True,
+                                                      vault=vault)
+
+    edited_item_password = _get_item_password(
+        edited_item, field_label=field_label, section_label=section_label)
+
+    # state changed with item_edit above
+    # state 2: responses-item-edit/response-directory-2.json
+    item_get_2 = signed_in_op.item_get(item_name, vault=vault)
+    item_get_password_2 = _get_item_password(
+        item_get_2, field_label=field_label, section_label=section_label)
+
+    assert edited_item_password == item_get_password_2
+    assert item_get_password_2 == new_password
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
 def test_item_edit_gen_password_020(signed_in_op: OP,
                                     expected_login_item_data: ExpectedLoginItemData):
     """

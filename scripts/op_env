@@ -1,0 +1,30 @@
+#!/bin/sh -e
+
+# convenience wrapper for 'op' that sources a .env file and exports service account token
+
+# usage ./scripts/op_env ./path/to/.env_file [op cli args]
+# best used from an alias or shell function set in .init/00_pyonepassword
+
+env_path="$1"
+
+if [ ! -f "$env_path" ];
+then
+    echo "Specify a path to a .env file"
+    exit 1
+else
+    shift
+fi
+
+# not necessarily the source, but this satisfies shellcheck
+# shellcheck source=../dot_env_files/.env_pyonepassword_test_rw
+. "$env_path"
+
+if [ -z "$OP_SERVICE_ACCOUNT_TOKEN" ];
+then
+    echo "env file ($env_path) did not contain a OP_SERVICE_ACCOUNT_TOKEN value"
+    exit 1
+fi
+
+export OP_SERVICE_ACCOUNT_TOKEN
+
+op "$@"

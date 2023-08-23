@@ -8,11 +8,26 @@ from pyonepassword.api.object_types import OPPasswordRecipe
 
 if TYPE_CHECKING:
     from pyonepassword import OP
+    from pyonepassword.api.object_types import OPLoginItem
 
     from ..fixtures.expected_login import ExpectedLogin, ExpectedLoginItemData
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
+
+
+def _get_item_password(item: OPLoginItem, field_label: str = "password", section_label: str = None):
+    section = None
+    if section_label:
+        section = item.first_section_by_label(section_label)
+
+    if section:
+        field = section.first_field_by_label(field_label)
+    else:
+        field = item.first_field_by_label(field_label)
+
+    password = field.value
+    return password
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")

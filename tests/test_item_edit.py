@@ -16,7 +16,19 @@ pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
-def test_item_edit_010(signed_in_op: OP):
+def test_item_edit_set_password_010(signed_in_op: OP):
+    """
+    Test: OP.item_edit_set_password()
+        - Retrieve an item via OP.item_get()
+        - Call item_edit_set_password(), saving returned object
+        - Retreive the same item a second time
+
+    Verify:
+        - The original item's password is not equal to the desired new password
+        - The returned edited item's password is the same as newly retrieved item's password
+        - The newly retrieved item's password is the same as the desired new password
+
+    """
 
     item_name = "Example Login Item 00"
     field_label = "password"
@@ -44,8 +56,19 @@ def test_item_edit_010(signed_in_op: OP):
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
-def test_item_edit_020(signed_in_op: OP, expected_login_item_data: ExpectedLoginItemData):
+def test_item_edit_gen_password_020(signed_in_op: OP,
+                                    expected_login_item_data: ExpectedLoginItemData):
+    """
+    Test: OP.item_edit_generate_password()
+        - Retrieve an item via OP.item_get()
+        - Call item_edit_generate_password(), saving returned object
+        - Retreive the same item a second time
 
+    Verify:
+        - The original item's password matches the expected original password
+        - The returned edited item's password is not the same as the original item's password
+        - The newly retrieved item's password matches the expected edited item's password
+    """
     item_name = "Example Login Item 01"
     vault = "Test Data 2"
 

@@ -88,3 +88,29 @@ def test_item_edit_set_password_invalid_field_030(signed_in_op: OP):
                                             section_label=section_label,
                                             insecure_operation=True,
                                             vault=vault)
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_set_password_invalid_field_040(signed_in_op: OP):
+    """
+    Test: looking up an invalid field with no section
+        - Attempt to call item_edit_set_password()
+        - Don't pass a section name
+        - Pass an invalid field name
+    Verify:
+        - OPFieldNotFound is raised
+    """
+
+    item_name = "Example Login Item 03"
+    new_password = "new password"
+    field_label = "no-such-password-field"
+    vault = "Test Data 2"
+
+    with pytest.raises(OPFieldNotFoundException):
+        # This specifies a different code path from looking up a field
+        # associated with a specific section
+        signed_in_op.item_edit_set_password(item_name,
+                                            new_password,
+                                            field_label=field_label,
+                                            insecure_operation=True,
+                                            vault=vault)

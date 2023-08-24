@@ -144,7 +144,7 @@ class OPAbstractItem(OPAbstractItemDescriptor):
 
     @deprecated("use item.field_value_by_section_label")
     def field_value_by_section_title(self, section_title: str, field_label: str):
-        return self.field_value_by_section_label(section_title, field_label)
+        return self.field_value_by_section_label(section_title, field_label)  # pragma: no coverage
 
     def field_by_id(self, field_id) -> OPItemField:
         try:

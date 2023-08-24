@@ -10,7 +10,7 @@ TOX_STAMP=.tox_stamp
 HTML_REPORT_STAMP=".html_report_stamp"
 
 # find all *.py and *.json files under pyonepassword
-PYONEPASSWORD_SRC_FILES=$(shell find ./pyonepassword -name \*\.py -o -name \*\.json -print)
+PYONEPASSWORD_SRC_FILES=$(shell find ./pyonepassword -name \*\.py -print -o -name \*\.json -print)
 # find all regular files under tests excluding *.pyc, and reports/
 # this should include *.py, *.json, *.txt plus files without extensions
 PYONEPASSWORD_TEST_FILES=$(shell find tests -name \*\.pyc -prune -o  -name reports -prune -o -type f -print)

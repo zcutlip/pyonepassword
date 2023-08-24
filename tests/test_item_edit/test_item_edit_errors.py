@@ -4,7 +4,10 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from pyonepassword.api.exceptions import OPSectionNotFoundException
+from pyonepassword.api.exceptions import (
+    OPFieldNotFoundException,
+    OPSectionNotFoundException
+)
 from pyonepassword.py_op_exceptions import OPInsecureOperationException
 
 if TYPE_CHECKING:
@@ -51,6 +54,34 @@ def test_item_edit_set_password_invalid_section_020(signed_in_op: OP):
     section_label = "no-such-section"
     vault = "Test Data 2"
     with pytest.raises(OPSectionNotFoundException):
+        signed_in_op.item_edit_set_password(item_name,
+                                            new_password,
+                                            field_label=field_label,
+                                            section_label=section_label,
+                                            insecure_operation=True,
+                                            vault=vault)
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_set_password_invalid_field_030(signed_in_op: OP):
+    """
+    Test: looking up an invalid field on a valid section
+        - Attempt to call item_edit_set_password()
+        - Pass a valid section name
+        - Pass an invalid field name
+    Verify:
+        - OPFieldNotFound is raised
+    """
+
+    item_name = "Example Login Item 03"
+    new_password = "new password"
+    field_label = "no-such-password-field"
+    section_label = "Example Section"
+    vault = "Test Data 2"
+
+    with pytest.raises(OPFieldNotFoundException):
+        # This excercises a different code path from looking up a field
+        # with no section specified
         signed_in_op.item_edit_set_password(item_name,
                                             new_password,
                                             field_label=field_label,

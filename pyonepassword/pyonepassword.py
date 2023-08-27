@@ -870,7 +870,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         result_str = self._item_edit_set_title(item_identifier,
                                                item_title,
                                                vault=vault)
-        op_item = OPItemFactory.op_item(result_str)
+        op_item = OPItemFactory.op_item(result_str, generic_okay=True)
 
         return op_item
 

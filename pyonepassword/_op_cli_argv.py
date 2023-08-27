@@ -436,7 +436,7 @@ class _OPArgv(list):
                                vault: Optional[str] = None):
         title_arg = "true" if favorite else "false"
 
-        item_edit_args = [f"--title={title_arg}"]
+        item_edit_args = [f"--favorite={title_arg}"]
 
         argv = cls.item_edit_generic_argv(
             op_exe, item_identifier, item_edit_args, vault=vault)

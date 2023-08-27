@@ -819,7 +819,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         # TODO: look up item and validate section and field
 
-        op_item = self.item_get(item_identifier, vault=vault)
+        op_item = self.item_get(
+            item_identifier, vault=vault, generic_okay=True)
 
         # If section or field not found, will raise
         # OPSectionNotFoundException, or
@@ -832,7 +833,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                                   field_label,
                                                   section_label=section_label,
                                                   vault=vault)
-        op_item = OPItemFactory.op_item(result_str)
+        op_item = OPItemFactory.op_item(result_str, generic_okay=True)
         return op_item
 
     def item_edit_set_title(self,

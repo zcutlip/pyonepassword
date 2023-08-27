@@ -787,6 +787,15 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
+    def _item_edit_run(self, argv: _OPArgv, decode: str):
+        try:
+            output = self._run_with_auth_check(
+                self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
+        except OPCmdFailedException as e:
+            raise OPItemEditException.from_opexception(e)
+
+        return output
+
     def _item_edit_set_password(self,
                                 item_identifier: str,
                                 password: str,
@@ -799,12 +808,7 @@ class _OPCommandInterface(_OPCLIExecute):
                                                  field_label=field_label,
                                                  section_label=section_label,
                                                  vault=vault)
-        try:
-            output = self._run_with_auth_check(
-                self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
-        except OPCmdFailedException as e:
-            raise OPItemEditException.from_opexception(e)
-
+        output = self._item_edit_run(argv, decode)
         return output
 
     def _item_edit_generate_password(self,
@@ -815,12 +819,7 @@ class _OPCommandInterface(_OPCLIExecute):
         argv = self._item_edit_generate_password_argv(
             item_identifier, password_recipe, vault)
 
-        try:
-            output = self._run_with_auth_check(
-                self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
-        except OPCmdFailedException as e:
-            raise OPItemEditException.from_opexception(e)
-
+        output = self._item_edit_run(argv, decode)
         return output
 
     def _item_edit_set_title(self,
@@ -831,10 +830,5 @@ class _OPCommandInterface(_OPCLIExecute):
         argv = self._item_edit_set_title_argv(
             item_identifier, item_title, vault=vault)
 
-        try:
-            output = self._run_with_auth_check(
-                self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
-        except OPCmdFailedException as e:
-            raise OPItemEditException.from_opexception(e)
-
+        output = self._item_edit_run(argv, decode)
         return output

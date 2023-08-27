@@ -832,3 +832,14 @@ class _OPCommandInterface(_OPCLIExecute):
 
         output = self._item_edit_run(argv, decode)
         return output
+
+    def _item_edit_set_favorite(self,
+                                item_identifier: str,
+                                favorite: bool,
+                                vault: Optional[str] = None,
+                                decode: str = "utf-8"):
+        argv = self._item_edit_set_favorite_argv(
+            item_identifier, favorite, vault=vault)
+
+        output = self._item_edit_run(argv, decode)
+        return output

@@ -754,7 +754,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         result_str = self._item_edit_generate_password(item_identifier,
                                                        password_recipe,
                                                        vault)
-        op_item = OPItemFactory.op_item(result_str)
+        op_item = OPItemFactory.op_item(result_str, generic_okay=True)
         return op_item
 
     def item_edit_set_password(self,

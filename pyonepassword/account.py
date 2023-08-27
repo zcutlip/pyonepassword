@@ -37,15 +37,13 @@ class OPAccount(dict):
     def shorthand(self) -> Union[str, None]:
         return self.get("shorthand")
 
-    # TODO: Not sure what to do here
-    # the 'op whoami' dicts when signed in normally
-    # vs. when using a service account
-    # are really different
-    # but neither self-describe (e.g. with an account type or similar)
-    # so for now, just check if this has a ServiceAccountType key
     def is_service_account(self) -> bool:
         svc_acct = False
         if self.get("ServiceAccountType"):
+            # op --version < 2.20.0
+            svc_acct = True  # pragma: no coverage
+        elif self.get("user_type") == "SERVICE_ACCOUNT":
+            # op --version >= 2.20.0
             svc_acct = True  # pragma: no coverage
         return svc_acct
 

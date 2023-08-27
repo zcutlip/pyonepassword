@@ -874,6 +874,44 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return op_item
 
+    def item_edit_set_favorite(self,
+                               item_identifier: str,
+                               favorite: bool,
+                               vault: Optional[str] = None):
+        """
+        Set or unset an item's 'favorite' status
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to edit
+        favorite: bool
+            Whether to set or unset the item's favorite status
+        vault: str, optional
+            The name or ID of a vault containing the item to edit.
+            Overrides the OP object's default vault, if set
+
+        Raises
+        ------
+        OPItemEditException
+            If the item edit operation fails for any reason
+
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The edited version of the item
+
+        Service Account Support
+        -----------------------
+        TODO placeholder text to satisfy pytest docstring checks
+        """
+        result_str = self._item_edit_set_favorite(item_identifier,
+                                                  favorite,
+                                                  vault=vault)
+        op_item = OPItemFactory.op_item(result_str, generic_okay=True)
+
+        return op_item
+
     def login_item_create(self,
                           title: str,
                           username: str,

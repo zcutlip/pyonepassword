@@ -429,6 +429,21 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    def item_edit_set_favorite(cls,
+                               op_exe: str,
+                               item_identifier: str,
+                               favorite: bool,
+                               vault: Optional[str] = None):
+        title_arg = "true" if favorite else "false"
+
+        item_edit_args = [f"--title={title_arg}"]
+
+        argv = cls.item_edit_generic_argv(
+            op_exe, item_identifier, item_edit_args, vault=vault)
+
+        return argv
+
+    @classmethod
     def item_delete_argv(cls,
                          op_exe: str,
                          item_name_or_id: str,

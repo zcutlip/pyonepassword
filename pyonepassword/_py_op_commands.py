@@ -765,6 +765,18 @@ class _OPCommandInterface(_OPCLIExecute):
                                                      vault=vault_arg)
         return item_edit_argv
 
+    def _item_edit_set_favorite_argv(self,
+                                     item_identifier: str,
+                                     favorte: bool,
+                                     vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+
+        item_edit_argv = _OPArgv.item_edit_set_favorite(self.op_path,
+                                                        item_identifier,
+                                                        favorte,
+                                                        vault=vault_arg)
+        return item_edit_argv
+
     def _item_create(self, item, vault, password_recipe, decode="utf-8"):
         argv = self._item_create_argv(item, password_recipe, vault)
         try:

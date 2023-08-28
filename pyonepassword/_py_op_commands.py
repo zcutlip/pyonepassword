@@ -498,6 +498,14 @@ class _OPCommandInterface(_OPCLIExecute):
         return vault_list_argv
 
     @classmethod
+    def _item_template_list_special(cls, op_path,  env: Dict[str, str] = None):
+        # special "template list" class method we can use for testing authentication
+        argv = _OPArgv.item_template_list_argv(op_path)
+        template_list_json = cls._run(
+            argv, capture_stdout=True, decode="utf-8", env=env)
+        return template_list_json
+
+    @classmethod
     def _whoami(cls, op_path, env: Dict[str, str] = None, account: str = None) -> OPAccount:
         if not env:
             env = dict(environ)

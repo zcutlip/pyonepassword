@@ -67,7 +67,8 @@ class _OPCommandInterface(_OPCLIExecute):
     NO_ACTIVE_SESSION_FOUND_TEXT = "no active session found for account"
     NO_SESSION_TOKEN_FOUND_TEXT = "could not find session token for account"
     ACCT_IS_NOT_SIGNED_IN_TEXT = "account is not signed in"
-    MALFORMED_SVC_ACCT_TEXT = "failed to DecodeSACCredentials"
+    SVC_ACCT_TOKEN_MALFORMED_TEXT = "failed to DecodeSACCredentials"
+    SVC_ACCT_TOKEN_NOT_AUTH_TXT = "service account token set, but not authenticated yet"
 
     OP_SVC_ACCOUNT_ENV_VAR = "OP_SERVICE_ACCOUNT_TOKEN"
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
@@ -506,27 +507,59 @@ class _OPCommandInterface(_OPCLIExecute):
         return template_list_json
 
     @classmethod
-    def _whoami(cls, op_path, env: Dict[str, str] = None, account: str = None) -> OPAccount:
+    def _whoami_base(cls, op_path, env: Dict[str, str] = None, account: str = None):
         if not env:
             env = dict(environ)
         argv = _OPArgv.whoami_argv(op_path, account=account)
-        try:
-            account_json = cls._run(
-                argv, capture_stdout=True, decode="utf-8", env=env)
-        except OPCmdFailedException as ocfe:
-            # scrape error message about not being signed in
+        account_json = cls._run(
+            argv, capture_stdout=True, decode="utf-8", env=env)
+        return account_json
 
-            if cls.MALFORMED_SVC_ACCT_TEXT in ocfe.err_output:
-                # OP_SERVICE_ACCOUNT_TOKEN got set to something malformed
-                # so raise a specific exception for that
-                raise OPCmdMalformedSvcAcctTokenException.from_opexception(
-                    ocfe)  # pragma: no cover
-                # Although we could simulate this for testing, the tests
-                # wouldn't be meaningful, because they wouldn't be tied to
-                # an actual malformed token
-                # disabling testing coverage
+    @classmethod
+    def _whoami_svc_account(cls, op_path, env: Dict[str, str] = None):
+        # whoami behaves differently under certain circumstances if OP_SERVICE_ACCOUNT_TOKEN
+        # is set, and we need to handle this situations differently
+        # They include:
+        # - service account env variable is set, but token is malformed
+        # - on op >= 2.20.0, service account token is set, but not yet "authenticated"
+        account_json = None
+        while account_json is None:
+            try:
+                account_json = cls._whoami_base(op_path, env=env)
+            except OPCmdFailedException as ocfe:
+                if cls.SVC_ACCT_TOKEN_NOT_AUTH_TXT in ocfe.err_output:
+                    # Trigger a service account authenticated session (v 2.20.0 and later)
+                    cls._item_template_list_special(op_path, env=env)
+                    continue
+                elif cls.SVC_ACCT_TOKEN_MALFORMED_TEXT in ocfe.err_output:
+                    # OP_SERVICE_ACCOUNT_TOKEN got set to something malformed
+                    # so raise a specific exception for that
+                    raise OPCmdMalformedSvcAcctTokenException.from_opexception(
+                        ocfe)  # pragma: no cover
+                    # Although we could simulate this for testing, the tests
+                    # wouldn't be meaningful, because they wouldn't be tied to
+                    # an actual malformed token
+                    # disabling testing coverage
+                else:
+                    raise
+        return account_json
+
+    @classmethod
+    def _whoami(cls, op_path, env: Dict[str, str] = None, account: str = None) -> OPAccount:
+        # outer/normal whoami method
+        # if a service account var is set, this method will call
+        # _whoami_svc_account(), which will call _whoami_base()
+        # otherwise, this method calls _whoami_base()
+        if not env:
+            env = dict(environ)
+        try:
+            if cls.svc_account_env_var_set():
+                account_json = cls._whoami_svc_account(op_path, env=env)
             else:
-                raise OPWhoAmiException.from_opexception(ocfe)
+                account_json = cls._whoami_base(
+                    op_path, env=env, account=account)
+        except OPCmdFailedException as ocfe:
+            raise OPWhoAmiException.from_opexception(ocfe)
 
         account_obj = OPAccount(account_json)
         return account_obj

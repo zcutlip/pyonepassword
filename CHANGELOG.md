@@ -20,6 +20,8 @@ All notable changes to this project will be documented in this file.
 ### Misc
 
 - Updated testing configuration in conjucton with refactored `mock-op`
+- Add `FUNDING.yml`
+
 
 ## [3.12.1] 2023-06-26
 

@@ -87,6 +87,20 @@
       "stderr": "error_output",
       "name": "item-edit-example-login-03-set-password",
       "changes_state": true
+    },
+    "--format|json|item|get|Example Login Item 04|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-04",
+      "changes_state": false
+    },
+    "--format|json|item|edit|Example Login Item 04|--favorite=true|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-edit-example-login-04-set-favorite",
+      "changes_state": true
     }
   },
   "commands_with_input": {}

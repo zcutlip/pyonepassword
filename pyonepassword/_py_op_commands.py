@@ -523,11 +523,16 @@ class _OPCommandInterface(_OPCLIExecute):
         # - service account env variable is set, but token is malformed
         # - on op >= 2.20.0, service account token is set, but not yet "authenticated"
         account_json = None
+        attempts = 0
+        max_attempts = 2
         while account_json is None:
+            # try once, and if necessary try "item template list" to authenticate
+            # then try at most one more time
+            attempts += 1
             try:
                 account_json = cls._whoami_base(op_path, env=env)
             except OPCmdFailedException as ocfe:
-                if cls.SVC_ACCT_TOKEN_NOT_AUTH_TXT in ocfe.err_output:
+                if attempts < max_attempts and cls.SVC_ACCT_TOKEN_NOT_AUTH_TXT in ocfe.err_output:
                     # Trigger a service account authenticated session (v 2.20.0 and later)
                     cls._item_template_list_special(op_path, env=env)
                     continue

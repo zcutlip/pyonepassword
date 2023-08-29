@@ -536,17 +536,18 @@ class _OPCommandInterface(_OPCLIExecute):
                     # Trigger a service account authenticated session (v 2.20.0 and later)
                     cls._item_template_list_special(op_path, env=env)
                     continue
-                elif cls.SVC_ACCT_TOKEN_MALFORMED_TEXT in ocfe.err_output:
+                elif cls.SVC_ACCT_TOKEN_MALFORMED_TEXT in ocfe.err_output:  # pragma: no cover
                     # OP_SERVICE_ACCOUNT_TOKEN got set to something malformed
                     # so raise a specific exception for that
                     raise OPCmdMalformedSvcAcctTokenException.from_opexception(
-                        ocfe)  # pragma: no cover
+                        ocfe)
                     # Although we could simulate this for testing, the tests
                     # wouldn't be meaningful, because they wouldn't be tied to
                     # an actual malformed token
                     # disabling testing coverage
                 else:
-                    raise
+                    raise  # pragma: no cover
+
         return account_json
 
     @classmethod

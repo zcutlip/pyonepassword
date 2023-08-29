@@ -20,7 +20,7 @@ ITEM_EDIT_RESP_PATH = Path(
     MOCK_OP_CONFIG_PATH, "responses-item-edit"
 )
 ITEM_EDIT_STATE_CONFIG_PATH = Path(
-    ITEM_EDIT_RESP_PATH, "mock-op-state-config-1.json"
+    ITEM_EDIT_RESP_PATH, "item-edit-state-config.json"
 )
 
 

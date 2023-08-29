@@ -45,6 +45,7 @@ from .paths import (
     ITEM_EDIT_STATE_CONFIG_PATH,
     RESP_DIRECTORY_PATH,
     SVC_ACCT_CORRUPT_RESP_DIRECTORY_PATH,
+    SVC_ACCT_NOT_YET_AUTH_STATE_CONFIG_PATH,
     SVC_ACCT_RESP_DIRECTORY_PATH,
     SVC_ACCT_REVOKED_RESP_DIRECTORY_PATH,
     UNAUTH_RESP_DIRECTORY_PATH
@@ -223,6 +224,33 @@ def setup_stateful_item_edit():
     # the stateful config
     old_mock_op_resp_dir = os.environ.pop("MOCK_OP_RESPONSE_DIRECTORY", None)
     os.environ["MOCK_OP_STATE_DIR"] = str(state_config_path)
+    yield  # pytest will return us here after the test runs
+    # get rid of MOCK_OP_STATE_DIR
+    os.environ.pop("MOCK_OP_STATE_DIR")
+
+    # restore MOCK_OP_RESPONSE_DIRECTORY if it was previously set
+    if old_mock_op_resp_dir is not None:
+        os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = old_mock_op_resp_dir
+
+    # temp_dir will get cleaned up once we return
+
+
+@fixture
+def setup_stateful_svc_acct_auth():
+    config_file_name = SVC_ACCT_NOT_YET_AUTH_STATE_CONFIG_PATH.name
+    temp_dir = tempfile.TemporaryDirectory()
+    state_config_dir = temp_dir.name
+    state_config_path = Path(state_config_dir, config_file_name)
+    shutil.copyfile(SVC_ACCT_NOT_YET_AUTH_STATE_CONFIG_PATH, state_config_path)
+
+    # now pop MOCK_OP_RESPONSE_DIRECTORY to ensure it doesn't conflict with with
+    # the stateful config
+    old_mock_op_resp_dir = os.environ.pop("MOCK_OP_RESPONSE_DIRECTORY", None)
+    os.environ["MOCK_OP_STATE_DIR"] = str(state_config_path)
+
+    svc_account_token = os.environ["PYTEST_SVC_ACCT_TOKEN"]
+    os.environ["OP_SERVICE_ACCOUNT_TOKEN"] = svc_account_token
+
     yield  # pytest will return us here after the test runs
     # get rid of MOCK_OP_STATE_DIR
     os.environ.pop("MOCK_OP_STATE_DIR")

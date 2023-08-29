@@ -500,6 +500,8 @@ class _OPCommandInterface(_OPCLIExecute):
 
     @classmethod
     def _item_template_list_special(cls, op_path,  env: Dict[str, str] = None):
+        if not env:
+            env = dict(environ)
         # special "template list" class method we can use for testing authentication
         argv = _OPArgv.item_template_list_argv(op_path)
         template_list_json = cls._run(
@@ -556,8 +558,7 @@ class _OPCommandInterface(_OPCLIExecute):
         # if a service account var is set, this method will call
         # _whoami_svc_account(), which will call _whoami_base()
         # otherwise, this method calls _whoami_base()
-        if not env:
-            env = dict(environ)
+
         try:
             if cls.svc_account_env_var_set():
                 account_json = cls._whoami_svc_account(op_path, env=env)

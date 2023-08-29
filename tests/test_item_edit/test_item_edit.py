@@ -193,3 +193,25 @@ def test_item_edit_set_title_030(signed_in_op: OP):
 
     assert edited_item.title == item_get_2.title
     assert item_get_2.title == item_name_new
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_set_favorite_040(signed_in_op: OP):
+    item_name = "Example Login Item 04"
+    vault = "Test Data 2"
+
+    # stateful response directory
+    # state 1: responses-item-edit/response-directory-1.json
+    item_get_1 = signed_in_op.item_get(item_name, vault=vault)
+
+    assert item_get_1.favorite is False
+
+    edited_item = signed_in_op.item_edit_set_favorite(
+        item_name, True, vault=vault)
+
+    # state changed with item_edit above
+    # state 2: responses-item-edit/response-directory-2.json
+    item_get_2 = signed_in_op.item_get(item_name, vault=vault)
+
+    assert edited_item.favorite == item_get_2.favorite
+    assert item_get_2.favorite is True

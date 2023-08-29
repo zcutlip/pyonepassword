@@ -30,6 +30,9 @@ def test_svc_acct_auth_010(console_logger):
 @pytest.mark.usefixtures("setup_stateful_svc_acct_auth")
 def test_svc_account_not_yet_auth_020(console_logger):
     """
+    In 'op' version >= 2.20.0, if a successful operation hasn't been completed in the past
+    30 minutes, 'whoami' will fail with "not yet authenticated"
+
     Simulate a pyonepassword environment that has a service account token set
     via the OP_SERVICE_ACCOUNT_TOKEN environment variable
 

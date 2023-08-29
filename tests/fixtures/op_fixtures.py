@@ -250,7 +250,7 @@ def setup_stateful_svc_acct_auth():
 
     svc_account_token = os.environ["PYTEST_SVC_ACCT_TOKEN"]
     os.environ["OP_SERVICE_ACCOUNT_TOKEN"] = svc_account_token
-
+    os.environ["LOG_OP_ERR"] = "1"
     yield  # pytest will return us here after the test runs
     # get rid of MOCK_OP_STATE_DIR
     os.environ.pop("MOCK_OP_STATE_DIR")

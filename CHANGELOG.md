@@ -6,7 +6,16 @@ All notable changes to this project will be documented in this file.
 
 
 ### Added
+- Item editing:
+  - `OP.item_edit_generate_password()`
+  - `OP.item_edit_set_password()`
+  - `OP.item_edit_set_title()`
+  - `OP.item_edit_set_favorite()`
+  -
 - `OPAbstractItem.field_value_by_section_label()` as a replacement for poorly named `field_value_by_section_title()`
+- Support for `op` new `whoami` behvior version 2.20.0
+  - new `whoami` dict
+  - On `OP()` initialization, accomodate `whoami` failure when the token hasn't been used recently
 
 ### Changed
 

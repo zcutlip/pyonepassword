@@ -815,13 +815,13 @@ class _OPCommandInterface(_OPCLIExecute):
 
     def _item_edit_set_favorite_argv(self,
                                      item_identifier: str,
-                                     favorte: bool,
+                                     favorite: bool,
                                      vault: Optional[str]):
         vault_arg = vault if vault else self.vault
 
         item_edit_argv = _OPArgv.item_edit_set_favorite(self.op_path,
                                                         item_identifier,
-                                                        favorte,
+                                                        favorite,
                                                         vault=vault_arg)
         return item_edit_argv
 

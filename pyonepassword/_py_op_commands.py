@@ -4,7 +4,7 @@ Description: A module that maps methods to to `op` commands and subcommands
 import enum
 import logging
 from os import environ
-from typing import Dict, Mapping, Optional, Union
+from typing import Dict, List, Mapping, Optional, Union
 
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
@@ -823,6 +823,19 @@ class _OPCommandInterface(_OPCLIExecute):
                                                         item_identifier,
                                                         favorite,
                                                         vault=vault_arg)
+        return item_edit_argv
+
+    def _item_edit_set_tags_argv(self,
+                                 item_identifier: str,
+                                 tags: List[str],
+                                 vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+
+        item_edit_argv = _OPArgv.item_edit_set_tags(self.op_path,
+                                                    item_identifier,
+                                                    tags,
+                                                    vault=vault_arg)
+
         return item_edit_argv
 
     def _item_create(self, item, vault, password_recipe, decode="utf-8"):

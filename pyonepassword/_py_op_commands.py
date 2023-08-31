@@ -904,3 +904,14 @@ class _OPCommandInterface(_OPCLIExecute):
 
         output = self._item_edit_run(argv, decode)
         return output
+
+    def _item_edit_set_tags(self,
+                            item_identifier: str,
+                            tags: List[str],
+                            vault: Optional[str] = None,
+                            decode: str = "utf-8"):
+        argv = self._item_edit_set_tags_argv(
+            item_identifier, tags, vault=vault)
+
+        output = self._item_edit_run(argv, decode)
+        return output

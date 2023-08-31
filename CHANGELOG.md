@@ -28,7 +28,7 @@ All notable changes to this project will be documented in this file.
   - call `OPAbstractItem.field_value_by_section_label()` instead
 ### Misc
 
-- Updated testing configuration in conjucton with refactored `mock-op`
+- Updated testing configuration in conjuncton with refactored `mock-op`
 - Add `FUNDING.yml`
 
 

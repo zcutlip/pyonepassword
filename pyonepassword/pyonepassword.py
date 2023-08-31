@@ -912,6 +912,44 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return op_item
 
+    def item_edit_set_tags(self,
+                           item_identifier: str,
+                           tags: List[str],
+                           vault: Optional[str] = None) -> OPAbstractItem:
+        """
+        Set or unset an item's tags
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to edit
+        tags: List[str]
+            The list of tags to assign to the item
+        vault: str, optional
+            The name or ID of a vault containing the item to edit.
+            Overrides the OP object's default vault, if set
+
+        Raises
+        ------
+        OPItemEditException
+            If the item edit operation fails for any reason
+
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The edited version of the item
+
+        Service Account Support
+        -----------------------
+        TODO placeholder text to satisfy pytest docstring checks
+        """
+        result_str = self._item_edit_set_tags(item_identifier,
+                                              tags,
+                                              vault=vault)
+        op_item = OPItemFactory.op_item(result_str, generic_okay=True)
+
+        return op_item
+
     def login_item_create(self,
                           title: str,
                           username: str,

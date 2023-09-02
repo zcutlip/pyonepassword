@@ -752,12 +752,28 @@ class _OPCommandInterface(_OPCLIExecute):
         cls._run(argv)
 
     def _item_list_argv(self, categories=[], include_archive=False, tags=[], vault=None):
+        # default lists to the categories & list kwargs
+        # get initialized at module load
+        # so its the same list object on every call to this funciton
+        # This really isn't what we want, so the easiest
+        # mitigation is to just make a copy of whatever list was passed in
+        # or of the default kwarg if nothing was passed in
+        categories = list(categories)
+        tags = list(tags)
         vault_arg = vault if vault else self.vault
         list_items_argv = _OPArgv.item_list_argv(self.op_path,
                                                  categories=categories, include_archive=include_archive, tags=tags, vault=vault_arg)
         return list_items_argv
 
     def _item_list(self, categories=[], include_archive=False, tags=[], vault=None, decode="utf-8"):
+        # default lists to the categories & list kwargs
+        # get initialized at module load
+        # so its the same list object on every call to this funciton
+        # This really isn't what we want, so the easiest
+        # mitigation is to just make a copy of whatever list was passed in
+        # or of the default kwarg if nothing was passed in
+        categories = list(categories)
+        tags = list(tags)
         argv = self._item_list_argv(
             categories=categories, include_archive=include_archive, tags=tags, vault=vault)
         try:

@@ -622,7 +622,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             Include items in the Archive in the list
         tags: List[str], optional
             A list of tags to restrict list to
-        title_glob: bool, optional
+        title_glob: str, optional
             a shell-style glob pattern to match against item titles. If provided,
             resulting list will include only matching items
             by default None
@@ -1110,7 +1110,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             by default False
         tags: List[str], optional
             A list of tags to restrict batch deletion to
-        title_glob: bool, optional
+        title_glob: str, optional
             a shell-style glob pattern to match against item titles for deleting
             by default None
         batch_size: int, optional

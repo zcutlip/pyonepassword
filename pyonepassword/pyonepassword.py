@@ -610,7 +610,13 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return document_id
 
-    def item_list(self, categories=[], include_archive=False, tags=[], title_glob=None, vault=None, generic_okay=True) -> OPItemList:
+    def item_list(self,
+                  categories: Optional[List[str]] = None,
+                  include_archive: bool = False,
+                  tags: Optional[List[str]] = None,
+                  title_glob: str = None,
+                  vault: str = None,
+                  generic_okay: bool = True) -> OPItemList:
         """
         Return a list of items in an account.
 
@@ -650,6 +656,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -----------------------
         Supported
         """
+        if tags is None:
+            tags = list()
+        if categories is None:
+            categories = list()
+
         item_list_json = self._item_list(
             categories, include_archive, tags, vault)
         item_list = OPItemList(item_list_json, generic_okay=generic_okay)
@@ -956,7 +967,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                           password: Union[str, OPPasswordRecipe] = None,
                           url: Optional[str] = None,
                           url_label: str = "Website",
-                          tags: List[str] = [],
+                          tags: Optional[List[str]] = None,
                           vault: str = None):  # pragma: no coverage
         """
         Create a new login item in the authenticated 1Password account
@@ -1001,6 +1012,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         Supported
           required keyword arguments: vault
         """
+        if tags is None:
+            tags = list()
         password_recipe = None
 
         # if password is actually a password recipe,
@@ -1086,11 +1099,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
     def item_delete_multiple(self,
                              vault,
-                             categories=[],
-                             include_archive=False,
-                             tags=[],
-                             archive=False,
-                             title_glob=None,
+                             categories: Optional[List[str]] = None,
+                             include_archive: bool = False,
+                             tags: Optional[List[str]] = None,
+                             archive: bool = False,
+                             title_glob: str = None,
                              batch_size=25):
         """
         Delete multiple items at once from a specific vault. This may take place across
@@ -1139,6 +1152,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         Supported
           required keyword arguments: vault
         """
+        if tags is None:
+            tags = list()
+        if categories is None:
+            categories = list()
+
         # track deleted items as we delete them so we can return
         # that list to the caller
         deleted_items = OPItemList([])

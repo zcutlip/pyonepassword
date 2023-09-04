@@ -1,9 +1,9 @@
 [
   {
-    "url": "https://zach-and-leanne.1password.com",
-    "email": "zcutlip@icloud.com",
-    "user_uuid": "RAXCWKNRRNGL7I3KSZOH5ERLHI",
-    "account_uuid": "JE3H7ZW5VBCLHNEWRYJ4F2ODKE",
-    "shorthand": "zach_and_leanne"
+    "url": "https://example-account.1password.com",
+    "email": "example_user@example.email",
+    "user_uuid": "5GHHPJK5HZC5BAT7WDUXW57G44",
+    "account_uuid": "GRXJAN4BY5DPROISKYL55IRCPY",
+    "shorthand": "example_shorthand"
   }
 ]

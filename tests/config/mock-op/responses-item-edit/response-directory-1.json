@@ -115,6 +115,34 @@
       "stderr": "error_output",
       "name": "item-edit-example-login-05-set-favorite",
       "changes_state": true
+    },
+    "--format|json|item|get|Example Login Item 06|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-06",
+      "changes_state": false
+    },
+    "--format|json|item|edit|Example Login Item 06|--tags|tag_3,tag_4,tag_5|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-edit-example-login-06-set-tags",
+      "changes_state": true
+    },
+    "--format|json|item|get|Example Login Item 07|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-07",
+      "changes_state": false
+    },
+    "--format|json|item|edit|Example Login Item 07|--tags|tag_1,tag_2,tag_3|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-edit-example-login-07-set-tags",
+      "changes_state": true
     }
   },
   "commands_with_input": {}

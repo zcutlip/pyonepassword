@@ -197,6 +197,17 @@ def test_item_edit_set_title_030(signed_in_op: OP):
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
 def test_item_edit_set_favorite_040(signed_in_op: OP):
+    """
+    Test: OP.item_edit_set_favorite() setting favorite to True
+        - Retrieve an item via OP.item_get()
+        - Call item_edit_set_favorite(), saving returned object
+        - Retreive the same item a second time
+
+    Verify:
+        - The original item's favorite flag is False
+        - The returned edited item's favorite flag matches the newly retrieved item's favorite flag
+        - The newly retrieved item's favorite flag is True
+    """
     item_name = "Example Login Item 04"
     vault = "Test Data 2"
 
@@ -219,6 +230,17 @@ def test_item_edit_set_favorite_040(signed_in_op: OP):
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
 def test_item_edit_set_favorite_050(signed_in_op: OP):
+    """
+    Test: OP.item_edit_set_favorite() setting favorite to False
+        - Retrieve an item via OP.item_get()
+        - Call item_edit_set_favorite(), saving returned object
+        - Retreive the same item a second time
+
+    Verify:
+        - The original item's favorite flag is True
+        - The returned edited item's favorite flag matches the newly retrieved item's favorite flag
+        - The newly retrieved item's favorite flag is False
+    """
     item_name = "Example Login Item 05"
     vault = "Test Data 2"
 

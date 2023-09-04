@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file.
   - `OP.item_edit_set_password()`
   - `OP.item_edit_set_title()`
   - `OP.item_edit_set_favorite()`
-  -
+  - `OP.item_edit_set_tags()`
 - `OPAbstractItem.field_value_by_section_label()` as a replacement for poorly named `field_value_by_section_title()`
 - Support for `op` new `whoami` behvior version 2.20.0
   - new `whoami` dict

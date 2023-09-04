@@ -1,33 +1,34 @@
 {
-  "id": "cqnwnsfixrmmiohto4thdtmpm4",
-  "title": "Example Login Item 05",
-  "version": 3,
+  "id": "hd4vn63li6sd7wfs53zwcpx5mq",
+  "title": "Example Login Item 07",
+  "tags": ["tag_1", "tag_2", "tag_3"],
+  "version": 13,
   "vault": {
     "id": "vkjyqsbkf63zycqigbg3yxd7ce",
     "name": "Test Data 2"
   },
   "category": "LOGIN",
-  "last_edited_by": "FZTDCNIJAOEBZZ2VQFNDVHC3K6",
-  "created_at": "2023-08-22T22:14:49Z",
-  "updated_at": "2023-08-30T02:04:53Z",
-  "additional_information": "user_05",
+  "last_edited_by": "4J4NLDK7GFAXJFOR7RF2KDUAMI",
+  "created_at": "2023-08-22T22:14:51Z",
+  "updated_at": "2023-09-01T21:58:38.423206-07:00",
+  "additional_information": "user_07",
   "fields": [
     {
       "id": "username",
       "type": "STRING",
       "purpose": "USERNAME",
       "label": "username",
-      "value": "user_05",
-      "reference": "op://Test Data 2/Example Login Item 05/username"
+      "value": "user_07",
+      "reference": "op://Test Data 2/Example Login Item 07/username"
     },
     {
       "id": "password",
       "type": "CONCEALED",
       "purpose": "PASSWORD",
       "label": "password",
-      "value": "tEE@@RvKHxMmV7VKPgbw",
+      "value": "_RPhBz3gTvz-fy8huq3e",
       "entropy": 118.28331756591797,
-      "reference": "op://Test Data 2/Example Login Item 05/password",
+      "reference": "op://Test Data 2/Example Login Item 07/password",
       "password_details": {
         "entropy": 118,
         "generated": true,
@@ -39,7 +40,7 @@
       "type": "STRING",
       "purpose": "NOTES",
       "label": "notesPlain",
-      "reference": "op://Test Data 2/Example Login Item 05/notesPlain"
+      "reference": "op://Test Data 2/Example Login Item 07/notesPlain"
     }
   ]
 }

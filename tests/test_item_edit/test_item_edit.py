@@ -259,3 +259,75 @@ def test_item_edit_set_favorite_050(signed_in_op: OP):
 
     assert edited_item.favorite == item_get_2.favorite
     assert item_get_2.favorite is False
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_set_tags_060(signed_in_op: OP):
+    """
+    Test: OP.item_edit_set_tags() to replace an items set of tags with a different set of tags
+        - Retrieve an item via OP.item_get()
+        - Call item_edit_set_tags(), saving returned object
+        - Retreive the same item a second time
+
+    Verify:
+        - The original item's tags match the expected original set of tags
+        - The returned edited item's tags match the newly retrieved item's set of tags
+        - The newly retrieved item's set of tags match the expected new set of tags
+    """
+    item_name = "Example Login Item 06"
+    vault = "Test Data 2"
+    original_tag_set = {"tag_1", "tag_2"}
+
+    new_tags = ["tag_3", "tag_4", "tag_5"]
+    new_tag_set = set(new_tags)
+    # stateful response directory
+    # state 1: responses-item-edit/response-directory-1.json
+    item_get_1 = signed_in_op.item_get(item_name, vault=vault)
+
+    assert set(item_get_1.tags) == original_tag_set
+
+    edited_item = signed_in_op.item_edit_set_tags(
+        item_name, new_tags, vault=vault)
+
+    # state changed with item_edit above
+    # state 2: responses-item-edit/response-directory-2.json
+    item_get_2 = signed_in_op.item_get(item_name, vault=vault)
+
+    assert set(edited_item.tags) == set(item_get_2.tags)
+    assert set(item_get_2.tags) == new_tag_set
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_set_tags_070(signed_in_op: OP):
+    """
+    Test: OP.item_edit_set_tags() to set tags on an item with no existing tags
+        - Retrieve an item via OP.item_get()
+        - Call item_edit_set_tags(), saving returned object
+        - Retreive the same item a second time
+
+    Verify:
+        - The original item's set of tags is empty
+        - The returned edited item's tags match the newly retrieved item's set of tags
+        - The newly retrieved item's set of tags match the expected new set of tags
+    """
+    item_name = "Example Login Item 07"
+    vault = "Test Data 2"
+    original_tag_set = set([])
+
+    new_tags = ["tag_1", "tag_2", "tag_3"]
+    new_tag_set = set(new_tags)
+    # stateful response directory
+    # state 1: responses-item-edit/response-directory-1.json
+    item_get_1 = signed_in_op.item_get(item_name, vault=vault)
+
+    assert set(item_get_1.tags) == original_tag_set
+
+    edited_item = signed_in_op.item_edit_set_tags(
+        item_name, new_tags, vault=vault)
+
+    # state changed with item_edit above
+    # state 2: responses-item-edit/response-directory-2.json
+    item_get_2 = signed_in_op.item_get(item_name, vault=vault)
+
+    assert set(edited_item.tags) == set(item_get_2.tags)
+    assert set(item_get_2.tags) == new_tag_set

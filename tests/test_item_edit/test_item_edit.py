@@ -367,3 +367,41 @@ def test_item_edit_set_tags_080(signed_in_op: OP):
 
     assert set(edited_item.tags) == set(item_get_2.tags)
     assert set(item_get_2.tags) == new_tag_set
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_set_tags_090(signed_in_op: OP):
+    """
+    Test: OP.item_edit_set_tags() append tags to an item's existing set of tags
+        - Retrieve an item via OP.item_get()
+        - Call item_edit_set_tags(), saving returned object
+        - Retreive the same item a second time
+
+    Verify:
+        - The original item's set of tags match the expected original set of tags
+        - The returned edited item's tags match the newly retrieved item's set of tags
+        - The newly retrieved item's set of tags match the expected combined set of tags
+    """
+    item_name = "Example Login Item 08a"
+    vault = "Test Data 2"
+
+    original_tag_set = set(["tag_1", "tag_2", "tag_3"])
+    new_tags = ["tag_3", "tag_4", "tag_5"]
+
+    # set of unique tags from original and new set
+    new_tag_set = set(["tag_1", "tag_2", "tag_3"] + new_tags)
+    # stateful response directory
+    # state 1: responses-item-edit/response-directory-1.json
+    item_get_1 = signed_in_op.item_get(item_name, vault=vault)
+
+    assert set(item_get_1.tags) == original_tag_set
+
+    edited_item = signed_in_op.item_edit_set_tags(
+        item_name, new_tags, append_tags=True, vault=vault)
+
+    # state changed with item_edit above
+    # state 2: responses-item-edit/response-directory-2.json
+    item_get_2 = signed_in_op.item_get(item_name, vault=vault)
+
+    assert set(edited_item.tags) == set(item_get_2.tags)
+    assert set(item_get_2.tags) == new_tag_set

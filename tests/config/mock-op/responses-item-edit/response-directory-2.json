@@ -87,6 +87,13 @@
       "stderr": "error_output",
       "name": "item-get-example-login-07",
       "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 08|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-08",
+      "changes_state": false
     }
   },
   "commands_with_input": {}

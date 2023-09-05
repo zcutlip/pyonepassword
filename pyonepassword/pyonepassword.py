@@ -926,6 +926,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
     def item_edit_set_tags(self,
                            item_identifier: str,
                            tags: List[str],
+                           append_tags: bool = False,
                            vault: Optional[str] = None) -> OPAbstractItem:
         """
         Set or unset an item's tags
@@ -936,6 +937,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             The item to edit
         tags: List[str]
             The list of tags to assign to the item
+        append_tags: bool
+            Append to the existing list of tags or replace the existing list
+            by default True
         vault: str, optional
             The name or ID of a vault containing the item to edit.
             Overrides the OP object's default vault, if set
@@ -954,6 +958,17 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -----------------------
         TODO placeholder text to satisfy pytest docstring checks
         """
+        if append_tags:
+            item = self.item_get(item_identifier, vault=vault)
+            existing_tags = item.tags
+            for tag in tags:
+                if tag not in existing_tags:
+                    # although op item tags *sort of* behave as a set
+                    # they are technically a list and preserve order
+                    # so lets go to the trouble to also preserve order
+                    # and not append any duplicates
+                    existing_tags.append(tag)
+                tags = existing_tags
         result_str = self._item_edit_set_tags(item_identifier,
                                               tags,
                                               vault=vault)

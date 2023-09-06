@@ -805,30 +805,6 @@ class _OPCommandInterface(_OPCLIExecute):
                                                              vault=vault_arg)
         return item_edit_argv
 
-    def _item_edit_generate_password_argv(self,
-                                          item_identifier: str,
-                                          password_recipe: OPPasswordRecipe,
-                                          vault: Optional[str]):
-
-        vault_arg = vault if vault else self.vault
-        item_edit_argv = _OPArgv.item_edit_generate_password_argv(self.op_path,
-                                                                  item_identifier,
-                                                                  password_recipe,
-                                                                  vault=vault_arg)
-        return item_edit_argv
-
-    def _item_edit_set_title_argv(self,
-                                  item_identifier: str,
-                                  item_title: str,
-                                  vault: Optional[str]):
-        vault_arg = vault if vault else self.vault
-
-        item_edit_argv = _OPArgv.item_edit_set_title(self.op_path,
-                                                     item_identifier,
-                                                     item_title,
-                                                     vault=vault_arg)
-        return item_edit_argv
-
     def _item_edit_set_favorite_argv(self,
                                      item_identifier: str,
                                      favorite: bool,
@@ -839,6 +815,18 @@ class _OPCommandInterface(_OPCLIExecute):
                                                         item_identifier,
                                                         favorite,
                                                         vault=vault_arg)
+        return item_edit_argv
+
+    def _item_edit_generate_password_argv(self,
+                                          item_identifier: str,
+                                          password_recipe: OPPasswordRecipe,
+                                          vault: Optional[str]):
+
+        vault_arg = vault if vault else self.vault
+        item_edit_argv = _OPArgv.item_edit_generate_password_argv(self.op_path,
+                                                                  item_identifier,
+                                                                  password_recipe,
+                                                                  vault=vault_arg)
         return item_edit_argv
 
     def _item_edit_set_tags_argv(self,
@@ -852,6 +840,18 @@ class _OPCommandInterface(_OPCLIExecute):
                                                     tags,
                                                     vault=vault_arg)
 
+        return item_edit_argv
+
+    def _item_edit_set_title_argv(self,
+                                  item_identifier: str,
+                                  item_title: str,
+                                  vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+
+        item_edit_argv = _OPArgv.item_edit_set_title(self.op_path,
+                                                     item_identifier,
+                                                     item_title,
+                                                     vault=vault_arg)
         return item_edit_argv
 
     def _item_create(self, item, vault, password_recipe, decode="utf-8"):

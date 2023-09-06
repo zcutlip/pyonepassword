@@ -958,8 +958,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -----------------------
         TODO placeholder text to satisfy pytest docstring checks
         """
+        item = self.item_get(item_identifier, vault=vault)
         if append_tags:
-            item = self.item_get(item_identifier, vault=vault)
             existing_tags = item.tags
             for tag in tags:
                 if tag not in existing_tags:
@@ -969,6 +969,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                     # and not append any duplicates
                     existing_tags.append(tag)
                 tags = existing_tags
+        else:
+            item = None
+
         result_str = self._item_edit_set_tags(item_identifier,
                                               tags,
                                               vault=vault)

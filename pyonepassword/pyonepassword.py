@@ -730,44 +730,6 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         op_item = OPItemFactory.op_item(result_str)
         return op_item
 
-    def item_edit_generate_password(self,
-                                    item_identifier: str,
-                                    password_recipe: OPPasswordRecipe,
-                                    vault: Optional[str] = None):
-        """
-        Generate and assign a new password for an existing item
-
-        Parameters
-        ----------
-        item_identifier: str
-            The item to edit
-        password_recipe: OPPasswordRecipe
-            The password recipe to apply when generating a new passwod
-        vault: str, optional
-            The name or ID of a vault containing the item to edit.
-            Overrides the OP object's default vault, if set
-
-        Raises
-        ------
-        OPItemEditException
-            If the item edit operation fails for any reason
-
-        Returns
-        -------
-        op_item: OPAbstractItem
-            The edited version of the item
-
-        Service Account Support
-        -----------------------
-        Supported
-        """
-
-        result_str = self._item_edit_generate_password(item_identifier,
-                                                       password_recipe,
-                                                       vault)
-        op_item = OPItemFactory.op_item(result_str, generic_okay=True)
-        return op_item
-
     def item_edit_set_password(self,
                                item_identifier: str,
                                password: str,
@@ -851,44 +813,6 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         op_item = OPItemFactory.op_item(result_str, generic_okay=True)
         return op_item
 
-    def item_edit_set_title(self,
-                            item_identifier: str,
-                            item_title: str,
-                            vault: Optional[str] = None):
-        """
-        Assign a new title for an existing item
-
-        Parameters
-        ----------
-        item_identifier: str
-            The item to edit
-        item_title: str
-            The new title to assign to the item
-        vault: str, optional
-            The name or ID of a vault containing the item to edit.
-            Overrides the OP object's default vault, if set
-
-        Raises
-        ------
-        OPItemEditException
-            If the item edit operation fails for any reason
-
-        Returns
-        -------
-        op_item: OPAbstractItem
-            The edited version of the item
-
-        Service Account Support
-        -----------------------
-        Supported
-        """
-        result_str = self._item_edit_set_title(item_identifier,
-                                               item_title,
-                                               vault=vault)
-        op_item = OPItemFactory.op_item(result_str, generic_okay=True)
-
-        return op_item
-
     def item_edit_set_favorite(self,
                                item_identifier: str,
                                favorite: bool,
@@ -925,6 +849,44 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                                   vault=vault)
         op_item = OPItemFactory.op_item(result_str, generic_okay=True)
 
+        return op_item
+
+    def item_edit_generate_password(self,
+                                    item_identifier: str,
+                                    password_recipe: OPPasswordRecipe,
+                                    vault: Optional[str] = None):
+        """
+        Generate and assign a new password for an existing item
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to edit
+        password_recipe: OPPasswordRecipe
+            The password recipe to apply when generating a new passwod
+        vault: str, optional
+            The name or ID of a vault containing the item to edit.
+            Overrides the OP object's default vault, if set
+
+        Raises
+        ------
+        OPItemEditException
+            If the item edit operation fails for any reason
+
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The edited version of the item
+
+        Service Account Support
+        -----------------------
+        Supported
+        """
+
+        result_str = self._item_edit_generate_password(item_identifier,
+                                                       password_recipe,
+                                                       vault)
+        op_item = OPItemFactory.op_item(result_str, generic_okay=True)
         return op_item
 
     def item_edit_set_tags(self,
@@ -983,6 +945,44 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         result_str = self._item_edit_set_tags(item_identifier,
                                               tags,
                                               vault=vault)
+        op_item = OPItemFactory.op_item(result_str, generic_okay=True)
+
+        return op_item
+
+    def item_edit_set_title(self,
+                            item_identifier: str,
+                            item_title: str,
+                            vault: Optional[str] = None):
+        """
+        Assign a new title for an existing item
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to edit
+        item_title: str
+            The new title to assign to the item
+        vault: str, optional
+            The name or ID of a vault containing the item to edit.
+            Overrides the OP object's default vault, if set
+
+        Raises
+        ------
+        OPItemEditException
+            If the item edit operation fails for any reason
+
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The edited version of the item
+
+        Service Account Support
+        -----------------------
+        Supported
+        """
+        result_str = self._item_edit_set_title(item_identifier,
+                                               item_title,
+                                               vault=vault)
         op_item = OPItemFactory.op_item(result_str, generic_okay=True)
 
         return op_item

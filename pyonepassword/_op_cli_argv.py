@@ -404,31 +404,6 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_edit_generate_password_argv(cls,
-                                         op_exe,
-                                         item_identifier: str,
-                                         password_recipe: OPPasswordRecipe,
-                                         vault: Optional[str] = None):
-        item_edit_args = [f"--generate-password={password_recipe}"]
-
-        argv = cls.item_edit_generic_argv(
-            op_exe, item_identifier, item_edit_args, vault=vault)
-
-        return argv
-
-    @classmethod
-    def item_edit_set_title(cls,
-                            op_exe: str,
-                            item_identifier: str,
-                            item_title: str,
-                            vault: Optional[str] = None):
-        item_edit_args = ["--title", f"{item_title}"]
-        argv = cls.item_edit_generic_argv(
-            op_exe, item_identifier, item_edit_args, vault=vault)
-
-        return argv
-
-    @classmethod
     def item_edit_set_favorite(cls,
                                op_exe: str,
                                item_identifier: str,
@@ -444,6 +419,19 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    def item_edit_generate_password_argv(cls,
+                                         op_exe,
+                                         item_identifier: str,
+                                         password_recipe: OPPasswordRecipe,
+                                         vault: Optional[str] = None):
+        item_edit_args = [f"--generate-password={password_recipe}"]
+
+        argv = cls.item_edit_generic_argv(
+            op_exe, item_identifier, item_edit_args, vault=vault)
+
+        return argv
+
+    @classmethod
     def item_edit_set_tags(cls,
                            op_exe: str,
                            item_identifier: str,
@@ -452,6 +440,18 @@ class _OPArgv(list):
 
         tag_arg = ",".join(tags)
         item_edit_args = ["--tags", tag_arg]
+        argv = cls.item_edit_generic_argv(
+            op_exe, item_identifier, item_edit_args, vault=vault)
+
+        return argv
+
+    @classmethod
+    def item_edit_set_title(cls,
+                            op_exe: str,
+                            item_identifier: str,
+                            item_title: str,
+                            vault: Optional[str] = None):
+        item_edit_args = ["--title", f"{item_title}"]
         argv = cls.item_edit_generic_argv(
             op_exe, item_identifier, item_edit_args, vault=vault)
 

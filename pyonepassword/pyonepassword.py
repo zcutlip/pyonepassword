@@ -759,7 +759,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         Service Account Support
         -----------------------
-        TODO placeholder text to satisfy pytest docstring checks
+        Supported
         """
 
         result_str = self._item_edit_generate_password(item_identifier,
@@ -819,9 +819,13 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         op_item: OPAbstractItem
             The edited version of the item
 
+        Note: an 'item_get()` operation first is performed in order to validate
+              the field name and, if provided, section name
+
         Service Account Support
         -----------------------
-        TODO placeholder text to satisfy pytest docstring checks
+        Supported
+          required keyword arguments: vault
         """
         if not insecure_operation:
             msg = "Password assignment via 'op item edit' is inherently insecure. Pass 'insecure_operation=True' to override. For more information, see https://developer.1password.com/docs/cli/reference/management-commands/item#item-edit"
@@ -876,7 +880,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         Service Account Support
         -----------------------
-        TODO placeholder text to satisfy pytest docstring checks
+        Supported
         """
         result_str = self._item_edit_set_title(item_identifier,
                                                item_title,
@@ -914,7 +918,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         Service Account Support
         -----------------------
-        TODO placeholder text to satisfy pytest docstring checks
+        Supported
         """
         result_str = self._item_edit_set_favorite(item_identifier,
                                                   favorite,
@@ -954,9 +958,13 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         op_item: OPAbstractItem
             The edited version of the item
 
+        Note: an 'item_get()` operation first is performed in order to obtain the
+              existing set of tags
+
         Service Account Support
         -----------------------
-        TODO placeholder text to satisfy pytest docstring checks
+        Supported
+          required keyword arguments: vault
         """
         item = self.item_get(item_identifier, vault=vault)
         if append_tags:

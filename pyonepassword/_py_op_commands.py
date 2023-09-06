@@ -888,28 +888,6 @@ class _OPCommandInterface(_OPCLIExecute):
         output = self._item_edit_run(argv, decode)
         return output
 
-    def _item_edit_generate_password(self,
-                                     item_identifier: str,
-                                     password_recipe: OPPasswordRecipe,
-                                     vault=None,
-                                     decode="utf-8") -> str:
-        argv = self._item_edit_generate_password_argv(
-            item_identifier, password_recipe, vault)
-
-        output = self._item_edit_run(argv, decode)
-        return output
-
-    def _item_edit_set_title(self,
-                             item_identifier: str,
-                             item_title: str,
-                             vault: Optional[str] = None,
-                             decode: str = "utf-8"):
-        argv = self._item_edit_set_title_argv(
-            item_identifier, item_title, vault=vault)
-
-        output = self._item_edit_run(argv, decode)
-        return output
-
     def _item_edit_set_favorite(self,
                                 item_identifier: str,
                                 favorite: bool,
@@ -921,6 +899,17 @@ class _OPCommandInterface(_OPCLIExecute):
         output = self._item_edit_run(argv, decode)
         return output
 
+    def _item_edit_generate_password(self,
+                                     item_identifier: str,
+                                     password_recipe: OPPasswordRecipe,
+                                     vault=None,
+                                     decode="utf-8") -> str:
+        argv = self._item_edit_generate_password_argv(
+            item_identifier, password_recipe, vault)
+
+        output = self._item_edit_run(argv, decode)
+        return output
+
     def _item_edit_set_tags(self,
                             item_identifier: str,
                             tags: List[str],
@@ -928,6 +917,17 @@ class _OPCommandInterface(_OPCLIExecute):
                             decode: str = "utf-8"):
         argv = self._item_edit_set_tags_argv(
             item_identifier, tags, vault=vault)
+
+        output = self._item_edit_run(argv, decode)
+        return output
+
+    def _item_edit_set_title(self,
+                             item_identifier: str,
+                             item_title: str,
+                             vault: Optional[str] = None,
+                             decode: str = "utf-8"):
+        argv = self._item_edit_set_title_argv(
+            item_identifier, item_title, vault=vault)
 
         output = self._item_edit_run(argv, decode)
         return output

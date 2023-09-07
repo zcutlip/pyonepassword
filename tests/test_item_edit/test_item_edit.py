@@ -370,7 +370,7 @@ def test_item_edit_set_tags_080(signed_in_op: OP):
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
-def test_item_edit_set_tags_090(signed_in_op: OP):
+def test_item_edit_set_tags_085(signed_in_op: OP):
     """
     Test: OP.item_edit_set_tags() append tags to an item's existing set of tags
         - Retrieve an item via OP.item_get()

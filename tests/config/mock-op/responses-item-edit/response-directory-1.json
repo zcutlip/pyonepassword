@@ -151,13 +151,6 @@
       "name": "item-get-example-login-08",
       "changes_state": false
     },
-    "--format|json|item|edit|Example Login Item 08|--tags|\"\"|--vault|Test Data 2": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-edit-example-login-08-set-tags",
-      "changes_state": true
-    },
     "--format|json|item|edit|Example Login Item 08|--tags||--vault|Test Data 2": {
       "exit_status": 0,
       "stdout": "output",
@@ -171,13 +164,6 @@
       "stderr": "error_output",
       "name": "item-get-example-login-08a",
       "changes_state": false
-    },
-    "--format|json|item|edit|Example Login Item 08a|--tags|tag_1,tag_2,tag_3,\"tag_3,tag_4,tag_5\"|--vault|Test Data 2": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-edit-example-login-08a-set-tags",
-      "changes_state": true
     },
     "--format|json|item|edit|Example Login Item 08a|--tags|tag_1,tag_2,tag_3,tag_4,tag_5|--vault|Test Data 2": {
       "exit_status": 0,

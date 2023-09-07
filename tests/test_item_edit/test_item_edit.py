@@ -441,3 +441,76 @@ def test_item_edit_set_url_090(signed_in_op: OP):
     assert len(edited_item.urls) == len(item_get_2.urls)
     assert len(item_get_2.urls) == 1
     assert item_get_2.primary_url.href == new_url
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_set_url_100(signed_in_op: OP):
+    """
+    Test: OP.item_edit_set_url() to set an item's URL
+        - Retrieve an item via OP.item_get()
+        - Call item_edit_set_url(), saving returned object
+        - Retreive the same item a second time
+
+    Verify:
+        - The original item has 1 URL set
+        - The returned edited item has the same number of URLs as the newly retrieved item
+        - The newly retrieved item's primary URL's href matches the new URL
+    """
+    item_name = "Example Login Item 10"
+    vault = "Test Data 2"
+
+    new_url = "https://item-10-url.com/login.html"
+    # stateful response directory
+    # state 1: responses-item-edit/response-directory-1.json
+    item_get_1: OPLoginItem = signed_in_op.item_get(item_name, vault=vault)
+
+    # sort of obvious since we retrieved using the old title, but for the sake of completeness
+    assert len(item_get_1.urls) == 1
+
+    edited_item: OPLoginItem = signed_in_op.item_edit_set_url(
+        item_name, new_url, vault=vault)
+
+    # state changed with item_edit above
+    # state 2: responses-item-edit/response-directory-2.json
+    item_get_2: OPLoginItem = signed_in_op.item_get(item_name, vault=vault)
+
+    assert len(edited_item.urls) == len(item_get_2.urls)
+    assert len(item_get_2.urls) == 1
+    assert item_get_2.primary_url.href == new_url
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_set_url_110(signed_in_op: OP):
+    """
+    Test: OP.item_edit_set_url() to set an item's URL
+        - Retrieve an item via OP.item_get()
+        - Call item_edit_set_url(), saving returned object
+        - Retreive the same item a second time
+
+    Verify:
+        - The original item has 2 URLs set
+        - The returned edited item has the same number of URLs as the newly retrieved item
+        - The newly retrieved item continues to have 2 URLs set
+        - The newly retrieved item's primary URL's href matches the new URL
+    """
+    item_name = "Example Login Item 11"
+    vault = "Test Data 2"
+
+    new_url = "https://item-11-url.com/login.html"
+    # stateful response directory
+    # state 1: responses-item-edit/response-directory-1.json
+    item_get_1: OPLoginItem = signed_in_op.item_get(item_name, vault=vault)
+
+    # sort of obvious since we retrieved using the old title, but for the sake of completeness
+    assert len(item_get_1.urls) == 2
+
+    edited_item: OPLoginItem = signed_in_op.item_edit_set_url(
+        item_name, new_url, vault=vault)
+
+    # state changed with item_edit above
+    # state 2: responses-item-edit/response-directory-2.json
+    item_get_2: OPLoginItem = signed_in_op.item_get(item_name, vault=vault)
+
+    assert len(edited_item.urls) == len(item_get_2.urls)
+    assert len(item_get_2.urls) == 2
+    assert item_get_2.primary_url.href == new_url

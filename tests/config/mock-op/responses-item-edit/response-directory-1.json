@@ -183,7 +183,7 @@
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "item-edit-example-login-09-set-tags",
+      "name": "item-edit-example-login-09-set-url",
       "changes_state": true
     }
   },

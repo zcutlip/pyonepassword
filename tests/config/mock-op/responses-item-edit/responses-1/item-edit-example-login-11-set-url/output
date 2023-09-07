@@ -1,0 +1,55 @@
+{
+  "id": "flljun7noqycy2twqr66nbjreu",
+  "title": "Example Login Item 11",
+  "version": 3,
+  "vault": {
+    "id": "vkjyqsbkf63zycqigbg3yxd7ce",
+    "name": "Test Data 2"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "4J4NLDK7GFAXJFOR7RF2KDUAMI",
+  "created_at": "2023-09-07T20:31:31Z",
+  "updated_at": "2023-09-07T13:48:50.104181-07:00",
+  "additional_information": "user_11",
+  "urls": [
+    {
+      "primary": true,
+      "href": "https://item-11-url.com/login.html"
+    },
+    {
+      "label": "website",
+      "href": "https://second-website.com/login"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "user_11",
+      "reference": "op://Test Data 2/Example Login Item 11/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "ftgh@XvMduHE3U3WfX!!",
+      "entropy": 118.28331756591797,
+      "reference": "op://Test Data 2/Example Login Item 11/password",
+      "password_details": {
+        "entropy": 118,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data 2/Example Login Item 11/notesPlain"
+    }
+  ]
+}

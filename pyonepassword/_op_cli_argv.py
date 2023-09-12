@@ -1,7 +1,7 @@
 import shlex
 from typing import List, Optional, Sequence, Union
 
-from ._field_assignment import OPFieldAssignmentPassword
+from ._field_assignment import FIELD_TYPE_MAP, OPFieldTypeEnum
 from ._svc_account import OPSvcAcctSupportCode, OPSvcAcctSupportRegistry
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
@@ -385,17 +385,19 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_edit_set_password_argv(cls,
-                                    op_exe: str,
-                                    item_identifier: str,
-                                    password: str,
-                                    field_label: str = "password",
-                                    section_label: Optional[str] = None,
-                                    vault: Optional[str] = None):
-        password = RedactedString(password)
+    def item_edit_set_field_value(cls,
+                                  op_exe: str,
+                                  item_identifier: str,
+                                  field_type: OPFieldTypeEnum,
+                                  value: str,
+                                  field_label: str,
+                                  section_label: Optional[str] = None,
+                                  vault: Optional[str] = None):
 
-        field_assignment = OPFieldAssignmentPassword(
-            field_label, password, section_label=section_label)
+        if field_type == OPFieldTypeEnum.PASSWORD:
+            field_type_cls = FIELD_TYPE_MAP[field_type]
+        field_assignment = field_type_cls(
+            field_label, value, section_label=section_label)
 
         item_edit_args = [field_assignment]
 

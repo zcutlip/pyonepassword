@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from .op_items.fields_sections.item_field import OPItemField
     from .op_items.fields_sections.item_section import OPSection
 
+from ._field_assignment import OPFieldTypeEnum
 from ._py_op_commands import (
     EXISTING_AUTH_IGNORE,
     ExistingAuthEnum,
@@ -19,6 +20,7 @@ from .account import OPAccountList
 from .op_items._item_list import OPItemList
 from .op_items._item_type_registry import OPItemFactory
 from .op_items._new_item import OPNewItemMixin
+from .op_items.fields_sections.item_field import OPConcealedField
 from .op_items.fields_sections.item_section import OPFieldNotFoundException
 from .op_items.item_types._item_base import OPAbstractItem
 from .op_items.item_types.generic_item import (
@@ -51,8 +53,10 @@ from .py_op_exceptions import (
     OPItemDeleteMultipleException,
     OPItemGetException,
     OPItemListException,
+    OPPasswordFieldDowngradeException,
     OPSignoutException
 )
+from .string import RedactedString
 from .version import PyOPAboutMixin
 
 
@@ -795,22 +799,15 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             raise OPInsecureOperationException(msg)
 
         # TODO: look up item and validate section and field
-
-        op_item = self.item_get(
-            item_identifier, vault=vault, generic_okay=True)
-
-        # If section or field not found, will raise
-        # OPSectionNotFoundException, or
-        # OPFieldNotFoundException
-        self._item_edit_validate_section_field(
-            op_item, field_label, section_label)
-
-        result_str = self._item_edit_set_password(item_identifier,
-                                                  password,
-                                                  field_label,
-                                                  section_label=section_label,
-                                                  vault=vault)
-        op_item = OPItemFactory.op_item(result_str, generic_okay=True)
+        password = RedactedString(password, unmask_len=0)
+        field_type = OPFieldTypeEnum.PASSWORD
+        op_item = self._item_edit_set_field(item_identifier,
+                                            field_type,
+                                            field_label,
+                                            section_label,
+                                            password,
+                                            vault,
+                                            False)
         return op_item
 
     def item_edit_set_favorite(self,
@@ -1361,6 +1358,35 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                 env.pop(self._sess_var)
             except KeyError:
                 pass
+
+    def _item_edit_set_field(self,
+                             item_identifier: str,
+                             field_type: OPFieldTypeEnum,
+                             field_label: str,
+                             section_label: str,
+                             value: str,
+                             vault: Optional[str],
+                             password_downgrade: bool):
+        item = self.item_get(
+            item_identifier, vault=vault, generic_okay=True, relaxed_validation=True)
+
+        section, field = self._item_edit_validate_section_field(
+            item, field_label, section_label)
+
+        if isinstance(field, OPConcealedField):
+            if field_type != OPFieldTypeEnum.PASSWORD and not password_downgrade:
+                msg = "Item edit operation would downgrade field from a password field to a non-password field."
+                raise OPPasswordFieldDowngradeException(msg)
+
+        item_json = self._item_edit_set_field_value(item_identifier,
+                                                    field_type,
+                                                    value,
+                                                    field_label,
+                                                    section_label=section_label,
+                                                    vault=vault)
+        item = OPItemFactory.op_item(
+            item_json, generic_okay=True, relaxed_validation=True)
+        return item
 
     def _item_edit_validate_section_field(self,
                                           item: OPAbstractItem,

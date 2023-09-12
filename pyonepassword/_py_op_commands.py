@@ -1,10 +1,15 @@
 """
 Description: A module that maps methods to to `op` commands and subcommands
 """
+from __future__ import annotations
+
 import enum
 import logging
 from os import environ
-from typing import Dict, List, Mapping, Optional, Union
+from typing import TYPE_CHECKING, Dict, List, Mapping, Optional, Union
+
+if TYPE_CHECKING:
+    from pyonepassword._field_assignment import OPFieldTypeEnum
 
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
@@ -790,19 +795,21 @@ class _OPCommandInterface(_OPCLIExecute):
         )
         return item_create_argv
 
-    def _item_edit_set_password_argv(self,
-                                     item_identifier: str,
-                                     password: str,
-                                     field_label: str,
-                                     section_label: Optional[str],
-                                     vault: Optional[str]):
+    def _item_edit_set_field_value_argv(self,
+                                        item_identifier: str,
+                                        field_type: OPFieldTypeEnum,
+                                        value: str,
+                                        field_label: str,
+                                        section_label: Optional[str],
+                                        vault: Optional[str]):
         vault_arg = vault if vault else self.vault
-        item_edit_argv = _OPArgv.item_edit_set_password_argv(self.op_path,
-                                                             item_identifier,
-                                                             password,
-                                                             field_label=field_label,
-                                                             section_label=section_label,
-                                                             vault=vault_arg)
+        item_edit_argv = _OPArgv.item_edit_set_field_value(self.op_path,
+                                                           item_identifier,
+                                                           field_type,
+                                                           value,
+                                                           field_label=field_label,
+                                                           section_label=section_label,
+                                                           vault=vault_arg)
         return item_edit_argv
 
     def _item_edit_set_favorite_argv(self,
@@ -885,18 +892,20 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return output
 
-    def _item_edit_set_password(self,
-                                item_identifier: str,
-                                password: str,
-                                field_label: str,
-                                section_label: Optional[str] = None,
-                                vault: Optional[str] = None,
-                                decode: str = "utf-8") -> str:
-        argv = self._item_edit_set_password_argv(item_identifier,
-                                                 password,
-                                                 field_label=field_label,
-                                                 section_label=section_label,
-                                                 vault=vault)
+    def _item_edit_set_field_value(self,
+                                   item_identifier: str,
+                                   field_type: OPFieldTypeEnum,
+                                   value: str,
+                                   field_label: str,
+                                   section_label: Optional[str] = None,
+                                   vault: Optional[str] = None,
+                                   decode: str = "utf-8") -> str:
+        argv = self._item_edit_set_field_value_argv(item_identifier,
+                                                    field_type,
+                                                    value,
+                                                    field_label=field_label,
+                                                    section_label=section_label,
+                                                    vault=vault)
         output = self._item_edit_run(argv, decode)
         return output
 

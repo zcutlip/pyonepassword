@@ -323,6 +323,12 @@ class OPInsecureOperationException(OPBaseException):
         super().__init__(msg)
 
 
+class OPPasswordFieldDowngradeException(OPBaseException):
+
+    def __init__(self, msg):
+        super().__init__(msg)
+
+
 _deprecated_exceptions = {
     OPNotSignedInException.__name__: OPAuthenticationException.__name__
 }

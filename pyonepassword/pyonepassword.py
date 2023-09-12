@@ -6,8 +6,10 @@ from os import environ as env
 from typing import TYPE_CHECKING, List, Optional, Tuple, Type, Union
 
 if TYPE_CHECKING:
+    from ._field_assignment import _OPFieldAssignment
     from .op_items.fields_sections.item_field import OPItemField
     from .op_items.fields_sections.item_section import OPSection
+    _FieldAssignmentType = Type[_OPFieldAssignment]
 
 from ._field_assignment import OPFieldTypeEnum
 from ._py_op_commands import (
@@ -808,6 +810,80 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             password,
                                             vault,
                                             False)
+        return op_item
+
+    def item_edit_set_text_field(self,
+                                 item_identifier: str,
+                                 value: str,
+                                 field_label: str = "password",
+                                 section_label: Optional[str] = None,
+                                 vault: Optional[str] = None,
+                                 password_downgrade: bool = False):
+        """
+        Assign a new password for an existing item
+
+        SECURITY NOTE: This operation will include the provided password in cleartext as a command line argument
+        to the 'op' command. On most platforms, the arguments, including the password, will be visible to other
+        processes, including processes owned by other users
+        In order to use this operaton, this insecurity must be acknowledged by passing the insecure_operation=True kwarg
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to edit
+        password: str
+            The password value to set
+        field_label: str
+            The human readable label of the field to edit
+            by default "password"
+        section_label: str, optional
+            If provided, the human readable section label the field is associated with
+        insecure_operation: bool
+            Caller acknowledgement of the insecure nature of this operation
+            by default, False
+        vault: str, optional
+            The name or ID of a vault containing the item to edit
+            Overrides the OP object's default vault, if set
+
+        Raises
+        ------
+        OPItemGetException
+            If the item lookup fails for any reason
+        OPSectionNotFoundException
+            If a section label is specified but can't be looked up on the item object
+        OPFieldNotFoundException
+            If the field label can't be looked up on the item object
+        OPItemEditException
+            If the item edit operation fails for any reason
+        OPInsecureOperationException
+            If the caller does not pass insecure_operation=True, failing to ackonowledge the
+            insecure nature of this operation
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The edited version of the item
+
+        Note: an 'item_get()` operation first is performed in order to validate
+              the field name and, if provided, section name
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
+        """
+
+        # If section or field not found, will raise
+        # OPSectionNotFoundException, or
+        # OPFieldNotFoundException
+
+        field_type = OPFieldTypeEnum.TEXT
+        op_item = self._item_edit_set_field(item_identifier,
+                                            field_type,
+                                            field_label,
+                                            section_label,
+                                            value,
+                                            vault,
+                                            password_downgrade)
         return op_item
 
     def item_edit_set_favorite(self,

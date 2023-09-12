@@ -65,3 +65,17 @@ class OPFieldAssignmentPassword(_OPFieldAssignment):
         # this is an equals emoji rather than an equals sign
         redacted = f"{lhs}🟰{mask}"
         return redacted
+
+
+class OPFieldAssignmentText(_OPFieldAssignment):
+    FIELD_TYPE = OPFieldTypeEnum.TEXT
+
+
+class OPFieldAssignmentURL(_OPFieldAssignment):
+    FIELD_TYPE = OPFieldTypeEnum.URL
+
+
+FIELD_TYPE_MAP = {
+    OPFieldTypeEnum.PASSWORD: OPFieldAssignmentPassword,
+    OPFieldTypeEnum.TEXT: OPFieldAssignmentText
+}

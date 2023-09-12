@@ -1443,12 +1443,37 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                              value: str,
                              vault: Optional[str],
                              password_downgrade: bool):
+        """
+        Set a new value on an existing item field
+
+        This is intended to be a centralized Section.Field[field_type]=value call site
+
+        It allows us to do validation in a central location, including:
+        - verifying the item we're trying to edit actually exists
+        - verifying the field and section we're trying to edit actually exists
+        - verify we don't accidentally downgrade a password field to some non-protected field
+
+        This also allows us to ensure we relax the following restrictions for item editing:
+        - generic_okay = True
+        - relaxed_validation = True
+
+        The point is that we don't need to remember to do the verification steps
+        every time we add an item-edit public method
+        """
+
+        # Does the item exist?
+        # generic_okay: Enable editing of unknown OPItem types
+        # relaxed_validation: Enable editing of non-conforming items
         item = self.item_get(
             item_identifier, vault=vault, generic_okay=True, relaxed_validation=True)
 
+        # Does the field and, if provided, the section exist?
+        # Don't accidentally create a new field or section
         section, field = self._item_edit_validate_section_field(
             item, field_label, section_label)
 
+        # If the existing field is a password, don't accidentally
+        # turn it into an unprotected text (or other type) of field
         if isinstance(field, OPConcealedField):
             if field_type != OPFieldTypeEnum.PASSWORD and not password_downgrade:
                 msg = "Item edit operation would downgrade field from a password field to a non-password field."
@@ -1460,6 +1485,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                                     field_label,
                                                     section_label=section_label,
                                                     vault=vault)
+
+        # generic_okay: Enable editing of unknown OPItem types
+        # relaxed_validation: Enable editing of non-conforming items
         item = OPItemFactory.op_item(
             item_json, generic_okay=True, relaxed_validation=True)
         return item

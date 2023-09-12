@@ -1,52 +1,8 @@
 from pyonepassword._field_assignment import (
-    FieldTypeEnum,
     OPFieldAssignmentPassword,
-    _OPFieldAssignment
+    OPFieldAssignmentText,
+    OPFieldAssignmentURL
 )
-
-
-def test_field_type_010():
-    """
-    Create a field assignment string using:
-        - a section label
-        - a field label
-        - field type "password"
-    Verify:
-        the resulting field assignment string matches the expected string
-    """
-    expected_assignment_str = "Section 010.Field 010[password]=Password 010"
-
-    section_label = "Section 010"
-    field_label = "Field 010"
-    value = "Password 010"
-    field_type = FieldTypeEnum.PASSWORD
-
-    assignment = _OPFieldAssignment(
-        field_label, value, field_type, section_label=section_label)
-
-    assert expected_assignment_str == assignment
-
-
-def test_field_type_020():
-    """
-    Create a field assignment string using:
-        - a section label
-        - a field label
-        - field type "text"
-    Verify:
-        the resulting field assignment string matches the expected string
-    """
-    expected_assignment_str = "Section 020.Field 020[text]=text string 020"
-
-    section_label = "Section 020"
-    field_label = "Field 020"
-    value = "text string 020"
-    field_type = FieldTypeEnum.TEXT
-
-    assignment = _OPFieldAssignment(
-        field_label, value, field_type, section_label=section_label)
-
-    assert expected_assignment_str == assignment
 
 
 def test_field_type_030():
@@ -63,10 +19,9 @@ def test_field_type_030():
     section_label = "Section 030"
     field_label = "Field 030"
     value = "https://fake-url/etc.etc.etc."
-    field_type = FieldTypeEnum.URL
 
-    assignment = _OPFieldAssignment(
-        field_label, value, field_type, section_label=section_label)
+    assignment = OPFieldAssignmentURL(
+        field_label, value, section_label=section_label)
 
     assert expected_assignment_str == assignment
 
@@ -107,6 +62,27 @@ def test_field_type_password_050():
     value = "Password 050"
 
     assignment = OPFieldAssignmentPassword(field_label, value)
+
+    assert expected_assignment_str == assignment
+
+
+def test_field_type_text_060():
+    """
+    Create a field assignment string using:
+        - a section label
+        - a field label
+        - field type "password"
+    Verify:
+        the resulting field assignment string matches the expected string
+    """
+    expected_assignment_str = "Section 060.Field 060[text]=String 060"
+
+    section_label = "Section 060"
+    field_label = "Field 060"
+    value = "String 060"
+
+    assignment = OPFieldAssignmentText(
+        field_label, value, section_label=section_label)
 
     assert expected_assignment_str == assignment
 

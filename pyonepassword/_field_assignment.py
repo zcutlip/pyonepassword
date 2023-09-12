@@ -2,18 +2,22 @@ import re
 from enum import Enum
 
 
-class FieldTypeEnum(Enum):
+class OPFieldTypeEnum(Enum):
     PASSWORD = "password"
     TEXT = "text"
     URL = "url"
 
 
 class _OPFieldAssignment(str):
+    FIELD_TYPE: OPFieldTypeEnum = None
 
-    def __new__(cls, field_label: str, value: str, field_type, * args, section_label: str = None, **kwargs):
+    def __new__(cls, field_label: str, value: str, * args, section_label: str = None, **kwargs):
+        if cls.FIELD_TYPE is None:
+            raise TypeError(
+                f"{cls.__name__} must be extended and FIELD_TYPE set")
         assignment_str = ""
         field_label = cls._field_assignment_escape(field_label)
-        field_type_string = field_type.value
+        field_type_string = cls.FIELD_TYPE.value
         if section_label:
             section_label = cls._field_assignment_escape(section_label)
             assignment_str = f"{section_label}."
@@ -35,11 +39,7 @@ class _OPFieldAssignment(str):
 
 
 class OPFieldAssignmentPassword(_OPFieldAssignment):
-    def __new__(cls, field_label: str, value: str, section_label: str = None):
-        field_type = FieldTypeEnum.PASSWORD
-        obj = super().__new__(cls, field_label, value,
-                              field_type=field_type, section_label=section_label)
-        return obj
+    FIELD_TYPE = OPFieldTypeEnum.PASSWORD
 
     def __init__(self, *args, **kwargs):
         super().__init__()

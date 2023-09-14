@@ -8,7 +8,7 @@ import logging
 from os import environ
 from typing import TYPE_CHECKING, Dict, List, Mapping, Optional, Union
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no coverage
     from pyonepassword._field_assignment import OPFieldTypeEnum
 
 from ._op_cli_argv import _OPArgv

@@ -5,7 +5,7 @@ import logging
 from os import environ as env
 from typing import TYPE_CHECKING, List, Optional, Tuple, Type, Union
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no coverage
     from ._field_assignment import _OPFieldAssignment
     from .op_items.fields_sections.item_field import OPItemField
     from .op_items.fields_sections.item_section import OPSection

@@ -1444,7 +1444,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         It allows us to do validation in a central location, including:
         - verifying the item we're trying to edit actually exists
-        - verifying the field and section we're trying to edit actually exists
+        - verifying the field and section we're trying to edit actually exist
         - verify we don't accidentally downgrade a password field to some non-protected field
 
         This also allows us to ensure we relax the following restrictions for item editing:

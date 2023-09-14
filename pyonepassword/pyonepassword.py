@@ -815,35 +815,30 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
     def item_edit_set_text_field(self,
                                  item_identifier: str,
                                  value: str,
-                                 field_label: str = "password",
+                                 field_label: str,
                                  section_label: Optional[str] = None,
                                  vault: Optional[str] = None,
                                  password_downgrade: bool = False):
         """
         Assign a new password for an existing item
 
-        SECURITY NOTE: This operation will include the provided password in cleartext as a command line argument
-        to the 'op' command. On most platforms, the arguments, including the password, will be visible to other
-        processes, including processes owned by other users
-        In order to use this operaton, this insecurity must be acknowledged by passing the insecure_operation=True kwarg
-
         Parameters
         ----------
         item_identifier: str
             The item to edit
-        password: str
-            The password value to set
+        value: str
+            The text value to set
         field_label: str
             The human readable label of the field to edit
-            by default "password"
         section_label: str, optional
             If provided, the human readable section label the field is associated with
-        insecure_operation: bool
-            Caller acknowledgement of the insecure nature of this operation
-            by default, False
         vault: str, optional
             The name or ID of a vault containing the item to edit
             Overrides the OP object's default vault, if set
+        password_downgrade: bool
+            Whether and existing concealed (i.e., password) field should be downgraded to a non-password
+            field.
+            If the existing field IS concealed and this value is false, an exception will be raised
 
         Raises
         ------
@@ -853,11 +848,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             If a section label is specified but can't be looked up on the item object
         OPFieldNotFoundException
             If the field label can't be looked up on the item object
+        OPPasswordFieldDowngradeException
+            If the field is a concealed field and password_downgrade is False
         OPItemEditException
             If the item edit operation fails for any reason
-        OPInsecureOperationException
-            If the caller does not pass insecure_operation=True, failing to ackonowledge the
-            insecure nature of this operation
         Returns
         -------
         op_item: OPAbstractItem

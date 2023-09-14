@@ -8,8 +8,8 @@ from ..py_op_exceptions import OPInvalidFieldException
 from .fields_sections.item_field_base import OPItemField
 from .uuid import OPUniqueIdentifierBase32, is_uuid
 
-if TYPE_CHECKING:
-    from .fields_sections.item_section import OPSection  # pragma: no coverage
+if TYPE_CHECKING:  # pragma: no coverage
+    from .fields_sections.item_section import OPSection
 
 
 class OPUnknownFieldTypeException(Exception):

@@ -9,8 +9,8 @@ from typing import TYPE_CHECKING, List, Optional
 
 from ._py_op_deprecation import deprecated
 
-if TYPE_CHECKING:
-    from .op_items._item_list import OPItemList  # pragma: no coverage
+if TYPE_CHECKING:  # pragma: no coverage
+    from .op_items._item_list import OPItemList
 
 
 class OPBaseException(Exception):

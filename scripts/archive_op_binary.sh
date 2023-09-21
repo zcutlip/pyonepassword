@@ -4,12 +4,48 @@ _readlink(){ readlink "$1" || echo "$1"; }
 
 # Don't shadow the 'realpath' executable which may be installed on
 # some systems (e.g., via homebrew)
-_realpath() { cd "$(dirname "$0")" && _readlink "$(pwd)"/"$(basename "$0")"; }
-real_path="$(_realpath "$0")"
+_realpath() { _path="$1"; cd "$(dirname "$_path")" && _readlink "$(pwd)"/"$(basename "$_path")"; }
+
+_realscriptpath() {
+    _realpath "$0"
+}
+
+real_path="$(_realscriptpath)"
 SRC_ROOT="$(cd "$(dirname "$real_path")" && dirname "$(pwd)")"
 # shellcheck source=./functions.sh
 . "$SRC_ROOT"/scripts/functions.sh
 OP_BINARY_PATH="$SRC_ROOT/op-binaries"
+
+
+# not all 'op' packages install to the same place
+# so get the actual location where 'op' is installed
+get_real_op_path(){
+    _realpath "$(which op)"
+
+}
+
+op_path="$(get_real_op_path)"
+
+# some 'macos' op packages install a universal binary,
+# some install an architecture specific binary
+op_is_universal_binary(){
+    _op="$1"
+    file "$_op" | grep 'Mach-O universal' >/dev/null
+    return $?
+}
+
+get_op_arch(){
+    _op="$1"
+    _arch=""
+    if ! op_is_universal_binary "$_op";
+    then
+        # TODO: This probably only works on macOS
+        _arch="$(file "$_op" | awk '{print $NF }')"
+    else
+        _arch="universal"
+    fi
+    echo "$_arch"
+}
 
 md5check(){
     _file1="$1"
@@ -27,26 +63,36 @@ md5check(){
 }
 
 get_op_ver(){
-    _version="$(/usr/local/bin/op --version)"
+    _version="$("$op_path" --version)"
     printf "%s" "$_version"
     unset _version
 }
 
 op_ver="$(get_op_ver)"
 
-if [ ! -d "$OP_BINARY_PATH/$op_ver" ];
+# make "universal" copy separate from arch-specific copy
+op_arch="$(get_op_arch "$op_path")"
+op_archive_dir="$OP_BINARY_PATH/$op_ver/$op_arch"
+
+# destination should end up being like
+# op-binaries/2.21.0/universal/op, or
+# op-binaries/2.21.0/arm64/op, etc.
+op_archive_dest="$op_archive_dir/op"
+
+
+if [ ! -d "$op_archive_dir" ];
 then
-    mkdir -p "$OP_BINARY_PATH/$op_ver";
+    mkdir -p "$op_archive_dir";
 fi
 
-if [ ! -f "$OP_BINARY_PATH/$op_ver/op" ];
+if [ ! -f "$op_archive_dest" ];
 then
-    echo "Archiving" "$(which op)" "to $OP_BINARY_PATH/$op_ver/"
-    cp "$(which op)" "$OP_BINARY_PATH/$op_ver/op";
+    echo "Archiving" "$op_path" "to $op_archive_dir"
+    cp "$op_path" "$op_archive_dest";
 else
     echo "op $op_ver archive already present"
 fi
 
 echo "Checking hashes"
-md5check /usr/local/bin/op "$OP_BINARY_PATH/$op_ver/op" || quit "Hashes don't match for /usr/local/bin/op vs $OP_BINARY_PATH/$op_ver/op" 1
+md5check "$op_path" "$op_archive_dest" || quit "Hashes don't match for $op_path vs $op_archive_dest" 1
 echo "Hashes match"

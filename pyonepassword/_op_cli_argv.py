@@ -394,8 +394,7 @@ class _OPArgv(list):
                                   section_label: Optional[str] = None,
                                   vault: Optional[str] = None):
 
-        if field_type == OPFieldTypeEnum.PASSWORD:
-            field_type_cls = FIELD_TYPE_MAP[field_type]
+        field_type_cls = FIELD_TYPE_MAP[field_type]
         field_assignment = field_type_cls(
             field_label, value, section_label=section_label)
 

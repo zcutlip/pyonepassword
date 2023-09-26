@@ -820,7 +820,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                  vault: Optional[str] = None,
                                  password_downgrade: bool = False):
         """
-        Assign a new password for an existing item
+        Set a new value on an existing item's text field
 
         Parameters
         ----------

@@ -77,5 +77,6 @@ class OPFieldAssignmentURL(_OPFieldAssignment):
 
 FIELD_TYPE_MAP = {
     OPFieldTypeEnum.PASSWORD: OPFieldAssignmentPassword,
-    OPFieldTypeEnum.TEXT: OPFieldAssignmentText
+    OPFieldTypeEnum.TEXT: OPFieldAssignmentText,
+    OPFieldTypeEnum.URL: OPFieldAssignmentURL
 }

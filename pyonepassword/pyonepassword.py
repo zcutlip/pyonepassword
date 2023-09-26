@@ -1459,7 +1459,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         # generic_okay: Enable editing of unknown OPItem types
         # relaxed_validation: Enable editing of non-conforming items
         item = self.item_get(
-            item_identifier, vault=vault, generic_okay=True, relaxed_validation=True)
+            item_identifier, vault=vault, generic_okay=True)
 
         # Does the field and, if provided, the section exist?
         # Don't accidentally create a new field or section
@@ -1483,7 +1483,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         # generic_okay: Enable editing of unknown OPItem types
         # relaxed_validation: Enable editing of non-conforming items
         item = OPItemFactory.op_item(
-            item_json, generic_okay=True, relaxed_validation=True)
+            item_json, generic_okay=True)
         return item
 
     def _item_edit_validate_section_field(self,

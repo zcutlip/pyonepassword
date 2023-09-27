@@ -880,6 +880,78 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             password_downgrade)
         return op_item
 
+    def item_edit_set_url_field(self,
+                                item_identifier: str,
+                                url: str,
+                                field_label: str,
+                                section_label: Optional[str] = None,
+                                vault: Optional[str] = None,
+                                password_downgrade: bool = False):
+        """
+        Set a new value on an existing item's URL field
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to edit
+        url: str
+            The URL value to set
+        field_label: str
+            The human readable label of the field to edit
+        section_label: str, optional
+            If provided, the human readable section label the field is associated with
+        vault: str, optional
+            The name or ID of a vault containing the item to edit
+            Overrides the OP object's default vault, if set
+        password_downgrade: bool
+            Whether and existing concealed (i.e., password) field should be downgraded to a non-password
+            field.
+            If the existing field IS concealed and this value is false, an exception will be raised
+
+        Raises
+        ------
+        OPItemGetException
+            If the item lookup fails for any reason
+        OPSectionNotFoundException
+            If a section label is specified but can't be looked up on the item object
+        OPFieldNotFoundException
+            If the field label can't be looked up on the item object
+        OPPasswordFieldDowngradeException
+            If the field is a concealed field and password_downgrade is False
+        OPItemEditException
+            If the item edit operation fails for any reason
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The edited version of the item
+
+        Note: an 'item_get()` operation first is performed in order to validate
+              the field name and, if provided, section name
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
+
+        NOTE: Neither 1Password nor pyonepassword perform any validation on the URL
+              string. It may be virtually any string.
+
+        """
+
+        # If section or field not found, will raise
+        # OPSectionNotFoundException, or
+        # OPFieldNotFoundException
+
+        field_type = OPFieldTypeEnum.URL
+        op_item = self._item_edit_set_field(item_identifier,
+                                            field_type,
+                                            field_label,
+                                            section_label,
+                                            url,
+                                            vault,
+                                            password_downgrade)
+        return op_item
+
     def item_edit_set_favorite(self,
                                item_identifier: str,
                                favorite: bool,

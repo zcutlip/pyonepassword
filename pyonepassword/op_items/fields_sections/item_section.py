@@ -2,6 +2,7 @@ import copy
 from typing import List, Union
 
 from ...py_op_exceptions import OPInvalidItemException
+from ..field_registry import OPItemFieldFactory
 from .item_field_base import OPItemField
 
 
@@ -73,7 +74,7 @@ class OPSection(dict):
             # make a copy of the field so we don't end up with a circular reference
             field = copy.copy(field_dict)
         else:
-            field = OPItemField(field_dict)
+            field = OPItemFieldFactory.item_field(field_dict)
 
         try:
             field_id = field.field_id

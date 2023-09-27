@@ -213,6 +213,34 @@
       "stderr": "error_output",
       "name": "item-edit-example-login-11-set-url",
       "changes_state": true
+    },
+    "--format|json|item|get|Example Login Item 12|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-12",
+      "changes_state": false
+    },
+    "--format|json|item|edit|Example Login Item 12|Section 01.Text Field 01[text]=new text field value|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-edit-example-login-12-set-field-text",
+      "changes_state": true
+    },
+    "--format|json|item|get|Example Login Item 13|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-13",
+      "changes_state": false
+    },
+    "--format|json|item|edit|Example Login Item 13|Section 01.URL Field 01[url]=https://new-url.com/login.html|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-edit-example-login-13-set-field-url",
+      "changes_state": true
     }
   },
   "commands_with_input": {}

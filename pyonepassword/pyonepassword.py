@@ -1118,7 +1118,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         Service Account Support
         -----------------------
         Supported
+            required keyword arguments: vault
         """
+        self.item_get(item_identifier,
+                      vault=vault)
         result_str = self._item_edit_set_title(item_identifier,
                                                item_title,
                                                vault=vault)

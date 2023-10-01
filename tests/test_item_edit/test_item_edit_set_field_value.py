@@ -189,10 +189,14 @@ def test_item_edit_set_text_field_015(signed_in_op: OP):
 def test_item_edit_set_url_field_020(signed_in_op: OP):
     """
     Test: OP.item_edit_set_url_field()
-        -
+        - Retrieve an item via OP.item_get()
+        - Call item_edit_set_url_field(), saving returned object
+        - Retreive the same item a second time
 
     Verify:
-        - The original item's...
+        - The original item field's value is not equal to the desired new value
+        - The returned edited item field's value is the same as newly retrieved item field's value
+        - The newly retrieved item field's value is the same as the desired new value
 
     """
 

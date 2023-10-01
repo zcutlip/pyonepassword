@@ -4,6 +4,9 @@ from typing import TYPE_CHECKING
 
 import pytest
 
+from pyonepassword.api.object_types import OPConcealedField
+from pyonepassword.py_op_exceptions import OPPasswordFieldDowngradeException
+
 if TYPE_CHECKING:
     from pyonepassword import OP
     from pyonepassword.api.object_types import OPAbstractItem
@@ -79,6 +82,37 @@ def test_item_edit_set_text_field_010(signed_in_op: OP):
 
     # ensure the field value for the newly retrieved item matches the intended new field value
     assert item_2_field_value == new_field_value
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_set_text_field_012(signed_in_op: OP):
+    """
+    Test: password downgrade prevention
+        - Call item_edit_set_text_field() on a field that is a concealed/password field
+   Verify:
+        - Field on unedited item is an instance of OPConcealedField
+        - OPPasswordFieldDowngradeException is raised
+    """
+
+    item_name = "Example Login Item 14"
+    field_label = "Password to Text 01"
+    section_label = "Section 01"
+    new_field_value = "new text field value"
+    vault = "Test Data 2"
+
+    # stateful response directory
+    # state 1: responses-item-edit/response-directory-1.json
+    item = signed_in_op.item_get(item_name, vault=vault)
+
+    field = item.first_field_by_label(field_label)
+    assert isinstance(field, OPConcealedField)
+
+    with pytest.raises(OPPasswordFieldDowngradeException):
+        signed_in_op.item_edit_set_text_field(item_name,
+                                              new_field_value,
+                                              field_label,
+                                              section_label=section_label,
+                                              vault=vault)
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")

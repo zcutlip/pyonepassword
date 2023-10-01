@@ -29,12 +29,15 @@ def _get_field_value(item: OPAbstractItem, field_label: str, section_label: str 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
 def test_item_edit_set_text_field_010(signed_in_op: OP):
     """
-    Test: OP.item_edit_set_url_field()
-        -
+    Test: OP.item_edit_set_text_field()
+        - Retrieve an item via OP.item_get()
+        - Call item_edit_set_text_field(), saving returned object
+        - Retreive the same item a second time
 
     Verify:
-        - The original item's...
-
+        - The original item field's value is not equal to the desired new value
+        - The returned edited item field's value is the same as newly retrieved item field's value
+        - The newly retrieved item field's value is the same as the desired new value
     """
 
     item_name = "Example Login Item 12"
@@ -61,6 +64,7 @@ def test_item_edit_set_text_field_010(signed_in_op: OP):
     # state changed with item_edit above
     # state 2: responses-item-edit/response-directory-2.json
     item_get_2 = signed_in_op.item_get(item_name, vault=vault)
+
     edited_item_field_value = _get_field_value(
         edited_item, field_label, section_label=section_label)
     item_2_field_value = _get_field_value(

@@ -13,6 +13,9 @@ pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 def _get_field_value(item: OPAbstractItem, field_label: str, section_label: str = None):
+    """
+    Given a field label and optionally a section label, return the field's value
+    """
     section = None
     if section_label:
         section = item.first_section_by_label(section_label)

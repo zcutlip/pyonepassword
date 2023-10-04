@@ -13,7 +13,7 @@ class OPConcealedField(OPItemField):
 
 
 @op_register_item_field_type
-class OPTOTPField(OPStringField):
+class OPTOTPField(OPItemField):
     FIELD_TYPE = "OTP"
 
     @property

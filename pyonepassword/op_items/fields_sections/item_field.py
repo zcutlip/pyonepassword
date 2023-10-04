@@ -23,3 +23,8 @@ class OPTOTPField(OPItemField):
     @property
     def totp(self) -> str:
         return self["totp"]
+
+
+@op_register_item_field_type
+class OPURLField(OPItemField):
+    FIELD_TYPE = "URL"

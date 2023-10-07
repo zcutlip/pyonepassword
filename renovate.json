@@ -6,11 +6,6 @@
   "baseBranches": ["development"],
   "packageRules": [
     {
-      "matchPaths": ["docker_testing/docker/py38.Dockerfile"],
-      "matchPackageNames":["python"],
-      "allowedVersions": "3.8"
-    },
-    {
       "matchPaths": ["docker_testing/docker/py39.Dockerfile"],
       "matchPackageNames":["python"],
       "allowedVersions": "3.9"
@@ -21,9 +16,14 @@
       "allowedVersions": "3.10"
     },
     {
-      "matchPaths": ["docker_testing/docker/mypy.Dockerfile"],
+      "matchPaths": ["docker_testing/docker/py311.Dockerfile"],
       "matchPackageNames":["python"],
-      "allowedVersions": "3.10"
+      "allowedVersions": "3.11"
+    },
+    {
+      "matchPaths": ["docker_testing/docker/py312.Dockerfile"],
+      "matchPackageNames":["python"],
+      "allowedVersions": "3.12"
     }
   ]
 }

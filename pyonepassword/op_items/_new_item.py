@@ -1,6 +1,8 @@
 import json
 import os
+import shutil
 import tempfile
+from pathlib import Path
 from typing import Dict, List, Optional
 
 from ..py_op_exceptions import OPInvalidItemException
@@ -12,6 +14,8 @@ from .fields_sections.item_section import (
 )
 from .template_directory import OPTemplateDirectory
 from .uuid import OPUniqueIdentifierBase32, is_uuid
+
+TEMPLATE_COPY_DST_ENV_VAR = "PYOP_NEW_ITEM_TEMPLATE_CP_DST"
 
 
 class OPNewItemDataCollisionException(Exception):
@@ -236,6 +240,11 @@ class OPNewItemMixin:
         self._temp_files.append(temp.name)
         json.dump(self, temp)
         temp.close()
+        template_dest_dir = os.environ.get(TEMPLATE_COPY_DST_ENV_VAR, None)
+        if template_dest_dir:
+            # _copy_template() does no error handling
+            # only call if we were given a template copy destination
+            self._copy_template(temp.name, template_dest_dir)
         return temp.name
 
     def supports_passwords(self) -> bool:
@@ -247,6 +256,20 @@ class OPNewItemMixin:
         password_supported: bool
         """
         return self.PASSWORDS_SUPPORTED
+
+    def _copy_template(self, template_src, template_dest_dir):
+        """
+        Optionally make a backup copy of the new item template
+        if PYOP_NEW_ITEM_TEMPLATE_CP_DST environment variable is set
+        for debugging/troubleshooting
+
+        This method intentionally does minimal error handling. It should only be called
+        for troublehooting purposes and any errors creating the destination or copying the source
+        should be fatal errors
+        """
+        template_dest_dir = Path(template_dest_dir)
+        template_dest_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(template_src, template_dest_dir)
 
     def __del__(self):
 

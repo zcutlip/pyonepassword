@@ -39,7 +39,7 @@ fi
 
 if [ -z "$container" ];
 then
-    quit "Speciy py39, py310, py311, or py312" 1
+    quit "Specify py39, py310, py311, or py312" 1
 fi
 
 

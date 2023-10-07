@@ -19,11 +19,7 @@ trap handle_sig INT
 
 container=""
 
-if [ "$1" = "py38" ];
-then
-    container="docker_py38"
-    shift
-elif [ "$1" = "py39" ];
+if [ "$1" = "py39" ];
 then
     container="docker_py39"
     shift
@@ -35,11 +31,15 @@ elif [ "$1" = "py311" ];
 then
     container="docker_py311"
     shift
+elif [ "$1" = "py312" ];
+then
+    container="docker_py312"
+    shift
 fi
 
 if [ -z "$container" ];
 then
-    quit "Speciy py38, py39, py310, or py311" 1
+    quit "Speciy py39, py310, py311, or py312" 1
 fi
 
 

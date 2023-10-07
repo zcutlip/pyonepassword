@@ -44,7 +44,7 @@ fi
 
 
 ret=0
-set -x
+
 docker run   --rm -it -v "$(pwd):/usr/src/testdir" "$container" /test.sh "$@"
 ret="$(($?+ret))";
 

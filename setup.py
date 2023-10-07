@@ -55,9 +55,6 @@ setup(
     # We need python3.9 in order to use importlib.resources.files in templates.py
     python_requires='>=3.8',
     install_requires=[
-        # importlib.resources.files requires python >=3.9
-        # if python 3.8, need to install 3rd importlib-resources
-        "importlib-resources>=5.2.0; python_version<'3.9'",
         "python-singleton-metaclasses"
     ],
     package_data={'pyonepassword': ['data/**', 'py.typed']},

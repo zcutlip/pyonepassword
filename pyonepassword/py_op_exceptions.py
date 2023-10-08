@@ -298,6 +298,10 @@ class OPConfigNotFoundException(Exception):
 
 
 class OPInvalidFieldException(OPBaseException):
+    """
+    There was an error decoding the JSON for this field
+    """
+
     def __init__(self, msg):
         super().__init__(msg)
 
@@ -324,6 +328,12 @@ class OPInsecureOperationException(OPBaseException):
 
 
 class OPPasswordFieldDowngradeException(OPBaseException):
+    """
+    When setting a field value during an item edit operation and the existing field
+    if of type CONCEALED, and the new value would be some other type
+
+    e.g., setting a passsword field to a string or URL field
+    """
 
     def __init__(self, msg):
         super().__init__(msg)

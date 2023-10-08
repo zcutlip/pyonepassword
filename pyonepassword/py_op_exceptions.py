@@ -306,6 +306,17 @@ class OPInvalidFieldException(OPBaseException):
         super().__init__(msg)
 
 
+class OPFieldExistsException(OPBaseException):
+    """
+    When adding a new field during an item edit operation, a field
+    already exists with the same name associated with the same section
+    (if a section is specified)
+    """
+
+    def __init__(self, msg):
+        super().__init__(msg)
+
+
 class OPUnknownAccountException(OPBaseException):
     def __init__(self, msg):
         super().__init__(msg)

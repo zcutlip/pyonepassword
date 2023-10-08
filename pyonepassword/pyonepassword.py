@@ -890,6 +890,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         """
         Set a new value on an existing item's URL field
 
+        NOTE: This method differs from item_edit_url(). This method sets a URL value on an
+        existing item field whereas item_edit_url() sets the URL property, which is not a
+        field at all, on a login item
+
         Parameters
         ----------
         item_identifier: str
@@ -1135,6 +1139,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                           vault: Optional[str] = None):
         """
         Set the URL associated with an existing item
+
+        NOTE: This method differs from item_edit_set_url_field(). This method sets the URL
+        property on a login item and does not set values on any item fields
 
         Parameters
         ----------

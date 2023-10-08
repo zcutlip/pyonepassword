@@ -1531,7 +1531,6 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         This also allows us to ensure we relax the following restrictions for item editing:
         - generic_okay = True
-        - relaxed_validation = True
 
         The point is that we don't need to remember to do the verification steps
         every time we add an item-edit public method
@@ -1539,7 +1538,6 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         # Does the item exist?
         # generic_okay: Enable editing of unknown OPItem types
-        # relaxed_validation: Enable editing of non-conforming items
         item = self.item_get(
             item_identifier, vault=vault, generic_okay=True)
 

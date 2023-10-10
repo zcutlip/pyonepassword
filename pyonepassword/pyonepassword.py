@@ -3,13 +3,10 @@ from __future__ import annotations
 import fnmatch
 import logging
 from os import environ as env
-from typing import TYPE_CHECKING, List, Optional, Tuple, Type, Union
+from typing import TYPE_CHECKING, List, Optional, Type, Union
 
 if TYPE_CHECKING:  # pragma: no coverage
-    from ._field_assignment import _OPFieldAssignment
     from .op_items.fields_sections.item_field import OPItemField
-    from .op_items.fields_sections.item_section import OPSection
-    _FieldAssignmentType = Type[_OPFieldAssignment]
 
 from ._field_assignment import OPFieldTypeEnum
 from ._py_op_commands import (
@@ -24,7 +21,10 @@ from .op_items._item_type_registry import OPItemFactory
 from .op_items._new_item import OPNewItemMixin
 from .op_items.fields_sections.item_field import OPConcealedField
 from .op_items.fields_sections.item_section import OPFieldNotFoundException
-from .op_items.item_types._item_base import OPAbstractItem
+from .op_items.item_types._item_base import (
+    OPAbstractItem,
+    OPSectionNotFoundException
+)
 from .op_items.item_types.generic_item import (
     _OPGenericItem,
     _OPGenericItemRelaxedValidation
@@ -47,6 +47,7 @@ from .py_op_exceptions import (
     OPCmdFailedException,
     OPDocumentDeleteException,
     OPDocumentGetException,
+    OPFieldExistsException,
     OPForgetException,
     OPInsecureOperationException,
     OPInvalidDocumentException,
@@ -809,7 +810,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             section_label,
                                             password,
                                             vault,
-                                            False)
+                                            password_downgrade=False,
+                                            create_field=False)
         return op_item
 
     def item_edit_set_text_field(self,
@@ -877,7 +879,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             section_label,
                                             value,
                                             vault,
-                                            password_downgrade)
+                                            password_downgrade,
+                                            create_field=False)
         return op_item
 
     def item_edit_set_url_field(self,
@@ -953,7 +956,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             section_label,
                                             url,
                                             vault,
-                                            password_downgrade)
+                                            password_downgrade,
+                                            create_field=False)
         return op_item
 
     def item_edit_set_favorite(self,
@@ -1518,7 +1522,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                              section_label: str,
                              value: str,
                              vault: Optional[str],
-                             password_downgrade: bool):
+                             password_downgrade: bool,
+                             create_field: bool):
         """
         Set a new value on an existing item field
 
@@ -1541,17 +1546,28 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         item = self.item_get(
             item_identifier, vault=vault, generic_okay=True)
 
-        # Does the field and, if provided, the section exist?
-        # Don't accidentally create a new field or section
-        section, field = self._item_edit_validate_section_field(
-            item, field_label, section_label)
+        if not create_field:
+            # Does the field and, if provided, the section exist?
+            # Don't accidentally create a new field or section
+            # if the field or, if provided, section are not found
+            # OPFieldNotFoundException or OPSectionNotFoundException will
+            # be raised here
+            field = self._validate_item_field_exists(
+                item, field_label, section_label)
 
-        # If the existing field is a password, don't accidentally
-        # turn it into an unprotected text (or other type) of field
-        if isinstance(field, OPConcealedField):
-            if field_type != OPFieldTypeEnum.PASSWORD and not password_downgrade:
-                msg = "Item edit operation would downgrade field from a password field to a non-password field."
-                raise OPPasswordFieldDowngradeException(msg)
+            # If the existing field is a password, don't accidentally
+            # turn it into an unprotected text (or other type) of field
+            if isinstance(field, OPConcealedField):
+                if field_type != OPFieldTypeEnum.PASSWORD and not password_downgrade:
+                    msg = "Item edit operation would downgrade field from a password field to a non-password field."
+                    raise OPPasswordFieldDowngradeException(msg)
+        else:
+            # We're explicitly creating a new field so let's make sure
+            # one with this label and section doesn't already exist
+            # otherwise we'll accidently edit that one instead
+            # this will raise
+            self._validate_item_field_does_not_exist(
+                item, field_label, section_label)
 
         item_json = self._item_edit_set_field_value(item_identifier,
                                                     field_type,
@@ -1566,24 +1582,114 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             item_json, generic_okay=True)
         return item
 
-    def _item_edit_validate_section_field(self,
-                                          item: OPAbstractItem,
-                                          field_label: str,
-                                          section_label: Optional[str]) -> Tuple[OPSection, OPItemField]:
-        section = None
+    def _validate_item_field_exists(self,
+                                    item: OPAbstractItem,
+                                    field_label: str,
+                                    section_label: Optional[str]) -> OPItemField:
+        # Validate that the field and, if provided, section exist
+        # It is an error if any:
+        #   - If provided, a section with the given label is not found
+        #   - A field with the given label is not found
+        #   - If no section label is specified, no matching field lacks an attached section
+        #
+        # Success if any:
+        #   - If a section label is specified and all of:
+        #       - At least one matching section is found
+        #       - At least one matching field is found field is found
+        #       - At least one (section, field) paring is found among the matching sections and fields
+        #   - If no section label is specified
+        #       - A matching field is found that has no associated section
+
         field = None
+        section_ids = set()
         if section_label:
-            # this may raise OPSectionNotFound if there is no match
-            # this is expected. It is up to the caller ot handle its
-            section = item.first_section_by_label(section_label)
+            # this may raise OPSectionNotFoundException if there is no match
+            # this is expected. It is up to the caller to handle this
+            sections = item.sections_by_label(section_label)
+            for _section in sections:
+                section_ids.add(_section.section_id)
 
-        if section:
+        # this may raise OPFieldNotfoundException if there is no match
+        # this is expected. It is up to the caller to handle this
+        fields = item.fields_by_label(field_label)
+
+        for _field in fields:
+            if _field.section_id and section_label:
+                if _field.section_id in section_ids:
+                    # We found a matching field
+                    # it has a section that matches one of the known matching sections
+                    # This is good: at least one (section, field) pairing exists
+                    field = _field
+                    break
+            elif not _field.section_id and not section_label:
+                # we found a matching field
+                # it doesn't have a section and we were told not to look for a section
+                # This is good: a (<no section>, field) pairing exists
+                field = _field
+                break
+
+        if not field:
+            if not section_label:
+                msg = f"No field found '{field_label}' that lacks a section"
+                raise OPFieldNotFoundException(msg)
+            else:
+                msg = f"Section '{section_label}', field '{field_label}' not found"
+
+        return field
+
+    def _validate_item_field_does_not_exist(self,
+                                            item: OPAbstractItem,
+                                            field_label: str,
+                                            section_label: Optional[str]) -> None:
+        # Raises OPFieldExistsException if:
+        # - Ambiguous match: one or more fields match the field label and no section label was specified
+        # - Explicit match: one or more field/section pairings exist that match the field label & section label
+        #
+        # Success if any of:
+        # - No fields matching the field label are found
+        # - A section label is specified but a matching section is not found
+        # - A section label is specified, but no fields found are associated with it
+        verified = False
+        if not section_label:
+            # ensure section label is not an empty string or some other "false" value
+            section_label = None
+        while not verified:
+            section_ids = set()
             try:
-                field = section.first_field_by_label(field_label)
+                fields = item.fields_by_label(field_label)
             except OPFieldNotFoundException:
-                raise OPFieldNotFoundException(
-                    f"No field found '{field_label}' belonging ot section '{section_label}'")
-        else:
-            field = item.first_field_by_label(field_label)
+                # no fields found with the specified label
+                # this is good: the field does not exist
+                verified = True
+                break
 
-        return (section, field)
+            if section_label:
+                try:
+                    sections = item.sections_by_label(section_label)
+                    for section in sections:
+                        section_ids.add(section.section_id)
+                except OPSectionNotFoundException:
+                    # we were explicitly given a section to look up and we didn't find it
+                    # so this is good: the (section, field) paring does not exist
+                    verified = True
+                    break
+
+            if fields and not section_label:
+                # a field exists, and without being explicit about the section
+                # 'op' may still match the field whether or not it has a section
+                # this is bad: a field exists and may be ambigously matched
+                raise OPFieldExistsException(
+                    f"Field \"{field_label}\" exists and no section was specified")
+
+            for field in fields:
+                if field.section_id in section_ids:
+                    msg = f"Section: \"{section_label}\", "
+                    msg += f"field: \"{field_label}\" already exists"
+                    # we were explicitly given a section to look up and we found it AND the field
+                    # this is bad: at least one (section, field) DOES exist
+                    raise OPFieldExistsException(msg)
+
+            # None of the fields found match any of the sections found
+            # This is good: a (section, field) paring could not be found
+            verified = True
+            break

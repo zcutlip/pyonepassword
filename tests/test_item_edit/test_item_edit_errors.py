@@ -45,7 +45,7 @@ def test_item_edit_set_password_invalid_section_020(signed_in_op: OP):
     Test: OPSectionNotFound is raised appropriately
         - Attempt to call item_edit_set_password() passing a non-existent section name
     Verify:
-        - OPSectionNotFound is raised
+        - OPSectionNotFoundException is raised
     """
 
     item_name = "Example Login Item 03"
@@ -70,7 +70,7 @@ def test_item_edit_set_password_invalid_field_030(signed_in_op: OP):
         - Pass a valid section name
         - Pass an invalid field name
     Verify:
-        - OPFieldNotFound is raised
+        - OPFieldNotFoundException is raised
     """
 
     item_name = "Example Login Item 03"
@@ -98,7 +98,7 @@ def test_item_edit_set_password_invalid_field_040(signed_in_op: OP):
         - Don't pass a section name
         - Pass an invalid field name
     Verify:
-        - OPFieldNotFound is raised
+        - OPFieldNotFoundException is raised
     """
 
     item_name = "Example Login Item 03"

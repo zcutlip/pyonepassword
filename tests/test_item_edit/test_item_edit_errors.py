@@ -114,3 +114,29 @@ def test_item_edit_set_password_invalid_field_040(signed_in_op: OP):
                                             field_label=field_label,
                                             insecure_operation=True,
                                             vault=vault)
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_set_text_field_omit_section_050(signed_in_op: OP):
+    """
+    Test: Exiting an item where the field exists and is assigned to a section,
+          but omitting the section label
+        - Attempt to call item_edit_set_text_field()
+        - Pass a valid section label
+        - Pass None for the section label
+
+    Verify:
+        - OPFieldNotFoundException is raised
+    """
+
+    item_name = "Example Login Item 12"
+    field_label = "Text Field 01"
+    new_field_value = "new text field value"
+    vault = "Test Data 2"
+
+    with pytest.raises(OPFieldNotFoundException):
+        signed_in_op.item_edit_set_text_field(item_name,
+                                              new_field_value,
+                                              field_label,
+                                              section_label=None,
+                                              vault=vault)

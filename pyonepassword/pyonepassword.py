@@ -1634,7 +1634,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                 raise OPFieldNotFoundException(msg)
             else:
                 msg = f"Section '{section_label}', field '{field_label}' not found"
-
+                raise OPFieldNotFoundException(msg)
         return field
 
     def _validate_item_field_does_not_exist(self,

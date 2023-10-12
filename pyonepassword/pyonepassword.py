@@ -781,7 +781,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         OPItemEditException
             If the item edit operation fails for any reason
         OPInsecureOperationException
-            If the caller does not pass insecure_operation=True, failing to ackonowledge the
+            If the caller does not pass insecure_operation=True, failing to acknowledge the
             insecure nature of this operation
         Returns
         -------

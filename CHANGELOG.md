@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [DEVELOPMENT]
+## [4.0.0b0] 2023-10-11
 
 
 ### Added
@@ -12,6 +12,11 @@ All notable changes to this project will be documented in this file.
   - `OP.item_edit_set_title()`
   - `OP.item_edit_set_favorite()`
   - `OP.item_edit_set_tags()`
+  - `OP.item_edit_set_url()`
+  - `OP.item_edit_set_text_field()`
+  - `OP.item_edit_add_text_field()`
+  - `OP.item_edit_set_url_field()`
+
 - `OPAbstractItem.field_value_by_section_label()` as a replacement for poorly named `field_value_by_section_title()`
 - Support for `op` new `whoami` behvior version 2.20.0
   - new `whoami` dict

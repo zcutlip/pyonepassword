@@ -52,8 +52,7 @@ setup(
     url="https://github.com/zcutlip/pyonepassword",
     packages=packages,
 
-    # We need python3.9 in order to use importlib.resources.files in templates.py
-    python_requires='>=3.8',
+    python_requires='>=3.9',
     install_requires=[
         "python-singleton-metaclasses"
     ],

@@ -23,7 +23,8 @@ All notable changes to this project will be documented in this file.
   - On `OP()` initialization, accomodate `whoami` failure when the token hasn't been used recently
 
 ### Changed
-
+- Removed Python 3.8 support
+- Added Python 3.12 support
 - Ensure all methods for section lookup by label raise `OPSectionNotFound` if no section is found matching the given label
 - Ensure all methods for field lookup by label rais `OPFieldNotFound` if no field is found matching the given label
 
@@ -32,7 +33,6 @@ All notable changes to this project will be documented in this file.
 - `OPAbstractItem.field_value_by_section_title()`
   - call `OPAbstractItem.field_value_by_section_label()` instead
 ### Misc
-
 - Updated testing configuration in conjuncton with refactored `mock-op`
 - Add `FUNDING.yml`
 

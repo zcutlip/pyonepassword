@@ -288,7 +288,7 @@
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "item-edit-example-login-17-set-field-url",
+      "name": "item-edit-example-login-17-add-text-field",
       "changes_state": true
     }
   },

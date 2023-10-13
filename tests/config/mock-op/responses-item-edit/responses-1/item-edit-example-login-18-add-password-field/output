@@ -1,0 +1,69 @@
+{
+  "id": "3oznm6vzf4bs5mfll62isfewca",
+  "title": "Example Login Item 18",
+  "version": 2,
+  "vault": {
+    "id": "vkjyqsbkf63zycqigbg3yxd7ce",
+    "name": "Test Data 2"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "A47WW2CN6BEMDDS7RXRKBFQIZ4",
+  "created_at": "2023-09-07T20:31:37Z",
+  "updated_at": "2023-10-12T19:36:39.776386-07:00",
+  "additional_information": "user_18",
+  "urls": [
+    {
+      "label": "website",
+      "primary": true,
+      "href": "https://example.com/login"
+    }
+  ],
+  "sections": [
+    {
+      "id": "Section_36gbxd5d7uw6uf4jbhgwrbj4da",
+      "label": "Section 01"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "user_18",
+      "reference": "op://Test Data 2/Example Login Item 18/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "XCtvmUt3sDdC9s*caACo",
+      "entropy": 118.28331756591797,
+      "reference": "op://Test Data 2/Example Login Item 18/password",
+      "password_details": {
+        "entropy": 118,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data 2/Example Login Item 18/notesPlain"
+    },
+    {
+      "id": "6motgcf7n7vq6wjxjwkpyne56y",
+      "section": {
+        "id": "Section_36gbxd5d7uw6uf4jbhgwrbj4da",
+        "label": "Section 01"
+      },
+      "type": "CONCEALED",
+      "label": "Password Field 01",
+      "value": "new password field value",
+      "reference": "op://Test Data 2/Example Login Item 18/Section 01/Password Field 01"
+    }
+  ]
+}

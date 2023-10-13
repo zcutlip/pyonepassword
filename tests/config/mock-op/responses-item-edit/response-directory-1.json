@@ -290,6 +290,20 @@
       "stderr": "error_output",
       "name": "item-edit-example-login-17-add-text-field",
       "changes_state": true
+    },
+    "--format|json|item|get|Example Login Item 18|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-18",
+      "changes_state": false
+    },
+    "--format|json|item|edit|Example Login Item 18|Section 01.Password Field 01[password]=new password field value|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-edit-example-login-18-add-password-field",
+      "changes_state": true
     }
   },
   "commands_with_input": {}

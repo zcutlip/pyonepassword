@@ -1773,7 +1773,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         # Success if any of:
         # - No fields matching the field label are found
         # - A section label is specified but a matching section is not found
-        # - A section label is specified, but no fields found are associated with it
+        # - A section label is specified and section found,
+        #       but no matching fields found are associated with it
         verified = False
         if not section_label:
             # ensure section label is not an empty string or some other "false" value

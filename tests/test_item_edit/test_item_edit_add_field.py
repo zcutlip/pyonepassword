@@ -60,18 +60,12 @@ def test_item_edit_add_text_field_010(signed_in_op: OP):
     item_get_1 = signed_in_op.item_get(item_name, vault=vault)
 
     # item should not have the requested section
-    try:
+    with pytest.raises(OPSectionNotFoundException):
         item_get_1.sections_by_label(section_label)
-        assert False, f"Item should not have the section: {section_label}"
-    except OPSectionNotFoundException:
-        pass
 
     # item should not have the requested field
-    try:
+    with pytest.raises(OPFieldNotFoundException):
         item_get_1.fields_by_label(field_label)
-        assert False, f"Item should not have the field: {field_label}"
-    except OPFieldNotFoundException:
-        pass
 
     edited_item = signed_in_op.item_edit_add_text_field(item_name,
                                                         new_field_value,

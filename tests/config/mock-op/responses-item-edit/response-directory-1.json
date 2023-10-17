@@ -346,6 +346,13 @@
       "stderr": "error_output",
       "name": "item-edit-example-login-17c-add-text-field",
       "changes_state": true
+    },
+    "--format|json|item|get|Example Login Item 19|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-19",
+      "changes_state": false
     }
   },
   "commands_with_input": {}

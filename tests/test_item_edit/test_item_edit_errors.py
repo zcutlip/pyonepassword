@@ -8,7 +8,10 @@ from pyonepassword.api.exceptions import (
     OPFieldNotFoundException,
     OPSectionNotFoundException
 )
-from pyonepassword.py_op_exceptions import OPInsecureOperationException
+from pyonepassword.py_op_exceptions import (
+    OPFieldExistsException,
+    OPInsecureOperationException
+)
 
 if TYPE_CHECKING:
     from pyonepassword import OP
@@ -165,4 +168,50 @@ def test_item_edit_set_mismatched_section_text_field_060(signed_in_op: OP):
                                               new_field_value,
                                               field_label,
                                               section_label=section_label,
+                                              vault=vault)
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_add_text_field_ambiguous_match_070(signed_in_op: OP):
+    """
+    Scenario:
+    - adding a section/text field pairing when:
+        - No section label is specified
+        - Two matching text fields exist
+        - Each text field belongs to a different section
+
+    This should fail since ambiguous field match is an error when adding a field
+
+    Test: OP.item_edit_add_text_field(),
+        - Retrieve an item via OP.item_get()
+        - Look up fields based on requested field label
+        - Call item_edit_add_text_field(), saving returned object
+
+    Verify:
+        - The original item has at least one field matching the requested field label
+        - Each matching field belongs to a section
+        - OPFieldExistsException is raised during the item edit operation
+    """
+    item_name = "Example Login Item 19"
+    field_label = "Ambiguous Field Match"
+    new_field_value = "new text field value"
+    vault = "Test Data 2"
+
+    # stateful response directory
+    # state 1: responses-item-edit/response-directory-1.json
+    item_get_1 = signed_in_op.item_get(item_name, vault=vault)
+
+    # item should have one or more matching fields
+    try:
+        fields = item_get_1.fields_by_label(field_label)
+        for field in fields:
+            # all fields should belong to a section
+            assert field.section_id is not None
+    except OPFieldNotFoundException:
+        assert False, f"Item SHOULD have the field: {field_label}"
+
+    with pytest.raises(OPFieldExistsException):
+        signed_in_op.item_edit_add_text_field(item_name,
+                                              new_field_value,
+                                              field_label,
                                               vault=vault)

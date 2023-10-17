@@ -42,7 +42,7 @@ def test_item_edit_set_password_no_insecure_acknowledge_010(signed_in_op: OP):
 @pytest.mark.usefixtures("setup_stateful_item_edit")
 def test_item_edit_set_password_invalid_section_020(signed_in_op: OP):
     """
-    Test: OPSectionNotFound is raised appropriately
+    Test: OPSectionNotFoundException is raised appropriately
         - Attempt to call item_edit_set_password() passing a non-existent section name
     Verify:
         - OPSectionNotFoundException is raised
@@ -150,7 +150,6 @@ def test_item_edit_set_mismatched_section_text_field_060(signed_in_op: OP):
         - Attempt to call item_edit_set_text_field()
         - Pass a valid section label
         - Pass None for the section label
-
     Verify:
         - OPFieldNotFoundException is raised
     """

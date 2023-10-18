@@ -353,6 +353,20 @@
       "stderr": "error_output",
       "name": "item-get-example-login-19",
       "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 17d|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-17d",
+      "changes_state": false
+    },
+    "--format|json|item|edit|Example Login Item 17d|Text Field With no Section 01[text]=new text field value|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-edit-example-login-17d-add-text-field",
+      "changes_state": true
     }
   },
   "commands_with_input": {}

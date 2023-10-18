@@ -215,3 +215,46 @@ def test_item_edit_add_text_field_ambiguous_match_070(signed_in_op: OP):
                                               new_field_value,
                                               field_label,
                                               vault=vault)
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_add_text_field_exact_match_080(signed_in_op: OP):
+    """
+    Scenario:
+    - adding a section/text field pairing when:
+        - A matching section exists
+        - A matching field exists
+        - The text field belongs to the section
+
+    This should fail since ambiguous field match is an error when adding a field
+
+    Test: OP.item_edit_add_text_field(),
+        - Retrieve an item via OP.item_get()
+        - Look up fields based on requested field & section label
+        - Call item_edit_add_text_field(), saving returned object
+
+    Verify:
+        - The original item has at least matching section
+        - The section ias associated with one matching field
+        - OPFieldExistsException is raised during the item edit operation
+    """
+    item_name = "Example Login Item 20"
+    field_label = "Field 01"
+    section_label = "Section 01"
+    new_field_value = "new text field value"
+    vault = "Test Data 2"
+
+    # stateful response directory
+    # state 1: responses-item-edit/response-directory-1.json
+    item_get_1 = signed_in_op.item_get(item_name, vault=vault)
+
+    # item should have a matching section and a matching field
+    section = item_get_1.first_section_by_label(section_label)
+    assert len(section.fields_by_label(field_label)) == 1
+
+    with pytest.raises(OPFieldExistsException):
+        signed_in_op.item_edit_add_text_field(item_name,
+                                              new_field_value,
+                                              field_label,
+                                              section_label=section_label,
+                                              vault=vault)

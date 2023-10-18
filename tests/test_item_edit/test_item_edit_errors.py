@@ -175,7 +175,7 @@ def test_item_edit_set_mismatched_section_text_field_060(signed_in_op: OP):
 def test_item_edit_add_text_field_ambiguous_match_070(signed_in_op: OP):
     """
     Scenario:
-    - adding a section/text field pairing when:
+    - adding a text field pairing when:
         - No section label is specified
         - Two matching text fields exist
         - Each text field belongs to a different section

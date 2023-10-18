@@ -307,6 +307,69 @@ def test_item_edit_add_text_field_040(signed_in_op: OP):
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_add_text_field_045(signed_in_op: OP):
+    """
+    Scenario:
+    - adding a text field with no section when:
+        - Item has no existing sections
+        - No fields other than the default fields
+    This should succeed because:
+        - the (<no section>, field) pairing does not exist
+        - no ambiguosly matching fields exist belonging to a section
+
+    Test: OP.item_edit_add_text_field(),
+        - Retrieve an item via OP.item_get()
+        - Access original item's sections property
+        - Look up fields based on requested field label
+        - Call item_edit_add_text_field(), saving returned object
+        - Retreive the same item a second time
+
+    Verify:
+        - The original item has no sections
+        - The original item has no fields matching the requested field label
+        - The returned edited item field's value is the same as newly retrieved item field's value
+        - The newly retrieved item field's value is the same as the desired new value
+    """
+
+    item_name = "Example Login Item 17d"
+    field_label = "Text Field With no Section 01"
+    new_field_value = "new text field value"
+    vault = "Test Data 2"
+
+    # stateful response directory
+    # state 1: responses-item-edit/response-directory-1.json
+    item_get_1 = signed_in_op.item_get(item_name, vault=vault)
+
+    # item should have the requested section
+
+    assert not item_get_1.sections, "Item should have no sections"
+
+    # item should have no fields other than the default
+    # no public access to fields, so we'll have to settle for this
+    with pytest.raises(OPFieldNotFoundException):
+        item_get_1.first_field_by_label(field_label)
+
+    edited_item = signed_in_op.item_edit_add_text_field(item_name,
+                                                        new_field_value,
+                                                        field_label,
+                                                        vault=vault)
+
+    # state changed with item_edit above
+    # state 2: responses-item-edit/response-directory-2.json
+    item_get_2 = signed_in_op.item_get(item_name, vault=vault)
+
+    edited_item_field_value = _get_field_value(edited_item, field_label)
+    item_2_field_value = _get_field_value(item_get_2, field_label)
+
+    # ensure the field value in the item returned from the edit operation
+    # matches the field value for the same item in a subsequent "item_get" operation
+    assert edited_item_field_value == item_2_field_value
+
+    # ensure the field value for the newly retrieved item matches the intended new field value
+    assert item_2_field_value == new_field_value
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
 def test_item_edit_add_password_field_050(signed_in_op: OP):
     """
     Test: OP.item_edit_add_text_field()

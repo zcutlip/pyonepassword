@@ -1085,6 +1085,71 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             create_field=False)
         return op_item
 
+    def item_edit_delete_field(self,
+                               item_identifier: str,
+                               field_label: str,
+                               section_label: Optional[str] = None,
+                               vault: Optional[str] = None):
+        """
+        Delete a field, and optionally a section from an item
+
+        If a section is specified, and it has no remaining fields after
+        the edit operation, the section will be removed as well
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to edit
+        field_label: str
+            The human readable label of the field to delete
+        section_label: str, optional
+            If provided, the human readable section label the field is associated with
+        vault: str, optional
+            The name or ID of a vault containing the item to edit
+            Overrides the OP object's default vault, if set
+
+        Raises
+        ------
+        OPItemGetException
+            If the item lookup fails for any reason
+        OPSectionNotFoundException
+            If a section label is specified but can't be looked up on the item object
+        OPFieldNotFoundException
+            If the field label can't be looked up on the item object
+        OPItemEditException
+            If the item edit operation fails for any reason
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The edited version of the item
+
+        Note: an 'item_get()` operation first is performed in order to validate
+              the field name and, if provided, section name
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
+
+        """
+
+        # If section or field not found, will raise
+        # OPSectionNotFoundException, or
+        # OPFieldNotFoundException
+
+        VALUE_NONE = None
+        PASSWORD_DOWNGRADE_IGNORE = True
+        field_type = OPFieldTypeEnum.DELETE
+        op_item = self._item_edit_set_field(item_identifier,
+                                            field_type,
+                                            field_label,
+                                            section_label,
+                                            VALUE_NONE,
+                                            vault,
+                                            PASSWORD_DOWNGRADE_IGNORE,
+                                            create_field=False)
+        return op_item
+
     def item_edit_set_favorite(self,
                                item_identifier: str,
                                favorite: bool,

@@ -6,6 +6,7 @@ class OPFieldTypeEnum(Enum):
     PASSWORD = "password"
     TEXT = "text"
     URL = "url"
+    DELETE = "delete"
 
 
 class _OPFieldAssignment(str):
@@ -83,6 +84,28 @@ class OPFieldAssignmentText(_OPFieldAssignment):
 
 class OPFieldAssignmentURL(_OPFieldAssignment):
     FIELD_TYPE = OPFieldTypeEnum.URL
+
+
+class OPFieldAssignmentDelete(_OPFieldAssignment):
+    FIELD_TYPE = OPFieldTypeEnum.DELETE
+
+    def __new__(cls, field_label: str, *args, section_label: str = None, **kwargs):
+        # pass None in for value arg
+        value = None
+        obj = super().__new__(cls, field_label, value, *args,
+                              section_label=section_label, **kwargs)
+        return obj
+
+    @classmethod
+    def _process_value_str(cls, assignment_str, _value):
+        # This is kind of a hack
+        # "delete" assignment strings can't have a value
+        # so we're overriding this method
+        # and raising an exception if we were passed a value
+        if _value:
+            raise ValueError(
+                "Field assignment value not allowed for OPFieldAssignmentDelete")
+        return assignment_str
 
 
 FIELD_TYPE_MAP = {

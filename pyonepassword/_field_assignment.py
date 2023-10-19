@@ -109,7 +109,8 @@ class OPFieldAssignmentDelete(_OPFieldAssignment):
 
 
 FIELD_TYPE_MAP = {
+    OPFieldTypeEnum.DELETE: OPFieldAssignmentDelete,
     OPFieldTypeEnum.PASSWORD: OPFieldAssignmentPassword,
     OPFieldTypeEnum.TEXT: OPFieldAssignmentText,
-    OPFieldTypeEnum.URL: OPFieldAssignmentURL
+    OPFieldTypeEnum.URL: OPFieldAssignmentURL,
 }

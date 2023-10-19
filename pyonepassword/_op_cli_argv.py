@@ -395,8 +395,14 @@ class _OPArgv(list):
                                   vault: Optional[str] = None):
 
         field_type_cls = FIELD_TYPE_MAP[field_type]
-        field_assignment = field_type_cls(
-            field_label, value, section_label=section_label)
+        # this is a hack because OPFieldAssignmentDelete doesn't
+        # accept a value arg, but the rest require it
+        if value is not None:
+            args = [field_label, value]
+        else:
+            args = [field_label]
+
+        field_assignment = field_type_cls(*args, section_label=section_label)
 
         item_edit_args = [field_assignment]
 

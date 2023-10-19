@@ -32,7 +32,7 @@ def test_field_type_password_040():
     Create a field assignment string using:
         - a section label
         - a field label
-        - PasswordFieldAssignment class
+        - OPFieldAssignmentPassword class
     Verify:
         the resulting field assignment string matches the expected string
     """
@@ -53,7 +53,7 @@ def test_field_type_password_050():
     Create a field assignment string using:
         - No section label
         - a field label
-        - PasswordFieldAssignment class
+        - OPFieldAssignmentPassword class
     Verify:
         the resulting field assignment string matches the expected string
     """
@@ -72,7 +72,7 @@ def test_field_type_text_060():
     Create a field assignment string using:
         - a section label
         - a field label
-        - field type "password"
+        - field type "text"
     Verify:
         the resulting field assignment string matches the expected string
     """
@@ -94,7 +94,7 @@ def test_field_assignment_escape_100():
         - a section label containing '=' characters
         - a field label
         - a password containing '=' characters
-        - PasswordFieldAssignment class
+        - OPFieldAssignmentPassword class
     Verify:
         - The resulting field assignment contains properly escaped '=' characters in the section label
         - The '=' characters in the password are not escaped
@@ -119,7 +119,7 @@ def test_field_assignment_escape_110():
         - a section label
         - a field label containting '=' characters
         - a password containing '=' characters
-        - PasswordFieldAssignment class
+        - OPFieldAssignmentPassword class
     Verify:
         - The resulting field assignment contains properly escaped '=' characters in the field label
         - The '=' characters in the password are not escaped
@@ -142,7 +142,7 @@ def test_field_assignment_escape_120():
     Create a field assignment string using:
         - a section label containing '.' characters
         - a field label containting '.' characters
-        - PasswordFieldAssignment class
+        - OPFieldAssignmentPassword class
     Verify:
         - The resulting field assignment contains properly escaped '.' characters in the
           field and section labels
@@ -164,7 +164,7 @@ def test_field_assignment_escape_130():
     Create a field assignment string using:
         - a section label containing backslash characters
         - a field label containting backslash characters
-        - PasswordFieldAssignment class
+        - OPFieldAssignmentPassword class
     Verify:
         - The resulting field assignment contains properly escaped '.' characters in the
           field and section labels
@@ -187,7 +187,7 @@ def test_field_type_password_redaction_140():
     Create a field assignment string using:
         - A section label
         - A field label
-        - PasswordFieldAssignment class
+        - OPFieldAssignmentPassword class
     Verify:
         A string copy of the resulting field assignment appropriately redacts the password
     """

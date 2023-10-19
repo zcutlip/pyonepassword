@@ -1,4 +1,5 @@
 from pyonepassword._field_assignment import (
+    OPFieldAssignmentDelete,
     OPFieldAssignmentPassword,
     OPFieldAssignmentText,
     OPFieldAssignmentURL
@@ -203,3 +204,22 @@ def test_field_type_password_redaction_140():
         field_label, value, section_label=section_label)
 
     assert expected_redacted_str == str(assignment)
+
+
+def test_field_assignment_delete_150():
+    """
+    Create a field assignment string using:
+        - a section label
+        - a field label
+        - OPFieldAssignmentDelete class
+    Verify:
+        the resulting field assignment string matches the expected string
+    """
+    section_label = "Section 150"
+    field_label = "Field 150"
+    expected_assignment_str = "Section 150.Field 150[delete]"
+
+    assignment = OPFieldAssignmentDelete(
+        field_label, section_label=section_label)
+
+    assert expected_assignment_str == assignment

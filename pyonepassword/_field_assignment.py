@@ -22,12 +22,22 @@ class _OPFieldAssignment(str):
             section_label = cls._field_assignment_escape(section_label)
             assignment_str = f"{section_label}."
 
-        assignment_str += f"{field_label}[{field_type_string}]="
+        assignment_str += f"{field_label}[{field_type_string}]"
+
+        assignment_str = cls._process_value_str(assignment_str, value)
+
+        return super().__new__(cls, assignment_str)
+
+    @classmethod
+    def _process_value_str(cls, assignment_str, value):
+        # HACK: We need to override this in OPFieldAssignmentDelete
+        # so we can raise an exception is an actual value is passed in
+
         # intentionally not using string formatting to assign value
         # in some cases value will be a RedactedString, so concatenation
         # will prevent it from self-redacting
-        assignment_str += value
-        return super().__new__(cls, assignment_str)
+        assignment_str += "=" + value
+        return assignment_str
 
     @classmethod
     def _field_assignment_escape(cls, input_string):

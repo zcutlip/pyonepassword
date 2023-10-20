@@ -388,6 +388,20 @@
       "stderr": "error_output",
       "name": "item-edit-example-login-21a-delete-field",
       "changes_state": true
+    },
+    "--format|json|item|get|Example Login Item 21b|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-21b",
+      "changes_state": false
+    },
+    "--format|json|item|edit|Example Login Item 21b|Text Field 01[delete]|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-edit-example-login-21b-delete-field",
+      "changes_state": true
     }
   },
   "commands_with_input": {}

@@ -1,0 +1,16 @@
+{
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "files.trimTrailingWhitespace": true,
+  "files.trimFinalNewlines": true,
+  "files.associations": {
+    "00_pyonepassword": "shellscript"
+  },
+  "files.insertFinalNewline": true,
+  "isort.args": [
+    "-m",
+    "3"
+  ],
+  "search.useIgnoreFiles": true,
+
+}

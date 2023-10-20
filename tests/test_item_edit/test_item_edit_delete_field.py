@@ -89,3 +89,53 @@ def test_item_edit_delete_field_010(signed_in_op: OP):
         item_get_2.first_section_by_label(section_label)
     with pytest.raises(OPFieldNotFoundException):
         item_get_2.first_field_by_label(field_label)
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_delete_field_020(signed_in_op: OP):
+    """
+    Scenario:
+    - deleting a text field when:
+        - No matching sections exist
+        - Exactly one matching field exists
+        - Matching field belongs to no section
+
+    Test: OP.item_edit_delete_field()
+        - Retrieve an item via OP.item_get()
+        - Look up sections based on requested section label
+        - Look up fields based on requested field label
+        - Call item_edit_delete_field(), saving returned object
+        - Retreive the same item a second time
+    Verify:
+        - The original item has exactly one field matching the requested field label
+        - The original item's matching field has no section
+        - The returned edited item has no matching field
+        - The newly retrieved item has no matching field
+    """
+
+    item_name = "Example Login Item 21b"
+    field_label = "Text Field 01"
+    vault = "Test Data 2"
+
+    # stateful response directory
+    # state 1: responses-item-edit/response-directory-1.json
+    item_get_1 = signed_in_op.item_get(item_name, vault=vault)
+
+    # item should have the requested field
+    fields = item_get_1.fields_by_label(field_label)
+    assert len(fields) == 1
+    assert fields[0].section_id is None
+
+    edited_item = signed_in_op.item_edit_delete_field(item_name,
+                                                      field_label,
+                                                      vault=vault)
+
+    # state changed with item_edit above
+    # state 2: responses-item-edit/response-directory-2.json
+    item_get_2 = signed_in_op.item_get(item_name, vault=vault)
+
+    with pytest.raises(OPFieldNotFoundException):
+        edited_item.first_field_by_label(field_label)
+
+    with pytest.raises(OPFieldNotFoundException):
+        item_get_2.first_field_by_label(field_label)

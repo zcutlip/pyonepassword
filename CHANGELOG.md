@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.0b1] 2023-10-12
+
+- Minor housekeeping updates
+- Finish removing Python 3.8 support
+
+
 ## [4.0.0b0] 2023-10-11
 
 

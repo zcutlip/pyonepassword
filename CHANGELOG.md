@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.0b2] 2023-10-20
+
+### Added
+- Additional item editing API:
+  - `OP.item_edit_add_password_field()`
+  - `OP.item_edit_delete_field()`
+
 ## [4.0.0b1] 2023-10-12
 
 - Minor housekeeping updates
@@ -9,7 +16,6 @@ All notable changes to this project will be documented in this file.
 
 
 ## [4.0.0b0] 2023-10-11
-
 
 ### Added
 - Item editing:

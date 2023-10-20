@@ -374,20 +374,6 @@
       "stderr": "error_output",
       "name": "item-get-example-login-20",
       "changes_state": false
-    },
-    "--format|json|item|get|Example Login Item 21|--vault|Test Data 2": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-get-example-login-21",
-      "changes_state": false
-    },
-    "--format|json|item|edit|Example Login Item 21|Section 01.Field 01[delete]|--vault|Test Data 2": {
-      "exit_status": 0,
-      "stdout": "output",
-      "stderr": "error_output",
-      "name": "item-edit-example-login-21-delete-field",
-      "changes_state": true
     }
   },
   "commands_with_input": {}

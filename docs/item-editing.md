@@ -19,6 +19,7 @@ The following item editing methods do not operate on arbitrary sections and fiel
 
 > **Note**: Technically `OP.item_edit_generate_password()` operates on a field, but it only works on the built-in "password" field of Login and Password items.
 
+
 ## Field Editing Operations
 
 There are three categories of field-editing operations:
@@ -29,6 +30,7 @@ There are three categories of field-editing operations:
 - Deleting a field
 
 In all cases, an `item get` operation is first peformed in order to validate the presense or absence of the field being edited. There are different sets of restrictions depending on whether a field is being added, an existing field being assigned a new value, or a field is being deleted. Those restrictions are dicussed below.
+
 
 ### Existing Field Value Setting
 
@@ -43,6 +45,7 @@ The following methods operate on arbitrary fields and sections, provided they al
 - `OP.item_edit_set_text_field()`
 - `OP.item_edit_set_url_field()`
 
+
 ### Adding New Fields
 
 If a new field is being added, the original item is retrieved and checked that the requested field/section pairing *do not* exist. Any of the following conditions are considered an error:
@@ -55,6 +58,7 @@ The following methods will add arbitrary fields and optionally sections, provide
 
 - `OP.item_edit_add_text_field()`
 - `OP.item_edit_add_password_field()`
+
 
 ### Deleting Fields
 

@@ -39,6 +39,10 @@ If an existing field is being assigned a new value, the original item is retriev
 - If provided, a section with the specified label is not found
 - No section is specified, and no matching fields are found that *have no* associated section
 
+If the existing field is a password field, and setting a new value would change it to some other field type, the `password_downgrade=True` kwarg must be passed.
+
+*SECURITY NOTE*: The `OP.item_edit_set_password()` method will include the provided password in cleartext as a command line argument to the `op` command. On most platforms, the arguments, including the password, will be visible to other processes, including processes owned by other users. In order to use this operaton, this insecurity must be acknowledged by passing the insecure_operation=True kwarg
+
 The following methods operate on arbitrary fields and sections, provided they already exist:
 
 - `OP.item_edit_set_password()`

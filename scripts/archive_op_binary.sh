@@ -68,6 +68,31 @@ get_op_ver(){
     unset _version
 }
 
+
+compress_archives(){
+    # op-binaries/2.21.0
+    _op_binaries_rel="$(basename "$OP_BINARY_PATH")"
+    _current_archive="$_op_binaries_rel/$1/"
+
+    # trailing slash on the glob makes sure we only look at directories
+    # much faster that looping over all files for comparison
+    for _dir in "$_op_binaries_rel"/*/;
+    do
+        if [ -d "$_dir" ] && [ "$_current_archive" != "$_dir" ];
+        then
+            _ver="$(basename "$_dir")"
+            _tarball="$_op_binaries_rel/$_ver.tar.bz2"
+
+            # tar jcvf op-binaries/2.21.0.tar.bz2 -C op-binaries op-binaries/2.21.0
+            tar jcvf "$_tarball" -C "$_op_binaries_rel" "$_ver" || return $?
+            # rm -r op-binaries/2.21.0
+            rm -r "$_dir" || return $?
+        fi
+
+    done
+
+}
+
 op_ver="$(get_op_ver)"
 
 # make "universal" copy separate from arch-specific copy
@@ -96,3 +121,6 @@ fi
 echo "Checking hashes"
 md5check "$op_path" "$op_archive_dest" || quit "Hashes don't match for $op_path vs $op_archive_dest" 1
 echo "Hashes match"
+echo "Compressing old binaries and removing originals"
+set -x
+compress_archives "$op_ver" || quit "Compressing archives failed" $?

@@ -2,7 +2,7 @@
 
 As of version 4.0.0, `pyonepassword` supports in-place item editing. There is API to match the operations supported by the `op item edit` command. This file describes the API as well as its restrictions and limitations. It is recommended to consult `op item edit --help` for any restrictions in addition those enforced by `pyonepassword` described here.
 
-All of the methods described below are instance method on the `pyonepassword.OP` class.
+All of the methods described below are instance methods on the `pyonepassword.OP` class.
 
 The supported operations break down into two groups: operations that work with arbitrary item fields (and optionally sections), and ones that do not. The first group described are the non-field editing operations, followed by the field editing operations.
 

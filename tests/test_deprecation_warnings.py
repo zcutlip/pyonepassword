@@ -1,7 +1,6 @@
 import warnings
 
-# Commented but left as example
-# def test_api_deprecation_01():
+# def examle_test_import_deprecation_01():
 #     """
 #     Import deprecated OPNotSignedInException class from
 #     pyonepassword.api.exceptions

@@ -62,6 +62,7 @@ The following methods will add arbitrary fields and optionally sections, provide
 
 - `OP.item_edit_add_text_field()`
 - `OP.item_edit_add_password_field()`
+- `OP.item_edit_add_url_field()`
 
 
 ### Deleting Fields

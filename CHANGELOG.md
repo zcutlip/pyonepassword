@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [DEVELOPMENT] 2023-10-31
+
+### Removed
+
+- Deprecated kwwargs to `OP()`:
+  - `use_existing_session` (replaced by `existing_auth`)
+  - `account_shorthand` (replaced by `account`)
+- Deprecated exception `OPNotSignedInException` class
+  - replaced with `OPAuthenticationException`
+
 ## [4.0.0b3] 2023-10-30
 
 ### Added

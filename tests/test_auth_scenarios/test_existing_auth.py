@@ -37,7 +37,7 @@ def test_use_existing_session_02():
     Simulate a pyonepassword environment that:
     - doesn't use biometric
     - DOES have OP_SESSION_<user uuid> env variable set
-    Check that OP(use_existing_session=True) succeeds
+    Check that OP(existing_auth=EXISTING_AUTH_AVAIL) succeeds
     """
     OP(op_path='mock-op', existing_auth=EXISTING_AUTH_AVAIL, password_prompt=False)
 
@@ -52,7 +52,7 @@ def test_use_existing_session_03():
     - session token not valid
     Tell OP to use an exsiting session if available, but don't provide a password
 
-    Check that OP(use_existing_session=True) fails
+    Check that OP(existing_auth=EXISTING_AUTH_AVAIL) fails
     """
     with pytest.raises(OPAuthenticationException):
         _ = OP(op_path='mock-op', existing_auth=EXISTING_AUTH_AVAIL,
@@ -84,7 +84,7 @@ def test_use_existing_session_05():
     - DOES have OP_SESSION_<user uuid> env variable set
     - session token not valid
     Tell OP it MUST use an existing session.
-    Check that OP(use_existing_session=True) fails
+    Check that OP(existing_auth=EXISTING_AUTH_REQD) fails
     """
     with pytest.raises(OPAuthenticationException):
         OP(op_path='mock-op', existing_auth=EXISTING_AUTH_REQD,

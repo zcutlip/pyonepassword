@@ -20,7 +20,7 @@ from pyonepassword.api.exceptions import OPAuthenticationException
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("setup_unauth_op_env")
-def test_use_existing_session_01():
+def test_existing_auth_01():
     """
     Simulate an pyonepassword environment that doesn't use biometric auth, and doesn't have
     OP_SESSION_<session ID> env variable set
@@ -32,7 +32,7 @@ def test_use_existing_session_01():
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("setup_op_sess_var_alt_env")
-def test_use_existing_session_02():
+def test_existing_auth_02():
     """
     Simulate a pyonepassword environment that:
     - doesn't use biometric
@@ -44,7 +44,7 @@ def test_use_existing_session_02():
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("setup_op_sess_var_unauth_env")
-def test_use_existing_session_03():
+def test_existing_auth_03():
     """
     Simulate a pyonepassword environment that:
     - doesn't use biometric
@@ -61,7 +61,7 @@ def test_use_existing_session_03():
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
 @pytest.mark.usefixtures("setup_op_sess_var_alt_env")
-def test_use_existing_session_04():
+def test_existing_auth_04():
     """
     Simulate a pyonepassword environment that:
     - no "latest_signin" to infer account identifier from
@@ -77,7 +77,7 @@ def test_use_existing_session_04():
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("setup_op_sess_var_unauth_env")
-def test_use_existing_session_05():
+def test_existing_auth_05():
     """
     Simulate a pyonepassword environment that:
     - doesn't use biometric

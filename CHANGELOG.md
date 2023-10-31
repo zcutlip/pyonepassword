@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.0b3] 2023-10-30
+
+### Added
+- Additional item editing API:
+  - `OP.item_edit_add_url_field()`
+
+### Documentation
+- Documented item editing in `docs/item-editing.md`
+
 ## [4.0.0b2] 2023-10-20
 
 ### Added

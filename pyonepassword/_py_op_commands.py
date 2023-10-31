@@ -109,10 +109,6 @@ class _OPCommandInterface(_OPCLIExecute):
         # that got initialized to None or False
         self._gather_facts()
 
-        # Coerce existing_auth to an Enum in case it was passed in as a legacy bool
-        # False -> ExistingAuthFlag.NONE, True -> ExistingAuthFlag.AVAILABLE
-        existing_auth = ExistingAuthEnum(existing_auth)
-
         # part of exception message in case incompatible authentication parameters
         # are provided
         auth_pref_source = "preference passed as argument"

@@ -14,7 +14,6 @@ from ._py_op_commands import (
     ExistingAuthEnum,
     _OPCommandInterface
 )
-from ._py_op_deprecation import deprecated_kwargs
 from .account import OPAccountList
 from .op_items._item_list import OPItemList
 from .op_items._item_type_registry import OPItemFactory
@@ -67,14 +66,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
     """
     Class for logging into and querying a 1Password account via the 'op' cli command.
     """
-    @deprecated_kwargs(use_existing_session='existing_auth',
-                       account_shorthand='account')
+
     def __init__(self,
                  account: Optional[str] = None,
-                 account_shorthand: Optional[str] = None,
                  password: Optional[str] = None,
                  existing_auth: ExistingAuthEnum = EXISTING_AUTH_IGNORE,
-                 use_existing_session: bool = False,
                  password_prompt: bool = True,
                  vault: Optional[str] = None,
                  op_path: str = 'op',

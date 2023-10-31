@@ -7,8 +7,6 @@ from __future__ import annotations
 import warnings
 from typing import TYPE_CHECKING, List, Optional
 
-from ._py_op_deprecation import deprecated
-
 if TYPE_CHECKING:  # pragma: no coverage
     from .op_items._item_list import OPItemList
 
@@ -251,22 +249,7 @@ class OPInvalidItemException(OPBaseException):
         super().__init__(msg)
 
 
-@deprecated("Use OPAuthenticationException")
-class OPNotSignedInException(OPBaseException):
-    """
-    DEPRECATION NOTE:
-    This exception class is deprecated in favor of OPAuthenticationException
-    and will be removed in a future version
-
-    Exception indicating the `op` command is not authenticated or is unable to complete
-    authentication
-    """
-
-    def __init__(self, msg):
-        super().__init__(msg)
-
-
-class OPAuthenticationException(OPNotSignedInException):
+class OPAuthenticationException(OPBaseException):
     # TODO: inherit from OPBaseException once
     # OPNotSignedInException removed
     """
@@ -350,14 +333,17 @@ class OPPasswordFieldDowngradeException(OPBaseException):
         super().__init__(msg)
 
 
-_deprecated_exceptions = {
-    OPNotSignedInException.__name__: OPAuthenticationException.__name__
+_deprecated_exceptions = {  # type: ignore
+                            # (mypy is satisifed when this dict is populated, but com) complains when it's empty
+    # Leaving this here but commented as an example how to
+    # deprecate Exceptions
+    # OPNotSignedInException.__name__: OPAuthenticationException.__name__
 }
 
 # replace OPNotSignedInException with _OPNotSignedInException
 # in order to trigger deprecation warnings
-_OPNotSignedInException = OPNotSignedInException
-del OPNotSignedInException
+# _OPNotSignedInException = OPNotSignedInException
+# del OPNotSignedInException
 
 
 def __getattr__(name: str):

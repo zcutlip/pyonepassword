@@ -24,7 +24,7 @@
 #     Simulate a pyonepassword environment that:
 #     - doesn't use biometric
 #     - DOES have OP_SESSION_<user uuid> env variable set
-#     Check that OP(use_existing_session=True) succeeds
+#     Check that OP(use_existing_session=True) produces deprecation warnings
 #     """
 #     with warnings.catch_warnings(record=True) as warning_list:
 #         OP(op_path='mock-op', use_existing_session=True, password_prompt=False)

@@ -372,11 +372,11 @@ def test_item_edit_add_text_field_045(signed_in_op: OP):
 @pytest.mark.usefixtures("setup_stateful_item_edit")
 def test_item_edit_add_password_field_050(signed_in_op: OP):
     """
-    Test: OP.item_edit_add_text_field()
+    Test: OP.item_edit_add_password_field()
         - Retrieve an item via OP.item_get()
         - Look up sections based on requested section label
         - Look up fields based on requested field label
-        - Call item_edit_add_text_field(), saving returned object
+        - Call item_edit_add_password_field(), saving returned object
         - Retreive the same item a second time
 
     Verify:

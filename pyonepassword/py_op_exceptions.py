@@ -333,7 +333,8 @@ class OPPasswordFieldDowngradeException(OPBaseException):
         super().__init__(msg)
 
 
-_deprecated_exceptions = {
+_deprecated_exceptions = {  # type: ignore
+                            # (mypy is satisifed when this dict is populated, but com) complains when it's empty
     # Leaving this here but commented as an example how to
     # deprecate Exceptions
     # OPNotSignedInException.__name__: OPAuthenticationException.__name__

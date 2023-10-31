@@ -1,0 +1,43 @@
+{
+  "id": "ssmrzws5zjt4ecmkagcnzzmy64",
+  "title": "Example Login Item 00",
+  "version": 2,
+  "vault": {
+    "id": "vkjyqsbkf63zycqigbg3yxd7ce",
+    "name": "Test Data 2"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "FZTDCNIJAOEBZZ2VQFNDVHC3K6",
+  "created_at": "2023-08-22T22:14:45Z",
+  "updated_at": "2023-08-22T15:17:35.359042-07:00",
+  "additional_information": "user_00",
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "user_00",
+      "reference": "op://Test Data 2/Example Login Item 00/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "new password",
+      "reference": "op://Test Data 2/Example Login Item 00/password",
+      "password_details": {
+        "strength": "GOOD",
+        "history": ["-cpk8qcnV4tGpVahKenH"]
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data 2/Example Login Item 00/notesPlain"
+    }
+  ]
+}

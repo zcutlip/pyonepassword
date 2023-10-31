@@ -122,5 +122,4 @@ echo "Checking hashes"
 md5check "$op_path" "$op_archive_dest" || quit "Hashes don't match for $op_path vs $op_archive_dest" 1
 echo "Hashes match"
 echo "Compressing old binaries and removing originals"
-set -x
 compress_archives "$op_ver" || quit "Compressing archives failed" $?

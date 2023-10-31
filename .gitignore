@@ -97,6 +97,7 @@ celerybeat-schedule
 *.sage.py
 
 # Environments
+dot_env_files/.env*
 .env
 .env_secret*
 .venv
@@ -124,7 +125,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-.vscode
+.vscode/*
+!/.vscode/settings.json
+!/.vscode/launch.json
 
 .idea/
 # General
@@ -166,3 +169,9 @@ Temporary Items
 
 # Makefile stamps
 .*stamp
+
+# General
+.vagrant/
+
+# Log files (if you are creating logs in debug mode, uncomment this)
+# *.log

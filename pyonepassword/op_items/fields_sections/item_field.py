@@ -13,7 +13,7 @@ class OPConcealedField(OPItemField):
 
 
 @op_register_item_field_type
-class OPTOTPField(OPStringField):
+class OPTOTPField(OPItemField):
     FIELD_TYPE = "OTP"
 
     @property
@@ -23,3 +23,8 @@ class OPTOTPField(OPStringField):
     @property
     def totp(self) -> str:
         return self["totp"]
+
+
+@op_register_item_field_type
+class OPURLField(OPItemField):
+    FIELD_TYPE = "URL"

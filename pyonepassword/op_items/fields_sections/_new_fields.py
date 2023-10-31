@@ -193,7 +193,7 @@ class OPNewNetworkPortField(OPNewStringField):
             value = str(value)
         else:
             # if we were passed any other object type this is an error
-            raise ValueError(
+            raise TypeError(
                 f"Invalid value for port: \"{value}\". Must be int or str")
 
         # NOTE: we're not going to enforce valid, non-negative port ranges

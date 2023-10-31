@@ -1,0 +1,84 @@
+{
+  "id": "4ikcuhuipjywspfdb5c2oiw5ei",
+  "title": "Example Login Item 16",
+  "version": 7,
+  "vault": {
+    "id": "vkjyqsbkf63zycqigbg3yxd7ce",
+    "name": "Test Data 2"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "4J4NLDK7GFAXJFOR7RF2KDUAMI",
+  "created_at": "2023-09-07T20:31:36Z",
+  "updated_at": "2023-10-11T02:54:17Z",
+  "additional_information": "user_16",
+  "urls": [
+    {
+      "label": "website",
+      "primary": true,
+      "href": "https://example.com/login"
+    }
+  ],
+  "sections": [
+    {
+      "id": "4nrqrhktgpj2mrdyrgixucrote",
+      "label": "Section 01"
+    },
+    {
+      "id": "ruk5nvk3dax2mcbzlnaglcikwu",
+      "label": "Section 02"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "user_16",
+      "reference": "op://Test Data 2/Example Login Item 16/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "P.Lkr67WcMef7NcyQotC",
+      "entropy": 118.28331756591797,
+      "reference": "op://Test Data 2/Example Login Item 16/password",
+      "password_details": {
+        "entropy": 118,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data 2/Example Login Item 16/notesPlain"
+    },
+    {
+      "id": "j4s6zh5tj24dcbu52bi5noxwym",
+      "section": {
+        "id": "4nrqrhktgpj2mrdyrgixucrote",
+        "label": "Section 01"
+      },
+      "type": "STRING",
+      "label": "Text Field 01",
+      "value": "example text 01",
+      "reference": "op://Test Data 2/Example Login Item 16/Section 01/Text Field 01"
+    },
+    {
+      "id": "omfqzrqzediujtvcsv6njhkvry",
+      "section": {
+        "id": "ruk5nvk3dax2mcbzlnaglcikwu",
+        "label": "Section 02"
+      },
+      "type": "STRING",
+      "label": "Text Field 02",
+      "value": "example text 02",
+      "reference": "op://Test Data 2/Example Login Item 16/Section 02/Text Field 02"
+    }
+  ]
+}

@@ -13,7 +13,8 @@ from ..op_items.fields_sections._new_fields import (
 from ..op_items.fields_sections.item_field import (
     OPConcealedField,
     OPStringField,
-    OPTOTPField
+    OPTOTPField,
+    OPURLField
 )
 from ..op_items.fields_sections.item_field_base import OPItemField
 from ..op_items.fields_sections.item_section import OPSection
@@ -66,6 +67,7 @@ __all__ = [
     "OPConcealedField",
     "OPStringField",
     "OPTOTPField",
+    "OPURLField",
     "OPItemField",
     "OPSection",
     "OPLoginItem",

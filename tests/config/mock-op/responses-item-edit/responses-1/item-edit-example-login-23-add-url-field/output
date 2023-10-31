@@ -1,0 +1,69 @@
+{
+  "id": "kpqpwgadvx35sllloe56us3o4q",
+  "title": "Example Login Item 23",
+  "version": 4,
+  "vault": {
+    "id": "vkjyqsbkf63zycqigbg3yxd7ce",
+    "name": "Test Data 2"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "4J4NLDK7GFAXJFOR7RF2KDUAMI",
+  "created_at": "2023-10-19T03:56:29Z",
+  "updated_at": "2023-10-30T20:19:11.366466-07:00",
+  "additional_information": "user_23",
+  "urls": [
+    {
+      "label": "website",
+      "primary": true,
+      "href": "http://example.com/login.html"
+    }
+  ],
+  "sections": [
+    {
+      "id": "Section_f3iomx2pymbvmpjiywbpbzbyem",
+      "label": "Section 01"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "user_23",
+      "reference": "op://Test Data 2/Example Login Item 23/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "2Eot7M.wk*hwDXCLEtPx",
+      "entropy": 118.28331756591797,
+      "reference": "op://Test Data 2/Example Login Item 23/password",
+      "password_details": {
+        "entropy": 118,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data 2/Example Login Item 23/notesPlain"
+    },
+    {
+      "id": "hz6v7d7uzhijvhtkwf2hbrbm3m",
+      "section": {
+        "id": "Section_f3iomx2pymbvmpjiywbpbzbyem",
+        "label": "Section 01"
+      },
+      "type": "URL",
+      "label": "URL Field 01",
+      "value": "https://new-url-field.com/",
+      "reference": "op://Test Data 2/Example Login Item 23/Section 01/URL Field 01"
+    }
+  ]
+}

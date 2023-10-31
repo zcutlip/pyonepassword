@@ -2,14 +2,41 @@
 
 All notable changes to this project will be documented in this file.
 
-## [DEVELOPMENT]
-
+## [4.0.0b2] 2023-10-20
 
 ### Added
+- Additional item editing API:
+  - `OP.item_edit_add_password_field()`
+  - `OP.item_edit_delete_field()`
+
+## [4.0.0b1] 2023-10-12
+
+- Minor housekeeping updates
+- Finish removing Python 3.8 support
+
+
+## [4.0.0b0] 2023-10-11
+
+### Added
+- Item editing:
+  - `OP.item_edit_generate_password()`
+  - `OP.item_edit_set_password()`
+  - `OP.item_edit_set_title()`
+  - `OP.item_edit_set_favorite()`
+  - `OP.item_edit_set_tags()`
+  - `OP.item_edit_set_url()`
+  - `OP.item_edit_set_text_field()`
+  - `OP.item_edit_add_text_field()`
+  - `OP.item_edit_set_url_field()`
+
 - `OPAbstractItem.field_value_by_section_label()` as a replacement for poorly named `field_value_by_section_title()`
+- Support for `op` new `whoami` behvior version 2.20.0
+  - new `whoami` dict
+  - On `OP()` initialization, accomodate `whoami` failure when the token hasn't been used recently
 
 ### Changed
-
+- Removed Python 3.8 support
+- Added Python 3.12 support
 - Ensure all methods for section lookup by label raise `OPSectionNotFound` if no section is found matching the given label
 - Ensure all methods for field lookup by label rais `OPFieldNotFound` if no field is found matching the given label
 
@@ -18,8 +45,7 @@ All notable changes to this project will be documented in this file.
 - `OPAbstractItem.field_value_by_section_title()`
   - call `OPAbstractItem.field_value_by_section_label()` instead
 ### Misc
-
-- Updated testing configuration in conjucton with refactored `mock-op`
+- Updated testing configuration in conjuncton with refactored `mock-op`
 - Add `FUNDING.yml`
 
 

@@ -122,5 +122,17 @@
   "t4gp6e7s6xtsiu35xq5cewxqpi": {
     "name": "t4gp6e7s6xtsiu35xq5cewxqpi.json",
     "type": "json"
+  },
+  "Example Login Item 01": {
+    "versions": [
+      {
+        "name": "example-login-item-01-original.json",
+        "type": "json"
+      },
+      {
+        "name": "example-login-item-01-edited.json",
+        "type": "json"
+      }
+    ]
   }
 }

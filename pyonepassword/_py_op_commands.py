@@ -1,10 +1,15 @@
 """
 Description: A module that maps methods to to `op` commands and subcommands
 """
+from __future__ import annotations
+
 import enum
 import logging
 from os import environ
-from typing import Dict, Mapping, Optional, Union
+from typing import TYPE_CHECKING, Dict, List, Mapping, Optional, Union
+
+if TYPE_CHECKING:  # pragma: no coverage
+    from pyonepassword._field_assignment import OPFieldTypeEnum
 
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
@@ -21,6 +26,7 @@ from .op_cli_version import (
     MINIMUM_SERVICE_ACCOUNT_VERSION,
     OPCLIVersion
 )
+from .op_items.password_recipe import OPPasswordRecipe
 from .py_op_exceptions import (
     OPAuthenticationException,
     OPCmdFailedException,
@@ -31,6 +37,7 @@ from .py_op_exceptions import (
     OPGroupListException,
     OPItemCreateException,
     OPItemDeleteException,
+    OPItemEditException,
     OPItemGetException,
     OPItemListException,
     OPSigninException,
@@ -65,7 +72,8 @@ class _OPCommandInterface(_OPCLIExecute):
     NO_ACTIVE_SESSION_FOUND_TEXT = "no active session found for account"
     NO_SESSION_TOKEN_FOUND_TEXT = "could not find session token for account"
     ACCT_IS_NOT_SIGNED_IN_TEXT = "account is not signed in"
-    MALFORMED_SVC_ACCT_TEXT = "failed to DecodeSACCredentials"
+    SVC_ACCT_TOKEN_MALFORMED_TEXT = "failed to DecodeSACCredentials"
+    SVC_ACCT_TOKEN_NOT_AUTH_TXT = "service account token set, but not authenticated yet"
 
     OP_SVC_ACCOUNT_ENV_VAR = "OP_SERVICE_ACCOUNT_TOKEN"
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
@@ -496,37 +504,84 @@ class _OPCommandInterface(_OPCLIExecute):
         return vault_list_argv
 
     @classmethod
-    def _whoami(cls, op_path, env: Dict[str, str] = None, account: str = None) -> OPAccount:
+    def _item_template_list_special(cls, op_path,  env: Dict[str, str] = None):
+        if not env:
+            env = dict(environ)
+        # special "template list" class method we can use for testing authentication
+        argv = _OPArgv.item_template_list_argv(op_path)
+        template_list_json = cls._run(
+            argv, capture_stdout=True, decode="utf-8", env=env)
+        return template_list_json
+
+    @classmethod
+    def _whoami_base(cls, op_path, env: Dict[str, str] = None, account: str = None):
         if not env:
             env = dict(environ)
         argv = _OPArgv.whoami_argv(op_path, account=account)
-        try:
-            account_json = cls._run(
-                argv, capture_stdout=True, decode="utf-8", env=env)
-        except OPCmdFailedException as ocfe:
-            # scrape error message about not being signed in
+        account_json = cls._run(
+            argv, capture_stdout=True, decode="utf-8", env=env)
+        return account_json
 
-            if cls.MALFORMED_SVC_ACCT_TEXT in ocfe.err_output:
-                # OP_SERVICE_ACCOUNT_TOKEN got set to something malformed
-                # so raise a specific exception for that
-                raise OPCmdMalformedSvcAcctTokenException.from_opexception(
-                    ocfe)  # pragma: no cover
-                # Although we could simulate this for testing, the tests
-                # wouldn't be meaningful, because they wouldn't be tied to
-                # an actual malformed token
-                # disabling testing coverage
+    @classmethod
+    def _whoami_svc_account(cls, op_path, env: Dict[str, str] = None):
+        # whoami behaves differently under certain circumstances if OP_SERVICE_ACCOUNT_TOKEN
+        # is set, and we need to handle this situations differently
+        # They include:
+        # - service account env variable is set, but token is malformed
+        # - on op >= 2.20.0, service account token is set, but not yet "authenticated"
+        account_json = None
+        attempts = 0
+        max_attempts = 2
+        while account_json is None:
+            # try once, and if necessary try "item template list" to authenticate
+            # then try at most one more time
+            attempts += 1
+            try:
+                account_json = cls._whoami_base(op_path, env=env)
+            except OPCmdFailedException as ocfe:
+                if attempts < max_attempts and cls.SVC_ACCT_TOKEN_NOT_AUTH_TXT in ocfe.err_output:
+                    # Trigger a service account authenticated session (v 2.20.0 and later)
+                    cls._item_template_list_special(op_path, env=env)
+                    continue
+                elif cls.SVC_ACCT_TOKEN_MALFORMED_TEXT in ocfe.err_output:  # pragma: no cover
+                    # OP_SERVICE_ACCOUNT_TOKEN got set to something malformed
+                    # so raise a specific exception for that
+                    raise OPCmdMalformedSvcAcctTokenException.from_opexception(
+                        ocfe)
+                    # Although we could simulate this for testing, the tests
+                    # wouldn't be meaningful, because they wouldn't be tied to
+                    # an actual malformed token
+                    # disabling testing coverage
+                else:
+                    raise  # pragma: no cover
+
+        return account_json
+
+    @classmethod
+    def _whoami(cls, op_path, env: Dict[str, str] = None, account: str = None) -> OPAccount:
+        # outer/normal whoami method
+        # if a service account var is set, this method will call
+        # _whoami_svc_account(), which will call _whoami_base()
+        # otherwise, this method calls _whoami_base()
+
+        try:
+            if cls.svc_account_env_var_set():
+                account_json = cls._whoami_svc_account(op_path, env=env)
             else:
-                raise OPWhoAmiException.from_opexception(ocfe)
+                account_json = cls._whoami_base(
+                    op_path, env=env, account=account)
+        except OPCmdFailedException as ocfe:
+            raise OPWhoAmiException.from_opexception(ocfe)
 
         account_obj = OPAccount(account_json)
         return account_obj
 
     def _item_get(self, item_name_or_id, vault=None, fields=None, include_archive=False, decode="utf-8"):
-        get_item_argv = self._item_get_argv(
+        item_get_argv = self._item_get_argv(
             item_name_or_id, vault=vault, fields=fields, include_archive=include_archive)
         try:
             output = self._run_with_auth_check(
-                self.op_path, self._account_identifier, get_item_argv, capture_stdout=True, decode=decode)
+                self.op_path, self._account_identifier, item_get_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPItemGetException.from_opexception(ocfe) from ocfe
 
@@ -598,10 +653,13 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
         if self._cli_version <= DOCUMENT_BYTES_BUG_VERSION:  # pragma: no cover
-            # op v2.x appends an erroneous \x0a ('\n') byte to document bytes
+            # op versions 2.0.0 - 2.2.0 append an erroneous \x0a ('\n') byte to document bytes
             # trim it off if its present
             if document_bytes[-1] == 0x0a:
                 document_bytes = document_bytes[:-1]
+            else:
+                # this shouldn't happen but maybe an edge case?
+                pass
 
         return document_bytes
 
@@ -699,12 +757,28 @@ class _OPCommandInterface(_OPCLIExecute):
         cls._run(argv)
 
     def _item_list_argv(self, categories=[], include_archive=False, tags=[], vault=None):
+        # default lists to the categories & list kwargs
+        # get initialized at module load
+        # so its the same list object on every call to this funciton
+        # This really isn't what we want, so the easiest
+        # mitigation is to just make a copy of whatever list was passed in
+        # or of the default kwarg if nothing was passed in
+        categories = list(categories)
+        tags = list(tags)
         vault_arg = vault if vault else self.vault
         list_items_argv = _OPArgv.item_list_argv(self.op_path,
                                                  categories=categories, include_archive=include_archive, tags=tags, vault=vault_arg)
         return list_items_argv
 
     def _item_list(self, categories=[], include_archive=False, tags=[], vault=None, decode="utf-8"):
+        # default lists to the categories & list kwargs
+        # get initialized at module load
+        # so its the same list object on every call to this funciton
+        # This really isn't what we want, so the easiest
+        # mitigation is to just make a copy of whatever list was passed in
+        # or of the default kwarg if nothing was passed in
+        categories = list(categories)
+        tags = list(tags)
         argv = self._item_list_argv(
             categories=categories, include_archive=include_archive, tags=tags, vault=vault)
         try:
@@ -716,10 +790,88 @@ class _OPCommandInterface(_OPCLIExecute):
 
     def _item_create_argv(self, item, password_recipe, vault):
         vault_arg = vault if vault else self.vault
-        create_item_argv = _OPArgv.item_create_argv(
+        item_create_argv = _OPArgv.item_create_argv(
             self.op_path, item, password_recipe=password_recipe, vault=vault_arg
         )
-        return create_item_argv
+        return item_create_argv
+
+    def _item_edit_set_field_value_argv(self,
+                                        item_identifier: str,
+                                        field_type: OPFieldTypeEnum,
+                                        value: str,
+                                        field_label: str,
+                                        section_label: Optional[str],
+                                        vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+        item_edit_argv = _OPArgv.item_edit_set_field_value(self.op_path,
+                                                           item_identifier,
+                                                           field_type,
+                                                           value,
+                                                           field_label=field_label,
+                                                           section_label=section_label,
+                                                           vault=vault_arg)
+        return item_edit_argv
+
+    def _item_edit_set_favorite_argv(self,
+                                     item_identifier: str,
+                                     favorite: bool,
+                                     vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+
+        item_edit_argv = _OPArgv.item_edit_set_favorite(self.op_path,
+                                                        item_identifier,
+                                                        favorite,
+                                                        vault=vault_arg)
+        return item_edit_argv
+
+    def _item_edit_generate_password_argv(self,
+                                          item_identifier: str,
+                                          password_recipe: OPPasswordRecipe,
+                                          vault: Optional[str]):
+
+        vault_arg = vault if vault else self.vault
+        item_edit_argv = _OPArgv.item_edit_generate_password_argv(self.op_path,
+                                                                  item_identifier,
+                                                                  password_recipe,
+                                                                  vault=vault_arg)
+        return item_edit_argv
+
+    def _item_edit_set_tags_argv(self,
+                                 item_identifier: str,
+                                 tags: List[str],
+                                 vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+
+        item_edit_argv = _OPArgv.item_edit_set_tags(self.op_path,
+                                                    item_identifier,
+                                                    tags,
+                                                    vault=vault_arg)
+
+        return item_edit_argv
+
+    def _item_edit_set_title_argv(self,
+                                  item_identifier: str,
+                                  item_title: str,
+                                  vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+
+        item_edit_argv = _OPArgv.item_edit_set_title(self.op_path,
+                                                     item_identifier,
+                                                     item_title,
+                                                     vault=vault_arg)
+        return item_edit_argv
+
+    def _item_edit_set_url_argv(self,
+                                item_identifier: str,
+                                url: str,
+                                vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+
+        item_edit_argv = _OPArgv.item_edit_set_url(self.op_path,
+                                                   item_identifier,
+                                                   url,
+                                                   vault=vault_arg)
+        return item_edit_argv
 
     def _item_create(self, item, vault, password_recipe, decode="utf-8"):
         argv = self._item_create_argv(item, password_recipe, vault)
@@ -729,4 +881,85 @@ class _OPCommandInterface(_OPCLIExecute):
         except OPCmdFailedException as e:
             raise OPItemCreateException.from_opexception(e)
 
+        return output
+
+    def _item_edit_run(self, argv: _OPArgv, decode: str):
+        try:
+            output = self._run_with_auth_check(
+                self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
+        except OPCmdFailedException as e:
+            raise OPItemEditException.from_opexception(e)
+
+        return output
+
+    def _item_edit_set_field_value(self,
+                                   item_identifier: str,
+                                   field_type: OPFieldTypeEnum,
+                                   value: str,
+                                   field_label: str,
+                                   section_label: Optional[str] = None,
+                                   vault: Optional[str] = None,
+                                   decode: str = "utf-8") -> str:
+        argv = self._item_edit_set_field_value_argv(item_identifier,
+                                                    field_type,
+                                                    value,
+                                                    field_label=field_label,
+                                                    section_label=section_label,
+                                                    vault=vault)
+        output = self._item_edit_run(argv, decode)
+        return output
+
+    def _item_edit_set_favorite(self,
+                                item_identifier: str,
+                                favorite: bool,
+                                vault: Optional[str] = None,
+                                decode: str = "utf-8"):
+        argv = self._item_edit_set_favorite_argv(
+            item_identifier, favorite, vault=vault)
+
+        output = self._item_edit_run(argv, decode)
+        return output
+
+    def _item_edit_generate_password(self,
+                                     item_identifier: str,
+                                     password_recipe: OPPasswordRecipe,
+                                     vault=None,
+                                     decode="utf-8") -> str:
+        argv = self._item_edit_generate_password_argv(
+            item_identifier, password_recipe, vault)
+
+        output = self._item_edit_run(argv, decode)
+        return output
+
+    def _item_edit_set_tags(self,
+                            item_identifier: str,
+                            tags: List[str],
+                            vault: Optional[str] = None,
+                            decode: str = "utf-8"):
+        argv = self._item_edit_set_tags_argv(
+            item_identifier, tags, vault=vault)
+
+        output = self._item_edit_run(argv, decode)
+        return output
+
+    def _item_edit_set_title(self,
+                             item_identifier: str,
+                             item_title: str,
+                             vault: Optional[str] = None,
+                             decode: str = "utf-8"):
+        argv = self._item_edit_set_title_argv(
+            item_identifier, item_title, vault=vault)
+
+        output = self._item_edit_run(argv, decode)
+        return output
+
+    def _item_edit_set_url(self,
+                           item_identifier: str,
+                           url: str,
+                           vault: Optional[str] = None,
+                           decode: str = "utf-8"):
+        argv = self._item_edit_set_url_argv(
+            item_identifier, url, vault=vault)
+
+        output = self._item_edit_run(argv, decode)
         return output

@@ -1,6 +1,7 @@
 import shlex
-from typing import List, Optional, Union
+from typing import List, Optional, Sequence, Union
 
+from ._field_assignment import FIELD_TYPE_MAP, OPFieldTypeEnum
 from ._svc_account import OPSvcAcctSupportCode, OPSvcAcctSupportRegistry
 from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
@@ -355,6 +356,125 @@ class _OPArgv(list):
             item_create_args.extend(["--vault", vault])
         argv = cls.item_generic_argv(
             op_exe, "create", sub_cmd_args=item_create_args)
+        return argv
+
+    @classmethod
+    def item_edit_generic_argv(cls,
+                               op_exe: str,
+                               item_identifier: str,
+                               item_edit_args: Sequence[str],
+                               vault: Optional[str] = None):
+
+        # We have to type the item_edit_args param as a Sequence
+        # not a list because Lists are invariant, and mypy prevents
+        # us from passing in a subypte like List[SubTypeOfStr]
+        #
+        # However, mypy complains if we work with item_edit_args as if
+        # it's a list without first making it a list,
+        # hence the list(item_edit_args)
+        # https://mypy.readthedocs.io/en/latest/generics.html#variance-of-generic-types
+        # and also:
+        # https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)#Arrays
+        item_edit_args = [item_identifier] + list(item_edit_args)
+
+        if vault:
+            item_edit_args.extend(["--vault", vault])
+
+        argv = cls.item_generic_argv(
+            op_exe, "edit", sub_cmd_args=item_edit_args)
+        return argv
+
+    @classmethod
+    def item_edit_set_field_value(cls,
+                                  op_exe: str,
+                                  item_identifier: str,
+                                  field_type: OPFieldTypeEnum,
+                                  value: str,
+                                  field_label: str,
+                                  section_label: Optional[str] = None,
+                                  vault: Optional[str] = None):
+
+        field_type_cls = FIELD_TYPE_MAP[field_type]
+        # this is a hack because OPFieldAssignmentDelete doesn't
+        # accept a value arg, but the rest require it
+        if value is not None:
+            args = [field_label, value]
+        else:
+            args = [field_label]
+
+        field_assignment = field_type_cls(*args, section_label=section_label)
+
+        item_edit_args = [field_assignment]
+
+        argv = cls.item_edit_generic_argv(
+            op_exe, item_identifier, item_edit_args, vault=vault)
+        return argv
+
+    @classmethod
+    def item_edit_set_favorite(cls,
+                               op_exe: str,
+                               item_identifier: str,
+                               favorite: bool,
+                               vault: Optional[str] = None):
+        title_arg = "true" if favorite else "false"
+
+        item_edit_args = [f"--favorite={title_arg}"]
+
+        argv = cls.item_edit_generic_argv(
+            op_exe, item_identifier, item_edit_args, vault=vault)
+
+        return argv
+
+    @classmethod
+    def item_edit_generate_password_argv(cls,
+                                         op_exe,
+                                         item_identifier: str,
+                                         password_recipe: OPPasswordRecipe,
+                                         vault: Optional[str] = None):
+        item_edit_args = [f"--generate-password={password_recipe}"]
+
+        argv = cls.item_edit_generic_argv(
+            op_exe, item_identifier, item_edit_args, vault=vault)
+
+        return argv
+
+    @classmethod
+    def item_edit_set_tags(cls,
+                           op_exe: str,
+                           item_identifier: str,
+                           tags: List[str],
+                           vault: Optional[str] = None):
+
+        tag_arg = ",".join(tags)
+        item_edit_args = ["--tags", tag_arg]
+        argv = cls.item_edit_generic_argv(
+            op_exe, item_identifier, item_edit_args, vault=vault)
+
+        return argv
+
+    @classmethod
+    def item_edit_set_title(cls,
+                            op_exe: str,
+                            item_identifier: str,
+                            item_title: str,
+                            vault: Optional[str] = None):
+        item_edit_args = ["--title", f"{item_title}"]
+        argv = cls.item_edit_generic_argv(
+            op_exe, item_identifier, item_edit_args, vault=vault)
+
+        return argv
+
+    @classmethod
+    def item_edit_set_url(cls,
+                          op_exe: str,
+                          item_identifier: str,
+                          url: str,
+                          vault: Optional[str] = None):
+
+        item_edit_args = ["--url", f"{url}"]
+        argv = cls.item_edit_generic_argv(
+            op_exe, item_identifier, item_edit_args, vault=vault)
+
         return argv
 
     @classmethod

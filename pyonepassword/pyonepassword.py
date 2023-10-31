@@ -946,6 +946,72 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             create_field=True)
         return op_item
 
+    def item_edit_add_url_field(self,
+                                item_identifier: str,
+                                url: str,
+                                field_label: str,
+                                section_label: Optional[str] = None,
+                                vault: Optional[str] = None):
+        """
+        Add new URL field and optionally a new section to an item
+
+        NOTE: This method differs from item_edit_url(). This method adds a URL item field
+        whereas item_edit_url() sets the URL property, which is not a field at all, on a login item
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to edit
+        url: str
+            The URL value to set
+        field_label: str
+            The human readable label of the field to create
+        section_label: str, optional
+            If provided, the human readable section label the field is associated with.
+            It will be created if it doesn't exist
+        vault: str, optional
+            The name or ID of a vault containing the item to edit
+            Overrides the OP object's default vault, if set
+
+        Raises
+        ------
+        OPItemGetException
+            If the item lookup fails for any reason
+        OPFieldExistsException
+            If the field to be added already existss
+        OPItemEditException
+            If the item edit operation fails for any reason
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The edited version of the item
+
+        NOTE: an 'item_get()` operation first is performed in order to validate
+              the field name and, if provided, section name
+
+
+        NOTE: The following scenarios are an error
+            - An ambiguous existing field match:
+                one or more fields match the field label and no section label was specified
+            - An explicit existing field match:
+                one or more field/section pairings exist that match the field label & section label
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
+        """
+        password = RedactedString(url, unmask_len=0)
+        field_type = OPFieldTypeEnum.URL
+        op_item = self._item_edit_set_field(item_identifier,
+                                            field_type,
+                                            field_label,
+                                            section_label,
+                                            password,
+                                            vault,
+                                            password_downgrade=False,
+                                            create_field=True)
+        return op_item
+
     def item_edit_add_text_field(self,
                                  item_identifier: str,
                                  value: str,

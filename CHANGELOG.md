@@ -20,7 +20,7 @@ All notable changes to this project will be documented in this file.
   - `OP.item_edit_url()`
 
 - `OPAbstractItem.field_value_by_section_label()` as a replacement for poorly named `field_value_by_section_title()`
-- Support for `op` new `whoami` behvior version 2.20.0
+- Support for `op` new `whoami` behavior version 2.20.0
   - new `whoami` dict
   - On `OP()` initialization, accomodate `whoami` failure when the token hasn't been used recently
 
@@ -37,7 +37,7 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
-- Deprecated kwwargs to `OP()`:
+- Deprecated kwargs to `OP()`:
   - `use_existing_session` (replaced by `existing_auth`)
   - `account_shorthand` (replaced by `account`)
 - Deprecated exception `OPNotSignedInException` class

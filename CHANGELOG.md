@@ -4,49 +4,20 @@ All notable changes to this project will be documented in this file.
 
 ## [DEVELOPMENT] 2023-10-31
 
-### Removed
-
-- Deprecated kwwargs to `OP()`:
-  - `use_existing_session` (replaced by `existing_auth`)
-  - `account_shorthand` (replaced by `account`)
-- Deprecated exception `OPNotSignedInException` class
-  - replaced with `OPAuthenticationException`
-
-## [4.0.0b3] 2023-10-30
-
-### Added
-- Additional item editing API:
-  - `OP.item_edit_add_url_field()`
-
-### Documentation
-- Documented item editing in `docs/item-editing.md`
-
-## [4.0.0b2] 2023-10-20
-
-### Added
-- Additional item editing API:
-  - `OP.item_edit_add_password_field()`
-  - `OP.item_edit_delete_field()`
-
-## [4.0.0b1] 2023-10-12
-
-- Minor housekeeping updates
-- Finish removing Python 3.8 support
-
-
-## [4.0.0b0] 2023-10-11
-
 ### Added
 - Item editing:
-  - `OP.item_edit_generate_password()`
-  - `OP.item_edit_set_password()`
-  - `OP.item_edit_set_title()`
-  - `OP.item_edit_set_favorite()`
-  - `OP.item_edit_set_tags()`
-  - `OP.item_edit_set_url()`
-  - `OP.item_edit_set_text_field()`
+  - `OP.item_edit_add_password_field()`
+  - `OP.item_edit_add_url_field()`
   - `OP.item_edit_add_text_field()`
+  - `OP.item_edit_set_password()`
   - `OP.item_edit_set_url_field()`
+  - `OP.item_edit_set_text_field()`
+  - `OP.item_edit_delete_field()`
+  - `OP.item_edit_favorite()`
+  - `OP.item_edit_generate_password()`
+  - `OP.item_edit_tags()`
+  - `OP.item_edit_title()`
+  - `OP.item_edit_url()`
 
 - `OPAbstractItem.field_value_by_section_label()` as a replacement for poorly named `field_value_by_section_title()`
 - Support for `op` new `whoami` behvior version 2.20.0
@@ -57,16 +28,27 @@ All notable changes to this project will be documented in this file.
 - Removed Python 3.8 support
 - Added Python 3.12 support
 - Ensure all methods for section lookup by label raise `OPSectionNotFound` if no section is found matching the given label
-- Ensure all methods for field lookup by label rais `OPFieldNotFound` if no field is found matching the given label
+- Ensure all methods for field lookup by label raise `OPFieldNotFound` if no field is found matching the given label
 
 ### Deprecated
 
 - `OPAbstractItem.field_value_by_section_title()`
   - call `OPAbstractItem.field_value_by_section_label()` instead
+
+### Removed
+
+- Deprecated kwwargs to `OP()`:
+  - `use_existing_session` (replaced by `existing_auth`)
+  - `account_shorthand` (replaced by `account`)
+- Deprecated exception `OPNotSignedInException` class
+  - replaced with `OPAuthenticationException`
+
+### Documentation
+- Documented item editing in `docs/item-editing.md`
+
 ### Misc
 - Updated testing configuration in conjuncton with refactored `mock-op`
 - Add `FUNDING.yml`
-
 
 ## [3.12.1] 2023-06-26
 

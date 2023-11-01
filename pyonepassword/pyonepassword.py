@@ -1235,10 +1235,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return op_item
 
-    def item_edit_set_title(self,
-                            item_identifier: str,
-                            item_title: str,
-                            vault: Optional[str] = None):
+    def item_edit_title(self,
+                        item_identifier: str,
+                        item_title: str,
+                        vault: Optional[str] = None):
         """
         Assign a new title for an existing item
 
@@ -1269,9 +1269,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         """
         self.item_get(item_identifier,
                       vault=vault)
-        result_str = self._item_edit_set_title(item_identifier,
-                                               item_title,
-                                               vault=vault)
+        result_str = self._item_edit_title(item_identifier,
+                                           item_title,
+                                           vault=vault)
         op_item = OPItemFactory.op_item(result_str, generic_okay=True)
 
         return op_item

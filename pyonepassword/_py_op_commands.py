@@ -845,16 +845,16 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return item_edit_argv
 
-    def _item_edit_set_title_argv(self,
-                                  item_identifier: str,
-                                  item_title: str,
-                                  vault: Optional[str]):
+    def _item_edit_title_argv(self,
+                              item_identifier: str,
+                              item_title: str,
+                              vault: Optional[str]):
         vault_arg = vault if vault else self.vault
 
-        item_edit_argv = _OPArgv.item_edit_set_title(self.op_path,
-                                                     item_identifier,
-                                                     item_title,
-                                                     vault=vault_arg)
+        item_edit_argv = _OPArgv.item_edit_title(self.op_path,
+                                                 item_identifier,
+                                                 item_title,
+                                                 vault=vault_arg)
         return item_edit_argv
 
     def _item_edit_set_url_argv(self,
@@ -938,12 +938,12 @@ class _OPCommandInterface(_OPCLIExecute):
         output = self._item_edit_run(argv, decode)
         return output
 
-    def _item_edit_set_title(self,
-                             item_identifier: str,
-                             item_title: str,
-                             vault: Optional[str] = None,
-                             decode: str = "utf-8"):
-        argv = self._item_edit_set_title_argv(
+    def _item_edit_title(self,
+                         item_identifier: str,
+                         item_title: str,
+                         vault: Optional[str] = None,
+                         decode: str = "utf-8"):
+        argv = self._item_edit_title_argv(
             item_identifier, item_title, vault=vault)
 
         output = self._item_edit_run(argv, decode)

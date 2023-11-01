@@ -162,11 +162,11 @@ def test_item_edit_gen_password_020(signed_in_op: OP,
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
-def test_item_edit_set_title_030(signed_in_op: OP):
+def test_item_edit_title_030(signed_in_op: OP):
     """
-    Test: OP.item_edit_set_title()
+    Test: OP.item_edit_title()
         - Retrieve an item via OP.item_get() using the original title
-        - Call item_edit_set_title(), saving returned object
+        - Call item_edit_title(), saving returned object
         - Retreive the same item a second time using the new title
 
     Verify:
@@ -184,7 +184,7 @@ def test_item_edit_set_title_030(signed_in_op: OP):
 
     # sort of obvious since we retrieved using the old title, but for the sake of completeness
     assert item_get_1.title != item_name_new
-    edited_item = signed_in_op.item_edit_set_title(
+    edited_item = signed_in_op.item_edit_title(
         item_name, item_name_new, vault=vault)
 
     # state changed with item_edit above

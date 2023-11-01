@@ -453,11 +453,11 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_edit_set_title(cls,
-                            op_exe: str,
-                            item_identifier: str,
-                            item_title: str,
-                            vault: Optional[str] = None):
+    def item_edit_title(cls,
+                        op_exe: str,
+                        item_identifier: str,
+                        item_title: str,
+                        vault: Optional[str] = None):
         item_edit_args = ["--title", f"{item_title}"]
         argv = cls.item_edit_generic_argv(
             op_exe, item_identifier, item_edit_args, vault=vault)

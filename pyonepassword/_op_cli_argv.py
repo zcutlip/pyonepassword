@@ -411,11 +411,11 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_edit_set_favorite(cls,
-                               op_exe: str,
-                               item_identifier: str,
-                               favorite: bool,
-                               vault: Optional[str] = None):
+    def item_edit_favorite(cls,
+                           op_exe: str,
+                           item_identifier: str,
+                           favorite: bool,
+                           vault: Optional[str] = None):
         title_arg = "true" if favorite else "false"
 
         item_edit_args = [f"--favorite={title_arg}"]
@@ -439,11 +439,11 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_edit_set_tags(cls,
-                           op_exe: str,
-                           item_identifier: str,
-                           tags: List[str],
-                           vault: Optional[str] = None):
+    def item_edit_tags(cls,
+                       op_exe: str,
+                       item_identifier: str,
+                       tags: List[str],
+                       vault: Optional[str] = None):
 
         tag_arg = ",".join(tags)
         item_edit_args = ["--tags", tag_arg]
@@ -453,11 +453,11 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_edit_set_title(cls,
-                            op_exe: str,
-                            item_identifier: str,
-                            item_title: str,
-                            vault: Optional[str] = None):
+    def item_edit_title(cls,
+                        op_exe: str,
+                        item_identifier: str,
+                        item_title: str,
+                        vault: Optional[str] = None):
         item_edit_args = ["--title", f"{item_title}"]
         argv = cls.item_edit_generic_argv(
             op_exe, item_identifier, item_edit_args, vault=vault)
@@ -465,11 +465,11 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_edit_set_url(cls,
-                          op_exe: str,
-                          item_identifier: str,
-                          url: str,
-                          vault: Optional[str] = None):
+    def item_edit_url(cls,
+                      op_exe: str,
+                      item_identifier: str,
+                      url: str,
+                      vault: Optional[str] = None):
 
         item_edit_args = ["--url", f"{url}"]
         argv = cls.item_edit_generic_argv(

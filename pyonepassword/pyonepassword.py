@@ -122,391 +122,6 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                          existing_auth=existing_auth,
                          password_prompt=password_prompt)
 
-    def item_get(self, item_identifier, vault=None, include_archive=False, generic_okay=False, relaxed_validation=False) -> OPAbstractItem:
-        """
-        Get an 'item' object from a 1Password vault.
-        The returned object may be any of the item types extending OPAbstractItem.
-        These currently include:
-        - OPLoginItem
-        - OPCreditCardItem
-        - OPSecureNoteItem
-        - OPPasswordItem
-        - OPDocumentItem
-        - OPServerItem
-        - OPDatabaseItem
-
-        Note that getting a document item is not the same as getting the document itself. The
-        item only contains metadata about the document such as filename.
-
-        Parameters
-        ----------
-        item_identifier: str
-            Name or ID of the item to look up
-        vault: str, optional
-            The name or ID of a vault to override the object's default vault, by default None
-        include_archive: bool, optional
-            Include items in the Archive, by default False
-        generic_okay: bool, optional
-            Instantiate unknown item types as _OPGenericItem rather than raise OPUnknownItemException
-        relaxed_validation: bool, optional
-            Whether to enable relaxed item validation for this query, in order to parse non-conformant data
-            by default False
-        Note:
-            If a non-unique item identifier is provided (e.g., item name/title), and there
-            is more than one item that matches, OPItemGetException will be raised. Check the
-            error message in OPItemGetException.err_output for details
-
-        Raises
-        ------
-        OPItemGetException
-            If the lookup fails for any reason during command execution
-        OPInvalidItemException
-            If the item JSON fails to decode
-        OPUnknownItemTypeException
-            If the item object returned by 1Password isn't a known type and generic_okay is False
-        OPNotFoundException
-            If the 1Password command can't be found
-        Returns
-        -------
-        item: OPAbstractItem
-            An item object of one of the types listed above
-
-        Service Account Support
-        -----------------------
-        Supported
-          required keyword arguments: vault
-        """
-
-        output = self._item_get(item_identifier, vault=vault,
-                                decode="utf-8", include_archive=include_archive)
-        op_item = OPItemFactory.op_item(
-            output, generic_okay=generic_okay, relaxed_validation=relaxed_validation)
-        return op_item
-
-    def item_get_totp(self, item_identifier: str, vault=None) -> OPTOTPItem:
-        """
-        Get a TOTP code from the item specified by name or UUID.
-
-        Note: Items in the Archive are ignored by default. To get the TOTP for an
-        item in the Archive, specify the item by UUID.
-
-        Parameters
-        ----------
-        item_identifier: str
-            Name or ID of the item to look up
-        vault: str, optional
-            The name or ID of a vault to override the object's default vault
-
-        Note:
-            If a non-unique item identifier is provided (e.g., item name/title), and there
-            is more than one item that matches, OPItemGetException will be raised. Check the
-            error message in OPItemGetException.err_output for details
-
-        Raises
-        ------
-        OPItemGetException
-            If the lookup fails for any reason during command execution
-        OPNotFoundException
-            If the 1Password command can't be found
-
-        Returns
-        -------
-        totp_code: str
-            A string representing the TOTP code
-
-        Service Account Support
-        -----------------------
-        Supported
-          required keyword arguments: vault
-        """
-        output = self._item_get_totp(
-            item_identifier, vault=vault, decode="utf-8")
-        # strip newline
-        totp = OPTOTPItem(output)
-        return totp
-
-    def user_get(self, user_name_or_id: str) -> OPUser:
-        """
-        Return the details for the user specified by name or UUID.
-
-        Parameters
-        ----------
-        user_name_or_id: str
-            Name or ID of the user to look up
-        Raises
-        ------
-        OPUserGetException
-            If the lookup fails for any reason during command execution
-        OPNotFoundException
-            If the 1Password command can't be found
-
-        Returns
-        -------
-        user: OPuser
-            An object representing the details of the requested user
-
-        Service Account Support
-        -----------------------
-        Supported
-        """
-        user_json = self._user_get(user_name_or_id)
-        user = OPUser(user_json)
-        return user
-
-    def user_list(self, group_name_or_id=None, vault_name_or_id=None) -> OPUserDescriptorList:
-        """
-        Return a list of users in an account.
-
-        Parameters
-        ----------
-        group_name_or_id: str
-            Name or ID of a group to restrict user listing to
-        vault_name_or_id: str
-            Name or ID of a vault to restrict user listing to
-
-        Raises
-        ------
-        OPUserListException
-            If the user list operation for any reason during command execution
-        OPNotFoundException
-            If the 1Password command can't be found
-
-        Returns
-        -------
-        user: OPUserDescriptorList
-            An object representing a list of user descriptors
-
-        Service Account Support
-        -----------------------
-        Supported
-        """
-        user_list: Union[str, OPUserDescriptorList]
-
-        user_list = self._user_list(
-            group_name_or_id=group_name_or_id, vault=vault_name_or_id)
-        user_list = OPUserDescriptorList(user_list)
-        return user_list
-
-    def vault_get(self, vault_name_or_id: str) -> OPVault:
-        """
-        Return the details for the vault specified by name or UUID.
-
-        Parameters
-        ----------
-        vault_name_or_id: str
-            Name or UUID of the vault to look up
-
-        Raises
-        ------
-        OPVaultGetException
-            If the lookup fails for any reason during command execution
-        OPNotFoundException
-            If the 1Password command can't be found
-
-        Returns
-        -------
-        vault: OPVault
-            An object representing the details of the requested vault
-
-        Service Account Support
-        -----------------------
-        Supported
-            prohibited keyword arguments: group, user
-        """
-        vault_json = self._vault_get(vault_name_or_id, decode="utf-8")
-        vault = OPVault(vault_json)
-        return vault
-
-    def vault_list(self, group_name_or_id=None, user_name_or_id=None) -> OPVaultDescriptorList:
-        """
-        Return a list of vaults in an account.
-
-        Parameters
-        ----------
-        group_name_or_id: str
-            Name or ID of a group to restrict vault listing to
-        user_name_or_id: str
-            Name or ID of a user to restrict vault listing to
-
-        Raises
-        ------
-        OPVaultListException
-            If the vault list operation for any reason during command execution
-        OPNotFoundException
-            If the 1Password command can't be found
-
-        Returns
-        -------
-        user: OPVaultDescriptorList
-            An object representing a list of vault descriptors
-
-        Service Account Support
-        -----------------------
-        Supported
-        """
-        vault_list_json = self._vault_list(
-            group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
-        vault_list = OPVaultDescriptorList(vault_list_json)
-        return vault_list
-
-    def group_get(self, group_name_or_id: str) -> OPGroup:
-        """
-        Return the details for the group specified by name or UUID.
-
-        Parameters
-        ----------
-        group_name_or_id: str
-            Name or UUID of the group to look up
-
-        Raises
-        ------
-        OPGroupGetException
-            If the lookup fails for any reason during command execution
-        OPNotFoundException
-            If the 1Password command can't be found
-
-        Returns
-        -------
-        user: OPGroup
-            An object representing the details of the requested group
-
-        Service Account Support
-        -----------------------
-        Supported
-        """
-        group_json = self._group_get(group_name_or_id, decode="utf-8")
-        group = OPGroup(group_json)
-        return group
-
-    def group_list(self, user_name_or_id=None, vault=None) -> OPGroupDescriptorList:
-        """
-        Return a list of groups in an account.
-
-        Parameters
-        ----------
-        user_name_or_id: str
-            Name or ID of a user to restrict vault listing to
-        group_name_or_id: str
-            Name or ID of a group to restrict vault listing to
-
-        Raises
-        ------
-        OPGroupListException
-            If the group list operation for any reason during command execution
-        OPNotFoundException
-            If the 1Password command can't be found
-
-        Returns
-        -------
-        user: OPGroupDescriptorList
-            An object representing a list of vault descriptors
-
-        Service Account Support
-        -----------------------
-        Supported
-        """
-        group_list: Union[str, OPGroupDescriptorList]
-        group_list = self._group_list(
-            user_name_or_id=user_name_or_id, vault=vault)
-        group_list = OPGroupDescriptorList(group_list)
-        return group_list
-
-    def item_get_password(self, item_identifier, vault=None, relaxed_validation=False) -> str:
-        """
-        Get the value of the password field from the item specified by name or UUID.
-
-        Parameters
-        ----------
-        item_identifier: str
-            The item to look up
-        vault: str, optional
-            The name or ID of a vault to override the object's default vault
-        relaxed_validation: bool, optional
-            Whether to enable relaxed item validation for this query, in order to parse non-conformant data
-            by default False
-
-        Raises
-        ------
-        AttributeError
-            If the item doesn't have a 'fileName' attribute.
-        OPItemGetException
-            If the lookup fails for any reason during command execution
-        OPNotFoundException
-            If the 1Password command can't be found.
-
-        Returns
-        -------
-        password: str
-            Value of the item's 'password' attribute
-
-        Service Account Support
-        -----------------------
-        Supported
-          required keyword arguments: vault
-        """
-        item: OPAbstractItem
-        item = self.item_get(item_identifier, vault=vault,
-                             relaxed_validation=relaxed_validation)
-
-        # satisfy 'mypy': OPAbstractItem has no "password" attribute
-        if not hasattr(item, "password"):
-            raise OPInvalidItemException(
-                f"Item: {item.title} has no password attribute")
-        else:
-            password = item.password
-        return password
-
-    def item_get_filename(self, item_identifier, vault=None, include_archive=False, relaxed_validation=False):
-        """
-        Get the fileName attribute a document item from a 1Password vault by name or UUID.
-
-        Parameters
-        ----------
-        item_identifier: str
-            The item to look up
-        vault: str, optional
-            The name or ID of a vault to override the object's default vault
-        relaxed_validation: bool, optional
-            Whether to enable relaxed item validation for this query, in order to parse non-conformant data
-            by default False
-        Note:
-            If a non-unique item identifier is provided (e.g., item name/title), and there
-            is more than one item that matches, OPItemGetException will be raised. Check the
-            error message in OPItemGetException.err_output for details
-
-        Raises
-        ------
-        AttributeError
-            If the item doesn't have a 'fileName' attribute
-        OPItemGetException
-            If the lookup fails for any reason during command execution
-        OPNotFoundException
-            If the 1Password command can't be found
-
-        Returns
-        -------
-        file_name: str
-            Value of the item's 'fileName' attribute
-
-        Service Account Support
-        -----------------------
-        Supported
-          required keyword arguments: vault
-        """
-        item = self.item_get(item_identifier, vault=vault,
-                             include_archive=include_archive, relaxed_validation=relaxed_validation)
-
-        # raise AttributeError if item isn't a OPDocumentItem
-        # we have to raise it ourselves becuase mypy complains OPAbstractItem doesn't have
-        # '.file_name'
-        if hasattr(item, "file_name"):
-            file_name = item.file_name
-        else:
-            raise AttributeError(
-                f"{item.__class__.__name__} object has no attribute 'file_name'")
-
-        return file_name
-
     def document_get(self, document_name_or_id, vault=None, include_archive=False, relaxed_validation=False):
         """
         Download a document object from a 1Password vault by name or UUID.
@@ -613,68 +228,67 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return document_id
 
-    def item_list(self,
-                  categories: Optional[List[str]] = None,
-                  include_archive: bool = False,
-                  tags: Optional[List[str]] = None,
-                  title_glob: str = None,
-                  vault: str = None,
-                  generic_okay: bool = True) -> OPItemList:
+    def group_get(self, group_name_or_id: str) -> OPGroup:
         """
-        Return a list of items in an account.
+        Return the details for the group specified by name or UUID.
 
         Parameters
         ----------
-        categories: List[str], optional
-            A list of category names to restrict list to
-        include_archive: bool, optional
-            Include items in the Archive in the list
-        tags: List[str], optional
-            A list of tags to restrict list to
-        title_glob: str, optional
-            a shell-style glob pattern to match against item titles. If provided,
-            resulting list will include only matching items
-            by default None
-        vault: str, optional
-            The name or ID of a vault to override the object's default vault
-        generic_okay: bool, optional
-            Instantiate unknown item types as _OPGenericItem rather than raise OPUnknownItemException
+        group_name_or_id: str
+            Name or UUID of the group to look up
 
         Raises
         ------
-        OPItemListException
-            If the user list operation for any reason during command execution
-        OPUnknownItemTypeException
-            If thelist returned by 1Password contains one or more item descriptors
-            that aren't a known type and generic_okay is False
+        OPGroupGetException
+            If the lookup fails for any reason during command execution
         OPNotFoundException
             If the 1Password command can't be found
 
         Returns
         -------
-        user: OPUserDescriptorList
-            An object representing a list of user descriptors
+        user: OPGroup
+            An object representing the details of the requested group
 
         Service Account Support
         -----------------------
         Supported
         """
-        if tags is None:
-            tags = list()
-        if categories is None:
-            categories = list()
+        group_json = self._group_get(group_name_or_id, decode="utf-8")
+        group = OPGroup(group_json)
+        return group
 
-        item_list_json = self._item_list(
-            categories, include_archive, tags, vault)
-        item_list = OPItemList(item_list_json, generic_okay=generic_okay)
+    def group_list(self, user_name_or_id=None, vault=None) -> OPGroupDescriptorList:
+        """
+        Return a list of groups in an account.
 
-        if title_glob:
-            _list = []
-            for obj in item_list:
-                if fnmatch.fnmatch(obj.title, title_glob):
-                    _list.append(obj)
-            item_list = OPItemList(_list)
-        return item_list
+        Parameters
+        ----------
+        user_name_or_id: str
+            Name or ID of a user to restrict vault listing to
+        group_name_or_id: str
+            Name or ID of a group to restrict vault listing to
+
+        Raises
+        ------
+        OPGroupListException
+            If the group list operation for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        user: OPGroupDescriptorList
+            An object representing a list of vault descriptors
+
+        Service Account Support
+        -----------------------
+        Supported
+        """
+        group_list: Union[str, OPGroupDescriptorList]
+        group_list = self._group_list(
+            user_name_or_id=user_name_or_id, vault=vault)
+        group_list = OPGroupDescriptorList(group_list)
+        return group_list
 
     # TODO: Item creation is hard to test in an automated way since it results in changed
     #   state. There are operations during item creation that expect state to change from
@@ -733,151 +347,278 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         op_item = OPItemFactory.op_item(result_str)
         return op_item
 
-    def item_edit_set_password(self,
-                               item_identifier: str,
-                               password: str,
-                               field_label: str = "password",
-                               section_label: Optional[str] = None,
-                               insecure_operation: bool = False,
-                               vault: Optional[str] = None):
+    def login_item_create(self,
+                          title: str,
+                          username: str,
+                          password: Union[str, OPPasswordRecipe] = None,
+                          url: Optional[str] = None,
+                          url_label: str = "Website",
+                          tags: Optional[List[str]] = None,
+                          vault: str = None):  # pragma: no coverage
         """
-        Assign a new password for an existing item
+        Create a new login item in the authenticated 1Password account
 
-        SECURITY NOTE: This operation will include the provided password in cleartext as a command line argument
-        to the 'op' command. On most platforms, the arguments, including the password, will be visible to other
-        processes, including processes owned by other users
-        In order to use this operaton, this insecurity must be acknowledged by passing the insecure_operation=True kwarg
+        Parameters
+        ----------
+        Title : str
+            User viewable name of the login item to create
+        username : str
+            username string for the new login item
+        password : Union[str, OPPasswordRecipe], optional
+            May be one of:
+                - the literal password string to set for this login item
+                - a OPPasswordRecipe object that will be provided to '--generate-password='
+            If a password string is provided that password will be set for this login item
+            If an OPPasswordRecipe object is provided, it will ensure a well-formed password recipe string is provided to '--generate-password='
+        url: str, optional
+            If provided, set to the primary URL of the login item
+        url_label: str, optional
+            If provided and a URL is provided, this bcomes the primary URL's label
+        tags: List[str], optional
+            A list of tags to apply to the item when creating
+        vault: str, optional
+            The vault in which to create the new item
+
+        Raises
+        ------
+        OPInvalidItemException
+            - If new_item does not inherit from OPNewItemMixin
+            - if password_recipe is provided and new_item does not support passwords
+                (currently only Login and Password item types support passwords)
+        OPItemCreateException
+            If item creation fails for any reason during command execution
+
+        Returns
+        -------
+        login_item: OPLoginItem
+            The newly created login item object
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
+        """
+        if tags is None:
+            tags = list()
+        password_recipe = None
+
+        # if password is actually a password recipe,
+        # set passsword_recipe and set password to None
+        # that way we don't pass it into OPLoginItemTemplate
+        # and instead pass it to _item_create() so it gets used on the command line
+        if isinstance(password, OPPasswordRecipe):
+            password_recipe = password
+            password = None
+
+        url_obj = None
+        if url:
+            url_obj = OPLoginItemNewPrimaryURL(url, url_label)
+
+        new_item = OPLoginItemTemplate(
+            title, username, password=password, url=url_obj, tags=tags)
+
+        login_item = self.item_create(
+            new_item, password_recipe=password_recipe, vault=vault)
+        return login_item
+
+    def item_get(self, item_identifier, vault=None, include_archive=False, generic_okay=False, relaxed_validation=False) -> OPAbstractItem:
+        """
+        Get an 'item' object from a 1Password vault.
+        The returned object may be any of the item types extending OPAbstractItem.
+        These currently include:
+        - OPLoginItem
+        - OPCreditCardItem
+        - OPSecureNoteItem
+        - OPPasswordItem
+        - OPDocumentItem
+        - OPServerItem
+        - OPDatabaseItem
+
+        Note that getting a document item is not the same as getting the document itself. The
+        item only contains metadata about the document such as filename.
 
         Parameters
         ----------
         item_identifier: str
-            The item to edit
+            Name or ID of the item to look up
+        vault: str, optional
+            The name or ID of a vault to override the object's default vault, by default None
+        include_archive: bool, optional
+            Include items in the Archive, by default False
+        generic_okay: bool, optional
+            Instantiate unknown item types as _OPGenericItem rather than raise OPUnknownItemException
+        relaxed_validation: bool, optional
+            Whether to enable relaxed item validation for this query, in order to parse non-conformant data
+            by default False
+        Note:
+            If a non-unique item identifier is provided (e.g., item name/title), and there
+            is more than one item that matches, OPItemGetException will be raised. Check the
+            error message in OPItemGetException.err_output for details
+
+        Raises
+        ------
+        OPItemGetException
+            If the lookup fails for any reason during command execution
+        OPInvalidItemException
+            If the item JSON fails to decode
+        OPUnknownItemTypeException
+            If the item object returned by 1Password isn't a known type and generic_okay is False
+        OPNotFoundException
+            If the 1Password command can't be found
+        Returns
+        -------
+        item: OPAbstractItem
+            An item object of one of the types listed above
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
+        """
+
+        output = self._item_get(item_identifier, vault=vault,
+                                decode="utf-8", include_archive=include_archive)
+        op_item = OPItemFactory.op_item(
+            output, generic_okay=generic_okay, relaxed_validation=relaxed_validation)
+        return op_item
+
+    def item_get_totp(self, item_identifier: str, vault=None) -> OPTOTPItem:
+        """
+        Get a TOTP code from the item specified by name or UUID.
+
+        Note: Items in the Archive are ignored by default. To get the TOTP for an
+        item in the Archive, specify the item by UUID.
+
+        Parameters
+        ----------
+        item_identifier: str
+            Name or ID of the item to look up
+        vault: str, optional
+            The name or ID of a vault to override the object's default vault
+
+        Note:
+            If a non-unique item identifier is provided (e.g., item name/title), and there
+            is more than one item that matches, OPItemGetException will be raised. Check the
+            error message in OPItemGetException.err_output for details
+
+        Raises
+        ------
+        OPItemGetException
+            If the lookup fails for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        totp_code: str
+            A string representing the TOTP code
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
+        """
+        output = self._item_get_totp(
+            item_identifier, vault=vault, decode="utf-8")
+        # strip newline
+        totp = OPTOTPItem(output)
+        return totp
+
+    def item_get_password(self, item_identifier, vault=None, relaxed_validation=False) -> str:
+        """
+        Get the value of the password field from the item specified by name or UUID.
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to look up
+        vault: str, optional
+            The name or ID of a vault to override the object's default vault
+        relaxed_validation: bool, optional
+            Whether to enable relaxed item validation for this query, in order to parse non-conformant data
+            by default False
+
+        Raises
+        ------
+        AttributeError
+            If the item doesn't have a 'fileName' attribute.
+        OPItemGetException
+            If the lookup fails for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found.
+
+        Returns
+        -------
         password: str
-            The password value to set
-        field_label: str
-            The human readable label of the field to edit
-            by default "password"
-        section_label: str, optional
-            If provided, the human readable section label the field is associated with
-        insecure_operation: bool
-            Caller acknowledgement of the insecure nature of this operation
-            by default, False
-        vault: str, optional
-            The name or ID of a vault containing the item to edit
-            Overrides the OP object's default vault, if set
-
-        Raises
-        ------
-        OPItemGetException
-            If the item lookup fails for any reason
-        OPSectionNotFoundException
-            If a section label is specified but can't be looked up on the item object
-        OPFieldNotFoundException
-            If the field label can't be looked up on the item object
-        OPItemEditException
-            If the item edit operation fails for any reason
-        OPInsecureOperationException
-            If the caller does not pass insecure_operation=True, failing to acknowledge the
-            insecure nature of this operation
-        Returns
-        -------
-        op_item: OPAbstractItem
-            The edited version of the item
-
-        Note: an 'item_get()` operation first is performed in order to validate
-              the field name and, if provided, section name
+            Value of the item's 'password' attribute
 
         Service Account Support
         -----------------------
         Supported
           required keyword arguments: vault
         """
-        if not insecure_operation:
-            msg = "Password assignment via 'op item edit' is inherently insecure. Pass 'insecure_operation=True' to override. For more information, see https://developer.1password.com/docs/cli/reference/management-commands/item#item-edit"
-            self.logger.fatal(msg)
-            raise OPInsecureOperationException(msg)
+        item: OPAbstractItem
+        item = self.item_get(item_identifier, vault=vault,
+                             relaxed_validation=relaxed_validation)
 
-        # TODO: look up item and validate section and field
-        password = RedactedString(password, unmask_len=0)
-        field_type = OPFieldTypeEnum.PASSWORD
-        op_item = self._item_edit_set_field(item_identifier,
-                                            field_type,
-                                            field_label,
-                                            section_label,
-                                            password,
-                                            vault,
-                                            password_downgrade=False,
-                                            create_field=False)
-        return op_item
+        # satisfy 'mypy': OPAbstractItem has no "password" attribute
+        if not hasattr(item, "password"):
+            raise OPInvalidItemException(
+                f"Item: {item.title} has no password attribute")
+        else:
+            password = item.password
+        return password
 
-    def item_edit_set_text_field(self,
-                                 item_identifier: str,
-                                 value: str,
-                                 field_label: str,
-                                 section_label: Optional[str] = None,
-                                 vault: Optional[str] = None,
-                                 password_downgrade: bool = False):
+    def item_get_filename(self, item_identifier, vault=None, include_archive=False, relaxed_validation=False):
         """
-        Set a new value on an existing item's text field
+        Get the fileName attribute a document item from a 1Password vault by name or UUID.
 
         Parameters
         ----------
         item_identifier: str
-            The item to edit
-        value: str
-            The text value to set
-        field_label: str
-            The human readable label of the field to edit
-        section_label: str, optional
-            If provided, the human readable section label the field is associated with
+            The item to look up
         vault: str, optional
-            The name or ID of a vault containing the item to edit
-            Overrides the OP object's default vault, if set
-        password_downgrade: bool
-            Whether and existing concealed (i.e., password) field should be downgraded to a non-password
-            field.
-            If the existing field IS concealed and this value is false, an exception will be raised
+            The name or ID of a vault to override the object's default vault
+        relaxed_validation: bool, optional
+            Whether to enable relaxed item validation for this query, in order to parse non-conformant data
+            by default False
+        Note:
+            If a non-unique item identifier is provided (e.g., item name/title), and there
+            is more than one item that matches, OPItemGetException will be raised. Check the
+            error message in OPItemGetException.err_output for details
 
         Raises
         ------
+        AttributeError
+            If the item doesn't have a 'fileName' attribute
         OPItemGetException
-            If the item lookup fails for any reason
-        OPSectionNotFoundException
-            If a section label is specified but can't be looked up on the item object
-        OPFieldNotFoundException
-            If the field label can't be looked up on the item object
-        OPPasswordFieldDowngradeException
-            If the field is a concealed field and password_downgrade is False
-        OPItemEditException
-            If the item edit operation fails for any reason
+            If the lookup fails for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
         Returns
         -------
-        op_item: OPAbstractItem
-            The edited version of the item
-
-        Note: an 'item_get()` operation first is performed in order to validate
-              the field name and, if provided, section name
+        file_name: str
+            Value of the item's 'fileName' attribute
 
         Service Account Support
         -----------------------
         Supported
           required keyword arguments: vault
         """
+        item = self.item_get(item_identifier, vault=vault,
+                             include_archive=include_archive, relaxed_validation=relaxed_validation)
 
-        # If section or field not found, will raise
-        # OPSectionNotFoundException, or
-        # OPFieldNotFoundException
+        # raise AttributeError if item isn't a OPDocumentItem
+        # we have to raise it ourselves becuase mypy complains OPAbstractItem doesn't have
+        # '.file_name'
+        if hasattr(item, "file_name"):
+            file_name = item.file_name
+        else:
+            raise AttributeError(
+                f"{item.__class__.__name__} object has no attribute 'file_name'")
 
-        field_type = OPFieldTypeEnum.TEXT
-        op_item = self._item_edit_set_field(item_identifier,
-                                            field_type,
-                                            field_label,
-                                            section_label,
-                                            value,
-                                            vault,
-                                            password_downgrade,
-                                            create_field=False)
-        return op_item
+        return file_name
 
     def item_edit_add_password_field(self,
                                      item_identifier: str,
@@ -1070,6 +811,83 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             create_field=True)
         return op_item
 
+    def item_edit_set_password(self,
+                               item_identifier: str,
+                               password: str,
+                               field_label: str = "password",
+                               section_label: Optional[str] = None,
+                               insecure_operation: bool = False,
+                               vault: Optional[str] = None):
+        """
+        Assign a new password for an existing item
+
+        SECURITY NOTE: This operation will include the provided password in cleartext as a command line argument
+        to the 'op' command. On most platforms, the arguments, including the password, will be visible to other
+        processes, including processes owned by other users
+        In order to use this operaton, this insecurity must be acknowledged by passing the insecure_operation=True kwarg
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to edit
+        password: str
+            The password value to set
+        field_label: str
+            The human readable label of the field to edit
+            by default "password"
+        section_label: str, optional
+            If provided, the human readable section label the field is associated with
+        insecure_operation: bool
+            Caller acknowledgement of the insecure nature of this operation
+            by default, False
+        vault: str, optional
+            The name or ID of a vault containing the item to edit
+            Overrides the OP object's default vault, if set
+
+        Raises
+        ------
+        OPItemGetException
+            If the item lookup fails for any reason
+        OPSectionNotFoundException
+            If a section label is specified but can't be looked up on the item object
+        OPFieldNotFoundException
+            If the field label can't be looked up on the item object
+        OPItemEditException
+            If the item edit operation fails for any reason
+        OPInsecureOperationException
+            If the caller does not pass insecure_operation=True, failing to acknowledge the
+            insecure nature of this operation
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The edited version of the item
+
+        Note: an 'item_get()` operation first is performed in order to validate
+              the field name and, if provided, section name
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
+        """
+        if not insecure_operation:
+            msg = "Password assignment via 'op item edit' is inherently insecure. Pass 'insecure_operation=True' to override. For more information, see https://developer.1password.com/docs/cli/reference/management-commands/item#item-edit"
+            self.logger.fatal(msg)
+            raise OPInsecureOperationException(msg)
+
+        # TODO: look up item and validate section and field
+        password = RedactedString(password, unmask_len=0)
+        field_type = OPFieldTypeEnum.PASSWORD
+        op_item = self._item_edit_set_field(item_identifier,
+                                            field_type,
+                                            field_label,
+                                            section_label,
+                                            password,
+                                            vault,
+                                            password_downgrade=False,
+                                            create_field=False)
+        return op_item
+
     def item_edit_set_url_field(self,
                                 item_identifier: str,
                                 url: str,
@@ -1147,6 +965,75 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             create_field=False)
         return op_item
 
+    def item_edit_set_text_field(self,
+                                 item_identifier: str,
+                                 value: str,
+                                 field_label: str,
+                                 section_label: Optional[str] = None,
+                                 vault: Optional[str] = None,
+                                 password_downgrade: bool = False):
+        """
+        Set a new value on an existing item's text field
+
+        Parameters
+        ----------
+        item_identifier: str
+            The item to edit
+        value: str
+            The text value to set
+        field_label: str
+            The human readable label of the field to edit
+        section_label: str, optional
+            If provided, the human readable section label the field is associated with
+        vault: str, optional
+            The name or ID of a vault containing the item to edit
+            Overrides the OP object's default vault, if set
+        password_downgrade: bool
+            Whether and existing concealed (i.e., password) field should be downgraded to a non-password
+            field.
+            If the existing field IS concealed and this value is false, an exception will be raised
+
+        Raises
+        ------
+        OPItemGetException
+            If the item lookup fails for any reason
+        OPSectionNotFoundException
+            If a section label is specified but can't be looked up on the item object
+        OPFieldNotFoundException
+            If the field label can't be looked up on the item object
+        OPPasswordFieldDowngradeException
+            If the field is a concealed field and password_downgrade is False
+        OPItemEditException
+            If the item edit operation fails for any reason
+        Returns
+        -------
+        op_item: OPAbstractItem
+            The edited version of the item
+
+        Note: an 'item_get()` operation first is performed in order to validate
+              the field name and, if provided, section name
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
+        """
+
+        # If section or field not found, will raise
+        # OPSectionNotFoundException, or
+        # OPFieldNotFoundException
+
+        field_type = OPFieldTypeEnum.TEXT
+        op_item = self._item_edit_set_field(item_identifier,
+                                            field_type,
+                                            field_label,
+                                            section_label,
+                                            value,
+                                            vault,
+                                            password_downgrade,
+                                            create_field=False)
+        return op_item
+
     def item_edit_delete_field(self,
                                item_identifier: str,
                                field_label: str,
@@ -1212,10 +1099,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             create_field=False)
         return op_item
 
-    def item_edit_set_favorite(self,
-                               item_identifier: str,
-                               favorite: bool,
-                               vault: Optional[str] = None):
+    def item_edit_favorite(self,
+                           item_identifier: str,
+                           favorite: bool,
+                           vault: Optional[str] = None):
         """
         Set or unset an item's 'favorite' status
 
@@ -1243,9 +1130,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -----------------------
         Supported
         """
-        result_str = self._item_edit_set_favorite(item_identifier,
-                                                  favorite,
-                                                  vault=vault)
+        result_str = self._item_edit_favorite(item_identifier,
+                                              favorite,
+                                              vault=vault)
         op_item = OPItemFactory.op_item(result_str, generic_okay=True)
 
         return op_item
@@ -1288,11 +1175,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         op_item = OPItemFactory.op_item(result_str, generic_okay=True)
         return op_item
 
-    def item_edit_set_tags(self,
-                           item_identifier: str,
-                           tags: List[str],
-                           append_tags: bool = False,
-                           vault: Optional[str] = None) -> OPAbstractItem:
+    def item_edit_tags(self,
+                       item_identifier: str,
+                       tags: List[str],
+                       append_tags: bool = False,
+                       vault: Optional[str] = None) -> OPAbstractItem:
         """
         Set or unset an item's tags
 
@@ -1341,17 +1228,17 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         else:
             item = None
 
-        result_str = self._item_edit_set_tags(item_identifier,
-                                              tags,
-                                              vault=vault)
+        result_str = self._item_edit_tags(item_identifier,
+                                          tags,
+                                          vault=vault)
         op_item = OPItemFactory.op_item(result_str, generic_okay=True)
 
         return op_item
 
-    def item_edit_set_title(self,
-                            item_identifier: str,
-                            item_title: str,
-                            vault: Optional[str] = None):
+    def item_edit_title(self,
+                        item_identifier: str,
+                        item_title: str,
+                        vault: Optional[str] = None):
         """
         Assign a new title for an existing item
 
@@ -1382,17 +1269,17 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         """
         self.item_get(item_identifier,
                       vault=vault)
-        result_str = self._item_edit_set_title(item_identifier,
-                                               item_title,
-                                               vault=vault)
+        result_str = self._item_edit_title(item_identifier,
+                                           item_title,
+                                           vault=vault)
         op_item = OPItemFactory.op_item(result_str, generic_okay=True)
 
         return op_item
 
-    def item_edit_set_url(self,
-                          item_identifier: str,
-                          url: str,
-                          vault: Optional[str] = None):
+    def item_edit_url(self,
+                      item_identifier: str,
+                      url: str,
+                      vault: Optional[str] = None):
         """
         Set the URL associated with an existing item
 
@@ -1423,86 +1310,12 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -----------------------
         Supported
         """
-        result_str = self._item_edit_set_url(item_identifier,
-                                             url,
-                                             vault=vault)
+        result_str = self._item_edit_url(item_identifier,
+                                         url,
+                                         vault=vault)
         op_item = OPItemFactory.op_item(result_str, generic_okay=True)
 
         return op_item
-
-    def login_item_create(self,
-                          title: str,
-                          username: str,
-                          password: Union[str, OPPasswordRecipe] = None,
-                          url: Optional[str] = None,
-                          url_label: str = "Website",
-                          tags: Optional[List[str]] = None,
-                          vault: str = None):  # pragma: no coverage
-        """
-        Create a new login item in the authenticated 1Password account
-
-        Parameters
-        ----------
-        Title : str
-            User viewable name of the login item to create
-        username : str
-            username string for the new login item
-        password : Union[str, OPPasswordRecipe], optional
-            May be one of:
-                - the literal password string to set for this login item
-                - a OPPasswordRecipe object that will be provided to '--generate-password='
-            If a password string is provided that password will be set for this login item
-            If an OPPasswordRecipe object is provided, it will ensure a well-formed password recipe string is provided to '--generate-password='
-        url: str, optional
-            If provided, set to the primary URL of the login item
-        url_label: str, optional
-            If provided and a URL is provided, this bcomes the primary URL's label
-        tags: List[str], optional
-            A list of tags to apply to the item when creating
-        vault: str, optional
-            The vault in which to create the new item
-
-        Raises
-        ------
-        OPInvalidItemException
-            - If new_item does not inherit from OPNewItemMixin
-            - if password_recipe is provided and new_item does not support passwords
-                (currently only Login and Password item types support passwords)
-        OPItemCreateException
-            If item creation fails for any reason during command execution
-
-        Returns
-        -------
-        login_item: OPLoginItem
-            The newly created login item object
-
-        Service Account Support
-        -----------------------
-        Supported
-          required keyword arguments: vault
-        """
-        if tags is None:
-            tags = list()
-        password_recipe = None
-
-        # if password is actually a password recipe,
-        # set passsword_recipe and set password to None
-        # that way we don't pass it into OPLoginItemTemplate
-        # and instead pass it to _item_create() so it gets used on the command line
-        if isinstance(password, OPPasswordRecipe):
-            password_recipe = password
-            password = None
-
-        url_obj = None
-        if url:
-            url_obj = OPLoginItemNewPrimaryURL(url, url_label)
-
-        new_item = OPLoginItemTemplate(
-            title, username, password=password, url=url_obj, tags=tags)
-
-        login_item = self.item_create(
-            new_item, password_recipe=password_recipe, vault=vault)
-        return login_item
 
     def item_delete(self, item_identifier: str, vault: Optional[str] = None, archive: bool = False, relaxed_validation=False) -> str:
         """
@@ -1660,6 +1473,193 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             deleted_items.extend(batch)
 
         return deleted_items
+
+    def item_list(self,
+                  categories: Optional[List[str]] = None,
+                  include_archive: bool = False,
+                  tags: Optional[List[str]] = None,
+                  title_glob: str = None,
+                  vault: str = None,
+                  generic_okay: bool = True) -> OPItemList:
+        """
+        Return a list of items in an account.
+
+        Parameters
+        ----------
+        categories: List[str], optional
+            A list of category names to restrict list to
+        include_archive: bool, optional
+            Include items in the Archive in the list
+        tags: List[str], optional
+            A list of tags to restrict list to
+        title_glob: str, optional
+            a shell-style glob pattern to match against item titles. If provided,
+            resulting list will include only matching items
+            by default None
+        vault: str, optional
+            The name or ID of a vault to override the object's default vault
+        generic_okay: bool, optional
+            Instantiate unknown item types as _OPGenericItem rather than raise OPUnknownItemException
+
+        Raises
+        ------
+        OPItemListException
+            If the user list operation for any reason during command execution
+        OPUnknownItemTypeException
+            If thelist returned by 1Password contains one or more item descriptors
+            that aren't a known type and generic_okay is False
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        user: OPUserDescriptorList
+            An object representing a list of user descriptors
+
+        Service Account Support
+        -----------------------
+        Supported
+        """
+        if tags is None:
+            tags = list()
+        if categories is None:
+            categories = list()
+
+        item_list_json = self._item_list(
+            categories, include_archive, tags, vault)
+        item_list = OPItemList(item_list_json, generic_okay=generic_okay)
+
+        if title_glob:
+            _list = []
+            for obj in item_list:
+                if fnmatch.fnmatch(obj.title, title_glob):
+                    _list.append(obj)
+            item_list = OPItemList(_list)
+        return item_list
+
+    def user_get(self, user_name_or_id: str) -> OPUser:
+        """
+        Return the details for the user specified by name or UUID.
+
+        Parameters
+        ----------
+        user_name_or_id: str
+            Name or ID of the user to look up
+        Raises
+        ------
+        OPUserGetException
+            If the lookup fails for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        user: OPuser
+            An object representing the details of the requested user
+
+        Service Account Support
+        -----------------------
+        Supported
+        """
+        user_json = self._user_get(user_name_or_id)
+        user = OPUser(user_json)
+        return user
+
+    def user_list(self, group_name_or_id=None, vault_name_or_id=None) -> OPUserDescriptorList:
+        """
+        Return a list of users in an account.
+
+        Parameters
+        ----------
+        group_name_or_id: str
+            Name or ID of a group to restrict user listing to
+        vault_name_or_id: str
+            Name or ID of a vault to restrict user listing to
+
+        Raises
+        ------
+        OPUserListException
+            If the user list operation for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        user: OPUserDescriptorList
+            An object representing a list of user descriptors
+
+        Service Account Support
+        -----------------------
+        Supported
+        """
+        user_list: Union[str, OPUserDescriptorList]
+
+        user_list = self._user_list(
+            group_name_or_id=group_name_or_id, vault=vault_name_or_id)
+        user_list = OPUserDescriptorList(user_list)
+        return user_list
+
+    def vault_get(self, vault_name_or_id: str) -> OPVault:
+        """
+        Return the details for the vault specified by name or UUID.
+
+        Parameters
+        ----------
+        vault_name_or_id: str
+            Name or UUID of the vault to look up
+
+        Raises
+        ------
+        OPVaultGetException
+            If the lookup fails for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        vault: OPVault
+            An object representing the details of the requested vault
+
+        Service Account Support
+        -----------------------
+        Supported
+            prohibited keyword arguments: group, user
+        """
+        vault_json = self._vault_get(vault_name_or_id, decode="utf-8")
+        vault = OPVault(vault_json)
+        return vault
+
+    def vault_list(self, group_name_or_id=None, user_name_or_id=None) -> OPVaultDescriptorList:
+        """
+        Return a list of vaults in an account.
+
+        Parameters
+        ----------
+        group_name_or_id: str
+            Name or ID of a group to restrict vault listing to
+        user_name_or_id: str
+            Name or ID of a user to restrict vault listing to
+
+        Raises
+        ------
+        OPVaultListException
+            If the vault list operation for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        user: OPVaultDescriptorList
+            An object representing a list of vault descriptors
+
+        Service Account Support
+        -----------------------
+        Supported
+        """
+        vault_list_json = self._vault_list(
+            group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
+        vault_list = OPVaultDescriptorList(vault_list_json)
+        return vault_list
 
     def signed_in_accounts(self, decode="utf-8") -> OPAccountList:
         """

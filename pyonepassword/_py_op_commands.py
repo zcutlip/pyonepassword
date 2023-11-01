@@ -808,16 +808,16 @@ class _OPCommandInterface(_OPCLIExecute):
                                                            vault=vault_arg)
         return item_edit_argv
 
-    def _item_edit_set_favorite_argv(self,
-                                     item_identifier: str,
-                                     favorite: bool,
-                                     vault: Optional[str]):
+    def _item_edit_favorite_argv(self,
+                                 item_identifier: str,
+                                 favorite: bool,
+                                 vault: Optional[str]):
         vault_arg = vault if vault else self.vault
 
-        item_edit_argv = _OPArgv.item_edit_set_favorite(self.op_path,
-                                                        item_identifier,
-                                                        favorite,
-                                                        vault=vault_arg)
+        item_edit_argv = _OPArgv.item_edit_favorite(self.op_path,
+                                                    item_identifier,
+                                                    favorite,
+                                                    vault=vault_arg)
         return item_edit_argv
 
     def _item_edit_generate_password_argv(self,
@@ -832,41 +832,41 @@ class _OPCommandInterface(_OPCLIExecute):
                                                                   vault=vault_arg)
         return item_edit_argv
 
-    def _item_edit_set_tags_argv(self,
-                                 item_identifier: str,
-                                 tags: List[str],
-                                 vault: Optional[str]):
+    def _item_edit_tags_argv(self,
+                             item_identifier: str,
+                             tags: List[str],
+                             vault: Optional[str]):
         vault_arg = vault if vault else self.vault
 
-        item_edit_argv = _OPArgv.item_edit_set_tags(self.op_path,
-                                                    item_identifier,
-                                                    tags,
-                                                    vault=vault_arg)
+        item_edit_argv = _OPArgv.item_edit_tags(self.op_path,
+                                                item_identifier,
+                                                tags,
+                                                vault=vault_arg)
 
         return item_edit_argv
 
-    def _item_edit_set_title_argv(self,
-                                  item_identifier: str,
-                                  item_title: str,
-                                  vault: Optional[str]):
+    def _item_edit_title_argv(self,
+                              item_identifier: str,
+                              item_title: str,
+                              vault: Optional[str]):
         vault_arg = vault if vault else self.vault
 
-        item_edit_argv = _OPArgv.item_edit_set_title(self.op_path,
-                                                     item_identifier,
-                                                     item_title,
-                                                     vault=vault_arg)
+        item_edit_argv = _OPArgv.item_edit_title(self.op_path,
+                                                 item_identifier,
+                                                 item_title,
+                                                 vault=vault_arg)
         return item_edit_argv
 
-    def _item_edit_set_url_argv(self,
-                                item_identifier: str,
-                                url: str,
-                                vault: Optional[str]):
+    def _item_edit_url_argv(self,
+                            item_identifier: str,
+                            url: str,
+                            vault: Optional[str]):
         vault_arg = vault if vault else self.vault
 
-        item_edit_argv = _OPArgv.item_edit_set_url(self.op_path,
-                                                   item_identifier,
-                                                   url,
-                                                   vault=vault_arg)
+        item_edit_argv = _OPArgv.item_edit_url(self.op_path,
+                                               item_identifier,
+                                               url,
+                                               vault=vault_arg)
         return item_edit_argv
 
     def _item_create(self, item, vault, password_recipe, decode="utf-8"):
@@ -905,12 +905,12 @@ class _OPCommandInterface(_OPCLIExecute):
         output = self._item_edit_run(argv, decode)
         return output
 
-    def _item_edit_set_favorite(self,
-                                item_identifier: str,
-                                favorite: bool,
-                                vault: Optional[str] = None,
-                                decode: str = "utf-8"):
-        argv = self._item_edit_set_favorite_argv(
+    def _item_edit_favorite(self,
+                            item_identifier: str,
+                            favorite: bool,
+                            vault: Optional[str] = None,
+                            decode: str = "utf-8"):
+        argv = self._item_edit_favorite_argv(
             item_identifier, favorite, vault=vault)
 
         output = self._item_edit_run(argv, decode)
@@ -927,34 +927,34 @@ class _OPCommandInterface(_OPCLIExecute):
         output = self._item_edit_run(argv, decode)
         return output
 
-    def _item_edit_set_tags(self,
-                            item_identifier: str,
-                            tags: List[str],
-                            vault: Optional[str] = None,
-                            decode: str = "utf-8"):
-        argv = self._item_edit_set_tags_argv(
+    def _item_edit_tags(self,
+                        item_identifier: str,
+                        tags: List[str],
+                        vault: Optional[str] = None,
+                        decode: str = "utf-8"):
+        argv = self._item_edit_tags_argv(
             item_identifier, tags, vault=vault)
 
         output = self._item_edit_run(argv, decode)
         return output
 
-    def _item_edit_set_title(self,
-                             item_identifier: str,
-                             item_title: str,
-                             vault: Optional[str] = None,
-                             decode: str = "utf-8"):
-        argv = self._item_edit_set_title_argv(
+    def _item_edit_title(self,
+                         item_identifier: str,
+                         item_title: str,
+                         vault: Optional[str] = None,
+                         decode: str = "utf-8"):
+        argv = self._item_edit_title_argv(
             item_identifier, item_title, vault=vault)
 
         output = self._item_edit_run(argv, decode)
         return output
 
-    def _item_edit_set_url(self,
-                           item_identifier: str,
-                           url: str,
-                           vault: Optional[str] = None,
-                           decode: str = "utf-8"):
-        argv = self._item_edit_set_url_argv(
+    def _item_edit_url(self,
+                       item_identifier: str,
+                       url: str,
+                       vault: Optional[str] = None,
+                       decode: str = "utf-8"):
+        argv = self._item_edit_url_argv(
             item_identifier, url, vault=vault)
 
         output = self._item_edit_run(argv, decode)

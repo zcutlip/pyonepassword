@@ -11,7 +11,7 @@ The supported operations break down into two groups: operations that work with a
 
 The following item editing methods do not operate on arbitrary sections and fields:
 
-- `OP.item_edit_set_favorite()`
+- `OP.item_edit_favorite()`
 - `OP.item_edit_generate_password()`
 - `OP.item_edit_set_title()`
 - `OP.item_edit_set_tags()`

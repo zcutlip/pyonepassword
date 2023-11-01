@@ -411,11 +411,11 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_edit_set_favorite(cls,
-                               op_exe: str,
-                               item_identifier: str,
-                               favorite: bool,
-                               vault: Optional[str] = None):
+    def item_edit_favorite(cls,
+                           op_exe: str,
+                           item_identifier: str,
+                           favorite: bool,
+                           vault: Optional[str] = None):
         title_arg = "true" if favorite else "false"
 
         item_edit_args = [f"--favorite={title_arg}"]

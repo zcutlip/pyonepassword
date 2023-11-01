@@ -1099,10 +1099,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             create_field=False)
         return op_item
 
-    def item_edit_set_favorite(self,
-                               item_identifier: str,
-                               favorite: bool,
-                               vault: Optional[str] = None):
+    def item_edit_favorite(self,
+                           item_identifier: str,
+                           favorite: bool,
+                           vault: Optional[str] = None):
         """
         Set or unset an item's 'favorite' status
 
@@ -1130,9 +1130,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -----------------------
         Supported
         """
-        result_str = self._item_edit_set_favorite(item_identifier,
-                                                  favorite,
-                                                  vault=vault)
+        result_str = self._item_edit_favorite(item_identifier,
+                                              favorite,
+                                              vault=vault)
         op_item = OPItemFactory.op_item(result_str, generic_okay=True)
 
         return op_item

@@ -196,11 +196,11 @@ def test_item_edit_set_title_030(signed_in_op: OP):
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
-def test_item_edit_set_favorite_040(signed_in_op: OP):
+def test_item_edit_favorite_040(signed_in_op: OP):
     """
-    Test: OP.item_edit_set_favorite() setting favorite to True
+    Test: OP.item_edit_favorite() setting favorite to True
         - Retrieve an item via OP.item_get()
-        - Call item_edit_set_favorite(), saving returned object
+        - Call item_edit_favorite(), saving returned object
         - Retreive the same item a second time
 
     Verify:
@@ -217,7 +217,7 @@ def test_item_edit_set_favorite_040(signed_in_op: OP):
 
     assert item_get_1.favorite is False
 
-    edited_item = signed_in_op.item_edit_set_favorite(
+    edited_item = signed_in_op.item_edit_favorite(
         item_name, True, vault=vault)
 
     # state changed with item_edit above
@@ -229,11 +229,11 @@ def test_item_edit_set_favorite_040(signed_in_op: OP):
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
-def test_item_edit_set_favorite_050(signed_in_op: OP):
+def test_item_edit_favorite_050(signed_in_op: OP):
     """
-    Test: OP.item_edit_set_favorite() setting favorite to False
+    Test: OP.item_edit_favorite() setting favorite to False
         - Retrieve an item via OP.item_get()
-        - Call item_edit_set_favorite(), saving returned object
+        - Call item_edit_favorite(), saving returned object
         - Retreive the same item a second time
 
     Verify:
@@ -250,7 +250,7 @@ def test_item_edit_set_favorite_050(signed_in_op: OP):
 
     assert item_get_1.favorite is True
 
-    edited_item = signed_in_op.item_edit_set_favorite(
+    edited_item = signed_in_op.item_edit_favorite(
         item_name, False, vault=vault)
 
     # state changed with item_edit above

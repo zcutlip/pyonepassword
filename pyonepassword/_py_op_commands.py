@@ -808,16 +808,16 @@ class _OPCommandInterface(_OPCLIExecute):
                                                            vault=vault_arg)
         return item_edit_argv
 
-    def _item_edit_set_favorite_argv(self,
-                                     item_identifier: str,
-                                     favorite: bool,
-                                     vault: Optional[str]):
+    def _item_edit_favorite_argv(self,
+                                 item_identifier: str,
+                                 favorite: bool,
+                                 vault: Optional[str]):
         vault_arg = vault if vault else self.vault
 
-        item_edit_argv = _OPArgv.item_edit_set_favorite(self.op_path,
-                                                        item_identifier,
-                                                        favorite,
-                                                        vault=vault_arg)
+        item_edit_argv = _OPArgv.item_edit_favorite(self.op_path,
+                                                    item_identifier,
+                                                    favorite,
+                                                    vault=vault_arg)
         return item_edit_argv
 
     def _item_edit_generate_password_argv(self,
@@ -905,12 +905,12 @@ class _OPCommandInterface(_OPCLIExecute):
         output = self._item_edit_run(argv, decode)
         return output
 
-    def _item_edit_set_favorite(self,
-                                item_identifier: str,
-                                favorite: bool,
-                                vault: Optional[str] = None,
-                                decode: str = "utf-8"):
-        argv = self._item_edit_set_favorite_argv(
+    def _item_edit_favorite(self,
+                            item_identifier: str,
+                            favorite: bool,
+                            vault: Optional[str] = None,
+                            decode: str = "utf-8"):
+        argv = self._item_edit_favorite_argv(
             item_identifier, favorite, vault=vault)
 
         output = self._item_edit_run(argv, decode)

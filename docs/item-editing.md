@@ -14,7 +14,7 @@ The following item editing methods do not operate on arbitrary sections and fiel
 - `OP.item_edit_favorite()`
 - `OP.item_edit_generate_password()`
 - `OP.item_edit_set_title()`
-- `OP.item_edit_set_tags()`
+- `OP.item_edit_tags()`
 - `OP.item_edit_set_url()`
 
 > **Note**: Technically `OP.item_edit_generate_password()` operates on a field, but it only works on the built-in "password" field of Login and Password items.

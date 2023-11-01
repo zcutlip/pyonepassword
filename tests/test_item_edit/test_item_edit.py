@@ -262,11 +262,11 @@ def test_item_edit_favorite_050(signed_in_op: OP):
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
-def test_item_edit_set_tags_060(signed_in_op: OP):
+def test_item_edit_tags_060(signed_in_op: OP):
     """
-    Test: OP.item_edit_set_tags() to replace an items set of tags with a different set of tags
+    Test: OP.item_edit_tags() to replace an items set of tags with a different set of tags
         - Retrieve an item via OP.item_get()
-        - Call item_edit_set_tags(), saving returned object
+        - Call item_edit_tags(), saving returned object
         - Retreive the same item a second time
 
     Verify:
@@ -286,7 +286,7 @@ def test_item_edit_set_tags_060(signed_in_op: OP):
 
     assert set(item_get_1.tags) == original_tag_set
 
-    edited_item = signed_in_op.item_edit_set_tags(
+    edited_item = signed_in_op.item_edit_tags(
         item_name, new_tags, vault=vault)
 
     # state changed with item_edit above
@@ -298,11 +298,11 @@ def test_item_edit_set_tags_060(signed_in_op: OP):
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
-def test_item_edit_set_tags_070(signed_in_op: OP):
+def test_item_edit_tags_070(signed_in_op: OP):
     """
-    Test: OP.item_edit_set_tags() to set tags on an item with no existing tags
+    Test: OP.item_edit_tags() to set tags on an item with no existing tags
         - Retrieve an item via OP.item_get()
-        - Call item_edit_set_tags(), saving returned object
+        - Call item_edit_tags(), saving returned object
         - Retreive the same item a second time
 
     Verify:
@@ -322,7 +322,7 @@ def test_item_edit_set_tags_070(signed_in_op: OP):
 
     assert set(item_get_1.tags) == original_tag_set
 
-    edited_item = signed_in_op.item_edit_set_tags(
+    edited_item = signed_in_op.item_edit_tags(
         item_name, new_tags, vault=vault)
 
     # state changed with item_edit above
@@ -334,11 +334,11 @@ def test_item_edit_set_tags_070(signed_in_op: OP):
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
-def test_item_edit_set_tags_080(signed_in_op: OP):
+def test_item_edit_tags_080(signed_in_op: OP):
     """
-    Test: OP.item_edit_set_tags() to remove tags on an item that already has tags
+    Test: OP.item_edit_tags() to remove tags on an item that already has tags
         - Retrieve an item via OP.item_get()
-        - Call item_edit_set_tags(), saving returned object
+        - Call item_edit_tags(), saving returned object
         - Retreive the same item a second time
 
     Verify:
@@ -358,7 +358,7 @@ def test_item_edit_set_tags_080(signed_in_op: OP):
 
     assert set(item_get_1.tags) == original_tag_set
 
-    edited_item = signed_in_op.item_edit_set_tags(
+    edited_item = signed_in_op.item_edit_tags(
         item_name, new_tags, vault=vault)
 
     # state changed with item_edit above
@@ -370,11 +370,11 @@ def test_item_edit_set_tags_080(signed_in_op: OP):
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
-def test_item_edit_set_tags_085(signed_in_op: OP):
+def test_item_edit_tags_085(signed_in_op: OP):
     """
-    Test: OP.item_edit_set_tags() append tags to an item's existing set of tags
+    Test: OP.item_edit_tags() append tags to an item's existing set of tags
         - Retrieve an item via OP.item_get()
-        - Call item_edit_set_tags(), saving returned object
+        - Call item_edit_tags(), saving returned object
         - Retreive the same item a second time
 
     Verify:
@@ -396,7 +396,7 @@ def test_item_edit_set_tags_085(signed_in_op: OP):
 
     assert set(item_get_1.tags) == original_tag_set
 
-    edited_item = signed_in_op.item_edit_set_tags(
+    edited_item = signed_in_op.item_edit_tags(
         item_name, new_tags, append_tags=True, vault=vault)
 
     # state changed with item_edit above

@@ -439,11 +439,11 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_edit_set_tags(cls,
-                           op_exe: str,
-                           item_identifier: str,
-                           tags: List[str],
-                           vault: Optional[str] = None):
+    def item_edit_tags(cls,
+                       op_exe: str,
+                       item_identifier: str,
+                       tags: List[str],
+                       vault: Optional[str] = None):
 
         tag_arg = ",".join(tags)
         item_edit_args = ["--tags", tag_arg]

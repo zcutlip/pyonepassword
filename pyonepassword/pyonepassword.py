@@ -1175,11 +1175,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         op_item = OPItemFactory.op_item(result_str, generic_okay=True)
         return op_item
 
-    def item_edit_set_tags(self,
-                           item_identifier: str,
-                           tags: List[str],
-                           append_tags: bool = False,
-                           vault: Optional[str] = None) -> OPAbstractItem:
+    def item_edit_tags(self,
+                       item_identifier: str,
+                       tags: List[str],
+                       append_tags: bool = False,
+                       vault: Optional[str] = None) -> OPAbstractItem:
         """
         Set or unset an item's tags
 
@@ -1228,9 +1228,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         else:
             item = None
 
-        result_str = self._item_edit_set_tags(item_identifier,
-                                              tags,
-                                              vault=vault)
+        result_str = self._item_edit_tags(item_identifier,
+                                          tags,
+                                          vault=vault)
         op_item = OPItemFactory.op_item(result_str, generic_okay=True)
 
         return op_item

@@ -408,11 +408,11 @@ def test_item_edit_tags_085(signed_in_op: OP):
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
-def test_item_edit_set_url_090(signed_in_op: OP):
+def test_item_edit_url_090(signed_in_op: OP):
     """
-    Test: OP.item_edit_set_url() to set an item's URL
+    Test: OP.item_edit_url() to set an item's URL
         - Retrieve an item via OP.item_get()
-        - Call item_edit_set_url(), saving returned object
+        - Call item_edit_url(), saving returned object
         - Retreive the same item a second time
 
     Verify:
@@ -431,7 +431,7 @@ def test_item_edit_set_url_090(signed_in_op: OP):
     # sort of obvious since we retrieved using the old title, but for the sake of completeness
     assert len(item_get_1.urls) == 0
 
-    edited_item: OPLoginItem = signed_in_op.item_edit_set_url(
+    edited_item: OPLoginItem = signed_in_op.item_edit_url(
         item_name, new_url, vault=vault)
 
     # state changed with item_edit above
@@ -444,11 +444,11 @@ def test_item_edit_set_url_090(signed_in_op: OP):
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
-def test_item_edit_set_url_100(signed_in_op: OP):
+def test_item_edit_url_100(signed_in_op: OP):
     """
-    Test: OP.item_edit_set_url() to set an item's URL
+    Test: OP.item_edit_url() to set an item's URL
         - Retrieve an item via OP.item_get()
-        - Call item_edit_set_url(), saving returned object
+        - Call item_edit_url(), saving returned object
         - Retreive the same item a second time
 
     Verify:
@@ -467,7 +467,7 @@ def test_item_edit_set_url_100(signed_in_op: OP):
     # sort of obvious since we retrieved using the old title, but for the sake of completeness
     assert len(item_get_1.urls) == 1
 
-    edited_item: OPLoginItem = signed_in_op.item_edit_set_url(
+    edited_item: OPLoginItem = signed_in_op.item_edit_url(
         item_name, new_url, vault=vault)
 
     # state changed with item_edit above
@@ -480,11 +480,11 @@ def test_item_edit_set_url_100(signed_in_op: OP):
 
 
 @pytest.mark.usefixtures("setup_stateful_item_edit")
-def test_item_edit_set_url_110(signed_in_op: OP):
+def test_item_edit_url_110(signed_in_op: OP):
     """
-    Test: OP.item_edit_set_url() to set an item's URL
+    Test: OP.item_edit_url() to set an item's URL
         - Retrieve an item via OP.item_get()
-        - Call item_edit_set_url(), saving returned object
+        - Call item_edit_url(), saving returned object
         - Retreive the same item a second time
 
     Verify:
@@ -504,7 +504,7 @@ def test_item_edit_set_url_110(signed_in_op: OP):
     # sort of obvious since we retrieved using the old title, but for the sake of completeness
     assert len(item_get_1.urls) == 2
 
-    edited_item: OPLoginItem = signed_in_op.item_edit_set_url(
+    edited_item: OPLoginItem = signed_in_op.item_edit_url(
         item_name, new_url, vault=vault)
 
     # state changed with item_edit above

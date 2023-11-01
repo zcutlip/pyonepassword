@@ -857,16 +857,16 @@ class _OPCommandInterface(_OPCLIExecute):
                                                  vault=vault_arg)
         return item_edit_argv
 
-    def _item_edit_set_url_argv(self,
-                                item_identifier: str,
-                                url: str,
-                                vault: Optional[str]):
+    def _item_edit_url_argv(self,
+                            item_identifier: str,
+                            url: str,
+                            vault: Optional[str]):
         vault_arg = vault if vault else self.vault
 
-        item_edit_argv = _OPArgv.item_edit_set_url(self.op_path,
-                                                   item_identifier,
-                                                   url,
-                                                   vault=vault_arg)
+        item_edit_argv = _OPArgv.item_edit_url(self.op_path,
+                                               item_identifier,
+                                               url,
+                                               vault=vault_arg)
         return item_edit_argv
 
     def _item_create(self, item, vault, password_recipe, decode="utf-8"):
@@ -949,12 +949,12 @@ class _OPCommandInterface(_OPCLIExecute):
         output = self._item_edit_run(argv, decode)
         return output
 
-    def _item_edit_set_url(self,
-                           item_identifier: str,
-                           url: str,
-                           vault: Optional[str] = None,
-                           decode: str = "utf-8"):
-        argv = self._item_edit_set_url_argv(
+    def _item_edit_url(self,
+                       item_identifier: str,
+                       url: str,
+                       vault: Optional[str] = None,
+                       decode: str = "utf-8"):
+        argv = self._item_edit_url_argv(
             item_identifier, url, vault=vault)
 
         output = self._item_edit_run(argv, decode)

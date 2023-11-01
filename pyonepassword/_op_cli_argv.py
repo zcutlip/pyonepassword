@@ -465,11 +465,11 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_edit_set_url(cls,
-                          op_exe: str,
-                          item_identifier: str,
-                          url: str,
-                          vault: Optional[str] = None):
+    def item_edit_url(cls,
+                      op_exe: str,
+                      item_identifier: str,
+                      url: str,
+                      vault: Optional[str] = None):
 
         item_edit_args = ["--url", f"{url}"]
         argv = cls.item_edit_generic_argv(

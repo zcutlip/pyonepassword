@@ -1276,10 +1276,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return op_item
 
-    def item_edit_set_url(self,
-                          item_identifier: str,
-                          url: str,
-                          vault: Optional[str] = None):
+    def item_edit_url(self,
+                      item_identifier: str,
+                      url: str,
+                      vault: Optional[str] = None):
         """
         Set the URL associated with an existing item
 
@@ -1310,9 +1310,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -----------------------
         Supported
         """
-        result_str = self._item_edit_set_url(item_identifier,
-                                             url,
-                                             vault=vault)
+        result_str = self._item_edit_url(item_identifier,
+                                         url,
+                                         vault=vault)
         op_item = OPItemFactory.op_item(result_str, generic_okay=True)
 
         return op_item

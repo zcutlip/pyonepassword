@@ -414,6 +414,7 @@ def test_item_edit_add_password_field_050(signed_in_op: OP):
                                                             new_field_value,
                                                             field_label,
                                                             section_label=section_label,
+                                                            insecure_operation=True,
                                                             vault=vault)
 
     # state changed with item_edit above

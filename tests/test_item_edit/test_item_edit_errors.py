@@ -258,3 +258,29 @@ def test_item_edit_add_text_field_exact_match_080(signed_in_op: OP):
                                               field_label,
                                               section_label=section_label,
                                               vault=vault)
+
+
+@pytest.mark.usefixtures("setup_stateful_item_edit")
+def test_item_edit_add_password_no_insecure_acknowledge_090(signed_in_op: OP):
+    """
+    Test: OP.item_edit_set_password() raises OPInsecureOperationException appropriately
+        - Attempt to call item_edit_set_password() without passing insecure_operation = True
+    Verify:
+        - OPInsecureOperationException is raised
+    """
+
+    item_name = "Example Login Item 18"
+    field_label = "Password Field 01"
+    section_label = "Section 01"
+    new_field_value = "new password field value"
+    vault = "Test Data 2"
+
+    # item_edit_set_password() is inherently insecure, so
+    # requires insecure_operation=True
+    # This is expected to fail
+    with pytest.raises(OPInsecureOperationException):
+        signed_in_op.item_edit_set_password(item_name,
+                                            new_field_value,
+                                            field_label=field_label,
+                                            section_label=section_label,
+                                            vault=vault)

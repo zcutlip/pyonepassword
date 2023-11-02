@@ -1187,7 +1187,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                        append_tags: bool = False,
                        vault: Optional[str] = None) -> OPAbstractItem:
         """
-        Set or unset an item's tags
+        Replace, append, or remove an item's tags
 
         Parameters
         ----------

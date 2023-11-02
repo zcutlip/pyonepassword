@@ -625,6 +625,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                      password: str,
                                      field_label: str,
                                      section_label: Optional[str] = None,
+                                     insecure_operation: bool = False,
                                      vault: Optional[str] = None):
         """
         Add new concealed/passwrod field and optionally a new section to an item
@@ -671,6 +672,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         Supported
           required keyword arguments: vault
         """
+
         password = RedactedString(password, unmask_len=0)
         field_type = OPFieldTypeEnum.PASSWORD
         op_item = self._item_edit_set_field(item_identifier,
@@ -680,6 +682,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             password,
                                             vault,
                                             password_downgrade=False,
+                                            insecure_operation=insecure_operation,
                                             create_field=True)
         return op_item
 
@@ -746,6 +749,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             password,
                                             vault,
                                             password_downgrade=False,
+                                            insecure_operation=False,
                                             create_field=True)
         return op_item
 
@@ -808,6 +812,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             value,
                                             vault,
                                             password_downgrade=False,
+                                            insecure_operation=False,
                                             create_field=True)
         return op_item
 
@@ -870,10 +875,6 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         Supported
           required keyword arguments: vault
         """
-        if not insecure_operation:
-            msg = "Password assignment via 'op item edit' is inherently insecure. Pass 'insecure_operation=True' to override. For more information, see https://developer.1password.com/docs/cli/reference/management-commands/item#item-edit"
-            self.logger.fatal(msg)
-            raise OPInsecureOperationException(msg)
 
         # TODO: look up item and validate section and field
         password = RedactedString(password, unmask_len=0)
@@ -885,6 +886,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             password,
                                             vault,
                                             password_downgrade=False,
+                                            insecure_operation=insecure_operation,
                                             create_field=False)
         return op_item
 
@@ -962,6 +964,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             url,
                                             vault,
                                             password_downgrade,
+                                            insecure_operation=False,
                                             create_field=False)
         return op_item
 
@@ -1031,6 +1034,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             value,
                                             vault,
                                             password_downgrade,
+                                            insecure_operation=True,
                                             create_field=False)
         return op_item
 
@@ -1088,6 +1092,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         VALUE_NONE = None
         PASSWORD_DOWNGRADE_IGNORE = True
+        INSECURE_OPERATION = False
         field_type = OPFieldTypeEnum.DELETE
         op_item = self._item_edit_set_field(item_identifier,
                                             field_type,
@@ -1096,6 +1101,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                             VALUE_NONE,
                                             vault,
                                             PASSWORD_DOWNGRADE_IGNORE,
+                                            INSECURE_OPERATION,
                                             create_field=False)
         return op_item
 
@@ -1775,6 +1781,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                              value: str,
                              vault: Optional[str],
                              password_downgrade: bool,
+                             insecure_operation: bool,
                              create_field: bool):
         """
         Set a new value on an existing item field
@@ -1792,6 +1799,12 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         The point is that we don't need to remember to do the verification steps
         every time we add an item-edit public method
         """
+
+        # if we're assigning a password, caller needs to pass insecure_operation=True
+        if field_type == OPFieldTypeEnum.PASSWORD and not insecure_operation:
+            msg = "Password assignment via 'op item edit' is inherently insecure. Pass 'insecure_operation=True' to override. For more information, see https://developer.1password.com/docs/cli/reference/management-commands/item#item-edit"
+            self.logger.fatal(msg)
+            raise OPInsecureOperationException(msg)
 
         # Does the item exist?
         # generic_okay: Enable editing of unknown OPItem types

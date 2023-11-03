@@ -33,8 +33,8 @@ def set_password_field(op: OP):
     op.item_edit_set_password(item,
                               field_value,
                               field_label=field_label,
-                              insecure_operation=True,
-                              vault=vault)
+                              vault=vault,
+                              insecure_operation=True)
 
 
 def add_password_field(op: OP):
@@ -57,8 +57,8 @@ def add_password_field(op: OP):
                                     orig_password,
                                     field_label,
                                     section_label=section_label,
-                                    insecure_operation=True,
-                                    vault=vault)
+                                    vault=vault,
+                                    insecure_operation=True)
 
 
 def change_password_field_to_text(op: OP):

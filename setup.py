@@ -1,4 +1,5 @@
 import os
+import re
 
 from setuptools import find_packages, setup
 from setuptools.command.egg_info import egg_info
@@ -20,6 +21,20 @@ with open(os.path.join(proj_path, "pyonepassword", "__about__.py"), "r") as fp:
 
 with open(os.path.join(proj_path, "README.md"), "r") as fp:
     long_description = fp.read()
+
+GITHUB_URL = "https://github.com/zcutlip/pyonepassword"
+# links on PyPI should have absolute URLs
+# this awful regex looks for [any text](any url), making sure there's no 'http:'
+# in the url part
+# it then inserts https://github.com/zcutlip/pyonepassword/blobl/main/
+# after between the '(' and the relative URL
+# source: https://github.com/pypa/readme_renderer/issues/163#issuecomment-1679601106
+long_description = re.sub(
+    r"(\[[^\]]+\]\()((?!https?:)[^\)]+)(\))",
+    lambda m: m.group(1) + GITHUB_URL + "/blob/main/" +
+    m.group(2) + m.group(3),
+    long_description,
+)
 
 
 packages = find_packages(

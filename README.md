@@ -346,6 +346,12 @@ For details on creating new items in a 1Password vault, see [item-creation.md](d
 Also see the examles in [examples/item_creation](examples/item_creation/)
 
 
+### Item Editing
+
+For details on editing existing items in a 1Password vault, see [item-editing.md](docs/item-editing.md)
+
+Also see the examles in [examples/item_editing](examples/item_editing/)
+
 ### More Examples
 
 Lots more examples are available in the `examples` directory

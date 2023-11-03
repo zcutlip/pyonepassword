@@ -28,6 +28,8 @@ GITHUB_URL = "https://github.com/zcutlip/pyonepassword"
 # in the url part
 # it then inserts https://github.com/zcutlip/pyonepassword/blobl/main/
 # after between the '(' and the relative URL
+# believe it or not this also works with directories such as examples/item_editing/
+# Github redirects from blob/main/ to tree/main/ in this case
 # source: https://github.com/pypa/readme_renderer/issues/163#issuecomment-1679601106
 long_description = re.sub(
     r"(\[[^\]]+\]\()((?!https?:)[^\)]+)(\))",

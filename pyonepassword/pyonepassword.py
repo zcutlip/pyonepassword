@@ -625,8 +625,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                      password: str,
                                      field_label: str,
                                      section_label: Optional[str] = None,
-                                     insecure_operation: bool = False,
-                                     vault: Optional[str] = None):
+                                     vault: Optional[str] = None,
+                                     insecure_operation: bool = False):
         """
         Add new concealed/passwrod field and optionally a new section to an item
 
@@ -644,6 +644,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         vault: str, optional
             The name or ID of a vault containing the item to edit
             Overrides the OP object's default vault, if set
+        insecure_operation: bool
+            Caller acknowledgement of the insecure nature of this operation
+            by default, False
 
         Raises
         ------
@@ -821,8 +824,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                                password: str,
                                field_label: str = "password",
                                section_label: Optional[str] = None,
-                               insecure_operation: bool = False,
-                               vault: Optional[str] = None):
+                               vault: Optional[str] = None,
+                               insecure_operation: bool = False,):
         """
         Assign a new password for an existing item
 
@@ -842,12 +845,12 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             by default "password"
         section_label: str, optional
             If provided, the human readable section label the field is associated with
-        insecure_operation: bool
-            Caller acknowledgement of the insecure nature of this operation
-            by default, False
         vault: str, optional
             The name or ID of a vault containing the item to edit
             Overrides the OP object's default vault, if set
+        insecure_operation: bool
+            Caller acknowledgement of the insecure nature of this operation
+            by default, False
 
         Raises
         ------

@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [DEVELOPMENT] 2023-11-03
+## [4.0.0] 2023-11-06
 
 ### Added
 - Item editing (gh-143):
@@ -52,6 +52,7 @@ All notable changes to this project will be documented in this file.
 ### Misc
 - Updated testing configuration in conjuncton with refactored `mock-op`
 - Add `FUNDING.yml`
+- Have `setup.py` automatically convert relative URLs in `long_description` to absolute GitHub URLs so they work on PyPI
 
 ## [3.12.1] 2023-06-26
 

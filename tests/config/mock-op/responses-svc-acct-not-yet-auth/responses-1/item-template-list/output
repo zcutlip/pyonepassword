@@ -1,0 +1,90 @@
+[
+  {
+    "uuid": "106",
+    "name": "Passport"
+  },
+  {
+    "uuid": "101",
+    "name": "Bank Account"
+  },
+  {
+    "uuid": "102",
+    "name": "Database"
+  },
+  {
+    "uuid": "004",
+    "name": "Identity"
+  },
+  {
+    "uuid": "001",
+    "name": "Login"
+  },
+  {
+    "uuid": "113",
+    "name": "Medical Record"
+  },
+  {
+    "uuid": "105",
+    "name": "Membership"
+  },
+  {
+    "uuid": "104",
+    "name": "Outdoor License"
+  },
+  {
+    "uuid": "005",
+    "name": "Password"
+  },
+  {
+    "uuid": "107",
+    "name": "Reward Program"
+  },
+  {
+    "uuid": "100",
+    "name": "Software License"
+  },
+  {
+    "uuid": "114",
+    "name": "SSH Key"
+  },
+  {
+    "uuid": "112",
+    "name": "API Credential"
+  },
+  {
+    "uuid": "002",
+    "name": "Credit Card"
+  },
+  {
+    "uuid": "115",
+    "name": "Crypto Wallet"
+  },
+  {
+    "uuid": "103",
+    "name": "Driver License"
+  },
+  {
+    "uuid": "110",
+    "name": "Server"
+  },
+  {
+    "uuid": "108",
+    "name": "Social Security Number"
+  },
+  {
+    "uuid": "006",
+    "name": "Document"
+  },
+  {
+    "uuid": "111",
+    "name": "Email Account"
+  },
+  {
+    "uuid": "109",
+    "name": "Wireless Router"
+  },
+  {
+    "uuid": "003",
+    "name": "Secure Note"
+  }
+]

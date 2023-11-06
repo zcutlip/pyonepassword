@@ -1,0 +1,45 @@
+{
+  "id": "wsvxtz2kulgqfberotkjdkpaby",
+  "title": "Example Login Item 02",
+  "version": 1,
+  "vault": {
+    "id": "vkjyqsbkf63zycqigbg3yxd7ce",
+    "name": "Test Data 2"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "FZTDCNIJAOEBZZ2VQFNDVHC3K6",
+  "created_at": "2023-08-22T22:14:47Z",
+  "updated_at": "2023-08-22T22:14:47Z",
+  "additional_information": "user_02",
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "user_02",
+      "reference": "op://Test Data 2/Example Login Item 02/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "APT9U6frnY*7wbBWvdz3",
+      "entropy": 118.28331756591797,
+      "reference": "op://Test Data 2/Example Login Item 02/password",
+      "password_details": {
+        "entropy": 118,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data 2/Example Login Item 02/notesPlain"
+    }
+  ]
+}

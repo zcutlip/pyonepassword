@@ -7,10 +7,8 @@ from __future__ import annotations
 import warnings
 from typing import TYPE_CHECKING, List, Optional
 
-from ._py_op_deprecation import deprecated
-
-if TYPE_CHECKING:
-    from .op_items._item_list import OPItemList  # pragma: no coverage
+if TYPE_CHECKING:  # pragma: no coverage
+    from .op_items._item_list import OPItemList
 
 
 class OPBaseException(Exception):
@@ -212,6 +210,13 @@ class OPItemCreateException(OPCmdFailedException):  # pragma: no coverage
         super().__init__(stderr_out, returncode)
 
 
+class OPItemEditException(OPCmdFailedException):  # pragma: no coverage
+    MSG = "1Password 'item edit' failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
+
 class OPWhoAmiException(OPCmdFailedException):
     MSG = "1Password 'whoami' failed"
 
@@ -244,22 +249,7 @@ class OPInvalidItemException(OPBaseException):
         super().__init__(msg)
 
 
-@deprecated("Use OPAuthenticationException")
-class OPNotSignedInException(OPBaseException):
-    """
-    DEPRECATION NOTE:
-    This exception class is deprecated in favor of OPAuthenticationException
-    and will be removed in a future version
-
-    Exception indicating the `op` command is not authenticated or is unable to complete
-    authentication
-    """
-
-    def __init__(self, msg):
-        super().__init__(msg)
-
-
-class OPAuthenticationException(OPNotSignedInException):
+class OPAuthenticationException(OPBaseException):
     # TODO: inherit from OPBaseException once
     # OPNotSignedInException removed
     """
@@ -291,6 +281,21 @@ class OPConfigNotFoundException(Exception):
 
 
 class OPInvalidFieldException(OPBaseException):
+    """
+    There was an error decoding the JSON for this field
+    """
+
+    def __init__(self, msg):
+        super().__init__(msg)
+
+
+class OPFieldExistsException(OPBaseException):
+    """
+    When adding a new field during an item edit operation, a field
+    already exists with the same name associated with the same section
+    (if a section is specified)
+    """
+
     def __init__(self, msg):
         super().__init__(msg)
 
@@ -300,14 +305,45 @@ class OPUnknownAccountException(OPBaseException):
         super().__init__(msg)
 
 
-_deprecated_exceptions = {
-    OPNotSignedInException.__name__: OPAuthenticationException.__name__
+class OPInsecureOperationException(OPBaseException):
+    """
+    An exception class to prevent inadvertent insecure operations.
+
+    This class should be used in conjuction with an override argument
+    so that the caller may acknowledge and accept the risk
+
+    e.g., op.item_edit_set_password(item_name,
+                                    new_password,
+                                    insecure_operation=True)
+    """
+
+    def __init__(self, msg):
+        super().__init__(msg)
+
+
+class OPPasswordFieldDowngradeException(OPBaseException):
+    """
+    When setting a field value during an item edit operation and the existing field
+    if of type CONCEALED, and the new value would be some other type
+
+    e.g., setting a passsword field to a string or URL field
+    """
+
+    def __init__(self, msg):
+        super().__init__(msg)
+
+
+_deprecated_exceptions = {  # type: ignore
+                            # (mypy is satisifed when this dict is populated, but com) complains when it's empty
+    # Leaving this here but commented as an example how to
+    # deprecate Exceptions
+    # OPNotSignedInException.__name__: OPAuthenticationException.__name__
 }
 
 # replace OPNotSignedInException with _OPNotSignedInException
 # in order to trigger deprecation warnings
-_OPNotSignedInException = OPNotSignedInException
-del OPNotSignedInException
+# _OPNotSignedInException = OPNotSignedInException
+# del OPNotSignedInException
 
 
 def __getattr__(name: str):

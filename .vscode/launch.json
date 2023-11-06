@@ -1,0 +1,149 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "sanitize.py",
+            "type": "python",
+            "request": "launch",
+            "program": "scripts/sanitize.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "./sanitize.cfg"
+            ]
+        },
+        {
+            "name": "versions.py",
+            "type": "python",
+            "request": "launch",
+            "program": "examples/versions.py",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "debug op forget",
+            "type": "python",
+            "request": "launch",
+            "program": "ipython_snippets/debug.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "load from json",
+            "type": "python",
+            "request": "launch",
+            "program": "ipython_snippets/load_json_item.py",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "new server",
+            "type": "python",
+            "request": "launch",
+            "module": "examples.server"
+        },
+        {
+            "name": "create_item",
+            "type": "python",
+            "request": "launch",
+            "program": "examples/create_item.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "server ssh keys",
+            "type": "python",
+            "request": "launch",
+            "program": "examples/server-ssh-keys.py",
+            "console": "integratedTerminal",
+            "args": [
+                "Mustafar",
+                "id_ed25519",
+                "--vault",
+                "Machine Credentials",
+                "--outdir",
+                "./mustafar-keys"
+            ]
+        },
+        {
+            "name": "mock op",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/mop.py",
+            "console": "integratedTerminal",
+            "args": [
+                "get",
+                "item",
+                "Example Login 1",
+                "--vault",
+                "Test Data"
+            ]
+        },
+        {
+            "name": "Python: example signin, get item",
+            "type": "python",
+            "request": "launch",
+            "program": "examples/example-signin-get-item.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: example signin, get document",
+            "type": "python",
+            "request": "launch",
+            "program": "examples/example-signin-get-document.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: example signin, signout",
+            "type": "python",
+            "request": "launch",
+            "program": "examples/example-signin-signout.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "example-signin-get-vault",
+            "type": "python",
+            "request": "launch",
+            "program": "examples/example-signin-get-vault.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "example list items",
+            "type": "python",
+            "request": "launch",
+            "program": "examples/list-items.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "create items",
+            "type": "python",
+            "request": "launch",
+            "program": "examples/create-item.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "item edit field type",
+            "type": "python",
+            "request": "launch",
+            "program": "examples/debug_item_edit_field_type.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "example-service-account",
+            "type": "python",
+            "request": "launch",
+            "program": "examples/example-service-account.py",
+            "envFile": "${workspaceFolder}/debug_env/svc_acct_env",
+            "console": "integratedTerminal"
+        },
+    ]
+}

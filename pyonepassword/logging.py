@@ -12,3 +12,8 @@ def console_logger(name: str, level: int):
     logger.addHandler(ch)
 
     return logger
+
+
+def console_debug_logger(name: str):
+    logger = console_logger(name, DEBUG)
+    return logger

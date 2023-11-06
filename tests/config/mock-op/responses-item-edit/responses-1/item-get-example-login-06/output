@@ -1,0 +1,53 @@
+{
+  "id": "2v5kevkbdt4g5k4ubyriqvgkge",
+  "title": "Example Login Item 06",
+  "tags": ["tag_1", "tag_2"],
+  "version": 8,
+  "vault": {
+    "id": "vkjyqsbkf63zycqigbg3yxd7ce",
+    "name": "Test Data 2"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "4J4NLDK7GFAXJFOR7RF2KDUAMI",
+  "created_at": "2023-08-22T22:14:50Z",
+  "updated_at": "2023-09-02T04:55:29Z",
+  "additional_information": "user_06",
+  "urls": [
+    {
+      "label": "website",
+      "primary": true,
+      "href": "https://example-login-item-06/"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "user_06",
+      "reference": "op://Test Data 2/Example Login Item 06/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "vudKayDhwL*T!UfriF!7",
+      "entropy": 118.28331756591797,
+      "reference": "op://Test Data 2/Example Login Item 06/password",
+      "password_details": {
+        "entropy": 118,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data 2/Example Login Item 06/notesPlain"
+    }
+  ]
+}

@@ -2,6 +2,58 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.0] 2023-11-06
+
+### Added
+- Item editing (gh-143):
+  - `OP.item_edit_add_password_field()`
+  - `OP.item_edit_add_url_field()`
+  - `OP.item_edit_add_text_field()`
+  - `OP.item_edit_set_password()`
+  - `OP.item_edit_set_url_field()`
+  - `OP.item_edit_set_text_field()`
+  - `OP.item_edit_delete_field()`
+  - `OP.item_edit_favorite()`
+  - `OP.item_edit_generate_password()`
+  - `OP.item_edit_tags()`
+  - `OP.item_edit_title()`
+  - `OP.item_edit_url()`
+
+- `OPAbstractItem.field_value_by_section_label()` (gh-144)
+  - replacement for poorly named `field_value_by_section_title()`
+
+- Support for `op` new `whoami` behavior version 2.20.0 (gh-146)
+  - new `whoami` dict
+  - On `OP()` initialization, accomodate `whoami` failure when the token hasn't been used recently
+
+### Changed
+- Added Python 3.12 support (gh-152)
+- Removed Python 3.8 support (gh-152)
+- Ensure all methods for section lookup by label raise `OPSectionNotFound` if no section is found matching the given label (gh-144)
+- Ensure all methods for field lookup by label raise `OPFieldNotFound` if no field is found matching the given label (gh-144)
+
+### Deprecated
+
+- `OPAbstractItem.field_value_by_section_title()` (gh-144)
+  - call `OPAbstractItem.field_value_by_section_label()` instead
+
+### Removed
+
+- Deprecated kwargs to `OP()`: (gh-161)
+  - `use_existing_session` (replaced by `existing_auth`)
+  - `account_shorthand` (replaced by `account`)
+- Deprecated exception `OPNotSignedInException` class (gh-161)
+  - replaced with `OPAuthenticationException`
+
+### Documentation
+- Documented item editing in `docs/item-editing.md`
+- Added set of item editing examples under `examples/item_editing`
+
+### Misc
+- Updated testing configuration in conjuncton with refactored `mock-op`
+- Add `FUNDING.yml`
+- Have `setup.py` automatically convert relative URLs in `long_description` to absolute GitHub URLs so they work on PyPI
+
 ## [3.12.1] 2023-06-26
 
 ### Fixed

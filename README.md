@@ -6,7 +6,7 @@ A Python API to sign into and query a 1Password account using the `op` command.
 
 ## Requirements
 
-- Python >= 3.8
+- Python >= 3.9
 - 1Password command-line tool >= 2.0.0
   - see [1Password Developer Documentation](https://developer.1password.com/docs/cli)
 - Internet connectivity to 1Password.com
@@ -144,7 +144,7 @@ If you want to fully automate connecting to and querying a 1Password account, th
 
 All of these methods return objects types as described above. Also, `item_get()` returns the appropriate object type for the item, such as `OPLoginItem` or `OPSecureNoteItem`, as long as `pyonepassword` has a class for the returned item type.
 
-> *Note*: In some cases the `op` command may return items that don't conform to the expected structure. When this happens, the item dictionary will fail to validate, an exception will be raised. There is API for relaxing item validation, globally, on a per-class basis, or a per-item basis. See [ITEM_VALIDATION.md](ITEM_VALIDATION.md) for more information.
+> *Note*: In some cases the `op` command may return items that don't conform to the expected structure. When this happens, the item dictionary will fail to validate, an exception will be raised. There is API for relaxing item validation, globally, on a per-class basis, or a per-item basis. See [item-validation.md](docs/item-validation.md) for more information.
 
 ### Sign-in and item retrieval
 
@@ -341,8 +341,16 @@ def main():
 
 ### Item Creation
 
-For details on creating new items in a 1Password vault, see [ITEM_CREATION.md](ITEM_CREATION.md)
+For details on creating new items in a 1Password vault, see [item-creation.md](docs/item-creation.md)
 
+Also see the examles in [examples/item_creation](examples/item_creation/)
+
+
+### Item Editing
+
+For details on editing existing items in a 1Password vault, see [item-editing.md](docs/item-editing.md)
+
+Also see the examles in [examples/item_editing](examples/item_editing/)
 
 ### More Examples
 

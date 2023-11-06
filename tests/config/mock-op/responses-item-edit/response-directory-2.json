@@ -1,0 +1,219 @@
+{
+  "meta": {
+    "response_dir": "tests/config/mock-op/responses-item-edit/responses-2",
+    "input_dir": "input"
+  },
+  "commands": {
+    "--account|5GHHPJK5HZC5BAT7WDUXW57G44|--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami-account-uuid",
+      "changes_state": false
+    },
+    "--version": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "cli-version",
+      "changes_state": false
+    },
+    "--format|json|account|list": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "list-signed-in-accounts",
+      "changes_state": false
+    },
+    "--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 00|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-00",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 01|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-01",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 02 (New Title)|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-02",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 03|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-03",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 04|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-04",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 05|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-05",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 06|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-06",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 07|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-07",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 08|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-08",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 08a|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-08a",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 09|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-09",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 10|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-10",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 11|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-11",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 12|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-12",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 13|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-13",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 14|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-14",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 15|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-15",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 17|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-17",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 18|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-18",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 17a|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-17a",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 17b|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-17b",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 17c|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-17c",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 17d|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-17d",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 21a|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-21a",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 21b|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-21b",
+      "changes_state": false
+    },
+    "--format|json|item|get|Example Login Item 23|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-get-example-login-23",
+      "changes_state": false
+    }
+  },
+  "commands_with_input": {}
+}

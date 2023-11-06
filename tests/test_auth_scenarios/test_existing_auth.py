@@ -20,7 +20,7 @@ from pyonepassword.api.exceptions import OPAuthenticationException
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("setup_unauth_op_env")
-def test_use_existing_session_01():
+def test_existing_auth_01():
     """
     Simulate an pyonepassword environment that doesn't use biometric auth, and doesn't have
     OP_SESSION_<session ID> env variable set
@@ -32,19 +32,19 @@ def test_use_existing_session_01():
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("setup_op_sess_var_alt_env")
-def test_use_existing_session_02():
+def test_existing_auth_02():
     """
     Simulate a pyonepassword environment that:
     - doesn't use biometric
     - DOES have OP_SESSION_<user uuid> env variable set
-    Check that OP(use_existing_session=True) succeeds
+    Check that OP(existing_auth=EXISTING_AUTH_AVAIL) succeeds
     """
     OP(op_path='mock-op', existing_auth=EXISTING_AUTH_AVAIL, password_prompt=False)
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("setup_op_sess_var_unauth_env")
-def test_use_existing_session_03():
+def test_existing_auth_03():
     """
     Simulate a pyonepassword environment that:
     - doesn't use biometric
@@ -52,7 +52,7 @@ def test_use_existing_session_03():
     - session token not valid
     Tell OP to use an exsiting session if available, but don't provide a password
 
-    Check that OP(use_existing_session=True) fails
+    Check that OP(existing_auth=EXISTING_AUTH_AVAIL) fails
     """
     with pytest.raises(OPAuthenticationException):
         _ = OP(op_path='mock-op', existing_auth=EXISTING_AUTH_AVAIL,
@@ -61,7 +61,7 @@ def test_use_existing_session_03():
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
 @pytest.mark.usefixtures("setup_op_sess_var_alt_env")
-def test_use_existing_session_04():
+def test_existing_auth_04():
     """
     Simulate a pyonepassword environment that:
     - no "latest_signin" to infer account identifier from
@@ -77,14 +77,14 @@ def test_use_existing_session_04():
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("setup_op_sess_var_unauth_env")
-def test_use_existing_session_05():
+def test_existing_auth_05():
     """
     Simulate a pyonepassword environment that:
     - doesn't use biometric
     - DOES have OP_SESSION_<user uuid> env variable set
     - session token not valid
     Tell OP it MUST use an existing session.
-    Check that OP(use_existing_session=True) fails
+    Check that OP(existing_auth=EXISTING_AUTH_REQD) fails
     """
     with pytest.raises(OPAuthenticationException):
         OP(op_path='mock-op', existing_auth=EXISTING_AUTH_REQD,

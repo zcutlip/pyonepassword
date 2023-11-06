@@ -1,0 +1,85 @@
+{
+  "id": "w247qmcyxsjwhbfmow3nx2br7i",
+  "title": "Example Login Item 17a",
+  "version": 5,
+  "vault": {
+    "id": "vkjyqsbkf63zycqigbg3yxd7ce",
+    "name": "Test Data 2"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "FZTDCNIJAOEBZZ2VQFNDVHC3K6",
+  "created_at": "2023-09-07T20:31:37Z",
+  "updated_at": "2023-10-13T03:29:55Z",
+  "additional_information": "user_17",
+  "urls": [
+    {
+      "label": "website",
+      "primary": true,
+      "href": "https://example.com/login"
+    }
+  ],
+  "sections": [
+    {
+      "id": "Section_sqookysbfbbltgtlcd2fwip5im",
+      "label": "Section 01"
+    },
+    {
+      "id": "Section_pxz6aae5he4yqmzznmlonkpziq",
+      "label": "Section 02"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "user_17",
+      "reference": "op://Test Data 2/Example Login Item 17a/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "doAWeAgj8KQbZ!g82ZcG",
+      "entropy": 118.28331756591797,
+      "reference": "op://Test Data 2/Example Login Item 17a/password",
+      "password_details": {
+        "entropy": 118,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": "This item is for testing `OP.item_edit_add_text_field()`\n\nIt starts out with:\n- A field with the label we're trying to add\n- A section with a different label from what we're trying to add\n- We will add a section and a field that will be different that the existing section/field pairing",
+      "reference": "op://Test Data 2/Example Login Item 17a/notesPlain"
+    },
+    {
+      "id": "zfe46cwnv5d6vq3vraxarj6lma",
+      "section": {
+        "id": "Section_pxz6aae5he4yqmzznmlonkpziq",
+        "label": "Section 02"
+      },
+      "type": "STRING",
+      "label": "Text Field 01",
+      "value": "not the text field you're looking for",
+      "reference": "op://Test Data 2/Example Login Item 17a/Section 02/Text Field 01"
+    },
+    {
+      "id": "epc7fzudrbykstzfn4tzrni4de",
+      "section": {
+        "id": "Section_sqookysbfbbltgtlcd2fwip5im",
+        "label": "Section 01"
+      },
+      "type": "STRING",
+      "label": "Text Field 01",
+      "value": "new text field value",
+      "reference": "op://Test Data 2/Example Login Item 17a/Section 01/Text Field 01"
+    }
+  ]
+}

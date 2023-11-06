@@ -97,12 +97,12 @@ class OPLoginItem(OPAbstractItem):
         self._primary_url = primary_url
 
     @property
-    def username(self):
+    def username(self) -> str:
         username = self.field_value_by_id("username")
         return username
 
     @property
-    def password(self):
+    def password(self) -> str:
         password = self.field_value_by_id("password")
         return password
 

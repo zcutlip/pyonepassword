@@ -1,4 +1,5 @@
 import os
+import re
 
 from setuptools import find_packages, setup
 from setuptools.command.egg_info import egg_info
@@ -20,6 +21,22 @@ with open(os.path.join(proj_path, "pyonepassword", "__about__.py"), "r") as fp:
 
 with open(os.path.join(proj_path, "README.md"), "r") as fp:
     long_description = fp.read()
+
+GITHUB_URL = "https://github.com/zcutlip/pyonepassword"
+# links on PyPI should have absolute URLs
+# this awful regex looks for [any text](any url), making sure there's no 'http:'
+# in the url part
+# it then inserts https://github.com/zcutlip/pyonepassword/blobl/main/
+# after between the '(' and the relative URL
+# believe it or not this also works with directories such as examples/item_editing/
+# Github redirects from blob/main/ to tree/main/ in this case
+# source: https://github.com/pypa/readme_renderer/issues/163#issuecomment-1679601106
+long_description = re.sub(
+    r"(\[[^\]]+\]\()((?!https?:)[^\)]+)(\))",
+    lambda m: m.group(1) + GITHUB_URL + "/blob/main/" +
+    m.group(2) + m.group(3),
+    long_description,
+)
 
 
 packages = find_packages(
@@ -52,12 +69,8 @@ setup(
     url="https://github.com/zcutlip/pyonepassword",
     packages=packages,
 
-    # We need python3.9 in order to use importlib.resources.files in templates.py
-    python_requires='>=3.8',
+    python_requires='>=3.9',
     install_requires=[
-        # importlib.resources.files requires python >=3.9
-        # if python 3.8, need to install 3rd importlib-resources
-        "importlib-resources>=5.2.0; python_version<'3.9'",
         "python-singleton-metaclasses"
     ],
     package_data={'pyonepassword': ['data/**', 'py.typed']},

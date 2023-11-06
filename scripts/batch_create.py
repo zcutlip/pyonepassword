@@ -2,6 +2,8 @@
 from argparse import ArgumentParser, Namespace
 from typing import List, Optional
 
+import dotenv
+
 from pyonepassword import OP, logging
 from pyonepassword.api.constants import LETTERS_DIGITS_SYMBOLS_20
 from pyonepassword.api.object_types import (
@@ -52,7 +54,12 @@ def batch_create_parse_args():
     parser.add_argument("--username", help="Base username", default="user_")
     parser.add_argument(
         "--alternating-tags", help="Comma-separated list of tags to alternate between when creating items")
+    parser.add_argument(
+        "--url", help="URL string to associate with the items created")
+    parser.add_argument(
+        "--starting-number", help="Starting number of the first item to create", type=int, default=0)
     parser.add_argument("--category", help="Category of item to create")
+    parser.add_argument("--env-file", help="Path to a .env file to load")
     parsed = parser.parse_args()
     return parsed
 
@@ -65,6 +72,10 @@ def create_items(options: Namespace):
     vault = options.vault
     item_name_base = options.name
     username_base = options.username
+    url = options.url
+    start = options.starting_number
+    if start < 0:
+        raise Exception("Starting number must be >= 0")
 
     category = "login"
     if options.category:
@@ -76,15 +87,17 @@ def create_items(options: Namespace):
 
     print(f"creating {count} {category} items in {vault} vault")
     for i in range(0, count):
+        item_num = i + start
         _tags = []
         if tags:
             tagnum = i % len(tags)
             _tags = tags[tagnum:tagnum + 1]
-        title = f"{item_name_base} {i:02d}"
+        title = f"{item_name_base} {item_num:02d}"
         password = LETTERS_DIGITS_SYMBOLS_20
         if category == "login":
-            username = f"{username_base}{i:02d}"
-            item_template = OPLoginItemTemplate(title, username, tags=_tags)
+            username = f"{username_base}{item_num:02d}"
+            item_template = OPLoginItemTemplate(
+                title, username, url=url, tags=_tags)
         elif category == "password":
             item_template = OPPasswordItemTemplate(title, tags=_tags)
         else:
@@ -95,12 +108,18 @@ def create_items(options: Namespace):
 
 def main():
     options = batch_create_parse_args()
+    if options.env_file:
+        loaded = dotenv.load_dotenv(options.env_file)
+        if not loaded:
+            print(f"Failed to load env file {options.env_file}")
+            return -1
     create_items(options)
+    return 0
 
 
 if __name__ == "__main__":
     try:
-        main()
+        exit(main())
     except KeyboardInterrupt:
         print("Interruped. terminating")
         exit(130)

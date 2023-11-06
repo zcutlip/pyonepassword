@@ -1,0 +1,52 @@
+{
+  "id": "j3oytnhyz32hqz7t4aogyrfpqy",
+  "title": "Example Login Item 21a",
+  "version": 7,
+  "vault": {
+    "id": "vkjyqsbkf63zycqigbg3yxd7ce",
+    "name": "Test Data 2"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "A47WW2CN6BEMDDS7RXRKBFQIZ4",
+  "created_at": "2023-10-19T03:56:29Z",
+  "updated_at": "2023-10-20T03:22:13Z",
+  "additional_information": "user_22",
+  "urls": [
+    {
+      "label": "website",
+      "primary": true,
+      "href": "http://example.com/login.html"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "user_22",
+      "reference": "op://Test Data 2/Example Login Item 21a/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "kUM.T2UQ7jqJYEkfGHg8",
+      "entropy": 118.28331756591797,
+      "reference": "op://Test Data 2/Example Login Item 21a/password",
+      "password_details": {
+        "entropy": 118,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data 2/Example Login Item 21a/notesPlain"
+    }
+  ]
+}

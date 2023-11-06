@@ -1,0 +1,84 @@
+{
+  "id": "ditodi62v54v3cctlrgeyob4ay",
+  "title": "Example Login Item 19",
+  "version": 3,
+  "vault": {
+    "id": "vkjyqsbkf63zycqigbg3yxd7ce",
+    "name": "Test Data 2"
+  },
+  "category": "LOGIN",
+  "last_edited_by": "4J4NLDK7GFAXJFOR7RF2KDUAMI",
+  "created_at": "2023-09-07T20:31:38Z",
+  "updated_at": "2023-10-17T22:34:50Z",
+  "additional_information": "user_19",
+  "urls": [
+    {
+      "label": "website",
+      "primary": true,
+      "href": "https://example.com/login"
+    }
+  ],
+  "sections": [
+    {
+      "id": "srad7gzaijhwguwdio6pavxdum",
+      "label": "Section 01"
+    },
+    {
+      "id": "siangow5ffvhgnaro6ejdzfiiy",
+      "label": "Section 02"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "username",
+      "value": "user_19",
+      "reference": "op://Test Data 2/Example Login Item 19/username"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "password",
+      "value": "rFyo*4mVDDeUiRukKYxW",
+      "entropy": 118.28331756591797,
+      "reference": "op://Test Data 2/Example Login Item 19/password",
+      "password_details": {
+        "entropy": 118,
+        "generated": true,
+        "strength": "FANTASTIC"
+      }
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data 2/Example Login Item 19/notesPlain"
+    },
+    {
+      "id": "uyhdjin5xhy3swn6yl3wzgtrgy",
+      "section": {
+        "id": "srad7gzaijhwguwdio6pavxdum",
+        "label": "Section 01"
+      },
+      "type": "STRING",
+      "label": "Ambiguous Field Match",
+      "value": "field text for first ambiguous field match",
+      "reference": "op://Test Data 2/Example Login Item 19/Section 01/Ambiguous Field Match"
+    },
+    {
+      "id": "wcjcs5ogqsewrci3kmpssdcolq",
+      "section": {
+        "id": "siangow5ffvhgnaro6ejdzfiiy",
+        "label": "Section 02"
+      },
+      "type": "STRING",
+      "label": "Ambiguous Field Match",
+      "value": "field text for second ambiguous field match",
+      "reference": "op://Test Data 2/Example Login Item 19/Section 02/Ambiguous Field Match"
+    }
+  ]
+}

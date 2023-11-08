@@ -85,7 +85,7 @@ class _OPArgv(list):
             sub_cmd_args.extend(["--vault", vault])
         if include_archive:
             sub_cmd_args.append("--include-archive")
-        argv = cls.document_generic_argv(op_exe, "get", sub_cmd_args)
+        argv = cls._document_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
     @classmethod
@@ -99,7 +99,8 @@ class _OPArgv(list):
             sub_cmd_args.append("--archive")
         if vault:
             sub_cmd_args.extend(["--vault", vault])
-        delete_argv = cls.document_generic_argv(op_exe, "delete", sub_cmd_args)
+        delete_argv = cls._document_generic_argv(
+            op_exe, "delete", sub_cmd_args)
 
         return delete_argv
 
@@ -492,10 +493,10 @@ class _OPArgv(list):
         return delete_argv
 
     @classmethod
-    def document_generic_argv(cls,
-                              op_exe: str,
-                              subcommands: Optional[Union[str, List[str]]],
-                              sub_cmd_args: Optional[List[str]]):
+    def _document_generic_argv(cls,
+                               op_exe: str,
+                               subcommands: Optional[Union[str, List[str]]],
+                               sub_cmd_args: Optional[List[str]]):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:

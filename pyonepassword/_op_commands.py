@@ -372,7 +372,7 @@ class _OPCommandInterface(_OPCLIExecute):
     def _run_signin(self, argv, password=None):
         try:
             output = self._run(argv, capture_stdout=True,
-                               input_string=password, decode="utf-8")
+                               input=password, decode="utf-8")
         except OPCmdFailedException as ocfe:
             raise OPSigninException.from_opexception(ocfe) from ocfe
 
@@ -384,7 +384,7 @@ class _OPCommandInterface(_OPCLIExecute):
                              account: str,
                              argv: _OPArgv,
                              capture_stdout: bool = False,
-                             input_string: str = None,
+                             input: Union[str, bytes] = None,
                              decode: str = None,
                              env: Mapping = environ):
         # this somewhat of a hack to detect if authentication has expired
@@ -418,7 +418,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return cls._run(argv,
                         capture_stdout=capture_stdout,
-                        input_string=input_string,
+                        input=input,
                         decode=decode,
                         env=env)
 
@@ -579,7 +579,7 @@ class _OPCommandInterface(_OPCLIExecute):
             # 'op item delete' doesn't have any output if successful
             # if it fails, stderr will be in the exception object
             self._run_with_auth_check(
-                self.op_path, self._account_identifier, item_delete_argv, input_string=batch_json)
+                self.op_path, self._account_identifier, item_delete_argv, input=batch_json)
         except OPCmdFailedException as ocfe:
             # OPItemDeleteException will get turned into
             # OPItemDeleteMultipleException by the caller, so

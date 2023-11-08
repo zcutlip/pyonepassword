@@ -427,27 +427,6 @@ class _OPCommandInterface(_OPCLIExecute):
         argv = _OPArgv.account_list_argv(op_path, encoding=encoding)
         return argv
 
-    def _item_get_argv(self, item_name_or_id, vault=None, fields=None, include_archive=False):
-        vault_arg = vault if vault else self.vault
-
-        lookup_argv = _OPArgv.item_get_argv(
-            self.op_path, item_name_or_id, vault=vault_arg, fields=fields, include_archive=include_archive)
-        return lookup_argv
-
-    def _item_delete_argv(self, item_name_or_id, vault=None, archive=False):
-        vault_arg = vault if vault else self.vault
-
-        delete_argv = _OPArgv.item_delete_argv(
-            self.op_path, item_name_or_id, vault=vault_arg, archive=archive)
-        return delete_argv
-
-    def _item_get_totp_argv(self, item_name_or_id, vault=None):
-        vault_arg = vault if vault else self.vault
-
-        lookup_argv = _OPArgv.item_get_totp_argv(
-            self.op_path, item_name_or_id, vault=vault_arg)
-        return lookup_argv
-
     def _document_get_argv(self,
                            document_name_or_id: str,
                            vault: Optional[str] = None,
@@ -468,6 +447,27 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, document_name_or_id, vault=vault_arg, archive=archive)
 
         return document_delete_argv
+
+    def _item_get_argv(self, item_name_or_id, vault=None, fields=None, include_archive=False):
+        vault_arg = vault if vault else self.vault
+
+        lookup_argv = _OPArgv.item_get_argv(
+            self.op_path, item_name_or_id, vault=vault_arg, fields=fields, include_archive=include_archive)
+        return lookup_argv
+
+    def _item_delete_argv(self, item_name_or_id, vault=None, archive=False):
+        vault_arg = vault if vault else self.vault
+
+        delete_argv = _OPArgv.item_delete_argv(
+            self.op_path, item_name_or_id, vault=vault_arg, archive=archive)
+        return delete_argv
+
+    def _item_get_totp_argv(self, item_name_or_id, vault=None):
+        vault_arg = vault if vault else self.vault
+
+        lookup_argv = _OPArgv.item_get_totp_argv(
+            self.op_path, item_name_or_id, vault=vault_arg)
+        return lookup_argv
 
     def _user_get_argv(self, user_name_or_id: str):
         get_user_argv = _OPArgv.user_get_argv(self.op_path, user_name_or_id)

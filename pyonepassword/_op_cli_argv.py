@@ -89,6 +89,15 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    def document_edit_argv(cls, op_exe, document_identifier, vault=None):
+
+        sub_cmd_args = [document_identifier]
+        if vault:
+            sub_cmd_args.extend(["--vault", vault])
+        argv = cls._document_generic_argv(op_exe, "edit", sub_cmd_args)
+        return argv
+
+    @classmethod
     def document_delete_argv(cls,
                              op_exe: str,
                              document_name_or_id: str,

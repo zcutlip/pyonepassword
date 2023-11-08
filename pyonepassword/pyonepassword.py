@@ -1466,6 +1466,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             try:
                 self._item_delete_multiple(batch_json, vault, archive=archive)
             except OPCmdFailedException as ope:  # pragma: no coverage
+                # we have to raise OPItemDeleteMultipleException from here
+                # so we can give it the list of successully deleted items
+                # that isn't known from inside _item_delete_multiple()
                 raise OPItemDeleteMultipleException.from_opexception(
                     ope, deleted_items)
             deleted_items.extend(batch)

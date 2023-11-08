@@ -531,6 +531,9 @@ class _OPCommandInterface(_OPCLIExecute):
             self._run_with_auth_check(
                 self.op_path, self._account_identifier, item_delete_argv, input_string=batch_json)
         except OPCmdFailedException as ocfe:
+            # OPItemDeleteException will get turned into
+            # OPItemDeleteMultipleException by the caller, so
+            # any sucessfully deleted items can be included in the exception object
             raise OPItemDeleteException.from_opexception(ocfe)
 
         return

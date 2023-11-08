@@ -495,6 +495,56 @@ class _OPCommandInterface(_OPCLIExecute):
         account_obj = OPAccount(account_json)
         return account_obj
 
+    def _document_get(self,
+                      document_name_or_id: str,
+                      vault: Optional[str] = None,
+                      include_archive: Optional[bool] = False):
+        """
+        Download a document object from a 1Password vault by name or UUID.
+
+        Arguments:
+            - 'item_name_or_id': The item to look up
+        Raises:
+            - OPDocumentGetException if the lookup fails for any reason.
+            - OPNotFoundException if the 1Password command can't be found.
+        Returns:
+            - Bytes: document bytes
+        """
+
+        get_document_argv = self._document_get_argv(
+            document_name_or_id, vault=vault, include_archive=include_archive)
+
+        try:
+            document_bytes = self._run_with_auth_check(
+                self.op_path, self._account_identifier, get_document_argv, capture_stdout=True)
+        except OPCmdFailedException as ocfe:
+            raise OPDocumentGetException.from_opexception(ocfe) from ocfe
+
+        if self._cli_version <= DOCUMENT_BYTES_BUG_VERSION:  # pragma: no cover
+            # op versions 2.0.0 - 2.2.0 append an erroneous \x0a ('\n') byte to document bytes
+            # trim it off if its present
+            if document_bytes[-1] == 0x0a:
+                document_bytes = document_bytes[:-1]
+            else:
+                # this shouldn't happen but maybe an edge case?
+                pass
+
+        return document_bytes
+
+    def _document_delete(self, document_name_or_id: str, vault: Optional[str] = None, archive=False):
+
+        document_delete_argv = self._document_delete_argv(
+            document_name_or_id, vault=vault, archive=archive)
+        try:
+            # 'op document delete' doesn't have any output if successful
+            # if it fails, stderr will be in the exception object
+            self._run_with_auth_check(
+                self.op_path, self._account_identifier, document_delete_argv)
+        except OPCmdFailedException as ocfe:
+            raise OPDocumentDeleteException.from_opexception(ocfe)
+
+        return
+
     def _item_get(self, item_name_or_id, vault=None, fields=None, include_archive=False, decode="utf-8"):
         item_get_argv = self._item_get_argv(
             item_name_or_id, vault=vault, fields=fields, include_archive=include_archive)
@@ -548,56 +598,6 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPItemGetException.from_opexception(ocfe) from ocfe
 
         return output
-
-    def _document_get(self,
-                      document_name_or_id: str,
-                      vault: Optional[str] = None,
-                      include_archive: Optional[bool] = False):
-        """
-        Download a document object from a 1Password vault by name or UUID.
-
-        Arguments:
-            - 'item_name_or_id': The item to look up
-        Raises:
-            - OPDocumentGetException if the lookup fails for any reason.
-            - OPNotFoundException if the 1Password command can't be found.
-        Returns:
-            - Bytes: document bytes
-        """
-
-        get_document_argv = self._document_get_argv(
-            document_name_or_id, vault=vault, include_archive=include_archive)
-
-        try:
-            document_bytes = self._run_with_auth_check(
-                self.op_path, self._account_identifier, get_document_argv, capture_stdout=True)
-        except OPCmdFailedException as ocfe:
-            raise OPDocumentGetException.from_opexception(ocfe) from ocfe
-
-        if self._cli_version <= DOCUMENT_BYTES_BUG_VERSION:  # pragma: no cover
-            # op versions 2.0.0 - 2.2.0 append an erroneous \x0a ('\n') byte to document bytes
-            # trim it off if its present
-            if document_bytes[-1] == 0x0a:
-                document_bytes = document_bytes[:-1]
-            else:
-                # this shouldn't happen but maybe an edge case?
-                pass
-
-        return document_bytes
-
-    def _document_delete(self, document_name_or_id: str, vault: Optional[str] = None, archive=False):
-
-        document_delete_argv = self._document_delete_argv(
-            document_name_or_id, vault=vault, archive=archive)
-        try:
-            # 'op document delete' doesn't have any output if successful
-            # if it fails, stderr will be in the exception object
-            self._run_with_auth_check(
-                self.op_path, self._account_identifier, document_delete_argv)
-        except OPCmdFailedException as ocfe:
-            raise OPDocumentDeleteException.from_opexception(ocfe)
-
-        return
 
     @classmethod
     def _signed_in_accounts(cls, op_path, decode="utf-8"):

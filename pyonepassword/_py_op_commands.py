@@ -11,9 +11,9 @@ from typing import TYPE_CHECKING, Dict, List, Mapping, Optional, Union
 if TYPE_CHECKING:  # pragma: no coverage
     from pyonepassword._field_assignment import OPFieldTypeEnum
 
+from ._op_cli import _OPCLIExecute
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
-from ._py_op_cli import _OPCLIExecute
 from ._svc_account import (
     SVC_ACCT_CMD_NOT_SUPPORTED,
     SVC_ACCT_INCOMPAT_OPTIONS,

@@ -32,6 +32,7 @@ from .py_op_exceptions import (
     OPCmdFailedException,
     OPCmdMalformedSvcAcctTokenException,
     OPDocumentDeleteException,
+    OPDocumentEditException,
     OPDocumentGetException,
     OPGroupGetException,
     OPGroupListException,
@@ -531,6 +532,20 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return document_bytes
 
+    def _document_edit(self, document_identifier: str, document_bytes: bytes, vault: Optional[str] = None):
+
+        document_edit_argv = self._document_edit_argv(
+            document_identifier, vault=vault)
+        try:
+            # 'op document edit' doesn't have any output if successful
+            # if it fails, stderr will be in the exception object
+            self._run_with_auth_check(
+                self.op_path, self._account_identifier, document_edit_argv, input=document_bytes)
+        except OPCmdFailedException as ocfe:
+            raise OPDocumentEditException.from_opexception(ocfe)
+
+        return
+
     def _document_delete(self, document_name_or_id: str, vault: Optional[str] = None, archive=False):
 
         document_delete_argv = self._document_delete_argv(
@@ -804,6 +819,17 @@ class _OPCommandInterface(_OPCLIExecute):
         print(document_get_argv)
 
         return document_get_argv
+
+    def _document_edit_argv(self,
+                            document_identifier: str,
+                            vault: Optional[str] = None):
+        vault_arg = vault if vault else self.vault
+        document_edit_argv = _OPArgv.document_edit_argv(self.op_path,
+                                                        document_identifier,
+                                                        vault=vault_arg)
+        print(document_edit_argv)
+
+        return document_edit_argv
 
     def _document_delete_argv(self, document_name_or_id: str, vault: Optional[str] = None, archive=False):
         vault_arg = vault if vault else self.vault

@@ -9,7 +9,7 @@ if TYPE_CHECKING:  # pragma: no coverage
     from .op_items.fields_sections.item_field import OPItemField
 
 from ._field_assignment import OPFieldTypeEnum
-from ._py_op_commands import (
+from ._op_commands import (
     EXISTING_AUTH_IGNORE,
     ExistingAuthEnum,
     _OPCommandInterface

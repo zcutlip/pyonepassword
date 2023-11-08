@@ -1,5 +1,8 @@
 import pathlib
 
+from pyonepassword import OP
+from pyonepassword.logging import console_debug_logger
+
 
 def snippet_dir():
     main_file = pathlib.Path(__file__)
@@ -12,3 +15,9 @@ def scratch_dir():
     scratch = pathlib.Path(main_dir, "scratch")
     scratch.mkdir(exist_ok=True)
     return scratch
+
+
+def get_op(logger_name):
+    logger = console_debug_logger(logger_name)
+    op = OP(logger=logger)
+    return op

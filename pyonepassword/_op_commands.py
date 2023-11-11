@@ -816,7 +816,6 @@ class _OPCommandInterface(_OPCLIExecute):
                                                       document_name_or_id,
                                                       vault=vault_arg,
                                                       include_archive=include_archive)
-        print(document_get_argv)
 
         return document_get_argv
 
@@ -827,7 +826,6 @@ class _OPCommandInterface(_OPCLIExecute):
         document_edit_argv = _OPArgv.document_edit_argv(self.op_path,
                                                         document_identifier,
                                                         vault=vault_arg)
-        print(document_edit_argv)
 
         return document_edit_argv
 

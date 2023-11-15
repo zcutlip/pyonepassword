@@ -42,6 +42,16 @@ class ValidData:
             data = data.rstrip()
         return data
 
+    def data_path_for_name(self, entry_name, version=0):
+        entry: Dict = self._registry[entry_name]
+        if "versions" in entry:
+            entry = entry["versions"][version]
+
+        item_filename = entry["name"]
+
+        item_path = Path(self._data_path, item_filename)
+        return item_path
+
     def data_for_name(self, entry_name, version=0):
         entry: Dict = self._registry[entry_name]
         if "versions" in entry:

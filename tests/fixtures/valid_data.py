@@ -28,10 +28,11 @@ class ValidData:
                     "registry": reg_dict, "registry_path": registry_path}
         return registry
 
-    def _load_text_or_json(self, item_path, item_type, strip):
+    def _load_data_from_file(self, item_path, item_type, strip):
         if item_type in ["text", "json"]:
             mode = "r"
         else:
+            strip = False
             mode = "rb"
         data = open(item_path, mode).read()
         if item_type == "json":
@@ -54,7 +55,8 @@ class ValidData:
         if item_type == "registry":
             data = self._load_registry_dict(item_path)
         else:
-            data = self._load_text_or_json(item_path, item_type, strip)
+            # text, json, binary
+            data = self._load_data_from_file(item_path, item_type, strip)
 
         return data
 

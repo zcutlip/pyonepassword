@@ -6,6 +6,7 @@ import pytest
 
 from pyonepassword.api.exceptions import (
     OPFieldNotFoundException,
+    OPItemEditException,
     OPSectionNotFoundException
 )
 from pyonepassword.py_op_exceptions import (
@@ -284,3 +285,21 @@ def test_item_edit_add_password_no_insecure_acknowledge_090(signed_in_op: OP):
                                             field_label=field_label,
                                             section_label=section_label,
                                             vault=vault)
+
+
+def test_item_edit_invalid_item_01(signed_in_op: OP):
+    """
+    Test: OP.item_edit_set_text_field() raises OPItemEditException appropriately
+        - Attempt to call item_edit_set_text_field() on an item that doesn't exist
+    Verify:
+        - OPItemEditException is raised
+    """
+    item_name = "Invalid Item"
+    text_field_label = "this text field doesn't exist because the item doesn't exist"
+    section_label = "seriously same thing applies"
+    text_field_value = "whatever this isn't going to work anyway"
+    with pytest.raises(OPItemEditException):
+        signed_in_op.item_edit_set_text_field(item_name,
+                                              text_field_value,
+                                              text_field_label,
+                                              section_label=section_label)

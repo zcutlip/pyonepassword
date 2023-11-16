@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.0] 2023-11-15
+
+### Fixed
+
+Raise `OPItemEditException` when editing item fields if the item does not exist.
+
 ## [4.0.0] 2023-11-06
 
 ### Added

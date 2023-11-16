@@ -53,6 +53,7 @@ from .py_op_exceptions import (
     OPInvalidItemException,
     OPItemDeleteException,
     OPItemDeleteMultipleException,
+    OPItemEditException,
     OPItemGetException,
     OPItemListException,
     OPPasswordFieldDowngradeException,
@@ -650,8 +651,6 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         Raises
         ------
-        OPItemGetException
-            If the item lookup fails for any reason
         OPFieldExistsException
             If the field to be added already existss
         OPItemEditException
@@ -718,8 +717,6 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         Raises
         ------
-        OPItemGetException
-            If the item lookup fails for any reason
         OPFieldExistsException
             If the field to be added already existss
         OPItemEditException
@@ -782,8 +779,6 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         Raises
         ------
-        OPItemGetException
-            If the item lookup fails for any reason
         OPFieldExistsException
             If the field to be added already existss
         OPItemEditException
@@ -854,8 +849,6 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         Raises
         ------
-        OPItemGetException
-            If the item lookup fails for any reason
         OPSectionNotFoundException
             If a section label is specified but can't be looked up on the item object
         OPFieldNotFoundException
@@ -927,8 +920,6 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         Raises
         ------
-        OPItemGetException
-            If the item lookup fails for any reason
         OPSectionNotFoundException
             If a section label is specified but can't be looked up on the item object
         OPFieldNotFoundException
@@ -1001,8 +992,6 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         Raises
         ------
-        OPItemGetException
-            If the item lookup fails for any reason
         OPSectionNotFoundException
             If a section label is specified but can't be looked up on the item object
         OPFieldNotFoundException
@@ -1811,8 +1800,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         # Does the item exist?
         # generic_okay: Enable editing of unknown OPItem types
-        item = self.item_get(
-            item_identifier, vault=vault, generic_okay=True)
+        try:
+            item = self.item_get(
+                item_identifier, vault=vault, generic_okay=True)
+        except OPItemGetException as e:
+            raise OPItemEditException.from_opexception(e)
 
         if not create_field:
             # Does the field and, if provided, the section exist?

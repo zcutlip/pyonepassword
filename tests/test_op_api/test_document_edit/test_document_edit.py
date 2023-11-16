@@ -5,11 +5,11 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from pyonepassword import OP
 
-    from ..fixtures.binary_input_data import BinaryImageData
+    from ...fixtures.binary_input_data import BinaryImageData
 
 import pytest
 
-from ..test_support.util import digest
+from ...test_support.util import digest
 
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 

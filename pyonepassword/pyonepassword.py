@@ -176,7 +176,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
     def document_edit(self,
                       document_identifier: str,
-                      file_path: Union[str, Path],
+                      file_path_or_document_bytes: Union[str, Path, bytes],
                       vault: Optional[str] = None,
                       relaxed_validation: bool = False) -> str:
         """
@@ -186,8 +186,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         ----------
         document_identifier : str
             Name or identifier of the document to edit
-        file_path: Union[str, Path],
-            Path to the file to replace the current document with
+        file_path_or_document_bytes: Union[str, Path, bytes],
+            Either the path to the file to replace the current document with,
+            or the actual bytes representation of the replacement document
         vault : str, optional
             The name or ID of a vault to override the default vault, by default None
         relaxed_validation: bool, optional
@@ -211,8 +212,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
           required keyword arguments: vault
         """
 
-        file_path = Path(file_path)
-        document_bytes = file_path.read_bytes()
+        if isinstance(file_path_or_document_bytes, bytes):
+            document_bytes = file_path_or_document_bytes
+        else:
+            file_path_or_document_bytes = Path(file_path_or_document_bytes)
+            document_bytes = file_path_or_document_bytes.read_bytes()
 
         # to satisfy mypy
         generic_item_class: Type[_OPGenericItem]

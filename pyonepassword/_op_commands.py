@@ -532,10 +532,15 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return document_bytes
 
-    def _document_edit(self, document_identifier: str, document_bytes: bytes, vault: Optional[str] = None):
+    def _document_edit(self,
+                       document_identifier: str,
+                       document_bytes: bytes,
+                       file_name: Optional[str] = None,
+                       new_title: Optional[str] = None,
+                       vault: Optional[str] = None):
 
         document_edit_argv = self._document_edit_argv(
-            document_identifier, vault=vault)
+            document_identifier, file_name=file_name, new_title=new_title, vault=vault)
         try:
             # 'op document edit' doesn't have any output if successful
             # if it fails, stderr will be in the exception object
@@ -821,10 +826,14 @@ class _OPCommandInterface(_OPCLIExecute):
 
     def _document_edit_argv(self,
                             document_identifier: str,
+                            file_name: Optional[str] = None,
+                            new_title: Optional[str] = None,
                             vault: Optional[str] = None):
         vault_arg = vault if vault else self.vault
         document_edit_argv = _OPArgv.document_edit_argv(self.op_path,
                                                         document_identifier,
+                                                        file_name=file_name,
+                                                        new_title=new_title,
                                                         vault=vault_arg)
 
         return document_edit_argv

@@ -177,6 +177,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
     def document_edit(self,
                       document_identifier: str,
                       file_path_or_document_bytes: Union[str, Path, bytes],
+                      file_name: Optional[str] = None,
+                      new_title: Optional[str] = None,
                       vault: Optional[str] = None,
                       relaxed_validation: bool = False) -> str:
         """
@@ -189,6 +191,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         file_path_or_document_bytes: Union[str, Path, bytes],
             Either the path to the file to replace the current document with,
             or the actual bytes representation of the replacement document
+        file_name: str, optional
+            Optionally set the document's fileName attribute to this value
+        new_title: str, optional
+            Optionally update the title of the document to this value
         vault : str, optional
             The name or ID of a vault to override the default vault, by default None
         relaxed_validation: bool, optional
@@ -238,7 +244,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         # 'op document edit' doesn't have any stdout, so we're not
         # capturing any here
-        self._document_edit(document_id, document_bytes, vault=vault)
+        self._document_edit(document_id, document_bytes,
+                            file_name=file_name, new_title=new_title, vault=vault)
 
         return document_id
 

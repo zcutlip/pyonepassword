@@ -232,8 +232,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             raise OPDocumentEditException.from_opexception(e)
         # we want to return the explicit ID even if we were
         # given an document name or other identifier
-        # that way the caller knows exactly what got deleted
-        # can match it up with what they expected to be deleted, if desired
+        # that way the caller knows exactly what got edited
+        # can match it up with what they expected to be edited, if desired
         document_id = item.unique_id
 
         # 'op document edit' doesn't have any stdout, so we're not

@@ -45,6 +45,20 @@
       "stderr": "error_output",
       "name": "document-get-example-document-01-filename",
       "changes_state": false
+    },
+    "--format|json|document|get|example document 02|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "document-get-example-document-02",
+      "changes_state": false
+    },
+    "--format|json|item|get|example document 02|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "document-get-example-document-02-filename",
+      "changes_state": false
     }
   },
   "commands_with_input": {
@@ -54,6 +68,15 @@
         "stdout": "output",
         "stderr": "error_output",
         "name": "document-edit-example-document-01",
+        "changes_state": true
+      }
+    },
+    "d1857eefc7b8dcf80c5137ad54b96215": {
+      "--format|json|document|edit|okeubqaxp4bdjywf7xbvqov2ou|--title|example document 02 - updated|--vault|Test Data 2": {
+        "exit_status": 0,
+        "stdout": "output",
+        "stderr": "error_output",
+        "name": "document-edit-example-document-02",
         "changes_state": true
       }
     }

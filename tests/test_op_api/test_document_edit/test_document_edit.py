@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pyonepassword import OP
+    from pyonepassword.api.object_types import OPDocumentItem
 
     from ...fixtures.binary_input_data import BinaryImageData
 
@@ -89,3 +90,33 @@ def test_document_edit_02(signed_in_op: OP, binary_image_data: BinaryImageData):
     assert filename_2 == filename_1
     # The updated document digest should now match the digest of the input file
     assert digest_2 == input_data_digest
+
+
+@pytest.mark.usefixtures("setup_stateful_document_edit")
+def test_document_edit_03(signed_in_op: OP, binary_image_data: BinaryImageData):
+    """
+    Test: OP.document_edit() while setting a new item title
+        - Retrieve document item via OP.item_get()
+        - Call document_edit(), providing the new file path along with a new title
+        - Retreive the same item a second time
+    Verify:
+        - The title of the original document item does not match the new document title
+        - The title of the second retrieved itemmatches the teh new document title
+    """
+    item_name = "example document 02"
+    new_item_title = "example document 02 - updated"
+    vault = "Test Data 2"
+
+    input_data_path = binary_image_data.data_path_for_name(
+        "replacement-image-02")
+    document_item_1: OPDocumentItem = signed_in_op.item_get(
+        item_name, vault=vault)
+    assert document_item_1.title != new_item_title
+    # Provide path to the input file
+    # we'll test providing input bytes separately
+    signed_in_op.document_edit(
+        item_name, input_data_path, new_title=new_item_title, vault=vault)
+
+    document_item_2: OPDocumentItem = signed_in_op.item_get(
+        new_item_title, vault=vault)
+    assert document_item_2.title == new_item_title

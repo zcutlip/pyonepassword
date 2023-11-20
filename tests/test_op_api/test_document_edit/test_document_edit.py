@@ -101,7 +101,7 @@ def test_document_edit_03(signed_in_op: OP, binary_image_data: BinaryImageData):
         - Retreive the same item a second time
     Verify:
         - The title of the original document item does not match the new document title
-        - The title of the second retrieved itemmatches the teh new document title
+        - The title of the second retrieved item matches the the new document title
     """
     item_name = "example document 02"
     new_item_title = "example document 02 - updated"

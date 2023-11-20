@@ -38,6 +38,20 @@
       "stderr": "error_output",
       "name": "document-get-example-document-02-updated-filename",
       "changes_state": false
+    },
+    "--format|json|document|get|example document 03|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "document-get-example-document-03",
+      "changes_state": false
+    },
+    "--format|json|item|get|example document 03|--vault|Test Data 2": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "document-get-example-document-03-filename",
+      "changes_state": false
     }
   },
   "commands_with_input": {}

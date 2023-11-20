@@ -120,3 +120,34 @@ def test_document_edit_03(signed_in_op: OP, binary_image_data: BinaryImageData):
     document_item_2: OPDocumentItem = signed_in_op.item_get(
         new_item_title, vault=vault)
     assert document_item_2.title == new_item_title
+
+
+@pytest.mark.usefixtures("setup_stateful_document_edit")
+def test_document_edit_04(signed_in_op: OP, binary_image_data: BinaryImageData):
+    """
+    Test: OP.document_edit() while setting a new filename
+        - Retrieve document item via OP.item_get()
+        - Call document_edit(), providing the new file path along with a new filename
+        - Retreive the same item a second time
+    Verify:
+        - The filename of the original document item does not match the new filename
+        - The filename of the second retrieved item matches the the new document filename
+    """
+    item_name = "example document 03"
+    vault = "Test Data 2"
+
+    input_data_path = binary_image_data.data_path_for_name(
+        "replacement-image-03")
+    new_file_name = input_data_path.name
+
+    document_item_1: OPDocumentItem = signed_in_op.item_get(
+        item_name, vault=vault)
+    assert document_item_1.file_name != new_file_name
+    # Provide path to the input file
+    # we'll test providing input bytes separately
+    signed_in_op.document_edit(
+        item_name, input_data_path, file_name=new_file_name, vault=vault)
+
+    document_item_2: OPDocumentItem = signed_in_op.item_get(
+        item_name, vault=vault)
+    assert document_item_2.file_name == new_file_name

@@ -352,6 +352,12 @@ For details on editing existing items in a 1Password vault, see [item-editing.md
 
 Also see the examles in [examples/item_editing](examples/item_editing/)
 
+### Document Editing
+
+For details on editing existing document item file contents, see [document-editing.md](docs/document-editing.md)
+
+See examples in [examples/document_editing](examples/document_editing.py)
+
 ### More Examples
 
 Lots more examples are available in the `examples` directory

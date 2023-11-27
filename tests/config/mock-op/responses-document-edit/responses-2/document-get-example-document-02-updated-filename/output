@@ -1,0 +1,30 @@
+{
+  "id": "okeubqaxp4bdjywf7xbvqov2ou",
+  "title": "example document 02 - updated",
+  "version": 2,
+  "vault": {
+    "id": "vkjyqsbkf63zycqigbg3yxd7ce",
+    "name": "Test Data 2"
+  },
+  "category": "DOCUMENT",
+  "last_edited_by": "FZTDCNIJAOEBZZ2VQFNDVHC3K6",
+  "created_at": "2023-11-15T03:26:36Z",
+  "updated_at": "2023-11-19T03:20:20Z",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data 2/example document 02 - updated/notesPlain"
+    }
+  ],
+  "files": [
+    {
+      "id": "z2u4b47rl4m423cob7uqtu5n4q",
+      "name": "image_02.png",
+      "size": 2602,
+      "content_path": "/v1/vaults/vkjyqsbkf63zycqigbg3yxd7ce/items/okeubqaxp4bdjywf7xbvqov2ou/files/z2u4b47rl4m423cob7uqtu5n4q/content"
+    }
+  ]
+}

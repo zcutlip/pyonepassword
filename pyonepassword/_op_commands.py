@@ -11,9 +11,9 @@ from typing import TYPE_CHECKING, Dict, List, Mapping, Optional, Union
 if TYPE_CHECKING:  # pragma: no coverage
     from pyonepassword._field_assignment import OPFieldTypeEnum
 
+from ._op_cli import _OPCLIExecute
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
-from ._py_op_cli import _OPCLIExecute
 from ._svc_account import (
     SVC_ACCT_CMD_NOT_SUPPORTED,
     SVC_ACCT_INCOMPAT_OPTIONS,
@@ -32,6 +32,7 @@ from .py_op_exceptions import (
     OPCmdFailedException,
     OPCmdMalformedSvcAcctTokenException,
     OPDocumentDeleteException,
+    OPDocumentEditException,
     OPDocumentGetException,
     OPGroupGetException,
     OPGroupListException,
@@ -372,7 +373,7 @@ class _OPCommandInterface(_OPCLIExecute):
     def _run_signin(self, argv, password=None):
         try:
             output = self._run(argv, capture_stdout=True,
-                               input_string=password, decode="utf-8")
+                               input=password, decode="utf-8")
         except OPCmdFailedException as ocfe:
             raise OPSigninException.from_opexception(ocfe) from ocfe
 
@@ -384,7 +385,7 @@ class _OPCommandInterface(_OPCLIExecute):
                              account: str,
                              argv: _OPArgv,
                              capture_stdout: bool = False,
-                             input_string: str = None,
+                             input: Union[str, bytes] = None,
                              decode: str = None,
                              env: Mapping = environ):
         # this somewhat of a hack to detect if authentication has expired
@@ -418,86 +419,9 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return cls._run(argv,
                         capture_stdout=capture_stdout,
-                        input_string=input_string,
+                        input=input,
                         decode=decode,
                         env=env)
-
-    @classmethod
-    def _account_list_argv(cls, op_path="op", encoding="utf-8"):
-        argv = _OPArgv.account_list_argv(op_path, encoding=encoding)
-        return argv
-
-    def _item_get_argv(self, item_name_or_id, vault=None, fields=None, include_archive=False):
-        vault_arg = vault if vault else self.vault
-
-        lookup_argv = _OPArgv.item_get_argv(
-            self.op_path, item_name_or_id, vault=vault_arg, fields=fields, include_archive=include_archive)
-        return lookup_argv
-
-    def _item_delete_argv(self, item_name_or_id, vault=None, archive=False):
-        vault_arg = vault if vault else self.vault
-
-        delete_argv = _OPArgv.item_delete_argv(
-            self.op_path, item_name_or_id, vault=vault_arg, archive=archive)
-        return delete_argv
-
-    def _item_get_totp_argv(self, item_name_or_id, vault=None):
-        vault_arg = vault if vault else self.vault
-
-        lookup_argv = _OPArgv.item_get_totp_argv(
-            self.op_path, item_name_or_id, vault=vault_arg)
-        return lookup_argv
-
-    def _document_get_argv(self,
-                           document_name_or_id: str,
-                           vault: Optional[str] = None,
-                           include_archive: Optional[bool] = False):
-        vault_arg = vault if vault else self.vault
-        document_get_argv = _OPArgv.document_get_argv(self.op_path,
-                                                      document_name_or_id,
-                                                      vault=vault_arg,
-                                                      include_archive=include_archive)
-        print(document_get_argv)
-
-        return document_get_argv
-
-    def _document_delete_argv(self, document_name_or_id: str, vault: Optional[str] = None, archive=False):
-        vault_arg = vault if vault else self.vault
-
-        document_delete_argv = _OPArgv.document_delete_argv(
-            self.op_path, document_name_or_id, vault=vault_arg, archive=archive)
-
-        return document_delete_argv
-
-    def _user_get_argv(self, user_name_or_id: str):
-        get_user_argv = _OPArgv.user_get_argv(self.op_path, user_name_or_id)
-        return get_user_argv
-
-    def _user_list_argv(self, group_name_or_id=None, vault=None):
-        user_list_argv = _OPArgv.user_list_argv(
-            self.op_path, group_name_or_id=group_name_or_id, vault=vault)
-        return user_list_argv
-
-    def _group_get_argv(self, group_name_or_id: str):
-        group_get_argv = _OPArgv.group_get_argv(
-            self.op_path, group_name_or_id)
-        return group_get_argv
-
-    def _group_list_argv(self, user_name_or_id=None, vault=None):
-        group_list_argv = _OPArgv.group_list_argv(
-            self.op_path, user_name_or_id=user_name_or_id, vault=vault)
-        return group_list_argv
-
-    def _vault_get_argv(self, vault_name_or_id: str):
-
-        get_vault_argv = _OPArgv.vault_get_argv(
-            self.op_path, vault_name_or_id)
-        return get_vault_argv
-
-    def _vault_list_argv(self, group_name_or_id=None, user_name_or_id=None):
-        vault_list_argv = _OPArgv.vault_list_argv(
-            self.op_path, group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
-        return vault_list_argv
 
     @classmethod
     def _item_template_list_special(cls, op_path,  env: Dict[str, str] = None):
@@ -572,57 +496,6 @@ class _OPCommandInterface(_OPCLIExecute):
         account_obj = OPAccount(account_json)
         return account_obj
 
-    def _item_get(self, item_name_or_id, vault=None, fields=None, include_archive=False, decode="utf-8"):
-        item_get_argv = self._item_get_argv(
-            item_name_or_id, vault=vault, fields=fields, include_archive=include_archive)
-        try:
-            output = self._run_with_auth_check(
-                self.op_path, self._account_identifier, item_get_argv, capture_stdout=True, decode=decode)
-        except OPCmdFailedException as ocfe:
-            raise OPItemGetException.from_opexception(ocfe) from ocfe
-
-        return output
-
-    def _item_delete(self, item_name_or_id, vault=None, archive=False, decode="utf-8"):
-        item_delete_argv = self._item_delete_argv(
-            item_name_or_id, vault=vault, archive=archive)
-        try:
-            # 'op item delete' doesn't have any output if successful
-            # if it fails, stderr will be in the exception object
-            self._run_with_auth_check(
-                self.op_path, self._account_identifier, item_delete_argv, decode=decode)
-        except OPCmdFailedException as ocfe:
-            raise OPItemDeleteException.from_opexception(ocfe)
-
-        return
-
-    def _item_delete_multiple(self, batch_json, vault, archive=False):
-        # op item delete takes '-' for the item to delete if objects are
-        # provided over stdin
-        item_id = "-"
-        item_delete_argv = self._item_delete_argv(
-            item_id, vault=vault, archive=archive)
-        try:
-            # 'op item delete' doesn't have any output if successful
-            # if it fails, stderr will be in the exception object
-            self._run_with_auth_check(
-                self.op_path, self._account_identifier, item_delete_argv, input_string=batch_json)
-        except OPCmdFailedException as ocfe:
-            raise OPItemDeleteException.from_opexception(ocfe)
-
-        return
-
-    def _item_get_totp(self, item_name_or_id, vault=None, decode="utf-8"):
-        item_get_totp_argv = self._item_get_totp_argv(
-            item_name_or_id, vault=vault)
-        try:
-            output = self._run_with_auth_check(self.op_path, self._account_identifier,
-                                               item_get_totp_argv, capture_stdout=True, decode=decode)
-        except OPCmdFailedException as ocfe:
-            raise OPItemGetException.from_opexception(ocfe) from ocfe
-
-        return output
-
     def _document_get(self,
                       document_name_or_id: str,
                       vault: Optional[str] = None,
@@ -659,6 +532,25 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return document_bytes
 
+    def _document_edit(self,
+                       document_identifier: str,
+                       document_bytes: bytes,
+                       file_name: Optional[str] = None,
+                       new_title: Optional[str] = None,
+                       vault: Optional[str] = None):
+
+        document_edit_argv = self._document_edit_argv(
+            document_identifier, file_name=file_name, new_title=new_title, vault=vault)
+        try:
+            # 'op document edit' doesn't have any output if successful
+            # if it fails, stderr will be in the exception object
+            self._run_with_auth_check(
+                self.op_path, self._account_identifier, document_edit_argv, input=document_bytes)
+        except OPCmdFailedException as ocfe:
+            raise OPDocumentEditException.from_opexception(ocfe)
+
+        return
+
     def _document_delete(self, document_name_or_id: str, vault: Optional[str] = None, archive=False):
 
         document_delete_argv = self._document_delete_argv(
@@ -672,6 +564,60 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPDocumentDeleteException.from_opexception(ocfe)
 
         return
+
+    def _item_get(self, item_name_or_id, vault=None, fields=None, include_archive=False, decode="utf-8"):
+        item_get_argv = self._item_get_argv(
+            item_name_or_id, vault=vault, fields=fields, include_archive=include_archive)
+        try:
+            output = self._run_with_auth_check(
+                self.op_path, self._account_identifier, item_get_argv, capture_stdout=True, decode=decode)
+        except OPCmdFailedException as ocfe:
+            raise OPItemGetException.from_opexception(ocfe) from ocfe
+
+        return output
+
+    def _item_delete(self, item_name_or_id, vault=None, archive=False, decode="utf-8"):
+        item_delete_argv = self._item_delete_argv(
+            item_name_or_id, vault=vault, archive=archive)
+        try:
+            # 'op item delete' doesn't have any output if successful
+            # if it fails, stderr will be in the exception object
+            self._run_with_auth_check(
+                self.op_path, self._account_identifier, item_delete_argv, decode=decode)
+        except OPCmdFailedException as ocfe:
+            raise OPItemDeleteException.from_opexception(ocfe)
+
+        return
+
+    def _item_delete_multiple(self, batch_json, vault, archive=False):
+        # op item delete takes '-' for the item to delete if objects are
+        # provided over stdin
+        item_id = "-"
+        item_delete_argv = self._item_delete_argv(
+            item_id, vault=vault, archive=archive)
+        try:
+            # 'op item delete' doesn't have any output if successful
+            # if it fails, stderr will be in the exception object
+            self._run_with_auth_check(
+                self.op_path, self._account_identifier, item_delete_argv, input=batch_json)
+        except OPCmdFailedException as ocfe:
+            # OPItemDeleteException will get turned into
+            # OPItemDeleteMultipleException by the caller, so
+            # any sucessfully deleted items can be included in the exception object
+            raise OPItemDeleteException.from_opexception(ocfe)
+
+        return
+
+    def _item_get_totp(self, item_name_or_id, vault=None, decode="utf-8"):
+        item_get_totp_argv = self._item_get_totp_argv(
+            item_name_or_id, vault=vault)
+        try:
+            output = self._run_with_auth_check(self.op_path, self._account_identifier,
+                                               item_get_totp_argv, capture_stdout=True, decode=decode)
+        except OPCmdFailedException as ocfe:
+            raise OPItemGetException.from_opexception(ocfe) from ocfe
+
+        return output
 
     @classmethod
     def _signed_in_accounts(cls, op_path, decode="utf-8"):
@@ -752,20 +698,6 @@ class _OPCommandInterface(_OPCLIExecute):
         argv = _OPArgv.account_forget_argv(op_path, account)
         cls._run(argv)
 
-    def _item_list_argv(self, categories=[], include_archive=False, tags=[], vault=None):
-        # default lists to the categories & list kwargs
-        # get initialized at module load
-        # so its the same list object on every call to this funciton
-        # This really isn't what we want, so the easiest
-        # mitigation is to just make a copy of whatever list was passed in
-        # or of the default kwarg if nothing was passed in
-        categories = list(categories)
-        tags = list(tags)
-        vault_arg = vault if vault else self.vault
-        list_items_argv = _OPArgv.item_list_argv(self.op_path,
-                                                 categories=categories, include_archive=include_archive, tags=tags, vault=vault_arg)
-        return list_items_argv
-
     def _item_list(self, categories=[], include_archive=False, tags=[], vault=None, decode="utf-8"):
         # default lists to the categories & list kwargs
         # get initialized at module load
@@ -783,91 +715,6 @@ class _OPCommandInterface(_OPCLIExecute):
         except OPCmdFailedException as e:
             raise OPItemListException.from_opexception(e)
         return output
-
-    def _item_create_argv(self, item, password_recipe, vault):
-        vault_arg = vault if vault else self.vault
-        item_create_argv = _OPArgv.item_create_argv(
-            self.op_path, item, password_recipe=password_recipe, vault=vault_arg
-        )
-        return item_create_argv
-
-    def _item_edit_set_field_value_argv(self,
-                                        item_identifier: str,
-                                        field_type: OPFieldTypeEnum,
-                                        value: str,
-                                        field_label: str,
-                                        section_label: Optional[str],
-                                        vault: Optional[str]):
-        vault_arg = vault if vault else self.vault
-        item_edit_argv = _OPArgv.item_edit_set_field_value(self.op_path,
-                                                           item_identifier,
-                                                           field_type,
-                                                           value,
-                                                           field_label=field_label,
-                                                           section_label=section_label,
-                                                           vault=vault_arg)
-        return item_edit_argv
-
-    def _item_edit_favorite_argv(self,
-                                 item_identifier: str,
-                                 favorite: bool,
-                                 vault: Optional[str]):
-        vault_arg = vault if vault else self.vault
-
-        item_edit_argv = _OPArgv.item_edit_favorite(self.op_path,
-                                                    item_identifier,
-                                                    favorite,
-                                                    vault=vault_arg)
-        return item_edit_argv
-
-    def _item_edit_generate_password_argv(self,
-                                          item_identifier: str,
-                                          password_recipe: OPPasswordRecipe,
-                                          vault: Optional[str]):
-
-        vault_arg = vault if vault else self.vault
-        item_edit_argv = _OPArgv.item_edit_generate_password_argv(self.op_path,
-                                                                  item_identifier,
-                                                                  password_recipe,
-                                                                  vault=vault_arg)
-        return item_edit_argv
-
-    def _item_edit_tags_argv(self,
-                             item_identifier: str,
-                             tags: List[str],
-                             vault: Optional[str]):
-        vault_arg = vault if vault else self.vault
-
-        item_edit_argv = _OPArgv.item_edit_tags(self.op_path,
-                                                item_identifier,
-                                                tags,
-                                                vault=vault_arg)
-
-        return item_edit_argv
-
-    def _item_edit_title_argv(self,
-                              item_identifier: str,
-                              item_title: str,
-                              vault: Optional[str]):
-        vault_arg = vault if vault else self.vault
-
-        item_edit_argv = _OPArgv.item_edit_title(self.op_path,
-                                                 item_identifier,
-                                                 item_title,
-                                                 vault=vault_arg)
-        return item_edit_argv
-
-    def _item_edit_url_argv(self,
-                            item_identifier: str,
-                            url: str,
-                            vault: Optional[str]):
-        vault_arg = vault if vault else self.vault
-
-        item_edit_argv = _OPArgv.item_edit_url(self.op_path,
-                                               item_identifier,
-                                               url,
-                                               vault=vault_arg)
-        return item_edit_argv
 
     def _item_create(self, item, vault, password_recipe, decode="utf-8"):
         argv = self._item_create_argv(item, password_recipe, vault)
@@ -959,3 +806,192 @@ class _OPCommandInterface(_OPCLIExecute):
 
         output = self._item_edit_run(argv, decode)
         return output
+
+    @classmethod
+    def _account_list_argv(cls, op_path="op", encoding="utf-8"):
+        argv = _OPArgv.account_list_argv(op_path, encoding=encoding)
+        return argv
+
+    def _document_get_argv(self,
+                           document_name_or_id: str,
+                           vault: Optional[str] = None,
+                           include_archive: Optional[bool] = False):
+        vault_arg = vault if vault else self.vault
+        document_get_argv = _OPArgv.document_get_argv(self.op_path,
+                                                      document_name_or_id,
+                                                      vault=vault_arg,
+                                                      include_archive=include_archive)
+
+        return document_get_argv
+
+    def _document_edit_argv(self,
+                            document_identifier: str,
+                            file_name: Optional[str] = None,
+                            new_title: Optional[str] = None,
+                            vault: Optional[str] = None):
+        vault_arg = vault if vault else self.vault
+        document_edit_argv = _OPArgv.document_edit_argv(self.op_path,
+                                                        document_identifier,
+                                                        file_name=file_name,
+                                                        new_title=new_title,
+                                                        vault=vault_arg)
+
+        return document_edit_argv
+
+    def _document_delete_argv(self, document_name_or_id: str, vault: Optional[str] = None, archive=False):
+        vault_arg = vault if vault else self.vault
+
+        document_delete_argv = _OPArgv.document_delete_argv(
+            self.op_path, document_name_or_id, vault=vault_arg, archive=archive)
+
+        return document_delete_argv
+
+    def _item_get_argv(self, item_name_or_id, vault=None, fields=None, include_archive=False):
+        vault_arg = vault if vault else self.vault
+
+        lookup_argv = _OPArgv.item_get_argv(
+            self.op_path, item_name_or_id, vault=vault_arg, fields=fields, include_archive=include_archive)
+        return lookup_argv
+
+    def _item_delete_argv(self, item_name_or_id, vault=None, archive=False):
+        vault_arg = vault if vault else self.vault
+
+        delete_argv = _OPArgv.item_delete_argv(
+            self.op_path, item_name_or_id, vault=vault_arg, archive=archive)
+        return delete_argv
+
+    def _item_get_totp_argv(self, item_name_or_id, vault=None):
+        vault_arg = vault if vault else self.vault
+
+        lookup_argv = _OPArgv.item_get_totp_argv(
+            self.op_path, item_name_or_id, vault=vault_arg)
+        return lookup_argv
+
+    def _user_get_argv(self, user_name_or_id: str):
+        get_user_argv = _OPArgv.user_get_argv(self.op_path, user_name_or_id)
+        return get_user_argv
+
+    def _user_list_argv(self, group_name_or_id=None, vault=None):
+        user_list_argv = _OPArgv.user_list_argv(
+            self.op_path, group_name_or_id=group_name_or_id, vault=vault)
+        return user_list_argv
+
+    def _group_get_argv(self, group_name_or_id: str):
+        group_get_argv = _OPArgv.group_get_argv(
+            self.op_path, group_name_or_id)
+        return group_get_argv
+
+    def _group_list_argv(self, user_name_or_id=None, vault=None):
+        group_list_argv = _OPArgv.group_list_argv(
+            self.op_path, user_name_or_id=user_name_or_id, vault=vault)
+        return group_list_argv
+
+    def _vault_get_argv(self, vault_name_or_id: str):
+
+        get_vault_argv = _OPArgv.vault_get_argv(
+            self.op_path, vault_name_or_id)
+        return get_vault_argv
+
+    def _vault_list_argv(self, group_name_or_id=None, user_name_or_id=None):
+        vault_list_argv = _OPArgv.vault_list_argv(
+            self.op_path, group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
+        return vault_list_argv
+
+    def _item_create_argv(self, item, password_recipe, vault):
+        vault_arg = vault if vault else self.vault
+        item_create_argv = _OPArgv.item_create_argv(
+            self.op_path, item, password_recipe=password_recipe, vault=vault_arg
+        )
+        return item_create_argv
+
+    def _item_edit_set_field_value_argv(self,
+                                        item_identifier: str,
+                                        field_type: OPFieldTypeEnum,
+                                        value: str,
+                                        field_label: str,
+                                        section_label: Optional[str],
+                                        vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+        item_edit_argv = _OPArgv.item_edit_set_field_value(self.op_path,
+                                                           item_identifier,
+                                                           field_type,
+                                                           value,
+                                                           field_label=field_label,
+                                                           section_label=section_label,
+                                                           vault=vault_arg)
+        return item_edit_argv
+
+    def _item_edit_favorite_argv(self,
+                                 item_identifier: str,
+                                 favorite: bool,
+                                 vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+
+        item_edit_argv = _OPArgv.item_edit_favorite(self.op_path,
+                                                    item_identifier,
+                                                    favorite,
+                                                    vault=vault_arg)
+        return item_edit_argv
+
+    def _item_edit_generate_password_argv(self,
+                                          item_identifier: str,
+                                          password_recipe: OPPasswordRecipe,
+                                          vault: Optional[str]):
+
+        vault_arg = vault if vault else self.vault
+        item_edit_argv = _OPArgv.item_edit_generate_password_argv(self.op_path,
+                                                                  item_identifier,
+                                                                  password_recipe,
+                                                                  vault=vault_arg)
+        return item_edit_argv
+
+    def _item_edit_tags_argv(self,
+                             item_identifier: str,
+                             tags: List[str],
+                             vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+
+        item_edit_argv = _OPArgv.item_edit_tags(self.op_path,
+                                                item_identifier,
+                                                tags,
+                                                vault=vault_arg)
+
+        return item_edit_argv
+
+    def _item_edit_title_argv(self,
+                              item_identifier: str,
+                              item_title: str,
+                              vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+
+        item_edit_argv = _OPArgv.item_edit_title(self.op_path,
+                                                 item_identifier,
+                                                 item_title,
+                                                 vault=vault_arg)
+        return item_edit_argv
+
+    def _item_edit_url_argv(self,
+                            item_identifier: str,
+                            url: str,
+                            vault: Optional[str]):
+        vault_arg = vault if vault else self.vault
+
+        item_edit_argv = _OPArgv.item_edit_url(self.op_path,
+                                               item_identifier,
+                                               url,
+                                               vault=vault_arg)
+        return item_edit_argv
+
+    def _item_list_argv(self, categories=[], include_archive=False, tags=[], vault=None):
+        # default lists to the categories & list kwargs
+        # get initialized at module load
+        # so its the same list object on every call to this funciton
+        # This really isn't what we want, so the easiest
+        # mitigation is to just make a copy of whatever list was passed in
+        # or of the default kwarg if nothing was passed in
+        categories = list(categories)
+        tags = list(tags)
+        vault_arg = vault if vault else self.vault
+        list_items_argv = _OPArgv.item_list_argv(self.op_path,
+                                                 categories=categories, include_archive=include_archive, tags=tags, vault=vault_arg)
+        return list_items_argv

@@ -44,14 +44,14 @@ class _OPCLIExecute:
         return should_log
 
     @classmethod
-    def _run_raw(cls, argv, input_string=None, capture_stdout=False, ignore_error=False, env=environ):
+    def _run_raw(cls, argv, input=None, capture_stdout=False, ignore_error=False, env=environ):
         stdout = subprocess.PIPE if capture_stdout else None
-        if input_string:
-            if isinstance(input_string, str):
-                input_string = input_string.encode("utf-8")
+        if input:
+            if isinstance(input, str):
+                input = input.encode("utf-8")
 
         _ran = subprocess.run(
-            argv, input=input_string, stderr=subprocess.PIPE, stdout=stdout, env=env)
+            argv, input=input, stderr=subprocess.PIPE, stdout=stdout, env=env)
 
         stdout = _ran.stdout
         stderr = _ran.stderr
@@ -90,12 +90,12 @@ class _OPCLIExecute:
         return (stdout, stderr, returncode)
 
     @classmethod
-    def _run(cls, argv, capture_stdout=False, input_string=None, decode=None, env=environ):
+    def _run(cls, argv, capture_stdout=False, input=None, decode=None, env=environ):
         cls.logger.debug(f"Running: {argv.cmd_str()}")
         output = None
         try:
             output, _, _ = cls._run_raw(
-                argv, input_string=input_string, capture_stdout=capture_stdout, env=env)
+                argv, input=input, capture_stdout=capture_stdout, env=env)
             if decode and output is not None:
                 output = output.decode(decode)
         except FileNotFoundError as err:

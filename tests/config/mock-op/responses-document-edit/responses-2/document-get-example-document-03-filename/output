@@ -1,0 +1,30 @@
+{
+  "id": "znj7rkttvpz7femlp2wzflizgq",
+  "title": "example document 03",
+  "version": 6,
+  "vault": {
+    "id": "vkjyqsbkf63zycqigbg3yxd7ce",
+    "name": "Test Data 2"
+  },
+  "category": "DOCUMENT",
+  "last_edited_by": "FZTDCNIJAOEBZZ2VQFNDVHC3K6",
+  "created_at": "2023-11-15T03:26:37Z",
+  "updated_at": "2023-11-20T03:37:05Z",
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "reference": "op://Test Data 2/example document 03/notesPlain"
+    }
+  ],
+  "files": [
+    {
+      "id": "7bzfthc5o2t25gkmnygjukj24i",
+      "name": "replacement_image_03.png",
+      "size": 2626,
+      "content_path": "/v1/vaults/vkjyqsbkf63zycqigbg3yxd7ce/items/znj7rkttvpz7femlp2wzflizgq/files/7bzfthc5o2t25gkmnygjukj24i/content"
+    }
+  ]
+}

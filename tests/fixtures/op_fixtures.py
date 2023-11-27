@@ -8,6 +8,7 @@ from pytest import fixture
 from pyonepassword import OP, logging
 from pyonepassword.api.exceptions import OPCmdFailedException
 
+from .binary_input_data import BinaryImageData
 from .expected_account_data import ExpectedAccountData
 from .expected_api_credential_data import ExpectedAPICredentialData
 from .expected_credit_card import ExpectedCreditCardData
@@ -40,6 +41,7 @@ from .invalid_op_cli_config import (
 from .non_comformant_data import NonConformantData
 from .paths import (
     ALT_RESP_DIRECTORY_PATH,
+    DOCUMENT_EDIT_STATE_CONFIG_PATH,
     ITEM_DELETE_MULTIPLE_STATE_CONFIG_PATH,
     ITEM_DELETE_MULTIPLE_TITLE_GLOB_STATE_CONFIG_PATH,
     ITEM_EDIT_STATE_CONFIG_PATH,
@@ -219,6 +221,33 @@ def setup_stateful_item_edit():
     state_config_path = Path(state_config_dir, config_file_name)
     shutil.copyfile(
         ITEM_EDIT_STATE_CONFIG_PATH, state_config_path)
+
+    # now pop MOCK_OP_RESPONSE_DIRECTORY to ensure it doesn't conflict with with
+    # the stateful config
+    old_mock_op_resp_dir = os.environ.pop("MOCK_OP_RESPONSE_DIRECTORY", None)
+    os.environ["MOCK_OP_STATE_DIR"] = str(state_config_path)
+    yield  # pytest will return us here after the test runs
+    # get rid of MOCK_OP_STATE_DIR
+    os.environ.pop("MOCK_OP_STATE_DIR")
+
+    # restore MOCK_OP_RESPONSE_DIRECTORY if it was previously set
+    if old_mock_op_resp_dir is not None:
+        os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = old_mock_op_resp_dir
+
+    # temp_dir will get cleaned up once we return
+
+
+@fixture
+def setup_stateful_document_edit():
+
+    # set up a temporary directory to copy the state config to, since it gets modified
+    # during state iteration
+    config_file_name = DOCUMENT_EDIT_STATE_CONFIG_PATH.name
+    temp_dir = tempfile.TemporaryDirectory()
+    state_config_dir = temp_dir.name
+    state_config_path = Path(state_config_dir, config_file_name)
+    shutil.copyfile(
+        DOCUMENT_EDIT_STATE_CONFIG_PATH, state_config_path)
 
     # now pop MOCK_OP_RESPONSE_DIRECTORY to ensure it doesn't conflict with with
     # the stateful config
@@ -525,6 +554,12 @@ def valid_data():
 @fixture
 def non_conformant_data():
     data = NonConformantData()
+    return data
+
+
+@fixture
+def binary_image_data():
+    data = BinaryImageData()
     return data
 
 

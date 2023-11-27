@@ -2,7 +2,7 @@ import getpass
 
 from pyonepassword import OP, logging
 from pyonepassword._op_cli_config import OPCLIAccountConfig, OPCLIConfig
-from pyonepassword._py_op_commands import (  # noqa: F401
+from pyonepassword._op_commands import (  # noqa: F401
     EXISTING_AUTH_AVAIL,
     EXISTING_AUTH_IGNORE,
     EXISTING_AUTH_REQD

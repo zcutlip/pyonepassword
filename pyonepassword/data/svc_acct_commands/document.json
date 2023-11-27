@@ -17,6 +17,13 @@
         "--vault"
       ],
       "prohibited_options": []
+    },
+    "edit": {
+      "has_arg": true,
+      "required_options": [
+        "--vault"
+      ],
+      "prohibited_options": []
     }
   }
 }

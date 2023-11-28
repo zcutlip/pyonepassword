@@ -7,8 +7,8 @@ import pytest
 if TYPE_CHECKING:
     from pyonepassword import OP
 
-    from ..fixtures.expected_item import ExpectedItemData
-    from ..fixtures.expected_login import ExpectedLoginItemData
+    from ....fixtures.expected_item import ExpectedItemData
+    from ....fixtures.expected_login import ExpectedLoginItemData
 
 from pyonepassword.api.exceptions import OPItemGetException
 from pyonepassword.api.object_types import OPLoginItem

@@ -10,7 +10,7 @@ import pytest
 # circular imports.
 # this also reduced exercising tested code simply by importing
 if TYPE_CHECKING:
-    from ..fixtures.expected_totp_data import ExpectedTOTP, ExpectedTOTPData
+    from ....fixtures.expected_totp_data import ExpectedTOTP, ExpectedTOTPData
     from pyonepassword import OP
 
 from pyonepassword.api.exceptions import OPItemGetException

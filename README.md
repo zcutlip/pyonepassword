@@ -1,5 +1,12 @@
 # PYONEPASSWORD
 
+![PyPI - Version](https://img.shields.io/pypi/v/pyonepassword)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyonepassword)
+![Testing & linting](https://github.com/zcutlip/pyonepassword/actions/workflows/python-package.yml/badge.svg)
+![CodeQL](https://github.com/zcutlip/pyonepassword/actions/workflows/codeql.yml/badge.svg)
+
+
+
 ## Description
 
 A Python API to sign into and query a 1Password account using the `op` command.

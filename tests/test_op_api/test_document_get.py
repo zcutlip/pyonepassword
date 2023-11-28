@@ -13,7 +13,7 @@ from pyonepassword.api.exceptions import (
 )
 from pyonepassword.api.object_types import OPDocumentFile, OPDocumentItem
 
-from .test_support.util import digest
+from ..test_support.util import digest
 
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 

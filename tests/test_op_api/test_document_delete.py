@@ -14,9 +14,9 @@ from pyonepassword.api.exceptions import OPDocumentDeleteException
 if TYPE_CHECKING:
     from pyonepassword import OP
 
-    from .fixtures.expected_document_data import ExpectedDocumentData
+    from ..fixtures.expected_document_data import ExpectedDocumentData
 
-from .test_support.util import digest
+from ..test_support.util import digest
 
 # ensure HOME env variable is set, and there's a valid op config present
 pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")

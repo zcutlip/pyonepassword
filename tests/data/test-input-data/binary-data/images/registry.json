@@ -1,0 +1,14 @@
+{
+  "replacement-image-01": {
+    "name": "replacement_image_01.png",
+    "type": "binary"
+  },
+  "replacement-image-02": {
+    "name": "replacement_image_02.png",
+    "type": "binary"
+  },
+  "replacement-image-03": {
+    "name": "replacement_image_03.png",
+    "type": "binary"
+  }
+}

@@ -3,13 +3,14 @@ from __future__ import annotations
 import fnmatch
 import logging
 from os import environ as env
+from pathlib import Path
 from typing import TYPE_CHECKING, List, Optional, Type, Union
 
 if TYPE_CHECKING:  # pragma: no coverage
     from .op_items.fields_sections.item_field import OPItemField
 
 from ._field_assignment import OPFieldTypeEnum
-from ._py_op_commands import (
+from ._op_commands import (
     EXISTING_AUTH_IGNORE,
     ExistingAuthEnum,
     _OPCommandInterface
@@ -45,6 +46,7 @@ from .op_objects import (
 from .py_op_exceptions import (
     OPCmdFailedException,
     OPDocumentDeleteException,
+    OPDocumentEditException,
     OPDocumentGetException,
     OPFieldExistsException,
     OPForgetException,
@@ -171,6 +173,81 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
 
         return (file_name, document_bytes)
+
+    def document_edit(self,
+                      document_identifier: str,
+                      file_path_or_document_bytes: Union[str, Path, bytes],
+                      file_name: Optional[str] = None,
+                      new_title: Optional[str] = None,
+                      vault: Optional[str] = None,
+                      relaxed_validation: bool = False) -> str:
+        """
+        Edit a document object based on document name or unique identifier
+
+        Parameters
+        ----------
+        document_identifier : str
+            Name or identifier of the document to edit
+        file_path_or_document_bytes: Union[str, Path, bytes],
+            Either the path to the file to replace the current document with,
+            or the actual bytes representation of the replacement document
+        file_name: str, optional
+            Optionally set the document's fileName attribute to this value
+        new_title: str, optional
+            Optionally update the title of the document to this value
+        vault : str, optional
+            The name or ID of a vault to override the default vault, by default None
+        relaxed_validation: bool, optional
+            Whether to enable relaxed item validation for this query, in order to parse non-conformant data
+            by default False
+        Returns
+        -------
+        document_id: str
+            Unique identifier of the item edited
+
+        Raises
+        ------
+        OPDocumentEditException
+            - If the document to be edit is not found
+            - If there is more than one item matching 'document_identifier'
+            - If the edit operation fails for any other reason
+
+        Service Account Support
+        -----------------------
+        Supported
+          required keyword arguments: vault
+        """
+
+        if isinstance(file_path_or_document_bytes, bytes):
+            document_bytes = file_path_or_document_bytes
+        else:
+            file_path_or_document_bytes = Path(file_path_or_document_bytes)
+            document_bytes = file_path_or_document_bytes.read_bytes()
+
+        # to satisfy mypy
+        generic_item_class: Type[_OPGenericItem]
+        if relaxed_validation:
+            generic_item_class = _OPGenericItemRelaxedValidation
+        else:
+            generic_item_class = _OPGenericItem
+
+        try:
+            output = self._item_get(document_identifier, vault=vault)
+            item = generic_item_class(output)
+        except OPItemGetException as e:
+            raise OPDocumentEditException.from_opexception(e)
+        # we want to return the explicit ID even if we were
+        # given an document name or other identifier
+        # that way the caller knows exactly what got edited
+        # can match it up with what they expected to be edited, if desired
+        document_id = item.unique_id
+
+        # 'op document edit' doesn't have any stdout, so we're not
+        # capturing any here
+        self._document_edit(document_id, document_bytes,
+                            file_name=file_name, new_title=new_title, vault=vault)
+
+        return document_id
 
     def document_delete(self, document_identifier: str, vault: Optional[str] = None, archive: bool = False, relaxed_validation: bool = False) -> str:
         """
@@ -1466,6 +1543,9 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             try:
                 self._item_delete_multiple(batch_json, vault, archive=archive)
             except OPCmdFailedException as ope:  # pragma: no coverage
+                # we have to raise OPItemDeleteMultipleException from here
+                # so we can give it the list of successully deleted items
+                # that isn't known from inside _item_delete_multiple()
                 raise OPItemDeleteMultipleException.from_opexception(
                     ope, deleted_items)
             deleted_items.extend(batch)

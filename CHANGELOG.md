@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.0] 2023-11-28
+
+### Added
+
+- Document editing (gh-150):
+  - `OP.document_edit()`
+
+### Documentation
+
+- Describe document editing in `docs/document-editing.md`
+- Added set of document editing examples under `examples/document_editing`
+
+### Misc
+
+Substantial reorganization of `tests/`
+
 ## [4.0.0] 2023-11-15
 
 ### Fixed

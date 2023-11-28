@@ -77,9 +77,15 @@ setup(
     entry_points={"console_scripts":
                   ["opconfig=pyonepassword.opconfig_main:main"]},
     classifiers=[
-        "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "Operating System :: OS Independent",
+        "Topic :: Software Development :: Libraries",
+        "Topic :: Utilities",
     ],
     cmdclass={
         # TODO: this breaks building in tox>=4.0

@@ -6,7 +6,7 @@ import pytest
 
 if TYPE_CHECKING:
     from pyonepassword import OP
-    from ..fixtures.expected_user_data import ExpectedUserData
+    from ....fixtures.expected_user_data import ExpectedUserData
 
 from pyonepassword.api.exceptions import OPUserGetException
 from pyonepassword.api.object_types import OPUser

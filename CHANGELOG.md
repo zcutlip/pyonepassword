@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [DEVELOPMENT] 2023-11-27
+## [4.1.0] 2023-11-28
 
 ### Added
 
@@ -10,8 +10,13 @@ All notable changes to this project will be documented in this file.
   - `OP.document_edit()`
 
 ### Documentation
+
 - Describe document editing in `docs/document-editing.md`
 - Added set of document editing examples under `examples/document_editing`
+
+### Misc
+
+Substantial reorganization of `tests/`
 
 ## [4.0.0] 2023-11-15
 

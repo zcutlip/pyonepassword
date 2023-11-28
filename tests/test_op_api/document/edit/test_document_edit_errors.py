@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pyonepassword import OP
-    from ...fixtures.binary_input_data import BinaryImageData
+    from ....fixtures.binary_input_data import BinaryImageData
 
 import pytest
 

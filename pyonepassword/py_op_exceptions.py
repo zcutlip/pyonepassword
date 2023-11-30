@@ -99,7 +99,7 @@ class OPForgetException(OPCmdFailedException):  # pragma: no coverage
 
 
 class OPItemGetException(OPCmdFailedException):
-    MSG = "1Password 'get item' failed."
+    MSG = "1Password 'item get' failed."
 
     def __init__(self, stderr_out, returncode):
         super().__init__(stderr_out, returncode)
@@ -169,7 +169,7 @@ class OPDocumentEditException(OPCmdFailedException):
 
 
 class OPUserGetException(OPCmdFailedException):
-    MSG = "1Password 'get user' failed."
+    MSG = "1Password 'user get' failed."
 
     def __init__(self, stderr_out, returncode):
         super().__init__(stderr_out, returncode)
@@ -183,7 +183,7 @@ class OPUserListException(OPCmdFailedException):
 
 
 class OPVaultGetException(OPCmdFailedException):
-    MSG = "1Password 'get vault' failed."
+    MSG = "1Password 'vault get' failed."
 
     def __init__(self, stderr_out, returncode):
         super().__init__(stderr_out, returncode)
@@ -197,7 +197,7 @@ class OPVaultListException(OPCmdFailedException):
 
 
 class OPGroupGetException(OPCmdFailedException):
-    MSG = "1Password 'get group' failed."
+    MSG = "1Password 'group get' failed."
 
     def __init__(self, stderr_out, returncode):
         super().__init__(stderr_out, returncode)

@@ -175,6 +175,13 @@ class OPUserGetException(OPCmdFailedException):
         super().__init__(stderr_out, returncode)
 
 
+class OPUserEditException(OPCmdFailedException):
+    MSG = "1Password 'user edit' failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
+
 class OPUserListException(OPCmdFailedException):
     MSG = "1Password 'user list' failed."
 

@@ -627,10 +627,10 @@ class _OPCommandInterface(_OPCLIExecute):
         return output
 
     def _user_get(self, user_name_or_id: str, decode: str = "utf-8") -> str:
-        get_user_argv = self._user_get_argv(user_name_or_id)
+        user_get_argv = self._user_get_argv(user_name_or_id)
         try:
             output = self._run_with_auth_check(self.op_path, self._account_identifier,
-                                               get_user_argv, capture_stdout=True, decode=decode)
+                                               user_get_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPUserGetException.from_opexception(ocfe) from ocfe
         return output

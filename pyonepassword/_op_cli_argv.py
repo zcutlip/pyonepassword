@@ -237,8 +237,8 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def group_get_argv(cls, op_exe, user_name_or_id):
-        sub_cmd_args = [user_name_or_id]
+    def group_get_argv(cls, op_exe, group_name_or_id):
+        sub_cmd_args = [group_name_or_id]
         argv = cls.group_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 

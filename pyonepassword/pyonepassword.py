@@ -817,13 +817,12 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         Supported
           required keyword arguments: vault
         """
-        password = RedactedString(url, unmask_len=0)
         field_type = OPFieldTypeEnum.URL
         op_item = self._item_edit_set_field(item_identifier,
                                             field_type,
                                             field_label,
                                             section_label,
-                                            password,
+                                            url,
                                             vault,
                                             password_downgrade=False,
                                             insecure_operation=False,

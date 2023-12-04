@@ -59,7 +59,9 @@ from .py_op_exceptions import (
     OPItemGetException,
     OPItemListException,
     OPPasswordFieldDowngradeException,
-    OPSignoutException
+    OPSignoutException,
+    OPUserEditException,
+    OPUserGetException
 )
 from .string import RedactedString
 from .version import PyOPAboutMixin
@@ -1641,6 +1643,51 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         user_json = self._user_get(user_name_or_id)
         user = OPUser(user_json)
         return user
+
+    def user_edit(self,
+                  user_name_or_id: str,
+                  new_name: Optional[str] = None,
+                  travel_mode: Optional[bool] = None) -> OPUser:
+        """
+        Edit the details for the user specified by name or unique ID.
+
+        Parameters
+        ----------
+        user_name_or_id: str
+            Name or ID of the user to edit
+        new_name: str, optional
+            New user-visible name to assign to user
+            by default, None
+        travel_mode: bool, optional
+            Set travel mode on or off
+            by default, None
+        Raises
+        ------
+        OPUserEditException
+            If the lookup or edit fails for any reason during command execution
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        user_id: str
+            The unique ID of the user
+
+        Service Account Support
+        -----------------------
+        Not supported
+        """
+        # 'op document edit' doesn't have any stdout, so we're not
+        # capturing any here
+        try:
+            user = self.user_get(user_name_or_id)
+        except OPUserGetException as e:
+            raise OPUserEditException.from_opexception(e)
+
+        user_id = user.unique_id
+        self._user_edit(user_id, new_name, travel_mode)
+
+        return user_id
 
     def user_list(self, group_name_or_id=None, vault_name_or_id=None) -> OPUserDescriptorList:
         """

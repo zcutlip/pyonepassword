@@ -190,6 +190,7 @@ class _OPArgv(list):
         if group_name_or_id:
             sub_cmd_args.extend(["--group", group_name_or_id])
         if user_name_or_id:
+            user_name_or_id = RedactedString(user_name_or_id)
             sub_cmd_args.extend(["--user", user_name_or_id])
         argv = cls.vault_generic_argv(op_exe, "list", sub_cmd_args)
         return argv
@@ -209,6 +210,7 @@ class _OPArgv(list):
 
     @classmethod
     def user_get_argv(cls, op_exe, user_name_or_id):
+        user_name_or_id = RedactedString(user_name_or_id)
         sub_cmd_args = [user_name_or_id]
         argv = cls.user_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
@@ -246,6 +248,7 @@ class _OPArgv(list):
     def group_list_argv(cls, op_exe, user_name_or_id=None, vault=None):
         sub_cmd_args = []
         if user_name_or_id:
+            user_name_or_id = RedactedString(user_name_or_id)
             sub_cmd_args.extend(["--user", user_name_or_id])
         if vault:
             sub_cmd_args.extend(["--vault", vault])

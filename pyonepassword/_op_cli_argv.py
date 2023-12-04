@@ -216,6 +216,21 @@ class _OPArgv(list):
         return argv
 
     @classmethod
+    def user_edit_argv(cls, op_exe, user_name_or_id, new_name, travel_mode):
+        user_name_or_id = RedactedString(user_name_or_id)
+        sub_cmd_args = [user_name_or_id]
+        if new_name:
+            sub_cmd_args.extend(["--name", new_name])
+        if travel_mode in (False, True):
+            arg = "on" if travel_mode else "off"
+            sub_cmd_args.extend(["--travel-mode", arg])
+        elif travel_mode is not None:
+            raise TypeError("travel_mode must be bool or None")
+
+        argv = cls.user_generic_argv(op_exe, "edit", sub_cmd_args)
+        return argv
+
+    @classmethod
     def user_list_argv(cls, op_exe, group_name_or_id=None, vault=None):
         sub_cmd_args = []
         if group_name_or_id:

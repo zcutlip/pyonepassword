@@ -1,0 +1,27 @@
+{
+  "iteration": 0,
+  "max-iterations": 3,
+  "state-list": [
+    {
+      "response-directory": "tests/config/mock-op/responses-user-edit/travel-mode/response-directory-1.json",
+      "env-vars": {
+        "set": {},
+        "pop": []
+      }
+    },
+    {
+      "response-directory": "tests/config/mock-op/responses-user-edit/travel-mode/response-directory-2.json",
+      "env-vars": {
+        "set": {},
+        "pop": []
+      }
+    },
+    {
+      "response-directory": "tests/config/mock-op/responses-user-edit/travel-mode/response-directory-3.json",
+      "env-vars": {
+        "set": {},
+        "pop": []
+      }
+    }
+  ]
+}

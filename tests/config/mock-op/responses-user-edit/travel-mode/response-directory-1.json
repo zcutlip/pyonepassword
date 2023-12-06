@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "response_dir": "tests/config/mock-op/responses-user-edit/travel-mode/responses-1",
+    "input_dir": "input"
+  },
+  "commands": {
+    "--account|IT52W465L3IOUUUCSD3WBNL26M|--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami-account-uuid",
+      "changes_state": false
+    },
+    "--format|json|user|get|Example User": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-get-user-to-edit",
+      "changes_state": false
+    },
+    "--version": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "cli-version",
+      "changes_state": false
+    },
+    "--format|json|account|list": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "list-signed-in-accounts",
+      "changes_state": false
+    },
+    "--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami",
+      "changes_state": false
+    },
+    "--format|json|user|edit|IT52W465L3IOUUUCSD3WBNL26M|--travel-mode|on": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-edit-set-travel-mode",
+      "changes_state": true
+    }
+  },
+  "commands_with_input": {}
+}

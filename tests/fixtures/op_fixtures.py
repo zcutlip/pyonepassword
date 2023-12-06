@@ -50,7 +50,8 @@ from .paths import (
     SVC_ACCT_NOT_YET_AUTH_STATE_CONFIG_PATH,
     SVC_ACCT_RESP_DIRECTORY_PATH,
     SVC_ACCT_REVOKED_RESP_DIRECTORY_PATH,
-    UNAUTH_RESP_DIRECTORY_PATH
+    UNAUTH_RESP_DIRECTORY_PATH,
+    USER_EDIT_TRAVEL_MODE_STATE_CONFIG_PATH
 )
 from .platform_support import HOME_ENV_VAR
 from .valid_data import ValidData
@@ -63,6 +64,7 @@ from .valid_op_cli_config import (
 TEST_DATA_VAULT = "Test Data"
 OP_MASTER_PASSWORD = "made-up-password"
 ACCOUNT_ID = "5GHHPJK5HZC5BAT7WDUXW57G44"
+TEAM_USER_ID = "IT52W465L3IOUUUCSD3WBNL26M"
 
 # set up console logger early, because pytest comes behind and messes with sys.stderr/sys.stdout
 # otherwise anomolies happen like duplicated log messages, etc.
@@ -265,6 +267,33 @@ def setup_stateful_document_edit():
 
 
 @fixture
+def setup_stateful_user_edit_travel_mode():
+
+    # set up a temporary directory to copy the state config to, since it gets modified
+    # during state iteration
+    config_file_name = USER_EDIT_TRAVEL_MODE_STATE_CONFIG_PATH.name
+    temp_dir = tempfile.TemporaryDirectory()
+    state_config_dir = temp_dir.name
+    state_config_path = Path(state_config_dir, config_file_name)
+    shutil.copyfile(
+        USER_EDIT_TRAVEL_MODE_STATE_CONFIG_PATH, state_config_path)
+
+    # now pop MOCK_OP_RESPONSE_DIRECTORY to ensure it doesn't conflict with with
+    # the stateful config
+    old_mock_op_resp_dir = os.environ.pop("MOCK_OP_RESPONSE_DIRECTORY", None)
+    os.environ["MOCK_OP_STATE_DIR"] = str(state_config_path)
+    yield  # pytest will return us here after the test runs
+    # get rid of MOCK_OP_STATE_DIR
+    os.environ.pop("MOCK_OP_STATE_DIR")
+
+    # restore MOCK_OP_RESPONSE_DIRECTORY if it was previously set
+    if old_mock_op_resp_dir is not None:
+        os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = old_mock_op_resp_dir
+
+    # temp_dir will get cleaned up once we return
+
+
+@fixture
 def setup_stateful_svc_acct_auth():
     config_file_name = SVC_ACCT_NOT_YET_AUTH_STATE_CONFIG_PATH.name
     temp_dir = tempfile.TemporaryDirectory()
@@ -374,6 +403,12 @@ def setup_op_sess_var_unauth_env(setup_unauth_op_env):
 @fixture
 def signed_in_op():
     op = _get_signed_in_op(account_id=ACCOUNT_ID)
+    return op
+
+
+@fixture
+def signed_in_team_account_op():
+    op = _get_signed_in_op(account_id=TEAM_USER_ID)
     return op
 
 

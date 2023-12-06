@@ -30,6 +30,12 @@ DOCUMENT_EDIT_STATE_CONFIG_PATH = Path(
     DOCUMENT_EDIT_RESP_PATH, "document-edit-state-config.json"
 )
 
+USER_EDIT_TRAVEL_MODE_RESP_PATH = Path(
+    MOCK_OP_CONFIG_PATH, "responses-user-edit", "travel-mode"
+)
+USER_EDIT_TRAVEL_MODE_STATE_CONFIG_PATH = Path(
+    USER_EDIT_TRAVEL_MODE_RESP_PATH, "user-edit-state-config.json"
+)
 
 UNAUTH_RESP_DIRECTORY_PATH = Path(
     MOCK_OP_CONFIG_PATH, "unauth-response-directory.json")

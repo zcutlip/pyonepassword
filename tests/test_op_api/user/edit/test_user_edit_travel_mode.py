@@ -33,6 +33,14 @@ def test_user_edit_010(signed_in_team_account_op: OP):
     # - we're constructing the CLI arguments correctly
     # - mock-op has a corresponding response to those CLI args
     # - nothing blew up when the response generator ran `op` with those args
-    user_id = "Example User"
-    signed_in_team_account_op.user_edit(user_id, travel_mode=True)
-    signed_in_team_account_op.user_edit(user_id, travel_mode=False)
+    # - user name gets converted to expected user ID
+    user_name = "Example User"
+    expected_user_id = "IT52W465L3IOUUUCSD3WBNL26M"
+
+    edited_user_id = signed_in_team_account_op.user_edit(
+        user_name, travel_mode=True)
+    assert edited_user_id == expected_user_id
+
+    edited_user_id = signed_in_team_account_op.user_edit(
+        user_name, travel_mode=False)
+    assert edited_user_id == expected_user_id

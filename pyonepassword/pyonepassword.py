@@ -1647,7 +1647,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
     def user_edit(self,
                   user_name_or_id: str,
                   new_name: Optional[str] = None,
-                  travel_mode: Optional[bool] = None) -> OPUser:
+                  travel_mode: Optional[bool] = None) -> str:
         """
         Edit the details for the user specified by name or unique ID.
 

@@ -45,6 +45,20 @@
       "stderr": "error_output",
       "name": "user-edit-set-travel-mode",
       "changes_state": true
+    },
+    "--format|json|user|get|no-such-user": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-get-no-such-user",
+      "changes_state": false
+    },
+    "--format|json|user|get|TQ2EKE3TPSK4YDFRMLRVG54Y4U": {
+      "exit_status": 4,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-get-invalid-user-id",
+      "changes_state": false
     }
   },
   "commands_with_input": {}

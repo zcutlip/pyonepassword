@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from pyonepassword.api.exceptions import OPUserEditException
+
 if TYPE_CHECKING:
     from pyonepassword import OP
 
@@ -44,3 +46,29 @@ def test_user_edit_010(signed_in_team_account_op: OP):
     edited_user_id = signed_in_team_account_op.user_edit(
         user_name, travel_mode=False)
     assert edited_user_id == expected_user_id
+
+
+@pytest.mark.usefixtures("setup_stateful_user_edit_travel_mode")
+def test_user_edit_020(signed_in_team_account_op: OP):
+    """
+    Test: OP.user_edit()
+        - Edit a user, providing a user name for a non-existent user
+    Verify:
+        - OPUserEditException is raised
+    """
+    user_id = "no-such-user"
+    with pytest.raises(OPUserEditException):
+        signed_in_team_account_op.user_edit(user_id, travel_mode=True)
+
+
+@pytest.mark.usefixtures("setup_stateful_user_edit_travel_mode")
+def test_user_edit_030(signed_in_team_account_op: OP):
+    """
+    Test: OP.user_edit()
+        - Edit a user, providing a user ID for a non-existent user
+    Verify:
+        - OPUserEditException is raised
+    """
+    invalid_user_id = "TQ2EKE3TPSK4YDFRMLRVG54Y4U"
+    with pytest.raises(OPUserEditException):
+        signed_in_team_account_op.user_edit(invalid_user_id, travel_mode=True)

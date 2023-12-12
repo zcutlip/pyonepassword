@@ -12,11 +12,14 @@ pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 @pytest.mark.usefixtures("setup_stateful_user_edit_travel_mode")
-def test_user_edit_01(signed_in_team_account_op: OP):
+def test_user_edit_010(signed_in_team_account_op: OP):
     """
-    Test:
-
+    Test: OP.user_edit()
+        - set travel mode on for a user
+        - set travel mode off for the same user
     Verify:
+        - No exception is raised for either operation
+        - The user name is correctly converted to the expected user ID for both edit operations
 
     """
     # There isn't, as of this writing, any way to verify travel mode has been turned

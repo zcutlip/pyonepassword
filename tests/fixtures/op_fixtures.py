@@ -51,6 +51,7 @@ from .paths import (
     SVC_ACCT_RESP_DIRECTORY_PATH,
     SVC_ACCT_REVOKED_RESP_DIRECTORY_PATH,
     UNAUTH_RESP_DIRECTORY_PATH,
+    USER_EDIT_NEW_USER_NAME_STATE_CONFIG_PATH,
     USER_EDIT_TRAVEL_MODE_STATE_CONFIG_PATH
 )
 from .platform_support import HOME_ENV_VAR
@@ -277,6 +278,33 @@ def setup_stateful_user_edit_travel_mode():
     state_config_path = Path(state_config_dir, config_file_name)
     shutil.copyfile(
         USER_EDIT_TRAVEL_MODE_STATE_CONFIG_PATH, state_config_path)
+
+    # now pop MOCK_OP_RESPONSE_DIRECTORY to ensure it doesn't conflict with with
+    # the stateful config
+    old_mock_op_resp_dir = os.environ.pop("MOCK_OP_RESPONSE_DIRECTORY", None)
+    os.environ["MOCK_OP_STATE_DIR"] = str(state_config_path)
+    yield  # pytest will return us here after the test runs
+    # get rid of MOCK_OP_STATE_DIR
+    os.environ.pop("MOCK_OP_STATE_DIR")
+
+    # restore MOCK_OP_RESPONSE_DIRECTORY if it was previously set
+    if old_mock_op_resp_dir is not None:
+        os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = old_mock_op_resp_dir
+
+    # temp_dir will get cleaned up once we return
+
+
+@fixture
+def setup_stateful_user_edit_new_user_name():
+
+    # set up a temporary directory to copy the state config to, since it gets modified
+    # during state iteration
+    config_file_name = USER_EDIT_NEW_USER_NAME_STATE_CONFIG_PATH.name
+    temp_dir = tempfile.TemporaryDirectory()
+    state_config_dir = temp_dir.name
+    state_config_path = Path(state_config_dir, config_file_name)
+    shutil.copyfile(
+        USER_EDIT_NEW_USER_NAME_STATE_CONFIG_PATH, state_config_path)
 
     # now pop MOCK_OP_RESPONSE_DIRECTORY to ensure it doesn't conflict with with
     # the stateful config

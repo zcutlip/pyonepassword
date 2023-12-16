@@ -37,6 +37,13 @@ USER_EDIT_TRAVEL_MODE_STATE_CONFIG_PATH = Path(
     USER_EDIT_TRAVEL_MODE_RESP_PATH, "user-edit-state-config.json"
 )
 
+USER_EDIT_NEW_USER_NAME_RESP_PATH = Path(
+    MOCK_OP_CONFIG_PATH, "responses-user-edit", "new-user-name"
+)
+USER_EDIT_NEW_USER_NAME_STATE_CONFIG_PATH = Path(
+    USER_EDIT_NEW_USER_NAME_RESP_PATH, "user-edit-state-config.json"
+)
+
 UNAUTH_RESP_DIRECTORY_PATH = Path(
     MOCK_OP_CONFIG_PATH, "unauth-response-directory.json")
 

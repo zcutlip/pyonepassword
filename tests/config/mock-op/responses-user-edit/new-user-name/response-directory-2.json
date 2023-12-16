@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "response_dir": "tests/config/mock-op/responses-user-edit/new-user-name/responses-2",
+    "input_dir": "input"
+  },
+  "commands": {
+    "--version": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "cli-version",
+      "changes_state": false
+    },
+    "--format|json|account|list": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "list-signed-in-accounts",
+      "changes_state": false
+    },
+    "--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami",
+      "changes_state": false
+    },
+    "--account|IT52W465L3IOUUUCSD3WBNL26M|--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami-account-uuid",
+      "changes_state": false
+    },
+    "--format|json|user|get|Example User (new)": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-get-user-to-edit",
+      "changes_state": false
+    },
+    "--format|json|user|get|IT52W465L3IOUUUCSD3WBNL26M": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-get-user-to-edit-by-id",
+      "changes_state": false
+    },
+    "--format|json|user|edit|IT52W465L3IOUUUCSD3WBNL26M|--name|Example User": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-edit-set-name-back-to-orig",
+      "changes_state": true
+    },
+    "--format|json|user|get|Example User": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-get-orig-user-name",
+      "changes_state": false
+    }
+  },
+  "commands_with_input": {}
+}

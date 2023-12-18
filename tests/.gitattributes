@@ -1,0 +1,3 @@
+# keep windows from converting line endings in stderr and stdout files
+config/mock-op/responses/**/output -text
+config/mock-op/responses/**/error_output -text

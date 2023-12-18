@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "response_dir": "tests/config/mock-op/responses-user-edit/new-user-name/responses-3",
+    "input_dir": "input"
+  },
+  "commands": {
+    "--account|IT52W465L3IOUUUCSD3WBNL26M|--format|json|whoami": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "whoami-account-uuid",
+      "changes_state": false
+    },
+    "--format|json|user|get|Example User": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-get-user-to-edit",
+      "changes_state": false
+    },
+    "--format|json|user|get|IT52W465L3IOUUUCSD3WBNL26M": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "user-get-user-to-edit-by-id",
+      "changes_state": false
+    }
+  },
+  "commands_with_input": {}
+}

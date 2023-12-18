@@ -1,0 +1,10 @@
+{
+  "id": "IT52W465L3IOUUUCSD3WBNL26M",
+  "name": "Example User",
+  "email": "uid000@gmail.com",
+  "type": "MEMBER",
+  "state": "ACTIVE",
+  "created_at": "2023-03-14T23:05:57Z",
+  "updated_at": "2023-12-15T02:57:55Z",
+  "last_auth_at": "2023-12-15T02:51:58Z"
+}

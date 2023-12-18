@@ -190,6 +190,7 @@ class _OPArgv(list):
         if group_name_or_id:
             sub_cmd_args.extend(["--group", group_name_or_id])
         if user_name_or_id:
+            user_name_or_id = RedactedString(user_name_or_id)
             sub_cmd_args.extend(["--user", user_name_or_id])
         argv = cls.vault_generic_argv(op_exe, "list", sub_cmd_args)
         return argv
@@ -209,8 +210,24 @@ class _OPArgv(list):
 
     @classmethod
     def user_get_argv(cls, op_exe, user_name_or_id):
+        user_name_or_id = RedactedString(user_name_or_id)
         sub_cmd_args = [user_name_or_id]
         argv = cls.user_generic_argv(op_exe, "get", sub_cmd_args)
+        return argv
+
+    @classmethod
+    def user_edit_argv(cls, op_exe, user_name_or_id, new_name, travel_mode):
+        user_name_or_id = RedactedString(user_name_or_id)
+        sub_cmd_args = [user_name_or_id]
+        if new_name:
+            sub_cmd_args.extend(["--name", new_name])
+        if travel_mode in (False, True):
+            arg = "on" if travel_mode else "off"
+            sub_cmd_args.extend(["--travel-mode", arg])
+        elif travel_mode is not None:
+            raise TypeError("travel_mode must be bool or None")
+
+        argv = cls.user_generic_argv(op_exe, "edit", sub_cmd_args)
         return argv
 
     @classmethod
@@ -237,8 +254,8 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def group_get_argv(cls, op_exe, user_name_or_id):
-        sub_cmd_args = [user_name_or_id]
+    def group_get_argv(cls, op_exe, group_name_or_id):
+        sub_cmd_args = [group_name_or_id]
         argv = cls.group_generic_argv(op_exe, "get", sub_cmd_args)
         return argv
 
@@ -246,6 +263,7 @@ class _OPArgv(list):
     def group_list_argv(cls, op_exe, user_name_or_id=None, vault=None):
         sub_cmd_args = []
         if user_name_or_id:
+            user_name_or_id = RedactedString(user_name_or_id)
             sub_cmd_args.extend(["--user", user_name_or_id])
         if vault:
             sub_cmd_args.extend(["--vault", vault])

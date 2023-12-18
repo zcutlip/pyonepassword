@@ -1,5 +1,12 @@
 # PYONEPASSWORD
 
+![PyPI - Version](https://img.shields.io/pypi/v/pyonepassword)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyonepassword)
+![Testing & linting](https://github.com/zcutlip/pyonepassword/actions/workflows/python-package.yml/badge.svg)
+![CodeQL](https://github.com/zcutlip/pyonepassword/actions/workflows/codeql.yml/badge.svg)
+
+
+
 ## Description
 
 A Python API to sign into and query a 1Password account using the `op` command.
@@ -357,6 +364,12 @@ Also see the examles in [examples/item_editing](examples/item_editing/)
 For details on editing existing document item file contents, see [document-editing.md](docs/document-editing.md)
 
 See examples in [examples/document_editing](examples/document_editing.py)
+
+### User Editing
+
+User editing is supported via the `OP.user_edit()` method. It supports toggling travel mode on and off, as well as setting a new user name. Only one user at a time may be edited via this method.
+
+See examples in [examples/user_editing](examples/user_editing.py)
 
 ### More Examples
 

@@ -1,19 +1,16 @@
 """
-An example of signing in with existing authentication required but not existing
+An example of signing in with existing authentication required but not available
 
 Demonstrates OPAuthenticationException
 """
 
 from do_signin import do_signin
 
-from pyonepassword import OP, logging
+from pyonepassword import logging
 from pyonepassword.api.authentication import EXISTING_AUTH_REQD
 from pyonepassword.api.exceptions import OPAuthenticationException
 
 if __name__ == "__main__":
-    import inspect
-    print(__name__)
-    print(inspect.getfile(OP))
     logger = logging.console_logger("example-sign-in", level=logging.DEBUG)
     try:
         # ensure OP() fails if there's no existing authentication

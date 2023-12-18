@@ -43,6 +43,7 @@ from .py_op_exceptions import (
     OPItemListException,
     OPSigninException,
     OPUnknownAccountException,
+    OPUserEditException,
     OPUserGetException,
     OPUserListException,
     OPVaultGetException,
@@ -627,13 +628,31 @@ class _OPCommandInterface(_OPCLIExecute):
         return output
 
     def _user_get(self, user_name_or_id: str, decode: str = "utf-8") -> str:
-        get_user_argv = self._user_get_argv(user_name_or_id)
+        user_get_argv = self._user_get_argv(user_name_or_id)
         try:
             output = self._run_with_auth_check(self.op_path, self._account_identifier,
-                                               get_user_argv, capture_stdout=True, decode=decode)
+                                               user_get_argv, capture_stdout=True, decode=decode)
         except OPCmdFailedException as ocfe:
             raise OPUserGetException.from_opexception(ocfe) from ocfe
         return output
+
+    def _user_edit(self,
+                   user_name_or_id: str,
+                   new_name: Optional[str],
+                   travel_mode: Optional[bool],
+                   decode: str = "utf-8"):
+
+        user_edit_argv = self._user_edit_argv(
+            user_name_or_id, new_name, travel_mode)
+
+        try:
+            # 'op user edit' doesn't have any output if successful
+            # if it fails, stderr will be in the exception object
+            self._run_with_auth_check(self.op_path, self._account_identifier,
+                                      user_edit_argv, capture_stdout=True, decode=decode)
+        except OPCmdFailedException as ocfe:
+            raise OPUserEditException.from_opexception(ocfe) from ocfe
+        return
 
     def _user_list(self, group_name_or_id=None, vault=None, decode: str = "utf-8") -> str:
         user_list_argv = self._user_list_argv(
@@ -869,6 +888,13 @@ class _OPCommandInterface(_OPCLIExecute):
 
     def _user_get_argv(self, user_name_or_id: str):
         get_user_argv = _OPArgv.user_get_argv(self.op_path, user_name_or_id)
+        return get_user_argv
+
+    def _user_edit_argv(self, user_name_or_id: str, new_name: Optional[str], travel_mode: Optional[bool]):
+        get_user_argv = _OPArgv.user_edit_argv(self.op_path,
+                                               user_name_or_id,
+                                               new_name,
+                                               travel_mode)
         return get_user_argv
 
     def _user_list_argv(self, group_name_or_id=None, vault=None):

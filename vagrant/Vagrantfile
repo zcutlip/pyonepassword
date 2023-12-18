@@ -1,0 +1,11 @@
+Vagrant.configure("2") do |config|
+  config.vm.provider "parallels" do |prl|
+    prl.memory = 8192
+    prl.cpus = 8
+  end
+  config.vm.box = "windows11arm64"
+  config.vm.communicator = "winssh"
+  config.vm.guest = :windows
+  config.vm.synced_folder "..", "/vagrant"
+  config.vm.provision "shell", inline: "choco install python39 python310 python311 python312 rsync vim --yes"
+end

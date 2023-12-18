@@ -365,6 +365,12 @@ For details on editing existing document item file contents, see [document-editi
 
 See examples in [examples/document_editing](examples/document_editing.py)
 
+### User Editing
+
+User editing is supported via the `OP.user_edit()` method. It supports toggling travel mode on and off, as well as setting a new user name. Only one user at a time may be edited via this method.
+
+See examples in [examples/user_editing](examples/user_editing.py)
+
 ### More Examples
 
 Lots more examples are available in the `examples` directory

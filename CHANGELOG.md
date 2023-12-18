@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [DEVELOPMENT]
+
+### Added
+
+- User editing (gh-159)
+  - `OP.user_edit()`
+
+### Testing
+
+- Ensured all tests pass under Windows
+  - Added Vagrant file to aid in automated local development testing on windows
+  - Added `windows-latest` to OS matrix in github testing workflow
+
+
 ## [4.1.0] 2023-11-28
 
 ### Added

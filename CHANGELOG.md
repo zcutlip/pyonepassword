@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.2.0.post0] 2023-12-23
+
+### Misc
+
+- Updated README to correct a broken URL for a github workflow badge
+- Updated .pre-commit-config.yaml `isort` version
+
+### Note
+
+No release will be generated for this update
+
 ## [4.2.0] 2023-12-17
 
 ### Added

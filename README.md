@@ -2,7 +2,7 @@
 
 ![PyPI - Version](https://img.shields.io/pypi/v/pyonepassword)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyonepassword)
-![Testing & linting](https://github.com/zcutlip/pyonepassword/actions/workflows/python-package.yml/badge.svg)
+![Testing & linting](https://github.com/zcutlip/pyonepassword/actions/workflows/testing-linting.yml/badge.svg)
 ![CodeQL](https://github.com/zcutlip/pyonepassword/actions/workflows/codeql.yml/badge.svg)
 
 

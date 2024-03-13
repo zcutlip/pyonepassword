@@ -31,6 +31,7 @@ from .py_op_exceptions import (
     OPAuthenticationException,
     OPCmdFailedException,
     OPCmdMalformedSvcAcctTokenException,
+    OPConfigNotFoundException,
     OPDocumentDeleteException,
     OPDocumentEditException,
     OPDocumentGetException,
@@ -197,6 +198,18 @@ class _OPCommandInterface(_OPCLIExecute):
     def _gather_facts(self):
         self._uses_bio = self.uses_biometric(
             op_path=self.op_path, account_list=self._account_list)
+        self.logger.debug(f"uses bio: {self._uses_bio}")
+        try:
+            # if we haven't done a sign-in via the CLI/without desktop app integration
+            # there won't be a config
+            self._op_config = OPCLIConfig()
+        except OPConfigNotFoundException:
+            if self._uses_bio:
+                # set this to None. We should only use it if biometric is diabled,
+                # in which case this should be a hard error
+                self._op_config = None
+            else:
+                raise
         self._cli_version = self._get_cli_version(self.op_path)
         self._account_list = self._get_account_list(self.op_path)
 

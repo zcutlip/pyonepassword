@@ -183,12 +183,15 @@ class _OPCommandInterface(_OPCLIExecute):
         if account_list is None:
             account_list = cls._get_account_list(op_path, decode=encoding)
         acct: OPAccount
-        for acct in account_list:
-            if not acct.shorthand:
-                continue
-            # There is at least one account_shorthand found in `op account list`
+        if not account_list:
             uses_bio = False
-            break
+        else:
+            for acct in account_list:
+                if not acct.shorthand:
+                    continue
+                # There is at least one account_shorthand found in `op account list`
+                uses_bio = False
+                break
         return uses_bio
 
     def _gather_facts(self):

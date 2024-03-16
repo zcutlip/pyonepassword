@@ -5,6 +5,8 @@ import os
 import sys
 from argparse import ArgumentParser
 
+from pyonepassword.logging import console_debug_logger
+
 # isort: split
 parent_path = os.path.dirname(
     os.path.dirname(
@@ -27,7 +29,7 @@ from pyonepassword.api.exceptions import (  # noqa: E402
 )
 
 
-def do_signin(vault=None, op_path="op", use_existing_session=False, account=None):
+def do_signin(vault=None, op_path="op", use_existing_session=False, account=None, logger=None):
     auth = EXISTING_AUTH_IGNORE
     if use_existing_session:
         auth = EXISTING_AUTH_AVAIL
@@ -36,6 +38,7 @@ def do_signin(vault=None, op_path="op", use_existing_session=False, account=None
     uses_biometric = OP.uses_biometric(op_path=op_path)
     try:
         op = OP(vault=vault, op_path=op_path,
+                logger=logger,
                 existing_auth=auth, password_prompt=False, account=account)
     except OPAuthenticationException as e:
         if uses_biometric:
@@ -60,6 +63,9 @@ def pypi_parse_args():
                         help="Attempt to use an existing 'op' session. If unsuccessful master password will be requested.", action='store_true')
     parser.add_argument("--account", "-A",
                         help="1Password account to use. (See op signin --help, for valid identifiers")
+    parser.add_argument("--debug",
+                        help="Enable debug logging to the console",
+                        action='store_true')
     parsed = parser.parse_args()
     return parsed
 
@@ -68,10 +74,14 @@ def main():
     op: OP
     print(f"pyonepassword version {OP.version()}", file=sys.stderr)
     parsed = pypi_parse_args()
+    logger = None
+    if parsed.debug:
+        logger = console_debug_logger("pypi_password")
     pypi_item_name = parsed.pypi_item_name
     try:
         op = do_signin(use_existing_session=parsed.use_session,
-                       account=parsed.account)
+                       account=parsed.account,
+                       logger=logger)
     except OPSigninException as e:
         print("sign-in failed", file=sys.stderr)
         print(e.err_output, file=sys.stderr)

@@ -11,7 +11,8 @@ from configparser import ConfigParser
 from pathlib import Path
 from typing import Dict
 
-WHITELIST = ["*/output", "*.txt", "*.json", "*.py", "*/input/**"]
+WHITELIST = ["*/output", "*/error_output",
+             "*.txt", "*.json", "*.py", "*/input/**"]
 
 
 def digest_file(file_path):

@@ -216,9 +216,10 @@ class _OPCommandInterface(_OPCLIExecute):
         self._account_identifier = self._normalize_account_id()
         self._sess_var = self._compute_session_var_name()
 
-    def _get_cli_version(self, op_path: str) -> OPCLIVersion:
+    @classmethod
+    def _get_cli_version(cls, op_path: str) -> OPCLIVersion:
         argv = _OPArgv.cli_version_argv(op_path)
-        output = self._run(argv, capture_stdout=True, decode="utf-8")
+        output = cls._run(argv, capture_stdout=True, decode="utf-8")
         output = output.rstrip()
         cli_version = OPCLIVersion(output)
         return cli_version

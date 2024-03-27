@@ -56,6 +56,11 @@ SVC_ACCT_CORRUPT_RESP_DIRECTORY_PATH = Path(
 SVC_ACCT_REVOKED_RESP_DIRECTORY_PATH = Path(
     MOCK_OP_CONFIG_PATH, "svc-acct-revoked-token-directory.json"
 )
+
+NO_CONF_NO_BIO_RESP_DIRECTORY_PATH = Path(
+    MOCK_OP_CONFIG_PATH, "no-conf-no-bio-response-directory.json"
+)
+
 SVC_ACCT_NOT_YET_AUTH_RESP_PATH = Path(
     MOCK_OP_CONFIG_PATH, "responses-svc-acct-not-yet-auth"
 )

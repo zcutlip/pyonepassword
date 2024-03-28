@@ -45,6 +45,7 @@ from .paths import (
     ITEM_DELETE_MULTIPLE_STATE_CONFIG_PATH,
     ITEM_DELETE_MULTIPLE_TITLE_GLOB_STATE_CONFIG_PATH,
     ITEM_EDIT_STATE_CONFIG_PATH,
+    NO_CONF_NO_BIO_RESP_DIRECTORY_PATH,
     RESP_DIRECTORY_PATH,
     SVC_ACCT_CORRUPT_RESP_DIRECTORY_PATH,
     SVC_ACCT_NOT_YET_AUTH_STATE_CONFIG_PATH,
@@ -122,6 +123,14 @@ def _setup_normal_env(signin_success="1"):
 def _setup_alt_env():
     os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(ALT_RESP_DIRECTORY_PATH)
     os.environ["MOCK_OP_SIGNIN_SUCCEED"] = "1"
+    # os.environ["MOCK_OP_SIGNIN_USES_BIO"] = "1"
+    os.environ["LOG_OP_ERR"] = "1"
+
+
+def _setup_no_conf_no_bio_env():
+    os.environ["MOCK_OP_RESPONSE_DIRECTORY"] = str(
+        NO_CONF_NO_BIO_RESP_DIRECTORY_PATH)
+    # os.environ["MOCK_OP_SIGNIN_SUCCEED"] = "1"
     # os.environ["MOCK_OP_SIGNIN_USES_BIO"] = "1"
     os.environ["LOG_OP_ERR"] = "1"
 
@@ -390,6 +399,11 @@ def setup_svc_acct_corrupt_env():
 @fixture
 def setup_svc_account_revoked_env():
     _setup_svc_acct_env(resp_dir_path=SVC_ACCT_REVOKED_RESP_DIRECTORY_PATH)
+
+
+@fixture
+def setup_no_conf_no_bio_env():
+    _setup_no_conf_no_bio_env()
 
 
 @fixture

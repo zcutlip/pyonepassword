@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.3.0] 2024-03-28
+
+## Added
+
+- `op` config (e.g. `.config/op/confg`) missing is no longer a failure if 1Password app integration is enabled
+
+
 ## [4.2.0.post0] 2023-12-23
 
 ### Misc
@@ -12,6 +19,7 @@ All notable changes to this project will be documented in this file.
 ### Note
 
 No release will be generated for this update
+
 
 ## [4.2.0] 2023-12-17
 

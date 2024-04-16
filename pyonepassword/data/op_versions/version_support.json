@@ -1,0 +1,15 @@
+{
+  "meta" :{
+    "version": 1
+  },
+  "version-support":{
+    "deprecated": "2.23.0",
+    "minimum": "2.18.0"
+  },
+  "feature-support": {
+    "service-accounts": "2.18.0"
+  },
+  "bug-fixes": {
+    "document-bytes": "2.2.0"
+  }
+}

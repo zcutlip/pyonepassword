@@ -456,6 +456,8 @@ class _OPCommandInterface(_OPCLIExecute):
         # - this method is racey, since authentication may expire between the check and the
         #   operation
         # - this adds roughly 20% overhead (as measured by the full suite of pytest tests)
+
+        cls._check_op_version(op_path)
         if cls._auth_expired(op_path, account):
             raise OPAuthenticationException(
                 "Authentication has expired")  # pragma: no cover
@@ -484,6 +486,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
     @classmethod
     def _item_template_list_special(cls, op_path,  env: Dict[str, str] = None):
+        cls._check_op_version(op_path)
         if not env:
             env = dict(environ)
         # special "template list" class method we can use for testing authentication
@@ -494,6 +497,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
     @classmethod
     def _whoami_base(cls, op_path, env: Dict[str, str] = None, account: str = None):
+        cls._check_op_version(op_path)
         if not env:
             env = dict(environ)
         argv = _OPArgv.whoami_argv(op_path, account=account)
@@ -680,6 +684,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
     @classmethod
     def _signed_in_accounts(cls, op_path, decode="utf-8"):
+        cls._check_op_version(op_path)
         account_list_argv = cls._account_list_argv(op_path, encoding=decode)
         output = cls._run(account_list_argv,
                           capture_stdout=True, decode=decode)
@@ -770,6 +775,10 @@ class _OPCommandInterface(_OPCLIExecute):
 
     @classmethod
     def _account_forget(cls, account: str, op_path=None):   # pragma: no cover
+        # don't call _check_op_version()
+        # this probably won't fail, and at any rate
+        # shouldn't be in the critical path for any other operation
+        # there's no reason to prevent "account forget" from working here
         if not op_path:
             op_path = cls.OP_PATH
         argv = _OPArgv.account_forget_argv(op_path, account)

@@ -5,8 +5,10 @@ from __future__ import annotations
 
 import enum
 import logging
+import os
+import shutil
 from os import environ
-from typing import TYPE_CHECKING, Dict, List, Mapping, Optional, Union
+from typing import TYPE_CHECKING, Dict, List, Mapping, Optional, Tuple, Union
 
 if TYPE_CHECKING:  # pragma: no coverage
     from pyonepassword._field_assignment import OPFieldTypeEnum
@@ -24,7 +26,8 @@ from .account import OPAccount, OPAccountList
 from .op_cli_version import (
     DOCUMENT_BYTES_BUG_VERSION,
     MINIMUM_SERVICE_ACCOUNT_VERSION,
-    OPCLIVersion
+    OPCLIVersion,
+    OPVersionSupport
 )
 from .op_items.password_recipe import OPPasswordRecipe
 from .py_op_exceptions import (
@@ -42,6 +45,7 @@ from .py_op_exceptions import (
     OPItemEditException,
     OPItemGetException,
     OPItemListException,
+    OPNotFoundException,
     OPSigninException,
     OPUnknownAccountException,
     OPUserEditException,
@@ -80,6 +84,9 @@ class _OPCommandInterface(_OPCLIExecute):
 
     OP_SVC_ACCOUNT_ENV_VAR = "OP_SERVICE_ACCOUNT_TOKEN"
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
+
+    _version_support = OPVersionSupport()
+    _op_paths_checked: set[Tuple[int, float]] = set()
 
     def __init__(self,
                  account: str = None,
@@ -166,6 +173,39 @@ class _OPCommandInterface(_OPCLIExecute):
     @property
     def session_var(self) -> str:
         return self._sess_var
+
+    @classmethod
+    def _op_path_size_mtime(cls, op_path):
+        # get fully-qualified path even if "op" was provided
+        new_op_path = shutil.which(op_path)
+        if new_op_path:
+            op_path = new_op_path
+        stat_result = os.stat(op_path)
+        sz = stat_result.st_size
+        mt = stat_result.st_mtime
+        return (sz, mt)
+
+    @classmethod
+    def _check_op_version(cls, op_path, cli_version=None):
+        if not isinstance(op_path, str):
+            op_path = str(op_path)
+        try:
+            sz_mt = cls._op_path_size_mtime(op_path)
+        except FileNotFoundError as err:
+            raise OPNotFoundException(op_path, err.errno)
+
+        # don't check 'op' at the same path more than once
+        # but allow for different 'op' executables to be used
+        # over the course of execution
+        if sz_mt not in cls._op_paths_checked:
+            if cli_version:
+                ver = cli_version
+            else:
+                ver = cls._get_cli_version(op_path)
+            # exception is raised if version is unsupported
+            # deprecation warning is issued if version support is deprecated
+            cls._version_support.check_version_support(ver)
+            cls._op_paths_checked.add(sz_mt)
 
     @classmethod
     def svc_account_env_var_set(cls):

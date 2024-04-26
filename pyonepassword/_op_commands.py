@@ -236,6 +236,8 @@ class _OPCommandInterface(_OPCLIExecute):
         return uses_bio
 
     def _gather_facts(self):
+        self._cli_version = self._get_cli_version(self.op_path)
+        self._check_op_version(self.op_path, cli_version=self._cli_version)
         self._uses_bio = self.uses_biometric(
             op_path=self.op_path, account_list=self._account_list)
         self.logger.debug(f"uses bio: {self._uses_bio}")
@@ -250,7 +252,6 @@ class _OPCommandInterface(_OPCLIExecute):
                 self._op_config = None
             else:
                 raise
-        self._cli_version = self._get_cli_version(self.op_path)
         self._account_list = self._get_account_list(self.op_path)
 
         self._account_identifier = self._normalize_account_id()

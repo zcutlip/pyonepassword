@@ -1,5 +1,9 @@
+import json
 import re
+import warnings
 
+from . import data
+from .pkg_resources import data_location_as_path
 from .py_op_exceptions import OPBaseException
 
 MAX_BETA_STR = f"{0xffffffff}.{0xffff}.{0xffff}"
@@ -9,6 +13,75 @@ class OPCLIVersionSupportException(OPBaseException):
     def __init__(self, version):
         msg = f"op version not supported: {version}"
         super().__init__(msg)
+
+
+class OPVersionSupport:
+    _VERSION_SUPPORT_KEY = "version-support"
+    _VERSION_DEPRECATED_KEY = "deprecated"
+    _VERSION_MINIMUM_KEY = "minimum"
+    _FEATURE_SUPPORT_KEY = "feature-support"
+    _BUG_FIXES_KEY = "bug-fixes"
+
+    def __init__(self):
+        data_path = data_location_as_path(data, data.OP_VERSION_SUPPORT)
+        support_dict = json.load(open(data_path, "r"))
+        self._version_support = support_dict
+        self._populate_version_objects()
+
+    def _populate_version_objects(self):
+        ver_str = self.deprecated_version
+        ver = OPCLIVersion(ver_str)
+        self._set_deprecated_version(ver)
+
+        ver_str = self.minimum_version
+        ver = OPCLIVersion(ver_str)
+        self._set_minimum_version(ver)
+
+    def _set_version_support(self, key, version):
+        vs = self.version_support()
+        vs[key] = version
+
+    def _set_deprecated_version(self, version):
+        self._set_version_support(self._VERSION_DEPRECATED_KEY, version)
+
+    def _set_minimum_version(self, version):
+        self._set_version_support(self._VERSION_MINIMUM_KEY, version)
+
+    @property
+    def minimum_version(self):
+        vs = self.version_support()
+        dv = vs[self._VERSION_MINIMUM_KEY]
+        return dv
+
+    @property
+    def deprecated_version(self):
+        vs = self.version_support()
+        dv = vs[self._VERSION_DEPRECATED_KEY]
+        return dv
+
+    def version_support(self):
+        return self._version_support[self._VERSION_SUPPORT_KEY]
+
+    def feature_support(self):
+        return self._version_support[self._FEATURE_SUPPORT_KEY]
+
+    def bug_fix_versions(self):
+        return self._version_support[self._BUG_FIXES_KEY]
+
+    def check_version_support(self, op_version) -> bool:
+        if not isinstance(op_version, OPCLIVersion):
+            op_version = OPCLIVersion(op_version)
+
+        min_ver = self.minimum_version
+        deprecated_ver = self.deprecated_version
+        if op_version < min_ver:
+            raise OPCLIVersionSupportException(op_version)
+
+        if op_version <= deprecated_ver:
+            msg = f"op version is deprecated: {op_version}"
+            warnings.warn(msg, category=DeprecationWarning)
+
+        return True
 
 
 class OPCLIVersion:

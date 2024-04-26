@@ -1,6 +1,14 @@
 import re
 
+from .py_op_exceptions import OPBaseException
+
 MAX_BETA_STR = f"{0xffffffff}.{0xffff}.{0xffff}"
+
+
+class OPCLIVersionSupportException(OPBaseException):
+    def __init__(self, version):
+        msg = f"op version not supported: {version}"
+        super().__init__(msg)
 
 
 class OPCLIVersion:

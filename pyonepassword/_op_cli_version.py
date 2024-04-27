@@ -100,6 +100,18 @@ class OPCLIVersion:
         self._parts = parts
 
     @property
+    def major(self) -> int:
+        return self._parts[0]
+
+    @property
+    def minor(self) -> int:
+        return self._parts[1]
+
+    @property
+    def patch(self):
+        return self._parts[2]
+
+    @property
     def beta_ver(self):
         # if this is not a beta, set beta_ver to an absurdly high value
         # so it beats any actual beta version

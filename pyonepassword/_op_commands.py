@@ -16,6 +16,12 @@ if TYPE_CHECKING:  # pragma: no coverage
 from ._op_cli import _OPCLIExecute
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
+from ._op_cli_version import (
+    DOCUMENT_BYTES_BUG_VERSION,
+    MINIMUM_SERVICE_ACCOUNT_VERSION,
+    OPCLIVersion,
+    OPVersionSupport
+)
 from ._svc_account import (
     SVC_ACCT_CMD_NOT_SUPPORTED,
     SVC_ACCT_INCOMPAT_OPTIONS,
@@ -23,12 +29,6 @@ from ._svc_account import (
     OPSvcAcctCommandNotSupportedException
 )
 from .account import OPAccount, OPAccountList
-from .op_cli_version import (
-    DOCUMENT_BYTES_BUG_VERSION,
-    MINIMUM_SERVICE_ACCOUNT_VERSION,
-    OPCLIVersion,
-    OPVersionSupport
-)
 from .op_items.password_recipe import OPPasswordRecipe
 from .py_op_exceptions import (
     OPAuthenticationException,

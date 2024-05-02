@@ -142,7 +142,7 @@ class OPCLIVersion:
         if id(self) == id(other):
             return False
 
-        if not isinstance(other, type(self)):
+        if not isinstance(other, OPCLIVersion):
             other = OPCLIVersion(other)
 
         lt = False

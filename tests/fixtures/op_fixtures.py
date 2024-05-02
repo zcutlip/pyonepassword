@@ -8,6 +8,12 @@ from pytest import fixture
 from pyonepassword import OP, logging
 from pyonepassword.api.exceptions import OPCmdFailedException
 
+from ._cli_version import (
+    _deprecated_version_obj,
+    _deprecated_version_str,
+    _unsupported_version_obj,
+    _unsupported_version_str
+)
 from .binary_input_data import BinaryImageData
 from .expected_account_data import ExpectedAccountData
 from .expected_api_credential_data import ExpectedAPICredentialData
@@ -692,3 +698,23 @@ def console_logger():
     # don't create a new console logger. use the module-level op_console_logger
     # to avoid problems with the way pytest captures sys.stderr/sys.stdout
     return op_console_logger
+
+
+@fixture
+def deprecated_version_str():
+    return _deprecated_version_str()
+
+
+@fixture
+def deprecated_version_obj():
+    return _deprecated_version_obj()
+
+
+@fixture
+def unsupported_version_obj():
+    return _unsupported_version_obj()
+
+
+@fixture
+def unsupported_version_str():
+    return _unsupported_version_str()

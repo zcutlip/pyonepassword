@@ -74,6 +74,8 @@ OP_MASTER_PASSWORD = "made-up-password"
 ACCOUNT_ID = "5GHHPJK5HZC5BAT7WDUXW57G44"
 TEAM_USER_ID = "IT52W465L3IOUUUCSD3WBNL26M"
 
+MOCK_OP_CLI_VER_ENV_NAME = "MOCK_OP_CLI_VER"
+
 # set up console logger early, because pytest comes behind and messes with sys.stderr/sys.stdout
 # otherwise anomolies happen like duplicated log messages, etc.
 op_console_logger = logging.console_logger("pytest", logging.DEBUG)
@@ -698,6 +700,15 @@ def console_logger():
     # don't create a new console logger. use the module-level op_console_logger
     # to avoid problems with the way pytest captures sys.stderr/sys.stdout
     return op_console_logger
+
+
+@fixture
+def deprecated_version_op_env():
+    # Force `mock-op` to report a specific CLI version
+    # regardless what the response directory contains
+    _setup_normal_env()
+    ver_str = _deprecated_version_str()
+    os.environ[MOCK_OP_CLI_VER_ENV_NAME] = ver_str
 
 
 @fixture

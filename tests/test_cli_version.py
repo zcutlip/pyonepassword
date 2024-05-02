@@ -1,4 +1,10 @@
-from pyonepassword.op_cli_version import OPCLIVersion
+import pytest
+
+from pyonepassword._op_cli_version import (
+    OPCLIVersion,
+    OPCLIVersionSupportException,
+    OPVersionSupport
+)
 
 VERSION_STRING_2_0_0 = "2.0.0"
 VERSION_STRING_2_0_0_beta_01 = "2.0.0-beta.01"
@@ -97,3 +103,73 @@ def test_cli_version_140():
     print(VERSION_STRING_2_18_0_beta_01)
     print(v2_18_0_beta_01_str)
     assert v2_18_0_beta_01_str == VERSION_STRING_2_18_0_beta_01
+
+
+def test_cli_version_check_150(deprecated_version_str):
+    """
+    Test OPVersionSupport.check_version()'s handling of deprecated version strings
+
+    Call version_support.check_version() on a deprecated version string
+
+    Verify: DeprecationWarning is issued
+    """
+    version_support = OPVersionSupport()
+    print(f"testing deprecated version string: {deprecated_version_str}")
+
+    assert isinstance(deprecated_version_str, str)
+    with pytest.warns(DeprecationWarning) as warnings_list:
+        version_support.check_version_support(deprecated_version_str)
+
+    assert len(warnings_list) == 1
+
+
+def test_cli_version_check_160(deprecated_version_obj):
+    """
+    Test OPVersionSupport.check_version()'s handling of deprecated version objects
+
+    Call version_support.check_version() on a OPCLIVersion object equal to a deprecated version
+
+    Verify: DeprecationWarning is issued
+    """
+    version_support = OPVersionSupport()
+    print(f"testing deprecated version obj: {deprecated_version_obj}")
+
+    assert isinstance(deprecated_version_obj, OPCLIVersion)
+    with pytest.warns(DeprecationWarning) as warnings_list:
+        version_support.check_version_support(deprecated_version_obj)
+
+    assert len(warnings_list) == 1
+
+
+def test_cli_version_check_170(unsupported_version_str):
+    """
+    Test OPVersionSupport.check_version()'s handling of unsupported version strings
+
+    Call version_support.check_version() on an unsupported version string
+
+    Verify: OPCLIVersionSupportException is raised
+    """
+    version_support = OPVersionSupport()
+    print(f"testing unsupported version obj: {unsupported_version_str}")
+
+    assert isinstance(unsupported_version_str, str)
+
+    with pytest.raises(OPCLIVersionSupportException):
+        version_support.check_version_support(unsupported_version_str)
+
+
+def test_cli_version_check_180(unsupported_version_obj):
+    """
+    Test OPVersionSupport.check_version()'s handling of unsupported objects
+
+    Call version_support.check_version() on a OPCLIVersion object equal to an unsupported version
+
+    Verify: OPCLIVersionSupportException is raised
+    """
+    version_support = OPVersionSupport()
+    print(f"testing unsupported version str: {unsupported_version_obj}")
+
+    assert isinstance(unsupported_version_obj, OPCLIVersion)
+
+    with pytest.raises(OPCLIVersionSupportException):
+        version_support.check_version_support(unsupported_version_obj)

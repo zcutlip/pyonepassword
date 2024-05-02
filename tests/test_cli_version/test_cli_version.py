@@ -117,10 +117,11 @@ def test_cli_version_check_150(deprecated_version_str):
     print(f"testing deprecated version string: {deprecated_version_str}")
 
     assert isinstance(deprecated_version_str, str)
-    with pytest.warns(DeprecationWarning) as warnings_list:
-        version_support.check_version_support(deprecated_version_str)
 
-    assert len(warnings_list) == 1
+    # not useful to inspect the warnings_list produced by warns()
+    # it may collect other warnings not relevent to the test
+    with pytest.warns(DeprecationWarning):
+        version_support.check_version_support(deprecated_version_str)
 
 
 def test_cli_version_check_160(deprecated_version_obj):
@@ -135,10 +136,10 @@ def test_cli_version_check_160(deprecated_version_obj):
     print(f"testing deprecated version obj: {deprecated_version_obj}")
 
     assert isinstance(deprecated_version_obj, OPCLIVersion)
-    with pytest.warns(DeprecationWarning) as warnings_list:
+    # not useful to inspect the warnings_list produced by warns()
+    # it may collect other warnings not relevent to the test
+    with pytest.warns(DeprecationWarning):
         version_support.check_version_support(deprecated_version_obj)
-
-    assert len(warnings_list) == 1
 
 
 def test_cli_version_check_170(unsupported_version_str):

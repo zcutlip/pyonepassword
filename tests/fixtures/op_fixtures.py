@@ -702,19 +702,31 @@ def console_logger():
 
 @fixture
 def deprecated_version_str():
+    """
+    Return an 'op' CLI version string that is deprecated by pyonepassword
+    """
     return _deprecated_version_str()
 
 
 @fixture
 def deprecated_version_obj():
+    """
+    Return an OPCLIVersion object equal to a version that is deprecated by pyonepassword
+    """
     return _deprecated_version_obj()
 
 
 @fixture
 def unsupported_version_obj():
+    """
+    Return an 'op' CLI version string that is unsupported by pyonepassword
+    """
     return _unsupported_version_obj()
 
 
 @fixture
 def unsupported_version_str():
+    """
+    Return an OPCLIVersion object equal to a version that is unsupported by pyonepassword
+    """
     return _unsupported_version_str()

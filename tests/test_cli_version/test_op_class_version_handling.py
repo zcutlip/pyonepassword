@@ -1,6 +1,7 @@
 import pytest
 
 from pyonepassword import OP
+from pyonepassword._op_cli_version import OPCLIVersionSupportException
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
@@ -17,4 +18,19 @@ def test_op_class_deprecated_version_010(console_logger):
 def test_op_class_deprecated_version_020(console_logger):
     OP.set_logger(console_logger)
     with pytest.warns(DeprecationWarning):
+        OP._whoami("mock-op")
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+@pytest.mark.usefixtures("unsupported_version_op_env")
+def test_op_class_unsupported_version_030(console_logger):
+    with pytest.raises(OPCLIVersionSupportException):
+        OP(op_path="mock-op", logger=console_logger)
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+@pytest.mark.usefixtures("unsupported_version_op_env")
+def test_op_class_unsupported_version_040(console_logger):
+    OP.set_logger(console_logger)
+    with pytest.raises(OPCLIVersionSupportException):
         OP._whoami("mock-op")

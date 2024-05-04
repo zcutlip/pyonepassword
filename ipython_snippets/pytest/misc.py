@@ -9,8 +9,7 @@ from tests.fixtures.valid_op_cli_config import (
     ValidOPCLIConfig
 )
 
-# _setup_alt_env()
-# _setup_normal_env()
+os.environ["LOG_OP_ERR"] = "1"
 logger = logging.console_logger("pytest-misc", logging.DEBUG)
 
 # config_obj = ValidOPCLIConfig(
@@ -20,4 +19,4 @@ logger = logging.console_logger("pytest-misc", logging.DEBUG)
 # conf = config.get_config(account_id=shorthand)
 
 logger.debug(f"HOME: {os.environ['HOME']}")
-op = OP(logger=logger)
+print(open(__file__, "r").read())

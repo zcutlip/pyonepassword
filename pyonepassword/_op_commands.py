@@ -139,7 +139,8 @@ class _OPCommandInterface(_OPCLIExecute):
             # if a password is passed in but existing_auth is required, caller may be confused:
             # - intentionally passed in incompatible options
             # - possibly has OP_SERVICE_ACCOUNT_TOKEN set accidentally
-            msg = f"Password argument passed but EXISTING_AUTH_REQD flag is set. flag source: {auth_pref_source}"
+            msg = f"Password argument passed but EXISTING_AUTH_REQD flag is set. flag source: {
+                auth_pref_source}"
             self.logger.error(msg)
             raise OPAuthenticationException(msg)
 
@@ -165,6 +166,16 @@ class _OPCommandInterface(_OPCLIExecute):
                 self._account_identifier = account_obj.user_uuid
                 self._sess_var = self._compute_session_var_name()
             environ[self._sess_var] = self.token
+
+    @classmethod
+    def _reset_class(cls):
+        """
+        Reset class state
+
+        Primarily for use in pytest between test cases
+        """
+        cls._version_support = OPVersionSupport()
+        cls._op_paths_checked = set()
 
     @property
     def token(self) -> str:

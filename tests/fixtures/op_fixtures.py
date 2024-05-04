@@ -712,6 +712,15 @@ def deprecated_version_op_env():
 
 
 @fixture
+def unsupported_version_op_env():
+    # Force `mock-op` to report a specific CLI version
+    # regardless what the response directory contains
+    _setup_normal_env()
+    ver_str = _unsupported_version_str()
+    os.environ[MOCK_OP_CLI_VER_ENV_NAME] = ver_str
+
+
+@fixture
 def deprecated_version_str():
     """
     Return an 'op' CLI version string that is deprecated by pyonepassword

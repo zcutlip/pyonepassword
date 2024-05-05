@@ -1,4 +1,8 @@
-from pyonepassword._op_cli_version import OPCLIVersion, OPVersionSupport
+import json
+
+from pyonepassword import data
+from pyonepassword._op_cli_version import OPCLIVersion
+from pyonepassword.pkg_resources import data_location_as_path
 
 
 class OPCLIVersionTesting(OPCLIVersion):
@@ -29,25 +33,50 @@ class OPCLIVersionTesting(OPCLIVersion):
         return new_ver
 
 
-def _deprecated_version_obj():
-    version_support = OPVersionSupport()
-    ver = version_support.deprecated_version
-    return ver
+class _CLIVersionSupportTesting:
+    """
+    Minimal reimplemenation of OPVersionSupport in order to not depend
+    on the thing we're testing
+    """
+    _VERSION_SUPPORT_KEY = "version-support"
+    _VERSION_DEPRECATED_KEY = "deprecated"
+    _VERSION_MINIMUM_KEY = "minimum"
+
+    def __init__(self):
+        data_path = data_location_as_path(data, data.OP_VERSION_SUPPORT)
+        support_dict = json.load(open(data_path, "r"))
+        self._version_support_data = support_dict
+
+    def deprecated_version(self):
+        deprecated = self._version_support()[self._VERSION_DEPRECATED_KEY]
+        return deprecated
+
+    def minimum_version(self):
+        minimum_version = self._version_support()[self._VERSION_MINIMUM_KEY]
+        return minimum_version
+
+    def _version_support(self):
+        return self._version_support_data[self._VERSION_SUPPORT_KEY]
 
 
 def _deprecated_version_str():
-    version_support = OPVersionSupport()
-    ver = str(version_support.deprecated_version)
+    version_support = _CLIVersionSupportTesting()
+    ver = version_support.deprecated_version()
+    return ver
+
+
+def _deprecated_version_obj():
+    version_str = _deprecated_version_str()
+    ver = OPCLIVersion(version_str)
     return ver
 
 
 def _unsupported_version_obj():
-    version_support = OPVersionSupport()
-    min_ver_str = str(version_support.minimum_version)
+    version_support = _CLIVersionSupportTesting()
+    min_ver_str = version_support.minimum_version()
     min_ver = OPCLIVersionTesting(min_ver_str)
 
     unsupported_ver = min_ver.decremented()
-
     return unsupported_ver
 
 

@@ -1883,6 +1883,31 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         except OPCmdFailedException as ocfe:
             raise OPForgetException.from_opexception(ocfe) from ocfe
 
+    @classmethod
+    def check_op_version(cls, op_path="op"):
+        """
+        Check support for the 'op' version in use.
+
+        If the version is supported but deprecated, DeprecationWarning is issued
+
+        If the version is unsupported, OPCLIVersionSupportException is raised
+
+        Parameters
+        ----------
+        op_path: str, optional
+            Path to an 'op' executable to use for this action, by default "op"
+
+        Raises
+        ------
+        OPCLIVersionSupportException
+            If the op version is less than the minimum supported version
+
+        Service Account Support
+        -----------------------
+        Supported
+        """
+        cls._check_op_version(op_path)
+
     def _sanitize(self):  # pragma: no coverage
         self._token = None
         if self._sess_var:
@@ -2019,7 +2044,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                 msg = f"No field found '{field_label}' that lacks a section"
                 raise OPFieldNotFoundException(msg)
             else:
-                msg = f"Section '{section_label}', field '{field_label}' not found"
+                msg = f"Section '{section_label}', field '{
+                    field_label}' not found"
                 raise OPFieldNotFoundException(msg)
         return field
 

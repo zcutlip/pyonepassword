@@ -176,6 +176,7 @@ class _OPCommandInterface(_OPCLIExecute):
         """
         cls._version_support = OPVersionSupport()
         cls._op_paths_checked = set()
+        cls._reset_class_logger()
 
     @property
     def token(self) -> str:

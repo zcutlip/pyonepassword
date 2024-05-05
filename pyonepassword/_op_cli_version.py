@@ -211,10 +211,10 @@ class OPVersionSupport:
     def version_support(self):
         return self._version_support[self._VERSION_SUPPORT_KEY]
 
-    def _feature_support(self):
+    def _feature_support(self):  # pragma: no cover
         return self._version_support[self._FEATURE_SUPPORT_KEY]
 
-    def _bug_fix_versions(self):
+    def _bug_fix_versions(self):  # pragma: no cover
         return self._version_support[self._BUG_FIXES_KEY]
 
     def check_version_support(self, op_version) -> bool:

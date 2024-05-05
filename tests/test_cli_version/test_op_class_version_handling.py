@@ -7,6 +7,11 @@ from pyonepassword._op_cli_version import OPCLIVersionSupportException
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("deprecated_version_op_env")
 def test_op_class_deprecated_version_010(console_logger):
+    """
+    Test OP initialization with a deprecated CLI version
+
+    Verify: DeprecationWarning is issued
+    """
     # not useful to inspect the warnings_list produced by warns()
     # it may collect other warnings not relevent to the test
     with pytest.warns(DeprecationWarning):
@@ -16,6 +21,11 @@ def test_op_class_deprecated_version_010(console_logger):
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("deprecated_version_op_env")
 def test_op_class_deprecated_version_020(console_logger):
+    """
+    Test calling an OP class method with a deprecated CLI version
+
+    Verify: DeprecationWarning is issued
+    """
     OP.set_logger(console_logger)
     with pytest.warns(DeprecationWarning):
         OP._whoami("mock-op")
@@ -24,6 +34,11 @@ def test_op_class_deprecated_version_020(console_logger):
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("unsupported_version_op_env")
 def test_op_class_unsupported_version_030(console_logger):
+    """
+    Test OP initialization with an unsupported CLI version
+
+    Verify: OPCLIVersionSupportException is raised
+    """
     with pytest.raises(OPCLIVersionSupportException):
         OP(op_path="mock-op", logger=console_logger)
 
@@ -31,6 +46,11 @@ def test_op_class_unsupported_version_030(console_logger):
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("unsupported_version_op_env")
 def test_op_class_unsupported_version_040(console_logger):
+    """
+    Test calling an OP class method with an unsupported CLI version
+
+    Verify: OPCLIVersionSupportException is raised
+    """
     OP.set_logger(console_logger)
     with pytest.raises(OPCLIVersionSupportException):
         OP._whoami("mock-op")

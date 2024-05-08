@@ -139,8 +139,7 @@ class _OPCommandInterface(_OPCLIExecute):
             # if a password is passed in but existing_auth is required, caller may be confused:
             # - intentionally passed in incompatible options
             # - possibly has OP_SERVICE_ACCOUNT_TOKEN set accidentally
-            msg = f"Password argument passed but EXISTING_AUTH_REQD flag is set. flag source: {
-                auth_pref_source}"
+            msg = f"Password argument passed but EXISTING_AUTH_REQD flag is set. flag source: {auth_pref_source}"  # nopep8
             self.logger.error(msg)
             raise OPAuthenticationException(msg)
 

@@ -166,7 +166,7 @@ class OPCLIVersion:
 
 class OPVersionSupport:
     _VERSION_SUPPORT_KEY = "version-support"
-    _VERSION_DEPRECATED_KEY = "deprecated"
+    _VERSION_SUPPORTED_KEY = "supported"
     _VERSION_MINIMUM_KEY = "minimum"
     _FEATURE_SUPPORT_KEY = "feature-support"
     _BUG_FIXES_KEY = "bug-fixes"
@@ -178,9 +178,9 @@ class OPVersionSupport:
         self._populate_version_objects()
 
     def _populate_version_objects(self):
-        ver_str = self.deprecated_version
+        ver_str = self.supported_version
         ver = OPCLIVersion(ver_str)
-        self._set_deprecated_version(ver)
+        self._set_supported_version(ver)
 
         ver_str = self.minimum_version
         ver = OPCLIVersion(ver_str)
@@ -190,8 +190,8 @@ class OPVersionSupport:
         vs = self.version_support()
         vs[key] = version
 
-    def _set_deprecated_version(self, version):
-        self._set_version_support(self._VERSION_DEPRECATED_KEY, version)
+    def _set_supported_version(self, version):
+        self._set_version_support(self._VERSION_SUPPORTED_KEY, version)
 
     def _set_minimum_version(self, version):
         self._set_version_support(self._VERSION_MINIMUM_KEY, version)
@@ -203,9 +203,9 @@ class OPVersionSupport:
         return dv
 
     @property
-    def deprecated_version(self):
+    def supported_version(self):
         vs = self.version_support()
-        dv = vs[self._VERSION_DEPRECATED_KEY]
+        dv = vs[self._VERSION_SUPPORTED_KEY]
         return dv
 
     def version_support(self):
@@ -222,11 +222,11 @@ class OPVersionSupport:
             op_version = OPCLIVersion(op_version)
 
         min_ver = self.minimum_version
-        deprecated_ver = self.deprecated_version
+        supported_ver = self.supported_version
         if op_version < min_ver:
             raise OPCLIVersionSupportException(op_version)
 
-        if op_version <= deprecated_ver:
+        if op_version < supported_ver:
             msg = f"op version is deprecated: {op_version}"
             warnings.warn(msg, category=DeprecationWarning)
 

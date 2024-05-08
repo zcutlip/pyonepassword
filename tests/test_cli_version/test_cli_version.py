@@ -33,31 +33,31 @@ def test_cli_version_020():
     assert v200.is_beta is False
 
 
-def test_cli_version_040():
+def test_cli_version_030():
     v200_beta12 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
     assert v200_beta12 < VERSION_STRING_2_26_0
 
 
-def test_cli_version_070():
+def test_cli_version_040():
     v200_beta12 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
     v210_beta12 = OPCLIVersion(VERSION_STRING_2_27_0_beta_12)
     assert v200_beta12 < v210_beta12
 
 
-def test_cli_version_080():
+def test_cli_version_050():
     v200_a = OPCLIVersion(VERSION_STRING_2_26_0)
     v200_b = v200_a
 
     assert not v200_a < v200_b
 
 
-def test_cli_version_130():
+def test_cli_version_060():
     v210 = OPCLIVersion(VERSION_STRING_2_27_0)
     v210_beta12 = OPCLIVersion(VERSION_STRING_2_27_0_beta_12)
     assert v210_beta12 < v210
 
 
-def test_cli_version_120():
+def test_cli_version_070():
     v200_beta12 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
     v210 = OPCLIVersion(VERSION_STRING_2_27_0)
     assert v200_beta12 < v210
@@ -66,7 +66,7 @@ def test_cli_version_120():
 """ ########## Test less-than or equal ########## """
 
 
-def test_cli_version_090():
+def test_cli_version_080():
     v200 = OPCLIVersion(VERSION_STRING_2_26_0)
     v210 = OPCLIVersion(VERSION_STRING_2_27_0)
     assert v200 <= v210
@@ -75,7 +75,7 @@ def test_cli_version_090():
 """ ########## Test greater-than ########## """
 
 
-def test_cli_version_030():
+def test_cli_version_090():
     v200 = OPCLIVersion(VERSION_STRING_2_26_0)
     v200_beta12 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
     assert v200 > v200_beta12
@@ -96,12 +96,12 @@ def test_cli_version_110():
 """ ########## Test equality ########## """
 
 
-def test_cli_version_050():
+def test_cli_version_120():
     v200 = OPCLIVersion(VERSION_STRING_2_26_0)
     assert v200 == VERSION_STRING_2_26_0
 
 
-def test_cli_version_060():
+def test_cli_version_130():
     v200_beta12 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
     v200_beta12_str = str(v200_beta12)
     print(VERSION_STRING_2_26_0_beta_01)

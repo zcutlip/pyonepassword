@@ -4,11 +4,44 @@ import re
 from setuptools import find_packages, setup
 from setuptools.command.egg_info import egg_info
 
+README = "README.md"
+README_TEMPLATE = "_readme_template.md"
+
 
 def project_path():
     path = os.path.dirname(os.path.abspath(__file__))
     return path
 
+
+def validate_readme():
+    rm_path = os.path.join(project_path(), README)
+    rm_templ_path = os.path.join(project_path(), README_TEMPLATE)
+    # we can get this using pyonepassword APIs but it's best
+    # to not call into the thing we're trying to package
+    version_support_data_path = os.path.join(project_path(),
+                                             "pyonepassword",
+                                             "data",
+                                             "op_versions",
+                                             "version_support.json")
+    # readme mtime
+    rm_mtime = os.stat(rm_path).st_mtime
+    # readme template mtime
+    rm_templ_mtime = os.stat(rm_templ_path).st_mtime
+
+    # version support data mtime
+    vs_data_mtime = os.stat(version_support_data_path).st_mtime
+
+    # is the readme older than the readme template?
+    if rm_mtime < rm_templ_mtime:
+        raise Exception(f"{README} is older than {README_TEMPLATE}")
+
+    # is the readme older than the version support JSON file?
+    if rm_mtime < vs_data_mtime:
+        raise Exception(f"{README} is older than {version_support_data_path}")
+
+
+# blow up if README hasn't been updated
+validate_readme()
 
 old_cwd = os.getcwd()
 proj_path = project_path()
@@ -75,7 +108,8 @@ setup(
     ],
     package_data={'pyonepassword': ['data/**', 'py.typed']},
     entry_points={"console_scripts":
-                  ["opconfig=pyonepassword.opconfig_main:main"]},
+                  ["opconfig=pyonepassword.opconfig_main:main",
+                   "opversion=pyonepassword.opversion_main:main"]},
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",

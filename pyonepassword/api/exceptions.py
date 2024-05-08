@@ -1,6 +1,7 @@
 # needed so we can pass getattr() logic
 # through to module for deprecation warnings
 from .. import py_op_exceptions as __py_op_exceptions
+from .._op_cli_version import OPCLIVersionSupportException
 from .._svc_account import OPSvcAcctCommandNotSupportedException
 from ..op_items._item_type_registry import OPUnknownItemTypeException
 from ..op_items.fields_sections._new_fields import OPNewTOTPUriException
@@ -59,6 +60,7 @@ from ..py_op_exceptions import (
 __all__ = [
     "OPAuthenticationException",
     "OPCLIPanicException",
+    "OPCLIVersionSupportException",
     "OPCmdFailedException",
     "OPCmdMalformedSvcAcctTokenException",
     "OPConfigNotFoundException",

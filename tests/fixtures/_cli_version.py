@@ -39,7 +39,7 @@ class _CLIVersionSupportTesting:
     on the thing we're testing
     """
     _VERSION_SUPPORT_KEY = "version-support"
-    _VERSION_DEPRECATED_KEY = "deprecated"
+    _VERSION_SUPPORTED_KEY = "supported"
     _VERSION_MINIMUM_KEY = "minimum"
 
     def __init__(self):
@@ -47,27 +47,29 @@ class _CLIVersionSupportTesting:
         support_dict = json.load(open(data_path, "r"))
         self._version_support_data = support_dict
 
-    def deprecated_version(self):
-        deprecated = self._version_support()[self._VERSION_DEPRECATED_KEY]
-        return deprecated
+    def supported_version(self) -> str:
+        supported = self._version_support()[self._VERSION_SUPPORTED_KEY]
+        return supported
 
-    def minimum_version(self):
+    def minimum_version(self) -> str:
         minimum_version = self._version_support()[self._VERSION_MINIMUM_KEY]
         return minimum_version
 
-    def _version_support(self):
+    def _version_support(self) -> str:
         return self._version_support_data[self._VERSION_SUPPORT_KEY]
 
 
-def _deprecated_version_str():
+def _deprecated_version_obj():
     version_support = _CLIVersionSupportTesting()
-    ver = version_support.deprecated_version()
+    version_str = version_support.supported_version()
+    ver = OPCLIVersionTesting(version_str)
+    ver = ver.decremented()
     return ver
 
 
-def _deprecated_version_obj():
-    version_str = _deprecated_version_str()
-    ver = OPCLIVersion(version_str)
+def _deprecated_version_str():
+    deprecated_ver = _deprecated_version_obj()
+    ver = str(deprecated_ver)
     return ver
 
 

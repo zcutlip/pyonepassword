@@ -1927,6 +1927,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         OPCLIVersion
             The object representing the deprecated version threshold
+
+        Service Account Support
+        -----------------------
+        Supported
         """
         version = cls._version_support.supported_version
         return version
@@ -1951,6 +1955,10 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -------
         OPCLIVersion
             The object representing the minimum supported version threshold
+
+        Service Account Support
+        -----------------------
+        Supported
         """
         version = cls._version_support.minimum_version
         return version

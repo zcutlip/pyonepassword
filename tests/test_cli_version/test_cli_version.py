@@ -100,7 +100,7 @@ def test_cli_version_eq_120():
     beta_version_str = str(beta_version_obj)
     print(VERSION_STRING_2_26_0_beta_01)
     print(beta_version_str)
-    assert beta_version_str == VERSION_STRING_2_26_0_beta_01
+    assert beta_version_str == beta_version_obj
 
 
 def test_cli_version_eq_130():

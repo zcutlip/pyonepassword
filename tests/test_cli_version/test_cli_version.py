@@ -46,9 +46,9 @@ def test_cli_version_lt_040():
 
 
 def test_cli_version_lt_050():
-    ver = OPCLIVersion(VERSION_STRING_2_27_0)
+    ver = OPCLIVersion(VERSION_STRING_2_26_0)
     beta_ver = OPCLIVersion(VERSION_STRING_2_27_0_beta_12)
-    assert beta_ver < ver
+    assert ver < beta_ver
 
 
 def test_cli_version_lt_060():

@@ -22,99 +22,99 @@ VERSION_STRING_2_28_0_beta_01 = "2.28.0-beta.01"
 
 
 def test_cli_version_lt_010():
-    v200 = OPCLIVersion(VERSION_STRING_2_26_0)
-    v210 = OPCLIVersion(VERSION_STRING_2_27_0)
-    assert v200 < v210
+    v1 = OPCLIVersion(VERSION_STRING_2_26_0)
+    v2 = OPCLIVersion(VERSION_STRING_2_27_0)
+    assert v1 < v2
 
 
 def test_cli_version_lt_020():
-    v200_beta12 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
-    assert v200_beta12 < VERSION_STRING_2_26_0
+    ver_obj = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
+    assert ver_obj < VERSION_STRING_2_26_0
 
 
 def test_cli_version_lt_030():
-    v200_beta12 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
-    v210_beta12 = OPCLIVersion(VERSION_STRING_2_27_0_beta_12)
-    assert v200_beta12 < v210_beta12
+    beta_ver_1 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
+    beta_ver_2 = OPCLIVersion(VERSION_STRING_2_27_0_beta_12)
+    assert beta_ver_1 < beta_ver_2
 
 
 def test_cli_version_lt_040():
-    v200_a = OPCLIVersion(VERSION_STRING_2_26_0)
-    v200_b = v200_a
+    v1 = OPCLIVersion(VERSION_STRING_2_26_0)
+    v2 = v1
 
-    assert not v200_a < v200_b
+    assert not v1 < v2
 
 
 def test_cli_version_lt_050():
-    v210 = OPCLIVersion(VERSION_STRING_2_27_0)
-    v210_beta12 = OPCLIVersion(VERSION_STRING_2_27_0_beta_12)
-    assert v210_beta12 < v210
+    ver = OPCLIVersion(VERSION_STRING_2_27_0)
+    beta_ver = OPCLIVersion(VERSION_STRING_2_27_0_beta_12)
+    assert beta_ver < ver
 
 
 def test_cli_version_lt_060():
-    v200_beta12 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
-    v210 = OPCLIVersion(VERSION_STRING_2_27_0)
-    assert v200_beta12 < v210
+    beta_ver = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
+    ver = OPCLIVersion(VERSION_STRING_2_27_0)
+    assert beta_ver < ver
 
 
 """ ########## Test less-than or equal ########## """
 
 
 def test_cli_version_le_070():
-    v200 = OPCLIVersion(VERSION_STRING_2_26_0)
-    v210 = OPCLIVersion(VERSION_STRING_2_27_0)
-    assert v200 <= v210
+    ver1 = OPCLIVersion(VERSION_STRING_2_26_0)
+    ver2 = OPCLIVersion(VERSION_STRING_2_27_0)
+    assert ver1 <= ver2
 
 
 """ ########## Test greater-than ########## """
 
 
 def test_cli_version_gt_080():
-    v200 = OPCLIVersion(VERSION_STRING_2_26_0)
-    v200_beta12 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
-    assert v200 > v200_beta12
+    ver = OPCLIVersion(VERSION_STRING_2_26_0)
+    beta_ver = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
+    assert ver > beta_ver
 
 
 def test_cli_version_gt_090():
-    v200_beta12 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
-    v200_beta14 = OPCLIVersion(VERSION_STRING_2_26_0_beta_14)
-    assert v200_beta14 > v200_beta12
+    beta_ver_1 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
+    beta_ver_2 = OPCLIVersion(VERSION_STRING_2_26_0_beta_14)
+    assert beta_ver_2 > beta_ver_1
 
 
 def test_cli_version_gt_100():
-    v200_beta12 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
-    v200_beta14 = OPCLIVersion(VERSION_STRING_2_26_0_beta_14)
-    assert v200_beta14 > v200_beta12
+    beta_ver_1 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
+    beta_ver_2 = OPCLIVersion(VERSION_STRING_2_27_0_beta_14)
+    assert beta_ver_2 > beta_ver_1
 
 
 """ ########## Test equality ########## """
 
 
 def test_cli_version_eq_110():
-    v200 = OPCLIVersion(VERSION_STRING_2_26_0)
-    assert v200 == VERSION_STRING_2_26_0
+    version_obj = OPCLIVersion(VERSION_STRING_2_26_0)
+    assert version_obj == VERSION_STRING_2_26_0
 
 
 def test_cli_version_eq_120():
-    v200_beta12 = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
-    v200_beta12_str = str(v200_beta12)
+    beta_version_obj = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
+    beta_version_str = str(beta_version_obj)
     print(VERSION_STRING_2_26_0_beta_01)
-    print(v200_beta12_str)
-    assert v200_beta12_str == VERSION_STRING_2_26_0_beta_01
+    print(beta_version_str)
+    assert beta_version_str == VERSION_STRING_2_26_0_beta_01
 
 
 def test_cli_version_eq_130():
-    v2_18_0_beta_01 = OPCLIVersion(VERSION_STRING_2_28_0_beta_01)
-    v2_18_0_beta_01_str = str(v2_18_0_beta_01)
+    beta_version_obj = OPCLIVersion(VERSION_STRING_2_28_0_beta_01)
+    beta_version_str = str(beta_version_obj)
     print(VERSION_STRING_2_28_0_beta_01)
-    print(v2_18_0_beta_01_str)
-    assert v2_18_0_beta_01_str == VERSION_STRING_2_28_0_beta_01
+    print(beta_version_str)
+    assert beta_version_str == VERSION_STRING_2_28_0_beta_01
 
 
 def test_cli_version_beta_140():
-    v200 = OPCLIVersion(VERSION_STRING_2_26_0)
+    ver = OPCLIVersion(VERSION_STRING_2_26_0)
 
-    assert v200.is_beta is False
+    assert ver.is_beta is False
 
 
 def test_cli_version_check_150(deprecated_version_str):

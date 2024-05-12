@@ -91,11 +91,29 @@ def test_cli_version_gt_100():
 
 
 def test_cli_version_eq_110():
+    """
+    Create a OPCLIVersion object from a version string
+
+    Compare the version object to the version string using equality
+
+    Verify:
+        The version object and string are equal
+    """
     version_obj = OPCLIVersion(VERSION_STRING_2_26_0)
     assert version_obj == VERSION_STRING_2_26_0
 
 
 def test_cli_version_eq_120():
+    """
+    Test round-tripping a version string to a version object and back
+
+    Create:
+     - a version object from a beta version string
+     - a new version string from the beta version object
+
+     Verify:
+        The object and the new string are equal
+    """
     beta_version_obj = OPCLIVersion(VERSION_STRING_2_26_0_beta_01)
     beta_version_str = str(beta_version_obj)
     print(VERSION_STRING_2_26_0_beta_01)
@@ -104,6 +122,16 @@ def test_cli_version_eq_120():
 
 
 def test_cli_version_eq_130():
+    """
+    Test round-tripping a version string to a version object and back
+
+    Create:
+     - a version object from a beta version string
+     - a new version string from the beta version object
+
+     Verify:
+        The original string and the new string are equal
+    """
     beta_version_obj = OPCLIVersion(VERSION_STRING_2_28_0_beta_01)
     beta_version_str = str(beta_version_obj)
     print(VERSION_STRING_2_28_0_beta_01)
@@ -112,6 +140,14 @@ def test_cli_version_eq_130():
 
 
 def test_cli_version_beta_140():
+    """
+    Test OPCLIVersion.is_beta property
+
+    Create OPCLIVersion object from a non-beta version string
+
+    Verify:
+        The object's is_beta property is false
+    """
     ver = OPCLIVersion(VERSION_STRING_2_26_0)
 
     assert ver.is_beta is False

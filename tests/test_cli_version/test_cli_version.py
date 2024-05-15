@@ -557,7 +557,7 @@ def test_cli_version_ge_370():
 """ ########## Test equality ########## """
 
 
-def test_cli_version_eq_110():
+def test_cli_version_eq_250():
     """
     Create a OPCLIVersion object from a version string
 
@@ -570,7 +570,7 @@ def test_cli_version_eq_110():
     assert version_obj == VERSION_STRING_2_26_0
 
 
-def test_cli_version_eq_120():
+def test_cli_version_eq_260():
     """
     Test round-tripping a version string to a version object and back
 
@@ -588,7 +588,7 @@ def test_cli_version_eq_120():
     assert beta_version_str == beta_version_obj
 
 
-def test_cli_version_eq_130():
+def test_cli_version_eq_270():
     """
     Test round-tripping a version string to a version object and back
 
@@ -606,7 +606,7 @@ def test_cli_version_eq_130():
     assert beta_version_str == VERSION_STRING_2_28_0_beta_01
 
 
-def test_cli_version_beta_140():
+def test_cli_version_beta_280():
     """
     Test OPCLIVersion.is_beta property
 
@@ -620,7 +620,7 @@ def test_cli_version_beta_140():
     assert ver.is_beta is False
 
 
-def test_cli_version_check_150(deprecated_version_str):
+def test_cli_version_check_290(deprecated_version_str):
     """
     Test OPVersionSupport.check_version()'s handling of deprecated version strings
 
@@ -639,7 +639,7 @@ def test_cli_version_check_150(deprecated_version_str):
         version_support.check_version_support(deprecated_version_str)
 
 
-def test_cli_version_check_160(deprecated_version_obj):
+def test_cli_version_check_300(deprecated_version_obj):
     """
     Test OPVersionSupport.check_version()'s handling of deprecated version objects
 
@@ -657,7 +657,7 @@ def test_cli_version_check_160(deprecated_version_obj):
         version_support.check_version_support(deprecated_version_obj)
 
 
-def test_cli_version_check_170(unsupported_version_str):
+def test_cli_version_check_310(unsupported_version_str):
     """
     Test OPVersionSupport.check_version()'s handling of unsupported version strings
 
@@ -674,7 +674,7 @@ def test_cli_version_check_170(unsupported_version_str):
         version_support.check_version_support(unsupported_version_str)
 
 
-def test_cli_version_check_180(unsupported_version_obj):
+def test_cli_version_check_320(unsupported_version_obj):
     """
     Test OPVersionSupport.check_version()'s handling of unsupported objects
 

@@ -163,6 +163,14 @@ class OPCLIVersion:
         le = self.__lt__(other) or self.__eq__(other)
         return le
 
+    def __gt__(self, other):
+        gt = not self.__le__(other)
+        return gt
+
+    def __ge__(self, other):
+        ge = self.__eq__(other) or self.__gt__(other)
+        return ge
+
 
 class OPVersionSupport:
     _VERSION_SUPPORT_KEY = "version-support"

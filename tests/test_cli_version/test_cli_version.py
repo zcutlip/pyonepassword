@@ -28,7 +28,7 @@ def test_cli_version_lt_010():
     Compare the second to the first using less-than
 
     Verify:
-        - The first, lower version object is less than the second
+        The first, lower version object is less than the second
     """
     v1 = OPCLIVersion(VERSION_STRING_2_26_0)
     v2 = OPCLIVersion(VERSION_STRING_2_27_0)
@@ -50,9 +50,7 @@ def test_cli_version_lt_020():
 
 def test_cli_version_lt_030():
     """
-    Create two OPCLIVersion objects from beta version strings
-
-    The first version being a lower minor & beta version than the second.
+    Create two OPCLIVersion objects from beta version strings, the first version being a lower minor & beta version than the second.
 
     Compare the two objects using less-than
 
@@ -119,7 +117,7 @@ def test_cli_version_le_070():
     Compare the second to the first using less-than-or-equal
 
     Verify:
-        - The first, lower version object is less than or equal to the second
+        The first, lower version object is less than or equal to the second
     """
     ver1 = OPCLIVersion(VERSION_STRING_2_26_0)
     ver2 = OPCLIVersion(VERSION_STRING_2_27_0)
@@ -141,9 +139,7 @@ def test_cli_version_le_080():
 
 def test_cli_version_le_090():
     """
-    Create two OPCLIVersion objects from beta version strings
-
-    The first version being a lower minor & beta version than the second.
+    Create two OPCLIVersion objects from beta version strings, the first version being a lower minor & beta version than the second.
 
     Compare the two objects using less-than-or-equal
 
@@ -251,9 +247,7 @@ def test_cli_version_gt_080():
 
 def test_cli_version_gt_090():
     """
-    Create two OPCLIVersion objects from beta version strings
-
-    The first version being a lower beta version than the second, but the same major/minor/patch.
+    Create two OPCLIVersion objects from beta version strings, the first version being a lower beta version than the second, but the same major/minor/patch.
 
     Compare the two objects using greater-than
 
@@ -267,9 +261,7 @@ def test_cli_version_gt_090():
 
 def test_cli_version_gt_100():
     """
-    Create two OPCLIVersion objects from beta version strings
-
-    The first version being a lower minor & beta version than the second.
+    Create two OPCLIVersion objects from beta version strings, the first version being a lower minor & beta version than the second.
 
     Compare the two objects using greater-than
 

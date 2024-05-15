@@ -3,8 +3,6 @@
 import os
 import sys
 
-from pyonepassword._op_cli_version import OPVersionSupport
-
 # isort: split
 parent_path = os.path.dirname(
     os.path.dirname(
@@ -13,6 +11,8 @@ parent_path = os.path.dirname(
 )
 if parent_path not in sys.path:
     sys.path.insert(0, parent_path)
+
+from pyonepassword._op_cli_version import OPVersionSupport  # noqa: E402
 
 MIN_VER_PLACEHOLDER = "MINIMUM_CLI_VERSION__"
 SUPPORTED_VER_PLACEHOLDER = "SUPPORTED_CLI_VERSION__"

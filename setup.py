@@ -14,6 +14,8 @@ def project_path():
 
 
 def validate_readme():
+    if os.environ.get("PYOP_IGNORE_README") == "1":
+        return
     rm_path = os.path.join(project_path(), README)
     rm_templ_path = os.path.join(project_path(), README_TEMPLATE)
     # we can get this using pyonepassword APIs but it's best

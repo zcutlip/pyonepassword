@@ -1885,7 +1885,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             raise OPForgetException.from_opexception(ocfe) from ocfe
 
     @classmethod
-    def check_op_version(cls, op_path="op"):
+    def check_op_version(cls, op_path="op") -> None:
         """
         Check support for the 'op' version in use.
 

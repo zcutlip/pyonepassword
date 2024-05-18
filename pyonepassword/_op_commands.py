@@ -16,11 +16,7 @@ if TYPE_CHECKING:  # pragma: no coverage
 from ._op_cli import _OPCLIExecute
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
-from ._op_cli_version import (
-    MINIMUM_SERVICE_ACCOUNT_VERSION,
-    OPCLIVersion,
-    OPVersionSupport
-)
+from ._op_cli_version import OPCLIVersion, OPVersionSupport
 from ._svc_account import (
     SVC_ACCT_CMD_NOT_SUPPORTED,
     SVC_ACCT_INCOMPAT_OPTIONS,
@@ -125,9 +121,6 @@ class _OPCommandInterface(_OPCLIExecute):
             # - 'op' won't prompt for authentication of OP_SERVICE_ACCOUNT_TOKEN is set
             # - Even if we explicitly call signin and succeed, it ignores that authentication
             # so we need to suppress any path that tries to or expects to authenticate
-            if self._cli_version < MINIMUM_SERVICE_ACCOUNT_VERSION:
-                raise OPAuthenticationException(
-                    f"Version {self._cli_version} not supported with service accounts. Minimum version: {MINIMUM_SERVICE_ACCOUNT_VERSION}")
             if existing_auth != EXISTING_AUTH_REQD:
                 auth_pref_source = "preference upgraded due to service account environment variable"
                 self.logger.info(

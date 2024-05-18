@@ -1,5 +1,6 @@
 import os
 import re
+import subprocess
 
 from setuptools import find_packages, setup
 from setuptools.command.egg_info import egg_info
@@ -14,32 +15,9 @@ def project_path():
 
 
 def validate_readme():
-    if os.environ.get("PYOP_IGNORE_README") == "1":
-        return
-    rm_path = os.path.join(project_path(), README)
-    rm_templ_path = os.path.join(project_path(), README_TEMPLATE)
-    # we can get this using pyonepassword APIs but it's best
-    # to not call into the thing we're trying to package
-    version_support_data_path = os.path.join(project_path(),
-                                             "pyonepassword",
-                                             "data",
-                                             "op_versions",
-                                             "version_support.json")
-    # readme mtime
-    rm_mtime = os.stat(rm_path).st_mtime
-    # readme template mtime
-    rm_templ_mtime = os.stat(rm_templ_path).st_mtime
-
-    # version support data mtime
-    vs_data_mtime = os.stat(version_support_data_path).st_mtime
-
-    # is the readme older than the readme template?
-    if rm_mtime < rm_templ_mtime:
-        raise Exception(f"{README} is older than {README_TEMPLATE}")
-
-    # is the readme older than the version support JSON file?
-    if rm_mtime < vs_data_mtime:
-        raise Exception(f"{README} is older than {version_support_data_path}")
+    # check if README needs to be updated
+    argv = ["scripts/update_readme.py", "-c"]
+    subprocess.check_call(argv)
 
 
 # blow up if README hasn't been updated
@@ -103,7 +81,6 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/zcutlip/pyonepassword",
     packages=packages,
-
     python_requires='>=3.9',
     install_requires=[
         "python-singleton-metaclasses"

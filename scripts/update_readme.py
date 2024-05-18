@@ -2,6 +2,7 @@
 
 import os
 import sys
+from argparse import ArgumentParser
 
 # isort: split
 parent_path = os.path.dirname(
@@ -20,15 +21,35 @@ README_TEMPLATE = "_readme_template.md"
 README = "README.md"
 
 
-def main():
+def generate_readme_text(template_path):
     version_support = OPVersionSupport()
     min_ver = str(version_support.minimum_version)
     supported_ver = str(version_support.supported_version)
     readme_text = open(README_TEMPLATE, "r").read()
     readme_text = readme_text.replace(MIN_VER_PLACEHOLDER, min_ver)
     readme_text = readme_text.replace(SUPPORTED_VER_PLACEHOLDER, supported_ver)
-    with open(README, "w") as f:
-        f.write(readme_text)
+    return readme_text
+
+
+def check_readme(readme_path, readme_text):
+    old_readme_text = open(readme_path, "r").read()
+    needs_update = old_readme_text != readme_text
+    return needs_update
+
+
+def main():
+    parser = ArgumentParser()
+    parser.add_argument(
+        "--check", "-c", help="Check readme only, do not update", action="store_true")
+    args = parser.parse_args()
+    readme_text = generate_readme_text(README_TEMPLATE)
+    needs_update = check_readme(README, readme_text)
+    if args.check:
+        return int(needs_update)
+
+    if needs_update:
+        with open(README, "w") as f:
+            f.write(readme_text)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,18 @@
+import json
 import re
+import warnings
+
+from . import data
+from .pkg_resources import data_location_as_path
+from .py_op_exceptions import OPBaseException
 
 MAX_BETA_STR = f"{0xffffffff}.{0xffff}.{0xffff}"
+
+
+class OPCLIVersionSupportException(OPBaseException):
+    def __init__(self, version):
+        msg = f"op version not supported: {version}"
+        super().__init__(msg)
 
 
 class OPCLIVersion:
@@ -17,6 +29,18 @@ class OPCLIVersion:
         for part in version_tuple:
             parts.append(int(part, 0))
         self._parts = parts
+
+    @property
+    def major(self) -> int:
+        return self._parts[0]
+
+    @property
+    def minor(self) -> int:
+        return self._parts[1]
+
+    @property
+    def patch(self):
+        return self._parts[2]
 
     @property
     def beta_ver(self):
@@ -118,7 +142,7 @@ class OPCLIVersion:
         if id(self) == id(other):
             return False
 
-        if not isinstance(other, type(self)):
+        if not isinstance(other, OPCLIVersion):
             other = OPCLIVersion(other)
 
         lt = False
@@ -138,6 +162,83 @@ class OPCLIVersion:
     def __le__(self, other):
         le = self.__lt__(other) or self.__eq__(other)
         return le
+
+    def __gt__(self, other):
+        gt = not self.__le__(other)
+        return gt
+
+    def __ge__(self, other):
+        ge = self.__eq__(other) or self.__gt__(other)
+        return ge
+
+
+class OPVersionSupport:
+    _VERSION_SUPPORT_KEY = "version-support"
+    _VERSION_SUPPORTED_KEY = "supported"
+    _VERSION_MINIMUM_KEY = "minimum"
+    _FEATURE_SUPPORT_KEY = "feature-support"
+    _BUG_FIXES_KEY = "bug-fixes"
+
+    def __init__(self):
+        data_path = data_location_as_path(data, data.OP_VERSION_SUPPORT)
+        support_dict = json.load(open(data_path, "r"))
+        self._version_support = support_dict
+        self._populate_version_objects()
+
+    def _populate_version_objects(self):
+        ver_str = self.supported_version
+        ver = OPCLIVersion(ver_str)
+        self._set_supported_version(ver)
+
+        ver_str = self.minimum_version
+        ver = OPCLIVersion(ver_str)
+        self._set_minimum_version(ver)
+
+    def _set_version_support(self, key, version):
+        vs = self.version_support()
+        vs[key] = version
+
+    def _set_supported_version(self, version):
+        self._set_version_support(self._VERSION_SUPPORTED_KEY, version)
+
+    def _set_minimum_version(self, version):
+        self._set_version_support(self._VERSION_MINIMUM_KEY, version)
+
+    @property
+    def minimum_version(self) -> OPCLIVersion:
+        vs = self.version_support()
+        dv = vs[self._VERSION_MINIMUM_KEY]
+        return dv
+
+    @property
+    def supported_version(self):
+        vs = self.version_support()
+        dv = vs[self._VERSION_SUPPORTED_KEY]
+        return dv
+
+    def version_support(self):
+        return self._version_support[self._VERSION_SUPPORT_KEY]
+
+    def _feature_support(self):  # pragma: no cover
+        return self._version_support[self._FEATURE_SUPPORT_KEY]
+
+    def _bug_fix_versions(self):  # pragma: no cover
+        return self._version_support[self._BUG_FIXES_KEY]
+
+    def check_version_support(self, op_version) -> bool:
+        if not isinstance(op_version, OPCLIVersion):
+            op_version = OPCLIVersion(op_version)
+
+        min_ver = self.minimum_version
+        supported_ver = self.supported_version
+        if op_version < min_ver:
+            raise OPCLIVersionSupportException(op_version)
+
+        if op_version < supported_ver:
+            msg = f"op version is deprecated: {op_version}"
+            warnings.warn(msg, category=DeprecationWarning)
+
+        return True
 
 
 MINIMUM_SERVICE_ACCOUNT_VERSION = OPCLIVersion('2.18.0-beta.01')

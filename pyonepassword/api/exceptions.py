@@ -1,6 +1,7 @@
 # needed so we can pass getattr() logic
 # through to module for deprecation warnings
 from .. import py_op_exceptions as __py_op_exceptions
+from .._op_cli_version import OPCLIVersionSupportException
 from .._svc_account import OPSvcAcctCommandNotSupportedException
 from ..op_items._item_type_registry import OPUnknownItemTypeException
 from ..op_items.fields_sections._new_fields import OPNewTOTPUriException
@@ -56,49 +57,52 @@ from ..py_op_exceptions import (
 # This causes these types to properly re-exported
 # https://mypy.readthedocs.io/en/stable/config_file.html?highlight=export#confval-implicit_reexport
 # anything that gets imported needs to be added to this list
-__all__ = ["OPAuthenticationException",
-           "OPCLIPanicException",
-           "OPCmdFailedException",
-           "OPCmdMalformedSvcAcctTokenException",
-           "OPConfigNotFoundException",
-           "OPDocumentDeleteException",
-           "OPDocumentGetException",
-           "OPDocumentEditException",
-           "OPFieldNotFoundException",
-           "OPForgetException",
-           "OPGroupGetException",
-           "OPGroupListException",
-           "OPInvalidDocumentException",
-           "OPInvalidGroupException",
-           "OPInvalidGroupListException",
-           "OPInvalidItemException",
-           "OPInvalidObjectException",
-           "OPInvalidUserException",
-           "OPInvalidUserListException",
-           "OPInvalidVaultException",
-           "OPInvalidVaultListException",
-           "OPItemDeleteException",
-           "OPItemDeleteMultipleException",
-           "OPItemEditException",
-           "OPItemFieldCollisionException",
-           "OPItemGetException",
-           "OPItemListException",
-           "OPNewLoginItemURLException",
-           "OPNewTOTPUriException",
-           "OPNotFoundException",
-           "OPSectionCollisionException",
-           "OPSectionNotFoundException",
-           "OPRevokedSvcAcctTokenException",
-           "OPSigninException",
-           "OPSignoutException",
-           "OPSvcAcctCommandNotSupportedException",
-           "OPUnknownAccountException",
-           "OPUnknownItemTypeException",
-           "OPUserEditException",
-           "OPUserGetException",
-           "OPUserListException",
-           "OPVaultGetException",
-           "OPVaultListException"]
+__all__ = [
+    "OPAuthenticationException",
+    "OPCLIPanicException",
+    "OPCLIVersionSupportException",
+    "OPCmdFailedException",
+    "OPCmdMalformedSvcAcctTokenException",
+    "OPConfigNotFoundException",
+    "OPDocumentDeleteException",
+    "OPDocumentEditException",
+    "OPDocumentGetException",
+    "OPFieldNotFoundException",
+    "OPForgetException",
+    "OPGroupGetException",
+    "OPGroupListException",
+    "OPInvalidDocumentException",
+    "OPInvalidGroupException",
+    "OPInvalidGroupListException",
+    "OPInvalidItemException",
+    "OPInvalidObjectException",
+    "OPInvalidUserException",
+    "OPInvalidUserListException",
+    "OPInvalidVaultException",
+    "OPInvalidVaultListException",
+    "OPItemDeleteException",
+    "OPItemDeleteMultipleException",
+    "OPItemEditException",
+    "OPItemFieldCollisionException",
+    "OPItemGetException",
+    "OPItemListException",
+    "OPNewLoginItemURLException",
+    "OPNewTOTPUriException",
+    "OPNotFoundException",
+    "OPRevokedSvcAcctTokenException",
+    "OPSectionCollisionException",
+    "OPSectionNotFoundException",
+    "OPSigninException",
+    "OPSignoutException",
+    "OPSvcAcctCommandNotSupportedException",
+    "OPUnknownAccountException",
+    "OPUnknownItemTypeException",
+    "OPUserEditException",
+    "OPUserGetException",
+    "OPUserListException",
+    "OPVaultGetException",
+    "OPVaultListException",
+]
 
 
 def __getattr__(name: str):
@@ -108,7 +112,7 @@ def __getattr__(name: str):
     #     _deprecated_name = f"_{name}"
     #     alternate = _deprecated_exceptions[name]
     #     warnings.warn(
-    #         f"Exception class {name} is deprecated. Use {alternate}", category=FutureWarning)
+    #         f"Exception class {name} is deprecated. Use {alternate}", category=DeprecationWarning)
     #     return globals()[_deprecated_name]
 
     # raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

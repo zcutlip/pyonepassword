@@ -1,14 +1,31 @@
 import os
+import platform
 import re
+import subprocess
 
 from setuptools import find_packages, setup
 from setuptools.command.egg_info import egg_info
+
+README = "README.md"
+README_TEMPLATE = "_readme_template.md"
 
 
 def project_path():
     path = os.path.dirname(os.path.abspath(__file__))
     return path
 
+
+def validate_readme():
+    if platform.system() == 'Windows':
+        # this doesn't work on windows, and I don't have a way of troubleshooting
+        return
+    # check if README needs to be updated
+    argv = ["scripts/update_readme.py", "-c"]
+    subprocess.check_call(argv)
+
+
+# blow up if README hasn't been updated
+validate_readme()
 
 old_cwd = os.getcwd()
 proj_path = project_path()
@@ -68,14 +85,14 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/zcutlip/pyonepassword",
     packages=packages,
-
     python_requires='>=3.9',
     install_requires=[
         "python-singleton-metaclasses"
     ],
     package_data={'pyonepassword': ['data/**', 'py.typed']},
     entry_points={"console_scripts":
-                  ["opconfig=pyonepassword.opconfig_main:main"]},
+                  ["opconfig=pyonepassword.opconfig_main:main",
+                   "opversion=pyonepassword.opversion_main:main"]},
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",

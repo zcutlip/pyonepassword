@@ -10,6 +10,7 @@ if TYPE_CHECKING:  # pragma: no coverage
     from .op_items.fields_sections.item_field import OPItemField
 
 from ._field_assignment import OPFieldTypeEnum
+from ._op_cli_version import OPCLIVersion
 from ._op_commands import (
     EXISTING_AUTH_IGNORE,
     ExistingAuthEnum,
@@ -1883,6 +1884,85 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         except OPCmdFailedException as ocfe:
             raise OPForgetException.from_opexception(ocfe) from ocfe
 
+    @classmethod
+    def check_op_version(cls, op_path="op") -> None:
+        """
+        Check support for the 'op' version in use.
+
+        If the version is supported but deprecated, DeprecationWarning is issued
+
+        If the version is unsupported, OPCLIVersionSupportException is raised
+
+        Parameters
+        ----------
+        op_path: str, optional
+            Path to an 'op' executable to use for this action, by default "op"
+
+        Raises
+        ------
+        OPCLIVersionSupportException
+            If the op version is less than the minimum supported version
+
+        Service Account Support
+        -----------------------
+        Supported
+        """
+        cls._check_op_version(op_path)
+
+    @classmethod
+    def supported_op_version(cls) -> OPCLIVersion:
+        """
+        Return the minimum supported 'op' CLI version.
+        Versions less than this value are either deprecated or unsupported.
+
+        Notes:
+            - The OPCLIVersion object may be converted to a string via str()
+            - The version object may be compared to other version objects via less-than
+              greater-than, etc
+            - The version object may be compared to other version strings in the same way
+            - Beta versions are considered less than release version, so e.g.,
+              2.28.0-beta.01 < 2.28.0
+
+        Returns
+        -------
+        OPCLIVersion
+            The object representing the deprecated version threshold
+
+        Service Account Support
+        -----------------------
+        Supported
+        """
+        version = cls._version_support.supported_version
+        return version
+
+    @classmethod
+    def minimum_op_version(cls) -> OPCLIVersion:
+        """
+        Return the minimum supported but deprecated 'op' CLI version.
+
+        A deprecation warning is issued if versions
+        Versions less than this are unsupported
+
+        Notes:
+            - The OPCLIVersion object may be converted to a string via str()
+            - The version object may be compared to other version objects via less-than
+              greater-than, etc
+            - The version object may be compared to other version strings in the same way
+            - Beta versions are considered less than release version, so e.g.,
+              2.28.0-beta.01 < 2.28.0
+
+        Returns
+        -------
+        OPCLIVersion
+            The object representing the minimum supported version threshold
+
+        Service Account Support
+        -----------------------
+        Supported
+        """
+        version = cls._version_support.minimum_version
+        return version
+
     def _sanitize(self):  # pragma: no coverage
         self._token = None
         if self._sess_var:
@@ -2019,7 +2099,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                 msg = f"No field found '{field_label}' that lacks a section"
                 raise OPFieldNotFoundException(msg)
             else:
-                msg = f"Section '{section_label}', field '{field_label}' not found"
+                msg = f"Section '{section_label}', field '{field_label}' not found"  # nopep8
                 raise OPFieldNotFoundException(msg)
         return field
 

@@ -1,0 +1,22 @@
+{
+  "meta" :{
+    "version": 1
+  },
+  "version-support":{
+    "supported": "2.24.0",
+    "minimum": "2.19.0"
+  },
+  "feature-support": {
+    "example-feature-service-accounts": "2.18.0"
+  },
+  "bug-fixes": {
+    "example-bug-document-bytes": {
+      "above": "0",
+      "to": "2.2.0"
+    },
+    "example-bug-broken-ssh-keys": {
+      "above": "2.23.0",
+      "to": "CURRENT"
+    }
+  }
+}

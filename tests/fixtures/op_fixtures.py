@@ -8,6 +8,12 @@ from pytest import fixture
 from pyonepassword import OP, logging
 from pyonepassword.api.exceptions import OPCmdFailedException
 
+from ._cli_version import (
+    _deprecated_version_obj,
+    _deprecated_version_str,
+    _unsupported_version_obj,
+    _unsupported_version_str
+)
 from .binary_input_data import BinaryImageData
 from .expected_account_data import ExpectedAccountData
 from .expected_api_credential_data import ExpectedAPICredentialData
@@ -67,6 +73,8 @@ TEST_DATA_VAULT = "Test Data"
 OP_MASTER_PASSWORD = "made-up-password"
 ACCOUNT_ID = "5GHHPJK5HZC5BAT7WDUXW57G44"
 TEAM_USER_ID = "IT52W465L3IOUUUCSD3WBNL26M"
+
+MOCK_OP_CLI_VER_ENV_NAME = "MOCK_OP_CLI_VER"
 
 # set up console logger early, because pytest comes behind and messes with sys.stderr/sys.stdout
 # otherwise anomolies happen like duplicated log messages, etc.
@@ -692,3 +700,53 @@ def console_logger():
     # don't create a new console logger. use the module-level op_console_logger
     # to avoid problems with the way pytest captures sys.stderr/sys.stdout
     return op_console_logger
+
+
+@fixture
+def deprecated_version_op_env():
+    # Force `mock-op` to report a specific CLI version
+    # regardless what the response directory contains
+    _setup_normal_env()
+    ver_str = _deprecated_version_str()
+    os.environ[MOCK_OP_CLI_VER_ENV_NAME] = ver_str
+
+
+@fixture
+def unsupported_version_op_env():
+    # Force `mock-op` to report a specific CLI version
+    # regardless what the response directory contains
+    _setup_normal_env()
+    ver_str = _unsupported_version_str()
+    os.environ[MOCK_OP_CLI_VER_ENV_NAME] = ver_str
+
+
+@fixture
+def deprecated_version_str():
+    """
+    Return an 'op' CLI version string that is deprecated by pyonepassword
+    """
+    return _deprecated_version_str()
+
+
+@fixture
+def deprecated_version_obj():
+    """
+    Return an OPCLIVersion object equal to a version that is deprecated by pyonepassword
+    """
+    return _deprecated_version_obj()
+
+
+@fixture
+def unsupported_version_obj():
+    """
+    Return an 'op' CLI version string that is unsupported by pyonepassword
+    """
+    return _unsupported_version_obj()
+
+
+@fixture
+def unsupported_version_str():
+    """
+    Return an OPCLIVersion object equal to a version that is unsupported by pyonepassword
+    """
+    return _unsupported_version_str()

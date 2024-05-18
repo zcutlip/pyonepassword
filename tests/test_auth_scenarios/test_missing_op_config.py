@@ -1,8 +1,8 @@
 import pytest
 
 from pyonepassword import OP
+from pyonepassword._op_cli_version import OPCLIVersion
 from pyonepassword.api.exceptions import OPConfigNotFoundException
-from pyonepassword.op_cli_version import OPCLIVersion
 from pyonepassword.py_op_exceptions import OPWhoAmiException
 
 

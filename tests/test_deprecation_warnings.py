@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-import warnings
 from typing import TYPE_CHECKING
+
+import pytest
 
 from pyonepassword.api.object_types import OPLoginItem
 
@@ -49,7 +50,8 @@ def test_deprecated_method_01(valid_data: ValidData, expected_login_item_data):
     valid_item_dict = valid_data.data_for_name("example-login-with-fields")
     result_login_item = OPLoginItem(valid_item_dict)
 
-    with warnings.catch_warnings(record=True) as warnings_list:
+    # not useful to inspect the warnings_list produced by warns()
+    # it may collect other warnings not relevent to the test
+    with pytest.warns(DeprecationWarning):
         result_login_item.field_value_by_section_title(
             section_label, field_label)
-        assert len(warnings_list) > 0

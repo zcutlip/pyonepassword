@@ -14,7 +14,7 @@ pytestmark = pytest.mark.usefixtures("valid_op_cli_config_homedir")
 
 
 @pytest.mark.usefixtures("setup_stateful_user_edit_travel_mode")
-def test_user_edit_travel_mode_010(signed_in_team_account_op: OP):
+def test_user_edit_travel_mode_010(signed_in_team_account_op: OP, console_logger):
     """
     Test: OP.user_edit()
         - set travel mode on for a user
@@ -39,6 +39,7 @@ def test_user_edit_travel_mode_010(signed_in_team_account_op: OP):
     user_name = "Example User"
     expected_user_id = "IT52W465L3IOUUUCSD3WBNL26M"
 
+    signed_in_team_account_op.set_logger(console_logger)
     edited_user_id = signed_in_team_account_op.user_edit(
         user_name, travel_mode=True)
     assert edited_user_id == expected_user_id

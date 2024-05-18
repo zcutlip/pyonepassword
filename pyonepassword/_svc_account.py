@@ -179,7 +179,7 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
         # then command is not supported
         _cmd_not_found = command is not None and cmd_spec is None
         if (cmd_spec and not cmd_dict) or _cmd_not_found:
-            _support_msg = f"Command or subcommand not supported: [{command} {' '.join(subcommands)}]"
+            _support_msg = f"Command or subcommand not supported: [{command} {' '.join(subcommands)}]"  # nopep8
             _support_code = SVC_ACCT_CMD_NOT_SUPPORTED
 
         if cmd_dict and _support_code == _SVC_ACCT_CMD_NOT_VALIDATED:
@@ -220,10 +220,10 @@ class OPSvcAcctSupportRegistry(metaclass=PySingleton):
         if _support_code == SVC_ACCT_INCOMPAT_OPTIONS:
             _support_msg = ""
             if not required_opt_satified:
-                _support_msg += f"Required options not provided: [{','.join(list(reqd_opt_diff))}]"
+                _support_msg += f"Required options not provided: [{','.join(list(reqd_opt_diff))}]"  # nopep8
 
             if not prohibited_opt_satisfied:
-                _support_msg += f" Prohibited options found: [{','.join(list(prohib_opt_diff))}]"
+                _support_msg += f" Prohibited options found: [{','.join(list(prohib_opt_diff))}]"  # nopep8
 
             _support_msg = _support_msg.lstrip()
 

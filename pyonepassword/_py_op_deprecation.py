@@ -29,7 +29,7 @@ class deprecated:  # pragma: no cover
 
         def wrapped(_self, *args, **kwargs):
             if not getattr(_self, "_skip_drecation_warn", False):
-                warnings.warn(msg, category=FutureWarning)
+                warnings.warn(msg, category=DeprecationWarning)
             return init(_self, *args, **kwargs)
         cls.__init__ = wrapped
 
@@ -50,7 +50,7 @@ class deprecated:  # pragma: no cover
 
         @functools.wraps(fun)
         def wrapped(*args, **kwargs):
-            warnings.warn(msg, category=FutureWarning)
+            warnings.warn(msg, category=DeprecationWarning)
             return fun(*args, **kwargs)
 
         wrapped.__doc__ = self._update_doc(wrapped.__doc__)
@@ -66,7 +66,7 @@ class deprecated:  # pragma: no cover
         return newdoc
 
 
-def deprecated_kwargs(**kwarg_aliases: str) -> Callable:
+def deprecated_kwargs(**kwarg_aliases: str) -> Callable:  # pragma: no cover
     """Decorator for deprecated function and method arguments.
 
     Use as follows:
@@ -94,15 +94,15 @@ def _rename_kwargs(func_name: str, kwargs: Dict[str, Any], kwarg_aliases: Dict[s
         if old_kwarg in kwargs:
             if new_kwarg in kwargs:
                 raise TypeError(
-                    f"{func_name} received both {old_kwarg} and {new_kwarg} as arguments!"
+                    f"{func_name} received both {old_kwarg} and {new_kwarg} as arguments!"  # nopep8
                     f" {old_kwarg} is deprecated, use {new_kwarg} instead."
                 )
             warnings.warn(
                 message=(
-                    f"`{old_kwarg}` is deprecated as an argument to `{func_name}`; use"
+                    f"`{old_kwarg}` is deprecated as an argument to `{func_name}`; use"  # nopep8
                     f" `{new_kwarg}` instead."
                 ),
-                category=FutureWarning,
+                category=DeprecationWarning,
                 stacklevel=3,
             )
             kwargs[new_kwarg] = kwargs.pop(old_kwarg)

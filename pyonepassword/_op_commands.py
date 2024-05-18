@@ -17,7 +17,6 @@ from ._op_cli import _OPCLIExecute
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
 from ._op_cli_version import (
-    DOCUMENT_BYTES_BUG_VERSION,
     MINIMUM_SERVICE_ACCOUNT_VERSION,
     OPCLIVersion,
     OPVersionSupport
@@ -594,15 +593,6 @@ class _OPCommandInterface(_OPCLIExecute):
                 self.op_path, self._account_identifier, get_document_argv, capture_stdout=True)
         except OPCmdFailedException as ocfe:
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
-
-        if self._cli_version <= DOCUMENT_BYTES_BUG_VERSION:  # pragma: no cover
-            # op versions 2.0.0 - 2.2.0 append an erroneous \x0a ('\n') byte to document bytes
-            # trim it off if its present
-            if document_bytes[-1] == 0x0a:
-                document_bytes = document_bytes[:-1]
-            else:
-                # this shouldn't happen but maybe an edge case?
-                pass
 
         return document_bytes
 

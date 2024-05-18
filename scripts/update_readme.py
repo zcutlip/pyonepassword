@@ -34,8 +34,6 @@ def generate_readme_text(template_path):
 def check_readme(readme_path, readme_text):
     old_readme_text = open(readme_path, "r").read()
     needs_update = old_readme_text != readme_text
-    print(f"old readme length: {len(old_readme_text)}")
-    print(f"new readme length: {readme_text}")
     return needs_update
 
 

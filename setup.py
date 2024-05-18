@@ -16,11 +16,11 @@ def project_path():
 
 
 def validate_readme():
-    argv = []
     if platform.system() == 'Windows':
-        argv = ["python.exe"]
+        # this doesn't work on windows, and I don't have a way of troubleshooting
+        return
     # check if README needs to be updated
-    argv.extend(["scripts/update_readme.py", "-c"])
+    argv = ["scripts/update_readme.py", "-c"]
     subprocess.check_call(argv)
 
 

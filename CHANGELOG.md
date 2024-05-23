@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [DEVELOPMENT] 2024-05-17
+## [5.0.0.dev0] 2024-05-22
 
 ### Added
 
@@ -18,6 +18,10 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 - Support for `op` versions < 2.19.0
+
+### Misc
+
+- Remove `op` version checks for special behaviors where the version is no longer supported
 
 ## [4.3.0] 2024-03-28
 

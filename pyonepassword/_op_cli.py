@@ -37,6 +37,12 @@ class _OPCLIExecute:
     """
 
     @classmethod
+    def _reset_class_logger(cls):
+        # For use when resetting state between test cases
+        cls.logger = logging.getLogger("_OPCLIExecute")
+        cls.logger.setLevel(logging.INFO)
+
+    @classmethod
     def _should_log_op_errors(cls) -> bool:
         should_log = False
         if environ.get(LOG_OP_ERR_ENV_NAME) == "1":

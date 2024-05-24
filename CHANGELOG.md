@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.0.0] 2024-05-24
+
+### Added
+
+- Version checking for the `op` CLI tool at run-time
+- `opversion` command
+- Export `OPCLIVersion` as API
+- `OPCLIVersionSupportException` class
+
+### Deprecated
+
+- `op` versions < 2.24.0 and >= 2.19.0
+
+### Removed
+
+- Support for `op` versions < 2.19.0
+
+### Misc
+
+- Remove `op` version checks for special behaviors where the version is no longer supported
+
 ## [4.3.0] 2024-03-28
 
 ## Added

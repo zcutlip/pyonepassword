@@ -9,9 +9,9 @@ from pyonepassword.api.exceptions import (
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
-def test_missing_op():
+def test_missing_op(console_logger):
     with pytest.raises(OPNotFoundException):
-        OP(op_path="no-such-op")
+        OP(op_path="no-such-op", logger=console_logger)
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")

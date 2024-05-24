@@ -368,7 +368,7 @@ def __getattr__(name: str):
         _deprecated_name = f"_{name}"
         alternate = _deprecated_exceptions[name]
         warnings.warn(
-            f"Exception class {name} is deprecated. Use {alternate}", category=FutureWarning)
+            f"Exception class {name} is deprecated. Use {alternate}", category=DeprecationWarning)
         return globals()[_deprecated_name]
 
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

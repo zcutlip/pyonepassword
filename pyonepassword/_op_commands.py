@@ -5,8 +5,10 @@ from __future__ import annotations
 
 import enum
 import logging
+import os
+import shutil
 from os import environ
-from typing import TYPE_CHECKING, Dict, List, Mapping, Optional, Union
+from typing import TYPE_CHECKING, Dict, List, Mapping, Optional, Tuple, Union
 
 if TYPE_CHECKING:  # pragma: no coverage
     from pyonepassword._field_assignment import OPFieldTypeEnum
@@ -14,6 +16,7 @@ if TYPE_CHECKING:  # pragma: no coverage
 from ._op_cli import _OPCLIExecute
 from ._op_cli_argv import _OPArgv
 from ._op_cli_config import OPCLIConfig
+from ._op_cli_version import OPCLIVersion, OPVersionSupport
 from ._svc_account import (
     SVC_ACCT_CMD_NOT_SUPPORTED,
     SVC_ACCT_INCOMPAT_OPTIONS,
@@ -21,11 +24,6 @@ from ._svc_account import (
     OPSvcAcctCommandNotSupportedException
 )
 from .account import OPAccount, OPAccountList
-from .op_cli_version import (
-    DOCUMENT_BYTES_BUG_VERSION,
-    MINIMUM_SERVICE_ACCOUNT_VERSION,
-    OPCLIVersion
-)
 from .op_items.password_recipe import OPPasswordRecipe
 from .py_op_exceptions import (
     OPAuthenticationException,
@@ -42,6 +40,7 @@ from .py_op_exceptions import (
     OPItemEditException,
     OPItemGetException,
     OPItemListException,
+    OPNotFoundException,
     OPSigninException,
     OPUnknownAccountException,
     OPUserEditException,
@@ -81,6 +80,9 @@ class _OPCommandInterface(_OPCLIExecute):
     OP_SVC_ACCOUNT_ENV_VAR = "OP_SERVICE_ACCOUNT_TOKEN"
     OP_PATH = 'op'  # let subprocess find 'op' in the system path
 
+    _version_support = OPVersionSupport()
+    _op_paths_checked: set[Tuple[int, float]] = set()
+
     def __init__(self,
                  account: str = None,
                  password: str = None,
@@ -119,9 +121,6 @@ class _OPCommandInterface(_OPCLIExecute):
             # - 'op' won't prompt for authentication of OP_SERVICE_ACCOUNT_TOKEN is set
             # - Even if we explicitly call signin and succeed, it ignores that authentication
             # so we need to suppress any path that tries to or expects to authenticate
-            if self._cli_version < MINIMUM_SERVICE_ACCOUNT_VERSION:
-                raise OPAuthenticationException(
-                    f"Version {self._cli_version} not supported with service accounts. Minimum version: {MINIMUM_SERVICE_ACCOUNT_VERSION}")
             if existing_auth != EXISTING_AUTH_REQD:
                 auth_pref_source = "preference upgraded due to service account environment variable"
                 self.logger.info(
@@ -132,7 +131,7 @@ class _OPCommandInterface(_OPCLIExecute):
             # if a password is passed in but existing_auth is required, caller may be confused:
             # - intentionally passed in incompatible options
             # - possibly has OP_SERVICE_ACCOUNT_TOKEN set accidentally
-            msg = f"Password argument passed but EXISTING_AUTH_REQD flag is set. flag source: {auth_pref_source}"
+            msg = f"Password argument passed but EXISTING_AUTH_REQD flag is set. flag source: {auth_pref_source}"  # nopep8
             self.logger.error(msg)
             raise OPAuthenticationException(msg)
 
@@ -159,6 +158,17 @@ class _OPCommandInterface(_OPCLIExecute):
                 self._sess_var = self._compute_session_var_name()
             environ[self._sess_var] = self.token
 
+    @classmethod
+    def _reset_class(cls):
+        """
+        Reset class state
+
+        Primarily for use in pytest between test cases
+        """
+        cls._version_support = OPVersionSupport()
+        cls._op_paths_checked = set()
+        cls._reset_class_logger()
+
     @property
     def token(self) -> str:
         return self._token
@@ -166,6 +176,39 @@ class _OPCommandInterface(_OPCLIExecute):
     @property
     def session_var(self) -> str:
         return self._sess_var
+
+    @classmethod
+    def _op_path_size_mtime(cls, op_path):
+        # get fully-qualified path even if "op" was provided
+        new_op_path = shutil.which(op_path)
+        if new_op_path:
+            op_path = new_op_path
+        stat_result = os.stat(op_path)
+        sz = stat_result.st_size
+        mt = stat_result.st_mtime
+        return (sz, mt)
+
+    @classmethod
+    def _check_op_version(cls, op_path, cli_version=None):
+        if not isinstance(op_path, str):
+            op_path = str(op_path)
+        try:
+            sz_mt = cls._op_path_size_mtime(op_path)
+        except FileNotFoundError as err:
+            raise OPNotFoundException(op_path, err.errno)
+
+        # don't check 'op' at the same path more than once
+        # but allow for different 'op' executables to be used
+        # over the course of execution
+        if sz_mt not in cls._op_paths_checked:
+            if cli_version:
+                ver = cli_version
+            else:
+                ver = cls._get_cli_version(op_path)
+            # exception is raised if version is unsupported
+            # deprecation warning is issued if version support is deprecated
+            cls._version_support.check_version_support(ver)
+            cls._op_paths_checked.add(sz_mt)
 
     @classmethod
     def svc_account_env_var_set(cls):
@@ -196,6 +239,8 @@ class _OPCommandInterface(_OPCLIExecute):
         return uses_bio
 
     def _gather_facts(self):
+        self._cli_version = self._get_cli_version(self.op_path)
+        self._check_op_version(self.op_path, cli_version=self._cli_version)
         self._uses_bio = self.uses_biometric(
             op_path=self.op_path, account_list=self._account_list)
         self.logger.debug(f"uses bio: {self._uses_bio}")
@@ -210,7 +255,6 @@ class _OPCommandInterface(_OPCLIExecute):
                 self._op_config = None
             else:
                 raise
-        self._cli_version = self._get_cli_version(self.op_path)
         self._account_list = self._get_account_list(self.op_path)
 
         self._account_identifier = self._normalize_account_id()
@@ -415,6 +459,8 @@ class _OPCommandInterface(_OPCLIExecute):
         # - this method is racey, since authentication may expire between the check and the
         #   operation
         # - this adds roughly 20% overhead (as measured by the full suite of pytest tests)
+
+        cls._check_op_version(op_path)
         if cls._auth_expired(op_path, account):
             raise OPAuthenticationException(
                 "Authentication has expired")  # pragma: no cover
@@ -443,6 +489,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
     @classmethod
     def _item_template_list_special(cls, op_path,  env: Dict[str, str] = None):
+        cls._check_op_version(op_path)
         if not env:
             env = dict(environ)
         # special "template list" class method we can use for testing authentication
@@ -453,6 +500,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
     @classmethod
     def _whoami_base(cls, op_path, env: Dict[str, str] = None, account: str = None):
+        cls._check_op_version(op_path)
         if not env:
             env = dict(environ)
         argv = _OPArgv.whoami_argv(op_path, account=account)
@@ -538,15 +586,6 @@ class _OPCommandInterface(_OPCLIExecute):
                 self.op_path, self._account_identifier, get_document_argv, capture_stdout=True)
         except OPCmdFailedException as ocfe:
             raise OPDocumentGetException.from_opexception(ocfe) from ocfe
-
-        if self._cli_version <= DOCUMENT_BYTES_BUG_VERSION:  # pragma: no cover
-            # op versions 2.0.0 - 2.2.0 append an erroneous \x0a ('\n') byte to document bytes
-            # trim it off if its present
-            if document_bytes[-1] == 0x0a:
-                document_bytes = document_bytes[:-1]
-            else:
-                # this shouldn't happen but maybe an edge case?
-                pass
 
         return document_bytes
 
@@ -639,6 +678,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
     @classmethod
     def _signed_in_accounts(cls, op_path, decode="utf-8"):
+        cls._check_op_version(op_path)
         account_list_argv = cls._account_list_argv(op_path, encoding=decode)
         output = cls._run(account_list_argv,
                           capture_stdout=True, decode=decode)
@@ -729,6 +769,10 @@ class _OPCommandInterface(_OPCLIExecute):
 
     @classmethod
     def _account_forget(cls, account: str, op_path=None):   # pragma: no cover
+        # don't call _check_op_version()
+        # this probably won't fail, and at any rate
+        # shouldn't be in the critical path for any other operation
+        # there's no reason to prevent "account forget" from working here
         if not op_path:
             op_path = cls.OP_PATH
         argv = _OPArgv.account_forget_argv(op_path, account)

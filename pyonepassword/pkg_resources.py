@@ -1,9 +1,6 @@
+# importlib.resources.files introduced in python 3.9
+from importlib.resources import files as pkgfiles  # noqa: F401
 from pathlib import Path
-
-try:
-    from importlib.resources import files as pkgfiles  # noqa: F401
-except ImportError:  # pragma: no coverage
-    from importlib_resources import files as pkgfiles  # noqa: F401
 
 
 def data_location_as_path(package, sub_path) -> Path:

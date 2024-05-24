@@ -1,0 +1,3 @@
+# required during setup.py to check README.md is up to date
+include _*template.md
+include scripts/update_readme.py

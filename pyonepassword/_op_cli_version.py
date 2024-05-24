@@ -239,7 +239,3 @@ class OPVersionSupport:
             warnings.warn(msg, category=DeprecationWarning)
 
         return True
-
-
-MINIMUM_SERVICE_ACCOUNT_VERSION = OPCLIVersion('2.18.0-beta.01')
-DOCUMENT_BYTES_BUG_VERSION = OPCLIVersion('2.2.0')

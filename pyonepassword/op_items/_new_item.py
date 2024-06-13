@@ -1,7 +1,6 @@
 import json
 import os
 import shutil
-import tempfile
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -218,34 +217,6 @@ class OPNewItemMixin:
         args = [template_dict]
         super().__init__(*args)
         self._temp_files: List[str] = []
-
-    def secure_tempfile(self, encoding="utf8") -> str:
-        """
-        Serialize this item object to a secure temp file for use during 'op item create'
-
-        The temporary file is deleted when this object goes out of scope
-
-        Parameters
-        ----------
-        encoding: str, optional
-            Encoding to use when serializing to file. Defaults to "utf-8"
-
-        Returns
-        -------
-        temp.name: str
-            The name of the temporary file
-        """
-        temp = tempfile.NamedTemporaryFile(
-            mode="w", delete=False, encoding=encoding)
-        self._temp_files.append(temp.name)
-        json.dump(self, temp)
-        temp.close()
-        template_dest_dir = os.environ.get(TEMPLATE_COPY_DST_ENV_VAR, None)
-        if template_dest_dir:
-            # _copy_template() does no error handling
-            # only call if we were given a template copy destination
-            self._copy_template(temp.name, template_dest_dir)
-        return temp.name
 
     def serialize(self, indent=None) -> str:
         json_str = json.dumps(self, indent=indent)

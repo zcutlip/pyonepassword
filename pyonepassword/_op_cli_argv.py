@@ -127,7 +127,8 @@ class _OPArgv(list):
     def item_generic_argv(cls,
                           op_exe: str,
                           subcommands: Optional[Union[str, List[str]]],
-                          sub_cmd_args: Optional[List[str]] = None):
+                          sub_cmd_args: Optional[List[str]] = None,
+                          encoding="utf-8"):
         args = []
         global_args = ["--format", "json"]
         if sub_cmd_args:
@@ -136,7 +137,8 @@ class _OPArgv(list):
                    "item",
                    args,
                    subcommands=subcommands,
-                   global_args=global_args)
+                   global_args=global_args,
+                   encoding=encoding)
         return argv
 
     @classmethod

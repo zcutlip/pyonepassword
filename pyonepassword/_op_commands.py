@@ -24,6 +24,7 @@ from ._svc_account import (
     OPSvcAcctCommandNotSupportedException
 )
 from .account import OPAccount, OPAccountList
+from .op_items._new_item import OPNewItemMixin
 from .op_items.password_recipe import OPPasswordRecipe
 from .py_op_exceptions import (
     OPAuthenticationException,
@@ -796,7 +797,7 @@ class _OPCommandInterface(_OPCLIExecute):
             raise OPItemListException.from_opexception(e)
         return output
 
-    def _item_create(self, item, vault, password_recipe, decode="utf-8"):
+    def _item_create(self, item: OPNewItemMixin, vault, password_recipe, decode="utf-8"):
         argv = self._item_create_argv(item, password_recipe, vault)
         try:
             output = self._run_with_auth_check(

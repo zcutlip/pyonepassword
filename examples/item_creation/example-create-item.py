@@ -1,12 +1,10 @@
-from pyonepassword import OP
+from pyonepassword import OP, logging
 from pyonepassword.api.object_types import OPLoginItem
-
-from ..do_signin import do_signin
 
 if __name__ == "__main__":
     # see README.md for sign-in process
-    op: OP = do_signin()
-
+    logger = logging.console_debug_logger("example-create-item")
+    op: OP = OP(logger=logger)
     title = "Example Login Item"
     username = "test_username"
     great_password = "really-great-password"

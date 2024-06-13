@@ -1,7 +1,5 @@
 import json
 import os
-import shutil
-from pathlib import Path
 from typing import Dict, List, Optional
 
 from ..py_op_exceptions import OPInvalidItemException
@@ -231,20 +229,6 @@ class OPNewItemMixin:
         password_supported: bool
         """
         return self.PASSWORDS_SUPPORTED
-
-    def _copy_template(self, template_src, template_dest_dir):
-        """
-        Optionally make a backup copy of the new item template
-        if PYOP_NEW_ITEM_TEMPLATE_CP_DST environment variable is set
-        for debugging/troubleshooting
-
-        This method intentionally does minimal error handling. It should only be called
-        for troublehooting purposes and any errors creating the destination or copying the source
-        should be fatal errors
-        """
-        template_dest_dir = Path(template_dest_dir)
-        template_dest_dir.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(template_src, template_dest_dir)
 
     def __del__(self):
 

@@ -247,6 +247,10 @@ class OPNewItemMixin:
             self._copy_template(temp.name, template_dest_dir)
         return temp.name
 
+    def serialize(self, indent=None) -> str:
+        json_str = json.dumps(self, indent=indent)
+        return json_str
+
     def supports_passwords(self) -> bool:
         """
         Whether passwords are applicable items of this type

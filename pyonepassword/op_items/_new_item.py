@@ -213,7 +213,6 @@ class OPNewItemMixin:
         # Satisfy mypy: Too many arguments for "__init__" of "object"
         args = [template_dict]
         super().__init__(*args)
-        self._temp_files: List[str] = []
 
     def serialize(self, indent=None) -> str:
         json_str = json.dumps(self, indent=indent)

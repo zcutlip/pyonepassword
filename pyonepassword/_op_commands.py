@@ -798,10 +798,11 @@ class _OPCommandInterface(_OPCLIExecute):
         return output
 
     def _item_create(self, item: OPNewItemMixin, vault, password_recipe, decode="utf-8"):
-        argv = self._item_create_argv(item, password_recipe, vault)
+        item_json = item.serialize(indent=2)
+        argv = self._item_create_argv(password_recipe, vault)
         try:
             output = self._run_with_auth_check(
-                self.op_path, self._account_identifier, argv, capture_stdout=True, decode=decode)
+                self.op_path, self._account_identifier, argv, capture_stdout=True, input=item_json, decode=decode)
         except OPCmdFailedException as e:
             raise OPItemCreateException.from_opexception(e)
 
@@ -985,10 +986,10 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
         return vault_list_argv
 
-    def _item_create_argv(self, item, password_recipe, vault):
+    def _item_create_argv(self, password_recipe, vault):
         vault_arg = vault if vault else self.vault
         item_create_argv = _OPArgv.item_create_argv(
-            self.op_path, item, password_recipe=password_recipe, vault=vault_arg
+            self.op_path, password_recipe=password_recipe, vault=vault_arg
         )
         return item_create_argv
 

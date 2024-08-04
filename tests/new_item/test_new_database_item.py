@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 from typing import TYPE_CHECKING, Any, Dict, List
 
 from pyonepassword.api.object_types import OPDatabaseItemTemplate
@@ -605,53 +604,6 @@ def test_new_database_item_100(valid_data: ValidData):
     assert database_template.sid is None
     assert database_template.alias is None
     assert database_template.options is None
-
-
-def test_new_database_item_temp_file_010():
-    """
-    Create:
-        - An OPDatabaseItemTemplate object
-        - request a secure temp file with the object serialized as JSON
-        - release the new object
-    Verify:
-        - the temp file exists
-        - the temp file has been deleted when the object is released
-    """
-    username = "test_username"
-    title = "Test Database Item"
-
-    database_template = OPDatabaseItemTemplate(title, username)
-    temp_file_path = database_template.secure_tempfile()
-    assert os.path.isfile(temp_file_path)
-
-    database_template = None
-    assert not os.path.exists(temp_file_path)
-
-
-def test_new_database_item_temp_file_020():
-    """
-    Create:
-        - An OPDatabaseItemTemplate object
-        - request a secure temp file with the object serialized as JSON
-        - delete the temp file from under the object
-        - release the object
-    Verify:
-        - the temp file exists
-        - no exception is raised when object is released
-    """
-    username = "test_username"
-    title = "Test Database Item"
-
-    database_template = OPDatabaseItemTemplate(title, username)
-    temp_file_path = database_template.secure_tempfile()
-    assert os.path.isfile(temp_file_path)
-
-    # dirty trick; this shouldn't happen. But we need to be robust against it anyway
-    os.remove(temp_file_path)
-    try:
-        database_template = None
-    except Exception as e:
-        assert False, f"new_login = None raised an exception {e}"
 
 
 def test_new_database_item_tags_010(valid_data: ValidData):

@@ -25,7 +25,7 @@ class OPItemList(List[OPAbstractItemDescriptor]):
         json_str = json.dumps(self, indent=indent)
         return json_str
 
-    def sort(self):
+    def sort(self):  # type: ignore[override]
         # we really want to be sorted by title, since that's the most
         # human friendly (mainly for troubleshooting)
         # but in the case if title collisions, this is still non-deterministic

@@ -2099,7 +2099,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
                 msg = f"No field found '{field_label}' that lacks a section"
                 raise OPFieldNotFoundException(msg)
             else:
-                msg = f"Section '{section_label}', field '{field_label}' not found"  # nopep8
+                msg = f"Section '{section_label}', field '{field_label}' not found"
                 raise OPFieldNotFoundException(msg)
         return field
 

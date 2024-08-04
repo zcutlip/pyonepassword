@@ -43,7 +43,7 @@ GITHUB_URL = "https://github.com/zcutlip/pyonepassword"
 # links on PyPI should have absolute URLs
 # this awful regex looks for [any text](any url), making sure there's no 'http:'
 # in the url part
-# it then inserts https://github.com/zcutlip/pyonepassword/blobl/main/
+# it then inserts https://github.com/zcutlip/pyonepassword/blob/main/
 # after between the '(' and the relative URL
 # believe it or not this also works with directories such as examples/item_editing/
 # Github redirects from blob/main/ to tree/main/ in this case

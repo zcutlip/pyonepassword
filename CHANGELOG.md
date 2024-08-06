@@ -2,11 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.0.1] 2024-08-03
+
+### Fixed
+
+- Create new items via stdin to `op` command rather than reading from temp file (gh-172)
+
+### `op` CLI Version Support
+
+*Deprecated support*
+
+- `op` versions < 2.26.0 and >= 2.21.0 (gh-200)
+
+*Unsupported*
+
+- `op` versions < 2.21.0 (gh-200)
+
+
 ## [5.0.0] 2024-05-24
 
 ### Added
 
-- Version checking for the `op` CLI tool at run-time
+- Version checking for the `op` CLI tool at run-time (gh-162)
 - `opversion` command
 - Export `OPCLIVersion` as API
 - `OPCLIVersionSupportException` class
@@ -21,7 +38,7 @@ All notable changes to this project will be documented in this file.
 
 ### Misc
 
-- Remove `op` version checks for special behaviors where the version is no longer supported
+- Remove `op` version checks for special behaviors where the version is no longer supported (gh-193)
 
 ## [4.3.0] 2024-03-28
 

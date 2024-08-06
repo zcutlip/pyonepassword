@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from pyonepassword import OP  # noqa: F401
 from pyonepassword.api.object_types import (
@@ -23,8 +23,8 @@ class OPNewSecureNoteItem(OPNewItemMixin, OPSecureNoteItem):
     def __init__(self,
                  title: str,
                  note_text: str,
-                 fields: List[OPItemField] = [],
-                 sections: List[OPSection] = []):
+                 fields: Optional[List[OPItemField]] = None,
+                 sections: Optional[List[OPSection]] = None):
 
         if sections is None:  # pragma: no coverage
             sections = []

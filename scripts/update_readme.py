@@ -45,11 +45,14 @@ def main():
     readme_text = generate_readme_text(README_TEMPLATE)
     needs_update = check_readme(README, readme_text)
     if args.check:
+        if needs_update:
+            print("README needs updating")
         return int(needs_update)
 
     if needs_update:
         with open(README, "w") as f:
             f.write(readme_text)
+        print("README updated")
 
 
 if __name__ == "__main__":

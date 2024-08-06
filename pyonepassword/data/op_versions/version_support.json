@@ -3,8 +3,8 @@
     "version": 1
   },
   "version-support":{
-    "supported": "2.24.0",
-    "minimum": "2.19.0"
+    "supported": "2.26.0",
+    "minimum": "2.21.0"
   },
   "feature-support": {
     "example-feature-service-accounts": "2.18.0"

@@ -1,8 +1,4 @@
 import json
-import os
-import shutil
-import tempfile
-from pathlib import Path
 from typing import Dict, List, Optional
 
 from ..py_op_exceptions import OPInvalidItemException
@@ -217,35 +213,10 @@ class OPNewItemMixin:
         # Satisfy mypy: Too many arguments for "__init__" of "object"
         args = [template_dict]
         super().__init__(*args)
-        self._temp_files: List[str] = []
 
-    def secure_tempfile(self, encoding="utf8") -> str:
-        """
-        Serialize this item object to a secure temp file for use during 'op item create'
-
-        The temporary file is deleted when this object goes out of scope
-
-        Parameters
-        ----------
-        encoding: str, optional
-            Encoding to use when serializing to file. Defaults to "utf-8"
-
-        Returns
-        -------
-        temp.name: str
-            The name of the temporary file
-        """
-        temp = tempfile.NamedTemporaryFile(
-            mode="w", delete=False, encoding=encoding)
-        self._temp_files.append(temp.name)
-        json.dump(self, temp)
-        temp.close()
-        template_dest_dir = os.environ.get(TEMPLATE_COPY_DST_ENV_VAR, None)
-        if template_dest_dir:
-            # _copy_template() does no error handling
-            # only call if we were given a template copy destination
-            self._copy_template(temp.name, template_dest_dir)
-        return temp.name
+    def serialize(self, indent=None) -> str:
+        json_str = json.dumps(self, indent=indent)
+        return json_str
 
     def supports_passwords(self) -> bool:
         """
@@ -256,29 +227,3 @@ class OPNewItemMixin:
         password_supported: bool
         """
         return self.PASSWORDS_SUPPORTED
-
-    def _copy_template(self, template_src, template_dest_dir):
-        """
-        Optionally make a backup copy of the new item template
-        if PYOP_NEW_ITEM_TEMPLATE_CP_DST environment variable is set
-        for debugging/troubleshooting
-
-        This method intentionally does minimal error handling. It should only be called
-        for troublehooting purposes and any errors creating the destination or copying the source
-        should be fatal errors
-        """
-        template_dest_dir = Path(template_dest_dir)
-        template_dest_dir.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(template_src, template_dest_dir)
-
-    def __del__(self):
-
-        # if we blow up during object initialization
-        # _temp_files may not exist, so check first
-        if hasattr(self, "_temp_files"):
-            while self._temp_files:
-                t = self._temp_files.pop()
-                try:
-                    os.unlink(t)
-                except FileNotFoundError:
-                    continue

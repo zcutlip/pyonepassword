@@ -94,12 +94,12 @@ def _rename_kwargs(func_name: str, kwargs: Dict[str, Any], kwarg_aliases: Dict[s
         if old_kwarg in kwargs:
             if new_kwarg in kwargs:
                 raise TypeError(
-                    f"{func_name} received both {old_kwarg} and {new_kwarg} as arguments!"  # nopep8
+                    f"{func_name} received both {old_kwarg} and {new_kwarg} as arguments!"
                     f" {old_kwarg} is deprecated, use {new_kwarg} instead."
                 )
             warnings.warn(
                 message=(
-                    f"`{old_kwarg}` is deprecated as an argument to `{func_name}`; use"  # nopep8
+                    f"`{old_kwarg}` is deprecated as an argument to `{func_name}`; use"
                     f" `{new_kwarg}` instead."
                 ),
                 category=DeprecationWarning,

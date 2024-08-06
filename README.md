@@ -14,9 +14,9 @@ A Python API to sign into and query a 1Password account using the `op` command.
 ## Requirements
 
 - Python >= 3.9
-- 1Password command-line tool >= 2.24.0
-  - Versions >= 2.19.0, < 2.24.0 supported but deprecated
-  - Versions < 2.19.0 are unsupported and an exception will be raised
+- 1Password command-line tool >= 2.26.0
+  - Versions >= 2.21.0, < 2.26.0 supported but deprecated
+  - Versions < 2.21.0 are unsupported and an exception will be raised
   - See [1Password Developer Documentation](https://developer.1password.com/docs/cli)
 - Internet connectivity to 1Password.com
   - The `op` command queries your online account, not your local vault
@@ -354,14 +354,14 @@ def main():
 
 For details on creating new items in a 1Password vault, see [item-creation.md](docs/item-creation.md)
 
-Also see the examles in [examples/item_creation](examples/item_creation/)
+Also see the examples in [examples/item_creation](examples/item_creation/)
 
 
 ### Item Editing
 
 For details on editing existing items in a 1Password vault, see [item-editing.md](docs/item-editing.md)
 
-Also see the examles in [examples/item_editing](examples/item_editing/)
+Also see the examples in [examples/item_editing](examples/item_editing/)
 
 ### Document Editing
 

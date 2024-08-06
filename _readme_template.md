@@ -354,14 +354,14 @@ def main():
 
 For details on creating new items in a 1Password vault, see [item-creation.md](docs/item-creation.md)
 
-Also see the examles in [examples/item_creation](examples/item_creation/)
+Also see the examples in [examples/item_creation](examples/item_creation/)
 
 
 ### Item Editing
 
 For details on editing existing items in a 1Password vault, see [item-editing.md](docs/item-editing.md)
 
-Also see the examles in [examples/item_editing](examples/item_editing/)
+Also see the examples in [examples/item_editing](examples/item_editing/)
 
 ### Document Editing
 

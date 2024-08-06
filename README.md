@@ -14,9 +14,9 @@ A Python API to sign into and query a 1Password account using the `op` command.
 ## Requirements
 
 - Python >= 3.9
-- 1Password command-line tool >= 2.25.0
-  - Versions >= 2.20.0, < 2.25.0 supported but deprecated
-  - Versions < 2.20.0 are unsupported and an exception will be raised
+- 1Password command-line tool >= 2.26.0
+  - Versions >= 2.21.0, < 2.26.0 supported but deprecated
+  - Versions < 2.21.0 are unsupported and an exception will be raised
   - See [1Password Developer Documentation](https://developer.1password.com/docs/cli)
 - Internet connectivity to 1Password.com
   - The `op` command queries your online account, not your local vault

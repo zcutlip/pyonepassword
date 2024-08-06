@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.0.1] 2024-08-03
+
+### Fixed
+
+- Create new items via stdin to `op` command rather than reading from temp file
+
+### `op` CLI Version Support
+
+*Deprecated support*
+
+- `op` versions < 2.25.0 and >= 2.20.0
+
+*Unsupported*
+
+- `op` versions < 2.20.0
+
+
 ## [5.0.0] 2024-05-24
 
 ### Added

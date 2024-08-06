@@ -12,11 +12,11 @@ All notable changes to this project will be documented in this file.
 
 *Deprecated support*
 
-- `op` versions < 2.26.0 and >= 2.21.0
+- `op` versions < 2.26.0 and >= 2.21.0 (gh-200)
 
 *Unsupported*
 
-- `op` versions < 2.21.0
+- `op` versions < 2.21.0 (gh-200)
 
 
 ## [5.0.0] 2024-05-24

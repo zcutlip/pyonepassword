@@ -6,17 +6,17 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- Create new items via stdin to `op` command rather than reading from temp file
+- Create new items via stdin to `op` command rather than reading from temp file (gh-172)
 
 ### `op` CLI Version Support
 
 *Deprecated support*
 
-- `op` versions < 2.25.0 and >= 2.20.0
+- `op` versions < 2.26.0 and >= 2.21.0
 
 *Unsupported*
 
-- `op` versions < 2.20.0
+- `op` versions < 2.21.0
 
 
 ## [5.0.0] 2024-05-24

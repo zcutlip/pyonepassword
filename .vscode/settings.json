@@ -12,5 +12,6 @@
     "3"
   ],
   "search.useIgnoreFiles": true,
+  "makefile.configureOnOpen": false,
 
 }

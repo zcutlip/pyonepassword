@@ -13,7 +13,7 @@ A Python API to sign into and query a 1Password account using the `op` command.
 
 ## Requirements
 
-- Python >= 3.9
+- Python >= 3.10
 - 1Password command-line tool >= SUPPORTED_CLI_VERSION__
   - Versions >= MINIMUM_CLI_VERSION__, < SUPPORTED_CLI_VERSION__ supported but deprecated
   - Versions < MINIMUM_CLI_VERSION__ are unsupported and an exception will be raised

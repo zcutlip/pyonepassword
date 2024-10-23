@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [DEVELOPMENT]
+
+### Changed
+- Added Python 3.12 support (gh-204)
+- Removed Python 3.8 support (gh-204)
+
 ## [5.0.1] 2024-08-03
 
 ### Fixed

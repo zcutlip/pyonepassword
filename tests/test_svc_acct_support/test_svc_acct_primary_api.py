@@ -133,8 +133,12 @@ def test_svc_account_primary_api_docstrings():
         -----------------------
     """
     # regex where '.' will match newlines
+    # NOTE:
+    # python < 3.13 includes indentation space in docstrings
+    # python >= 3.13 strips leading indentation
+    # the `\s*` accounts for this discrepency
     svc_account_string_re = re.compile(
-        r"Service Account Support.\s+-----------------------", re.DOTALL)
+        r"Service Account Support.\s*-----------------------", re.DOTALL)
 
     # get all class and instance methods
     op_vars = vars(OP)

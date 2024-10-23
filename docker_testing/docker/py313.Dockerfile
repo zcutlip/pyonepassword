@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.13
 
 RUN useradd -ms /bin/bash unpriv
 
@@ -14,6 +14,6 @@ ENV TESTDIR=/usr/src/testdir
 # PYVER_FACTOR gets passed to:
 # tox run -f $PYVER_FACTOR
 # so e.g., all py311-{something,something-else} envs get run
-ENV PYVER_FACTOR=py39
+ENV PYVER_FACTOR=py313
 COPY test.sh /test.sh
 CMD [ "/test.sh" ]

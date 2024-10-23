@@ -511,13 +511,6 @@ class _OPArgv(list):
         return argv
 
     @classmethod
-    def item_edit_argv(cls,
-                       op_exe: str,
-                       item_identifier: str,
-                       vault: Optional[str] = None):
-        pass
-
-    @classmethod
     def item_delete_argv(cls,
                          op_exe: str,
                          item_name_or_id: str,

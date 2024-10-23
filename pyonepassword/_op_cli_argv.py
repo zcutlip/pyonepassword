@@ -526,6 +526,33 @@ class _OPArgv(list):
         return delete_argv
 
     @classmethod
+    def item_share_argv(cls,
+                        op_exe: str,
+                        item_identifier: str,
+                        emails: Optional[List[str]] = None,
+                        expires_in: Optional[List[str]] = None,
+                        view_once: bool = False,
+                        vault: Optional[str] = None):
+        sub_cmd_args = [item_identifier]
+
+        if emails:
+            email_arg = ",".join(emails)
+            sub_cmd_args.extend(["--emails", email_arg])
+
+        if expires_in:
+            sub_cmd_args.extend("--expires-in", expires_in)
+
+        if view_once is True:
+            sub_cmd_args.append("--view-once")
+
+        if vault:
+            sub_cmd_args.extend(["--vault", vault])
+
+        share_argv = cls.item_generic_argv(op_exe, "share", sub_cmd_args)
+
+        return share_argv
+
+    @classmethod
     def _document_generic_argv(cls,
                                op_exe: str,
                                subcommands: Optional[Union[str, List[str]]],

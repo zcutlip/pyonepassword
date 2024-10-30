@@ -942,6 +942,21 @@ class _OPCommandInterface(_OPCLIExecute):
             self.op_path, item_name_or_id, vault=vault_arg, archive=archive)
         return delete_argv
 
+    def _item_share_argv(self,
+                         item_identifier: str,
+                         emails: Optional[List[str]] = None,
+                         expires_in: Optional[str] = None,
+                         view_once: bool = False,
+                         vault: Optional[str] = None):
+        vault_arg = vault if vault else self.vault
+        item_share_argv = _OPArgv.item_share_argv(self.op_path,
+                                                  item_identifier,
+                                                  emails=emails,
+                                                  expires_in=expires_in,
+                                                  view_once=view_once,
+                                                  vault=vault_arg)
+        return item_share_argv
+
     def _item_get_totp_argv(self, item_name_or_id, vault=None):
         vault_arg = vault if vault else self.vault
 

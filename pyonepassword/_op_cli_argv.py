@@ -535,6 +535,11 @@ class _OPArgv(list):
                         vault: Optional[str] = None):
         sub_cmd_args = [item_identifier]
 
+        # TODO: what's the right action here?
+        # should we except a string and then do
+        # emails = [emails]
+        if not isinstance(emails, list):
+            raise TypeError("emails kwarg should be of type List[str]")
         if emails:
             email_arg = ",".join(emails)
             sub_cmd_args.extend(["--emails", email_arg])

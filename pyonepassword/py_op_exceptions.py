@@ -147,6 +147,13 @@ class OPItemDeleteMultipleException(OPItemDeleteException):
         return cls(deleted_items, ope.err_output, ope.returncode)
 
 
+class OPItemShareExcetion(OPCmdFailedException):
+    MSG = "1Password 'item share' failed."
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
+
 class OPDocumentGetException(OPCmdFailedException):
     MSG = "1Password 'document get' failed."
 

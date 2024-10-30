@@ -530,7 +530,7 @@ class _OPArgv(list):
                         op_exe: str,
                         item_identifier: str,
                         emails: Optional[List[str]] = None,
-                        expires_in: Optional[List[str]] = None,
+                        expires_in: Optional[str] = None,
                         view_once: bool = False,
                         vault: Optional[str] = None):
         sub_cmd_args = [item_identifier]

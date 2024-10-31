@@ -535,13 +535,25 @@ class _OPArgv(list):
                         vault: Optional[str] = None):
         sub_cmd_args = [item_identifier]
 
-        # TODO: what's the right action here?
-        # should we except a string and then do
-        # emails = [emails]
-        if not isinstance(emails, list):
-            raise TypeError("emails kwarg should be of type List[str]")
+        email_list: Optional[List[str]]
+
+        # 'emails' can be one of four things:
+        # str (single email address)
+        # List[str] (list of email addresses)
+        # empty list
+        # None
+        # email_list must be declared in order to satify typing linter
+        # so we convert emails into either a List[str] or None and assign it to email_list
         if emails:
-            email_arg = ",".join(emails)
+            if not isinstance(emails, list):
+                email_list = [emails]
+            else:
+                email_list = emails
+        else:
+            email_list = None
+
+        if email_list:
+            email_arg = ",".join(email_list)
             sub_cmd_args.extend(["--emails", email_arg])
 
         if expires_in:

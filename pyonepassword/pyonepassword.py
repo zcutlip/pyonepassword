@@ -1554,6 +1554,53 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         return deleted_items
 
+    def item_share(self,
+                   item_identifier: str,
+                   emails: Optional[Union[str, List[str]]] = None,
+                   expires_in: Optional[str] = None,
+                   view_once: bool = False,
+                   vault: Optional[str] = None) -> str:
+        """
+        Share an item based on title or unique identifier.
+
+        Parameters
+        ----------
+        item_identifier: str
+            Name or ID of the item to share
+        emails : Union[str, List[str]], optional
+            List of email addresses to grant access to the shared item
+            May be a list of email addresses, a single email address string, or None
+        expires_in : str, optional
+            Expiration time for this shared item, by default None
+            Expire link after the duration specified in (s)econds, (m)inutes, (h)ours, (d)ays, and/or (w)eeks. (default 7d)
+            NOTE: This string is not validated or sanity checked. See `op` CLI documentation for acceptible duration specifications
+        view_once : bool, optional
+            Expire link after a single view, by default False
+        vault : str, optional
+            Look for the item in this vault, by default None
+
+        Raises
+        ------
+        OPItemShareException
+            If item share opteration fails for any reason
+        OPNotFoundException
+            If the 1Password command can't be found
+
+        Returns
+        -------
+        str
+            A string representation of the share URL
+        """
+
+        share_url = self._item_share(item_identifier,
+                                     emails=emails,
+                                     expires_in=expires_in,
+                                     view_once=view_once,
+                                     vault=vault,
+                                     decode="utf-8")
+
+        return share_url
+
     def item_list(self,
                   categories: Optional[List[str]] = None,
                   include_archive: bool = False,

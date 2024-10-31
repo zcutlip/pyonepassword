@@ -41,7 +41,7 @@ from .py_op_exceptions import (
     OPItemEditException,
     OPItemGetException,
     OPItemListException,
-    OPItemShareExcetion,
+    OPItemShareException,
     OPNotFoundException,
     OPSigninException,
     OPUnknownAccountException,
@@ -681,7 +681,7 @@ class _OPCommandInterface(_OPCLIExecute):
                 self.op_path, self._account_identifier, item_share_argv, capture_stdout=True, decode=decode)
             output = output.rstrip()
         except OPCmdFailedException as ocfe:
-            raise OPItemShareExcetion.from_opexception(ocfe)
+            raise OPItemShareException.from_opexception(ocfe)
 
         return output
 

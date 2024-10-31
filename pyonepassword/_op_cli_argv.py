@@ -529,7 +529,7 @@ class _OPArgv(list):
     def item_share_argv(cls,
                         op_exe: str,
                         item_identifier: str,
-                        emails: Optional[List[str]] = None,
+                        emails: Optional[Union[str, List[str]]] = None,
                         expires_in: Optional[str] = None,
                         view_once: bool = False,
                         vault: Optional[str] = None):

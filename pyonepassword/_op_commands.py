@@ -669,7 +669,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
     def _item_share(self,
                     item_identifier: str,
-                    emails: Optional[List[str]] = None,
+                    emails: Optional[Union[str, List[str]]] = None,
                     expires_in: Optional[str] = None,
                     view_once: bool = False,
                     vault: Optional[str] = None,
@@ -963,7 +963,7 @@ class _OPCommandInterface(_OPCLIExecute):
 
     def _item_share_argv(self,
                          item_identifier: str,
-                         emails: Optional[List[str]] = None,
+                         emails: Optional[Union[str, List[str]]] = None,
                          expires_in: Optional[str] = None,
                          view_once: bool = False,
                          vault: Optional[str] = None):

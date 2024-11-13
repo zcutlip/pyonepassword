@@ -557,7 +557,7 @@ class _OPArgv(list):
             sub_cmd_args.extend(["--emails", email_arg])
 
         if expires_in:
-            sub_cmd_args.extend("--expires-in", expires_in)
+            sub_cmd_args.extend(["--expires-in", expires_in])
 
         if view_once is True:
             sub_cmd_args.append("--view-once")

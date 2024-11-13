@@ -6,7 +6,7 @@ import pytest
 
 if TYPE_CHECKING:
     from pyonepassword import OP
-    from ..fixtures.expected_server import ExpectedServer
+    from ....fixtures.expected_server import ExpectedServer
 
 from pyonepassword.api.descriptor_types import OPServerItemDescriptor
 from pyonepassword.api.object_types import OPItemList

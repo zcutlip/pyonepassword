@@ -8,7 +8,7 @@ import pytest
 # circular imports.
 # this also reduced exercising tested code simply by importing
 if TYPE_CHECKING:
-    from ..fixtures.expected_user_data import ExpectedUserListEntry, ExpectedUserListData
+    from ....fixtures.expected_user_data import ExpectedUserListEntry, ExpectedUserListData
     from pyonepassword import OP
 
 from pyonepassword.api.descriptor_types import OPUserDescriptorList

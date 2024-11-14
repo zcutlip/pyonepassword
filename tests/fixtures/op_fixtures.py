@@ -28,6 +28,7 @@ from .expected_item import ExpectedItemData
 from .expected_item_fields import ExpectedItemFieldData
 from .expected_item_list import ExpectedItemListData
 from .expected_item_sections import ExpectedItemSectionData
+from .expected_item_share_data import ExpectedItemShareData
 from .expected_login import ExpectedLoginItemData
 from .expected_miscellaneous_data import ExpectedMiscData
 from .expected_op_cli_config import ExpectedConfigData
@@ -585,6 +586,12 @@ def expected_item_field_data():
 @fixture
 def expected_item_section_data():
     data = ExpectedItemSectionData()
+    return data
+
+
+@fixture
+def expected_item_share_data():
+    data = ExpectedItemShareData()
     return data
 
 

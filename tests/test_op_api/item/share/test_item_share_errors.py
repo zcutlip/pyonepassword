@@ -46,3 +46,21 @@ def test_item_share_invalid_expires_020(signed_in_op: OP):
     with pytest.raises(OPItemShareException):
         signed_in_op.item_share(item_name, emails=email,
                                 expires_in=expires_in, vault=vault)
+
+
+def test_item_share_invalid_email_030(signed_in_op: OP):
+    """
+    Test: OP.item_share() with an invalid email string
+        - Invalid "foo" string as emails= kwarg
+        - Valid values for item_identifier & vault
+    Verify:
+        - OPItemShareException is raised
+
+    NOTE: Different malformed email addresses generate different error messages and return codes
+    """
+    item_name = "Example Login Item 22"
+    email = "foo"
+    vault = "Test Data 1"
+
+    with pytest.raises(OPItemShareException):
+        signed_in_op.item_share(item_name, emails=email, vault=vault)

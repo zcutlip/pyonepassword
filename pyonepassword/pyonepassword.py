@@ -1570,10 +1570,11 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         emails : Union[str, List[str]], optional
             List of email addresses to grant access to the shared item
             May be a list of email addresses, a single email address string, or None
+            NOTE: The emails strings are not validated by pyonepassword. The are validated by the `op` comannd, however. For details about email validation failures, the OPItemShareException.err_output may be inspected.
         expires_in : str, optional
             Expiration time for this shared item, by default None
             Expire link after the duration specified in (s)econds, (m)inutes, (h)ours, (d)ays, and/or (w)eeks. (default 7d)
-            NOTE: This string is not validated or sanity checked. See `op` CLI documentation for acceptible duration specifications
+            NOTE: This string is not validated by pyonepassword. It is validated by the `op` comannd, however. For details about duration validation failures, the OPItemShareException.err_output may be inspected. See `op` CLI documentation for acceptible duration specifications
         view_once : bool, optional
             Expire link after a single view, by default False
         vault : str, optional

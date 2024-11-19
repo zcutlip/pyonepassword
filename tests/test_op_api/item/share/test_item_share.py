@@ -14,6 +14,12 @@ if TYPE_CHECKING:
 
 
 def test_item_share_010(signed_in_op: OP, expected_item_share_data: ExpectedItemShareData):
+    """
+    Test: OP.item_share() with the following parameter
+        - Item name as item_identifier
+    Verify:
+        - The item share URL matches the expected URL
+    """
     item_key = "item-share-example-login-22-1"
     expected_item_share: ExpectedItemShare
     expected_item_share = expected_item_share_data.data_for_key(item_key)
@@ -27,6 +33,13 @@ def test_item_share_010(signed_in_op: OP, expected_item_share_data: ExpectedItem
 
 
 def test_item_share_020(signed_in_op: OP, expected_item_share_data: ExpectedItemShareData):
+    """
+    Test: OP.item_share() with the following parameters
+        - Item name as item_identifier
+        - vault= kwarg
+    Verify:
+        - The item share URL matches the expected URL
+    """
     item_key = "item-share-example-login-22-2"
     expected_item_share: ExpectedItemShare
     expected_item_share = expected_item_share_data.data_for_key(item_key)
@@ -41,6 +54,14 @@ def test_item_share_020(signed_in_op: OP, expected_item_share_data: ExpectedItem
 
 
 def test_item_share_030(signed_in_op: OP, expected_item_share_data: ExpectedItemShareData):
+    """
+    Test: OP.item_share() with the following parameters
+        - Item name as item_identifier
+        - Vault kwarg
+        - List of two email strings as emails= kwarg
+    Verify:
+        - The item share URL matches the expected URL
+    """
     item_key = "item-share-example-login-22-3"
     expected_item_share: ExpectedItemShare
     expected_item_share = expected_item_share_data.data_for_key(item_key)
@@ -55,7 +76,62 @@ def test_item_share_030(signed_in_op: OP, expected_item_share_data: ExpectedItem
     assert share_url == expected_item_share.url
 
 
+def test_item_share_035(signed_in_op: OP, expected_item_share_data: ExpectedItemShareData):
+    """
+    Test: OP.item_share() with the following parameters
+        - Item name as item_identifier
+        - Vault kwarg
+        - Single email string as emails= kwarg
+    Verify:
+        - The item share URL matches the expected URL
+    """
+    item_key = "item-share-example-login-22-3a"
+    expected_item_share: ExpectedItemShare
+    expected_item_share = expected_item_share_data.data_for_key(item_key)
+
+    item_name = "Example Login Item 22"
+    vault = "Test Data 1"
+    email = "user_1@example.com"
+    assert expected_item_share.item_identifier == item_name
+
+    share_url = signed_in_op.item_share(item_name, vault=vault, emails=email)
+
+    assert share_url == expected_item_share.url
+
+
+def test_item_share_036(signed_in_op: OP, expected_item_share_data: ExpectedItemShareData):
+    """
+    Test: OP.item_share() with the following parameters
+        - Item name as item_identifier
+        - Vault kwarg
+        - List of one email string as emails= kwarg
+    Verify:
+        - The item share URL matches the expected URL
+    """
+    item_key = "item-share-example-login-22-3a"
+    expected_item_share: ExpectedItemShare
+    expected_item_share = expected_item_share_data.data_for_key(item_key)
+
+    item_name = "Example Login Item 22"
+    vault = "Test Data 1"
+    email = ["user_1@example.com"]
+    assert expected_item_share.item_identifier == item_name
+
+    share_url = signed_in_op.item_share(item_name, vault=vault, emails=email)
+
+    assert share_url == expected_item_share.url
+
+
 def test_item_share_040(signed_in_op: OP, expected_item_share_data: ExpectedItemShareData):
+    """
+    Test: OP.item_share() with the following parameters
+        - Item name as item_identifier
+        - Vault kwarg
+        - List of two email strings as emails= kwarg
+        - "2d" as expires_in= kwarg
+    Verify:
+        - The item share URL matches the expected URL
+    """
     item_key = "item-share-example-login-22-4"
     expected_item_share: ExpectedItemShare
     expected_item_share = expected_item_share_data.data_for_key(item_key)

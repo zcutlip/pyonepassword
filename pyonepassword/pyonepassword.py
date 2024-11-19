@@ -1589,8 +1589,12 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
 
         Returns
         -------
-        str
+        share_url: str
             A string representation of the share URL
+
+        Service Account Support
+        -----------------------
+        Supported
         """
 
         share_url = self._item_share(item_identifier,

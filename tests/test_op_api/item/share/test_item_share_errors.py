@@ -16,7 +16,7 @@ def test_item_share_invalid_expires_010(signed_in_op: OP):
         - Invalid "5q" string as expires_in kwarg
         - Valid values for item_identifier, emails, & vault
     Verify:
-        - The item share URL matches the expected URL
+        - OPItemShareException is raised
     """
 
     item_name = "Example Login Item 22"
@@ -34,7 +34,7 @@ def test_item_share_invalid_expires_020(signed_in_op: OP):
         - Invalid "banana" string as expires_in kwarg
         - Valid values for item_identifier, emails, & vault
     Verify:
-        - The item share URL matches the expected URL
+        - OPItemShareException is raised
 
     NOTE: The error message for a completely invalid string such as
         this is different than the error for a number+leter like "5q"

@@ -423,6 +423,76 @@
       "stderr": "error_output",
       "name": "document-delete-nonexistant-item",
       "changes_state": false
+    },
+    "--format|json|item|share|Example Login Item 22": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-share-example-login-22-1",
+      "changes_state": false
+    },
+    "--format|json|item|share|Example Login Item 22|--vault|Test Data 1": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-share-example-login-22-2",
+      "changes_state": false
+    },
+    "--format|json|item|share|Example Login Item 22|--emails|user_1@example.com,user_2@example.com|--vault|Test Data 1": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-share-example-login-22-3",
+      "changes_state": false
+    },
+    "--format|json|item|share|Example Login Item 22|--emails|user_1@example.com,user_2@example.com|--expires-in|2d|--vault|Test Data 1": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-share-example-login-22-4",
+      "changes_state": false
+    },
+    "--format|json|item|share|Example Login Item 22|--emails|user_1@example.com|--vault|Test Data 1": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-share-example-login-22-3a",
+      "changes_state": false
+    },
+    "--format|json|item|share|Example Login Item 22|--emails|foo|--vault|Test Data 1": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-share-example-login-invalid-email-01",
+      "changes_state": false
+    },
+    "--format|json|item|share|Example Login Item 22|--emails|foo@foobar.|--vault|Test Data 1": {
+      "exit_status": 4,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-share-example-login-invalid-email-02",
+      "changes_state": false
+    },
+    "--format|json|item|share|Example Login Item 22|--emails|user_1@example.com|--expires-in|5q|--vault|Test Data 1": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-share-example-login-invalid-expires-01",
+      "changes_state": false
+    },
+    "--format|json|item|share|Example Login Item 22|--emails|user_1@example.com|--expires-in|banana|--vault|Test Data 1": {
+      "exit_status": 1,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-share-example-login-invalid-expires-02",
+      "changes_state": false
+    },
+    "--format|json|item|share|Example Login Item 22|--emails|user_1@example.com,user_2@example.com|--view-once|--vault|Test Data 1": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-share-example-login-22-5",
+      "changes_state": false
     }
   },
   "commands_with_input": {

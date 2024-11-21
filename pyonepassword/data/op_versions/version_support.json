@@ -1,6 +1,7 @@
 {
   "meta" :{
-    "version": 1
+    "version": 1,
+    "updated-cli-version": "2.30"
   },
   "version-support":{
     "supported": "2.26.0",

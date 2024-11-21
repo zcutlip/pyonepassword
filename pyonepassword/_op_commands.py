@@ -41,6 +41,7 @@ from .py_op_exceptions import (
     OPItemEditException,
     OPItemGetException,
     OPItemListException,
+    OPItemShareException,
     OPNotFoundException,
     OPSigninException,
     OPUnknownAccountException,
@@ -666,6 +667,24 @@ class _OPCommandInterface(_OPCLIExecute):
 
         return
 
+    def _item_share(self,
+                    item_identifier: str,
+                    emails: Optional[Union[str, List[str]]] = None,
+                    expires_in: Optional[str] = None,
+                    view_once: bool = False,
+                    vault: Optional[str] = None,
+                    decode: str = "utf-8"):
+        item_share_argv = self._item_share_argv(
+            item_identifier, emails=emails, expires_in=expires_in, view_once=view_once, vault=vault)
+        try:
+            output = self._run_with_auth_check(
+                self.op_path, self._account_identifier, item_share_argv, capture_stdout=True, decode=decode)
+            output = output.rstrip()
+        except OPCmdFailedException as ocfe:
+            raise OPItemShareException.from_opexception(ocfe)
+
+        return output
+
     def _item_get_totp(self, item_name_or_id, vault=None, decode="utf-8"):
         item_get_totp_argv = self._item_get_totp_argv(
             item_name_or_id, vault=vault)
@@ -941,6 +960,21 @@ class _OPCommandInterface(_OPCLIExecute):
         delete_argv = _OPArgv.item_delete_argv(
             self.op_path, item_name_or_id, vault=vault_arg, archive=archive)
         return delete_argv
+
+    def _item_share_argv(self,
+                         item_identifier: str,
+                         emails: Optional[Union[str, List[str]]] = None,
+                         expires_in: Optional[str] = None,
+                         view_once: bool = False,
+                         vault: Optional[str] = None):
+        vault_arg = vault if vault else self.vault
+        item_share_argv = _OPArgv.item_share_argv(self.op_path,
+                                                  item_identifier,
+                                                  emails=emails,
+                                                  expires_in=expires_in,
+                                                  view_once=view_once,
+                                                  vault=vault_arg)
+        return item_share_argv
 
     def _item_get_totp_argv(self, item_name_or_id, vault=None):
         vault_arg = vault if vault else self.vault

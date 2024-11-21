@@ -486,6 +486,13 @@
       "stderr": "error_output",
       "name": "item-share-example-login-invalid-expires-02",
       "changes_state": false
+    },
+    "--format|json|item|share|Example Login Item 22|--emails|user_1@example.com,user_2@example.com|--view-once|--vault|Test Data 1": {
+      "exit_status": 0,
+      "stdout": "output",
+      "stderr": "error_output",
+      "name": "item-share-example-login-22-5",
+      "changes_state": false
     }
   },
   "commands_with_input": {

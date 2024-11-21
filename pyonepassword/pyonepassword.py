@@ -1571,6 +1571,7 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
             List of email addresses to grant access to the shared item
             May be a list of email addresses, a single email address string, or None
             NOTE: The emails strings are not validated by pyonepassword. The are validated by the `op` comannd, however. For details about email validation failures, the OPItemShareException.err_output may be inspected.
+            NOTE: The `emails=` kwarg may be omitted or be an empty list. In this case the share URL returned will not be restricted. Anyone who has the URL may view the shared item.
         expires_in : str, optional
             Expiration time for this shared item, by default None
             Expire link after the duration specified in (s)econds, (m)inutes, (h)ours, (d)ays, and/or (w)eeks. (default 7d)

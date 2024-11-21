@@ -146,3 +146,29 @@ def test_item_share_040(signed_in_op: OP, expected_item_share_data: ExpectedItem
         item_name, vault=vault, emails=emails, expires_in=expires_in)
 
     assert share_url == expected_item_share.url
+
+
+def test_item_share_050(signed_in_op: OP, expected_item_share_data: ExpectedItemShareData):
+    """
+    Test: OP.item_share() with view-once set
+        - Item name as item_identifier
+        - Vault kwarg
+        - List of two email strings as emails= kwarg
+        - view_once=True
+    Verify:
+        - The item share URL matches the expected URL
+    """
+    item_key = "item-share-example-login-22-5"
+    expected_item_share: ExpectedItemShare
+    expected_item_share = expected_item_share_data.data_for_key(item_key)
+
+    item_name = "Example Login Item 22"
+    vault = "Test Data 1"
+    emails = ["user_1@example.com", "user_2@example.com"]
+    view_once = True
+    assert expected_item_share.item_identifier == item_name
+
+    share_url = signed_in_op.item_share(
+        item_name, vault=vault, emails=emails, view_once=view_once)
+
+    assert share_url == expected_item_share.url

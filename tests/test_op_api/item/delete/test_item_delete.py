@@ -14,7 +14,7 @@ from pyonepassword.api.exceptions import OPItemDeleteException
 if TYPE_CHECKING:
     from pyonepassword import OP
 
-    from .fixtures.expected_login import ExpectedLoginItemData
+    from ....fixtures.expected_login import ExpectedLoginItemData
 
 
 # ensure HOME env variable is set, and there's a valid op config present

@@ -1,0 +1,12 @@
+[ERROR] 2024/11/16 20:40:08 invalid argument "5q" for "--expires-in" flag: time: unknown unit "q" in duration "5q"
+Usage:  op item share { <itemName> | <itemID> } [flags]
+
+Flags:
+      --emails strings        Email addresses to share with.
+      --expires-in duration   Expire link after the duration specified in (s)econds, (m)inutes, (h)ours, (d)ays,
+                              and/or (w)eeks. (default 7d)
+  -h, --help                  help for share
+      --vault string          Look for the item in this vault.
+      --view-once             Expire link after a single view.
+
+To list the global flags available on every command, run  'op --help'.

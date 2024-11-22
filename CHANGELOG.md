@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.1.0] 2024-11-21
+
+### Added
+
+- Item sharing (gh-202)
+  - `OP.item_share()`
+
+### Changed
+- Added Python 3.13 support (gh-204)
+- Removed Python 3.9 support (gh-204)
+
 ## [5.0.1] 2024-08-03
 
 ### Fixed

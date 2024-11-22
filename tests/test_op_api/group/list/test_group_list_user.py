@@ -11,7 +11,7 @@ from pyonepassword.api.descriptor_types import OPGroupDescriptor
 # this also reduced exercising tested code simply by importing
 if TYPE_CHECKING:
     from pyonepassword import OP
-    from ..fixtures.expected_group_data import (
+    from ....fixtures.expected_group_data import (
         ExpectedGroupListData,
         ExpectedGroupListEntry
     )

@@ -42,6 +42,7 @@ from ..py_op_exceptions import (
     OPItemEditException,
     OPItemGetException,
     OPItemListException,
+    OPItemShareException,
     OPNotFoundException,
     OPRevokedSvcAcctTokenException,
     OPSigninException,
@@ -86,6 +87,7 @@ __all__ = [
     "OPItemFieldCollisionException",
     "OPItemGetException",
     "OPItemListException",
+    "OPItemShareException",
     "OPNewLoginItemURLException",
     "OPNewTOTPUriException",
     "OPNotFoundException",
@@ -101,7 +103,7 @@ __all__ = [
     "OPUserGetException",
     "OPUserListException",
     "OPVaultGetException",
-    "OPVaultListException",
+    "OPVaultListException"
 ]
 
 

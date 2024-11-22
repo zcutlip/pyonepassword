@@ -23,13 +23,13 @@ trap handle_sig INT
 ret=0
 
 echo "Running docker tests..."
-docker run   --rm -it -v "$(pwd):/usr/src/testdir" docker_py39 /test.sh "$@"
-ret="$(($?+ret))"
 docker run   --rm -it -v "$(pwd):/usr/src/testdir" docker_py310 /test.sh "$@"
 ret="$(($?+ret))"
 docker run   --rm -it -v "$(pwd):/usr/src/testdir" docker_py311 /test.sh "$@"
 ret="$(($?+ret))"
 docker run   --rm -it -v "$(pwd):/usr/src/testdir" docker_py312 /test.sh "$@"
+ret="$(($?+ret))"
+docker run   --rm -it -v "$(pwd):/usr/src/testdir" docker_py313 /test.sh "$@"
 ret="$(($?+ret))"
 
 echo "...done"

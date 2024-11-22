@@ -13,7 +13,7 @@ A Python API to sign into and query a 1Password account using the `op` command.
 
 ## Requirements
 
-- Python >= 3.9
+- Python >= 3.10
 - 1Password command-line tool >= SUPPORTED_CLI_VERSION__
   - Versions >= MINIMUM_CLI_VERSION__, < SUPPORTED_CLI_VERSION__ supported but deprecated
   - Versions < MINIMUM_CLI_VERSION__ are unsupported and an exception will be raised
@@ -349,6 +349,38 @@ def main():
         print(ope.err_output)
 ```
 
+### Item Sharing
+
+To generate a URL for sharing an item, use the `OP.item_share()` method. This is congruent to the `op item share` subcommand.
+
+> NOTE: There is no way to revoke a share URL via `pyonepassword` or the `op` CLI command. It can be revoked in the 1Password application.
+
+> NOTE: The `emails=` kwarg may be omitted or be an empty list. In this case the share URL returned will not be restricted. Anyone who has the URL may view the shared item.
+
+Some of the parameters passed to `item_share()` are not validated by `pyonepassword`, but are validated by the `op` command. These include the expiration and email addresses.
+
+Additionally, the email addresses may be a list of email address strings or a string object for one single email address.
+
+```python
+from pyonepassword import OP  # noqa: E402
+from pyonepassword.api.exceptions import OPItemShareException  # noqa: E402
+
+
+def main():
+    op: OP = do_signin()
+    try:
+        # op.item_share() can take any identifier accepted by the 'op' command:
+        # Usage:  op item share { <itemName> | <itemID> }
+        share_url = op.item_share("Example Login Item 22", ["user_1@example.com", "user_2@example.com"], expires_in="2d")
+        print(share_url)
+    except OPItemShareException as ope:
+        # 'op' command can fail for a few reaons, including
+        # - item not found
+        # - duplicate item names
+        # - malformed emails or expiration duration
+        # Inspect the error message from the command
+        print(ope.err_output)
+```
 
 ### Item Creation
 

@@ -61,3 +61,10 @@ clean-coverage:
 	-rm $(COV_STAMP)
 	-rm $(HTML_REPORT_STAMP)
 	-rm $(COV_REPORT_FILE)
+
+clean: clean-coverage
+	-rm -r .*cache
+	-rm -r .tox*
+	-rm -r build
+	-rm -r .ipynb_checkpoints
+	-rm -r *egg-info

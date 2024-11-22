@@ -12,7 +12,7 @@ import pytest
 if TYPE_CHECKING:
     # non-runtime imports here
     from pyonepassword import OP
-    from .fixtures.expected_item_list import ExpectedItemListData, ExpectedItemList
+    from ....fixtures.expected_item_list import ExpectedItemListData, ExpectedItemList
 
 from pyonepassword.api.exceptions import OPItemDeleteMultipleException
 from pyonepassword.api.object_types import OPItemList

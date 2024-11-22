@@ -85,7 +85,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/zcutlip/pyonepassword",
     packages=packages,
-    python_requires='>=3.9',
+    python_requires='>=3.10',
     install_requires=[
         "python-singleton-metaclasses"
     ],
@@ -96,10 +96,10 @@ setup(
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries",
         "Topic :: Utilities",

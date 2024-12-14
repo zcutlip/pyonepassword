@@ -1,3 +1,4 @@
+import time
 import logging
 import subprocess
 from os import environ
@@ -51,6 +52,19 @@ class _OPCLIExecute:
 
     @classmethod
     def _run_raw(cls, argv, input=None, capture_stdout=False, ignore_error=False, env=environ):
+        timeout = 2
+        start = time.time()
+        while time.time() - start < timeout:
+            try:
+                return cls._run_raw_single(argv, input=input, capture_stdout=capture_stdout, ignore_error=ignore_error, env=env)
+            except OPCmdFailedException as _err:
+                # cache exception for reraising at the end of the loop
+                err = _err
+                cls.logger.warning(f"'op' command error: {err.err_output}")
+        raise err
+
+    @classmethod
+    def _run_raw_single(cls, argv, input=None, capture_stdout=False, ignore_error=False, env=environ):
         stdout = subprocess.PIPE if capture_stdout else None
         if input:
             if isinstance(input, str):

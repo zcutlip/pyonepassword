@@ -37,6 +37,7 @@ class OPARGV(list):
 
 
 def kill_pgrep(match_pattern):
+    # This simulates 1Password dying or becoming unresponsive
     # this should be equivalent to:
     # kill $(pgrep "1Password")
     argv = OPARGV(["pgrep", match_pattern])
@@ -56,7 +57,10 @@ if __name__ == "__main__":
     logger = console_debug_logger("pyonepassword")
 
     try:
-        # kill all 1Password-related processes
+        # We're going to kill all 1Password processes
+        # This *simulates* 1Password dying or becoming unresponsive in order
+        # to demonstrate OPCmdFailedException being raised.
+        # NOTE: This is not a required step for normal use
         kill_pgrep("1Pass")
     except OPCmdFailedException:
         pass

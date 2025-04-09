@@ -89,7 +89,8 @@ setup(
     install_requires=[
         "python-singleton-metaclasses"
     ],
-    package_data={'pyonepassword': ['data/**', 'py.typed']},
+    package_data={'pyonepassword': ['py.typed'],
+                  'pyonepassword.data': ['**/*.json', '**/*.md']},
     entry_points={"console_scripts":
                   ["opconfig=pyonepassword.opconfig_main:main",
                    "opversion=pyonepassword.opversion_main:main"]},

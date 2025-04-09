@@ -56,7 +56,7 @@ $(TOX_STAMP): $(PYONEPASSWORD_SRC_FILES) $(PYONEPASSWORD_TEST_FILES)
 	touch $@
 
 clean-coverage:
-	coverage erase
+	-coverage erase
 	-rm -r $(HTML_COV_DIR)
 	-rm $(COV_STAMP)
 	-rm $(HTML_REPORT_STAMP)

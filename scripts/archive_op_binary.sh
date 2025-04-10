@@ -12,8 +12,11 @@ _realscriptpath() {
 
 real_path="$(_realscriptpath)"
 SRC_ROOT="$(cd "$(dirname "$real_path")" && dirname "$(pwd)")"
-# shellcheck source=./functions.sh
-. "$SRC_ROOT"/scripts/functions.sh
+
+# we can't satisfy shellcheck in vscode and shellcheck pre-commit hook
+# they each seem to have a different working directory
+# shellcheck disable=SC1091
+. "$SRC_ROOT/scripts/functions.sh"
 OP_BINARY_PATH="$SRC_ROOT/op-binaries"
 
 

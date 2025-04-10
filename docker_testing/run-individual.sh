@@ -11,6 +11,7 @@ quit(){
 }
 
 handle_sig(){
+    # shellcheck disable=SC2317
     quit "Caught keyboard interrupt" 1
 }
 

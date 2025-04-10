@@ -15,8 +15,8 @@ else
     shift
 fi
 
-# not necessarily the source, but this satisfies shellcheck
-# shellcheck source=../dot_env_files/.env_pyonepassword_test_rw
+
+# shellcheck disable=SC1090
 . "$env_path"
 
 if [ -z "$OP_SERVICE_ACCOUNT_TOKEN" ];

@@ -73,4 +73,6 @@ if __name__ == "__main__":
             op = OP(logger=logger)
         except OPDesktopAppException as e:
             print(e.err_output)
+            print(f"Attempt {attempts}: received OPDesktopAppException")
+            print("Sleeping 1 second")
             time.sleep(1)

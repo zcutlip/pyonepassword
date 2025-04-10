@@ -93,6 +93,11 @@ class _OPCLIExecute:
                     raise OPRevokedSvcAcctTokenException(
                         stderr_output, returncode)
                 elif cls.DESKTOP_APP_ERR_MSG in stderr_output:
+                    # Under certain circumstances 'op' can fail as a result of the
+                    # desktop 1Password app failing
+                    # this could happen if the app or its related processes have died
+                    # or of the process responsible for IPC is unresponsive
+                    # see issue gh-209
                     raise OPDesktopAppException(stderr_output, returncode)
 
                 raise OPCmdFailedException(stderr_output, returncode) from err

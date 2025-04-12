@@ -1,3 +1,9 @@
+
+[//]: # (---------------------------------------------------)
+[//]: # (Managed by 'scripts/update_readme.py'. Do not edit.)
+[//]: # (Changes should be made to _readme_template.md      )
+[//]: # (---------------------------------------------------)
+
 # PYONEPASSWORD
 
 ![PyPI - Version](https://img.shields.io/pypi/v/pyonepassword)

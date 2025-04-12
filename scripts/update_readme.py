@@ -36,6 +36,7 @@ def generate_comment_header(comment_lines):
     [//]: # (-------------------------------------------------)
 
     """
+    # https://stackoverflow.com/a/20885980
     if not isinstance(comment_lines, Iterable):
         raise Exception("comment_lines must be iterable")
     longest = 0

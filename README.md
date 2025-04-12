@@ -410,3 +410,7 @@ See examples in [examples/user_editing](examples/user_editing.py)
 ### More Examples
 
 Lots more examples are available in the `examples` directory
+
+### 1Password Desktop App Integration
+
+If CLI integration is enabled in the 1Password, `op`, and by extension, `pyonepassword`, can occasionally fail. See [desktop-app-integration.md](docs/desktop-app-integration.md) for more details.

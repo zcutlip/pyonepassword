@@ -95,7 +95,6 @@ setup(
                   ["opconfig=pyonepassword.opconfig_main:main",
                    "opversion=pyonepassword.opversion_main:main"]},
     classifiers=[
-        "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",

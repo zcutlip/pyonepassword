@@ -3,6 +3,7 @@
 import os
 import sys
 from argparse import ArgumentParser
+from collections.abc import Iterable
 
 # isort: split
 parent_path = os.path.dirname(
@@ -21,13 +22,54 @@ README_TEMPLATE = "_readme_template.md"
 README = "README.md"
 
 
+DO_NOT_EDIT_COMMENT_LINES = [
+    "Managed by 'scripts/update_readme.py'. Do not edit.",
+    f"Changes should be made to {README_TEMPLATE}"]
+
+
+def generate_comment_header(comment_lines):
+    """
+    This should produce something like:
+
+    [//]: # (-------------------------------------------------)
+    [//]: # (This may be the most platform independent comment)
+    [//]: # (-------------------------------------------------)
+
+    """
+    # https://stackoverflow.com/a/20885980
+    if not isinstance(comment_lines, Iterable):
+        raise Exception("comment_lines must be iterable")
+    longest = 0
+    for line in comment_lines:
+        _len = len(line)
+        if _len > longest:
+            longest = _len
+    comment_dashes = f"[//]: # ({'':->{longest}})"
+    blank_line = ""
+    header_lines = [blank_line,
+                    comment_dashes]
+
+    for line in comment_lines:
+        comment = f"[//]: # ({line:<{longest}})"
+        header_lines.append(comment)
+
+    header_lines.extend([comment_dashes,
+                         blank_line,
+                         blank_line])
+
+    return header_lines
+
+
 def generate_readme_text(template_path):
     version_support = OPVersionSupport()
     min_ver = str(version_support.minimum_version)
     supported_ver = str(version_support.supported_version)
-    readme_text = open(README_TEMPLATE, "r").read()
+    readme_text = open(template_path, "r").read()
     readme_text = readme_text.replace(MIN_VER_PLACEHOLDER, min_ver)
     readme_text = readme_text.replace(SUPPORTED_VER_PLACEHOLDER, supported_ver)
+    header_lines = generate_comment_header(DO_NOT_EDIT_COMMENT_LINES)
+    header_text = "\n".join(header_lines)
+    readme_text = header_text + readme_text
     return readme_text
 
 

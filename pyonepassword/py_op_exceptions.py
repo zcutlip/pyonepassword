@@ -61,6 +61,19 @@ class OPCmdFailedException(_OPCalledProcessException):
         return cls(ope.err_output, ope.returncode)
 
 
+class OPDesktopAppException(OPCmdFailedException):
+    """
+    If 'op' expectes to talk to the desktop app but fails this exception is raised.
+
+    This failure may be temporary in some cases, so it's possible to handle this
+    excepiton in a loop that waits and tries again a limited number of times.
+    """
+    MSG = "Connection failure to 1Password desktop app"
+
+    def __init__(self, stderr_out, returncode):
+        super().__init__(stderr_out, returncode)
+
+
 class OPCLIPanicException(_OPCalledProcessException):
     """
     Occasionally we're able to trigger a panic in the go runtime when executing 'op'
@@ -142,8 +155,9 @@ class OPItemDeleteMultipleException(OPItemDeleteException):
         super().__init__(stderr_out, returncode)
 
     @classmethod
-    # type: ignore[override]
-    def from_opexception(cls, ope: OPCmdFailedException, deleted_items: OPItemList):
+    def from_opexception(cls,  # type: ignore[override]
+                         ope: OPCmdFailedException,
+                         deleted_items: OPItemList):
         return cls(deleted_items, ope.err_output, ope.returncode)
 
 

@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.2.0] 2025-04-14
+
+### Added
+
+- Detect 1Password desktop app communication failure (gh-209):
+  - New `OPDesktopAppException` class
+
+### Documentation
+
+- Describe handling desktop app communication errors in `docs/desktop-app-integration.md`
+
+### Misc
+
+- Fix packaging error resulting in `.pyc` files being included (gh-215)
+
+
 ## [5.1.0] 2024-11-21
 
 ### Added

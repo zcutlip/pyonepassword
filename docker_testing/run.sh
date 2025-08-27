@@ -24,13 +24,17 @@ trap handle_sig INT
 ret=0
 
 echo "Running docker tests..."
-docker run   --rm -it -v "$(pwd):/usr/src/testdir" docker_py310 /test.sh "$@"
+# docker run   --rm -it -v "$(pwd):/usr/src/testdir" docker_py310 /test.sh "$@"
+container run --cpus 8 --memory 8g  --rm -it -v "$(pwd):/usr/src/testdir" docker_py310 /test.sh "$@"
 ret="$(($?+ret))"
-docker run   --rm -it -v "$(pwd):/usr/src/testdir" docker_py311 /test.sh "$@"
+# docker run   --rm -it -v "$(pwd):/usr/src/testdir" docker_py311 /test.sh "$@"
+container run --cpus 8 --memory 8g  --rm -it -v "$(pwd):/usr/src/testdir" docker_py311 /test.sh "$@"
 ret="$(($?+ret))"
-docker run   --rm -it -v "$(pwd):/usr/src/testdir" docker_py312 /test.sh "$@"
+# docker run   --rm -it -v "$(pwd):/usr/src/testdir" docker_py312 /test.sh "$@"
+container run --cpus 8 --memory 8g  --rm -it -v "$(pwd):/usr/src/testdir" docker_py312 /test.sh "$@"
 ret="$(($?+ret))"
-docker run   --rm -it -v "$(pwd):/usr/src/testdir" docker_py313 /test.sh "$@"
+# docker run   --rm -it -v "$(pwd):/usr/src/testdir" docker_py313 /test.sh "$@"
+container run --cpus 8 --memory 8g  --rm -it -v "$(pwd):/usr/src/testdir" docker_py313 /test.sh "$@"
 ret="$(($?+ret))"
 
 echo "...done"

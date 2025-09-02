@@ -105,6 +105,51 @@ class OPCLIConfig(dict):
 
         return configpath
 
+    def _triage_config_path_options(self, custom_config_dir) -> list[Path]:
+        xdg_home = os.environ.get('XDG_CONFIG_HOME', None)
+        if xdg_home:
+            self.logger.debug(f"XDG_CONFIG_HOME set to {xdg_home}")
+        custom_config_dir = self._get_custom_config_dir(custom_config_dir)
+        configpath = None
+        path_options: list[Path] = []
+        # Rules from https://developer.1password.com/docs/cli/config-directories/
+        if custom_config_dir:
+            # rule 1: A directory specified with --config
+            # rule 2: A directory set with the OP_CONFIG_DIR environment variable.
+            configpath = Path(custom_config_dir, "config")
+            self.logger.debug(f"Looking for config at {configpath}")
+            if not configpath.exists():
+                # we were explicitly told to use this path, so there's no fallback
+                # if it doesn't exist
+                raise OPConfigNotFoundException(
+                    f"Caller-provided config not found at {configpath}")
+            else:
+                path_options.append(configpath)
+
+        else:
+            # rule 1 or 2 weren't met, so we evaluate the rest
+            # rule 3: ~/.op (following go-homedir  to determine the home directory)
+            config_dir = Path("~/.op").expanduser()
+            config_path = Path(config_dir, "config")
+            path_options.append(config_path)
+
+            # rule 4: ${XDG_CONFIG_HOME}/.op
+            if xdg_home:
+                config_path = Path(xdg_home, ".op", "config")
+                path_options.append(config_path)
+
+            # rule 5: ~/.config/op (following go-homedir  to determine the home directory)
+            config_dir = Path("~/.config", "op").expanduser()
+            config_path = Path(config_dir, "config")
+            path_options.append(config_path)
+
+            # rule 6: ${XDG_CONFIG_HOME}/op
+            if xdg_home:
+                config_path = Path(xdg_home, "op", "config")
+                path_options.append(config_path)
+
+        return path_options
+
     def _initialize_account_objects(self) -> List[OPCLIAccountConfig]:
         account_list = self.accounts
         account_objects = []

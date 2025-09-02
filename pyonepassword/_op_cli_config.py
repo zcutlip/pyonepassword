@@ -1,8 +1,8 @@
 import json
 import logging
 import os
-import pathlib
 from json.decoder import JSONDecodeError
+from pathlib import Path
 from typing import List, Optional
 
 from .py_op_exceptions import OPConfigNotFoundException
@@ -36,8 +36,8 @@ class OPCLIAccountConfig(dict):
 
 class OPCLIConfig(dict):
     OP_CONFIG_PATHS = [
-        pathlib.Path(".config", "op", "config"),
-        pathlib.Path(".op", "config")
+        Path(".config", "op", "config"),
+        Path(".op", "config")
     ]
 
     def __init__(self, configpath=None, logger: logging.Logger = None):
@@ -76,17 +76,17 @@ class OPCLIConfig(dict):
             account_map[account.shorthand] = account
         self.account_map = account_map
 
-    def _get_config_path(self) -> pathlib.Path:
-        configpath: pathlib.Path = None
+    def _get_config_path(self) -> Path:
+        configpath: Path = None
         config_home = None
         try:
-            config_home = pathlib.Path(os.environ['XDG_CONFIG_HOME'])
+            config_home = Path(os.environ['XDG_CONFIG_HOME'])
 
         except KeyError:
-            config_home = pathlib.Path.home()
+            config_home = Path.home()
 
         for subpath in self.OP_CONFIG_PATHS:
-            _configpath = pathlib.Path(config_home, subpath)
+            _configpath = Path(config_home, subpath)
             self.logger.debug(f"Looking for config at {_configpath}")
             if os.path.exists(_configpath):
                 configpath = _configpath

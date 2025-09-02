@@ -83,6 +83,17 @@ class OPCLIConfig(dict):
         return configpath
 
     def _get_custom_config_dir(self, custom_config_dir: str | Path):
+        """
+        If the user has specified a custom configuration directory, we must use that,
+        and there's no fallback if it doesn't exist.
+
+        NOTE: This is a configuration directory. A config file named "config" will be
+        looked for inside.
+
+        This can take the form of (in order):
+        - explicitly provided
+        - set in OP_CONFIG_DIR env variable.
+        """
         if not custom_config_dir:
             op_conf_dir = os.environ.get("OP_CONFIG_DIR", None)
             if op_conf_dir:

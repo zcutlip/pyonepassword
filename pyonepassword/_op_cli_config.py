@@ -128,6 +128,7 @@ class OPCLIConfig(dict):
         else:
             # rule 1 or 2 weren't met, so we evaluate the rest
             # rule 3: ~/.op (following go-homedir  to determine the home directory)
+            # We use pathlib.Path.expanduser(). Hopefully this matches go-homedir semantics
             config_dir = Path("~/.op").expanduser()
             config_path = Path(config_dir, "config")
             path_options.append(config_path)

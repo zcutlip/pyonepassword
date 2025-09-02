@@ -73,6 +73,30 @@ class OPCLIConfig(dict):
         self.account_map = account_map
 
     def _get_config_path(self, config_dir=None) -> Path:
+        """
+        Determine the path to the 1Password CLI configuration file.
+
+        This method follows the 1Password CLI configuration directory rules
+        to determine the order in which configuration files should be checked.
+        The rules are applied in order:
+        1. A directory specified with --config
+        2. A directory set with the OP_CONFIG_DIR environment variable
+        3. ~/.op
+        4. ${XDG_CONFIG_HOME}/.op
+        5. ~/.config/op
+        6. ${XDG_CONFIG_HOME}/op
+
+        NOTE: If a custom configuration directory is provided or OP_CONFIG_DIR is set,
+        their use is mandatory and there is no fallback if the config file isn't present.
+
+        Args:
+            config_dir: Optional custom configuration directory path.
+                        If provided, this will be used as the base directory
+                        for locating the config file.
+
+        Returns:
+            Path: The path to the configuration file if found, otherwise None.
+        """
         configpath: Path = None
         path_options = self._config_path_triage_list(config_dir)
         for configpath in path_options:
@@ -82,8 +106,10 @@ class OPCLIConfig(dict):
 
         return configpath
 
-    def _get_custom_config_dir(self, custom_config_dir: str | Path):
+    def _get_custom_config_dir(self, custom_config_dir: str | Path) -> Path | None:
         """
+        Determine the custom configuration directory path if one has been specified.
+
         If the user has specified a custom configuration directory, we must use that,
         and there's no fallback if it doesn't exist.
 
@@ -93,6 +119,12 @@ class OPCLIConfig(dict):
         This can take the form of (in order):
         - explicitly provided
         - set in OP_CONFIG_DIR env variable.
+
+        Args:
+            custom_config_dir: The custom configuration directory path, if provided.
+
+        Returns:
+            Path: The custom configuration directory path, or None if not specified.
         """
         if not custom_config_dir:
             op_conf_dir = os.environ.get("OP_CONFIG_DIR", None)
@@ -105,6 +137,17 @@ class OPCLIConfig(dict):
         return custom_config_dir
 
     def _config_path_triage_list(self, custom_config_dir) -> list[Path]:
+        """
+        Generate a list of potential configuration file paths to check.
+
+
+        Args:
+            custom_config_dir: The custom configuration directory path, if provided.
+
+        Returns:
+            list[Path]: A list of potential configuration file paths to check,
+                       in order of preference.
+        """
         xdg_home = os.environ.get('XDG_CONFIG_HOME', None)
         if xdg_home:
             self.logger.debug(f"XDG_CONFIG_HOME set to {xdg_home}")

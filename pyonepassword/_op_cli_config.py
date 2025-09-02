@@ -72,6 +72,16 @@ class OPCLIConfig(dict):
             account_map[account.shorthand] = account
         self.account_map = account_map
 
+    def _get_config_path(self, config_dir=None) -> Path:
+        configpath: Path = None
+        path_options = self._triage_config_path_options(config_dir)
+        for configpath in path_options:
+            self.logger.debug(f"Looking for config at {configpath}")
+            if configpath.exists():
+                break
+
+        return configpath
+
     def _get_custom_config_dir(self, custom_config_dir: str | Path):
         if not custom_config_dir:
             op_conf_dir = os.environ.get("OP_CONFIG_DIR", None)
@@ -82,16 +92,6 @@ class OPCLIConfig(dict):
             self.logger.debug(
                 f"Custom config dir specified: {custom_config_dir}")
         return custom_config_dir
-
-    def _get_config_path(self, config_dir=None) -> Path:
-        configpath: Path = None
-        path_options = self._triage_config_path_options(config_dir)
-        for configpath in path_options:
-            self.logger.debug(f"Looking for config at {configpath}")
-            if configpath.exists():
-                break
-
-        return configpath
 
     def _triage_config_path_options(self, custom_config_dir) -> list[Path]:
         xdg_home = os.environ.get('XDG_CONFIG_HOME', None)

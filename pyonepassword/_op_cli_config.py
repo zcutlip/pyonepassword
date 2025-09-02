@@ -132,6 +132,7 @@ class OPCLIConfig(dict):
                 custom_config_dir = Path(op_conf_dir)
                 self.logger.debug(f"OP_CONFIG_DIR set to: {custom_config_dir}")
         else:
+            custom_config_dir = Path(custom_config_dir)
             self.logger.debug(
                 f"Custom config dir specified: {custom_config_dir}")
         return custom_config_dir

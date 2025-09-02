@@ -76,6 +76,17 @@ class OPCLIConfig(dict):
             account_map[account.shorthand] = account
         self.account_map = account_map
 
+    def _get_custom_config_dir(self, custom_config_dir: str | Path):
+        if not custom_config_dir:
+            op_conf_dir = os.environ.get("OP_CONFIG_DIR", None)
+            if op_conf_dir:
+                custom_config_dir = Path(op_conf_dir)
+                self.logger.debug(f"OP_CONFIG_DIR set to: {custom_config_dir}")
+        else:
+            self.logger.debug(
+                f"Custom config dir specified: {custom_config_dir}")
+        return custom_config_dir
+
     def _get_config_path(self) -> Path:
         configpath: Path = None
         config_home = None

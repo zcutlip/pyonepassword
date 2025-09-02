@@ -74,7 +74,7 @@ class OPCLIConfig(dict):
 
     def _get_config_path(self, config_dir=None) -> Path:
         configpath: Path = None
-        path_options = self._triage_config_path_options(config_dir)
+        path_options = self._config_path_triage_list(config_dir)
         for configpath in path_options:
             self.logger.debug(f"Looking for config at {configpath}")
             if configpath.exists():
@@ -104,7 +104,7 @@ class OPCLIConfig(dict):
                 f"Custom config dir specified: {custom_config_dir}")
         return custom_config_dir
 
-    def _triage_config_path_options(self, custom_config_dir) -> list[Path]:
+    def _config_path_triage_list(self, custom_config_dir) -> list[Path]:
         xdg_home = os.environ.get('XDG_CONFIG_HOME', None)
         if xdg_home:
             self.logger.debug(f"XDG_CONFIG_HOME set to {xdg_home}")

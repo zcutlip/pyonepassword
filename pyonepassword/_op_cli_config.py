@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import pathlib
 from json.decoder import JSONDecodeError
@@ -39,8 +40,12 @@ class OPCLIConfig(dict):
         pathlib.Path(".op", "config")
     ]
 
-    def __init__(self, configpath=None):
+    def __init__(self, configpath=None, logger: logging.Logger = None):
         super().__init__()
+        if not logger:
+            logger = logging.getLogger(self.__class__.__name__)
+            logger.setLevel(logging.INFO)
+        self.logger = logger
         if configpath is None:
             configpath = self._get_config_path()
         self.configpath = configpath
@@ -82,6 +87,7 @@ class OPCLIConfig(dict):
 
         for subpath in self.OP_CONFIG_PATHS:
             _configpath = pathlib.Path(config_home, subpath)
+            self.logger.debug(f"Looking for config at {_configpath}")
             if os.path.exists(_configpath):
                 configpath = _configpath
                 break

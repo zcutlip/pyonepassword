@@ -35,10 +35,6 @@ class OPCLIAccountConfig(dict):
 
 
 class OPCLIConfig(dict):
-    OP_CONFIG_PATHS = [
-        Path(".config", "op", "config"),
-        Path(".op", "config")
-    ]
 
     def __init__(self, configpath=None, logger: logging.Logger = None):
         super().__init__()

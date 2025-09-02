@@ -36,14 +36,14 @@ class OPCLIAccountConfig(dict):
 
 class OPCLIConfig(dict):
 
-    def __init__(self, configpath=None, logger: logging.Logger = None):
+    def __init__(self, config_dir: str | Path = None, logger: logging.Logger = None):
         super().__init__()
         if not logger:
             logger = logging.getLogger(self.__class__.__name__)
             logger.setLevel(logging.INFO)
         self.logger = logger
-        if configpath is None:
-            configpath = self._get_config_path()
+
+        configpath = self._get_config_path(config_dir=config_dir)
         self.configpath = configpath
         if configpath is None:
             raise OPConfigNotFoundException("No op configuration found")

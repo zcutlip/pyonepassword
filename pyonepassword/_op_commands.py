@@ -249,7 +249,7 @@ class _OPCommandInterface(_OPCLIExecute):
         try:
             # if we haven't done a sign-in via the CLI/without desktop app integration
             # there won't be a config
-            self._op_config = OPCLIConfig()
+            self._op_config = OPCLIConfig(logger=self.logger)
         except OPConfigNotFoundException:
             if self._uses_bio:
                 # set this to None. We should only use it if biometric is diabled,

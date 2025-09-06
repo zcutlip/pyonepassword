@@ -2,6 +2,8 @@ import os
 import tempfile
 from pathlib import Path
 
+from pyonepassword import logging
+
 from .platform_support import HOME_ENV_VAR
 from .valid_data import ValidData
 
@@ -12,7 +14,10 @@ VALID_OP_CONFIG_NO_ACCOUNT_LIST_KEY = "example-op-config-no-account-list"
 
 class ValidOPCLIConfig:
 
-    def __init__(self, location_env_var=HOME_ENV_VAR, config_text=None, valid_data_key=VALID_OP_CONFIG_KEY):
+    def __init__(self, location_env_var=HOME_ENV_VAR, config_text=None, valid_data_key=VALID_OP_CONFIG_KEY, logger=None):
+        if not logger:
+            logger = logging.console_logger("pytest", logging.WARNING)
+        self.logger = logger
         self._new_home = None
         self._old_home = None
         self._tempdir = tempfile.TemporaryDirectory()

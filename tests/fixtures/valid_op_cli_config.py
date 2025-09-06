@@ -43,9 +43,13 @@ class ValidOPCLIConfig:
             os.environ.pop('XDG_CONFIG_HOME', None)
 
         old_umask = os.umask(0o077)
-        op_config_path = Path(self._tempdir.name, ".config", "op")
+
+        if not self._new_xdg:
+            op_config_path = Path(self._tempdir.name, ".config")
+        op_config_path = Path(self._tempdir.name, "op")
         op_config_path.mkdir(parents=True)
         op_config_path = Path(op_config_path, "config")
+        self.logger.debug(f"valid config path: {op_config_path}")
         if config_text is None:
             config_text = ValidData().data_for_name(valid_data_key)
         with open(op_config_path, "w") as config:

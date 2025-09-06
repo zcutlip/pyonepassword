@@ -115,10 +115,10 @@ def test_op_cli_config_alt_acct_identifiers_04(expected_op_config_data: Expected
     assert expected.user_uuid == result.user_uuid
 
 
-def test_op_cli_config_xdg_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdghome):
+def test_op_cli_config_xdg_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdghome, console_logger):
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
-    config = OPCLIConfig()
+    config = OPCLIConfig(logger=console_logger)
     result = config.get_config("example_shorthand")
     assert result.shorthand == expected.shorthand
 

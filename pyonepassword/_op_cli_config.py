@@ -79,7 +79,7 @@ class OPCLIConfig(dict):
         This method follows the 1Password CLI configuration directory rules
         to determine the order in which configuration files should be checked.
         The rules are applied in order:
-        1. A directory specified with --config
+        1. A directory specified with config_dir
         2. A directory set with the OP_CONFIG_DIR environment variable
         3. ~/.op
         4. ${XDG_CONFIG_HOME}/.op

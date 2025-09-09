@@ -2,6 +2,7 @@ import logging
 
 DEBUG = logging.DEBUG
 INFO = logging.INFO
+WARNING = logging.WARNING
 
 
 def console_logger(name: str, level: int):

@@ -36,7 +36,7 @@ class OPCLIAccountConfig(dict):
 
 class OPCLIConfig(dict):
 
-    def __init__(self, config_dir: str | Path = None, logger: logging.Logger = None):
+    def __init__(self, config_dir: Optional[str | Path] = None, logger: Optional[logging.Logger] = None):
         super().__init__()
         if not logger:
             logger = logging.getLogger(self.__class__.__name__)
@@ -72,7 +72,7 @@ class OPCLIConfig(dict):
             account_map[account.shorthand] = account
         self.account_map = account_map
 
-    def _get_config_path(self, config_dir=None) -> Path:
+    def _get_config_path(self, config_dir=None) -> Path | None:
         """
         Determine the path to the 1Password CLI configuration file.
 
@@ -97,7 +97,7 @@ class OPCLIConfig(dict):
         Returns:
             Path: The path to the configuration file if found, otherwise None.
         """
-        configpath: Path = None
+        configpath: Path | None = None
         path_options = self._config_path_triage_list(config_dir)
         for configpath in path_options:
             self.logger.debug(f"Looking for config at {configpath}")
@@ -126,16 +126,17 @@ class OPCLIConfig(dict):
         Returns:
             Path: The custom configuration directory path, or None if not specified.
         """
+        config_dir_return: Path | None = None
         if not custom_config_dir:
             op_conf_dir = os.environ.get("OP_CONFIG_DIR", None)
             if op_conf_dir:
-                custom_config_dir = Path(op_conf_dir)
+                config_dir_return = Path(op_conf_dir)
                 self.logger.debug(f"OP_CONFIG_DIR set to: {custom_config_dir}")
         else:
-            custom_config_dir = Path(custom_config_dir)
+            config_dir_return = Path(custom_config_dir)
             self.logger.debug(
                 f"Custom config dir specified: {custom_config_dir}")
-        return custom_config_dir
+        return config_dir_return
 
     def _config_path_triage_list(self, custom_config_dir) -> list[Path]:
         """

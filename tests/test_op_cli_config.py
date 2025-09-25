@@ -19,7 +19,8 @@ def _sanity_check_standard_home_env():
     assert os.environ.get(HOME_ENV_VAR) not in [DEV_NULL, None]
 
 
-def test_op_cli_config_homedir_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+def test_op_cli_config_homedir_01(expected_op_config_data: ExpectedConfigData):
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -27,7 +28,8 @@ def test_op_cli_config_homedir_01(expected_op_config_data: ExpectedConfigData, v
     assert result.shorthand == expected.shorthand
 
 
-def test_op_cli_config_homedir_02(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+def test_op_cli_config_homedir_02(expected_op_config_data: ExpectedConfigData):
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -35,7 +37,8 @@ def test_op_cli_config_homedir_02(expected_op_config_data: ExpectedConfigData, v
     assert result.account_uuid == expected.account_uuid
 
 
-def test_op_cli_config_homedir_03(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+def test_op_cli_config_homedir_03(expected_op_config_data: ExpectedConfigData):
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -43,7 +46,8 @@ def test_op_cli_config_homedir_03(expected_op_config_data: ExpectedConfigData, v
     assert result.url == expected.url
 
 
-def test_op_cli_config_homedir_04(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+def test_op_cli_config_homedir_04(expected_op_config_data: ExpectedConfigData):
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -51,7 +55,8 @@ def test_op_cli_config_homedir_04(expected_op_config_data: ExpectedConfigData, v
     assert result.user_uuid == expected.user_uuid
 
 
-def test_op_cli_config_homedir_05(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+def test_op_cli_config_homedir_05(expected_op_config_data: ExpectedConfigData):
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -59,7 +64,8 @@ def test_op_cli_config_homedir_05(expected_op_config_data: ExpectedConfigData, v
     assert result.email == expected.email
 
 
-def test_op_cli_config_homedir_06(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_homedir):
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+def test_op_cli_config_homedir_06(expected_op_config_data: ExpectedConfigData):
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -67,7 +73,8 @@ def test_op_cli_config_homedir_06(expected_op_config_data: ExpectedConfigData, v
     assert result == expected.user_uuid
 
 
-def test_op_cli_config_homedir_07(valid_op_cli_config_homedir):
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+def test_op_cli_config_homedir_07():
     _sanity_check_standard_home_env()
     shorthand = "NO_SUCH_SHORTHAND"
     config = OPCLIConfig()

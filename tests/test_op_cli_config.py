@@ -122,7 +122,8 @@ def test_op_cli_config_alt_acct_identifiers_04(expected_op_config_data: Expected
     assert expected.user_uuid == result.user_uuid
 
 
-def test_op_cli_config_xdg_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdghome, console_logger):
+@pytest.mark.usefixtures("valid_op_cli_config_xdghome")
+def test_op_cli_config_xdg_01(expected_op_config_data: ExpectedConfigData, console_logger):
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig(logger=console_logger)
@@ -130,7 +131,8 @@ def test_op_cli_config_xdg_01(expected_op_config_data: ExpectedConfigData, valid
     assert result.shorthand == expected.shorthand
 
 
-def test_op_cli_config_xdg_02(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdghome):
+@pytest.mark.usefixtures("valid_op_cli_config_xdghome")
+def test_op_cli_config_xdg_02(expected_op_config_data: ExpectedConfigData):
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -138,7 +140,8 @@ def test_op_cli_config_xdg_02(expected_op_config_data: ExpectedConfigData, valid
     assert result.account_uuid == expected.account_uuid
 
 
-def test_op_cli_config_xdg_03(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdghome):
+@pytest.mark.usefixtures("valid_op_cli_config_xdghome")
+def test_op_cli_config_xdg_03(expected_op_config_data: ExpectedConfigData):
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -146,7 +149,8 @@ def test_op_cli_config_xdg_03(expected_op_config_data: ExpectedConfigData, valid
     assert result.url == expected.url
 
 
-def test_op_cli_config_xdg_04(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdghome):
+@pytest.mark.usefixtures("valid_op_cli_config_xdghome")
+def test_op_cli_config_xdg_04(expected_op_config_data: ExpectedConfigData):
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -154,7 +158,8 @@ def test_op_cli_config_xdg_04(expected_op_config_data: ExpectedConfigData, valid
     assert result.user_uuid == expected.user_uuid
 
 
-def test_op_cli_config_xdg_05(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdghome):
+@pytest.mark.usefixtures("valid_op_cli_config_xdghome")
+def test_op_cli_config_xdg_05(expected_op_config_data: ExpectedConfigData):
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -162,21 +167,24 @@ def test_op_cli_config_xdg_05(expected_op_config_data: ExpectedConfigData, valid
     assert result.email == expected.email
 
 
-def test_op_cli_config_xdg_06(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdghome):
+@pytest.mark.usefixtures("valid_op_cli_config_xdghome")
+def test_op_cli_config_xdg_06(expected_op_config_data: ExpectedConfigData):
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
     result = config.uuid_for_account("example_shorthand")
     assert result == expected.user_uuid
 
 
-def test_op_cli_config_xdg_07(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdghome):
+@pytest.mark.usefixtures("expected_op_config_data", "valid_op_cli_config_xdghome")
+def test_op_cli_config_xdg_07():
     shorthand = "NO_SUCH_SHORTHAND"
     config = OPCLIConfig()
     with pytest.raises(OPConfigNotFoundException):
         config.get_config(shorthand)
 
 
-def test_op_cli_config_unreable_01(invalid_op_cli_config_unreable):
+@pytest.mark.usefixtures("invalid_op_cli_config_unreable")
+def test_op_cli_config_unreable_01():
     # NOTE: This test will fail if run as root (e.g., in a docker container with no users)
     # there is no way to make a file unreadable to root
     if not is_windows():
@@ -189,12 +197,14 @@ def test_op_cli_config_unreable_01(invalid_op_cli_config_unreable):
         assert True
 
 
-def test_op_cli_config_missing_01(invalid_op_cli_config_missing):
+@pytest.mark.usefixtures("invalid_op_cli_config_missing")
+def test_op_cli_config_missing_01():
     with pytest.raises(OPConfigNotFoundException):
         OPCLIConfig()
 
 
-def test_op_cli_config_missing_02(invalid_op_cli_config_missing):
+@pytest.mark.usefixtures("invalid_op_cli_config_missing")
+def test_op_cli_config_missing_02():
     with pytest.raises(OPConfigNotFoundException):
         OPCLIConfig(config_dir="no_such_path")
 

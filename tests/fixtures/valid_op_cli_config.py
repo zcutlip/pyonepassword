@@ -104,6 +104,10 @@ class ValidOPCLIConfig:
         self.logger.debug(f"valid config path: {op_config_path}")
         if config_text is None:
             config_text = ValidData().data_for_name(valid_data_key)
+
+        if not isinstance(config_text, str):
+            raise TypeError("config_text must be a string")
+
         with open(op_config_path, "w") as config:
             config.write(config_text)
         os.umask(old_umask)

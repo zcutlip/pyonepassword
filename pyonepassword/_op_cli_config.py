@@ -99,9 +99,10 @@ class OPCLIConfig(dict):
         """
         configpath: Path | None = None
         path_options = self._config_path_triage_list(config_dir)
-        for configpath in path_options:
+        for _configpath in path_options:
             self.logger.debug(f"Looking for config at {configpath}")
-            if configpath.exists():
+            if _configpath.exists():
+                configpath = _configpath
                 break
 
         return configpath

@@ -14,6 +14,7 @@ configuration.
 
 import os
 import tempfile
+from enum import IntEnum
 from pathlib import Path
 
 from pyonepassword import logging
@@ -25,6 +26,14 @@ from .valid_data import ValidData
 VALID_OP_CONFIG_KEY = "example-op-config"
 VALID_OP_CONFIG_NO_SHORTHAND_KEY = "example-op-config-no-latest-shorthand"
 VALID_OP_CONFIG_NO_ACCOUNT_LIST_KEY = "example-op-config-no-account-list"
+
+
+class ConfigPathType(IntEnum):
+    ENV_OP_CONFIG_DIR = 2  # OP_CONFIG_DIR=/path/to/conf/dir/
+    HOME_DOT_OP = 3  # ~/.op
+    XDG_CONF_DOT_OP = 4  # ${XDG_CONFIG_HOME}/.op
+    HOME_DOT_CONFIG_OP = 5  # ${HOME}/.config/op
+    XDG_CONF_OP = 6  # ${XDG_CONFIG_HOME}/op
 
 
 class ValidOPCLIConfig:
@@ -40,7 +49,12 @@ class ValidOPCLIConfig:
     actual configuration, if one exists.
     """
 
-    def __init__(self, location_env_var=HOME_ENV_VAR, config_text=None, valid_data_key=VALID_OP_CONFIG_KEY, logger=None):
+    def __init__(self,
+                 location_env_var=HOME_ENV_VAR,
+                 config_text=None,
+                 valid_data_key=VALID_OP_CONFIG_KEY,
+                 logger=None,
+                 config_path_type: ConfigPathType | None = None):
         """Initialize the test fixture for OP CLI configuration.
 
         Args:
@@ -52,6 +66,10 @@ class ValidOPCLIConfig:
                 from ValidData. Defaults to VALID_OP_CONFIG_KEY.
             logger (logging.Logger, optional): The logger instance to use. If None,
                 creates a console logger with WARNING level. Defaults to None.
+            config_path_type (str, optional): The type of config path to create.
+                Can be one of: 'op_config_dir', 'home_op', 'xdg_home_op',
+                'home_config_op', 'xdg_config_op', or None for default.
+                Defaults to None.
 
         Behavior:
             - Creates a temporary directory to simulate a user's home directory, and contain a valid 'op' config
@@ -96,11 +114,9 @@ class ValidOPCLIConfig:
 
         old_umask = os.umask(0o077)
 
-        if not self._new_xdg:
-            op_config_path = Path(self._tempdir.name, ".config")
-        op_config_path = Path(self._tempdir.name, "op")
-        op_config_path.mkdir(parents=True)
-        op_config_path = Path(op_config_path, "config")
+        # Create config file at the appropriate location based on the environment variables
+        op_config_path = self._create_config_at_appropriate_location(
+            config_path_type)
         self.logger.debug(f"valid config path: {op_config_path}")
         if config_text is None:
             config_text = ValidData().data_for_name(valid_data_key)
@@ -135,3 +151,96 @@ class ValidOPCLIConfig:
             else:
                 # we can't set an env variable to None. You have to delete it
                 os.environ.pop('XDG_CONFIG_HOME', None)
+
+    def _create_config_at_appropriate_location(self,
+                                               config_path_type: ConfigPathType | None = None) -> Path:
+        """
+        Create a config file at the appropriate location based on environment variables.
+
+        The rules are applied in order:
+        1. A directory specified with config_dir
+        2. A directory set with the OP_CONFIG_DIR environment variable
+        3. ~/.op
+        4. ${XDG_CONFIG_HOME}/.op
+        5. ~/.config/op
+        6. ${XDG_CONFIG_HOME}/op
+
+        For testing purposes, we simulate these by checking which environment variable
+        is set and creating the config file in the appropriate location within our
+        temporary directory.
+
+        Args:
+            config_path_type (str, optional): The type of config path to create.
+                Can be one of: 'op_config_dir', 'home_op', 'xdg_home_op',
+                'home_config_op', 'xdg_config_op', or None for default.
+        """
+        if config_path_type == ConfigPathType.ENV_OP_CONFIG_DIR:
+            # Rule 2: A directory set with the OP_CONFIG_DIR environment variable
+            op_config_dir = os.environ.get("OP_CONFIG_DIR")
+            if not op_config_dir:
+                # If not set, create a custom directory for testing
+                op_config_dir = Path(self._tempdir.name, "custom_op_config")
+                os.environ["OP_CONFIG_DIR"] = str(op_config_dir)
+            config_path = Path(op_config_dir, "config")
+            config_path.parent.mkdir(parents=True, exist_ok=True)
+            return config_path
+
+        elif config_path_type == ConfigPathType.HOME_DOT_OP:
+            # Rule 3: ~/.op
+            home_op_path = Path(self._tempdir.name, ".op")
+            home_op_path.mkdir(parents=True, exist_ok=True)
+            config_path = Path(home_op_path, "config")
+            return config_path
+
+        elif config_path_type == ConfigPathType.XDG_CONF_DOT_OP:
+            # Rule 4: ${XDG_CONFIG_HOME}/.op
+            xdg_config_home = os.environ.get("XDG_CONFIG_HOME")
+            if not xdg_config_home:
+                # If not set, create a custom XDG directory for testing
+                xdg_config_home = Path(self._tempdir.name, "xdg_config")
+                os.environ["XDG_CONFIG_HOME"] = str(xdg_config_home)
+            xdg_op_path = Path(xdg_config_home, ".op")
+            xdg_op_path.mkdir(parents=True, exist_ok=True)
+            config_path = Path(xdg_op_path, "config")
+            return config_path
+
+        elif config_path_type == ConfigPathType.HOME_DOT_CONFIG_OP:
+            # Rule 5: ~/.config/op
+            config_dir = Path(self._tempdir.name, ".config", "op")
+            config_dir.mkdir(parents=True, exist_ok=True)
+            config_path = Path(config_dir, "config")
+            return config_path
+
+        elif config_path_type == ConfigPathType.XDG_CONF_OP:
+            # Rule 6: ${XDG_CONFIG_HOME}/op
+            xdg_config_home = os.environ.get("XDG_CONFIG_HOME")
+            if not xdg_config_home:
+                # If not set, create a custom XDG directory for testing
+                xdg_config_home = Path(self._tempdir.name, "xdg_config")
+                os.environ["XDG_CONFIG_HOME"] = str(xdg_config_home)
+            xdg_op_path = Path(xdg_config_home, "op")
+            xdg_op_path.mkdir(parents=True, exist_ok=True)
+            config_path = Path(xdg_op_path, "config")
+            return config_path
+
+        else:
+            # Default behavior - check environment variables and apply rules in order
+            # Check if OP_CONFIG_DIR is set (Rule 2)
+            op_config_dir = os.environ.get("OP_CONFIG_DIR")
+            if op_config_dir:
+                config_path = Path(op_config_dir, "config")
+                config_path.parent.mkdir(parents=True, exist_ok=True)
+                return config_path
+
+            # Check if we're using XDG_CONFIG_HOME for ~/.op (Rule 4)
+            xdg_config_home = os.environ.get("XDG_CONFIG_HOME")
+            if xdg_config_home:
+                xdg_op_path = Path(xdg_config_home, ".op", "config")
+                xdg_op_path.parent.mkdir(parents=True, exist_ok=True)
+                return xdg_op_path
+
+            # Default to ~/.config/op (Rule 5)
+            config_dir = Path(self._tempdir.name, ".config", "op")
+            config_dir.mkdir(parents=True, exist_ok=True)
+            config_path = Path(config_dir, "config")
+            return config_path

@@ -227,3 +227,103 @@ def test_op_cli_config_no_account_list_01():
     Verify we can instantiate OPCLIConfig() even when account list is null
     """
     OPCLIConfig()
+
+
+def test_op_cli_config_op_config_dir_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_op_config_dir):
+    """
+    Test OPCLIConfig with config at OP_CONFIG_DIR location
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig()
+    result = config.get_config("example_shorthand")
+    assert result.shorthand == expected.shorthand
+
+
+def test_op_cli_config_op_config_dir_02(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_op_config_dir):
+    """
+    Test OPCLIConfig with config at OP_CONFIG_DIR location
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig()
+    result = config.get_config("example_shorthand")
+    assert result.account_uuid == expected.account_uuid
+
+
+def test_op_cli_config_home_op_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_home_op):
+    """
+    Test OPCLIConfig with config at ~/.op location
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig()
+    result = config.get_config("example_shorthand")
+    assert result.shorthand == expected.shorthand
+
+
+def test_op_cli_config_home_op_02(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_home_op):
+    """
+    Test OPCLIConfig with config at ~/.op location
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig()
+    result = config.get_config("example_shorthand")
+    assert result.account_uuid == expected.account_uuid
+
+
+def test_op_cli_config_xdg_home_op_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdg_home_op):
+    """
+    Test OPCLIConfig with config at ${XDG_CONFIG_HOME}/.op location
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig()
+    result = config.get_config("example_shorthand")
+    assert result.shorthand == expected.shorthand
+
+
+def test_op_cli_config_xdg_home_op_02(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdg_home_op):
+    """
+    Test OPCLIConfig with config at ${XDG_CONFIG_HOME}/.op location
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig()
+    result = config.get_config("example_shorthand")
+    assert result.account_uuid == expected.account_uuid
+
+
+def test_op_cli_config_home_config_op_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_home_config_op):
+    """
+    Test OPCLIConfig with config at ~/.config/op location (default)
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig()
+    result = config.get_config("example_shorthand")
+    assert result.shorthand == expected.shorthand
+
+
+def test_op_cli_config_home_config_op_02(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_home_config_op):
+    """
+    Test OPCLIConfig with config at ~/.config/op location (default)
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig()
+    result = config.get_config("example_shorthand")
+    assert result.account_uuid == expected.account_uuid
+
+
+def test_op_cli_config_xdg_config_op_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdg_config_op):
+    """
+    Test OPCLIConfig with config at ${XDG_CONFIG_HOME}/op location
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig()
+    result = config.get_config("example_shorthand")
+    assert result.shorthand == expected.shorthand
+
+
+def test_op_cli_config_xdg_config_op_02(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdg_config_op):
+    """
+    Test OPCLIConfig with config at ${XDG_CONFIG_HOME}/op location
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig()
+    result = config.get_config("example_shorthand")
+    assert result.account_uuid == expected.account_uuid

@@ -67,6 +67,7 @@ from .valid_data import ValidData
 from .valid_op_cli_config import (
     VALID_OP_CONFIG_NO_ACCOUNT_LIST_KEY,
     VALID_OP_CONFIG_NO_SHORTHAND_KEY,
+    ConfigPathType,
     ValidOPCLIConfig
 )
 
@@ -682,6 +683,55 @@ def valid_op_cli_config_no_account_list():
     """
     config_obj = ValidOPCLIConfig(
         valid_data_key=VALID_OP_CONFIG_NO_ACCOUNT_LIST_KEY)
+    return config_obj
+
+
+@fixture
+def valid_op_cli_config_op_config_dir() -> ValidOPCLIConfig:
+    """
+    Stage an 'op' config at a custom directory specified by OP_CONFIG_DIR environment variable
+    """
+    config_obj: ValidOPCLIConfig = ValidOPCLIConfig(
+        config_path_type=ConfigPathType.ENV_OP_CONFIG_DIR)
+    return config_obj
+
+
+@fixture
+def valid_op_cli_config_home_op() -> ValidOPCLIConfig:
+    """
+    Stage an 'op' config at ~/.op
+    """
+    config_obj: ValidOPCLIConfig = ValidOPCLIConfig(
+        config_path_type=ConfigPathType.HOME_DOT_OP)
+    return config_obj
+
+
+@fixture
+def valid_op_cli_config_xdg_home_op() -> ValidOPCLIConfig:
+    """
+    Stage an 'op' config at ${XDG_CONFIG_HOME}/.op
+    """
+    config_obj: ValidOPCLIConfig = ValidOPCLIConfig(
+        config_path_type=ConfigPathType.XDG_CONF_DOT_OP)
+    return config_obj
+
+
+@fixture
+def valid_op_cli_config_home_config_op() -> ValidOPCLIConfig:
+    """
+    Stage an 'op' config at ~/.config/op (default location)
+    """
+    config_obj: ValidOPCLIConfig = ValidOPCLIConfig(
+        config_path_type=ConfigPathType.HOME_DOT_CONFIG_OP)
+    return config_obj
+
+
+@fixture
+def valid_op_cli_config_xdg_config_op() -> ValidOPCLIConfig:
+    """
+    Stage an 'op' config at ${XDG_CONFIG_HOME}/op
+    """
+    config_obj = ValidOPCLIConfig(config_path_type=ConfigPathType.XDG_CONF_OP)
     return config_obj
 
 

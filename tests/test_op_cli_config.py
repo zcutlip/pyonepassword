@@ -209,12 +209,14 @@ def test_op_cli_config_missing_02():
         OPCLIConfig(config_dir="no_such_path")
 
 
-def test_op_cli_config_malformed_01(invalid_op_cli_config_malformed):
+@pytest.mark.usefixtures("invalid_op_cli_config_malformed")
+def test_op_cli_config_malformed_01():
     with pytest.raises(OPConfigNotFoundException):
         OPCLIConfig()
 
 
-def test_op_cli_config_missing_shorthand_01(valid_op_cli_config_no_shorthand):
+@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
+def test_op_cli_config_missing_shorthand_01():
     conf = OPCLIConfig()
     with pytest.raises(OPConfigNotFoundException):
         conf.get_config()
@@ -229,7 +231,8 @@ def test_op_cli_config_no_account_list_01():
     OPCLIConfig()
 
 
-def test_op_cli_config_op_config_dir_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_op_config_dir):
+@pytest.mark.usefixtures("valid_op_cli_config_op_config_dir")
+def test_op_cli_config_op_config_dir_01(expected_op_config_data: ExpectedConfigData):
     """
     Test OPCLIConfig with config at OP_CONFIG_DIR location
     """
@@ -239,7 +242,8 @@ def test_op_cli_config_op_config_dir_01(expected_op_config_data: ExpectedConfigD
     assert result.shorthand == expected.shorthand
 
 
-def test_op_cli_config_op_config_dir_02(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_op_config_dir):
+@pytest.mark.usefixtures("valid_op_cli_config_op_config_dir")
+def test_op_cli_config_op_config_dir_02(expected_op_config_data: ExpectedConfigData):
     """
     Test OPCLIConfig with config at OP_CONFIG_DIR location
     """
@@ -249,7 +253,8 @@ def test_op_cli_config_op_config_dir_02(expected_op_config_data: ExpectedConfigD
     assert result.account_uuid == expected.account_uuid
 
 
-def test_op_cli_config_home_op_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_home_op):
+@pytest.mark.usefixtures("valid_op_cli_config_home_op")
+def test_op_cli_config_home_op_01(expected_op_config_data: ExpectedConfigData):
     """
     Test OPCLIConfig with config at ~/.op location
     """
@@ -259,7 +264,8 @@ def test_op_cli_config_home_op_01(expected_op_config_data: ExpectedConfigData, v
     assert result.shorthand == expected.shorthand
 
 
-def test_op_cli_config_home_op_02(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_home_op):
+@pytest.mark.usefixtures("valid_op_cli_config_home_op")
+def test_op_cli_config_home_op_02(expected_op_config_data: ExpectedConfigData):
     """
     Test OPCLIConfig with config at ~/.op location
     """
@@ -269,7 +275,8 @@ def test_op_cli_config_home_op_02(expected_op_config_data: ExpectedConfigData, v
     assert result.account_uuid == expected.account_uuid
 
 
-def test_op_cli_config_xdg_home_op_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdg_home_op):
+@pytest.mark.usefixtures("valid_op_cli_config_xdg_home_op")
+def test_op_cli_config_xdg_home_op_01(expected_op_config_data: ExpectedConfigData):
     """
     Test OPCLIConfig with config at ${XDG_CONFIG_HOME}/.op location
     """
@@ -279,7 +286,8 @@ def test_op_cli_config_xdg_home_op_01(expected_op_config_data: ExpectedConfigDat
     assert result.shorthand == expected.shorthand
 
 
-def test_op_cli_config_xdg_home_op_02(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdg_home_op):
+@pytest.mark.usefixtures("valid_op_cli_config_xdg_home_op")
+def test_op_cli_config_xdg_home_op_02(expected_op_config_data: ExpectedConfigData):
     """
     Test OPCLIConfig with config at ${XDG_CONFIG_HOME}/.op location
     """
@@ -289,7 +297,8 @@ def test_op_cli_config_xdg_home_op_02(expected_op_config_data: ExpectedConfigDat
     assert result.account_uuid == expected.account_uuid
 
 
-def test_op_cli_config_home_config_op_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_home_config_op):
+@pytest.mark.usefixtures("valid_op_cli_config_home_config_op")
+def test_op_cli_config_home_config_op_01(expected_op_config_data: ExpectedConfigData):
     """
     Test OPCLIConfig with config at ~/.config/op location (default)
     """
@@ -299,7 +308,8 @@ def test_op_cli_config_home_config_op_01(expected_op_config_data: ExpectedConfig
     assert result.shorthand == expected.shorthand
 
 
-def test_op_cli_config_home_config_op_02(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_home_config_op):
+@pytest.mark.usefixtures("valid_op_cli_config_home_config_op")
+def test_op_cli_config_home_config_op_02(expected_op_config_data: ExpectedConfigData):
     """
     Test OPCLIConfig with config at ~/.config/op location (default)
     """
@@ -309,7 +319,8 @@ def test_op_cli_config_home_config_op_02(expected_op_config_data: ExpectedConfig
     assert result.account_uuid == expected.account_uuid
 
 
-def test_op_cli_config_xdg_config_op_01(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdg_config_op):
+@pytest.mark.usefixtures("valid_op_cli_config_xdg_config_op")
+def test_op_cli_config_xdg_config_op_01(expected_op_config_data: ExpectedConfigData):
     """
     Test OPCLIConfig with config at ${XDG_CONFIG_HOME}/op location
     """
@@ -319,7 +330,8 @@ def test_op_cli_config_xdg_config_op_01(expected_op_config_data: ExpectedConfigD
     assert result.shorthand == expected.shorthand
 
 
-def test_op_cli_config_xdg_config_op_02(expected_op_config_data: ExpectedConfigData, valid_op_cli_config_xdg_config_op):
+@pytest.mark.usefixtures("valid_op_cli_config_xdg_config_op")
+def test_op_cli_config_xdg_config_op_02(expected_op_config_data: ExpectedConfigData):
     """
     Test OPCLIConfig with config at ${XDG_CONFIG_HOME}/op location
     """

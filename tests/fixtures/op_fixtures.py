@@ -665,7 +665,7 @@ def valid_op_cli_config_homedir():
 @fixture
 def valid_op_cli_config_xdghome():
     config_obj = ValidOPCLIConfig(
-        location_env_var='XDG_CONFIG_HOME', logger=op_console_logger)
+        config_path_type=ConfigPathType.XDG_CONF_DOT_OP, logger=op_console_logger)
     return config_obj
 
 

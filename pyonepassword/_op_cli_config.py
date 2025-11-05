@@ -44,6 +44,7 @@ class OPCLIConfig(dict):
         self.logger = logger
 
         configpath = self._get_config_path(config_dir=config_dir)
+        self.logger.debug(f"configpath: {configpath}")
         self.configpath = configpath
         if configpath is None:
             raise OPConfigNotFoundException("No op configuration found")
@@ -100,7 +101,7 @@ class OPCLIConfig(dict):
         configpath: Path | None = None
         path_options = self._config_path_triage_list(config_dir)
         for _configpath in path_options:
-            self.logger.debug(f"Looking for config at {configpath}")
+            self.logger.debug(f"Looking for config at {_configpath}")
             if _configpath.exists():
                 configpath = _configpath
                 break
@@ -162,7 +163,8 @@ class OPCLIConfig(dict):
             # rule 1: A directory specified with --config
             # rule 2: A directory set with the OP_CONFIG_DIR environment variable.
             configpath = Path(custom_config_dir, "config")
-            self.logger.debug(f"Looking for config at {configpath}")
+            self.logger.debug(
+                f"Adding config path to triage list: {configpath}")
             if not configpath.exists():
                 # we were explicitly told to use this path, so there's no fallback
                 # if it doesn't exist

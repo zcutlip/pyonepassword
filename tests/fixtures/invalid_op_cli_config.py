@@ -17,8 +17,9 @@ class MissingOPCLIConfig(ValidOPCLIConfig):
 
 
 class MalformedOPCLIConfig(ValidOPCLIConfig):
-    def __init__(self):
+    def __init__(self, config_path_type=None):
         invalid_data = InvalidData()
         malformed_config_text = invalid_data.data_for_name(
             "malformed-op-config-json")
-        super().__init__(config_text=malformed_config_text)
+        super().__init__(config_text=malformed_config_text,
+                         config_path_type=config_path_type)

@@ -164,7 +164,8 @@ class OPCLIConfig(dict):
             # rule 2: A directory set with the OP_CONFIG_DIR environment variable.
             configpath = Path(custom_config_dir, "config")
             self.logger.debug(
-                f"Adding config path to triage list: {configpath}")
+                f"Rule 1 & 2: Adding custom_config_dir to path triage list: {configpath}")
+
             if not configpath.exists():
                 # we were explicitly told to use this path, so there's no fallback
                 # if it doesn't exist
@@ -177,22 +178,29 @@ class OPCLIConfig(dict):
             # rule 1 or 2 weren't met, so we evaluate the rest
             # rule 3: ~/.op (following go-homedir  to determine the home directory)
             # We use pathlib.Path.expanduser(). Hopefully this matches go-homedir semantics
+            self.logger.debug("Rule 3: adding ~/.op to path triage list")
             config_dir = Path("~/.op").expanduser()
             config_path = Path(config_dir, "config")
             path_options.append(config_path)
 
             # rule 4: ${XDG_CONFIG_HOME}/.op
             if xdg_home:
+                self.logger.debug(
+                    "Rule 4: Adding ${XDG_CONFIG_HOME}/.op to path triage list")
                 config_path = Path(xdg_home, ".op", "config")
                 path_options.append(config_path)
 
-            # rule 5: ~/.config/op (following go-homedir  to determine the home directory)
+            # rule 5: ~/.config/op (following go-homedir to determine the home directory)
+            self.logger.debug(
+                "Rule 5: Adding ~/.config/op to path triage list")
             config_dir = Path("~/.config", "op").expanduser()
             config_path = Path(config_dir, "config")
             path_options.append(config_path)
 
             # rule 6: ${XDG_CONFIG_HOME}/op
             if xdg_home:
+                self.logger.debug(
+                    "Rule 6: Adding ${XDG_CONFIG_HOME}/op to path triage list")
                 config_path = Path(xdg_home, "op", "config")
                 path_options.append(config_path)
 

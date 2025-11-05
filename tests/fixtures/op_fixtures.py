@@ -754,6 +754,14 @@ def invalid_op_cli_config_malformed():
 
 
 @fixture
+def invalid_op_cli_config_malformed_xdg_config_op():
+    # Rule 6: ${XDG_CONFIG_HOME}/op
+    config_obj = MalformedOPCLIConfig(
+        config_path_type=ConfigPathType.XDG_CONF_OP)
+    return config_obj
+
+
+@fixture
 def console_logger():
     # don't create a new console logger. use the module-level op_console_logger
     # to avoid problems with the way pytest captures sys.stderr/sys.stdout

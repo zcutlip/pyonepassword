@@ -83,41 +83,42 @@ def test_op_cli_config_homedir_07():
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
-def test_op_cli_config_alt_acct_identifiers_01(expected_op_config_data: ExpectedConfigData):
+def test_op_cli_config_alt_acct_identifiers_01(expected_op_config_data: ExpectedConfigData, console_logger):
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     user_uuid = "5GHHPJK5HZC5BAT7WDUXW57G44"
-    config = OPCLIConfig()
+    config = OPCLIConfig(logger=console_logger)
     result = config.get_config(user_uuid)
     assert expected.user_uuid == result.user_uuid
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
-def test_op_cli_config_alt_acct_identifiers_02(expected_op_config_data: ExpectedConfigData):
+def test_op_cli_config_alt_acct_identifiers_02(expected_op_config_data: ExpectedConfigData, console_logger):
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     user_email = "example_user@example.email"
-    config = OPCLIConfig()
+    config = OPCLIConfig(logger=console_logger)
     result = config.get_config(user_email)
     assert expected.user_uuid == result.user_uuid
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
-def test_op_cli_config_alt_acct_identifiers_03(expected_op_config_data: ExpectedConfigData):
+def test_op_cli_config_alt_acct_identifiers_03(expected_op_config_data: ExpectedConfigData, console_logger):
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     account_uuid = "GRXJAN4BY5DPROISKYL55IRCPY"
-    config = OPCLIConfig()
+    config = OPCLIConfig(logger=console_logger)
     result = config.get_config(account_uuid)
     assert expected.user_uuid == result.user_uuid
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
-def test_op_cli_config_alt_acct_identifiers_04(expected_op_config_data: ExpectedConfigData):
+def test_op_cli_config_alt_acct_identifiers_04(expected_op_config_data: ExpectedConfigData, console_logger):
     _sanity_check_standard_home_env()
+    console_logger.info("pytest console logger")
     expected = expected_op_config_data.data_for_key("example-account")
     account_url = "https://example-account.1password.com"
-    config = OPCLIConfig()
+    config = OPCLIConfig(logger=console_logger)
     result = config.get_config(account_url)
     assert expected.user_uuid == result.user_uuid
 
@@ -132,59 +133,59 @@ def test_op_cli_config_xdg_01(expected_op_config_data: ExpectedConfigData, conso
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_xdghome")
-def test_op_cli_config_xdg_02(expected_op_config_data: ExpectedConfigData):
+def test_op_cli_config_xdg_02(expected_op_config_data: ExpectedConfigData, console_logger):
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
-    config = OPCLIConfig()
+    config = OPCLIConfig(logger=console_logger)
     result = config.get_config("example_shorthand")
     assert result.account_uuid == expected.account_uuid
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_xdghome")
-def test_op_cli_config_xdg_03(expected_op_config_data: ExpectedConfigData):
+def test_op_cli_config_xdg_03(expected_op_config_data: ExpectedConfigData, console_logger):
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
-    config = OPCLIConfig()
+    config = OPCLIConfig(logger=console_logger)
     result = config.get_config("example_shorthand")
     assert result.url == expected.url
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_xdghome")
-def test_op_cli_config_xdg_04(expected_op_config_data: ExpectedConfigData):
+def test_op_cli_config_xdg_04(expected_op_config_data: ExpectedConfigData, console_logger):
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
-    config = OPCLIConfig()
+    config = OPCLIConfig(logger=console_logger)
     result = config.get_config("example_shorthand")
     assert result.user_uuid == expected.user_uuid
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_xdghome")
-def test_op_cli_config_xdg_05(expected_op_config_data: ExpectedConfigData):
+def test_op_cli_config_xdg_05(expected_op_config_data: ExpectedConfigData, console_logger):
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
-    config = OPCLIConfig()
+    config = OPCLIConfig(logger=console_logger)
     result = config.get_config("example_shorthand")
     assert result.email == expected.email
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_xdghome")
-def test_op_cli_config_xdg_06(expected_op_config_data: ExpectedConfigData):
+def test_op_cli_config_xdg_06(expected_op_config_data: ExpectedConfigData, console_logger):
     expected = expected_op_config_data.data_for_key("example-account")
-    config = OPCLIConfig()
+    config = OPCLIConfig(logger=console_logger)
     result = config.uuid_for_account("example_shorthand")
     assert result == expected.user_uuid
 
 
 @pytest.mark.usefixtures("expected_op_config_data", "valid_op_cli_config_xdghome")
-def test_op_cli_config_xdg_07():
+def test_op_cli_config_xdg_07(console_logger):
     shorthand = "NO_SUCH_SHORTHAND"
-    config = OPCLIConfig()
+    config = OPCLIConfig(logger=console_logger)
     with pytest.raises(OPConfigNotFoundException):
         config.get_config(shorthand)
 
 
 @pytest.mark.usefixtures("invalid_op_cli_config_unreable")
-def test_op_cli_config_unreable_01():
+def test_op_cli_config_unreable_01(console_logger):
     # NOTE: This test will fail if run as root (e.g., in a docker container with no users)
     # there is no way to make a file unreadable to root
     if not is_windows():
@@ -192,32 +193,32 @@ def test_op_cli_config_unreable_01():
         # this is not straightforward on windows via native python APIs
         # so only run this test if not on windows
         with pytest.raises(OPConfigNotFoundException):
-            OPCLIConfig()
+            OPCLIConfig(logger=console_logger)
     else:
         assert True
 
 
 @pytest.mark.usefixtures("invalid_op_cli_config_missing")
-def test_op_cli_config_missing_01():
+def test_op_cli_config_missing_01(console_logger):
     with pytest.raises(OPConfigNotFoundException):
-        OPCLIConfig()
+        OPCLIConfig(logger=console_logger)
 
 
 @pytest.mark.usefixtures("invalid_op_cli_config_missing")
-def test_op_cli_config_missing_02():
+def test_op_cli_config_missing_02(console_logger):
     with pytest.raises(OPConfigNotFoundException):
-        OPCLIConfig(config_dir="no_such_path")
+        OPCLIConfig(config_dir="no_such_path", logger=console_logger)
 
 
 @pytest.mark.usefixtures("invalid_op_cli_config_malformed")
-def test_op_cli_config_malformed_01():
+def test_op_cli_config_malformed_01(console_logger):
     with pytest.raises(OPConfigNotFoundException):
-        OPCLIConfig()
+        OPCLIConfig(logger=console_logger)
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
-def test_op_cli_config_missing_shorthand_01():
-    conf = OPCLIConfig()
+def test_op_cli_config_missing_shorthand_01(console_logger):
+    conf = OPCLIConfig(logger=console_logger)
     with pytest.raises(OPConfigNotFoundException):
         conf.get_config()
 

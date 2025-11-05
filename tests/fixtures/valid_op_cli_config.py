@@ -74,7 +74,8 @@ class ValidOPCLIConfig:
             - Restores environment variables when destroyed
         """
         if not logger:
-            logger = logging.console_logger("pytest", logging.WARNING)
+            logger = logging.console_logger(
+                "ValidOPCLIConfig", logging.WARNING)
         self.logger = logger
         self._tempdir = tempfile.TemporaryDirectory()
 

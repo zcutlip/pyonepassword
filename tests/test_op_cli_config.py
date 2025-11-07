@@ -210,6 +210,16 @@ def test_op_cli_config_missing_02(console_logger):
         OPCLIConfig(config_dir="no_such_path", logger=console_logger)
 
 
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+@pytest.mark.usefixtures("invalid_op_cli_config_malformed_xdg_config_op")
+def test_op_cli_config_valid_and_malformed_01(expected_op_config_data: ExpectedConfigData, console_logger):
+    # _sanity_check_standard_home_env()
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig(logger=console_logger)
+    result = config.get_config("example_shorthand")
+    assert result.account_uuid == expected.account_uuid
+
+
 @pytest.mark.usefixtures("invalid_op_cli_config_malformed")
 def test_op_cli_config_malformed_01(console_logger):
     with pytest.raises(OPConfigNotFoundException):

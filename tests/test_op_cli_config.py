@@ -251,12 +251,12 @@ def test_op_cli_config_no_account_list_01():
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_op_config_dir")
-def test_op_cli_config_op_config_dir_01(expected_op_config_data: ExpectedConfigData):
+def test_op_cli_config_op_config_dir_01(expected_op_config_data: ExpectedConfigData, console_logger):
     """
     Test OPCLIConfig with config at OP_CONFIG_DIR location
     """
     expected = expected_op_config_data.data_for_key("example-account")
-    config = OPCLIConfig()
+    config = OPCLIConfig(logger=console_logger)
     result = config.get_config("example_shorthand")
     assert result.shorthand == expected.shorthand
     assert result.account_uuid == expected.account_uuid

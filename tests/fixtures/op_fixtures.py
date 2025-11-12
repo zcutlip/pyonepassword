@@ -658,12 +658,20 @@ def binary_image_data():
 
 @fixture
 def valid_op_cli_config_homedir():
+    """
+    Creates a valid 'op' config
+    Location: rule 3: ~/.op
+    """
     config_obj = ValidOPCLIConfig()
     return config_obj
 
 
 @fixture
 def valid_op_cli_config_xdghome():
+    """
+    Creates a valid 'op' config
+    Location: rule 4: ${XDG_CONFIG_HOME}/.op
+    """
     config_obj = ValidOPCLIConfig(
         config_path_type=ConfigPathType.XDG_CONF_DOT_OP, logger=op_console_logger)
     return config_obj
@@ -671,6 +679,10 @@ def valid_op_cli_config_xdghome():
 
 @fixture
 def valid_op_cli_config_no_shorthand():
+    """
+    Creates a valid 'op' config with empty 'latest_signin' shorthand
+    Location: rule 3: ~/.op
+    """
     config_obj = ValidOPCLIConfig(
         valid_data_key=VALID_OP_CONFIG_NO_SHORTHAND_KEY)
     return config_obj
@@ -679,7 +691,8 @@ def valid_op_cli_config_no_shorthand():
 @fixture
 def valid_op_cli_config_no_account_list():
     """
-    Stage an 'op' config that is perfectly valid but "accounts" == null
+    Creates a valid 'op' config with null "accounts" list
+    Location: rule 3: ~/.op
     """
     config_obj = ValidOPCLIConfig(
         valid_data_key=VALID_OP_CONFIG_NO_ACCOUNT_LIST_KEY)
@@ -689,7 +702,8 @@ def valid_op_cli_config_no_account_list():
 @fixture
 def valid_op_cli_config_op_config_dir() -> ValidOPCLIConfig:
     """
-    Stage an 'op' config at a custom directory specified by OP_CONFIG_DIR environment variable
+    Creates a valid 'op' config
+    Location: rule 2: OP_CONFIG_DIR environment variable
     """
     config_obj: ValidOPCLIConfig = ValidOPCLIConfig(
         config_path_type=ConfigPathType.ENV_OP_CONFIG_DIR)
@@ -699,7 +713,8 @@ def valid_op_cli_config_op_config_dir() -> ValidOPCLIConfig:
 @fixture
 def valid_op_cli_config_home_op() -> ValidOPCLIConfig:
     """
-    Stage an 'op' config at ~/.op
+    Creates a valid 'op' config
+    Location: rule 3: ~/.op
     """
     config_obj: ValidOPCLIConfig = ValidOPCLIConfig(
         config_path_type=ConfigPathType.HOME_DOT_OP)
@@ -709,7 +724,8 @@ def valid_op_cli_config_home_op() -> ValidOPCLIConfig:
 @fixture
 def valid_op_cli_config_xdg_home_op() -> ValidOPCLIConfig:
     """
-    Stage an 'op' config at ${XDG_CONFIG_HOME}/.op
+    Creates a valid 'op' config
+    Location: rule 4: ${XDG_CONFIG_HOME}/.op
     """
     config_obj: ValidOPCLIConfig = ValidOPCLIConfig(
         config_path_type=ConfigPathType.XDG_CONF_DOT_OP)
@@ -719,7 +735,8 @@ def valid_op_cli_config_xdg_home_op() -> ValidOPCLIConfig:
 @fixture
 def valid_op_cli_config_home_config_op() -> ValidOPCLIConfig:
     """
-    Stage an 'op' config at ~/.config/op (default location)
+    Creates a valid 'op' config
+    Location: rule 5: ~/.config/op
     """
     config_obj: ValidOPCLIConfig = ValidOPCLIConfig(
         config_path_type=ConfigPathType.HOME_DOT_CONFIG_OP)
@@ -729,7 +746,8 @@ def valid_op_cli_config_home_config_op() -> ValidOPCLIConfig:
 @fixture
 def valid_op_cli_config_xdg_config_op() -> ValidOPCLIConfig:
     """
-    Stage an 'op' config at ${XDG_CONFIG_HOME}/op
+    Creates a valid 'op' config
+    Location: rule 6: ${XDG_CONFIG_HOME}/op
     """
     config_obj = ValidOPCLIConfig(config_path_type=ConfigPathType.XDG_CONF_OP)
     return config_obj
@@ -737,25 +755,40 @@ def valid_op_cli_config_xdg_config_op() -> ValidOPCLIConfig:
 
 @fixture
 def invalid_op_cli_config_unreable():
+    """
+    Creates an unreadable 'op' config file (no read permissions)
+    Location: rule 3: ~/.op
+    """
     config_obj = UnreadableOPCLIConfig()
     return config_obj
 
 
 @fixture
 def invalid_op_cli_config_missing():
+    """
+    Creates a missing 'op' config file (file deleted)
+    Location: rule 3: ~/.op
+    """
     config_obj = MissingOPCLIConfig()
     return config_obj
 
 
 @fixture
 def invalid_op_cli_config_malformed():
+    """
+    Creates a malformed 'op' config file (invalid JSON)
+    Location: rule 3: ~/.op
+    """
     config_obj = MalformedOPCLIConfig()
     return config_obj
 
 
 @fixture
 def invalid_op_cli_config_malformed_xdg_config_op():
-    # Rule 6: ${XDG_CONFIG_HOME}/op
+    """
+    Creates a malformed 'op' config file (invalid JSON)
+    Location: rule 6: ${XDG_CONFIG_HOME}/op
+    """
     config_obj = MalformedOPCLIConfig(
         config_path_type=ConfigPathType.XDG_CONF_OP)
     return config_obj
@@ -763,7 +796,10 @@ def invalid_op_cli_config_malformed_xdg_config_op():
 
 @fixture
 def invalid_op_cli_malformed_config_homedir():
-    # Rule 6: ${XDG_CONFIG_HOME}/op
+    """
+    Creates a malformed 'op' config file (invalid JSON)
+    Location: rule 5: ~/.config/op
+    """
     config_obj = MalformedOPCLIConfig(
         config_path_type=ConfigPathType.HOME_DOT_CONFIG_OP)
     return config_obj

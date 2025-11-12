@@ -149,6 +149,9 @@ class ValidOPCLIConfig:
             config_path_type (ConfigPathType, optional): The type of config path to create.
                 Should be one of the ConfigPathType enum values or None for default.
         """
+        if config_path_type is None:
+            config_path_type = ConfigPathType.HOME_DOT_OP
+
         # Clear HOME to prevent interference with config path detection
         # But save it first for restoration later
         if self._old_home is not None:
@@ -180,10 +183,6 @@ class ValidOPCLIConfig:
             xdg_config_home.mkdir(parents=True, exist_ok=True)
             os.environ["XDG_CONFIG_HOME"] = str(xdg_config_home)
 
-        else:
-            # Default behavior - set HOME to our temporary directory for ~/.config/op
-            os.environ[HOME_ENV_VAR] = self._tempdir.name
-
     def _create_config_at_appropriate_location(self,
                                                config_path_type: ConfigPathType | None = None) -> Path:
         """
@@ -204,6 +203,9 @@ class ValidOPCLIConfig:
             config_path_type (ConfigPathType, optional): The type of config path to create.
                 Should be one of the ConfigPathType enum values or None for default.
         """
+        if config_path_type is None:
+            config_path_type = ConfigPathType.HOME_DOT_OP
+
         if config_path_type == ConfigPathType.ENV_OP_CONFIG_DIR:
             # Rule 2: A directory set with the OP_CONFIG_DIR environment variable
             op_config_dir = os.environ.get("OP_CONFIG_DIR")
@@ -248,11 +250,4 @@ class ValidOPCLIConfig:
             xdg_op_path = Path(xdg_config_home, "op")
             xdg_op_path.mkdir(parents=True, exist_ok=True)
             config_path = Path(xdg_op_path, "config")
-            return config_path
-
-        else:
-            # Default behavior - ~/.config/op
-            config_dir = Path(self._tempdir.name, ".config", "op")
-            config_dir.mkdir(parents=True, exist_ok=True)
-            config_path = Path(config_dir, "config")
             return config_path

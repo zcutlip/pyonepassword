@@ -497,6 +497,17 @@ def test_op_cli_config_malformed_01(console_logger):
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
 def test_op_cli_config_missing_shorthand_01(console_logger):
+    """
+    Stage:
+        A valid op config with empty 'latest_signin' shorthand in ~/.op location (rule 3)
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        OPConfigNotFoundException is raised when calling get_config() with no arguments
+        and latest_signin shorthand is empty
+    """
     conf = OPCLIConfig(logger=console_logger)
     with pytest.raises(OPConfigNotFoundException):
         conf.get_config()

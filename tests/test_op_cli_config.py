@@ -481,6 +481,16 @@ def test_op_cli_config_valid_and_malformed_02(console_logger):
 
 @pytest.mark.usefixtures("invalid_op_cli_config_malformed")
 def test_op_cli_config_malformed_01(console_logger):
+    """
+    Stage:
+        A malformed op config file (invalid JSON) in ~/.op location (rule 3)
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        OPConfigNotFoundException is raised when config file contains invalid JSON
+    """
     with pytest.raises(OPConfigNotFoundException):
         OPCLIConfig(logger=console_logger)
 

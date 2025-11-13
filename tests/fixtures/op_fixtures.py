@@ -767,7 +767,7 @@ def invalid_op_cli_config_unreable():
 def invalid_op_cli_config_missing():
     """
     Creates a missing 'op' config file (file deleted)
-    Location: rule 3: ~/.op
+    Location: n/a
     """
     config_obj = MissingOPCLIConfig()
     return config_obj

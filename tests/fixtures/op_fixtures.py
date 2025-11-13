@@ -711,28 +711,6 @@ def valid_op_cli_config_op_config_dir() -> ValidOPCLIConfig:
 
 
 @fixture
-def valid_op_cli_config_home_op() -> ValidOPCLIConfig:
-    """
-    Creates a valid 'op' config
-    Location: rule 3: ~/.op
-    """
-    config_obj: ValidOPCLIConfig = ValidOPCLIConfig(
-        config_path_type=ConfigPathType.HOME_DOT_OP)
-    return config_obj
-
-
-@fixture
-def valid_op_cli_config_xdg_home_op() -> ValidOPCLIConfig:
-    """
-    Creates a valid 'op' config
-    Location: rule 4: ${XDG_CONFIG_HOME}/.op
-    """
-    config_obj: ValidOPCLIConfig = ValidOPCLIConfig(
-        config_path_type=ConfigPathType.XDG_CONF_DOT_OP)
-    return config_obj
-
-
-@fixture
 def valid_op_cli_config_home_config_op() -> ValidOPCLIConfig:
     """
     Creates a valid 'op' config

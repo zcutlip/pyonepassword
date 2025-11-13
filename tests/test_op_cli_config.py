@@ -21,6 +21,16 @@ def _sanity_check_standard_home_env():
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 def test_op_cli_config_homedir_01(expected_op_config_data: ExpectedConfigData):
+    """
+    Stage:
+        A valid op config in the default location under "$HOME" (rule 3)
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        The resulting object's shorthand property matches th expected shorthand value
+    """
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -30,6 +40,16 @@ def test_op_cli_config_homedir_01(expected_op_config_data: ExpectedConfigData):
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 def test_op_cli_config_homedir_02(expected_op_config_data: ExpectedConfigData):
+    """
+    Stage:
+        A valid op config in the default location under "$HOME" (rule 3)
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        The resulting object's account_uuid property matches the expected account UUID value
+    """
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -39,6 +59,16 @@ def test_op_cli_config_homedir_02(expected_op_config_data: ExpectedConfigData):
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 def test_op_cli_config_homedir_03(expected_op_config_data: ExpectedConfigData):
+    """
+    Stage:
+        A valid op config in the default location under "$HOME" (rule 3)
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        The resulting object's url property matches the expected URL value
+    """
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -48,6 +78,16 @@ def test_op_cli_config_homedir_03(expected_op_config_data: ExpectedConfigData):
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 def test_op_cli_config_homedir_04(expected_op_config_data: ExpectedConfigData):
+    """
+    Stage:
+        A valid op config in the default location under "$HOME" (rule 3)
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        The resulting object's user_uuid property matches the expected user UUID value
+    """
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -57,6 +97,16 @@ def test_op_cli_config_homedir_04(expected_op_config_data: ExpectedConfigData):
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 def test_op_cli_config_homedir_05(expected_op_config_data: ExpectedConfigData):
+    """
+    Stage:
+        A valid op config in the default location under "$HOME" (rule 3)
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        The resulting object's email property matches the expected email value
+    """
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -66,6 +116,16 @@ def test_op_cli_config_homedir_05(expected_op_config_data: ExpectedConfigData):
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 def test_op_cli_config_homedir_06(expected_op_config_data: ExpectedConfigData):
+    """
+    Stage:
+        A valid op config in the default location under "$HOME" (rule 3)
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        The uuid_for_account() method returns the expected user UUID value
+    """
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -75,6 +135,16 @@ def test_op_cli_config_homedir_06(expected_op_config_data: ExpectedConfigData):
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 def test_op_cli_config_homedir_07():
+    """
+    Stage:
+        A valid op config in the default location under "$HOME" (rule 3)
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        Calling get_config() with a non-existent shorthand raises OPConfigNotFoundException
+    """
     _sanity_check_standard_home_env()
     shorthand = "NO_SUCH_SHORTHAND"
     config = OPCLIConfig()

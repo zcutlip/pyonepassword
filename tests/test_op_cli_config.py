@@ -546,7 +546,15 @@ def test_op_cli_config_op_config_dir_01(expected_op_config_data: ExpectedConfigD
 @pytest.mark.usefixtures("valid_op_cli_config_home_config_op")
 def test_op_cli_config_home_config_op_01(expected_op_config_data: ExpectedConfigData):
     """
-    Test OPCLIConfig with config at ~/.config/op location (default)
+    Stage:
+        A valid op config in ~/.config/op location (rule 5)
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The resulting object's shorthand and account_uuid properties match expected values
+        Tests that explicit ~/.config/op config location works correctly
     """
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()
@@ -558,7 +566,15 @@ def test_op_cli_config_home_config_op_01(expected_op_config_data: ExpectedConfig
 @pytest.mark.usefixtures("valid_op_cli_config_xdg_config_op")
 def test_op_cli_config_xdg_config_op_01(expected_op_config_data: ExpectedConfigData):
     """
-    Test OPCLIConfig with config at ${XDG_CONFIG_HOME}/op location
+    Stage:
+        A valid op config in ${XDG_CONFIG_HOME}/op location (rule 6)
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The resulting object's shorthand and account_uuid properties match expected values
+        Tests that explicit ${XDG_CONFIG_HOME}/op config location works correctly
     """
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig()

@@ -243,6 +243,17 @@ def test_op_cli_config_alt_acct_identifiers_04(expected_op_config_data: Expected
 
 @pytest.mark.usefixtures("valid_op_cli_config_xdghome")
 def test_op_cli_config_xdg_01(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config in ${XDG_CONFIG_HOME}/.op location (rule 4)
+        XDG_CONFIG_HOME is set, HOME is set to /dev/null
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The resulting object's shorthand property matches the expected shorthand value
+    """
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig(logger=console_logger)
@@ -252,6 +263,17 @@ def test_op_cli_config_xdg_01(expected_op_config_data: ExpectedConfigData, conso
 
 @pytest.mark.usefixtures("valid_op_cli_config_xdghome")
 def test_op_cli_config_xdg_02(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config in ${XDG_CONFIG_HOME}/.op location (rule 4)
+        XDG_CONFIG_HOME is set, HOME is set to /dev/null
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The resulting object's account_uuid property matches the expected account UUID value
+    """
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig(logger=console_logger)
@@ -261,6 +283,17 @@ def test_op_cli_config_xdg_02(expected_op_config_data: ExpectedConfigData, conso
 
 @pytest.mark.usefixtures("valid_op_cli_config_xdghome")
 def test_op_cli_config_xdg_03(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config in ${XDG_CONFIG_HOME}/.op location (rule 4)
+        XDG_CONFIG_HOME is set, HOME is set to /dev/null
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The resulting object's url property matches the expected URL value
+    """
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig(logger=console_logger)
@@ -270,6 +303,17 @@ def test_op_cli_config_xdg_03(expected_op_config_data: ExpectedConfigData, conso
 
 @pytest.mark.usefixtures("valid_op_cli_config_xdghome")
 def test_op_cli_config_xdg_04(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config in ${XDG_CONFIG_HOME}/.op location (rule 4)
+        XDG_CONFIG_HOME is set, HOME is set to /dev/null
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The resulting object's user_uuid property matches the expected user UUID value
+    """
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig(logger=console_logger)
@@ -279,6 +323,17 @@ def test_op_cli_config_xdg_04(expected_op_config_data: ExpectedConfigData, conso
 
 @pytest.mark.usefixtures("valid_op_cli_config_xdghome")
 def test_op_cli_config_xdg_05(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config in ${XDG_CONFIG_HOME}/.op location (rule 4)
+        XDG_CONFIG_HOME is set, HOME is set to /dev/null
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The resulting object's email property matches the expected email value
+    """
     _sanity_check_xdg_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig(logger=console_logger)
@@ -288,6 +343,17 @@ def test_op_cli_config_xdg_05(expected_op_config_data: ExpectedConfigData, conso
 
 @pytest.mark.usefixtures("valid_op_cli_config_xdghome")
 def test_op_cli_config_xdg_06(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config in ${XDG_CONFIG_HOME}/.op location (rule 4)
+        XDG_CONFIG_HOME is set, HOME is set to /dev/null
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The uuid_for_account() method returns the expected user UUID value
+    """
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig(logger=console_logger)
     result = config.uuid_for_account("example_shorthand")
@@ -296,6 +362,17 @@ def test_op_cli_config_xdg_06(expected_op_config_data: ExpectedConfigData, conso
 
 @pytest.mark.usefixtures("expected_op_config_data", "valid_op_cli_config_xdghome")
 def test_op_cli_config_xdg_07(console_logger):
+    """
+    Stage:
+        A valid op config in ${XDG_CONFIG_HOME}/.op location (rule 4)
+        XDG_CONFIG_HOME is set, HOME is set to /dev/null
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        Calling get_config() with a non-existent shorthand raises OPConfigNotFoundException
+    """
     shorthand = "NO_SUCH_SHORTHAND"
     config = OPCLIConfig(logger=console_logger)
     with pytest.raises(OPConfigNotFoundException):

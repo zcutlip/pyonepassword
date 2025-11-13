@@ -154,6 +154,19 @@ def test_op_cli_config_homedir_07():
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
 def test_op_cli_config_alt_acct_identifiers_01(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config with no latest sign-in/shorthand
+        in the default location under "$HOME" (rule 3)
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        - The resulting object's get_config method works with a user_uuid identifier
+            even when the config file has no latest sign-in value
+        - The resulting user UUID matches the expected UUID
+    """
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     user_uuid = "5GHHPJK5HZC5BAT7WDUXW57G44"
@@ -164,6 +177,17 @@ def test_op_cli_config_alt_acct_identifiers_01(expected_op_config_data: Expected
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
 def test_op_cli_config_alt_acct_identifiers_02(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config with no latest sign-in/shorthand in the default location under "$HOME" (rule 3)
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        The resulting object's user_uuid property matches the expected user UUID value when
+        get_config() is called with a user email identifier
+    """
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     user_email = "example_user@example.email"
@@ -174,6 +198,18 @@ def test_op_cli_config_alt_acct_identifiers_02(expected_op_config_data: Expected
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
 def test_op_cli_config_alt_acct_identifiers_03(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config with no latest sign-in/shorthand
+        in the default location under "$HOME"
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        The resulting object's user_uuid property matches the expected user UUID value when
+        get_config() is called with an account UUID identifier
+    """
     _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     account_uuid = "GRXJAN4BY5DPROISKYL55IRCPY"
@@ -184,6 +220,18 @@ def test_op_cli_config_alt_acct_identifiers_03(expected_op_config_data: Expected
 
 @pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
 def test_op_cli_config_alt_acct_identifiers_04(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config with no latest sign-in/shorthand
+        in the default location under "$HOME"
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        The resulting object's user_uuid property matches the expected user UUID value when
+        get_config() is called with an account URL identifier
+    """
     _sanity_check_standard_home_env()
     console_logger.info("pytest console logger")
     expected = expected_op_config_data.data_for_key("example-account")

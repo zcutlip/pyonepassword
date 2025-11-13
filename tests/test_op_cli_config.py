@@ -381,6 +381,17 @@ def test_op_cli_config_xdg_07(console_logger):
 
 @pytest.mark.usefixtures("invalid_op_cli_config_unreable")
 def test_op_cli_config_unreable_01(console_logger):
+    """
+    Stage:
+        An unreadable op config file (no read permissions) in ~/.op location (rule 3)
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        OPConfigNotFoundException is raised when config file cannot be read
+        (Note: This test will fail if run as root, as root can read any file)
+    """
     # NOTE: This test will fail if run as root (e.g., in a docker container with no users)
     # there is no way to make a file unreadable to root
     if not is_windows():
@@ -395,12 +406,32 @@ def test_op_cli_config_unreable_01(console_logger):
 
 @pytest.mark.usefixtures("invalid_op_cli_config_missing")
 def test_op_cli_config_missing_01(console_logger):
+    """
+    Stage:
+        A missing op config file (file deleted after creation)
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        OPConfigNotFoundException is raised when config file is missing
+    """
     with pytest.raises(OPConfigNotFoundException):
         OPCLIConfig(logger=console_logger)
 
 
 @pytest.mark.usefixtures("invalid_op_cli_config_missing")
 def test_op_cli_config_missing_02(console_logger):
+    """
+    Stage:
+        A missing op config file (file deleted after creation)
+
+    Create:
+        OPCLIConfig object with explicit non-existent config_dir
+
+    Verify:
+        OPConfigNotFoundException is raised when specified config directory doesn't exist
+    """
     with pytest.raises(OPConfigNotFoundException):
         OPCLIConfig(config_dir="no_such_path", logger=console_logger)
 

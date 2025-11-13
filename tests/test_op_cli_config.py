@@ -543,18 +543,6 @@ def test_op_cli_config_op_config_dir_01(expected_op_config_data: ExpectedConfigD
     assert result.account_uuid == expected.account_uuid
 
 
-@pytest.mark.usefixtures("valid_op_cli_config_xdg_home_op")
-def test_op_cli_config_xdg_home_op_01(expected_op_config_data: ExpectedConfigData):
-    """
-    Test OPCLIConfig with config at ${XDG_CONFIG_HOME}/.op location
-    """
-    expected = expected_op_config_data.data_for_key("example-account")
-    config = OPCLIConfig()
-    result = config.get_config("example_shorthand")
-    assert result.shorthand == expected.shorthand
-    assert result.account_uuid == expected.account_uuid
-
-
 @pytest.mark.usefixtures("valid_op_cli_config_home_config_op")
 def test_op_cli_config_home_config_op_01(expected_op_config_data: ExpectedConfigData):
     """

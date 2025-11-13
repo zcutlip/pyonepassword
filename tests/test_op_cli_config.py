@@ -439,6 +439,18 @@ def test_op_cli_config_missing_02(console_logger):
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 @pytest.mark.usefixtures("invalid_op_cli_config_malformed_xdg_config_op")
 def test_op_cli_config_valid_and_malformed_01(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config in ~/.op location (rule 3)
+        AND a malformed op config in ${XDG_CONFIG_HOME}/op location (rule 6)
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The valid config (rule 3) is found and used before the malformed config (rule 6)
+        Tests config search order priority
+    """
     # _sanity_check_standard_home_env()
     expected = expected_op_config_data.data_for_key("example-account")
     config = OPCLIConfig(logger=console_logger)
@@ -449,6 +461,19 @@ def test_op_cli_config_valid_and_malformed_01(expected_op_config_data: ExpectedC
 @pytest.mark.usefixtures("invalid_op_cli_malformed_config_homedir")
 @pytest.mark.usefixtures("valid_op_cli_config_xdg_config_op")
 def test_op_cli_config_valid_and_malformed_02(console_logger):
+    """
+    Stage:
+        A malformed op config in ~/.config/op location (rule 5)
+        AND a valid op config in ${XDG_CONFIG_HOME}/op location (rule 6)
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        OPConfigNotFoundException is raised because malformed config (rule 5) is encountered
+        before valid config (rule 6) in search order
+        Tests config search order priority
+    """
     # _sanity_check_standard_home_env()
     with pytest.raises(OPConfigNotFoundException):
         OPCLIConfig(logger=console_logger)

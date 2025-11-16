@@ -50,6 +50,7 @@ class ValidOPCLIConfig:
     """
 
     def __init__(self,
+                 monkeypatch,
                  config_text=None,
                  valid_data_key=VALID_OP_CONFIG_KEY,
                  logger=None,
@@ -57,6 +58,8 @@ class ValidOPCLIConfig:
         """Initialize the test fixture for OP CLI configuration.
 
         Args:
+            monkeypatch (pytest.monkeypatch): Pytest monkeypatch fixture for
+                setting environment variables. Required parameter.
             config_text (str, optional): The configuration text to write to the
                 config file. If None, uses test data from ValidData. Defaults to None.
             valid_data_key (str, optional): The key to use when retrieving test data
@@ -78,19 +81,10 @@ class ValidOPCLIConfig:
                 "ValidOPCLIConfig", logging.WARNING)
         self.logger = logger
         self._tempdir = tempfile.TemporaryDirectory()
-
-        # Save original environment variables for restoration
-        self._old_home = os.environ.get(HOME_ENV_VAR)
-        self._old_xdg = os.environ.get("XDG_CONFIG_HOME")
-        self._old_op_config_dir = os.environ.get("OP_CONFIG_DIR")
+        self._monkeypatch = monkeypatch
 
         # Set up environment variables based on config_path_type
         self._setup_environment_variables(config_path_type)
-
-        # Save new environment variable values for comparison during cleanup
-        self._new_home = os.environ.get(HOME_ENV_VAR)
-        self._new_xdg = os.environ.get('XDG_CONFIG_HOME')
-        self._new_op_config_dir = os.environ.get('OP_CONFIG_DIR')
 
         old_umask = os.umask(0o077)
 
@@ -109,38 +103,6 @@ class ValidOPCLIConfig:
         os.umask(old_umask)
         self._op_config_path = op_config_path
 
-    def __del__(self):
-        """
-        Restores the original environment variables (HOME, XDG_CONFIG_HOME, OP_CONFIG_DIR)
-        to their previous values when the fixture is destroyed.
-
-        Behavior:
-            - Restores the original HOME environment variable if it had been set
-            - Restores the original XDG_CONFIG_HOME environment variable if it was modified
-            - Restores the original OP_CONFIG_DIR environment variable if it was modified
-            - Cleans up the temporary directory
-        """
-        # Restore HOME environment variable
-        if self._new_home is not None:
-            if self._old_home is not None:
-                os.environ[HOME_ENV_VAR] = self._old_home
-            else:
-                os.environ.pop(HOME_ENV_VAR, None)
-
-        # Restore XDG_CONFIG_HOME environment variable
-        if self._new_xdg is not None:
-            if self._old_xdg is not None:
-                os.environ['XDG_CONFIG_HOME'] = self._old_xdg
-            else:
-                os.environ.pop('XDG_CONFIG_HOME', None)
-
-        # Restore OP_CONFIG_DIR environment variable
-        if self._new_op_config_dir is not None:
-            if self._old_op_config_dir is not None:
-                os.environ['OP_CONFIG_DIR'] = self._old_op_config_dir
-            else:
-                os.environ.pop('OP_CONFIG_DIR', None)
-
     def _setup_environment_variables(self, config_path_type: ConfigPathType | None):
         """
         Set up environment variables according to the specified config_path_type.
@@ -152,36 +114,36 @@ class ValidOPCLIConfig:
         if config_path_type is None:
             config_path_type = ConfigPathType.HOME_DOT_OP
 
-        # Clear HOME to prevent interference with config path detection
-        # But save it first for restoration later
-        if self._old_home is not None:
-            os.environ[HOME_ENV_VAR] = os.devnull
+        mp = self._monkeypatch
+
+        if os.environ.get(HOME_ENV_VAR) is not None:
+            mp.setenv(HOME_ENV_VAR, os.devnull)
 
         if config_path_type == ConfigPathType.ENV_OP_CONFIG_DIR:
             # For OP_CONFIG_DIR, we set a custom directory and don't set HOME
             op_config_dir = Path(self._tempdir.name, "custom_op_config")
             op_config_dir.mkdir(parents=True, exist_ok=True)
-            os.environ["OP_CONFIG_DIR"] = str(op_config_dir)
+            mp.setenv("OP_CONFIG_DIR", str(op_config_dir))
 
         elif config_path_type == ConfigPathType.HOME_DOT_OP:
             # For ~/.op, set HOME to our temporary directory
-            os.environ[HOME_ENV_VAR] = self._tempdir.name
+            mp.setenv(HOME_ENV_VAR, self._tempdir.name)
 
         elif config_path_type == ConfigPathType.XDG_CONF_DOT_OP:
             # For ${XDG_CONFIG_HOME}/.op, set XDG_CONFIG_HOME to our temporary directory
             xdg_config_home = Path(self._tempdir.name, "xdg_config_home")
             xdg_config_home.mkdir(parents=True, exist_ok=True)
-            os.environ["XDG_CONFIG_HOME"] = str(xdg_config_home)
+            mp.setenv("XDG_CONFIG_HOME", str(xdg_config_home))
 
         elif config_path_type == ConfigPathType.HOME_DOT_CONFIG_OP:
             # For ~/.config/op, set HOME to our temporary directory (default behavior)
-            os.environ[HOME_ENV_VAR] = self._tempdir.name
+            mp.setenv(HOME_ENV_VAR, self._tempdir.name)
 
         elif config_path_type == ConfigPathType.XDG_CONF_OP:
             # For ${XDG_CONFIG_HOME}/op, set XDG_CONFIG_HOME to our temporary directory
             xdg_config_home = Path(self._tempdir.name, "xdg_config_home")
             xdg_config_home.mkdir(parents=True, exist_ok=True)
-            os.environ["XDG_CONFIG_HOME"] = str(xdg_config_home)
+            mp.setenv("XDG_CONFIG_HOME", str(xdg_config_home))
 
     def _create_config_at_appropriate_location(self,
                                                config_path_type: ConfigPathType | None = None) -> Path:

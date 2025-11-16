@@ -19,6 +19,8 @@ def _sanity_check_standard_home_env():
     assert os.environ.get(HOME_ENV_VAR) not in [DEV_NULL, None]
 
 
+# LOCATION TESTS - NORMAL OPERATIONS
+
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")
 def test_op_cli_config_homedir_01(expected_op_config_data: ExpectedConfigData):
     """
@@ -131,114 +133,6 @@ def test_op_cli_config_homedir_06(expected_op_config_data: ExpectedConfigData):
     config = OPCLIConfig()
     result = config.uuid_for_account("example_shorthand")
     assert result == expected.user_uuid
-
-
-@pytest.mark.usefixtures("valid_op_cli_config_homedir")
-def test_op_cli_config_homedir_07():
-    """
-    Stage:
-        A valid op config in the default location under "$HOME" (rule 3)
-
-    Create:
-        OPCLIConfig object with default parameters
-
-    Verify:
-        Calling get_config() with a non-existent shorthand raises OPConfigNotFoundException
-    """
-    _sanity_check_standard_home_env()
-    shorthand = "NO_SUCH_SHORTHAND"
-    config = OPCLIConfig()
-    with pytest.raises(OPConfigNotFoundException):
-        config.get_config(shorthand)
-
-
-@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
-def test_op_cli_config_alt_acct_identifiers_01(expected_op_config_data: ExpectedConfigData, console_logger):
-    """
-    Stage:
-        A valid op config with no latest sign-in/shorthand
-        in the default location under "$HOME" (rule 3)
-
-    Create:
-        OPCLIConfig object with default parameters
-
-    Verify:
-        - The resulting object's get_config method works with a user_uuid identifier
-            even when the config file has no latest sign-in value
-        - The resulting user UUID matches the expected UUID
-    """
-    _sanity_check_standard_home_env()
-    expected = expected_op_config_data.data_for_key("example-account")
-    user_uuid = "5GHHPJK5HZC5BAT7WDUXW57G44"
-    config = OPCLIConfig(logger=console_logger)
-    result = config.get_config(user_uuid)
-    assert expected.user_uuid == result.user_uuid
-
-
-@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
-def test_op_cli_config_alt_acct_identifiers_02(expected_op_config_data: ExpectedConfigData, console_logger):
-    """
-    Stage:
-        A valid op config with no latest sign-in/shorthand in the default location under "$HOME" (rule 3)
-
-    Create:
-        OPCLIConfig object with default parameters
-
-    Verify:
-        The resulting object's user_uuid property matches the expected user UUID value when
-        get_config() is called with a user email identifier
-    """
-    _sanity_check_standard_home_env()
-    expected = expected_op_config_data.data_for_key("example-account")
-    user_email = "example_user@example.email"
-    config = OPCLIConfig(logger=console_logger)
-    result = config.get_config(user_email)
-    assert expected.user_uuid == result.user_uuid
-
-
-@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
-def test_op_cli_config_alt_acct_identifiers_03(expected_op_config_data: ExpectedConfigData, console_logger):
-    """
-    Stage:
-        A valid op config with no latest sign-in/shorthand
-        in the default location under "$HOME"
-
-    Create:
-        OPCLIConfig object with default parameters
-
-    Verify:
-        The resulting object's user_uuid property matches the expected user UUID value when
-        get_config() is called with an account UUID identifier
-    """
-    _sanity_check_standard_home_env()
-    expected = expected_op_config_data.data_for_key("example-account")
-    account_uuid = "GRXJAN4BY5DPROISKYL55IRCPY"
-    config = OPCLIConfig(logger=console_logger)
-    result = config.get_config(account_uuid)
-    assert expected.user_uuid == result.user_uuid
-
-
-@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
-def test_op_cli_config_alt_acct_identifiers_04(expected_op_config_data: ExpectedConfigData, console_logger):
-    """
-    Stage:
-        A valid op config with no latest sign-in/shorthand
-        in the default location under "$HOME"
-
-    Create:
-        OPCLIConfig object with default parameters
-
-    Verify:
-        The resulting object's user_uuid property matches the expected user UUID value when
-        get_config() is called with an account URL identifier
-    """
-    _sanity_check_standard_home_env()
-    console_logger.info("pytest console logger")
-    expected = expected_op_config_data.data_for_key("example-account")
-    account_url = "https://example-account.1password.com"
-    config = OPCLIConfig(logger=console_logger)
-    result = config.get_config(account_url)
-    assert expected.user_uuid == result.user_uuid
 
 
 @pytest.mark.usefixtures("valid_op_cli_config_xdghome")
@@ -360,6 +254,224 @@ def test_op_cli_config_xdg_06(expected_op_config_data: ExpectedConfigData, conso
     assert result == expected.user_uuid
 
 
+@pytest.mark.usefixtures("valid_op_cli_config_op_config_dir")
+def test_op_cli_config_op_config_dir_01(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        Set OP_CONFIG_DIR environment variable
+        A valid op config in OP_CONFIG_DIR location (rule 2)
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The resulting object's shorthand and account_uuid properties match expected values
+        Tests that OP_CONFIG_DIR environment variable config location works correctly
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig(logger=console_logger)
+    result = config.get_config("example_shorthand")
+    assert result.shorthand == expected.shorthand
+    assert result.account_uuid == expected.account_uuid
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_home_config_op")
+def test_op_cli_config_home_config_op_01(expected_op_config_data: ExpectedConfigData):
+    """
+    Stage:
+        A valid op config in ~/.config/op location (rule 5)
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The resulting object's shorthand and account_uuid properties match expected values
+        Tests that explicit ~/.config/op config location works correctly
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig()
+    result = config.get_config("example_shorthand")
+    assert result.shorthand == expected.shorthand
+    assert result.account_uuid == expected.account_uuid
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_xdg_config_op")
+def test_op_cli_config_xdg_config_op_01(expected_op_config_data: ExpectedConfigData):
+    """
+    Stage:
+        A valid op config in ${XDG_CONFIG_HOME}/op location (rule 6)
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The resulting object's shorthand and account_uuid properties match expected values
+        Tests that explicit ${XDG_CONFIG_HOME}/op config location works correctly
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig()
+    result = config.get_config("example_shorthand")
+    assert result.shorthand == expected.shorthand
+    assert result.account_uuid == expected.account_uuid
+
+
+# ALTERNATIVE IDENTIFIER TESTS
+
+@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
+def test_op_cli_config_alt_acct_identifiers_01(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config with no latest sign-in/shorthand
+        in the default location under "$HOME" (rule 3)
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        - The resulting object's get_config method works with a user_uuid identifier
+            even when the config file has no latest sign-in value
+        - The resulting user UUID matches the expected UUID
+    """
+    _sanity_check_standard_home_env()
+    expected = expected_op_config_data.data_for_key("example-account")
+    user_uuid = "5GHHPJK5HZC5BAT7WDUXW57G44"
+    config = OPCLIConfig(logger=console_logger)
+    result = config.get_config(user_uuid)
+    assert expected.user_uuid == result.user_uuid
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
+def test_op_cli_config_alt_acct_identifiers_02(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config with no latest sign-in/shorthand in the default location under "$HOME" (rule 3)
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        The resulting object's user_uuid property matches the expected user UUID value when
+        get_config() is called with a user email identifier
+    """
+    _sanity_check_standard_home_env()
+    expected = expected_op_config_data.data_for_key("example-account")
+    user_email = "example_user@example.email"
+    config = OPCLIConfig(logger=console_logger)
+    result = config.get_config(user_email)
+    assert expected.user_uuid == result.user_uuid
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
+def test_op_cli_config_alt_acct_identifiers_03(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config with no latest sign-in/shorthand
+        in the default location under "$HOME"
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        The resulting object's user_uuid property matches the expected user UUID value when
+        get_config() is called with an account UUID identifier
+    """
+    _sanity_check_standard_home_env()
+    expected = expected_op_config_data.data_for_key("example-account")
+    account_uuid = "GRXJAN4BY5DPROISKYL55IRCPY"
+    config = OPCLIConfig(logger=console_logger)
+    result = config.get_config(account_uuid)
+    assert expected.user_uuid == result.user_uuid
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_no_shorthand")
+def test_op_cli_config_alt_acct_identifiers_04(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config with no latest sign-in/shorthand
+        in the default location under "$HOME"
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        The resulting object's user_uuid property matches the expected user UUID value when
+        get_config() is called with an account URL identifier
+    """
+    _sanity_check_standard_home_env()
+    console_logger.info("pytest console logger")
+    expected = expected_op_config_data.data_for_key("example-account")
+    account_url = "https://example-account.1password.com"
+    config = OPCLIConfig(logger=console_logger)
+    result = config.get_config(account_url)
+    assert expected.user_uuid == result.user_uuid
+
+
+# SEARCH PRIORITY TESTS
+
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+@pytest.mark.usefixtures("invalid_op_cli_config_malformed_xdg_config_op")
+def test_op_cli_config_valid_and_malformed_01(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config in ~/.op location (rule 3)
+        AND a malformed op config in ${XDG_CONFIG_HOME}/op location (rule 6)
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The valid config (rule 3) is found and used before the malformed config (rule 6)
+        Tests config search order priority
+    """
+    # _sanity_check_standard_home_env()
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig(logger=console_logger)
+    result = config.get_config("example_shorthand")
+    assert result.account_uuid == expected.account_uuid
+
+
+@pytest.mark.usefixtures("invalid_op_cli_malformed_config_homedir")
+@pytest.mark.usefixtures("valid_op_cli_config_xdg_config_op")
+def test_op_cli_config_valid_and_malformed_02(console_logger):
+    """
+    Stage:
+        A malformed op config in ~/.config/op location (rule 5)
+        AND a valid op config in ${XDG_CONFIG_HOME}/op location (rule 6)
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        OPConfigNotFoundException is raised because malformed config (rule 5) is encountered
+        before valid config (rule 6) in search order
+        Tests config search order priority
+    """
+    # _sanity_check_standard_home_env()
+    with pytest.raises(OPConfigNotFoundException):
+        OPCLIConfig(logger=console_logger)
+
+
+# ERROR CONDITION TESTS
+
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+def test_op_cli_config_homedir_07():
+    """
+    Stage:
+        A valid op config in the default location under "$HOME" (rule 3)
+
+    Create:
+        OPCLIConfig object with default parameters
+
+    Verify:
+        Calling get_config() with a non-existent shorthand raises OPConfigNotFoundException
+    """
+    _sanity_check_standard_home_env()
+    shorthand = "NO_SUCH_SHORTHAND"
+    config = OPCLIConfig()
+    with pytest.raises(OPConfigNotFoundException):
+        config.get_config(shorthand)
+
+
 @pytest.mark.usefixtures("expected_op_config_data", "valid_op_cli_config_xdghome")
 def test_op_cli_config_xdg_07(console_logger):
     """
@@ -436,49 +548,6 @@ def test_op_cli_config_missing_02(console_logger):
         OPCLIConfig(config_dir="no_such_path", logger=console_logger)
 
 
-@pytest.mark.usefixtures("valid_op_cli_config_homedir")
-@pytest.mark.usefixtures("invalid_op_cli_config_malformed_xdg_config_op")
-def test_op_cli_config_valid_and_malformed_01(expected_op_config_data: ExpectedConfigData, console_logger):
-    """
-    Stage:
-        A valid op config in ~/.op location (rule 3)
-        AND a malformed op config in ${XDG_CONFIG_HOME}/op location (rule 6)
-
-    Create:
-        OPCLIConfig object
-
-    Verify:
-        The valid config (rule 3) is found and used before the malformed config (rule 6)
-        Tests config search order priority
-    """
-    # _sanity_check_standard_home_env()
-    expected = expected_op_config_data.data_for_key("example-account")
-    config = OPCLIConfig(logger=console_logger)
-    result = config.get_config("example_shorthand")
-    assert result.account_uuid == expected.account_uuid
-
-
-@pytest.mark.usefixtures("invalid_op_cli_malformed_config_homedir")
-@pytest.mark.usefixtures("valid_op_cli_config_xdg_config_op")
-def test_op_cli_config_valid_and_malformed_02(console_logger):
-    """
-    Stage:
-        A malformed op config in ~/.config/op location (rule 5)
-        AND a valid op config in ${XDG_CONFIG_HOME}/op location (rule 6)
-
-    Create:
-        OPCLIConfig object
-
-    Verify:
-        OPConfigNotFoundException is raised because malformed config (rule 5) is encountered
-        before valid config (rule 6) in search order
-        Tests config search order priority
-    """
-    # _sanity_check_standard_home_env()
-    with pytest.raises(OPConfigNotFoundException):
-        OPCLIConfig(logger=console_logger)
-
-
 @pytest.mark.usefixtures("invalid_op_cli_config_malformed")
 def test_op_cli_config_malformed_01(console_logger):
     """
@@ -513,6 +582,8 @@ def test_op_cli_config_missing_shorthand_01(console_logger):
         conf.get_config()
 
 
+# EDGE CASES
+
 @pytest.mark.usefixtures("valid_op_cli_config_no_account_list")
 # @pytest.mark.usefixtures("setup_normal_op_env")
 def test_op_cli_config_no_account_list_01():
@@ -520,64 +591,3 @@ def test_op_cli_config_no_account_list_01():
     Verify we can instantiate OPCLIConfig() even when account list is null
     """
     OPCLIConfig()
-
-
-@pytest.mark.usefixtures("valid_op_cli_config_op_config_dir")
-def test_op_cli_config_op_config_dir_01(expected_op_config_data: ExpectedConfigData, console_logger):
-    """
-    Stage:
-        Set OP_CONFIG_DIR environment variable
-        A valid op config in OP_CONFIG_DIR location (rule 2)
-
-    Create:
-        OPCLIConfig object
-
-    Verify:
-        The resulting object's shorthand and account_uuid properties match expected values
-        Tests that OP_CONFIG_DIR environment variable config location works correctly
-    """
-    expected = expected_op_config_data.data_for_key("example-account")
-    config = OPCLIConfig(logger=console_logger)
-    result = config.get_config("example_shorthand")
-    assert result.shorthand == expected.shorthand
-    assert result.account_uuid == expected.account_uuid
-
-
-@pytest.mark.usefixtures("valid_op_cli_config_home_config_op")
-def test_op_cli_config_home_config_op_01(expected_op_config_data: ExpectedConfigData):
-    """
-    Stage:
-        A valid op config in ~/.config/op location (rule 5)
-
-    Create:
-        OPCLIConfig object
-
-    Verify:
-        The resulting object's shorthand and account_uuid properties match expected values
-        Tests that explicit ~/.config/op config location works correctly
-    """
-    expected = expected_op_config_data.data_for_key("example-account")
-    config = OPCLIConfig()
-    result = config.get_config("example_shorthand")
-    assert result.shorthand == expected.shorthand
-    assert result.account_uuid == expected.account_uuid
-
-
-@pytest.mark.usefixtures("valid_op_cli_config_xdg_config_op")
-def test_op_cli_config_xdg_config_op_01(expected_op_config_data: ExpectedConfigData):
-    """
-    Stage:
-        A valid op config in ${XDG_CONFIG_HOME}/op location (rule 6)
-
-    Create:
-        OPCLIConfig object
-
-    Verify:
-        The resulting object's shorthand and account_uuid properties match expected values
-        Tests that explicit ${XDG_CONFIG_HOME}/op config location works correctly
-    """
-    expected = expected_op_config_data.data_for_key("example-account")
-    config = OPCLIConfig()
-    result = config.get_config("example_shorthand")
-    assert result.shorthand == expected.shorthand
-    assert result.account_uuid == expected.account_uuid

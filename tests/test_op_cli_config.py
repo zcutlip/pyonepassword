@@ -451,6 +451,158 @@ def test_op_cli_config_valid_and_malformed_02(console_logger):
         OPCLIConfig(logger=console_logger)
 
 
+# SEARCH PRIORITY TESTS WITH TWO VALID CONFIGS
+
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+@pytest.mark.usefixtures("valid_op_cli_config_xdg_config_op_account_2")
+def test_op_cli_config_two_valid_01(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config in ~/.op location (rule 3) with example-account data
+        AND a valid op config in ${XDG_CONFIG_HOME}/op location (rule 6) with example-account-2 data
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The config from rule 3 (~/.op) is found and used before the config from rule 6
+        Tests config search order priority when both configs are valid
+        Verifies the higher priority config (example-account) is loaded
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig(logger=console_logger)
+    result = config.get_config("example_shorthand")
+    assert result.shorthand == expected.shorthand
+    assert result.account_uuid == expected.account_uuid
+    assert result.email == expected.email
+    assert result.url == expected.url
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_xdghome")
+@pytest.mark.usefixtures("valid_op_cli_config_home_config_op_account_2")
+def test_op_cli_config_two_valid_02(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config in ${XDG_CONFIG_HOME}/.op location (rule 4) with example-account data
+        AND a valid op config in ~/.config/op location (rule 5) with example-account-2 data
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The config from rule 4 (${XDG_CONFIG_HOME}/.op) is found and used before the config from rule 5
+        Tests config search order priority when both configs are valid
+        Verifies the higher priority config (example-account) is loaded
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig(logger=console_logger)
+    result = config.get_config("example_shorthand")
+    assert result.shorthand == expected.shorthand
+    assert result.account_uuid == expected.account_uuid
+    assert result.email == expected.email
+    assert result.url == expected.url
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_home_config_op")
+@pytest.mark.usefixtures("valid_op_cli_config_xdg_config_op_account_2")
+def test_op_cli_config_two_valid_03(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config in ~/.config/op location (rule 5) with example-account data
+        AND a valid op config in ${XDG_CONFIG_HOME}/op location (rule 6) with example-account-2 data
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The config from rule 5 (~/.config/op) is found and used before the config from rule 6
+        Tests config search order priority when both configs are valid
+        Verifies the higher priority config (example-account) is loaded
+    """
+    expected = expected_op_config_data.data_for_key("example-account")
+    config = OPCLIConfig(logger=console_logger)
+    result = config.get_config("example_shorthand")
+    assert result.shorthand == expected.shorthand
+    assert result.account_uuid == expected.account_uuid
+    assert result.email == expected.email
+    assert result.url == expected.url
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_homedir_account_2")
+@pytest.mark.usefixtures("valid_op_cli_config_xdg_config_op")
+def test_op_cli_config_two_valid_04(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config in ~/.op location (rule 3) with example-account-2 data
+        AND a valid op config in ${XDG_CONFIG_HOME}/op location (rule 6) with example-account data
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The config from rule 3 (~/.op) is found and used before the config from rule 6
+        Tests config search order priority when both configs are valid
+        Verifies the higher priority config (example-account-2) is loaded
+    """
+    expected = expected_op_config_data.data_for_key("example-account-2")
+    config = OPCLIConfig(logger=console_logger)
+    result = config.get_config("example_shorthand_2")
+    assert result.shorthand == expected.shorthand
+    assert result.account_uuid == expected.account_uuid
+    assert result.email == expected.email
+    assert result.url == expected.url
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_xdghome_account_2")
+@pytest.mark.usefixtures("valid_op_cli_config_home_config_op")
+def test_op_cli_config_two_valid_05(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config in ${XDG_CONFIG_HOME}/.op location (rule 4) with example-account-2 data
+        AND a valid op config in ~/.config/op location (rule 5) with example-account data
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The config from rule 4 (${XDG_CONFIG_HOME}/.op) is found and used before the config from rule 5
+        Tests config search order priority when both configs are valid
+        Verifies the higher priority config (example-account-2) is loaded
+    """
+    expected = expected_op_config_data.data_for_key("example-account-2")
+    config = OPCLIConfig(logger=console_logger)
+    result = config.get_config("example_shorthand_2")
+    assert result.shorthand == expected.shorthand
+    assert result.account_uuid == expected.account_uuid
+    assert result.email == expected.email
+    assert result.url == expected.url
+
+
+@pytest.mark.usefixtures("valid_op_cli_config_op_config_dir_account_2")
+@pytest.mark.usefixtures("valid_op_cli_config_homedir")
+def test_op_cli_config_two_valid_06(expected_op_config_data: ExpectedConfigData, console_logger):
+    """
+    Stage:
+        A valid op config via OP_CONFIG_DIR (rule 2) with example-account-2 data
+        AND a valid op config in ~/.op location (rule 3) with example-account data
+
+    Create:
+        OPCLIConfig object
+
+    Verify:
+        The config from rule 2 (OP_CONFIG_DIR) is found and used before the config from rule 3
+        Tests config search order priority when both configs are valid
+        Verifies the higher priority config (example-account-2) is loaded
+    """
+    expected = expected_op_config_data.data_for_key("example-account-2")
+    config = OPCLIConfig(logger=console_logger)
+    result = config.get_config("example_shorthand_2")
+    assert result.shorthand == expected.shorthand
+    assert result.account_uuid == expected.account_uuid
+    assert result.email == expected.email
+    assert result.url == expected.url
+
+
 # ERROR CONDITION TESTS
 
 @pytest.mark.usefixtures("valid_op_cli_config_homedir")

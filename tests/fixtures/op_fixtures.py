@@ -733,6 +733,72 @@ def valid_op_cli_config_xdg_config_op(monkeypatch) -> ValidOPCLIConfig:
 
 
 @fixture
+def valid_op_cli_config_homedir_account_2(monkeypatch) -> ValidOPCLIConfig:
+    """
+    Creates a valid 'op' config with example-account-2 data
+    Location: rule 3: ~/.op
+    """
+    config_obj = ValidOPCLIConfig(
+        monkeypatch, valid_data_key="example-op-config-account-2", logger=op_console_logger)
+    return config_obj
+
+
+@fixture
+def valid_op_cli_config_xdghome_account_2(monkeypatch) -> ValidOPCLIConfig:
+    """
+    Creates a valid 'op' config with example-account-2 data
+    Location: rule 4: ${XDG_CONFIG_HOME}/.op
+    """
+    config_obj = ValidOPCLIConfig(
+        monkeypatch,
+        config_path_type=ConfigPathType.XDG_CONF_DOT_OP,
+        valid_data_key="example-op-config-account-2",
+        logger=op_console_logger)
+    return config_obj
+
+
+@fixture
+def valid_op_cli_config_op_config_dir_account_2(monkeypatch) -> ValidOPCLIConfig:
+    """
+    Creates a valid 'op' config with example-account-2 data
+    Location: rule 2: OP_CONFIG_DIR environment variable
+    """
+    config_obj = ValidOPCLIConfig(
+        monkeypatch,
+        config_path_type=ConfigPathType.ENV_OP_CONFIG_DIR,
+        valid_data_key="example-op-config-account-2")
+    return config_obj
+
+
+@fixture
+def valid_op_cli_config_home_config_op_account_2(monkeypatch) -> ValidOPCLIConfig:
+    """
+    Creates a valid 'op' config with example-account-2 data
+    Location: rule 5: ~/.config/op
+    """
+    config_obj = ValidOPCLIConfig(
+        monkeypatch,
+        config_path_type=ConfigPathType.HOME_DOT_CONFIG_OP,
+        valid_data_key="example-op-config-account-2",
+        logger=op_console_logger)
+    return config_obj
+
+
+@fixture
+def valid_op_cli_config_xdg_config_op_account_2(monkeypatch) -> ValidOPCLIConfig:
+    """
+    Creates a valid 'op' config with example-account-2 data
+    Location: rule 6: ${XDG_CONFIG_HOME}/op
+    """
+    config_obj = ValidOPCLIConfig(
+        monkeypatch,
+        config_path_type=ConfigPathType.XDG_CONF_OP,
+        valid_data_key="example-op-config-account-2",
+        logger=op_console_logger)
+    return config_obj
+
+
+@fixture
 def invalid_op_cli_config_unreable(monkeypatch):
     """
     Creates an unreadable 'op' config file (no read permissions)

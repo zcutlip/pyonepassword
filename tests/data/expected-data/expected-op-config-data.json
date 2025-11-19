@@ -5,5 +5,12 @@
         "url": "https://example-account.1password.com",
         "email": "example_user@example.email",
         "userUUID": "5GHHPJK5HZC5BAT7WDUXW57G44"
+    },
+    "example-account-2": {
+        "shorthand": "example_shorthand_2",
+        "accountUUID": "ABCDEF1234567890ABCDEFGHIJ",
+        "url": "https://example-account-2.1password.com",
+        "email": "example_user_2@example.email",
+        "userUUID": "KLMNOPQRSTUVWXYZ1234567890"
     }
 }

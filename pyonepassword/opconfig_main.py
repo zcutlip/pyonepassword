@@ -12,7 +12,8 @@ def opc_parse_args():
     parser = ArgumentParser()
     parser.add_argument("--print-account-key",
                         help="Print just the account key instead of the whole config", action='store_true')
-    parser.add_argument("--config-path", help="Path to 'op' configuration")
+    parser.add_argument(
+        "--config-dir", help="Directory containing 'op' configuration")
     parser.add_argument("--shorthand", help="Account shorthand to look up")
     parser.add_argument(
         "--raw", help="Write output suitable for piping to another process", action='store_true')
@@ -32,10 +33,10 @@ def print_config(acct_conf: OPCLIAccountConfig):
 
 def main():
     options = opc_parse_args()
-    config_path = options.config_path
+    config_dir = options.config_dir
     shorthand = options.shorthand
     try:
-        config = OPCLIConfig(configpath=config_path)
+        config = OPCLIConfig(config_dir=config_dir)
         acct_conf = config.get_config(account_id=shorthand)
     except OPConfigNotFoundException as e:
         print(f"Unable to look up op config: {e}", file=sys.stderr)

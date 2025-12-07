@@ -1,25 +1,25 @@
 import os
 
 from .invalid_data import InvalidData
-from .platform_support import HOME_ENV_VAR
 from .valid_op_cli_config import ValidOPCLIConfig
 
 
 class UnreadableOPCLIConfig(ValidOPCLIConfig):
-    def __init__(self, location_env_var=HOME_ENV_VAR):
-        super().__init__(location_env_var=location_env_var)
+    def __init__(self, monkeypatch, config_path_type=None):
+        super().__init__(monkeypatch, config_path_type=config_path_type)
         os.chmod(self._op_config_path, 0o000)
 
 
 class MissingOPCLIConfig(ValidOPCLIConfig):
-    def __init__(self, location_env_var=HOME_ENV_VAR):
-        super().__init__(location_env_var=location_env_var)
+    def __init__(self, monkeypatch, config_path_type=None):
+        super().__init__(monkeypatch, config_path_type=config_path_type)
         os.unlink(self._op_config_path)
 
 
 class MalformedOPCLIConfig(ValidOPCLIConfig):
-    def __init__(self):
+    def __init__(self, monkeypatch, config_path_type=None):
         invalid_data = InvalidData()
         malformed_config_text = invalid_data.data_for_name(
             "malformed-op-config-json")
-        super().__init__(config_text=malformed_config_text)
+        super().__init__(monkeypatch, config_text=malformed_config_text,
+                         config_path_type=config_path_type)

@@ -1985,7 +1985,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -----------------------
         Supported
         """
-        version = cls._version_support.supported_version
+        version_str = cls._version_support.supported_version
+        version = OPCLIVersion(version_str)
         return version
 
     @classmethod
@@ -2013,7 +2014,8 @@ class OP(_OPCommandInterface, PyOPAboutMixin):
         -----------------------
         Supported
         """
-        version = cls._version_support.minimum_version
+        version_str = cls._version_support.minimum_version
+        version = OPCLIVersion(version_str)
         return version
 
     def _sanitize(self):  # pragma: no coverage

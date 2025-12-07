@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 
  - Config not found when `XDG_CONFIG_HOME` is set (gh-222)
 
+### Testing
+
+- Much more robust testing for `OPCLIConfig`
 
 ## [5.2.0] 2025-04-14
 

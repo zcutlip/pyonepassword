@@ -75,6 +75,10 @@
     "name": "example-op-config-no-latest-shorthand.json",
     "type": "text"
   },
+  "example-op-config-account-2": {
+    "name": "example-op-config-account-2.json",
+    "type": "text"
+  },
   "example-password": {
     "name": "example-password.json",
     "type": "json"

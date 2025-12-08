@@ -205,7 +205,7 @@ class OPVersionSupport:
         self._set_version_support(self._VERSION_MINIMUM_KEY, version)
 
     @property
-    def minimum_version(self) -> OPCLIVersion:
+    def minimum_version(self) -> str:
         vs = self.version_support()
         dv = vs[self._VERSION_MINIMUM_KEY]
         return dv

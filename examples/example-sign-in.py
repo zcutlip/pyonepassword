@@ -17,15 +17,17 @@ from pyonepassword.api.exceptions import (  # noqa: E402
     OPAuthenticationException,
     OPSigninException
 )
+from pyonepassword.logging import console_debug_logger  # noqa: E402
 
 
 def do_signin():
+    logger = console_debug_logger("example-sign-in")
     # Let's check If biometric is enabled
     # If so, no need to provide a password
     if OP.uses_biometric():
         try:
             # no need to provide any authentication parameters if biometric is enabled
-            op = OP()
+            op = OP(logger=logger)
         except OPAuthenticationException:
             print("Uh oh! Sign-in failed")
             exit(-1)
@@ -36,7 +38,7 @@ def do_signin():
         # shorthand = "arbitrary_account_shorthand"
         # return OP(account_shorthand=shorthand, password=my_password)
         # Or we'll try to look up account shorthand from your latest sign-in in op's config file
-        op = OP(password=my_password)
+        op = OP(password=my_password, logger=logger)
     return op
 
 

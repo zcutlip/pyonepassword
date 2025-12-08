@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
  ### Fixed
 
  - Config not found when `XDG_CONFIG_HOME` is set (gh-222)
+   - Thanks to @roboticbird
 
 ### Testing
 

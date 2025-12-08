@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
- ## [DEVELOPMENT]
+ ## [5.3.0] 2025-12-07
 
  ### Fixed
 
@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Testing
 
 - Much more robust testing for `OPCLIConfig`
+
 
 ## [5.2.0] 2025-04-14
 

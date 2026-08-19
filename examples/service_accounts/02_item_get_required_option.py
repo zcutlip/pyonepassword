@@ -19,8 +19,9 @@ if parent_path not in sys.path:
 
 # isort: split
 from pyonepassword import OP  # noqa: E402
-from pyonepassword.api.exceptions import \
-    OPSvcAcctCommandNotSupportedException  # noqa: E402
+from pyonepassword.api.exceptions import (  # noqa: E402
+    OPSvcAcctCommandNotSupportedException
+)
 
 
 def do_signin():

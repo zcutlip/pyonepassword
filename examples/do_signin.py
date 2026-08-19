@@ -16,8 +16,9 @@ from pyonepassword.api.authentication import (  # noqa: E402
     EXISTING_AUTH_AVAIL,
     EXISTING_AUTH_REQD
 )
-from pyonepassword.api.exceptions import \
-    OPAuthenticationException  # noqa: E402
+from pyonepassword.api.exceptions import (  # noqa: E402
+    OPAuthenticationException
+)
 
 
 def do_signin(vault=None, op_path="op", existing_auth=EXISTING_AUTH_AVAIL, account=None, logger=None):

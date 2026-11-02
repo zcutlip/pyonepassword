@@ -3,9 +3,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ..fixtures.valid_data import ValidData
     from ..fixtures.expected_vault_data import ExpectedVaultData
-
+    from ..fixtures.valid_data import ValidData
 
 from pyonepassword.api.object_types import OPVault
 

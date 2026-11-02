@@ -6,9 +6,10 @@ import pytest
 
 if TYPE_CHECKING:
     from pyonepassword import OP
+
     from ....fixtures.expected_vault_data import (
-        ExpectedVaultData,
-        ExpectedVault
+        ExpectedVault,
+        ExpectedVaultData
     )
 
 from pyonepassword.api.exceptions import (

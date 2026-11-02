@@ -3,7 +3,10 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ..fixtures.expected_database import ExpectedDatabaseItem, ExpectedDatabaseItemData
+    from ..fixtures.expected_database import (
+        ExpectedDatabaseItem,
+        ExpectedDatabaseItemData
+    )
     from ..fixtures.valid_data import ValidData
 
 from pyonepassword.api.object_types import OPDatabaseItem

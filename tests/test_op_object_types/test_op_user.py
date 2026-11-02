@@ -5,8 +5,8 @@ from typing import TYPE_CHECKING
 import pytest
 
 if TYPE_CHECKING:
-    from ..fixtures.valid_data import ValidData
     from ..fixtures.expected_user_data import ExpectedUserData
+    from ..fixtures.valid_data import ValidData
 
 from pyonepassword.api.exceptions import OPInvalidUserException
 from pyonepassword.api.object_types import OPUser

@@ -8,7 +8,9 @@ from typing import TYPE_CHECKING
 # circular imports.
 # this also reduced exercising tested code simply by importing
 if TYPE_CHECKING:
-    from ..fixtures.expected_api_credential_data import ExpectedAPICredentialData
+    from ..fixtures.expected_api_credential_data import (
+        ExpectedAPICredentialData
+    )
     from ..fixtures.valid_data import ValidData
 
 from pyonepassword.api.object_types import OPAPICredentialItem

@@ -5,8 +5,12 @@ from typing import TYPE_CHECKING
 import pytest
 
 if TYPE_CHECKING:
-    from ....fixtures.expected_ssh_key_data import ExpectedSSHKey, ExpectedSSHKeyData
     from pyonepassword import OP
+
+    from ....fixtures.expected_ssh_key_data import (
+        ExpectedSSHKey,
+        ExpectedSSHKeyData
+    )
 
 from pyonepassword.api.descriptor_types import OPSSHKeyItemDescriptor
 from pyonepassword.api.object_types import OPItemList

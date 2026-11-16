@@ -13,6 +13,7 @@ import pytest
 
 if TYPE_CHECKING:
     from ..fixtures.non_comformant_data import NonConformantData
+
     # from ..fixtures.expected_login import ExpectedLogin, ExpectedLoginItemData
 
 from pyonepassword.api.exceptions import OPInvalidItemException

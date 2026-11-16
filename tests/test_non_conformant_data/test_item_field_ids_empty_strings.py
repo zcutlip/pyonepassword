@@ -12,8 +12,8 @@ from typing import TYPE_CHECKING
 import pytest
 
 if TYPE_CHECKING:
-    from ..fixtures.non_comformant_data import NonConformantData
     from ..fixtures.expected_login import ExpectedLogin, ExpectedLoginItemData
+    from ..fixtures.non_comformant_data import NonConformantData
 
 from pyonepassword.api.exceptions import OPItemFieldCollisionException
 from pyonepassword.api.object_types import (
